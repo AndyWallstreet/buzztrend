@@ -21,7 +21,7 @@ USE_MOCK = _bool("USE_MOCK", True)
 
 # --- scheduling / behaviour ---
 COLLECT_INTERVAL_MINUTES = int(os.getenv("COLLECT_INTERVAL_MINUTES", "60"))
-SEED_DAYS = int(os.getenv("SEED_DAYS", "90"))
+SEED_DAYS = int(os.getenv("SEED_DAYS", "365"))  # 12 months of history
 ALERT_SPIKE_RATIO = float(os.getenv("ALERT_SPIKE_RATIO", "1.5"))
 
 # --- API credentials (only used when USE_MOCK is false) ---
@@ -35,16 +35,21 @@ REDDIT_USER_AGENT = os.getenv("REDDIT_USER_AGENT", "buzztrend/0.1")
 # --- channels ---
 # region: kr | global   group: logical channel type shown in the UI
 CHANNELS = [
-    {"key": "naver_blog", "label": "Blog", "region": "kr", "color": "#22c55e"},
-    {"key": "naver_news", "label": "News", "region": "kr", "color": "#3b82f6"},
-    {"key": "naver_cafe", "label": "Community (Cafe)", "region": "kr", "color": "#f97316"},
-    {"key": "youtube", "label": "YouTube", "region": "global", "color": "#ef4444"},
-    {"key": "reddit", "label": "Community (Reddit)", "region": "global", "color": "#a855f7"},
-    {"key": "instagram", "label": "Instagram", "region": "global", "color": "#ec4899"},
-    {"key": "facebook", "label": "Facebook", "region": "global", "color": "#0ea5e9"},
+    {"key": "naver_blog", "label": "블로그", "region": "kr", "color": "#22c55e"},
+    {"key": "naver_news", "label": "뉴스", "region": "kr", "color": "#f59e0b"},
+    {"key": "naver_cafe", "label": "커뮤니티(카페)", "region": "kr", "color": "#f97316"},
+    {"key": "youtube", "label": "유튜브", "region": "global", "color": "#ef4444"},
+    {"key": "reddit", "label": "커뮤니티(레딧)", "region": "global", "color": "#a855f7"},
+    {"key": "instagram", "label": "인스타그램", "region": "global", "color": "#ec4899"},
+    {"key": "facebook", "label": "페이스북", "region": "global", "color": "#0ea5e9"},
+]
+
+# Channels selected by default in the dashboard (Sometrend-style source picker)
+DEFAULT_SELECTED_CHANNELS = [
+    "instagram", "naver_cafe", "naver_news", "naver_blog", "facebook",
 ]
 CHANNEL_KEYS = [c["key"] for c in CHANNELS]
 CHANNELS_BY_KEY = {c["key"]: c for c in CHANNELS}
 
-# Default keywords seeded on first run (mix of KR + global)
-DEFAULT_KEYWORDS = ["아이폰", "삼성전자", "테슬라", "Tesla", "ChatGPT"]
+# Default keywords seeded on first run (deletable in the UI)
+DEFAULT_KEYWORDS = ["고래보석의전설", "하츄핑", "아이폰"]

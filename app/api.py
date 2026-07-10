@@ -91,35 +91,19 @@ def api_channels():
 @app.post("/api/keywords")
 def api_add_keyword(term: str = Form(...),
                     session: Session = Depends(get_session)):
-    term = term.strip()
-    if not term:
+    from .services.seed import add_keyword
+    existing = session.query(Keyword).filter_by(term=term.strip()).first()
+    kw = add_keyword(session, term)
+    if kw is None:
         raise HTTPException(400, "empty term")
-    existing = session.query(Keyword).filter_by(term=term).first()
-    if existing:
-        return {"id": existing.id, "term": existing.term, "created": False}
-    kw = Keyword(term=term)
-    session.add(kw)
-    session.commit()
-    # Backfill so the new keyword shows history immediately (mock mode).
-    if config.USE_MOCK:
-        from .collectors import mock_collectors
-        from datetime import timedelta
-        cols = mock_collectors()
-        today = date_cls.today()
-        for offset in range(config.SEED_DAYS, -1, -1):
-            collect_for_day(session, today - timedelta(days=offset), cols)
-        for offset in range(config.SEED_DAYS, -1, -1):
-            check_alerts(session, today - timedelta(days=offset))
-    return {"id": kw.id, "term": kw.term, "created": True}
+    return {"id": kw.id, "term": kw.term, "created": existing is None}
 
 
 @app.delete("/api/keywords/{keyword_id}")
 def api_delete_keyword(keyword_id: int, session: Session = Depends(get_session)):
-    kw = session.get(Keyword, keyword_id)
-    if not kw:
+    from .services.seed import remove_keyword
+    if not remove_keyword(session, keyword_id):
         raise HTTPException(404, "not found")
-    session.delete(kw)
-    session.commit()
     return {"deleted": keyword_id}
 
 

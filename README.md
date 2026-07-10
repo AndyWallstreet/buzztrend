@@ -35,6 +35,16 @@ python run.py
 Open http://127.0.0.1:8000 — on first run it seeds ~90 days of demo data for a
 handful of default keywords. Add your own from the dashboard.
 
+## Dashboard features (Sometrend-style)
+
+- **출처 선택** — pick any mix of 인스타그램/커뮤니티/뉴스/블로그/페이스북/유튜브/레딧
+- **기간** — 1/3/6/12개월 presets or a custom date range (12 months of history)
+- **키워드 관리** — add/delete keywords freely from the sidebar
+- **포함어** — substring filter; "하츄핑" also matches "하츄핑콘서트" (AND for multiple words)
+- **원문 보기** — sample posts per mention; links open the platform's real search results
+- **엑셀 다운로드** — daily counts + post sample as raw-data sheets
+- **급증 알림** — spike detection vs the trailing 7-day average
+
 ## Two front-ends (same backend)
 
 The collectors, database, and services are shared. Pick whichever UI you prefer:

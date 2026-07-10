@@ -69,6 +69,41 @@ def breakdown(session: Session, keyword_id: int, days: int = 30):
     return [{"channel": ch, "total": got.get(ch, 0)} for ch in config.CHANNEL_KEYS]
 
 
+def timeseries_range(session: Session, keyword_id: int, start, end,
+                     channels=None):
+    """Like timeseries() but for an explicit [start, end] date range."""
+    channels = channels or config.CHANNEL_KEYS
+    n_days = (end - start).days + 1
+    dates = [start + timedelta(days=i) for i in range(n_days)]
+
+    rows = (session.query(BuzzDaily.channel, BuzzDaily.date, BuzzDaily.count)
+            .filter(BuzzDaily.keyword_id == keyword_id,
+                    BuzzDaily.date >= start, BuzzDaily.date <= end,
+                    BuzzDaily.channel.in_(channels))
+            .all())
+    grid = {}
+    for ch, d, c in rows:
+        grid.setdefault(ch, {})[d] = c
+
+    series = {ch: [int(grid.get(ch, {}).get(d, 0)) for d in dates]
+              for ch in channels}
+    totals = [sum(series[ch][i] for ch in channels) for i in range(n_days)]
+    return {"dates": [d.isoformat() for d in dates], "series": series,
+            "totals": totals}
+
+
+def breakdown_range(session: Session, keyword_id: int, start, end,
+                    channels=None):
+    channels = channels or config.CHANNEL_KEYS
+    rows = (session.query(BuzzDaily.channel, func.sum(BuzzDaily.count))
+            .filter(BuzzDaily.keyword_id == keyword_id,
+                    BuzzDaily.date >= start, BuzzDaily.date <= end,
+                    BuzzDaily.channel.in_(channels))
+            .group_by(BuzzDaily.channel).all())
+    got = {ch: int(c) for ch, c in rows}
+    return [{"channel": ch, "total": got.get(ch, 0)} for ch in channels]
+
+
 def recent_alerts(session: Session, limit: int = 50):
     rows = (session.query(AlertEvent)
             .order_by(AlertEvent.date.desc(), AlertEvent.id.desc())
