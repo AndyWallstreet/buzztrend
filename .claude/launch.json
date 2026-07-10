@@ -1,0 +1,19 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "buzztrend",
+      "runtimeExecutable": "C:\\Users\\user99i1\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "runtimeArgs": ["run.py"],
+      "port": 8000
+    },
+    {
+      "name": "buzztrend-streamlit",
+      "runtimeExecutable": "C:\\Users\\user99i1\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "runtimeArgs": ["-m", "streamlit", "run", "streamlit_app.py",
+                      "--server.port", "8501", "--server.headless", "true",
+                      "--browser.gatherUsageStats", "false"],
+      "port": 8501
+    }
+  ]
+}

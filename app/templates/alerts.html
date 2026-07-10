@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Alerts · BuzzTrend{% endblock %}
+{% block nav_alerts %}active{% endblock %}
+{% block content %}
+<h1>Spike Alerts</h1>
+<div class="muted">Fires when a channel's daily buzz jumps well above its trailing 7-day average.</div>
+
+<div class="panel" style="margin-top:16px">
+  <table id="alertTable"><tbody></tbody></table>
+  <div id="empty" class="muted" style="padding:14px;display:none">No alerts yet.</div>
+</div>
+
+<script>
+const fmt = n => n.toLocaleString();
+async function load(){
+  const r = await (await fetch('/api/alerts?limit=100')).json();
+  const tb = document.querySelector('#alertTable tbody');
+  if(!r.alerts.length){ document.getElementById('empty').style.display='block'; return; }
+  tb.innerHTML = '<tr><th>Date</th><th>Keyword</th><th>Channel</th><th>Count</th><th>Baseline</th><th>Spike</th></tr>' +
+    r.alerts.map(a=>`<tr>
+      <td class="muted">${a.date}</td>
+      <td><a href="/keyword/${a.keyword_id}" style="font-weight:600">${a.term}</a></td>
+      <td>${a.channel_label}</td>
+      <td>${fmt(a.count)}</td>
+      <td class="muted">~${fmt(Math.round(a.baseline))}</td>
+      <td><span class="pill">${a.ratio}×</span></td>
+    </tr>`).join('');
+}
+load();
+</script>
+{% endblock %}

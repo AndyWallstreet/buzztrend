@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}{{ keyword.term }} · BuzzTrend{% endblock %}
+{% block content %}
+<a href="/" class="muted">← Dashboard</a>
+<div class="row" style="align-items:flex-end;justify-content:space-between;margin-top:8px">
+  <h1>{{ keyword.term }}</h1>
+  <select id="days" class="btn ghost">
+    <option value="14">14 days</option>
+    <option value="30" selected>30 days</option>
+    <option value="90">90 days</option>
+  </select>
+</div>
+
+<div class="panel" style="margin-top:16px">
+  <h2>Buzz over time by channel</h2>
+  <canvas id="tsChart" height="110"></canvas>
+</div>
+
+<div class="row" style="margin-top:16px">
+  <div class="panel" style="flex:1;min-width:280px">
+    <h2>Channel share</h2>
+    <canvas id="pieChart" height="200"></canvas>
+  </div>
+  <div class="panel" style="flex:1.4;min-width:320px">
+    <h2>By channel</h2>
+    <table id="chTable"><tbody></tbody></table>
+  </div>
+</div>
+
+<script>
+const KID = {{ keyword.id }};
+const fmt = n => n.toLocaleString();
+let tsChart, pieChart;
+
+async function channelMeta(){
+  const r = await (await fetch('/api/channels')).json();
+  const m = {}; r.channels.forEach(c=>m[c.key]=c); return m;
+}
+
+async function load(){
+  const days = document.getElementById('days').value;
+  const meta = await channelMeta();
+  const ts = await (await fetch(`/api/keyword/${KID}/timeseries?days=${days}`)).json();
+  const bd = await (await fetch(`/api/keyword/${KID}/breakdown?days=${days}`)).json();
+
+  const datasets = Object.keys(ts.series).map(ch=>({
+    label: meta[ch] ? meta[ch].label : ch,
+    data: ts.series[ch],
+    borderColor: meta[ch] ? meta[ch].color : '#888',
+    backgroundColor: (meta[ch]?meta[ch].color:'#888') + '22',
+    borderWidth:2, pointRadius:0, tension:.3, fill:false,
+  }));
+  if(tsChart) tsChart.destroy();
+  tsChart = new Chart(document.getElementById('tsChart'), {
+    type:'line',
+    data:{labels: ts.dates, datasets},
+    options:{responsive:true, interaction:{mode:'index',intersect:false},
+      plugins:{legend:{position:'bottom',labels:{boxWidth:12}}},
+      scales:{x:{ticks:{maxTicksLimit:8,color:'#8b97a8'},grid:{display:false}},
+              y:{ticks:{color:'#8b97a8'},grid:{color:'#26303f44'}}},
+      maintainAspectRatio:false}
+  });
+
+  const rows = bd.breakdown.filter(b=>b.total>0);
+  if(pieChart) pieChart.destroy();
+  pieChart = new Chart(document.getElementById('pieChart'), {
+    type:'doughnut',
+    data:{labels: rows.map(b=>meta[b.channel]?meta[b.channel].label:b.channel),
+      datasets:[{data:rows.map(b=>b.total),
+        backgroundColor:rows.map(b=>meta[b.channel]?meta[b.channel].color:'#888'),
+        borderWidth:0}]},
+    options:{plugins:{legend:{position:'bottom',labels:{boxWidth:12}}},
+      maintainAspectRatio:false}
+  });
+
+  const total = bd.breakdown.reduce((s,b)=>s+b.total,0) || 1;
+  const tb = document.querySelector('#chTable tbody');
+  tb.innerHTML = '<tr><th>Channel</th><th>Total</th><th>Share</th></tr>' +
+    bd.breakdown.sort((a,b)=>b.total-a.total).map(b=>{
+      const c = meta[b.channel]||{};
+      return `<tr><td><span class="dot" style="background:${c.color||'#888'};margin-right:8px"></span>${c.label||b.channel}</td>
+        <td>${fmt(b.total)}</td><td class="muted">${(b.total/total*100).toFixed(1)}%</td></tr>`;
+    }).join('');
+}
+document.getElementById('days').onchange = load;
+load();
+</script>
+{% endblock %}

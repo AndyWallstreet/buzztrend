@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · BuzzTrend{% endblock %}
+{% block nav_home %}active{% endblock %}
+{% block content %}
+<div class="row" style="align-items:flex-end;justify-content:space-between">
+  <div>
+    <h1>Buzz Dashboard</h1>
+    <div class="muted">Tracking mentions across blog, news, community, YouTube & social.</div>
+  </div>
+  <div class="row" style="gap:8px">
+    <select id="days" class="btn ghost">
+      <option value="14">Last 14 days</option>
+      <option value="30" selected>Last 30 days</option>
+      <option value="90">Last 90 days</option>
+    </select>
+    <button id="collectBtn" class="ghost">↻ Collect now</button>
+  </div>
+</div>
+
+<div class="panel" style="margin-top:18px;display:flex;gap:10px;align-items:center">
+  <input id="newTerm" type="text" placeholder="Add a keyword to track…" style="flex:1">
+  <button id="addBtn">+ Track</button>
+</div>
+
+<div class="row" style="margin-top:14px">
+  {% for c in channels %}
+  <span class="chip"><span class="dot" style="background:{{c.color}}"></span>{{c.label}}
+    <span class="muted" style="font-size:10px">({{c.region|upper}})</span></span>
+  {% endfor %}
+</div>
+
+<div id="cards" class="grid cards" style="margin-top:18px"></div>
+
+<script>
+const fmt = n => n.toLocaleString();
+let charts = [];
+
+async function load(){
+  const days = document.getElementById('days').value;
+  const res = await fetch(`/api/overview?days=${days}`);
+  const data = await res.json();
+  const cards = document.getElementById('cards');
+  charts.forEach(c=>c.destroy()); charts = [];
+  cards.innerHTML = '';
+  data.keywords.forEach(k=>{
+    const cls = k.change_pct >= 0 ? 'up' : 'down';
+    const arrow = k.change_pct >= 0 ? '▲' : '▼';
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:start">
+        <a class="term" href="/keyword/${k.id}">${k.term}</a>
+        <button data-del="${k.id}" class="ghost" style="padding:4px 8px;font-size:12px" title="Remove">✕</button>
+      </div>
+      <div class="stat"><span class="n">${fmt(k.today)}</span>
+        <span class="${cls}">${arrow} ${Math.abs(k.change_pct)}%</span></div>
+      <div class="muted" style="font-size:12px">${fmt(k.total)} total over ${days} days</div>
+      <canvas height="52" style="margin-top:8px"></canvas>`;
+    cards.appendChild(el);
+    el.querySelector('a.term').onclick = null;
+    el.onclick = (e)=>{ if(!e.target.dataset.del) location.href = `/keyword/${k.id}`; };
+    el.querySelector('[data-del]').onclick = async (e)=>{
+      e.stopPropagation();
+      if(!confirm(`Stop tracking "${k.term}"?`)) return;
+      await fetch(`/api/keywords/${k.id}`, {method:'DELETE'});
+      load();
+    };
+    const ctx = el.querySelector('canvas');
+    charts.push(new Chart(ctx, {
+      type:'line',
+      data:{labels:k.spark.map((_,i)=>i),
+        datasets:[{data:k.spark,borderColor:'#6ea8fe',borderWidth:2,
+          fill:true,backgroundColor:'rgba(110,168,254,.12)',
+          pointRadius:0,tension:.35}]},
+      options:{plugins:{legend:{display:false},tooltip:{enabled:false}},
+        scales:{x:{display:false},y:{display:false}},
+        animation:false,maintainAspectRatio:false}
+    }));
+  });
+}
+
+document.getElementById('days').onchange = load;
+document.getElementById('addBtn').onclick = async ()=>{
+  const term = document.getElementById('newTerm').value.trim();
+  if(!term) return;
+  const body = new FormData(); body.append('term', term);
+  const btn = document.getElementById('addBtn');
+  btn.disabled = true; btn.textContent = 'Adding…';
+  await fetch('/api/keywords', {method:'POST', body});
+  document.getElementById('newTerm').value = '';
+  btn.disabled = false; btn.textContent = '+ Track';
+  load();
+};
+document.getElementById('newTerm').addEventListener('keydown', e=>{
+  if(e.key==='Enter') document.getElementById('addBtn').click();
+});
+document.getElementById('collectBtn').onclick = async ()=>{
+  const btn = document.getElementById('collectBtn');
+  btn.disabled = true; btn.textContent = 'Collecting…';
+  const r = await (await fetch('/api/collect',{method:'POST'})).json();
+  btn.disabled = false; btn.textContent = '↻ Collect now';
+  load();
+};
+load();
+</script>
+{% endblock %}

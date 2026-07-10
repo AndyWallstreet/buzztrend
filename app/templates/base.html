@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}BuzzTrend{% endblock %}</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root{
+      --bg:#0b0f17; --panel:#141a26; --panel-2:#1b2330; --border:#26303f;
+      --text:#e6edf6; --muted:#8b97a8; --accent:#6ea8fe; --accent-2:#22c55e;
+      --danger:#ef4444; --radius:14px;
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f5f7fb; --panel:#ffffff; --panel-2:#f0f3f8; --border:#e2e8f0;
+             --text:#111827; --muted:#64748b; }
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);
+         font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Malgun Gothic",sans-serif;}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:10;background:var(--panel);
+           border-bottom:1px solid var(--border);padding:14px 22px;
+           display:flex;align-items:center;gap:22px}
+    header .brand{font-weight:800;font-size:19px;letter-spacing:-.02em}
+    header .brand span{color:var(--accent)}
+    header nav{display:flex;gap:16px}
+    header nav a{color:var(--muted);font-weight:600;font-size:14px}
+    header nav a.active,header nav a:hover{color:var(--text)}
+    header .spacer{flex:1}
+    .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;
+           border:1px solid var(--border);color:var(--muted)}
+    .badge.mock{color:#f59e0b;border-color:#f59e0b55}
+    main{max-width:1180px;margin:0 auto;padding:26px 22px 60px}
+    .row{display:flex;gap:16px;flex-wrap:wrap}
+    .panel{background:var(--panel);border:1px solid var(--border);
+           border-radius:var(--radius);padding:18px}
+    .muted{color:var(--muted)}
+    button,.btn{background:var(--accent);color:#08121f;border:0;font-weight:700;
+                padding:9px 15px;border-radius:10px;cursor:pointer;font-size:14px}
+    button.ghost,.btn.ghost{background:transparent;color:var(--text);
+                border:1px solid var(--border)}
+    input[type=text]{background:var(--panel-2);border:1px solid var(--border);
+                color:var(--text);padding:9px 13px;border-radius:10px;font-size:14px}
+    h1{font-size:24px;margin:0 0 4px} h2{font-size:16px;margin:0 0 12px}
+    .grid{display:grid;gap:16px}
+    .cards{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+    .card{background:var(--panel);border:1px solid var(--border);
+          border-radius:var(--radius);padding:16px;transition:border-color .15s}
+    .card:hover{border-color:var(--accent)}
+    .card .term{font-size:18px;font-weight:700}
+    .stat{display:flex;align-items:baseline;gap:8px;margin:6px 0}
+    .stat .n{font-size:26px;font-weight:800}
+    .up{color:var(--accent-2)} .down{color:var(--danger)}
+    .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;
+          color:var(--muted);margin-right:10px}
+    .dot{width:9px;height:9px;border-radius:3px;display:inline-block}
+    table{width:100%;border-collapse:collapse}
+    th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);font-size:14px}
+    th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+    .pill{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;
+          background:#ef444422;color:var(--danger)}
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="/">Buzz<span>Trend</span></a>
+    <nav>
+      <a href="/" class="{% block nav_home %}{% endblock %}">Dashboard</a>
+      <a href="/alerts" class="{% block nav_alerts %}{% endblock %}">Alerts</a>
+    </nav>
+    <div class="spacer"></div>
+    {% if use_mock is defined and use_mock %}<span class="badge mock">DEMO / MOCK DATA</span>{% endif %}
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+</body>
+</html>
