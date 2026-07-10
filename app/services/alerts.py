@@ -1,4 +1,6 @@
 """Spike detection: today's count vs the trailing 7-day average."""
+from __future__ import annotations
+
 import logging
 from datetime import date as date_cls, timedelta
 

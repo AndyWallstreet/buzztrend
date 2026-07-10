@@ -1,4 +1,6 @@
 """Background scheduler that collects + checks alerts on an interval."""
+from __future__ import annotations
+
 import logging
 from datetime import date as date_cls
 

@@ -1,4 +1,6 @@
 """First-run seeding: default keywords + synthetic history + alert backfill."""
+from __future__ import annotations
+
 import logging
 from datetime import date as date_cls, timedelta
 
