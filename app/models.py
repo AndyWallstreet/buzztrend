@@ -36,6 +36,24 @@ class BuzzDaily(Base):
     keyword = relationship("Keyword", back_populates="counts")
 
 
+class BuzzSnapshot(Base):
+    """Raw all-time totals from APIs that can't filter by date (Naver).
+
+    The daily count is derived as the delta between consecutive snapshots.
+    """
+    __tablename__ = "buzz_snapshots"
+    __table_args__ = (
+        UniqueConstraint("keyword_id", "channel", "date",
+                         name="uq_buzz_snapshot"),
+    )
+
+    id = Column(Integer, primary_key=True)
+    keyword_id = Column(Integer, ForeignKey("keywords.id"), nullable=False, index=True)
+    channel = Column(String, nullable=False, index=True)
+    date = Column(Date, nullable=False, index=True)
+    total = Column(Integer, nullable=False)
+
+
 class AlertEvent(Base):
     """A recorded spike detection."""
     __tablename__ = "alert_events"

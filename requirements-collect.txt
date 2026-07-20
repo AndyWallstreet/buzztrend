@@ -1,0 +1,5 @@
+# Slim dependency set for the nightly GitHub Actions collector
+sqlalchemy>=2.0
+httpx>=0.27
+python-dotenv>=1.0
+pandas>=2.0

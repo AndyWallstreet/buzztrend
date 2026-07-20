@@ -15,22 +15,21 @@ def get_collectors():
         return [MockCollector(c["key"]) for c in config.CHANNELS]
 
     # Real collectors — imported lazily so mock mode needs no network stack.
+    # Only channels whose credentials are configured are included; the rest
+    # are skipped silently. Facebook/Instagram have no public keyword API.
     from .naver import NaverCollector
     from .youtube import YouTubeCollector
     from .reddit import RedditCollector
-    from .social import UnsupportedCollector
 
-    return [
-        NaverCollector("naver_blog"),
-        NaverCollector("naver_news"),
-        NaverCollector("naver_cafe"),
-        YouTubeCollector(),
-        RedditCollector(),
-        # Facebook/Instagram public keyword search is not available via their
-        # official APIs; kept as explicit no-data channels so the UI is honest.
-        UnsupportedCollector("instagram"),
-        UnsupportedCollector("facebook"),
-    ]
+    cols = []
+    if config.NAVER_CLIENT_ID and config.NAVER_CLIENT_SECRET:
+        cols += [NaverCollector("naver_blog"), NaverCollector("naver_news"),
+                 NaverCollector("naver_cafe")]
+    if config.YOUTUBE_API_KEY:
+        cols.append(YouTubeCollector())
+    if config.REDDIT_CLIENT_ID and config.REDDIT_CLIENT_SECRET:
+        cols.append(RedditCollector())
+    return cols
 
 
 def mock_collectors():

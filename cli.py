@@ -25,7 +25,9 @@ def main(argv):
             seed_history(s)
         print("seeded.")
     elif cmd == "collect":
+        from app.services.seed import sync_keywords_from_file
         with session_scope() as s:
+            sync_keywords_from_file(s)
             n = collect_for_day(s, date.today())
             a = check_alerts(s, date.today())
         print(f"collected {n} points, {a} new alerts.")

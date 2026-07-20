@@ -34,7 +34,7 @@ class RedditCollector(BaseCollector):
         }
         resp = httpx.get(
             _SEARCH_URL, headers=headers,
-            params={"q": term, "limit": 100, "sort": "new", "t": "week"},
+            params={"q": term, "limit": 100, "sort": "new", "t": "day"},
             timeout=10,
         )
         resp.raise_for_status()

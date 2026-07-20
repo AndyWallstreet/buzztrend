@@ -1,5 +1,7 @@
 .env
 *.db
+# ...except the real collected data, which lives in the repo on purpose
+!data/buzztrend.db
 __pycache__/
 *.pyc
 .venv/

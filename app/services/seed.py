@@ -25,6 +25,29 @@ def ensure_default_keywords(session: Session) -> None:
     session.commit()
 
 
+def sync_keywords_from_file(session: Session) -> None:
+    """Real mode: data/keywords.txt (committed to the repo) is the source of
+    truth for tracked keywords. Adds missing terms, deactivates removed ones.
+    No-op in mock mode (there the UI manages keywords)."""
+    if config.USE_MOCK or not config.KEYWORDS_FILE.exists():
+        return
+    wanted = [ln.strip() for ln in
+              config.KEYWORDS_FILE.read_text(encoding="utf-8").splitlines()
+              if ln.strip() and not ln.strip().startswith("#")]
+    if not wanted:
+        return
+    existing = {k.term: k for k in session.query(Keyword).all()}
+    for term in wanted:
+        if term in existing:
+            existing[term].active = True
+        else:
+            session.add(Keyword(term=term))
+    for term, kw in existing.items():
+        if term not in wanted:
+            kw.active = False
+    session.commit()
+
+
 def backfill_alerts(session: Session, keyword_ids: list[int] | None = None) -> int:
     """Bulk spike detection over stored history (pandas rolling window)."""
     q = session.query(BuzzDaily)
@@ -121,7 +144,11 @@ def remove_keyword(session: Session, keyword_id: int) -> bool:
 
 
 def maybe_seed(session: Session) -> bool:
-    """Seed defaults + history on an empty DB. Returns True if seeding ran."""
+    """Mock mode: seed defaults + history on an empty DB.
+    Real mode: never generate fake history — just sync keywords from file."""
+    sync_keywords_from_file(session)
+    if not config.USE_MOCK:
+        return False
     if session.query(Keyword).first() is None:
         ensure_default_keywords(session)
     if session.query(BuzzDaily).first() is None:

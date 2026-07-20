@@ -12,12 +12,23 @@ def _bool(name: str, default: bool) -> bool:
     return os.getenv(name, str(default)).strip().lower() in ("1", "true", "yes", "on")
 
 
-# --- storage ---
-DB_PATH = os.getenv("BUZZTREND_DB", str(BASE_DIR / "buzztrend.db"))
+# --- mode & storage ---
+# Real collected data lives in data/buzztrend.db (committed to the repo by the
+# nightly GitHub Action). If that file exists, the app automatically switches
+# to real mode. An explicit USE_MOCK env var always wins.
+_REAL_DB = BASE_DIR / "data" / "buzztrend.db"
+if os.getenv("USE_MOCK") is not None:
+    USE_MOCK = _bool("USE_MOCK", True)
+else:
+    USE_MOCK = not _REAL_DB.exists()
+
+_default_db = _REAL_DB if not USE_MOCK and _REAL_DB.exists() else BASE_DIR / "buzztrend.db"
+DB_PATH = os.getenv("BUZZTREND_DB", str(_default_db))
 DATABASE_URL = f"sqlite:///{DB_PATH}"
 
-# --- mode ---
-USE_MOCK = _bool("USE_MOCK", True)
+# Real mode: keywords are managed in this committed file (cloud storage is
+# ephemeral, so the repo is the source of truth).
+KEYWORDS_FILE = BASE_DIR / "data" / "keywords.txt"
 
 # --- scheduling / behaviour ---
 COLLECT_INTERVAL_MINUTES = int(os.getenv("COLLECT_INTERVAL_MINUTES", "60"))
@@ -45,9 +56,14 @@ CHANNELS = [
 ]
 
 # Channels selected by default in the dashboard (Sometrend-style source picker)
-DEFAULT_SELECTED_CHANNELS = [
-    "instagram", "naver_cafe", "naver_news", "naver_blog", "facebook",
-]
+if USE_MOCK:
+    DEFAULT_SELECTED_CHANNELS = [
+        "instagram", "naver_cafe", "naver_news", "naver_blog", "facebook",
+    ]
+else:  # real mode: only channels that can actually deliver data
+    DEFAULT_SELECTED_CHANNELS = [
+        "naver_blog", "naver_news", "naver_cafe", "youtube", "reddit",
+    ]
 CHANNEL_KEYS = [c["key"] for c in CHANNELS]
 CHANNELS_BY_KEY = {c["key"]: c for c in CHANNELS}
 
