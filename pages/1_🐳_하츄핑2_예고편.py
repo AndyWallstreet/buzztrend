@@ -28,7 +28,27 @@ def load():
     sent = json.loads((DATA / "sentiment.json").read_text(encoding="utf-8"))
     src = json.loads((DATA / "sources.json").read_text(encoding="utf-8"))
     meta = json.loads((DATA / "meta.json").read_text(encoding="utf-8"))
-    return dm, dt, vel, sent, src, meta
+    bk = pd.read_csv(DATA / "booking.csv", parse_dates=["date"])
+    bkm = json.loads((DATA / "booking_meta.json").read_text(encoding="utf-8"))
+    return dm, dt, vel, sent, src, meta, bk, bkm
+
+
+def m1_tickets_at(dday, curve):
+    """1편's bookings at D-<dday>. Exact point, or geometric interpolation
+    between the two nearest observed points (D-8 ~ D-1). None outside range."""
+    import math
+    pts = sorted(curve, key=lambda p: -p["dday"])          # D-8 → D-1
+    for p in pts:
+        if p["dday"] == dday:
+            return p["tickets"], "관측"
+    if dday > pts[0]["dday"] or dday < pts[-1]["dday"]:
+        return None, None
+    for a, b in zip(pts, pts[1:]):
+        if a["dday"] > dday > b["dday"]:
+            f = (a["dday"] - dday) / (a["dday"] - b["dday"])
+            v = math.exp(math.log(a["tickets"]) * (1 - f) + math.log(b["tickets"]) * f)
+            return round(v), "보간 추정"
+    return None, None
 
 
 def cum_chart(df, ycol, series_name, benchmark, bench_label, ytitle):
@@ -51,7 +71,7 @@ def cum_chart(df, ycol, series_name, benchmark, bench_label, ytitle):
     return (line + rule + text).properties(height=320)
 
 
-dm, dt, vel, sent, src, meta = load()
+dm, dt, vel, sent, src, meta, bk, bkm = load()
 bm = src["benchmarks"]
 last, prev = dm.iloc[-1], (dm.iloc[-2] if len(dm) > 1 else dm.iloc[-1])
 week = dm.iloc[-8] if len(dm) > 7 else None
@@ -146,8 +166,69 @@ st.altair_chart(cum_chart(dt, "total_views", "2편 티저 합계 조회수",
                           bm["m1_teaser_views"], f"1편 티저 전체 ({bm['m1_teaser_views']:,}회)", "조회수"),
                 width="stretch")
 
+# ---------------- booking / box-office forecast
+st.markdown("#### ⑤ 실시간 예매율 — 흥행 예측")
+st.caption("매일 KOBIS 실시간 예매율에서 수집 · 1편은 개봉 전 보도된 4개 시점(D-8·D-7·D-5·D-1)과 비교")
+
+bl = bk.iloc[-1]
+bp = bk.iloc[-2] if len(bk) > 1 else None
+cur_dday = int(bl["dday"])
+m1_now, m1_kind = m1_tickets_at(cur_dday, bkm["m1_curve"])
+
+c1, c2, c3, c4 = st.columns(4)
+c1.metric(f"오늘 예매관객수 (D-{cur_dday})", f"{int(bl['tickets']):,}명",
+          f"{int(bl['tickets'] - bp['tickets']):+,} (어제보다)" if bp is not None else "수집 시작",
+          delta_color="normal" if bp is not None else "off")
+c2.metric("예매율 · 순위", f"{bl['rate']}% · {int(bl['rank'])}위")
+if m1_now:
+    pace = bl["tickets"] / m1_now
+    c3.metric(f"1편 같은 시점(D-{cur_dday}) 대비", f"{pace:.2f}배",
+              f"1편 D-{cur_dday}: {m1_now:,}명 ({m1_kind})", delta_color="off")
+    c4.metric("예측 실관객수 (1편 페이스 대비)", f"{pace * bkm['m1_final']:,.0f}명",
+              f"= {pace:.2f} × 1편 최종 {bkm['m1_final']:,}명", delta_color="off")
+else:
+    c3.metric(f"1편 같은 시점(D-{cur_dday}) 대비", "비교 불가",
+              "1편 예매 관측은 D-8부터 있음 (7/28부터 비교 시작)", delta_color="off")
+    c4.metric("배수 방식 참고 예측", f"{bl['tickets'] * bkm['avg_multiplier']:,.0f}명",
+              f"= 지금 예매 × 평균 배수 {bkm['avg_multiplier']}x (D-1 전엔 과소추정)", delta_color="off")
+
+# D-day curve: 2편 line vs 1편 observed points
+bk2 = bk.assign(x=-bk["dday"], 영화="2편 (매일 수집)")
+m1df = pd.DataFrame(bkm["m1_curve"]).assign(x=lambda d: -d["dday"], 영화="1편 (보도 관측)")
+line2 = alt.Chart(bk2).mark_line(strokeWidth=2.2, color=C_M2,
+                                 point=alt.OverlayMarkDef(size=70, color=C_M2)).encode(
+    x=alt.X("x:Q", title="개봉까지 남은 날", scale=alt.Scale(domain=[-14, 0]),
+            axis=alt.Axis(labelExpr="datum.value == 0 ? '개봉일' : 'D-' + -datum.value", values=list(range(-14, 1)))),
+    y=alt.Y("tickets:Q", title="예매관객수", axis=alt.Axis(format=",.0f")),
+    tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
+             alt.Tooltip("dday:Q", title="D-"), alt.Tooltip("tickets:Q", title="예매", format=",.0f")])
+line1 = alt.Chart(m1df).mark_line(strokeWidth=1.8, color=C_M1, strokeDash=[5, 4],
+                                  point=alt.OverlayMarkDef(size=80, color=C_M1, shape="square")).encode(
+    x="x:Q", y="tickets:Q",
+    tooltip=[alt.Tooltip("dday:Q", title="1편 D-"),
+             alt.Tooltip("tickets:Q", title="1편 예매", format=",.0f"),
+             alt.Tooltip("note:N", title="비고")])
+lbl = alt.Chart(pd.DataFrame([
+    {"x": -8, "tickets": 18000, "t": "1편"},
+])).mark_text(color=C_M1, dy=-12, fontSize=12).encode(x="x:Q", y="tickets:Q", text="t:N")
+st.altair_chart((line2 + line1 + lbl).properties(height=340), width="stretch")
+st.caption(f"⚫ 파란 선 = 2편 (매일 수집) · 🟧 주황 점선 = 1편 관측 4개 시점 · "
+           f"1편은 D-1 예매 74,006명 → 최종 {bkm['m1_final']:,}명 (배수 {bkm['m1_multiplier']:.1f}x)")
+
+with st.expander("예측 방법 설명 (간단히)"):
+    st.markdown(f"""
+- **1편 페이스 대비 (기본)**: 같은 D-day에 2편 예매 ÷ 1편 예매 = 페이스 배수 → 1편 최종 관객수({bkm['m1_final']:,}명)에 곱함.
+  예: D-7에 2편이 23,000명, 1편이 22,000명이었다면 → 23,000÷22,000 × {bkm['m1_final']:,} ≈ **1,295,000명**
+- **배수 방식**: 개봉 전날(D-1) 예매관객수 × **{bkm['avg_multiplier']}배** (가족 애니메이션 11편 평균).
+  D-1 전에 쓰면 작게 나옴 — 8/4 저녁 값이 진짜 예측.
+- **회귀식**: log10(최종) = {bkm['regression']['intercept']:.2f} + {bkm['regression']['slope']:.2f}×log10(D-1 예매), R²={bkm['regression']['r2']:.2f}.
+- 계산 근거·출처 전부: 하츄핑2_흥행예측.xlsx (로컬)
+""")
+with st.expander("매일 기록 표 (예매)"):
+    st.dataframe(bk.sort_values("date", ascending=False), hide_index=True, width="stretch")
+
 # ---------------- raw data
-st.markdown("#### ⑤ 원본 데이터")
+st.markdown("#### ⑥ 원본 데이터")
 with st.expander("매일 기록 표 (메인 예고편)"):
     st.dataframe(dm.sort_values("date", ascending=False), hide_index=True, width="stretch")
 with st.expander("매일 기록 표 (티저)"):

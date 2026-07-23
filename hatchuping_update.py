@@ -37,6 +37,8 @@ import win32com.client
 
 TRACKER = r"C:\Users\user99i1\LK자산운용\LK자산운용 - 문서\Companies\SAMG 엔터\Hatchuping2 tracker_v1.xlsx"
 TRACKER_NAME = "Hatchuping2 tracker_v1.xlsx"
+FORECAST = r"C:\Users\user99i1\hatchuping\하츄핑2_흥행예측.xlsx"
+FORECAST_NAME = "하츄핑2_흥행예측.xlsx"
 REPO = Path(__file__).parent            # the buzztrend repo
 DATA = REPO / "data" / "hatchuping"     # site data for pages/1_🐳_하츄핑2_예고편.py
 MAIN_RELEASE = date(2026, 7, 9)
@@ -47,19 +49,19 @@ DELTA = "+#,##0;-#,##0;0"
 PCT = "0.0%"
 
 
-def get_excel_and_wb():
-    """Attach to the user's open Excel if the tracker is open there; else own instance."""
+def get_excel_and_wb(path=TRACKER, name=TRACKER_NAME):
+    """Attach to the user's open Excel if the workbook is open there; else own instance."""
     try:
         xl = win32com.client.GetActiveObject("Excel.Application")
         for w in xl.Workbooks:
-            if w.Name == TRACKER_NAME:
+            if w.Name == name:
                 return xl, w, True
     except Exception:
         pass
     xl = win32com.client.DispatchEx("Excel.Application")
     xl.Visible = False
     xl.DisplayAlerts = False
-    wb = xl.Workbooks.Open(TRACKER, UpdateLinks=0)
+    wb = xl.Workbooks.Open(path, UpdateLinks=0)
     return xl, wb, False
 
 
@@ -73,6 +75,58 @@ def last_data_row(ws, col=1, start=5):
 
 def fmt_row(ws, r, cols, fmt):
     ws.Range(ws.Cells(r, cols[0]), ws.Cells(r, cols[1])).NumberFormat = fmt
+
+
+def update_booking(d, booking):
+    """Append/refresh today's row in 하츄핑2_흥행예측.xlsx '추적' sheet and booking.csv.
+
+    booking = {"tickets": 10963, "rate": 1.5, "rank": 6}  (KOBIS 실시간 예매율)
+    """
+    pythoncom.CoInitialize()  # main()'s COM session may already be closed by now
+    xl, wb, attached = get_excel_and_wb(FORECAST, FORECAST_NAME)
+    prev_alerts, prev_screen = xl.DisplayAlerts, xl.ScreenUpdating
+    xl.DisplayAlerts = False
+    xl.ScreenUpdating = False
+    try:
+        ws = wb.Worksheets("추적")
+        lr = last_data_row(ws)
+        n = lr if (ws.Cells(lr, 1).Value is not None and ws.Cells(lr, 1).Value.date() == d) else lr + 1
+        ws.Cells(n, 1).Value = d.isoformat()
+        ws.Cells(n, 1).NumberFormat = "yyyy-mm-dd"
+        if not str(ws.Cells(n, 2).Formula).startswith("=IF"):
+            ws.Cells(n, 2).Formula = f'=IF(A{n}="","","D-"&TEXT($B$2-A{n},"0"))'
+        ws.Cells(n, 3).Value = booking["tickets"]
+        ws.Cells(n, 3).NumberFormat = NUM
+        ws.Cells(n, 4).Value = f"자동 수집 · 예매율 {booking.get('rate', '?')}% · {booking.get('rank', '?')}위"
+        for col in (1, 3, 4):
+            ws.Cells(n, col).Font.Color = 0xFF0000  # blue (BGR) = input
+        xl.CalculateFull()
+        wb.Save()
+        print("forecast workbook saved (attached:", attached, ") row", n)
+    finally:
+        try:
+            xl.DisplayAlerts = prev_alerts
+            xl.ScreenUpdating = prev_screen
+        except Exception:
+            pass
+        if not attached:
+            try:
+                wb.Close(SaveChanges=False)
+            except Exception:
+                pass
+            try:
+                xl.Quit()
+            except Exception:
+                pass
+
+    # booking.csv — one row per date, newest value wins
+    open_d = date(2026, 8, 5)
+    path = DATA / "booking.csv"
+    lines = path.read_text(encoding="utf-8").strip().split("\n")
+    header, rows = lines[0], [l for l in lines[1:] if l and not l.startswith(d.isoformat())]
+    rows.append(f"{d.isoformat()},{(open_d - d).days},{booking['tickets']},{booking.get('rate', '')},{booking.get('rank', '')}")
+    path.write_text(header + "\n" + "\n".join(rows) + "\n", encoding="utf-8")
+    print("booking.csv updated")
 
 
 def main():
@@ -244,6 +298,10 @@ def main():
             except Exception:
                 pass
         pythoncom.CoUninitialize()
+
+    # ---- 6.5 예매율 (optional)
+    if scrape.get("booking"):
+        update_booking(d, scrape["booking"])
 
     # ---- 7. git push (site auto-redeploys)
     def git(*args):
