@@ -1,0 +1,29 @@
+{
+  "benchmarks": {
+    "m1_main_views": 2602915,
+    "m1_main_likes": 6700,
+    "m1_main_comments": 321,
+    "m1_teaser_views": 2859570,
+    "m1_teaser_likes": 8456,
+    "m1_teaser_comments": 703,
+    "note": "1편 숫자는 2026-07-22 기준 (약 2년 누적)"
+  },
+  "release_date_main": "2026-07-09",
+  "release_date_teaser": "2026-06-15",
+  "theater_open": "2026-08-07",
+  "videos": [
+    {"group": "2편 메인 예고편", "channel": "티니핑 TV (TTV)", "released": "2026-07-09", "comments": "켜짐", "url": "https://www.youtube.com/watch?v=L2J_C63q-no"},
+    {"group": "2편 메인 예고편", "channel": "바이포엠스튜디오", "released": "2026-07-09", "comments": "켜짐", "url": "https://www.youtube.com/watch?v=lcY3_7_U1LE"},
+    {"group": "2편 티저", "channel": "티니핑 TV (TTV)", "released": "2026-06-15", "comments": "켜짐", "url": "https://www.youtube.com/watch?v=OPnrjhGkpBQ"},
+    {"group": "2편 티저", "channel": "바이포엠스튜디오", "released": "2026-06-15", "comments": "켜짐", "url": "https://www.youtube.com/watch?v=bWX3Bm5bH4Y"},
+    {"group": "2편 티저", "channel": "컬처앤스타", "released": "2026-06-15", "comments": "꺼짐", "url": "https://www.youtube.com/watch?v=hWH7dwSD-1g"},
+    {"group": "1편 메인 예고편", "channel": "쇼박스 (Showbox)", "released": "2024-07-10", "comments": "켜짐", "url": "https://www.youtube.com/watch?v=_5dB80wATMA"},
+    {"group": "1편 메인 예고편", "channel": "티니핑 TV (TTV)", "released": "2024-07-10", "comments": "꺼짐", "url": "https://www.youtube.com/watch?v=t8fdT4SsQao"},
+    {"group": "1편 티저① 처음 본 순간", "channel": "티니핑 TV (TTV)", "released": "2024-06-25", "comments": "켜짐", "url": "https://www.youtube.com/watch?v=Om4PwDH38RI"},
+    {"group": "1편 티저① 처음 본 순간", "channel": "쇼박스 (Showbox)", "released": "2024-06-25", "comments": "꺼짐", "url": "https://www.youtube.com/watch?v=zrmul2jABK8"},
+    {"group": "1편 티저① 처음 본 순간", "channel": "컬처앤스타", "released": "2024-06-25", "comments": "꺼짐", "url": "https://www.youtube.com/watch?v=gaX-aEUVVUU"},
+    {"group": "1편 티저② 운명의 시작", "channel": "티니핑 TV (TTV)", "released": "2024-06-27", "comments": "켜짐", "url": "https://www.youtube.com/watch?v=u8O94DdMiC0"},
+    {"group": "1편 티저② 운명의 시작", "channel": "K-Movie", "released": "2024-06-27", "comments": "켜짐", "url": "https://www.youtube.com/watch?v=xe7V0B7zTb4"},
+    {"group": "1편 티저② 운명의 시작", "channel": "쇼박스 (Showbox)", "released": "2024-06-27", "comments": "꺼짐", "url": "https://www.youtube.com/watch?v=_hwZaOO5av4"}
+  ]
+}
