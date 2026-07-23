@@ -35,7 +35,15 @@ from pathlib import Path
 import pythoncom
 import win32com.client
 
-TRACKER = r"C:\Users\user99i1\LK자산운용\LK자산운용 - 문서\Companies\SAMG 엔터\Hatchuping2 tracker_v1.xlsx"
+# Windows consoles default to cp949 here, which blows up on the Korean text and
+# em-dashes in the progress messages. Force UTF-8 output instead.
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except AttributeError:
+    pass
+
+TRACKER =r"C:\Users\user99i1\LK자산운용\LK자산운용 - 문서\Companies\SAMG 엔터\Hatchuping2 tracker_v1.xlsx"
 TRACKER_NAME = "Hatchuping2 tracker_v1.xlsx"
 FORECAST = r"C:\Users\user99i1\hatchuping\하츄핑2_흥행예측.xlsx"
 FORECAST_NAME = "하츄핑2_흥행예측.xlsx"
