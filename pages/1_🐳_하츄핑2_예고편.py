@@ -37,10 +37,10 @@ def m1_tickets_at(dday, curve):
     """1편's bookings at D-<dday>. Exact point, or geometric interpolation
     between the two nearest observed points (D-8 ~ D-1). None outside range."""
     import math
-    pts = sorted(curve, key=lambda p: -p["dday"])          # D-8 → D-1
+    pts = sorted(curve, key=lambda p: -p["dday"])          # D-13 → D-1
     for p in pts:
         if p["dday"] == dday:
-            return p["tickets"], "관측"
+            return p["tickets"], p.get("kind", "관측")
     if dday > pts[0]["dday"] or dday < pts[-1]["dday"]:
         return None, None
     for a, b in zip(pts, pts[1:]):
@@ -168,7 +168,8 @@ st.altair_chart(cum_chart(dt, "total_views", "2편 티저 합계 조회수",
 
 # ---------------- booking / box-office forecast
 st.markdown("#### ⑤ 실시간 예매율 — 흥행 예측")
-st.caption("매일 KOBIS 실시간 예매율에서 수집 · 1편은 개봉 전 보도된 4개 시점(D-8·D-7·D-5·D-1)과 비교")
+st.caption("매일 KOBIS 실시간 예매율에서 수집 · 1편 비교: 보도 관측 4개 시점(D-8·D-7·D-5·D-1) + "
+           "D-13~D-9는 역추정치 (보도 없음, 관측 4점 성장곡선 +23%/일 역외삽)")
 
 bl = bk.iloc[-1]
 bp = bk.iloc[-2] if len(bk) > 1 else None
@@ -202,18 +203,22 @@ line2 = alt.Chart(bk2).mark_line(strokeWidth=2.2, color=C_M2,
     y=alt.Y("tickets:Q", title="예매관객수", axis=alt.Axis(format=",.0f")),
     tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
              alt.Tooltip("dday:Q", title="D-"), alt.Tooltip("tickets:Q", title="예매", format=",.0f")])
-line1 = alt.Chart(m1df).mark_line(strokeWidth=1.8, color=C_M1, strokeDash=[5, 4],
-                                  point=alt.OverlayMarkDef(size=80, color=C_M1, shape="square")).encode(
+line1 = alt.Chart(m1df).mark_line(strokeWidth=1.8, color=C_M1, strokeDash=[5, 4]).encode(
+    x="x:Q", y="tickets:Q")
+pts1 = alt.Chart(m1df).mark_point(size=80, shape="square", color=C_M1).encode(
     x="x:Q", y="tickets:Q",
+    fill=alt.Fill("kind:N", scale=alt.Scale(domain=["관측", "외삽 추정"], range=[C_M1, "transparent"]), legend=None),
     tooltip=[alt.Tooltip("dday:Q", title="1편 D-"),
              alt.Tooltip("tickets:Q", title="1편 예매", format=",.0f"),
+             alt.Tooltip("kind:N", title="구분"),
              alt.Tooltip("note:N", title="비고")])
 lbl = alt.Chart(pd.DataFrame([
     {"x": -8, "tickets": 18000, "t": "1편"},
 ])).mark_text(color=C_M1, dy=-12, fontSize=12).encode(x="x:Q", y="tickets:Q", text="t:N")
-st.altair_chart((line2 + line1 + lbl).properties(height=340), width="stretch")
-st.caption(f"⚫ 파란 선 = 2편 (매일 수집) · 🟧 주황 점선 = 1편 관측 4개 시점 · "
-           f"1편은 D-1 예매 74,006명 → 최종 {bkm['m1_final']:,}명 (배수 {bkm['m1_multiplier']:.1f}x)")
+st.altair_chart((line2 + line1 + pts1 + lbl).properties(height=340), width="stretch")
+st.caption(f"⚫ 파란 선 = 2편 (매일 수집) · 🟧 주황 점선 = 1편 (채운 네모 = 보도 관측 4개 시점, "
+           f"빈 네모 D-13~D-9 = 보도가 없어 성장곡선으로 역추정) · "
+           f"1편 D-1 예매 74,006명 → 최종 {bkm['m1_final']:,}명 (배수 {bkm['m1_multiplier']:.1f}x)")
 
 with st.expander("예측 방법 설명 (간단히)"):
     st.markdown(f"""

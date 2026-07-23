@@ -2,10 +2,15 @@
   "open_date_m2": "2026-08-05",
   "m1_final": 1239245,
   "m1_curve": [
-    {"dday": 8, "tickets": 18000, "note": "추정치 (이데일리 7/30, 파일럿 앵커 역산)"},
-    {"dday": 7, "tickets": 22000, "note": "추정치 (일간스포츠 7/31)"},
-    {"dday": 5, "tickets": 40000, "note": "추정치 (연합뉴스 8/2)"},
-    {"dday": 1, "tickets": 74006, "note": "확정 (SAMG 발표, KOBIS 기준)"}
+    {"dday": 13, "tickets": 6800, "kind": "외삽 추정", "note": "보도 없음 — 관측 4점 성장곡선(+23%/일) 역외삽"},
+    {"dday": 12, "tickets": 8300, "kind": "외삽 추정", "note": "보도 없음 — 역외삽"},
+    {"dday": 11, "tickets": 10200, "kind": "외삽 추정", "note": "보도 없음 — 역외삽"},
+    {"dday": 10, "tickets": 12500, "kind": "외삽 추정", "note": "보도 없음 — 역외삽"},
+    {"dday": 9, "tickets": 15300, "kind": "외삽 추정", "note": "보도 없음 — 역외삽"},
+    {"dday": 8, "tickets": 18000, "kind": "관측", "note": "추정치 (이데일리 7/30, 파일럿 앵커 역산)"},
+    {"dday": 7, "tickets": 22000, "kind": "관측", "note": "추정치 (일간스포츠 7/31)"},
+    {"dday": 5, "tickets": 40000, "kind": "관측", "note": "추정치 (연합뉴스 8/2)"},
+    {"dday": 1, "tickets": 74006, "kind": "관측", "note": "확정 (SAMG 발표, KOBIS 기준)"}
   ],
   "avg_multiplier": 16.66,
   "m1_multiplier": 16.745,
