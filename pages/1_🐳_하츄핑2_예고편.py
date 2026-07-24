@@ -51,25 +51,51 @@ def m1_tickets_at(dday, curve):
     return None, None
 
 
-def day_axis(dates, max_labels=12):
-    """One tick label per real day.
+FUTURE_DAYS = 14   # 앞으로 2주치 자리를 미리 비워 둔다 (개봉일까지 남은 길이가 보이도록)
 
-    A plain temporal axis picks tick count from pixel width, so a 3-day span on a
-    wide chart repeats the same label ('7/22 7/22 7/22 …'). Pinning the tick
-    values to the observed days fixes that; thin them out once there are many.
+
+def date_span(dates, extra_days=FUTURE_DAYS):
+    """Observed days plus a run of empty future days, one entry per day."""
+    ds = pd.to_datetime(pd.Series(list(dates))).dt.normalize()
+    return pd.date_range(ds.min(), ds.max() + pd.Timedelta(days=extra_days), freq="D")
+
+
+def day_axis(days, max_labels=12):
+    """One tick label per day, thinned out once there are many.
+
+    A plain temporal axis picks its tick count from pixel width, so a short span
+    on a wide chart repeats the same label ('7/22 7/22 7/22 …'). Pinning the tick
+    values to real days fixes that.
     """
-    ds = pd.to_datetime(pd.Series(list(dates))).dt.normalize().drop_duplicates().sort_values()
-    step = max(1, -(-len(ds) // max_labels))
-    vals = [d.to_pydatetime() for d in ds.iloc[::step]]
-    return alt.Axis(format="%-m/%-d", values=vals, labelAngle=0, labelOverlap=False)
+    days = pd.DatetimeIndex(days)
+    step = max(1, -(-len(days) // max_labels))
+    return alt.Axis(format="%-m/%-d", values=[d.to_pydatetime() for d in days[::step]],
+                    labelAngle=0, labelOverlap=False)
 
 
-def cum_chart(df, ycol, series_name, benchmark, bench_label, ytitle):
-    """Cumulative line vs a 1편 benchmark rule."""
+def _dt(ts):
+    return alt.DateTime(year=ts.year, month=ts.month, date=ts.day)
+
+
+def open_rule(open_day, y_field="값"):
+    """Dashed marker on 개봉일 so the empty future space reads as a countdown."""
+    odf = pd.DataFrame({"x": [pd.Timestamp(open_day)], "t": ["개봉"]})
+    line = alt.Chart(odf).mark_rule(color="#8a8f98", strokeDash=[3, 3],
+                                    strokeWidth=1.2).encode(x="x:T")
+    lab = alt.Chart(odf).mark_text(color="#8a8f98", fontSize=11, align="left",
+                                   dx=4, baseline="top").encode(
+        x="x:T", y=alt.value(4), text="t:N")
+    return line + lab
+
+
+def cum_chart(df, ycol, series_name, benchmark, bench_label, ytitle, open_day=None):
+    """Cumulative line vs a 1편 benchmark rule, with room left for future days."""
     base = df[["date", ycol]].rename(columns={ycol: "값"})
+    span = date_span(df["date"])
     line = alt.Chart(base).mark_line(strokeWidth=2.2, point=alt.OverlayMarkDef(size=70),
                                      color=C_M2, interpolate="monotone").encode(
-        x=alt.X("date:T", title=None, axis=day_axis(df["date"])),
+        x=alt.X("date:T", title=None, axis=day_axis(span),
+                scale=alt.Scale(domain=[_dt(span[0]), _dt(span[-1])])),
         y=alt.Y("값:Q", title=ytitle, axis=alt.Axis(format=",.0f")),
         tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
                  alt.Tooltip("값:Q", title=series_name, format=",.0f")])
@@ -81,7 +107,10 @@ def cum_chart(df, ycol, series_name, benchmark, bench_label, ytitle):
     text = alt.Chart(rule_df).mark_text(align="left", dx=4, dy=-8, color=C_M1,
                                         fontSize=12).encode(
         y="y:Q", text="라벨:N", x=alt.value(4))
-    return (line + rule + text).properties(height=320)
+    layers = [line, rule, text]
+    if open_day is not None:
+        layers.append(open_rule(open_day))
+    return alt.layer(*layers).properties(height=320)
 
 
 dm, dt, vel, sent, src, meta, bk, bkm = load()
@@ -116,28 +145,37 @@ colA, colB = st.columns(2)
 with colA:
     st.markdown("**메인 예고편 누적 조회수 — 1편 넘어서기**")
     st.altair_chart(cum_chart(dm, "total_views", "2편 합계 조회수",
-                              bm["m1_main_views"], f"1편 전체 ({bm['m1_main_views']:,}회)", "조회수"),
+                              bm["m1_main_views"], f"1편 전체 ({bm['m1_main_views']:,}회)", "조회수",
+                              open_day=open_day),
                     width="stretch")
 with colB:
     st.markdown("**하루에 얼마나 늘었나 (조회수)**")
     d2 = dm.assign(증가=dm["total_views"].diff()).dropna(subset=["증가"])
-    # Band (ordinal) x with a fixed step, not a stretched time scale: with only a
-    # couple of days a time scale pins the bars to the far left and far right
-    # edges. A step keeps each day the same width so the bars stay side by side.
+    # Band (ordinal) x, not a stretched time scale: a time scale pins two bars to
+    # the far left and far right edges. Reindexing over the padded span gives every
+    # future day its own empty band, so bars stay side by side on the left and the
+    # remaining days to 개봉 are visible as blank slots.
+    span = date_span(d2["date"])
+    d2 = d2.set_index("date").reindex(span).rename_axis("date").reset_index()
+    # Band positions are plain day labels: an ordinal axis matches tick values as
+    # strings, so datetimes there would silently drop every label.
+    d2["일자"] = [f"{d.month}/{d.day}" for d in d2["date"]]
+    order = list(d2["일자"])
     bar = alt.Chart(d2).mark_bar(color=C_M2, cornerRadiusTopLeft=4,
-                                 cornerRadiusTopRight=4, size=26).encode(
-        x=alt.X("monthdate(date):O", title=None,
-                axis=alt.Axis(format="%-m/%-d", labelAngle=0, labelOverlap="greedy")),
+                                 cornerRadiusTopRight=4).encode(
+        x=alt.X("일자:O", title=None, sort=order, scale=alt.Scale(paddingInner=0.35),
+                axis=alt.Axis(labelAngle=0, labelOverlap=False, values=order[::2])),
         y=alt.Y("증가:Q", title="증가 조회수", axis=alt.Axis(format=",.0f")),
         tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
                  alt.Tooltip("증가:Q", format="+,")])
-    st.altair_chart(bar.properties(height=320, width=alt.Step(46)), width="content")
+    st.altair_chart(bar.properties(height=320), width="stretch")
 
 # ---------------- velocity
 st.markdown("#### ② 댓글 반응 속도")
 st.caption("2편은 13일 만에 1편이 2년 동안 모은 댓글 수(321개)를 넘었습니다.")
 st.altair_chart(cum_chart(vel, "cum_comments", "2편 누적 댓글",
-                          bm["m1_main_comments"], f"1편 전체 ({bm['m1_main_comments']}개)", "댓글 수"),
+                          bm["m1_main_comments"], f"1편 전체 ({bm['m1_main_comments']}개)", "댓글 수",
+                          open_day=open_day),
                 width="stretch")
 
 # ---------------- sentiment
@@ -184,7 +222,8 @@ c2.metric("티저 댓글", f"{tl['total_comments']:,}")
 c3.metric("1편 티저 대비", f"{tl['total_views']/bm['m1_teaser_views']:.1%}",
           "1편 티저 = 6개 영상, 2년 누적", delta_color="off")
 st.altair_chart(cum_chart(dt, "total_views", "2편 티저 합계 조회수",
-                          bm["m1_teaser_views"], f"1편 티저 전체 ({bm['m1_teaser_views']:,}회)", "조회수"),
+                          bm["m1_teaser_views"], f"1편 티저 전체 ({bm['m1_teaser_views']:,}회)", "조회수",
+                          open_day=open_day),
                 width="stretch")
 
 # ================= 3. 실시간 예매율
