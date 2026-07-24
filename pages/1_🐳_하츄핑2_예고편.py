@@ -51,12 +51,25 @@ def m1_tickets_at(dday, curve):
     return None, None
 
 
+def day_axis(dates, max_labels=12):
+    """One tick label per real day.
+
+    A plain temporal axis picks tick count from pixel width, so a 3-day span on a
+    wide chart repeats the same label ('7/22 7/22 7/22 …'). Pinning the tick
+    values to the observed days fixes that; thin them out once there are many.
+    """
+    ds = pd.to_datetime(pd.Series(list(dates))).dt.normalize().drop_duplicates().sort_values()
+    step = max(1, -(-len(ds) // max_labels))
+    vals = [d.to_pydatetime() for d in ds.iloc[::step]]
+    return alt.Axis(format="%-m/%-d", values=vals, labelAngle=0, labelOverlap=False)
+
+
 def cum_chart(df, ycol, series_name, benchmark, bench_label, ytitle):
     """Cumulative line vs a 1편 benchmark rule."""
     base = df[["date", ycol]].rename(columns={ycol: "값"})
     line = alt.Chart(base).mark_line(strokeWidth=2.2, point=alt.OverlayMarkDef(size=70),
                                      color=C_M2, interpolate="monotone").encode(
-        x=alt.X("date:T", title=None, axis=alt.Axis(format="%-m/%-d")),
+        x=alt.X("date:T", title=None, axis=day_axis(df["date"])),
         y=alt.Y("값:Q", title=ytitle, axis=alt.Axis(format=",.0f")),
         tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
                  alt.Tooltip("값:Q", title=series_name, format=",.0f")])
@@ -82,8 +95,11 @@ st.title("🐳 사랑의 하츄핑 2 — 예고편 트래커")
 st.caption(f"마지막 업데이트: {meta['last_updated']} · 메인 예고편 공개 D+{int(last['day'])} · "
            f"극장 개봉({src['theater_open']})까지 {d_to_open}일 · 1편(운명의 시작)과 비교")
 
+# ================= 1. 메인 예고편
+st.header("1. 메인 예고편", divider="blue")
+
 # ---------------- KPI
-st.markdown("#### ① 메인 예고편 오늘 성적 (2편, 두 채널 합계)")
+st.markdown("#### ① 오늘 성적 (2편, 두 채널 합계)")
 c1, c2, c3, c4 = st.columns(4)
 c1.metric("조회수", f"{last['total_views']:,}", f"{last['total_views']-prev['total_views']:+,} (어제보다)")
 c2.metric("좋아요", f"{last['total_likes']:,}", f"{last['total_likes']-prev['total_likes']:+,}")
@@ -107,7 +123,7 @@ with colB:
     d2 = dm.assign(증가=dm["total_views"].diff()).dropna(subset=["증가"])
     bar = alt.Chart(d2).mark_bar(color=C_M2, cornerRadiusTopLeft=4,
                                  cornerRadiusTopRight=4, size=26).encode(
-        x=alt.X("date:T", title=None, axis=alt.Axis(format="%-m/%-d")),
+        x=alt.X("date:T", title=None, axis=day_axis(d2["date"])),
         y=alt.Y("증가:Q", title="증가 조회수", axis=alt.Axis(format=",.0f")),
         tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
                  alt.Tooltip("증가:Q", format="+,")])
@@ -154,8 +170,9 @@ for tab, key in [(tab_main, "main"), (tab_teaser, "teaser")]:
         b.metric(f"긍정 비율 — {blk['m2_name']}", f"{pos2:.1%}", blk["m2_note"], delta_color="off")
 st.caption("강한 긍정 = '꼭 보러 간다' 같은 관람 의지 · 키워드 자동 분류 (막대 위 숫자 = 실제 댓글 개수)")
 
-# ---------------- teaser
-st.markdown("#### ④ 티저 예고편 (2편, 3개 영상 합계)")
+# ================= 2. 티저 예고편
+st.header("2. 티저 예고편", divider="blue")
+st.markdown("#### 2편, 3개 영상 합계")
 tl, tp = dt.iloc[-1], (dt.iloc[-2] if len(dt) > 1 else dt.iloc[-1])
 c1, c2, c3 = st.columns(3)
 c1.metric("티저 조회수", f"{tl['total_views']:,}", f"{tl['total_views']-tp['total_views']:+,} (어제보다)")
@@ -166,8 +183,8 @@ st.altair_chart(cum_chart(dt, "total_views", "2편 티저 합계 조회수",
                           bm["m1_teaser_views"], f"1편 티저 전체 ({bm['m1_teaser_views']:,}회)", "조회수"),
                 width="stretch")
 
-# ---------------- booking / box-office forecast
-st.markdown("#### ⑤ 실시간 예매율 — 흥행 예측")
+# ================= 3. 실시간 예매율
+st.header("3. 실시간 예매율 — 흥행 예측", divider="blue")
 st.caption("매일 KOBIS 실시간 예매율에서 수집 · 1편 비교: 보도 관측 4개 시점(D-8·D-7·D-5·D-1) + "
            "D-13~D-9는 역추정치 (보도 없음, 관측 4점 성장곡선 +23%/일 역외삽)")
 
@@ -232,8 +249,12 @@ with st.expander("예측 방법 설명 (간단히)"):
 with st.expander("매일 기록 표 (예매)"):
     st.dataframe(bk.sort_values("date", ascending=False), hide_index=True, width="stretch")
 
+# ================= 4. 언급량 추이 (placeholder)
+st.header("4. 언급량 추이", divider="blue")
+st.info("준비 중입니다 — 커뮤니티·뉴스·검색 언급량을 모아서 곧 추가할 예정입니다.")
+
 # ---------------- raw data
-st.markdown("#### ⑥ 원본 데이터")
+st.header("원본 데이터", divider="gray")
 with st.expander("매일 기록 표 (메인 예고편)"):
     st.dataframe(dm.sort_values("date", ascending=False), hide_index=True, width="stretch")
 with st.expander("매일 기록 표 (티저)"):
