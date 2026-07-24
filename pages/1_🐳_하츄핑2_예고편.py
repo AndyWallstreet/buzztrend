@@ -121,13 +121,17 @@ with colA:
 with colB:
     st.markdown("**하루에 얼마나 늘었나 (조회수)**")
     d2 = dm.assign(증가=dm["total_views"].diff()).dropna(subset=["증가"])
+    # Band (ordinal) x with a fixed step, not a stretched time scale: with only a
+    # couple of days a time scale pins the bars to the far left and far right
+    # edges. A step keeps each day the same width so the bars stay side by side.
     bar = alt.Chart(d2).mark_bar(color=C_M2, cornerRadiusTopLeft=4,
                                  cornerRadiusTopRight=4, size=26).encode(
-        x=alt.X("date:T", title=None, axis=day_axis(d2["date"])),
+        x=alt.X("monthdate(date):O", title=None,
+                axis=alt.Axis(format="%-m/%-d", labelAngle=0, labelOverlap="greedy")),
         y=alt.Y("증가:Q", title="증가 조회수", axis=alt.Axis(format=",.0f")),
         tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
                  alt.Tooltip("증가:Q", format="+,")])
-    st.altair_chart(bar.properties(height=320), width="stretch")
+    st.altair_chart(bar.properties(height=320, width=alt.Step(46)), width="content")
 
 # ---------------- velocity
 st.markdown("#### ② 댓글 반응 속도")
