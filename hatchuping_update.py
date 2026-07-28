@@ -29,7 +29,7 @@ What it does, in order:
 import json
 import subprocess
 import sys
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 import pythoncom
@@ -45,7 +45,7 @@ except AttributeError:
 
 TRACKER =r"C:\Users\user99i1\LK자산운용\LK자산운용 - 문서\Companies\SAMG 엔터\Hatchuping2 tracker_v1.xlsx"
 TRACKER_NAME = "Hatchuping2 tracker_v1.xlsx"
-FORECAST = r"C:\Users\user99i1\hatchuping\하츄핑2_흥행예측.xlsx"
+FORECAST = r"C:\Users\user99i1\Documents\하츄핑2_흥행예측.xlsx"
 FORECAST_NAME = "하츄핑2_흥행예측.xlsx"
 REPO = Path(__file__).parent            # the buzztrend repo
 DATA = REPO / "data" / "hatchuping"     # site data for pages/1_🐳_하츄핑2_예고편.py
@@ -85,11 +85,75 @@ def fmt_row(ws, r, cols, fmt):
     ws.Range(ws.Cells(r, cols[0]), ws.Cells(r, cols[1])).NumberFormat = fmt
 
 
-def update_booking(d, booking):
-    """Append/refresh today's row in 하츄핑2_흥행예측.xlsx '추적' sheet and booking.csv.
+# 14:30까지의 증가분 → 하루 전체 환산 배수 (사용자 가정: 아침~14:30에 +1,000이면
+# 하루 전체는 +2,500쯤 — 퇴근 후 저녁에 예매가 몰림). booking_log.csv가 며칠 쌓이면
+# 실측으로 보정할 것.
+AFTERNOON_FACTOR = 2.5
 
-    booking = {"tickets": 10963, "rate": 1.5, "rank": 6}  (KOBIS 실시간 예매율)
+
+def update_booking(d, booking):
+    """KOBIS 실시간 예매율 → booking_log.csv / booking.csv / 흥행예측.xlsx '추적'.
+
+    booking = {"tickets": 10963, "rate": 1.5, "rank": 6}
+
+    핵심 규칙 — KOBIS 숫자는 '지금까지 누적'이라서:
+    - 아침 수집(12시 전): 오늘 예매는 아직 없다시피 하므로 그 값은 **어제의 확정치**.
+      오늘 값은 어제 하루 증가분만큼 더 오른다고 가정한 **추정치**로 만든다.
+    - 오후 수집(12시 후): 아침 확정치와의 차이 = 오늘 지금까지 증가분.
+      × AFTERNOON_FACTOR 로 하루 전체를 환산해 오늘 추정치를 갱신한다.
     """
+    now = datetime.now()
+    open_d = date(2026, 8, 5)
+
+    # ---- 0. 원본 로그 (보정용 — 모든 수집값을 시각과 함께 남긴다)
+    log = DATA / "booking_log.csv"
+    if not log.exists():
+        log.write_text("ts,tickets,rate,rank,note\n", encoding="utf-8")
+    with log.open("a", encoding="utf-8") as f:
+        f.write(f"{now.strftime('%Y-%m-%d %H:%M')},{booking['tickets']},"
+                f"{booking.get('rate', '')},{booking.get('rank', '')},\n")
+
+    # ---- 1. booking.csv 다시 쓰기 (date,dday,tickets,rate,rank,kind)
+    path = DATA / "booking.csv"
+    rows = {}   # date -> [tickets, rate, rank, kind]
+    for line in path.read_text(encoding="utf-8").strip().split("\n")[1:]:
+        p = (line.split(",") + [""] * 6)[:6]
+        if p[0]:
+            rows[date.fromisoformat(p[0])] = [p[2], p[3], p[4], p[5] or "확정"]
+
+    y = d - timedelta(days=1)
+    morning = now.hour < 12
+    if morning:
+        # 이 값은 어제의 확정치
+        rows[y] = [str(booking["tickets"]), str(booking.get("rate", "")),
+                   str(booking.get("rank", "")), "확정"]
+        prev_dates = sorted(dt for dt in rows if dt < y and rows[dt][3] != "추정")
+        if prev_dates:
+            p = prev_dates[-1]
+            per_day = (booking["tickets"] - int(rows[p][0])) / max(1, (y - p).days)
+        else:
+            per_day = 0
+        est = booking["tickets"] + round(per_day)
+        est_note = "추정 (어제 증가분만큼 오른다고 가정)"
+    else:
+        # 오후: 아침에 적힌 어제 확정치 기준으로 오늘 속도를 환산
+        base = int(rows[y][0]) if y in rows and rows[y][3] == "확정" else None
+        if base is not None and booking["tickets"] > base:
+            est = base + round((booking["tickets"] - base) * AFTERNOON_FACTOR)
+            est_note = f"추정 (14:30까지 +{booking['tickets'] - base:,} × {AFTERNOON_FACTOR})"
+        else:
+            est = booking["tickets"]
+            est_note = "추정 (오후 수집값 그대로 — 아침 확정치 없음)"
+    rows[d] = [str(est), "", "", "추정"]
+
+    lines = ["date,dday,tickets,rate,rank,kind"]
+    for dt in sorted(rows):
+        t, ra, rk, kind = rows[dt]
+        lines.append(f"{dt.isoformat()},{(open_d - dt).days},{t},{ra},{rk},{kind}")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"booking.csv updated — {y} 확정 반영, {d} 추정 {est:,} ({'아침' if morning else '오후'} 규칙)")
+
+    # ---- 2. 흥행예측.xlsx '추적' — 어제 확정 + 오늘 추정, 날짜로 찾아서 쓴다
     pythoncom.CoInitialize()  # main()'s COM session may already be closed by now
     xl, wb, attached = get_excel_and_wb(FORECAST, FORECAST_NAME)
     prev_alerts, prev_screen = xl.DisplayAlerts, xl.ScreenUpdating
@@ -97,17 +161,32 @@ def update_booking(d, booking):
     xl.ScreenUpdating = False
     try:
         ws = wb.Worksheets("추적")
-        lr = last_data_row(ws)
-        n = lr if (ws.Cells(lr, 1).Value is not None and ws.Cells(lr, 1).Value.date() == d) else lr + 1
-        ws.Cells(n, 1).Value = d.isoformat()
-        ws.Cells(n, 1).NumberFormat = "yyyy-mm-dd"
-        if not str(ws.Cells(n, 2).Formula).startswith("=IF"):
-            ws.Cells(n, 2).Formula = f'=IF(A{n}="","","D-"&TEXT($B$2-A{n},"0"))'
-        ws.Cells(n, 3).Value = booking["tickets"]
-        ws.Cells(n, 3).NumberFormat = NUM
-        ws.Cells(n, 4).Value = f"자동 수집 · 예매율 {booking.get('rate', '?')}% · {booking.get('rank', '?')}위"
-        for col in (1, 3, 4):
-            ws.Cells(n, col).Font.Color = 0xFF0000  # blue (BGR) = input
+
+        def find_or_append(target):
+            lr = last_data_row(ws)
+            for r in range(5, lr + 1):
+                v = ws.Cells(r, 1).Value
+                if v is not None and v.date() == target:
+                    return r
+            return lr + 1
+
+        def write_row(target, tickets, note):
+            n = find_or_append(target)
+            ws.Cells(n, 1).Value = target.isoformat()
+            ws.Cells(n, 1).NumberFormat = "yyyy-mm-dd"
+            if not str(ws.Cells(n, 2).Formula).startswith("=IF"):
+                ws.Cells(n, 2).Formula = f'=IF(A{n}="","","D-"&TEXT($B$2-A{n},"0"))'
+            ws.Cells(n, 3).Value = tickets
+            ws.Cells(n, 3).NumberFormat = NUM
+            ws.Cells(n, 4).Value = note
+            for col in (1, 3, 4):
+                ws.Cells(n, col).Font.Color = 0xFF0000  # blue (BGR) = input
+            return n
+
+        if morning:
+            write_row(y, booking["tickets"],
+                      f"확정 (다음날 아침 수집) · 예매율 {booking.get('rate', '?')}% · {booking.get('rank', '?')}위")
+        n = write_row(d, est, est_note)
         xl.CalculateFull()
         wb.Save()
         print("forecast workbook saved (attached:", attached, ") row", n)
@@ -126,15 +205,6 @@ def update_booking(d, booking):
                 xl.Quit()
             except Exception:
                 pass
-
-    # booking.csv — one row per date, newest value wins
-    open_d = date(2026, 8, 5)
-    path = DATA / "booking.csv"
-    lines = path.read_text(encoding="utf-8").strip().split("\n")
-    header, rows = lines[0], [l for l in lines[1:] if l and not l.startswith(d.isoformat())]
-    rows.append(f"{d.isoformat()},{(open_d - d).days},{booking['tickets']},{booking.get('rate', '')},{booking.get('rank', '')}")
-    path.write_text(header + "\n" + "\n".join(rows) + "\n", encoding="utf-8")
-    print("booking.csv updated")
 
 
 def main():

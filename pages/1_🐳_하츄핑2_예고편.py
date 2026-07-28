@@ -252,27 +252,39 @@ st.header("3. 실시간 예매율 — 흥행 예측", divider="blue")
 st.caption("매일 KOBIS 실시간 예매율에서 수집 · 1편 비교: 보도 관측 4개 시점(D-8·D-7·D-5·D-1) + "
            "D-13~D-9는 역추정치 (보도 없음, 관측 4점 성장곡선 +23%/일 역외삽)")
 
-bl = bk.iloc[-1]
-bp = bk.iloc[-2] if len(bk) > 1 else None
-cur_dday = int(bl["dday"])
-m1_now, m1_kind = m1_tickets_at(cur_dday, bkm["m1_curve"])
+# KOBIS 아침 수집값은 '어제까지의 누적'이라서: 마지막 확정/저녁까지 행 = 어제,
+# kind='추정' 행 = 오늘(어제 속도로 오른다고 가정한 값)
+bk["kind"] = bk["kind"].fillna("확정")
+solid = bk[bk["kind"] != "추정"]          # 실제 수집값 (어제까지)
+estdf = bk[bk["kind"] == "추정"]          # 오늘 추정
+bl = solid.iloc[-1]                        # 어제 (마지막 실측)
+bp = solid.iloc[-2] if len(solid) > 1 else None
+y_dday = int(bl["dday"])
+m1_y, m1_y_kind = m1_tickets_at(y_dday, bkm["m1_curve"])
 
 c1, c2, c3, c4 = st.columns(4)
-c1.metric(f"오늘 예매관객수 (D-{cur_dday})", f"{int(bl['tickets']):,}명",
-          f"{int(bl['tickets'] - bp['tickets']):+,} (어제보다)" if bp is not None else "수집 시작",
+c1.metric(f"어제까지 예매관객수 (D-{y_dday} {bl['kind']})", f"{int(bl['tickets']):,}명",
+          f"{int(bl['tickets'] - bp['tickets']):+,} (그제보다)" if bp is not None else "수집 시작",
           delta_color="normal" if bp is not None else "off")
-c2.metric("예매율 · 순위", f"{bl['rate']}% · {int(bl['rank'])}위")
-if m1_now:
-    pace = bl["tickets"] / m1_now
-    c3.metric(f"1편 같은 시점(D-{cur_dday}) 대비", f"{pace:.2f}배",
-              f"1편 D-{cur_dday}: {m1_now:,}명 ({m1_kind})", delta_color="off")
+if len(estdf):
+    be = estdf.iloc[-1]
+    c2.metric(f"오늘 추정 (D-{int(be['dday'])})", f"{int(be['tickets']):,}명",
+              "어제 증가분만큼 오른다고 가정", delta_color="off")
+else:
+    c2.metric("예매율 · 순위", f"{bl['rate']}% · {int(bl['rank'])}위")
+if m1_y:
+    pace = bl["tickets"] / m1_y
+    c3.metric(f"1편 같은 시점(D-{y_dday}) 대비", f"{pace:.2f}배",
+              f"1편 D-{y_dday}: {m1_y:,}명 ({m1_y_kind})", delta_color="off")
     c4.metric("예측 실관객수 (1편 페이스 대비)", f"{pace * bkm['m1_final']:,.0f}명",
               f"= {pace:.2f} × 1편 최종 {bkm['m1_final']:,}명", delta_color="off")
 else:
-    c3.metric(f"1편 같은 시점(D-{cur_dday}) 대비", "비교 불가",
+    c3.metric(f"1편 같은 시점(D-{y_dday}) 대비", "비교 불가",
               "1편 예매 관측은 D-8부터 있음 (7/28부터 비교 시작)", delta_color="off")
     c4.metric("배수 방식 참고 예측", f"{bl['tickets'] * bkm['avg_multiplier']:,.0f}명",
               f"= 지금 예매 × 평균 배수 {bkm['avg_multiplier']}x (D-1 전엔 과소추정)", delta_color="off")
+st.caption(f"예매율 {bl['rate']}% · {int(bl['rank'])}위 (어제 기준) · "
+           "아침에 수집한 KOBIS 숫자는 어제까지의 값이라 어제 자리에 기록하고, 오늘은 추정으로 표시")
 
 # D-day curve: 2편 line vs 1편 observed points
 bk2 = bk.assign(x=-bk["dday"], 영화="2편 (매일 수집)")
@@ -283,16 +295,28 @@ bk2["배수"] = bk2.apply(
 TIP2 = [alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
         alt.Tooltip("dday:Q", title="D-"),
         alt.Tooltip("tickets:Q", title="2편 예매", format=",.0f"),
+        alt.Tooltip("kind:N", title="구분"),
         alt.Tooltip("m1_same:Q", title="1편 같은 날", format=",.0f"),
         alt.Tooltip("배수:Q", title="1편 대비(배)", format=".2f")]
 
+solid2 = bk2[bk2["kind"] != "추정"]                    # 실측 — 실선 + 채운 점
+est2 = bk2[bk2["kind"] == "추정"]
+# 추정 구간: 마지막 실측점 → 추정점을 점선으로 잇는다
+dash2 = pd.concat([solid2.tail(1), est2]) if len(est2) else est2.iloc[0:0]
+
 m1df = pd.DataFrame(bkm["m1_curve"]).assign(x=lambda d: -d["dday"], 영화="1편 (보도 관측)")
-line2 = alt.Chart(bk2).mark_line(strokeWidth=2.2, color=C_M2,
-                                 point=alt.OverlayMarkDef(size=90, color=C_M2)).encode(
+line2 = alt.Chart(solid2).mark_line(strokeWidth=2.2, color=C_M2,
+                                    point=alt.OverlayMarkDef(size=90, color=C_M2)).encode(
     x=alt.X("x:Q", title="개봉까지 남은 날", scale=alt.Scale(domain=[-14, 0]),
             axis=alt.Axis(labelExpr="datum.value == 0 ? '개봉일' : 'D-' + -datum.value", values=list(range(-14, 1)))),
     y=alt.Y("tickets:Q", title="예매관객수", axis=alt.Axis(format=",.0f")),
     tooltip=TIP2)
+# 오늘 추정: 점선 + 속이 빈 원 (실측과 헷갈리지 않게)
+lineE = alt.Chart(dash2).mark_line(strokeWidth=2, color=C_M2, strokeDash=[3, 4]).encode(
+    x="x:Q", y="tickets:Q")
+ptsE = alt.Chart(est2).mark_point(size=110, color=C_M2, fill="transparent",
+                                  strokeWidth=2.2).encode(
+    x="x:Q", y="tickets:Q", tooltip=TIP2)
 line1 = alt.Chart(m1df).mark_line(strokeWidth=1.8, color=C_M1, strokeDash=[5, 4]).encode(
     x="x:Q", y="tickets:Q")
 pts1 = alt.Chart(m1df).mark_point(size=80, shape="square", color=C_M1).encode(
@@ -309,8 +333,10 @@ lbl = alt.Chart(pd.DataFrame([
 # 투명한 큰 원을 맨 위에 깔아 2편 툴팁이 항상 먼저 잡히게 한다.
 hover2 = alt.Chart(bk2).mark_point(size=400, opacity=0).encode(
     x="x:Q", y="tickets:Q", tooltip=TIP2)
-st.altair_chart((line2 + line1 + pts1 + lbl + hover2).properties(height=340), width="stretch")
-st.caption(f"⚫ 파란 선 = 2편 (매일 수집) · 🟧 주황 점선 = 1편 (채운 네모 = 보도 관측 4개 시점, "
+st.altair_chart((line2 + lineE + ptsE + line1 + pts1 + lbl + hover2).properties(height=340),
+                width="stretch")
+st.caption(f"⚫ 파란 실선 = 2편 실측 (하루 마감 기준, 다음날 아침 수집) · 빈 파란 원 = 오늘 추정 · "
+           f"🟧 주황 점선 = 1편 (채운 네모 = 보도 관측 4개 시점, "
            f"빈 네모 D-13~D-9 = 보도가 없어 성장곡선으로 역추정) · "
            f"1편 D-1 예매 74,006명 → 최종 {bkm['m1_final']:,}명 (배수 {bkm['m1_multiplier']:.1f}x)")
 
