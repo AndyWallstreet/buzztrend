@@ -150,13 +150,31 @@ with colA:
                     width="stretch")
 with colB:
     st.markdown("**하루에 얼마나 늘었나 (조회수)**")
-    d2 = dm.assign(증가=dm["total_views"].diff()).dropna(subset=["증가"])
+    # diff() subtracts the previous ROW, so a skipped tracking day would pile two
+    # days of growth onto one bar and leave a hole next to it. Spread each gain over
+    # the days it actually covers instead — the straight line between the two real
+    # snapshots, no invented numbers. Multi-day bars are flagged as such.
+    d2 = dm[["date", "total_views"]].copy()
+    d2["증가"] = d2["total_views"].diff()
+    d2["간격"] = d2["date"].diff().dt.days
+    d2 = d2.dropna(subset=["증가"])
+    spread = []
+    for _, r in d2.iterrows():
+        n = max(1, int(r["간격"]))
+        for k in range(n):
+            spread.append({"date": r["date"] - pd.Timedelta(days=n - 1 - k),
+                           "증가": r["증가"] / n,
+                           "구분": "관측" if n == 1 else f"{n}일 평균",
+                           "단일": n == 1})
+    d2 = pd.DataFrame(spread)
     # Band (ordinal) x, not a stretched time scale: a time scale pins two bars to
     # the far left and far right edges. Reindexing over the padded span gives every
     # future day its own empty band, so bars stay side by side on the left and the
     # remaining days to 개봉 are visible as blank slots.
     span = date_span(d2["date"])
     d2 = d2.set_index("date").reindex(span).rename_axis("date").reset_index()
+    d2["구분"] = d2["구분"].fillna("관측")
+    d2["단일"] = d2["단일"].fillna(True).astype(bool)
     # Band positions are plain day labels: an ordinal axis matches tick values as
     # strings, so datetimes there would silently drop every label.
     d2["일자"] = [f"{d.month}/{d.day}" for d in d2["date"]]
@@ -166,8 +184,11 @@ with colB:
         x=alt.X("일자:O", title=None, sort=order, scale=alt.Scale(paddingInner=0.35),
                 axis=alt.Axis(labelAngle=0, labelOverlap=False, values=order[::2])),
         y=alt.Y("증가:Q", title="증가 조회수", axis=alt.Axis(format=",.0f")),
+        opacity=alt.Opacity("단일:N", scale=alt.Scale(domain=[True, False],
+                                                    range=[1.0, 0.5]), legend=None),
         tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
-                 alt.Tooltip("증가:Q", format="+,")])
+                 alt.Tooltip("증가:Q", format="+,"),
+                 alt.Tooltip("구분:N", title="구분")])
     st.altair_chart(bar.properties(height=320), width="stretch")
 
 # ---------------- velocity
