@@ -276,14 +276,23 @@ else:
 
 # D-day curve: 2편 line vs 1편 observed points
 bk2 = bk.assign(x=-bk["dday"], 영화="2편 (매일 수집)")
+# 같은 D-day의 1편 값을 옆에 붙여 둔다 — 점 하나만 올려도 2편/1편/배수가 같이 보이도록
+bk2["m1_same"] = [m1_tickets_at(int(d), bkm["m1_curve"])[0] for d in bk2["dday"]]
+bk2["배수"] = bk2.apply(
+    lambda r: round(r["tickets"] / r["m1_same"], 2) if pd.notna(r["m1_same"]) else None, axis=1)
+TIP2 = [alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
+        alt.Tooltip("dday:Q", title="D-"),
+        alt.Tooltip("tickets:Q", title="2편 예매", format=",.0f"),
+        alt.Tooltip("m1_same:Q", title="1편 같은 날", format=",.0f"),
+        alt.Tooltip("배수:Q", title="1편 대비(배)", format=".2f")]
+
 m1df = pd.DataFrame(bkm["m1_curve"]).assign(x=lambda d: -d["dday"], 영화="1편 (보도 관측)")
 line2 = alt.Chart(bk2).mark_line(strokeWidth=2.2, color=C_M2,
-                                 point=alt.OverlayMarkDef(size=70, color=C_M2)).encode(
+                                 point=alt.OverlayMarkDef(size=90, color=C_M2)).encode(
     x=alt.X("x:Q", title="개봉까지 남은 날", scale=alt.Scale(domain=[-14, 0]),
             axis=alt.Axis(labelExpr="datum.value == 0 ? '개봉일' : 'D-' + -datum.value", values=list(range(-14, 1)))),
     y=alt.Y("tickets:Q", title="예매관객수", axis=alt.Axis(format=",.0f")),
-    tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
-             alt.Tooltip("dday:Q", title="D-"), alt.Tooltip("tickets:Q", title="예매", format=",.0f")])
+    tooltip=TIP2)
 line1 = alt.Chart(m1df).mark_line(strokeWidth=1.8, color=C_M1, strokeDash=[5, 4]).encode(
     x="x:Q", y="tickets:Q")
 pts1 = alt.Chart(m1df).mark_point(size=80, shape="square", color=C_M1).encode(
@@ -296,7 +305,11 @@ pts1 = alt.Chart(m1df).mark_point(size=80, shape="square", color=C_M1).encode(
 lbl = alt.Chart(pd.DataFrame([
     {"x": -8, "tickets": 18000, "t": "1편"},
 ])).mark_text(color=C_M1, dy=-12, fontSize=12).encode(x="x:Q", y="tickets:Q", text="t:N")
-st.altair_chart((line2 + line1 + pts1 + lbl).properties(height=340), width="stretch")
+# 2편 점은 8px밖에 안 돼서 1편 네모(바로 6px 아래, 위에 그려짐)에 가려 마우스가 잘 안 닿았다.
+# 투명한 큰 원을 맨 위에 깔아 2편 툴팁이 항상 먼저 잡히게 한다.
+hover2 = alt.Chart(bk2).mark_point(size=400, opacity=0).encode(
+    x="x:Q", y="tickets:Q", tooltip=TIP2)
+st.altair_chart((line2 + line1 + pts1 + lbl + hover2).properties(height=340), width="stretch")
 st.caption(f"⚫ 파란 선 = 2편 (매일 수집) · 🟧 주황 점선 = 1편 (채운 네모 = 보도 관측 4개 시점, "
            f"빈 네모 D-13~D-9 = 보도가 없어 성장곡선으로 역추정) · "
            f"1편 D-1 예매 74,006명 → 최종 {bkm['m1_final']:,}명 (배수 {bkm['m1_multiplier']:.1f}x)")
