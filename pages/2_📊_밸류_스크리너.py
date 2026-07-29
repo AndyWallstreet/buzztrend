@@ -84,6 +84,20 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         d = d[(d[x_col] >= x_lo) & (d[x_col] <= x_hi) & (d[y_col] <= max(y_hi, y_max))]
     d["통과"] = (d[x_col] > x_min) & (d[y_col] < y_max)
 
+    # 추세선(회귀선): 선 아래에 있으면 같은 질 대비 멀티플이 낮다 = 싸 보인다
+    trend = None
+    if len(d) >= 3 and d[x_col].std() > 0:
+        slope, intercept = np.polyfit(d[x_col], d[y_col], 1)
+        d["추세대비"] = d[y_col] - (slope * d[x_col] + intercept)
+        xs = pd.DataFrame({x_col: [d[x_col].min(), d[x_col].max()]})
+        xs[y_col] = slope * xs[x_col] + intercept
+        xs = xs[xs[y_col] >= 0]
+        trend = alt.Chart(xs).mark_line(
+            color="#d43a2f", strokeDash=[5, 4], size=2, opacity=0.9,
+        ).encode(x=x_col, y=y_col)
+    else:
+        d["추세대비"] = np.nan
+
     base = alt.Chart(d).mark_circle(size=55, opacity=0.75).encode(
         x=alt.X(x_col, title=f"{x_label} (높을수록 좋은 회사)", axis=alt.Axis(format="%")),
         y=alt.Y(y_col, title=f"{y_label} (낮을수록 싼 주식)"),
@@ -92,6 +106,7 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
                  alt.Tooltip("ticker", title="티커"),
                  alt.Tooltip(x_col, title=x_label, format=".1%"),
                  alt.Tooltip(y_col, title=y_label, format=".2f"),
+                 alt.Tooltip("추세대비", title="추세선 대비 (음수=선 아래)", format="+.2f"),
                  alt.Tooltip("sector", title="섹터")],
     )
     rule_x = alt.Chart(pd.DataFrame({"v": [x_min]})).mark_rule(
@@ -99,6 +114,8 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
     rule_y = alt.Chart(pd.DataFrame({"v": [y_max]})).mark_rule(
         strokeDash=[5, 4], color="#888").encode(y="v")
     layers = [base, rule_x, rule_y]
+    if trend is not None:
+        layers.append(trend)
 
     if pick is not None and not pick.empty:
         p = pick[pick[x_col].notna() & pick[y_col].notna()]
@@ -223,5 +240,7 @@ with tab2:
     match_table(good, x_col, y_col, x_label2, y_label2, key="dl_screen")
 
 st.divider()
-st.caption("데이터: Capital IQ 기반 비교기업 워크북에서 추출 · 멀티플이 0 이하(적자 등)인 종목은 "
+st.caption("🔴 빨간 점선 = 추세선: 이 그룹에서 '질이 이 정도면 보통 이 가격' 이라는 평균선입니다. "
+           "점이 선보다 **아래**에 있으면 같은 질 대비 싸게 거래된다는 뜻 (마우스를 올리면 '추세선 대비' 값이 음수). · "
+           "데이터: Capital IQ 기반 비교기업 워크북에서 추출 · 멀티플이 0 이하(적자 등)인 종목은 "
            "조건 검색에서 제외됩니다 · 차트는 보기 좋게 극단값(상하위 1%)을 잘라서 그립니다.")
