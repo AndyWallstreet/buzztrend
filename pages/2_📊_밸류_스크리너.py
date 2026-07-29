@@ -83,7 +83,9 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         x_lo, x_hi = d[x_col].quantile([0.01, 0.99])
         y_hi = d[y_col].quantile(0.99)
         d = d[(d[x_col] >= x_lo) & (d[x_col] <= x_hi) & (d[y_col] <= max(y_hi, y_max))]
+    # 조건을 통과한 종목만 차트에 그린다
     d["통과"] = (d[x_col] > x_min) & (d[y_col] < y_max)
+    d = d[d["통과"]]
 
     # 추세선(회귀선): 선 아래에 있으면 같은 질 대비 멀티플이 낮다 = 싸 보인다
     trend = None
@@ -212,13 +214,14 @@ with tab1:
         class_col = CLASS_LEVELS[class_label]
         peers = df[df[class_col] == row[class_col]]
         x_col, y_col = X_AXES[x_label1], MULTIPLES[y_label1]
+        good = peers[(peers[x_col] > x_min1) & (peers[y_col] > 0) & (peers[y_col] < y_max1)]
 
         with c1:
             st.markdown(f"**{row['company']}**")
             st.markdown(f"- 섹터: {row['sector']}\n- 산업: {row['industry']}\n"
                         f"- 피어그룹: {row[class_col]} ({len(peers)}개사)")
             bx, by, br2 = best_relationship(peers)
-            r2 = r_square(peers[x_col], peers[y_col])
+            r2 = r_square(good[x_col], good[y_col])
             st.markdown(f"- 현재 조합 R²: {r2:.1%}" if not np.isnan(r2) else "- 현재 조합 R²: 계산 불가")
             if br2 > 0:
                 st.caption(f"이 그룹에서 설명력이 가장 높은 조합: X {bx} · Y {by} (R² {br2:.1%})")
@@ -232,7 +235,6 @@ with tab1:
             vy = f"{mine[y_col]:.2f}" if pd.notna(mine[y_col]) else "없음"
             st.caption(f"🔶 {row['company']}: {x_label1} {vx} · {y_label1} {vy}")
 
-        good = peers[(peers[x_col] > x_min1) & (peers[y_col] > 0) & (peers[y_col] < y_max1)]
         st.markdown(f"#### 조건 통과 (좋은데 싼) 피어: {len(good)}개")
         match_table(good, x_col, y_col, x_label1, y_label1, key="dl_ticker")
 
@@ -262,7 +264,7 @@ with tab2:
     good = filt[(filt[x_col] > x_min2) & (filt[y_col] > 0) & (filt[y_col] < y_max2)]
 
     with c1:
-        r2 = r_square(filt[x_col], filt[y_col])
+        r2 = r_square(good[x_col], good[y_col])
         st.markdown(f"**대상 {len(filt):,}개사 · 조건 통과 {len(good)}개**")
         if not np.isnan(r2):
             st.caption(f"R² {r2:.1%} — X와 멀티플의 상관 정도")
@@ -276,7 +278,8 @@ with tab2:
     match_table(good, x_col, y_col, x_label2, y_label2, key="dl_screen")
 
 st.divider()
-st.caption("🔴 빨간 점선 = 추세선: 이 그룹에서 '질이 이 정도면 보통 이 가격' 이라는 평균선입니다. "
+st.caption("차트에는 **조건을 통과한 종목만** 표시됩니다 (티커 조회에서는 선택한 종목도 함께). · "
+           "🔴 빨간 점선 = 추세선: 표시된 종목들 기준 '질이 이 정도면 보통 이 가격' 이라는 평균선입니다. "
            "점이 선보다 **아래**에 있으면 같은 질 대비 싸게 거래된다는 뜻 (마우스를 올리면 '추세선 대비' 값이 음수). · "
            "데이터: Capital IQ 기반 비교기업 워크북에서 추출 · 멀티플이 0 이하(적자 등)인 종목은 "
            "조건 검색에서 제외됩니다 · 차트는 보기 좋게 극단값(상하위 1%)을 잘라서 그립니다.")
