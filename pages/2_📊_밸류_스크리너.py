@@ -90,12 +90,20 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
     if len(d) >= 3 and d[x_col].std() > 0:
         slope, intercept = np.polyfit(d[x_col], d[y_col], 1)
         d["추세대비"] = d[y_col] - (slope * d[x_col] + intercept)
-        xs = pd.DataFrame({x_col: [d[x_col].min(), d[x_col].max()]})
-        xs[y_col] = slope * xs[x_col] + intercept
-        xs = xs[xs[y_col] >= 0]
-        trend = alt.Chart(xs).mark_line(
-            color="#d43a2f", strokeDash=[5, 4], size=2, opacity=0.9,
-        ).encode(x=x_col, y=y_col)
+        x1, x2 = float(d[x_col].min()), float(d[x_col].max())
+        y1, y2 = slope * x1 + intercept, slope * x2 + intercept
+        # 선이 0 아래로 내려가면 y=0 지점에서 잘라낸다 (축이 음수로 늘어나지 않게)
+        if min(y1, y2) < 0 and slope != 0:
+            x_zero = -intercept / slope
+            if y1 < 0:
+                x1, y1 = x_zero, 0.0
+            if y2 < 0:
+                x2, y2 = x_zero, 0.0
+        if max(y1, y2) > 0:
+            xs = pd.DataFrame({x_col: [x1, x2], y_col: [y1, y2]})
+            trend = alt.Chart(xs).mark_line(
+                color="#d43a2f", strokeDash=[5, 4], size=2, opacity=0.9,
+            ).encode(x=x_col, y=y_col)
     else:
         d["추세대비"] = np.nan
 
