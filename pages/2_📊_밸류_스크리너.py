@@ -119,9 +119,15 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         layers.append(trend)
 
     if label_matches:
+        # 다크/라이트 테마에 따라 읽기 좋은 글자색을 고른다
+        try:
+            dark = st.context.theme.type == "dark"
+        except Exception:
+            dark = False
         hits = d[d["통과"]]
         layers.append(alt.Chart(hits).mark_text(
-            dy=-9, fontSize=9, color="#1a5cad", opacity=0.9,
+            dy=-10, fontSize=12, fontWeight="bold",
+            color="#9ecbff" if dark else "#1a5cad",
         ).encode(x=x_col, y=y_col, text="company"))
 
     if pick is not None and not pick.empty:
@@ -148,9 +154,14 @@ def match_table(d: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: 
     t = t.sort_values(y_col)
     t[x_col] = (t[x_col] * 100).round(1)
     t[y_col] = t[y_col].round(2)
-    t["mcap"] = (t["mcap"] / 1000).round(0)  # KRW mm -> KRW bn
-    t.columns = ["회사", "티커", "섹터", f"{x_label} (%)", y_label, "시총(십억원)"]
-    st.dataframe(t, use_container_width=True, hide_index=True, height=320)
+    t["mcap"] = (t["mcap"] / 1000).round(0).astype("Int64")  # KRW mm -> KRW bn
+    # 네이버금융 종목 페이지 링크 (티커 앞의 'A'를 뗀 6자리 코드)
+    t["naver"] = ("https://finance.naver.com/item/main.naver?code="
+                  + t["ticker"].str.lstrip("A"))
+    t.columns = ["회사", "티커", "섹터", f"{x_label} (%)", y_label, "시총(십억원)", "네이버금융"]
+    st.dataframe(t, use_container_width=True, hide_index=True, height=320,
+                 column_config={"네이버금융": st.column_config.LinkColumn(
+                     "네이버금융", display_text="📈 종목 페이지")})
     st.download_button("⬇️ CSV로 받기", t.to_csv(index=False).encode("utf-8-sig"),
                        "screener_matches.csv", "text/csv", key=key)
 
