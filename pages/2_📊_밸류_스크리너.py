@@ -74,7 +74,8 @@ def best_relationship(df: pd.DataFrame) -> tuple[str, str, float]:
 
 
 def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str,
-            x_min: float, y_max: float, pick: pd.DataFrame | None = None) -> alt.Chart:
+            x_min: float, y_max: float, pick: pd.DataFrame | None = None,
+            label_matches: bool = False) -> alt.Chart:
     """산점도: 조건 통과는 파랑, 나머지는 연한 색, 선택 종목은 주황 별."""
     d = df[df[x_col].notna() & df[y_col].notna() & (df[y_col] > 0)].copy()
     # 극단값은 차트를 망가뜨리므로 표시 범위만 잘라낸다 (데이터는 그대로)
@@ -116,6 +117,12 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
     layers = [base, rule_x, rule_y]
     if trend is not None:
         layers.append(trend)
+
+    if label_matches:
+        hits = d[d["통과"]]
+        layers.append(alt.Chart(hits).mark_text(
+            dy=-9, fontSize=9, color="#1a5cad", opacity=0.9,
+        ).encode(x=x_col, y=y_col, text="company"))
 
     if pick is not None and not pick.empty:
         p = pick[pick[x_col].notna() & pick[y_col].notna()]
@@ -233,7 +240,8 @@ with tab2:
             st.caption(f"R² {r2:.1%} — X와 멀티플의 상관 정도")
 
     with c2:
-        st.altair_chart(scatter(filt, x_col, y_col, x_label2, y_label2, x_min2, y_max2),
+        st.altair_chart(scatter(filt, x_col, y_col, x_label2, y_label2, x_min2, y_max2,
+                                label_matches=True),
                         use_container_width=True)
 
     st.markdown(f"#### 조건 통과 종목: {len(good)}개")
