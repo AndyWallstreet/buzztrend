@@ -195,7 +195,7 @@ with tab1:
         class_label = st.selectbox("피어그룹 기준 (분류 단계)", list(CLASS_LEVELS), index=0,
                                    help="선택한 회사와 같은 분류에 속한 회사들을 비교 대상으로 잡습니다. "
                                         "아래로 갈수록 더 좁고 비슷한 그룹입니다.")
-        y_label1 = st.selectbox("멀티플 (Y축)", list(MULTIPLES), index=0, key="ti_y")
+        y_label1 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=0, key="ti_y")
         x_label1 = st.selectbox("X축", list(X_AXES), index=0, key="ti_x")
         x_min1 = st.number_input(f"{x_label1} 이상 (%)", value=0.0, step=5.0, key="ti_xmin") / 100
         y_max1 = st.number_input(f"{y_label1} 이하", value=DEFAULT_Y_MAX[y_label1],
@@ -238,9 +238,15 @@ with tab1:
 with tab2:
     c1, c2 = st.columns([1, 2.2], gap="large")
     with c1:
-        y_label2 = st.selectbox("멀티플 (Y축)", list(MULTIPLES), index=1, key="sp_y")
+        y_label2 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=1, key="sp_y")
         x_label2 = st.selectbox("X축", list(X_AXES), index=0, key="sp_x")
 
+        st.markdown("##### 🎯 주요조건 입력")
+        x_min2 = st.number_input(f"{x_label2} 이상 (%)", value=20.0, step=5.0, key="sp_xmin") / 100
+        y_max2 = st.number_input(f"{y_label2} 이하", value=DEFAULT_Y_MAX[y_label2],
+                                 step=0.5, key="sp_ymax")
+
+        st.markdown("##### 🏭 산업분류 선택")
         # 분류 필터 — 위에서 고르면 아래 선택지가 그 안으로 좁혀진다
         filt = df
         for lvl_label, lvl_col in CLASS_LEVELS.items():
@@ -248,10 +254,6 @@ with tab2:
             sel = st.selectbox(lvl_label, opts, key=f"sp_{lvl_col}")
             if sel != "(전체)":
                 filt = filt[filt[lvl_col] == sel]
-
-        x_min2 = st.number_input(f"{x_label2} 이상 (%)", value=20.0, step=5.0, key="sp_xmin") / 100
-        y_max2 = st.number_input(f"{y_label2} 이하", value=DEFAULT_Y_MAX[y_label2],
-                                 step=0.5, key="sp_ymax")
 
     x_col, y_col = X_AXES[x_label2], MULTIPLES[y_label2]
     good = filt[(filt[x_col] > x_min2) & (filt[y_col] > 0) & (filt[y_col] < y_max2)]
