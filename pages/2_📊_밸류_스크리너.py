@@ -195,8 +195,10 @@ with tab1:
         class_label = st.selectbox("피어그룹 기준 (분류 단계)", list(CLASS_LEVELS), index=0,
                                    help="선택한 회사와 같은 분류에 속한 회사들을 비교 대상으로 잡습니다. "
                                         "아래로 갈수록 더 좁고 비슷한 그룹입니다.")
+        st.markdown("##### 📌 주요변수 선택")
         y_label1 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=0, key="ti_y")
         x_label1 = st.selectbox("X축", list(X_AXES), index=0, key="ti_x")
+        st.markdown("##### 🎯 주요조건 입력")
         x_min1 = st.number_input(f"{x_label1} 이상 (%)", value=0.0, step=5.0, key="ti_xmin") / 100
         y_max1 = st.number_input(f"{y_label1} 이하", value=DEFAULT_Y_MAX[y_label1],
                                  step=0.5, key="ti_ymax")
@@ -238,6 +240,7 @@ with tab1:
 with tab2:
     c1, c2 = st.columns([1, 2.2], gap="large")
     with c1:
+        st.markdown("##### 📌 주요변수 선택")
         y_label2 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=1, key="sp_y")
         x_label2 = st.selectbox("X축", list(X_AXES), index=0, key="sp_x")
 
