@@ -133,6 +133,9 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         except Exception:
             dark = False
         hits = d[d["통과"]]
+        if pick is not None and not pick.empty:
+            # 선택한 종목은 주황색 라벨이 따로 붙으므로 파란 라벨은 생략
+            hits = hits[hits["ticker"] != pick.iloc[0]["ticker"]]
         layers.append(alt.Chart(hits).mark_text(
             dy=-10, fontSize=12, fontWeight="bold",
             color="#9ecbff" if dark else "#1a5cad",
@@ -220,7 +223,8 @@ with tab1:
 
         with c2:
             st.altair_chart(scatter(peers, x_col, y_col, x_label1, y_label1,
-                                    x_min1, y_max1, pick=pick), use_container_width=True)
+                                    x_min1, y_max1, pick=pick, label_matches=True),
+                            use_container_width=True)
             mine = pick.iloc[0]
             vx = f"{mine[x_col]:.1%}" if pd.notna(mine[x_col]) else "없음"
             vy = f"{mine[y_col]:.2f}" if pd.notna(mine[y_col]) else "없음"
