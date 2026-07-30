@@ -372,7 +372,10 @@ else:
         start = max(bz["date"].min(), sp["date"].min())
         bz_full = bz[bz["date"] >= start]
         sp_full = sp[sp["date"] >= start]
-        bars_sp = alt.Chart(bz_full).mark_bar(color=C_M1, opacity=0.7).encode(
+        # size=1 → one thin bar per day. Vega-Lite's default continuousBandSize is 5,
+        # which at ~1,460 daily points smears the series into a solid block; the Excel
+        # 'Stock price vs SNS comment count' chart this mirrors uses hairline bars.
+        bars_sp = alt.Chart(bz_full).mark_bar(color=C_M1, opacity=0.7, size=1).encode(
             x=alt.X("date:T", title=None, axis=alt.Axis(format="%Y-%m", labelAngle=0)),
             y=alt.Y("total:Q", title="언급량 (일별 합계)", axis=alt.Axis(format=",.0f")),
             tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
