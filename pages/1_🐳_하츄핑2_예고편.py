@@ -367,7 +367,7 @@ else:
     sp_path = DATA / "stock_price.csv"
     if sp_path.exists():
         st.markdown("#### ① 주가 vs 언급량")
-        C_STOCK = "#2e7d32"   # 주가 (green, 엑셀 차트와 동일 톤)
+        C_STOCK = "#4ade80"   # 주가 — 밝은 초록 (어두운 배경에서도 주황 막대와 확실히 구분)
         sp = pd.read_csv(sp_path, parse_dates=["date"])
         start = max(bz["date"].min(), sp["date"].min())
         bz_full = bz[bz["date"] >= start]
