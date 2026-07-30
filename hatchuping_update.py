@@ -260,6 +260,17 @@ def export_buzz():
             df[c] = pd.to_numeric(df[c], errors="coerce").fillna(0).astype(int)
         df.to_csv(DATA / "buzz_daily.csv", index=False)
         print(f"buzz_daily.csv written — {len(df)} days, {df['date'].min()} ~ {df['date'].max()}")
+
+        # Price 시트 (B=날짜, C=SAMG엔터 419530 주가) → stock_price.csv
+        pr = pd.read_excel(tmp, sheet_name="Price", header=None, usecols="B:C")
+        pr.columns = ["date", "price"]
+        pr["date"] = pd.to_datetime(pr["date"], errors="coerce")
+        pr["price"] = pd.to_numeric(pr["price"].astype(str).str.replace(",", ""), errors="coerce")
+        pr = pr.dropna().sort_values("date").drop_duplicates("date", keep="last")
+        pr["date"] = pr["date"].dt.date
+        pr["price"] = pr["price"].astype(int)
+        pr.to_csv(DATA / "stock_price.csv", index=False)
+        print(f"stock_price.csv written — {len(pr)} days, {pr['date'].min()} ~ {pr['date'].max()}")
         tmp.unlink()
     except Exception as e:  # noqa: BLE001 — 언급량은 부가 데이터, 본 업데이트를 막지 않는다
         print("buzz export skipped:", e)

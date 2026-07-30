@@ -362,6 +362,42 @@ if not buzz_path.exists():
 else:
     bz = pd.read_csv(buzz_path, parse_dates=["date"])
     M1_OPEN, M2_OPEN = pd.Timestamp(2024, 8, 7), pd.Timestamp(2026, 8, 5)
+
+    # ---- ① 주가 vs 언급량 (전체 기간, 엑셀 'Stock price vs SNS comment count' 차트와 동일)
+    sp_path = DATA / "stock_price.csv"
+    if sp_path.exists():
+        st.markdown("#### ① 주가 vs 언급량")
+        C_STOCK = "#2e7d32"   # 주가 (green, 엑셀 차트와 동일 톤)
+        sp = pd.read_csv(sp_path, parse_dates=["date"])
+        start = max(bz["date"].min(), sp["date"].min())
+        bz_full = bz[bz["date"] >= start]
+        sp_full = sp[sp["date"] >= start]
+        bars_sp = alt.Chart(bz_full).mark_bar(color=C_M1, opacity=0.7).encode(
+            x=alt.X("date:T", title=None, axis=alt.Axis(format="%Y-%m", labelAngle=0)),
+            y=alt.Y("total:Q", title="언급량 (일별 합계)", axis=alt.Axis(format=",.0f")),
+            tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
+                     alt.Tooltip("total:Q", title="언급량", format=",.0f")])
+        line_sp = alt.Chart(sp_full).mark_line(color=C_STOCK, strokeWidth=1.6).encode(
+            x="date:T",
+            y=alt.Y("price:Q", title="SAMG엔터 주가 (원)", axis=alt.Axis(format=",.0f"),
+                    scale=alt.Scale(zero=False)),
+            tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
+                     alt.Tooltip("price:Q", title="주가", format=",.0f")])
+        rules_sp = pd.DataFrame({"x": [M1_OPEN, M2_OPEN], "t": ["1편 개봉", "2편 개봉"]})
+        rule_sp = alt.Chart(rules_sp).mark_rule(color="#8a8f98", strokeDash=[3, 3],
+                                                strokeWidth=1.1).encode(
+            x="x:T", tooltip=[alt.Tooltip("t:N", title="")])
+        lab_sp = alt.Chart(rules_sp).mark_text(color="#8a8f98", fontSize=11, dx=4, align="left",
+                                               baseline="top").encode(
+            x="x:T", y=alt.value(4), text="t:N")
+        st.altair_chart(alt.layer(bars_sp, rule_sp, lab_sp, line_sp)
+                        .resolve_scale(y="independent").properties(height=340),
+                        width="stretch")
+        st.caption("🟧 막대 = 하츄핑/티니핑 언급량 (왼쪽 축) · 🟢 선 = SAMG엔터(419530) 주가 (오른쪽 축) · "
+                   "점선 = 1편·2편 개봉일 — 1편 개봉 직후 언급량 폭발 구간과 주가 흐름을 함께 볼 수 있습니다")
+
+    # ---- ② 1편 vs 2편 D-day 비교
+    st.markdown("#### ② 1편 vs 2편 비교 (개봉일 기준)")
     st.caption("썸트렌드 '하츄핑/티니핑' 언급량 (커뮤니티+인스타그램+블로그+뉴스+유튜브 합계) · "
                "개봉일 기준 D-day 정렬 — 1편(2024-08-07)과 2편(2026-08-05)의 같은 시점끼리 비교")
 
