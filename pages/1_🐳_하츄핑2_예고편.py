@@ -354,9 +354,82 @@ with st.expander("예측 방법 설명 (간단히)"):
 with st.expander("매일 기록 표 (예매)"):
     st.dataframe(bk.sort_values("date", ascending=False), hide_index=True, width="stretch")
 
-# ================= 4. 언급량 추이 (placeholder)
+# ================= 4. 언급량 추이
 st.header("4. 언급량 추이", divider="blue")
-st.info("준비 중입니다 — 커뮤니티·뉴스·검색 언급량을 모아서 곧 추가할 예정입니다.")
+buzz_path = DATA / "buzz_daily.csv"
+if not buzz_path.exists():
+    st.info("준비 중입니다 — 커뮤니티·뉴스·검색 언급량을 모아서 곧 추가할 예정입니다.")
+else:
+    bz = pd.read_csv(buzz_path, parse_dates=["date"])
+    M1_OPEN, M2_OPEN = pd.Timestamp(2024, 8, 7), pd.Timestamp(2026, 8, 5)
+    st.caption("썸트렌드 '하츄핑/티니핑' 언급량 (커뮤니티+인스타그램+블로그+뉴스+유튜브 합계) · "
+               "개봉일 기준 D-day 정렬 — 1편(2024-08-07)과 2편(2026-08-05)의 같은 시점끼리 비교")
+
+    def dlab(d):
+        return "개봉일" if d == 0 else (f"D+{d}" if d > 0 else f"D-{-d}")
+
+    cs = st.columns([1, 1, 2])
+    win = cs[0].selectbox("롤링 기간", [1, 2, 3, 7], index=3,
+                          format_func=lambda n: f"{n}일 롤링")
+    how = cs[1].selectbox("집계 방식", ["합계", "평균"])
+
+    # 하루라도 빠진 날이 있으면 그 구간 롤링은 NaN — 없는 숫자를 지어내지 않는다
+    s = bz.set_index("date")["total"].asfreq("D")
+    roll = s.rolling(win, min_periods=win)
+    rs = roll.sum() if how == "합계" else roll.mean()
+
+    dd = pd.DataFrame({"d": range(-40, 31)})
+    dd["1편 (2024)"] = [rs.get(M1_OPEN + pd.Timedelta(days=int(k))) for k in dd["d"]]
+    dd["2편 (2026)"] = [rs.get(M2_OPEN + pd.Timedelta(days=int(k))) for k in dd["d"]]
+    dd["YoY"] = dd["2편 (2026)"] / dd["1편 (2024)"] - 1
+
+    # ---- KPI: 가장 최근 비교 가능한 D-day
+    d_now = (bz["date"].max() - M2_OPEN).days
+    row_now = dd[dd["d"] == d_now]
+    if len(row_now) and pd.notna(row_now.iloc[0]["2편 (2026)"]) and pd.notna(row_now.iloc[0]["1편 (2024)"]):
+        v1, v2 = row_now.iloc[0]["1편 (2024)"], row_now.iloc[0]["2편 (2026)"]
+        c1, c2, c3 = st.columns(3)
+        c1.metric(f"2편 언급량 ({dlab(d_now)}, {win}일 {how})", f"{v2:,.0f}")
+        c2.metric(f"1편 같은 시점 ({dlab(d_now)})", f"{v1:,.0f}", delta_color="off")
+        c3.metric("YoY (2편 ÷ 1편 − 1)", f"{v2 / v1 - 1:+.1%}",
+                  "1편보다 화제성 앞섬" if v2 > v1 else "1편보다 화제성 뒤짐",
+                  delta_color="normal" if v2 > v1 else "inverse")
+
+    # ---- chart: 1편 vs 2편 lines on D-day axis
+    axis_d = alt.Axis(labelExpr="datum.value == 0 ? '개봉' : "
+                                "(datum.value > 0 ? 'D+' + datum.value : 'D-' + -datum.value)",
+                      values=list(range(-40, 31, 5)), labelAngle=0)
+    long = dd.melt("d", ["1편 (2024)", "2편 (2026)"], var_name="영화", value_name="값").dropna()
+    lines = alt.Chart(long).mark_line(strokeWidth=2.2, interpolate="monotone").encode(
+        x=alt.X("d:Q", title="개봉일 기준 D-day", axis=axis_d, scale=alt.Scale(domain=[-40, 30])),
+        y=alt.Y("값:Q", title=f"언급량 ({win}일 {how})", axis=alt.Axis(format=",.0f")),
+        color=alt.Color("영화:N",
+                        scale=alt.Scale(domain=["1편 (2024)", "2편 (2026)"], range=[C_M1, C_M2]),
+                        legend=alt.Legend(orient="bottom", title=None)),
+        tooltip=[alt.Tooltip("d:Q", title="D-day"), alt.Tooltip("영화:N"),
+                 alt.Tooltip("값:Q", title="언급량", format=",.0f")])
+    zero = alt.Chart(pd.DataFrame({"x": [0]})).mark_rule(
+        color="#8a8f98", strokeDash=[3, 3], strokeWidth=1.2).encode(x="x:Q")
+    st.altair_chart((lines + zero).properties(height=320), width="stretch")
+
+    # ---- chart: YoY bars
+    st.markdown("**2편이 1편보다 몇 % 더 화제인가 (같은 D-day끼리)**")
+    ydf = dd.dropna(subset=["YoY"])
+    bars = alt.Chart(ydf).mark_bar(size=7, color=C_M2, cornerRadiusTopLeft=2,
+                                   cornerRadiusTopRight=2).encode(
+        x=alt.X("d:Q", title="개봉일 기준 D-day", axis=axis_d, scale=alt.Scale(domain=[-40, 30])),
+        y=alt.Y("YoY:Q", title="YoY", axis=alt.Axis(format="+.0%")),
+        tooltip=[alt.Tooltip("d:Q", title="D-day"), alt.Tooltip("YoY:Q", format="+.1%"),
+                 alt.Tooltip("1편 (2024):Q", title="1편", format=",.0f"),
+                 alt.Tooltip("2편 (2026):Q", title="2편", format=",.0f")])
+    st.altair_chart((bars + zero).properties(height=240), width="stretch")
+    st.caption("참고: 티니핑 프랜차이즈 자체가 2024년보다 커져서, YoY의 일부는 영화가 아닌 "
+               "브랜드 성장분일 수 있습니다. 그래도 모든 D-day에서 1편 곡선 위에 있으면 좋은 신호.")
+
+    with st.expander("매일 기록 표 (언급량, 채널별)"):
+        st.dataframe(bz.sort_values("date", ascending=False), hide_index=True, width="stretch")
+    st.caption("데이터: 썸트렌드(some.co.kr) · 엑셀 원본: Heartuping movie 2_Buzz trend_v1.xlsx "
+               "'D-day 비교' 시트와 동일한 계산")
 
 # ---------------- raw data
 st.header("원본 데이터", divider="gray")

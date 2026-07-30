@@ -15,12 +15,20 @@ scrape.json format (numbers scraped from YouTube by the daily task):
   "sentiment": null   # or {"main_m2": [sp,p,neu,neg,sneg], "teaser_m2": [...], "note": "..."}
 }
 
+Which DATE a reading is filed under (same rule for YouTube and 예매):
+    YouTube 조회수/좋아요/댓글도 '지금까지 누적'이라서, 아침(12시 전) 수집값은
+    사실상 **어제 마감치**다. 그래서
+      - 07:30 실행  -> 어제 행에 기록 (그 날의 확정 마감값. 전날 오후에 적어둔
+                       잠정값을 덮어쓴다.) 오늘 행은 만들지 않는다.
+      - 14:30 실행  -> 오늘 행에 기록 (장중 잠정값. 다음날 아침에 확정값으로 교체됨.)
+    행은 '마지막 행인가'가 아니라 날짜로 찾는다 (find_row_by_date).
+
 What it does, in order:
- 1. Appends one row each to '메인 Daily' / '티저 Daily' / '댓글속도 Velocity'
-    in Hatchuping2 tracker_v1.xlsx via Excel COM.
+ 1. Writes one row each to '메인 Daily' / '티저 Daily' / '댓글속도 Velocity'
+    in Hatchuping2 tracker_v1.xlsx via Excel COM, on the date decided above.
     - If the user has the file open in Excel, it edits THAT open workbook
       (never quits their Excel, never touches their other workbooks).
-    - Skips (idempotent) if today's date is already the last row.
+    - Overwrites that date's row if it already exists (safe to re-run).
  2. Updates 2편 sentiment counts if provided.
  3. Recalculates, checks for formula errors, saves.
  4. Rewrites the website data files (data/*.csv, *.json) from the workbook.
@@ -44,6 +52,7 @@ except AttributeError:
     pass
 
 TRACKER =r"C:\Users\user99i1\LK자산운용\LK자산운용 - 문서\Companies\SAMG 엔터\Hatchuping2 tracker_v1.xlsx"
+BUZZ_XLSX = r"C:\Users\user99i1\LK자산운용\LK자산운용 - 문서\Companies\SAMG 엔터\Heartuping movie 2_Buzz trend_v1.xlsx"
 TRACKER_NAME = "Hatchuping2 tracker_v1.xlsx"
 FORECAST = r"C:\Users\user99i1\Documents\하츄핑2_흥행예측.xlsx"
 FORECAST_NAME = "하츄핑2_흥행예측.xlsx"
@@ -57,8 +66,15 @@ DELTA = "+#,##0;-#,##0;0"
 PCT = "0.0%"
 
 
-def get_excel_and_wb(path=TRACKER, name=TRACKER_NAME):
-    """Attach to the user's open Excel if the workbook is open there; else own instance."""
+def get_excel_and_wb(path=None, name=None):
+    """Attach to the user's open Excel if the workbook is open there; else own instance.
+
+    Defaults are resolved at CALL time, not import time — binding TRACKER as a
+    default argument silently ignored any later override of the module constant,
+    which let a test aimed at file copies edit the real workbook instead.
+    """
+    path = TRACKER if path is None else path
+    name = TRACKER_NAME if name is None else name
     try:
         xl = win32com.client.GetActiveObject("Excel.Application")
         for w in xl.Workbooks:
@@ -79,6 +95,20 @@ def last_data_row(ws, col=1, start=5):
         last = r
         r += 1
     return last
+
+
+def find_row_by_date(ws, target, start=5):
+    """(row, existed) for `target` — the existing row if there is one, else a fresh one.
+
+    Keyed by date rather than 'is it the last row', because the 07:30 run rewrites
+    YESTERDAY's row, which the previous 14:30 run has usually already created.
+    """
+    lr = last_data_row(ws, start=start)
+    for r in range(start, lr + 1):
+        v = ws.Cells(r, 1).Value
+        if v is not None and hasattr(v, "date") and v.date() == target:
+            return r, True
+    return lr + 1, False
 
 
 def fmt_row(ws, r, cols, fmt):
@@ -207,10 +237,44 @@ def update_booking(d, booking):
                 pass
 
 
+def export_buzz():
+    """Buzz 워크북의 'Buzz 1' 시트(썸트렌드 일별 언급량) → data/hatchuping/buzz_daily.csv.
+
+    사용자가 매일 손으로 채우는 워크북이라 Excel에 열려 있을 수 있다 —
+    임시 복사본에서 읽어 잠금을 피하고, 실패해도 나머지 업데이트는 계속한다."""
+    import shutil
+    import tempfile
+
+    import pandas as pd
+    try:
+        tmp = Path(tempfile.gettempdir()) / "_buzz_trend_read_copy.xlsx"
+        shutil.copy2(BUZZ_XLSX, tmp)
+        raw = pd.read_excel(tmp, sheet_name="Buzz 1", header=None, usecols="C:I")
+        raw.columns = ["date", "community", "instagram", "blog", "news", "youtube", "total"]
+        raw["date"] = pd.to_datetime(raw["date"], errors="coerce")
+        df = raw.dropna(subset=["date", "total"]).copy()
+        df = df[pd.to_numeric(df["total"], errors="coerce").notna()]
+        df["date"] = df["date"].dt.date
+        df = df.sort_values("date").drop_duplicates("date", keep="last")
+        for c in ["community", "instagram", "blog", "news", "youtube", "total"]:
+            df[c] = pd.to_numeric(df[c], errors="coerce").fillna(0).astype(int)
+        df.to_csv(DATA / "buzz_daily.csv", index=False)
+        print(f"buzz_daily.csv written — {len(df)} days, {df['date'].min()} ~ {df['date'].max()}")
+        tmp.unlink()
+    except Exception as e:  # noqa: BLE001 — 언급량은 부가 데이터, 본 업데이트를 막지 않는다
+        print("buzz export skipped:", e)
+
+
 def main():
     scrape = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
     d = date.fromisoformat(scrape["date"])
     m, t = scrape["main"], scrape["teaser"]
+
+    # 아침 수집분은 어제 마감치 (모듈 docstring의 날짜 규칙 참고)
+    morning = datetime.now().hour < 12
+    yt_d = d - timedelta(days=1) if morning else d
+    print(f"youtube 수집 {d} {'아침' if morning else '오후'} → {yt_d} 행에 기록"
+          f" ({'어제 확정' if morning else '오늘 잠정'})")
 
     pythoncom.CoInitialize()
     xl, wb, attached = get_excel_and_wb()
@@ -220,15 +284,12 @@ def main():
     try:
         # ---- 1. 메인 Daily
         ws = wb.Worksheets("메인 Daily")
-        lr = last_data_row(ws)
-        if ws.Cells(lr, 1).Value is not None and ws.Cells(lr, 1).Value.date() == d:
-            print("main row for", d, "already exists — overwriting it")
-            n = lr
-        else:
-            n = lr + 1
-        ws.Cells(n, 1).Value = d.isoformat()
+        n, existed = find_row_by_date(ws, yt_d)
+        if existed:
+            print("main row for", yt_d, "already exists — overwriting it")
+        ws.Cells(n, 1).Value = yt_d.isoformat()
         ws.Cells(n, 1).NumberFormat = "yyyy-mm-dd"
-        ws.Cells(n, 2).Value = (d - MAIN_RELEASE).days
+        ws.Cells(n, 2).Value = (yt_d - MAIN_RELEASE).days
         for col, v in zip(range(3, 9), [m["ttv"]["views"], m["ttv"]["likes"], m["ttv"]["comments"],
                                         m["byform"]["views"], m["byform"]["likes"], m["byform"]["comments"]]):
             ws.Cells(n, col).Value = v
@@ -248,11 +309,10 @@ def main():
 
         # ---- 2. 티저 Daily
         ws = wb.Worksheets("티저 Daily")
-        lr = last_data_row(ws)
-        n = lr if (ws.Cells(lr, 1).Value is not None and ws.Cells(lr, 1).Value.date() == d) else lr + 1
-        ws.Cells(n, 1).Value = d.isoformat()
+        n, _ = find_row_by_date(ws, yt_d)
+        ws.Cells(n, 1).Value = yt_d.isoformat()
         ws.Cells(n, 1).NumberFormat = "yyyy-mm-dd"
-        ws.Cells(n, 2).Value = (d - TEASER_RELEASE).days
+        ws.Cells(n, 2).Value = (yt_d - TEASER_RELEASE).days
         for col, v in zip(range(3, 11), [t["ttv"]["views"], t["ttv"]["likes"], t["ttv"]["comments"],
                                          t["byform"]["views"], t["byform"]["likes"], t["byform"]["comments"],
                                          t["cns"]["views"], t["cns"]["likes"]]):
@@ -271,12 +331,11 @@ def main():
 
         # ---- 3. 댓글속도 Velocity (new main comments today)
         ws = wb.Worksheets("댓글속도 Velocity")
-        lr = last_data_row(ws)
-        n = lr if (ws.Cells(lr, 1).Value is not None and ws.Cells(lr, 1).Value.date() == d) else lr + 1
+        n, _ = find_row_by_date(ws, yt_d)
         total_c = m["ttv"]["comments"] + m["byform"]["comments"]
-        ws.Cells(n, 1).Value = d.isoformat()
+        ws.Cells(n, 1).Value = yt_d.isoformat()
         ws.Cells(n, 1).NumberFormat = "yyyy-mm-dd"
-        ws.Cells(n, 2).Value = (d - MAIN_RELEASE).days
+        ws.Cells(n, 2).Value = (yt_d - MAIN_RELEASE).days
         ws.Cells(n, 4).Formula = f"=D{n-1}+C{n}"
         prev_cum = ws.Cells(n - 1, 4).Value or 0
         ws.Cells(n, 3).Value = max(0, total_c - int(prev_cum))
@@ -380,6 +439,9 @@ def main():
     # ---- 6.5 예매율 (optional)
     if scrape.get("booking"):
         update_booking(d, scrape["booking"])
+
+    # ---- 6.6 언급량 (썸트렌드 buzz 워크북 → buzz_daily.csv)
+    export_buzz()
 
     # ---- 7. git push (site auto-redeploys)
     def git(*args):
