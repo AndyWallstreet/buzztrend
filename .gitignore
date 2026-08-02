@@ -6,3 +6,12 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+
+# kbeauty tracker: heavy local-only data (published aggregates in kbeauty/data/publish/ ARE committed)
+kbeauty/.env
+kbeauty/data/raw/
+kbeauty/data/manual/
+kbeauty/output/
+kbeauty/logs/
+kbeauty/*.duckdb
+!kbeauty/data/raw/.gitkeep

@@ -1,0 +1,11 @@
+# kbeauty tracker — ETL-side dependencies (local only).
+# Site-page dependencies go in the repo-root requirements.txt for Streamlit Cloud.
+requests
+python-dotenv
+duckdb
+pandas
+pyyaml
+openpyxl
+xlsxwriter
+pykrx
+pytest
