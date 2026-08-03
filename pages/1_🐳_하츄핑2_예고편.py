@@ -20,8 +20,20 @@ C_M1 = "#eb6834"   # 1편 (orange)
 st.set_page_config(page_title="하츄핑2 예고편 트래커", page_icon="🐳", layout="wide")
 
 
-# stamp = meta.json 수정 시각 — 데이터가 바뀌는 순간 캐시 키가 바뀌어 바로 새로 읽는다
-# (고정 ttl이면 업데이트 직후에도 최대 10분간 옛날 숫자가 보였음)
+# stamp = load()가 읽는 파일 전부의 수정 시각 — 하나라도 바뀌면 캐시 키가 바뀌어
+# 바로 새로 읽는다. (고정 ttl이면 업데이트 직후에도 최대 10분간 옛날 숫자가 보였음)
+# meta.json 하나만 보던 때는, 예매 파일만 고친 날 화면이 옛날 숫자에 그대로 멈춰 있었다 —
+# git은 mtime을 보존하지 않아서 서버에선 '바뀐 파일'만 새 mtime을 받기 때문.
+LOAD_FILES = ("daily_main.csv", "daily_teaser.csv", "velocity.csv", "sentiment.json",
+              "sources.json", "meta.json", "booking.csv", "booking_meta.json",
+              "booking_now.json")
+
+
+def load_stamp():
+    return tuple(round((DATA / f).stat().st_mtime, 3) if (DATA / f).exists() else 0.0
+                 for f in LOAD_FILES)
+
+
 @st.cache_data(show_spinner=False)
 def load(stamp):
     dm = pd.read_csv(DATA / "daily_main.csv", parse_dates=["date"])
@@ -127,7 +139,7 @@ def cum_chart(df, ycol, series_name, benchmark, bench_label, ytitle, open_day=No
     return alt.layer(*layers).properties(height=320)
 
 
-dm, dt, vel, sent, src, meta, bk, bkm, bnow = load((DATA / "meta.json").stat().st_mtime)
+dm, dt, vel, sent, src, meta, bk, bkm, bnow = load(load_stamp())
 bm = src["benchmarks"]
 last, prev = dm.iloc[-1], (dm.iloc[-2] if len(dm) > 1 else dm.iloc[-1])
 week = dm.iloc[-8] if len(dm) > 7 else None
