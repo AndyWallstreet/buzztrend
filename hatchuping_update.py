@@ -35,7 +35,6 @@ What it does, in order:
  5. git add/commit/push (skips quietly if nothing changed or no remote).
 """
 import json
-import math
 import subprocess
 import sys
 from datetime import date, datetime, timedelta
@@ -122,47 +121,6 @@ def fmt_row(ws, r, cols, fmt):
 AFTERNOON_FACTOR = 2.5
 
 
-def m1_tickets_at(dday):
-    """1편's bookings at D-<dday> — 관측점이면 그대로, 사이면 기하보간. 범위 밖이면 None.
-
-    사이트 페이지(1_🐳_하츄핑2_예고편.py)의 같은 이름 함수와 계산이 일치해야 한다."""
-    try:
-        curve = json.loads((DATA / "booking_meta.json").read_text(encoding="utf-8"))["m1_curve"]
-    except Exception:
-        return None
-    pts = sorted(curve, key=lambda p: -p["dday"])
-    for p in pts:
-        if p["dday"] == dday:
-            return float(p["tickets"])
-    if dday > pts[0]["dday"] or dday < pts[-1]["dday"]:
-        return None
-    for a, b in zip(pts, pts[1:]):
-        if a["dday"] > dday > b["dday"]:
-            f = (a["dday"] - dday) / (a["dday"] - b["dday"])
-            return math.exp(math.log(a["tickets"]) * (1 - f) + math.log(b["tickets"]) * f)
-    return None
-
-
-def morning_estimate(tickets, per_day, y, d, open_d):
-    """아침 수집값(=어제 확정치)에서 오늘 마감 추정치를 만든다.
-
-    기본은 '1편이 같은 구간에서 오른 비율'을 그대로 적용한다 — 개봉이 다가올수록
-    예매가 몰리는 패턴이 1편 곡선에 이미 들어 있어서, 어제 증가분을 그대로 더하는
-    것보다 덜 공격적이다. 두 방식 중 낮은 쪽을 택해 추정이 부풀지 않게 한다."""
-    plain = tickets + round(per_day)
-    plain_note = "추정 (어제 증가분만큼 오른다고 가정)"
-
-    m1_y, m1_d = m1_tickets_at((open_d - y).days), m1_tickets_at((open_d - d).days)
-    if not m1_y or not m1_d or m1_d <= m1_y:
-        return plain, plain_note
-
-    ratio = m1_d / m1_y
-    m1_est = round(tickets * ratio)
-    if m1_est >= plain:            # 1편 패턴이 더 공격적이면 보수적인 쪽을 쓴다
-        return plain, plain_note
-    return m1_est, (f"추정 (1편 같은 구간 증가율 +{(ratio - 1) * 100:.1f}% 적용 — "
-                    f"어제 증가분 그대로면 {plain:,}명)")
-
 # 하루 예매 증가분이 시각별로 얼마나 들어와 있는지 (checkpoint 곡선).
 # 사이 시각은 선형 보간 → 같은 날 몇 시에 읽어도 마감 추정치가 일관되게 나온다.
 # 보수적으로 잡는다 — 늦게 잡을수록 추정 마감치가 내려간다:
@@ -226,7 +184,8 @@ def update_booking(d, booking):
             per_day = (booking["tickets"] - int(rows[p][0])) / max(1, (y - p).days)
         else:
             per_day = 0
-        est, est_note = morning_estimate(booking["tickets"], per_day, y, d, open_d)
+        est = booking["tickets"] + round(per_day)
+        est_note = "추정 (어제 증가분만큼 오른다고 가정)"
     else:
         # 오후: 아침에 적힌 어제 확정치 기준으로 오늘 속도를 환산.
         # 몇 시에 읽었는지에 따라 남은 시간이 다르므로 고정 배수(2.5) 대신
