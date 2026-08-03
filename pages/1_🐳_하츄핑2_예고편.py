@@ -56,6 +56,15 @@ def m1_tickets_at(dday, curve):
     return None, None
 
 
+def fmt_ts(ts):
+    """'2026-08-04 07:17' → '오전 7:17'.
+
+    맨 숫자만 '07:17'로 내놓으면 보는 사람이 무슨 시각인지 알 수 없다 —
+    오전/오후를 붙이고, 부르는 쪽에서 '데이터 수집' 같은 라벨을 앞에 단다."""
+    d = pd.Timestamp(ts)
+    return f"{'오전' if d.hour < 12 else '오후'} {d.hour % 12 or 12}:{d.minute:02d}"
+
+
 FUTURE_DAYS = 14   # 앞으로 2주치 자리를 미리 비워 둔다 (개봉일까지 남은 길이가 보이도록)
 
 
@@ -275,7 +284,7 @@ if len(estdf):
     be = estdf.iloc[-1]
     live = bnow if (bnow and bnow.get("date") == str(be["date"].date())) else None
     c2.metric(f"오늘 마감 추정 (D-{int(be['dday'])})", f"{int(be['tickets']):,}명",
-              (f"{live['ts'][11:]} 실시간 {live['tickets']:,}명 → 마감 환산"
+              (f"데이터 수집 {fmt_ts(live['ts'])} 기준 {live['tickets']:,}명 → 마감 환산"
                if live else "어제 증가분만큼 오른다고 가정"), delta_color="off")
 else:
     c2.metric("예매율 · 순위", f"{bl['rate']}% · {int(bl['rank'])}위")
@@ -291,7 +300,8 @@ else:
     c4.metric("배수 방식 참고 예측", f"{bl['tickets'] * bkm['avg_multiplier']:,.0f}명",
               f"= 지금 예매 × 평균 배수 {bkm['avg_multiplier']}x (D-1 전엔 과소추정)", delta_color="off")
 st.caption(
-    (f"지금 예매율 {bnow['rate']}% · {int(bnow['rank'])}위 ({bnow['ts'][11:]} 기준, 실제 {bnow['tickets']:,}명) · "
+    (f"📍 데이터 수집 {fmt_ts(bnow['ts'])} 기준 — 예매율 {bnow['rate']}% · {int(bnow['rank'])}위 · "
+     f"실제 {bnow['tickets']:,}명 · "
      if bnow else "")
     + f"어제 마감 {bl['rate']}% · {int(bl['rank'])}위 · "
       "아침에 수집한 KOBIS 숫자는 어제까지의 값이라 어제 자리에 기록하고, 오늘은 추정으로 표시")
@@ -365,7 +375,7 @@ if bnow:
     ptsN = alt.Chart(nowdf).mark_point(shape="diamond", size=150, color=C_M2,
                                        filled=True, opacity=1).encode(
         x="x:Q", y="tickets:Q", tooltip=TIPN)
-    lblN = alt.Chart(nowdf.assign(label="지금 " + bnow["ts"][11:])).mark_text(
+    lblN = alt.Chart(nowdf.assign(label="데이터 수집 " + fmt_ts(bnow["ts"]))).mark_text(
         color=C_M2, dy=16, fontSize=11).encode(x="x:Q", y="tickets:Q", text="label:N")
     layers += [ptsN, lblN]
 st.altair_chart(alt.layer(*layers).properties(height=340), width="stretch")
