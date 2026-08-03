@@ -120,6 +120,24 @@ def fmt_row(ws, r, cols, fmt):
 # 실측으로 보정할 것.
 AFTERNOON_FACTOR = 2.5
 
+# 하루 예매 증가분이 시각별로 얼마나 들어와 있는지 (checkpoint 곡선).
+# 아침 수집(≈07:30)은 정의상 0% — 그 값이 곧 어제 마감치다.
+# 14:30 = 40% 는 AFTERNOON_FACTOR 2.5 와 같은 뜻이고, 실측(7/30·7/31 로그)에서
+# 28.7% / 42.3% 가 나와 그 평균대로 잡은 값. 자정 = 100%.
+# 사이 시각은 선형 보간 → 같은 날 몇 시에 읽어도 마감 추정치가 일관되게 나온다.
+DAY_SHARE = [(7.5, 0.0), (14.5, 0.40), (24.0, 1.0)]
+
+
+def day_share(now):
+    """지금(now)까지 오늘 예매 증가분의 몇 %가 들어와 있나."""
+    h = now.hour + now.minute / 60
+    if h <= DAY_SHARE[0][0]:
+        return None                      # 아침 규칙이 따로 처리
+    for (h0, s0), (h1, s1) in zip(DAY_SHARE, DAY_SHARE[1:]):
+        if h <= h1:
+            return s0 + (s1 - s0) * (h - h0) / (h1 - h0)
+    return 1.0
+
 
 def update_booking(d, booking):
     """KOBIS 실시간 예매율 → booking_log.csv / booking.csv / 흥행예측.xlsx '추적'.
@@ -166,15 +184,39 @@ def update_booking(d, booking):
         est = booking["tickets"] + round(per_day)
         est_note = "추정 (어제 증가분만큼 오른다고 가정)"
     else:
-        # 오후: 아침에 적힌 어제 확정치 기준으로 오늘 속도를 환산
+        # 오후: 아침에 적힌 어제 확정치 기준으로 오늘 속도를 환산.
+        # 몇 시에 읽었는지에 따라 남은 시간이 다르므로 고정 배수(2.5) 대신
+        # DAY_SHARE 곡선으로 '지금까지 들어온 비율'을 구해 하루치로 환산한다.
         base = int(rows[y][0]) if y in rows and rows[y][3] == "확정" else None
+        share = day_share(now) or 1.0
         if base is not None and booking["tickets"] > base:
-            est = base + round((booking["tickets"] - base) * AFTERNOON_FACTOR)
-            est_note = f"추정 (14:30까지 +{booking['tickets'] - base:,} × {AFTERNOON_FACTOR})"
+            add = booking["tickets"] - base
+            est = base + round(add / share)
+            hhmm = now.strftime("%H:%M")
+            est_note = (f"추정 ({hhmm}까지 +{add:,} = 하루치의 {share:.0%} "
+                        f"→ 마감 +{round(add / share):,})")
+            # 교차검증 — 어제 하루 증가분을 그대로 오늘에 적용한 보수적 값
+            prev_dates = sorted(dt for dt in rows if dt < y and rows[dt][3] != "추정")
+            if prev_dates:
+                p = prev_dates[-1]
+                per_day = (base - int(rows[p][0])) / max(1, (y - p).days)
+                est_note += f" · 어제증가분법 {base + round(per_day):,}"
         else:
             est = booking["tickets"]
             est_note = "추정 (오후 수집값 그대로 — 아침 확정치 없음)"
     rows[d] = [str(est), "", "", "추정"]
+
+    # ---- 1b. 지금 이 순간의 실측값 (사이트 그래프에 '실시간' 점으로 찍는다)
+    (DATA / "booking_now.json").write_text(json.dumps({
+        "ts": now.strftime("%Y-%m-%d %H:%M"),
+        "date": d.isoformat(),
+        "dday": (open_d - d).days,
+        "tickets": booking["tickets"],
+        "rate": booking.get("rate"),
+        "rank": booking.get("rank"),
+        "est_close": est,
+        "note": est_note,
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
 
     lines = ["date,dday,tickets,rate,rank,kind"]
     for dt in sorted(rows):

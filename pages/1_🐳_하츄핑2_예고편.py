@@ -32,7 +32,10 @@ def load(stamp):
     meta = json.loads((DATA / "meta.json").read_text(encoding="utf-8"))
     bk = pd.read_csv(DATA / "booking.csv", parse_dates=["date"])
     bkm = json.loads((DATA / "booking_meta.json").read_text(encoding="utf-8"))
-    return dm, dt, vel, sent, src, meta, bk, bkm
+    # 마지막 수집 순간의 '지금 실제 숫자' — 없을 수도 있으니 있으면만 쓴다
+    nowp = DATA / "booking_now.json"
+    bnow = json.loads(nowp.read_text(encoding="utf-8")) if nowp.exists() else None
+    return dm, dt, vel, sent, src, meta, bk, bkm, bnow
 
 
 def m1_tickets_at(dday, curve):
@@ -115,7 +118,7 @@ def cum_chart(df, ycol, series_name, benchmark, bench_label, ytitle, open_day=No
     return alt.layer(*layers).properties(height=320)
 
 
-dm, dt, vel, sent, src, meta, bk, bkm = load((DATA / "meta.json").stat().st_mtime)
+dm, dt, vel, sent, src, meta, bk, bkm, bnow = load((DATA / "meta.json").stat().st_mtime)
 bm = src["benchmarks"]
 last, prev = dm.iloc[-1], (dm.iloc[-2] if len(dm) > 1 else dm.iloc[-1])
 week = dm.iloc[-8] if len(dm) > 7 else None
@@ -270,8 +273,10 @@ c1.metric(f"어제까지 예매관객수 (D-{y_dday} {bl['kind']})", f"{int(bl['
           delta_color="normal" if bp is not None else "off")
 if len(estdf):
     be = estdf.iloc[-1]
-    c2.metric(f"오늘 추정 (D-{int(be['dday'])})", f"{int(be['tickets']):,}명",
-              "어제 증가분만큼 오른다고 가정", delta_color="off")
+    live = bnow if (bnow and bnow.get("date") == str(be["date"].date())) else None
+    c2.metric(f"오늘 마감 추정 (D-{int(be['dday'])})", f"{int(be['tickets']):,}명",
+              (f"{live['ts'][11:]} 실시간 {live['tickets']:,}명 → 마감 환산"
+               if live else "어제 증가분만큼 오른다고 가정"), delta_color="off")
 else:
     c2.metric("예매율 · 순위", f"{bl['rate']}% · {int(bl['rank'])}위")
 if m1_y:
@@ -285,8 +290,11 @@ else:
               "1편 예매 관측은 D-8부터 있음 (7/28부터 비교 시작)", delta_color="off")
     c4.metric("배수 방식 참고 예측", f"{bl['tickets'] * bkm['avg_multiplier']:,.0f}명",
               f"= 지금 예매 × 평균 배수 {bkm['avg_multiplier']}x (D-1 전엔 과소추정)", delta_color="off")
-st.caption(f"예매율 {bl['rate']}% · {int(bl['rank'])}위 (어제 기준) · "
-           "아침에 수집한 KOBIS 숫자는 어제까지의 값이라 어제 자리에 기록하고, 오늘은 추정으로 표시")
+st.caption(
+    (f"지금 예매율 {bnow['rate']}% · {int(bnow['rank'])}위 ({bnow['ts'][11:]} 기준, 실제 {bnow['tickets']:,}명) · "
+     if bnow else "")
+    + f"어제 마감 {bl['rate']}% · {int(bl['rank'])}위 · "
+      "아침에 수집한 KOBIS 숫자는 어제까지의 값이라 어제 자리에 기록하고, 오늘은 추정으로 표시")
 
 # D-day curve: 2편 line vs 1편 observed points
 bk2 = bk.assign(x=-bk["dday"], 영화="2편 (매일 수집)")
@@ -335,9 +343,34 @@ lbl = alt.Chart(pd.DataFrame([
 # 투명한 큰 원을 맨 위에 깔아 2편 툴팁이 항상 먼저 잡히게 한다.
 hover2 = alt.Chart(bk2).mark_point(size=400, opacity=0).encode(
     x="x:Q", y="tickets:Q", tooltip=TIP2)
-st.altair_chart((line2 + lineE + ptsE + line1 + pts1 + lbl + hover2).properties(height=340),
-                width="stretch")
-st.caption(f"⚫ 파란 실선 = 2편 실측 (하루 마감 기준, 다음날 아침 수집) · 빈 파란 원 = 오늘 추정 · "
+
+# 지금 이 순간 실제로 KOBIS에 찍혀 있는 값 — 추정(빈 원)과 구분되게 채운 마름모로.
+# 실측이지만 '하루 마감치'가 아니라 '진행 중' 값이라 파란 실선에는 넣지 않는다.
+layers = [line2, lineE, ptsE, line1, pts1, lbl, hover2]
+if bnow:
+    nowdf = pd.DataFrame([{
+        "x": -bnow["dday"], "tickets": bnow["tickets"], "ts": bnow["ts"],
+        "rate": bnow.get("rate"), "rank": bnow.get("rank"),
+        "m1_same": m1_tickets_at(int(bnow["dday"]), bkm["m1_curve"])[0],
+        "est_close": bnow.get("est_close")}])
+    nowdf["배수"] = nowdf.apply(
+        lambda r: round(r["tickets"] / r["m1_same"], 2) if pd.notna(r["m1_same"]) else None, axis=1)
+    TIPN = [alt.Tooltip("ts:N", title="수집 시각"),
+            alt.Tooltip("tickets:Q", title="지금 예매", format=",.0f"),
+            alt.Tooltip("est_close:Q", title="오늘 마감 추정", format=",.0f"),
+            alt.Tooltip("rate:Q", title="예매율(%)"),
+            alt.Tooltip("rank:Q", title="순위"),
+            alt.Tooltip("m1_same:Q", title="1편 같은 날", format=",.0f"),
+            alt.Tooltip("배수:Q", title="1편 대비(배)", format=".2f")]
+    ptsN = alt.Chart(nowdf).mark_point(shape="diamond", size=150, color=C_M2,
+                                       filled=True, opacity=1).encode(
+        x="x:Q", y="tickets:Q", tooltip=TIPN)
+    lblN = alt.Chart(nowdf.assign(label="지금 " + bnow["ts"][11:])).mark_text(
+        color=C_M2, dy=16, fontSize=11).encode(x="x:Q", y="tickets:Q", text="label:N")
+    layers += [ptsN, lblN]
+st.altair_chart(alt.layer(*layers).properties(height=340), width="stretch")
+st.caption(f"⚫ 파란 실선 = 2편 실측 (하루 마감 기준, 다음날 아침 수집) · "
+           f"🔷 파란 마름모 = 지금 이 순간 KOBIS 실제 값 (진행 중) · 빈 파란 원 = 오늘 마감 추정 · "
            f"🟧 주황 점선 = 1편 (채운 네모 = 보도 관측 4개 시점, "
            f"빈 네모 D-13~D-9 = 보도가 없어 성장곡선으로 역추정) · "
            f"1편 D-1 예매 74,006명 → 최종 {bkm['m1_final']:,}명 (배수 {bkm['m1_multiplier']:.1f}x)")
