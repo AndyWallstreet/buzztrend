@@ -66,6 +66,44 @@ DELTA = "+#,##0;-#,##0;0"
 PCT = "0.0%"
 
 
+def _running_excel_apps():
+    """Every running Excel.Application, not just the first one registered.
+
+    GetActiveObject returns whichever instance registered first. The user often
+    has a second, separate Excel process open (e.g. the SAMG v04 model), so the
+    first instance frequently does NOT hold the tracker — the old code then fell
+    through to Workbooks.Open and died with "cannot access the file", because the
+    OTHER Excel process has it locked. Walking the Running Object Table finds the
+    workbook whichever instance owns it.
+    """
+    apps, seen = [], set()
+    try:
+        rot = pythoncom.GetRunningObjectTable()
+        ctx = pythoncom.CreateBindCtx(0)
+    except Exception:
+        return apps
+    for moniker in rot:
+        try:
+            dn = moniker.GetDisplayName(ctx, None)
+        except Exception:
+            continue
+        low = dn.lower()
+        if not (low.endswith((".xlsx", ".xlsm", ".xls")) or "excel.application" in low):
+            continue
+        try:
+            obj = rot.GetObject(moniker)
+            disp = win32com.client.Dispatch(obj.QueryInterface(pythoncom.IID_IDispatch))
+            app = disp.Application          # works for both Workbook and Application
+            key = getattr(app, "Hwnd", None) or id(app)
+            if key in seen:
+                continue
+            seen.add(key)
+            apps.append(app)
+        except Exception:
+            continue
+    return apps
+
+
 def get_excel_and_wb(path=None, name=None):
     """Attach to the user's open Excel if the workbook is open there; else own instance.
 
@@ -75,13 +113,13 @@ def get_excel_and_wb(path=None, name=None):
     """
     path = TRACKER if path is None else path
     name = TRACKER_NAME if name is None else name
-    try:
-        xl = win32com.client.GetActiveObject("Excel.Application")
-        for w in xl.Workbooks:
-            if w.Name == name:
-                return xl, w, True
-    except Exception:
-        pass
+    for xl in _running_excel_apps():
+        try:
+            for w in xl.Workbooks:
+                if w.Name == name:
+                    return xl, w, True
+        except Exception:
+            continue
     xl = win32com.client.DispatchEx("Excel.Application")
     xl.Visible = False
     xl.DisplayAlerts = False
