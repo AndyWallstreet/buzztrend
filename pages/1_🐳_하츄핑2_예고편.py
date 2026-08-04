@@ -536,29 +536,32 @@ else:
     m1o, m1p = scr["m1"]["open_day"], scr["m1"]["peak_day"]
     tgt, m1f = scr["target"], scr["m1"]["final_admissions"]
     seats = scr["seats_per_show"]
+    pv = scr["m2_preview"]
 
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("2편 스크린 수 (지금)", f"{scr['m2']['screens']:,}개",
-              scr["m2"]["label"], delta_color="off")
+    c1.metric("2편 개봉 스크린 (확정)", f"{scr['m2']['screens']:,}개",
+              f"{scr['m2']['screens'] - m1o['screens']:+,}개 (1편 개봉일보다)")
     c2.metric("1편 개봉일 스크린", f"{m1o['screens']:,}개",
               f"하루 {m1o['shows']:,}회 상영", delta_color="off")
     c3.metric("1편 최대 스크린", f"{m1p['screens']:,}개",
               f"첫 토요일, 하루 {m1p['admissions']:,}명", delta_color="off")
     c4.metric("목표 대비 1편 최종", f"{m1f / tgt:.0%}",
               f"1편 {m1f:,}명 ÷ 목표 {tgt:,}명", delta_color="off")
-    st.caption(f"⚠️ 2편 {scr['m2']['screens']}개는 {scr['m2']['label']} 기준 — "
-               f"{scr['m2']['note']} · 출처: {scr['m2']['source']}")
+    st.caption(f"2편 {scr['m2']['screens']:,}개 = 전국 {scr['m2']['theaters']:,}개 영화관, "
+               f"1편 최대({m1p['screens']:,}개)와 같은 수준 · {scr['m2']['note']} · "
+               f"개봉 전 유료 시사(8/1~8/3)는 {pv['screens']}개 스크린에서 {pv['admissions']:,}명")
 
     colL, colR = st.columns(2)
     with colL:
         st.markdown("**스크린 수 비교**")
         sc_df = pd.DataFrame([
-            {"구분": scr["m2"]["label"], "스크린": scr["m2"]["screens"], "영화": "2편"},
+            {"구분": pv["label"], "스크린": pv["screens"], "영화": "2편"},
             {"구분": m1o["label"], "스크린": m1o["screens"], "영화": "1편"},
+            {"구분": "2편 개봉 (확정)", "스크린": scr["m2"]["screens"], "영화": "2편"},
             {"구분": m1p["label"], "스크린": m1p["screens"], "영화": "1편"},
         ])
         sc_bar = alt.Chart(sc_df).mark_bar(cornerRadiusTopLeft=4, cornerRadiusTopRight=4,
-                                           size=60).encode(
+                                           size=45).encode(
             x=alt.X("구분:N", sort=list(sc_df["구분"]), title=None,
                     axis=alt.Axis(labelAngle=0)),
             y=alt.Y("스크린:Q", title="스크린 수", axis=alt.Axis(format=",.0f")),
@@ -577,22 +580,26 @@ else:
         st.markdown(f"""
 | | |
 |---|---|
-| 1편 최대 규모의 하루 좌석 공급 | {m1p['shows']:,}회 × 약 {seats}석 ≈ **{day_seats:,.0f}석/하루** |
+| 2편 개봉 스크린 (확정) | **{scr['m2']['screens']:,}개** — 1편 최대({m1p['screens']:,}개)와 같은 수준 |
+| 이 규모의 하루 좌석 공급 | {m1p['shows']:,}회 × 약 {seats}석 ≈ **{day_seats:,.0f}석/하루** |
 | 목표 {tgt:,}명을 좌석으로 채우면 | {tgt:,} ÷ {day_seats:,.0f} ≈ **{tgt / day_seats:.1f}일치** 좌석 |
 | 1편이 실제로 채운 정도 | 회당 평균 {per_show:.0f}명 = 좌석의 약 **{per_show / seats:.0%}** |
 | 그 결과 1편 최종 관객 | **{m1f:,}명** |
 | 목표 {tgt / 10000:,.0f}만 명에 필요한 흥행력 | 1편의 **{tgt / m1f:.2f}배** |
 """)
-        st.caption(f"회당 좌석 수 약 {seats}석은 일반 상영관 평균 가정 · "
-                   "결론: 스크린(좌석)은 개봉만 잘 되면 충분하고, "
+        st.caption(f"회당 좌석 수 약 {seats}석은 일반 상영관 평균 가정, 상영횟수는 1편 최대일 기준 · "
+                   "결론: 좌석 공급은 목표를 넉넉히 감당 — "
                    "관건은 좌석을 얼마나 채우느냐(흥행력)입니다.")
 
-    with st.expander("2편 유료 시사 — 지역별 스크린 (내가 받은 KOBIS 파일 그대로)"):
+    with st.expander(f"2편 개봉 스크린 {scr['m2']['screens']:,}개 — 체인별 내역 (KOBIS 상영현황정보)"):
+        ch_df = pd.DataFrame(scr["m2_chains"])
+        st.dataframe(ch_df, hide_index=True, width="stretch")
+    with st.expander("2편 유료 시사 (8/1~8/3) — 지역별 스크린 (KOBIS 지역별 통계정보)"):
         rg = pd.DataFrame(scr["m2_regional_preview"])
         st.dataframe(rg.sort_values("스크린수", ascending=False), hide_index=True,
                      width="stretch")
     st.caption(f"데이터 기준일: {scr['as_of']} · 1편: {scr['m1']['source']} · "
-               "정식 개봉 후에는 2편 실제 개봉 스크린 수로 업데이트합니다")
+               "개봉 후에는 실제 일별 스크린 수로 업데이트합니다")
 
 # ---------------- raw data
 st.header("원본 데이터", divider="gray")
