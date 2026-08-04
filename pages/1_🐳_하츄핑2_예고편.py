@@ -1,4 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
+# v2026-08-04b: section 5 스크린 캐파 added
 """하츄핑 2 예고편 트래커 — 유튜브 성적을 매일 추적, 1편과 비교.
 
 Data files in data/hatchuping/ are refreshed once a day by the local
