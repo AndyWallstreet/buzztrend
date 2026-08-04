@@ -329,11 +329,15 @@ if m1_y:
     # 1편도 관측값(74,006)이라 보간 없이 같은 시점끼리 비교된다.
     fc_t, fc_d = (int(be["tickets"]), int(be["dday"])) if len(estdf) else (int(bl["tickets"]), y_dday)
     cands = forecast_candidates(fc_t, fc_d, bkm)
+    # 1편 페이스법 — 어제 '확정' 예매량의 1편 대비 배수 × 1편 최종 관객수.
+    # 추정치가 아닌 확정치에서 나오므로 후보 중 가장 믿을 만한 축이다.
+    cands["1편 페이스"] = pace * bkm["m1_final"]
     if cands:
         low = min(cands, key=cands.get)
+        basis = (f"= {pace:.2f}배 × 1편 최종 {bkm['m1_final']:,}명"
+                 if low == "1편 페이스" else f"= D-{fc_d} {fc_t:,}명 기준 · {low}법")
         c4.metric("예측 실관객수 (보수적)", f"{cands[low]:,.0f}명",
-                  f"= D-{fc_d} {fc_t:,}명 기준 · {low}법 (최대 {max(cands.values()):,.0f}명)",
-                  delta_color="off")
+                  f"{basis} (최대 {max(cands.values()):,.0f}명)", delta_color="off")
     else:
         c4.metric("예측 실관객수 (1편 페이스 대비)", f"{pace * bkm['m1_final']:,.0f}명",
                   f"= {pace:.2f} × 1편 최종 {bkm['m1_final']:,}명", delta_color="off")
