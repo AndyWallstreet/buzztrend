@@ -598,7 +598,12 @@ else:
         rg = pd.DataFrame(scr["m2_regional_preview"])
         st.dataframe(rg.sort_values("스크린수", ascending=False), hide_index=True,
                      width="stretch")
-    st.caption(f"데이터 기준일: {scr['as_of']} · 1편: {scr['m1']['source']} · "
+    KOBIS_DAILY = ("https://www.kobis.or.kr/kobis/business/stat/boxs/findDailyBoxOfficeList.do"
+                   "?loadEnd=0&searchType=search&sSearchFrom={d}&sSearchTo={d}")
+    st.caption(f"데이터 기준일: {scr['as_of']} · 1편 스크린 수 직접 확인 (KOBIS 일별 박스오피스, "
+               f"표의 '사랑의 하츄핑' 행 → 스크린수 열): "
+               f"[개봉일 2024-08-07 = 1,065개]({KOBIS_DAILY.format(d='2024-08-07')}) · "
+               f"[최대 2024-08-10 = 1,153개]({KOBIS_DAILY.format(d='2024-08-10')}) · "
                "개봉 후에는 실제 일별 스크린 수로 업데이트합니다")
 
 # ---------------- raw data
