@@ -527,7 +527,7 @@ else:
                "'D-day 비교' 시트와 동일한 계산")
 
 # ================= 5. 스크린 캐파
-st.header("5. 스크린 수 — 180만 명 갈 수 있나?", divider="blue")
+st.header("5. 스크린수 비교", divider="blue")
 scr_path = DATA / "screens.json"
 if not scr_path.exists():
     st.info("준비 중입니다 — 스크린 수 데이터를 곧 추가할 예정입니다.")
