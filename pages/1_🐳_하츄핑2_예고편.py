@@ -69,6 +69,26 @@ def m1_tickets_at(dday, curve):
     return None, None
 
 
+def forecast_candidates(tickets, dday, bkm):
+    """최종 관객수 추정치를 세 가지 방법으로 낸다 — 화면엔 그중 가장 낮은 값만 쓴다.
+
+    D-1처럼 세 방법이 다 살아 있는 날은 값이 2~3% 벌어지는데, 개봉 전 예측을
+    높게 불러 두면 나중에 실제보다 부풀려 보이므로 가장 보수적인 쪽을 택한다.
+    """
+    import math
+
+    out = {}
+    m1_t, _ = m1_tickets_at(dday, bkm["m1_curve"])
+    if m1_t:
+        out["1편 페이스"] = tickets / m1_t * bkm["m1_final"]
+    reg = bkm.get("regression") or {}
+    if reg.get("slope") and tickets > 0:
+        out["회귀분석"] = 10 ** (reg["intercept"] + reg["slope"] * math.log10(tickets))
+    if bkm.get("avg_multiplier"):
+        out["평균배수"] = tickets * bkm["avg_multiplier"]
+    return out
+
+
 def fmt_ts(ts):
     """'2026-08-04 07:17' → '오전 7:17'.
 
@@ -305,8 +325,18 @@ if m1_y:
     pace = bl["tickets"] / m1_y
     c3.metric(f"1편 같은 시점(D-{y_dday}) 대비", f"{pace:.2f}배",
               f"1편 D-{y_dday}: {m1_y:,}명 ({m1_y_kind})", delta_color="off")
-    c4.metric("예측 실관객수 (1편 페이스 대비)", f"{pace * bkm['m1_final']:,.0f}명",
-              f"= {pace:.2f} × 1편 최종 {bkm['m1_final']:,}명", delta_color="off")
+    # 예측은 '어제 확정'이 아니라 '오늘 마감 추정' 기준 — 하루 최신이고, D-1엔
+    # 1편도 관측값(74,006)이라 보간 없이 같은 시점끼리 비교된다.
+    fc_t, fc_d = (int(be["tickets"]), int(be["dday"])) if len(estdf) else (int(bl["tickets"]), y_dday)
+    cands = forecast_candidates(fc_t, fc_d, bkm)
+    if cands:
+        low = min(cands, key=cands.get)
+        c4.metric("예측 실관객수 (보수적)", f"{cands[low]:,.0f}명",
+                  f"= D-{fc_d} {fc_t:,}명 기준 · {low}법 (최대 {max(cands.values()):,.0f}명)",
+                  delta_color="off")
+    else:
+        c4.metric("예측 실관객수 (1편 페이스 대비)", f"{pace * bkm['m1_final']:,.0f}명",
+                  f"= {pace:.2f} × 1편 최종 {bkm['m1_final']:,}명", delta_color="off")
 else:
     c3.metric(f"1편 같은 시점(D-{y_dday}) 대비", "비교 불가",
               "1편 예매 관측은 D-8부터 있음 (7/28부터 비교 시작)", delta_color="off")
