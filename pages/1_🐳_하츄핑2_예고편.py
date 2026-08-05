@@ -363,7 +363,8 @@ else:
 
     base = alt.Chart(comp).encode(
         x=alt.X("day:Q", title="개봉 후 경과일 (0 = 개봉일)",
-                scale=alt.Scale(domain=[0, span], nice=False)),
+                scale=alt.Scale(domain=[0, span], nice=False),
+                axis=alt.Axis(tickMinStep=1, format="d")),
         color=alt.Color("구분:N", scale=alt.Scale(domain=["2편", "1편"],
                                                  range=[C_M2, C_M1]),
                         legend=alt.Legend(title=None, orient="top-left")))
@@ -388,7 +389,8 @@ else:
     with s1:
         st.markdown("**스크린수 — 공급이 줄면 관객도 준다**")
         sc = alt.Chart(comp).mark_line(point=True).encode(
-            x=alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, span], nice=False)),
+            x=alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, span], nice=False),
+                axis=alt.Axis(tickMinStep=1, format="d")),
             y=alt.Y("screens:Q", title="스크린수"),
             color=alt.Color("구분:N", scale=alt.Scale(domain=["2편", "1편"],
                                                      range=[C_M2, C_M1]), legend=None),
@@ -405,7 +407,8 @@ else:
         sd = pd.concat([sr[["day", "seat_rate", "구분"]],
                         srm[["day", "seat_rate", "구분"]]], ignore_index=True)
         ch = alt.Chart(sd).mark_line(point=True).encode(
-            x=alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, span], nice=False)),
+            x=alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, span], nice=False),
+                axis=alt.Axis(tickMinStep=1, format="d")),
             y=alt.Y("seat_rate:Q", title="좌석점유율", axis=alt.Axis(format=".0%")),
             color=alt.Color("구분:N", scale=alt.Scale(domain=["2편", "1편"],
                                                      range=[C_M2, C_M1]), legend=None),
