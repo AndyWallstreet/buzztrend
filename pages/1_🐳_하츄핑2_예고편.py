@@ -27,7 +27,8 @@ st.set_page_config(page_title="하츄핑2 예고편 트래커", page_icon="🐳"
 # git은 mtime을 보존하지 않아서 서버에선 '바뀐 파일'만 새 mtime을 받기 때문.
 LOAD_FILES = ("daily_main.csv", "daily_teaser.csv", "velocity.csv", "sentiment.json",
               "sources.json", "meta.json", "booking.csv", "booking_meta.json",
-              "booking_now.json", "m1_daily.csv", "m2_daily.csv", "boxoffice_now.json")
+              "booking_now.json", "m1_daily.csv", "m2_daily.csv", "boxoffice_now.json",
+              "ratings.csv", "sentiment_daily.csv", "ratings_peers.json")
 
 
 def load_stamp():
@@ -55,7 +56,11 @@ def load(stamp):
     m1d, m2d = _bo("m1_daily.csv"), _bo("m2_daily.csv")
     bop = DATA / "boxoffice_now.json"
     bonow = json.loads(bop.read_text(encoding="utf-8")) if bop.exists() else None
-    return dm, dt, vel, sent, src, meta, bk, bkm, bnow, m1d, m2d, bonow
+    # 실관람객 평점 (ratings_update.py)
+    rat, sd = _bo("ratings.csv"), _bo("sentiment_daily.csv")
+    pp = DATA / "ratings_peers.json"
+    peer = json.loads(pp.read_text(encoding="utf-8")) if pp.exists() else None
+    return dm, dt, vel, sent, src, meta, bk, bkm, bnow, m1d, m2d, bonow, rat, sd, peer
 
 
 def m1_tickets_at(dday, curve):
@@ -167,7 +172,7 @@ def cum_chart(df, ycol, series_name, benchmark, bench_label, ytitle, open_day=No
     return alt.layer(*layers).properties(height=320)
 
 
-dm, dt, vel, sent, src, meta, bk, bkm, bnow, m1d, m2d, bonow = load(load_stamp())
+dm, dt, vel, sent, src, meta, bk, bkm, bnow, m1d, m2d, bonow, rat, sd, peer = load(load_stamp())
 bm = src["benchmarks"]
 last, prev = dm.iloc[-1], (dm.iloc[-2] if len(dm) > 1 else dm.iloc[-1])
 week = dm.iloc[-8] if len(dm) > 7 else None
@@ -399,7 +404,83 @@ else:
                "누적 406,384명으로 최종의 32.8%를 벌었습니다 — 즉 첫 주말 누적 × 약 3.05 ≈ 최종.")
 
 st.divider()
-st.header("4. 개봉 전 예매율 (기록) — 흥행 예측", divider="blue")
+st.header("4. 실관람객 평점 & 반응", divider="blue")
+st.caption("**에그지수**는 CGV에서 그 영화 표를 실제로 산 사람만 매길 수 있는 점수라, "
+           "공개된 숫자 중 실관람객 만족도에 가장 가깝습니다. "
+           "가족 애니메이션은 입소문이 뒷심을 만들기 때문에, 관객수가 꺾이기 전에 "
+           "여기서 먼저 신호가 나옵니다.")
+
+if rat is None or not len(rat):
+    st.info("아직 평점 수집 전입니다 — 개봉일부터 매일 쌓입니다.")
+else:
+    rlast = rat.iloc[-1]
+    rprev = rat.iloc[-2] if len(rat) > 1 else None
+    peers = [p for p in ((peer or {}).get("peers") or []) if p.get("egg")]
+    peer_avg = sum(p["egg"] for p in peers) / len(peers) if peers else None
+
+    g1, g2, g3, g4 = st.columns(4)
+    g1.metric("CGV 에그지수 (실관람객)", f"{int(rlast['cgv_egg'])}%",
+              (f"{int(rlast['cgv_egg'] - rprev['cgv_egg']):+d}%p (어제보다)"
+               if rprev is not None else "수집 시작"),
+              delta_color="normal" if rprev is not None else "off")
+    if peer_avg:
+        g2.metric("가족·애니 평균 대비", f"{int(rlast['cgv_egg']) - peer_avg:+.1f}%p",
+                  f"동시상영 {len(peers)}편 평균 {peer_avg:.1f}%", delta_color="off")
+    if sd is not None and len(sd):
+        slast = sd.iloc[-1]
+        sprev = sd.iloc[-2] if len(sd) > 1 else None
+        g3.metric("댓글 긍정 비율", f"{slast['pos_ratio']:.0%}",
+                  (f"{(slast['pos_ratio'] - sprev['pos_ratio']) * 100:+.1f}%p (어제보다)"
+                   if sprev is not None else f"댓글 {int(slast['total']):,}개"),
+                  delta_color="normal" if sprev is not None else "off")
+        g4.metric("댓글 부정 비율", f"{slast['neg_ratio']:.0%}",
+                  f"부정 {int(slast['neg'] + slast['strong_neg'])}개 / {int(slast['total']):,}개",
+                  delta_color="inverse" if sprev is not None else "off")
+
+    e1, e2 = st.columns(2)
+    with e1:
+        st.markdown("**에그지수 추이**")
+        eg = rat[["date", "cgv_egg"]].copy()
+        line = alt.Chart(eg).mark_line(point=True, strokeWidth=2.5, color=C_M2).encode(
+            x=alt.X("date:T", title=None, axis=day_axis(date_span(eg["date"], 3))),
+            y=alt.Y("cgv_egg:Q", title="에그지수 (%)",
+                    scale=alt.Scale(domain=[max(50, int(eg["cgv_egg"].min()) - 8), 100])),
+            tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
+                     alt.Tooltip("cgv_egg:Q", title="에그지수")])
+        layers = [line]
+        if peers:
+            pdf = pd.DataFrame(peers)
+            layers.append(alt.Chart(pdf).mark_rule(
+                color="#8a8f98", strokeDash=[4, 4], strokeWidth=1).encode(
+                y="egg:Q", tooltip=[alt.Tooltip("name:N", title="비교작"),
+                                    alt.Tooltip("egg:Q", title="에그지수")]))
+        st.altair_chart(alt.layer(*layers).properties(height=260), width="stretch")
+        if peers:
+            st.caption("회색 점선 = 같이 상영 중인 가족·애니메이션 에그지수 · "
+                       + " · ".join(f"{p['name']} {p['egg']}%" for p in peers[:4]))
+    with e2:
+        st.markdown("**댓글 긍부정 비율 추이**")
+        if sd is not None and len(sd) >= 1:
+            mix = sd.melt(id_vars=["date"], value_vars=["pos_ratio", "neg_ratio"],
+                          var_name="구분", value_name="비율")
+            mix["구분"] = mix["구분"].map({"pos_ratio": "긍정", "neg_ratio": "부정"})
+            ch = alt.Chart(mix).mark_line(point=True, strokeWidth=2.2).encode(
+                x=alt.X("date:T", title=None, axis=day_axis(date_span(sd["date"], 3))),
+                y=alt.Y("비율:Q", title="비율", axis=alt.Axis(format=".0%")),
+                color=alt.Color("구분:N", scale=alt.Scale(domain=["긍정", "부정"],
+                                                         range=["#2a9d5c", "#d64545"]),
+                                legend=alt.Legend(title=None, orient="top-left")),
+                tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
+                         alt.Tooltip("구분:N"), alt.Tooltip("비율:Q", format=".1%")])
+            st.altair_chart(ch.properties(height=260), width="stretch")
+            st.caption("메인 예고편 댓글 5단계 자동 분류 기준 (강한긍정+긍정 = 긍정) · "
+                       "**실관람평이 아니라 예고편 댓글**입니다 — 실관람평은 극장 사이트가 "
+                       "자동 수집을 막아 두어 대신 에그지수로 봅니다")
+        else:
+            st.info("댓글 감성 데이터가 아직 없습니다.")
+
+st.divider()
+st.header("5. 개봉 전 예매율 (기록) — 흥행 예측", divider="blue")
 st.caption("매일 KOBIS 실시간 예매율에서 수집 · 1편 비교: 보도 관측 4개 시점(D-8·D-7·D-5·D-1) + "
            "D-13~D-9는 역추정치 (보도 없음, 관측 4점 성장곡선 +23%/일 역외삽)")
 
@@ -549,7 +630,7 @@ with st.expander("매일 기록 표 (예매)"):
     st.dataframe(bk.sort_values("date", ascending=False), hide_index=True, width="stretch")
 
 # ================= 4. 언급량 추이
-st.header("5. 언급량 추이", divider="blue")
+st.header("6. 언급량 추이", divider="blue")
 buzz_path = DATA / "buzz_daily.csv"
 if not buzz_path.exists():
     st.info("준비 중입니다 — 커뮤니티·뉴스·검색 언급량을 모아서 곧 추가할 예정입니다.")
@@ -665,7 +746,7 @@ else:
                "'D-day 비교' 시트와 동일한 계산")
 
 # ================= 5. 스크린 캐파
-st.header("6. 스크린수 비교", divider="blue")
+st.header("7. 스크린수 비교", divider="blue")
 scr_path = DATA / "screens.json"
 if not scr_path.exists():
     st.info("준비 중입니다 — 스크린 수 데이터를 곧 추가할 예정입니다.")
