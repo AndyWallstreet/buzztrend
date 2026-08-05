@@ -339,9 +339,14 @@ else:
                else f"{int(last_bo['rank'])}위"))
     if len(ref):
         r = ref.iloc[0]
-        ratio = int(last_bo["cum"]) / int(r["cum"])
+        # 유료시사(개봉일 누적 - 당일)를 빼고 비교한다 — 1편 49,683 vs 2편 27,410 으로
+        # 출발선이 달라서, 생 누적끼리 재면 개봉 직후 2편이 실제보다 나빠 보인다.
+        m2p = int((bonow or {}).get("m2_preview", 0))
+        m1p = int((bonow or {}).get("m1_preview", 0))
+        adj2, adj1 = int(last_bo["cum"]) - m2p, int(r["cum"]) - m1p
+        ratio = adj2 / max(1, adj1)
         k3.metric(f"1편 같은 일차(D+{dnum}) 대비", f"{ratio:.2f}배",
-                  f"1편 누적 {int(r['cum']):,}명", delta_color="off")
+                  f"개봉 후 누적 {adj2:,} vs 1편 {adj1:,}명 (유료시사 제외)", delta_color="off")
         k4.metric("최종 예상 관객수", f"{ratio * m1_final:,.0f}명",
                   f"= {ratio:.2f}배 × 1편 최종 {m1_final:,}명", delta_color="off")
     else:
@@ -372,9 +377,11 @@ else:
                  alt.Tooltip("adm:Q", title="당일", format=","),
                  alt.Tooltip("screens:Q", title="스크린", format=",")])
     st.altair_chart(cum_line.properties(height=340), width="stretch")
-    st.caption(f"⚫ 파란 실선 = 2편 · 주황 점선 = 1편 (최종 {m1_final:,}명) · "
-               "같은 경과일끼리 비교 · 1편은 개봉일 누적에 유료시사 49,683명, "
-               "2편은 26,494명이 이미 포함되어 있습니다")
+    _m2p = int((bonow or {}).get("m2_preview", 0))
+    _m1p = int((bonow or {}).get("m1_preview", 0))
+    st.caption(f"⚫ 파란 실선 = 2편 · 주황 점선 = 1편 (최종 {m1_final:,}명) · 같은 경과일끼리 비교 · "
+               f"그래프의 누적에는 유료시사(1편 {_m1p:,}명 / 2편 {_m2p:,}명)가 포함돼 있어 "
+               "출발선이 다릅니다 — 위의 배수는 그 시사분을 뺀 값입니다")
 
     # ---- 공급(스크린)과 수요(좌석점유율)
     s1, s2 = st.columns(2)

@@ -121,6 +121,19 @@ def build_curve(path: Path, open_date: date, end: date, refresh_last=0):
     return rows
 
 
+def preview_of(by_day):
+    """유료시사 관객수 = 개봉일(D+0)의 누적 - 당일. 자료가 없으면 0."""
+    d0 = by_day.get(0) if isinstance(next(iter(by_day), 0), int) else None
+    if d0 is None:
+        for v in by_day.values():
+            if int(v["day"]) == 0:
+                d0 = v
+                break
+    if not d0:
+        return 0
+    return max(0, int(d0["cum"]) - int(d0["adm"]))
+
+
 def main():
     args = sys.argv[1:]
     today = date.today()
@@ -159,19 +172,35 @@ def main():
         "m1_final": M1_FINAL,
     }
     if ref:
+        # 유료시사 = 개봉일의 (누적 - 당일). 1편 49,683 vs 2편 27,410 으로 크게 달라서,
+        # 생 누적끼리 비교하면 개봉 직후 2편이 실제보다 나빠 보인다 → 시사 제외분을 주 지표로.
+        m2_pre = preview_of(m2)
+        m1_pre = preview_of(m1_by_day)
+        adj2 = int(last["cum"]) - m2_pre
+        adj1 = int(ref["cum"]) - m1_pre
+        ratio_adj = adj2 / max(1, adj1)
         ratio_cum = int(last["cum"]) / int(ref["cum"])
         ratio_day = int(last["adm"]) / max(1, int(ref["adm"]))
         now.update({
             "m1_cum": int(ref["cum"]),
             "m1_adm": int(ref["adm"]),
             "m1_screens": int(ref["screens"]),
+            "m1_seat_rate": float(ref["seat_rate"]) if ref.get("seat_rate") else None,
+            "m2_preview": m2_pre,
+            "m1_preview": m1_pre,
+            "adj_cum": adj2,
+            "m1_adj_cum": adj1,
+            "ratio_adj": round(ratio_adj, 4),
             "ratio_cum": round(ratio_cum, 4),
             "ratio_day": round(ratio_day, 4),
-            "forecast": round(ratio_cum * M1_FINAL),
+            "forecast": round(ratio_adj * M1_FINAL),
+            "forecast_raw": round(ratio_cum * M1_FINAL),
         })
-        print(f"D+{dnum} {last['date']}: 누적 {int(last['cum']):,}명 "
-              f"(1편 {int(ref['cum']):,}명) = {ratio_cum:.2f}배 "
-              f"→ 최종 예상 {round(ratio_cum * M1_FINAL):,}명")
+        print(f"D+{dnum} {last['date']}: 개봉 후 누적 {adj2:,}명 "
+              f"(1편 {adj1:,}명) = {ratio_adj:.2f}배 "
+              f"→ 최종 예상 {round(ratio_adj * M1_FINAL):,}명")
+        print(f"   · 당일 {int(last['adm']):,}명 (1편 {int(ref['adm']):,}명) = {ratio_day:.2f}배"
+              f" · 유료시사 2편 {m2_pre:,} / 1편 {m1_pre:,}")
     else:
         print(f"D+{dnum}: 1편 같은 일차 데이터 없음 — 배수 계산 생략")
 
