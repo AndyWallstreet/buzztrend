@@ -404,9 +404,10 @@ else:
         srm = m1d[m1d["day"] <= span].copy()
         srm["seat_rate"] = pd.to_numeric(srm["seat_rate"], errors="coerce")
         sr["구분"], srm["구분"] = "2편", "1편"
-        sd = pd.concat([sr[["day", "seat_rate", "구분"]],
-                        srm[["day", "seat_rate", "구분"]]], ignore_index=True)
-        ch = alt.Chart(sd).mark_line(point=True).encode(
+        # 변수명 주의: sd 는 4번 섹션의 감성 데이터라 여기서 재사용하면 덮어써진다
+        seat_df = pd.concat([sr[["day", "seat_rate", "구분"]],
+                             srm[["day", "seat_rate", "구분"]]], ignore_index=True)
+        ch = alt.Chart(seat_df).mark_line(point=True).encode(
             x=alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, span], nice=False),
                 axis=alt.Axis(tickMinStep=1, format="d")),
             y=alt.Y("seat_rate:Q", title="좌석점유율", axis=alt.Axis(format=".0%")),
