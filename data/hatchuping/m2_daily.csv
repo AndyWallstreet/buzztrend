@@ -1,2 +1,2 @@
-date,day,adm,cum,screens,shows,rank,seat_rate
-2026-08-05,0,73032,100442,824,1751,3,0.2607
+date,day,adm,cum,screens,shows,rank,seat_rate,total_screens,total_shows,screen_share,show_share
+2026-08-05,0,73032,100442,824,1751,3,0.2607,5941,14857,0.1387,0.1179

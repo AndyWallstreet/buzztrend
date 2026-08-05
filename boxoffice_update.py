@@ -37,7 +37,8 @@ M1_FINAL = 1239245                  # 1편 최종 관객수
 SEATS_PER_SHOW = 160                # screens.json 과 같은 가정 (좌석점유율 근사용)
 
 URL = "https://www.kobis.or.kr/kobis/business/stat/boxs/findDailyBoxOfficeList.do"
-HEAD = ["date", "day", "adm", "cum", "screens", "shows", "rank", "seat_rate"]
+HEAD = ["date", "day", "adm", "cum", "screens", "shows", "rank", "seat_rate",
+        "total_screens", "total_shows", "screen_share", "show_share"]
 
 
 def _num(s):
@@ -46,21 +47,30 @@ def _num(s):
 
 
 def fetch_day(day: date, open_date: date):
-    """그 날짜 박스오피스에서 해당 영화 행을 찾아 dict 로. 없으면 None."""
+    """그 날짜 박스오피스에서 해당 영화 행 + 그날 시장 전체 합계를 dict 로. 없으면 None.
+
+    점유율은 그날 상영된 **모든 영화**의 스크린/상영횟수 합계를 분모로 쓴다
+    (업계에서 쓰는 방식 — 한 스크린에 여러 영화가 걸리므로 물리적 스크린 수와는 다르다).
+    """
     r = requests.post(URL, data={
         "loadEnd": "0", "searchType": "search",
         "sSearchFrom": day.isoformat(), "sSearchTo": day.isoformat(),
         "sMultiMovieYn": "", "sRepNationCd": "", "sWideAreaCd": "",
     }, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
     r.encoding = r.apparent_encoding or "utf-8"
+
+    hit, tot_scr, tot_shw = None, 0, 0
     for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", r.text, re.S):
         c = [re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", x)).strip()
              for x in re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", tr, re.S)]
         # 순위|영화명|개봉일|매출액|점유율|증감|누적매출|관객수|증감|누적관객|스크린|상영횟수
-        if len(c) >= 12 and "하츄핑" in c[1] and c[2] == open_date.isoformat():
-            shows = _num(c[11])
-            adm = _num(c[7])
-            return {
+        if len(c) < 12:
+            continue
+        tot_scr += _num(c[10])
+        tot_shw += _num(c[11])
+        if "하츄핑" in c[1] and c[2] == open_date.isoformat():
+            shows, adm = _num(c[11]), _num(c[7])
+            hit = {
                 "date": day.isoformat(),
                 "day": (day - open_date).days,
                 "adm": adm,
@@ -70,7 +80,13 @@ def fetch_day(day: date, open_date: date):
                 "rank": _num(c[0]),
                 "seat_rate": round(adm / (shows * SEATS_PER_SHOW), 4) if shows else "",
             }
-    return None
+    if hit is None:
+        return None
+    hit["total_screens"] = tot_scr
+    hit["total_shows"] = tot_shw
+    hit["screen_share"] = round(hit["screens"] / tot_scr, 4) if tot_scr else ""
+    hit["show_share"] = round(hit["shows"] / tot_shw, 4) if tot_shw else ""
+    return hit
 
 
 def read_csv(path: Path):
@@ -92,9 +108,12 @@ def write_csv(path: Path, rows: dict):
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def build_curve(path: Path, open_date: date, end: date, refresh_last=0):
-    """open_date~end 구간을 채운다. 이미 있는 날은 건너뛰되 최근 refresh_last 일은 다시 받는다."""
-    rows = read_csv(path)
+def build_curve(path: Path, open_date: date, end: date, refresh_last=0, force=False):
+    """open_date~end 구간을 채운다. 이미 있는 날은 건너뛰되 최근 refresh_last 일은 다시 받는다.
+
+    force=True 면 전부 다시 받는다 (컬럼을 새로 추가했을 때 재구축용).
+    """
+    rows = {} if force else read_csv(path)
     have = set(rows)
     recent = {(end - timedelta(days=i)).isoformat() for i in range(refresh_last)}
     misses = 0
@@ -140,7 +159,8 @@ def main():
 
     if "--build-m1" in args:
         print("1편 기준 곡선 수집 중 (2024-08-07 ~)...")
-        build_curve(DATA / "m1_daily.csv", M1_OPEN, M1_OPEN + timedelta(days=140))
+        build_curve(DATA / "m1_daily.csv", M1_OPEN, M1_OPEN + timedelta(days=140),
+                    force="--force" in args)
         return
 
     # ---- 2편: 어제 확정분까지 (KOBIS 는 다음날 아침에 전날을 확정한다)
@@ -148,7 +168,8 @@ def main():
     if end < M2_OPEN:
         print("아직 개봉 전 — 할 일 없음")
         return
-    m2 = build_curve(DATA / "m2_daily.csv", M2_OPEN, end, refresh_last=3)
+    m2 = build_curve(DATA / "m2_daily.csv", M2_OPEN, end, refresh_last=3,
+                     force="--force" in args)
     m1 = read_csv(DATA / "m1_daily.csv")
     if not m2:
         print("2편 데이터 없음 (개봉일 확정 전일 수 있음)")

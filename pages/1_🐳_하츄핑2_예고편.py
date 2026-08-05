@@ -384,38 +384,53 @@ else:
                f"그래프의 누적에는 유료시사(1편 {_m1p:,}명 / 2편 {_m2p:,}명)가 포함돼 있어 "
                "출발선이 다릅니다 — 위의 배수는 그 시사분을 뺀 값입니다")
 
-    # ---- 공급(스크린)과 수요(좌석점유율)
-    s1, s2 = st.columns(2)
-    with s1:
+    # ---- 공급(스크린·상영횟수)과 그 점유율 — 전부 1편과 두 줄로 비교
+    # 왼쪽 = 절대량, 오른쪽 = 시장에서 차지한 비중. 절대량만 보면 그 해 전체 극장 물량이
+    # 달라서 착시가 생긴다 (2026년 시장이 2024년보다 작다).
+    supply = pd.concat([
+        m2d.assign(구분="2편"),
+        m1d[m1d["day"] <= span].assign(구분="1편"),
+    ], ignore_index=True)
+    for col in ("screens", "shows", "screen_share", "show_share", "seat_rate"):
+        if col in supply:
+            supply[col] = pd.to_numeric(supply[col], errors="coerce")
+
+    def vs_chart(ycol, ytitle, pct=False):
+        return alt.Chart(supply.dropna(subset=[ycol])).mark_line(point=True).encode(
+            x=alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, span], nice=False),
+                    axis=alt.Axis(tickMinStep=1, format="d")),
+            y=alt.Y(f"{ycol}:Q", title=ytitle,
+                    axis=alt.Axis(format=".0%" if pct else ",.0f")),
+            color=alt.Color("구분:N", scale=alt.Scale(domain=["2편", "1편"],
+                                                     range=[C_M2, C_M1]), legend=None),
+            strokeDash=alt.StrokeDash("구분:N", scale=alt.Scale(domain=["2편", "1편"],
+                                                               range=[[1, 0], [5, 4]]), legend=None),
+            tooltip=[alt.Tooltip("구분:N"), alt.Tooltip("day:Q", title="경과일"),
+                     alt.Tooltip(f"{ycol}:Q", title=ytitle,
+                                 format=".1%" if pct else ",.0f")],
+        ).properties(height=220)
+
+    a1, a2 = st.columns(2)
+    with a1:
         st.markdown("**스크린수 — 공급이 줄면 관객도 준다**")
-        sc = alt.Chart(comp).mark_line(point=True).encode(
-            x=alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, span], nice=False),
-                axis=alt.Axis(tickMinStep=1, format="d")),
-            y=alt.Y("screens:Q", title="스크린수"),
-            color=alt.Color("구분:N", scale=alt.Scale(domain=["2편", "1편"],
-                                                     range=[C_M2, C_M1]), legend=None),
-            strokeDash=alt.StrokeDash("구분:N", scale=alt.Scale(domain=["2편", "1편"],
-                                                               range=[[1, 0], [5, 4]]), legend=None))
-        st.altair_chart(sc.properties(height=220), width="stretch")
-    with s2:
-        st.markdown("**좌석점유율 — 수요의 질 (관객 ÷ 상영횟수×160석)**")
-        sr = m2d.copy()
-        sr["seat_rate"] = pd.to_numeric(sr["seat_rate"], errors="coerce")
-        srm = m1d[m1d["day"] <= span].copy()
-        srm["seat_rate"] = pd.to_numeric(srm["seat_rate"], errors="coerce")
-        sr["구분"], srm["구분"] = "2편", "1편"
-        # 변수명 주의: sd 는 4번 섹션의 감성 데이터라 여기서 재사용하면 덮어써진다
-        seat_df = pd.concat([sr[["day", "seat_rate", "구분"]],
-                             srm[["day", "seat_rate", "구분"]]], ignore_index=True)
-        ch = alt.Chart(seat_df).mark_line(point=True).encode(
-            x=alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, span], nice=False),
-                axis=alt.Axis(tickMinStep=1, format="d")),
-            y=alt.Y("seat_rate:Q", title="좌석점유율", axis=alt.Axis(format=".0%")),
-            color=alt.Color("구분:N", scale=alt.Scale(domain=["2편", "1편"],
-                                                     range=[C_M2, C_M1]), legend=None),
-            strokeDash=alt.StrokeDash("구분:N", scale=alt.Scale(domain=["2편", "1편"],
-                                                               range=[[1, 0], [5, 4]]), legend=None))
-        st.altair_chart(ch.properties(height=220), width="stretch")
+        st.altair_chart(vs_chart("screens", "스크린수"), width="stretch")
+    with a2:
+        st.markdown("**스크린점유율 — 그날 전체 스크린 중 몇 %**")
+        st.altair_chart(vs_chart("screen_share", "스크린점유율", pct=True), width="stretch")
+
+    b1, b2 = st.columns(2)
+    with b1:
+        st.markdown("**상영횟수 — 하루에 몇 번 트나**")
+        st.altair_chart(vs_chart("shows", "상영횟수"), width="stretch")
+    with b2:
+        st.markdown("**상영점유율 — 그날 전체 상영 중 몇 %**")
+        st.altair_chart(vs_chart("show_share", "상영점유율", pct=True), width="stretch")
+
+    st.markdown("**좌석점유율 — 수요의 질 (관객 ÷ 상영횟수×160석)**")
+    st.altair_chart(vs_chart("seat_rate", "좌석점유율", pct=True), width="stretch")
+    st.caption("위 네 개는 극장이 이 영화에 **얼마나 걸어줬나(공급)**, 좌석점유율은 "
+               "관객이 **얼마나 채웠나(수요)** 입니다. 공급은 극장이 정하고 수요는 관객이 정하므로, "
+               "좌석점유율이 높으면 다음 주 스크린이 늘어나는 쪽으로 이어집니다 — 그래서 남겨 뒀습니다.")
 
     st.caption("판단 기준선 — **124만** 넘으면 1편 초과(기본 성공) · **200만** = 예매가 약속한 수준 "
                "(D-1 예매 1.62배) · **250만** = 회귀 상단. 1편은 첫 주말(개봉 4일차)까지 "
