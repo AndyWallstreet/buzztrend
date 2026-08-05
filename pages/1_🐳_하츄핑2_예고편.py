@@ -27,7 +27,7 @@ st.set_page_config(page_title="하츄핑2 예고편 트래커", page_icon="🐳"
 # git은 mtime을 보존하지 않아서 서버에선 '바뀐 파일'만 새 mtime을 받기 때문.
 LOAD_FILES = ("daily_main.csv", "daily_teaser.csv", "velocity.csv", "sentiment.json",
               "sources.json", "meta.json", "booking.csv", "booking_meta.json",
-              "booking_now.json")
+              "booking_now.json", "m1_daily.csv", "m2_daily.csv", "boxoffice_now.json")
 
 
 def load_stamp():
@@ -48,7 +48,14 @@ def load(stamp):
     # 마지막 수집 순간의 '지금 실제 숫자' — 없을 수도 있으니 있으면만 쓴다
     nowp = DATA / "booking_now.json"
     bnow = json.loads(nowp.read_text(encoding="utf-8")) if nowp.exists() else None
-    return dm, dt, vel, sent, src, meta, bk, bkm, bnow
+    # 개봉 후 일별 관객수 (boxoffice_update.py) — 개봉 전엔 아직 없다
+    def _bo(name):
+        p = DATA / name
+        return pd.read_csv(p, parse_dates=["date"]) if p.exists() else None
+    m1d, m2d = _bo("m1_daily.csv"), _bo("m2_daily.csv")
+    bop = DATA / "boxoffice_now.json"
+    bonow = json.loads(bop.read_text(encoding="utf-8")) if bop.exists() else None
+    return dm, dt, vel, sent, src, meta, bk, bkm, bnow, m1d, m2d, bonow
 
 
 def m1_tickets_at(dday, curve):
@@ -160,7 +167,7 @@ def cum_chart(df, ycol, series_name, benchmark, bench_label, ytitle, open_day=No
     return alt.layer(*layers).properties(height=320)
 
 
-dm, dt, vel, sent, src, meta, bk, bkm, bnow = load(load_stamp())
+dm, dt, vel, sent, src, meta, bk, bkm, bnow, m1d, m2d, bonow = load(load_stamp())
 bm = src["benchmarks"]
 last, prev = dm.iloc[-1], (dm.iloc[-2] if len(dm) > 1 else dm.iloc[-1])
 week = dm.iloc[-8] if len(dm) > 7 else None
@@ -295,7 +302,104 @@ st.altair_chart(cum_chart(dt, "total_views", "2편 티저 합계 조회수",
                 width="stretch")
 
 # ================= 3. 실시간 예매율
-st.header("3. 실시간 예매율 — 흥행 예측", divider="blue")
+st.header("3. 개봉 후 실관객수 — 흥행 판정", divider="blue")
+st.caption("개봉 후에는 예매율이 아니라 KOBIS **확정 관객수**가 진짜 숫자입니다. "
+           "1편(2024-08-07 개봉)의 같은 일차와 나란히 놓고 봅니다 — "
+           "1편 곡선이 자(尺)라서 억지 계수가 필요 없고, 관객이 빠지면 배수가 바로 떨어집니다.")
+
+if m2d is None or not len(m2d):
+    st.info("🎬 오늘 개봉했습니다 (2026-08-05). KOBIS 확정 관객수는 **다음날 아침**에 나옵니다 — "
+            "내일 아침 첫 숫자가 여기에 채워집니다.")
+elif m1d is None or not len(m1d):
+    st.warning("1편 기준 곡선(m1_daily.csv)이 없습니다 — `python boxoffice_update.py --build-m1` 실행 필요")
+else:
+    m1_final = (bonow or {}).get("m1_final", 1239245)
+    last_bo = m2d.iloc[-1]
+    dnum = int(last_bo["day"])
+    ref = m1d[m1d["day"] == dnum]
+    prev = m2d.iloc[-2] if len(m2d) > 1 else None
+
+    k1, k2, k3, k4 = st.columns(4)
+    k1.metric(f"누적 관객수 (개봉 {dnum + 1}일차)", f"{int(last_bo['cum']):,}명",
+              f"어제 하루 {int(last_bo['adm']):,}명", delta_color="off")
+    k2.metric("어제 하루 관객수", f"{int(last_bo['adm']):,}명",
+              (f"{int(last_bo['adm'] - prev['adm']):+,} (그 전날보다)" if prev is not None
+               else f"{int(last_bo['rank'])}위"))
+    if len(ref):
+        r = ref.iloc[0]
+        ratio = int(last_bo["cum"]) / int(r["cum"])
+        k3.metric(f"1편 같은 일차(D+{dnum}) 대비", f"{ratio:.2f}배",
+                  f"1편 누적 {int(r['cum']):,}명", delta_color="off")
+        k4.metric("최종 예상 관객수", f"{ratio * m1_final:,.0f}명",
+                  f"= {ratio:.2f}배 × 1편 최종 {m1_final:,}명", delta_color="off")
+    else:
+        k3.metric(f"1편 같은 일차(D+{dnum}) 대비", "비교 불가", "1편 곡선 범위 밖", delta_color="off")
+        k4.metric("최종 예상 관객수", "—", "배수 계산 불가", delta_color="off")
+
+    # ---- 누적 곡선 비교 (같은 일차끼리)
+    span = max(int(m2d["day"].max()) + 7, 14)
+    a = m2d[["day", "cum", "adm", "screens"]].copy()
+    a["구분"] = "2편"
+    b = m1d[m1d["day"] <= span][["day", "cum", "adm", "screens"]].copy()
+    b["구분"] = "1편"
+    comp = pd.concat([a, b], ignore_index=True)
+
+    base = alt.Chart(comp).encode(
+        x=alt.X("day:Q", title="개봉 후 경과일 (0 = 개봉일)",
+                scale=alt.Scale(domain=[0, span], nice=False)),
+        color=alt.Color("구분:N", scale=alt.Scale(domain=["2편", "1편"],
+                                                 range=[C_M2, C_M1]),
+                        legend=alt.Legend(title=None, orient="top-left")))
+    cum_line = base.mark_line(point=True, strokeWidth=2.5).encode(
+        y=alt.Y("cum:Q", title="누적 관객수", axis=alt.Axis(format=",.0f")),
+        strokeDash=alt.StrokeDash("구분:N", scale=alt.Scale(domain=["2편", "1편"],
+                                                           range=[[1, 0], [5, 4]]),
+                                  legend=None),
+        tooltip=[alt.Tooltip("구분:N"), alt.Tooltip("day:Q", title="경과일"),
+                 alt.Tooltip("cum:Q", title="누적", format=","),
+                 alt.Tooltip("adm:Q", title="당일", format=","),
+                 alt.Tooltip("screens:Q", title="스크린", format=",")])
+    st.altair_chart(cum_line.properties(height=340), width="stretch")
+    st.caption(f"⚫ 파란 실선 = 2편 · 주황 점선 = 1편 (최종 {m1_final:,}명) · "
+               "같은 경과일끼리 비교 · 1편은 개봉일 누적에 유료시사 49,683명, "
+               "2편은 26,494명이 이미 포함되어 있습니다")
+
+    # ---- 공급(스크린)과 수요(좌석점유율)
+    s1, s2 = st.columns(2)
+    with s1:
+        st.markdown("**스크린수 — 공급이 줄면 관객도 준다**")
+        sc = alt.Chart(comp).mark_line(point=True).encode(
+            x=alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, span], nice=False)),
+            y=alt.Y("screens:Q", title="스크린수"),
+            color=alt.Color("구분:N", scale=alt.Scale(domain=["2편", "1편"],
+                                                     range=[C_M2, C_M1]), legend=None),
+            strokeDash=alt.StrokeDash("구분:N", scale=alt.Scale(domain=["2편", "1편"],
+                                                               range=[[1, 0], [5, 4]]), legend=None))
+        st.altair_chart(sc.properties(height=220), width="stretch")
+    with s2:
+        st.markdown("**좌석점유율 — 수요의 질 (관객 ÷ 상영횟수×160석)**")
+        sr = m2d.copy()
+        sr["seat_rate"] = pd.to_numeric(sr["seat_rate"], errors="coerce")
+        srm = m1d[m1d["day"] <= span].copy()
+        srm["seat_rate"] = pd.to_numeric(srm["seat_rate"], errors="coerce")
+        sr["구분"], srm["구분"] = "2편", "1편"
+        sd = pd.concat([sr[["day", "seat_rate", "구분"]],
+                        srm[["day", "seat_rate", "구분"]]], ignore_index=True)
+        ch = alt.Chart(sd).mark_line(point=True).encode(
+            x=alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, span], nice=False)),
+            y=alt.Y("seat_rate:Q", title="좌석점유율", axis=alt.Axis(format=".0%")),
+            color=alt.Color("구분:N", scale=alt.Scale(domain=["2편", "1편"],
+                                                     range=[C_M2, C_M1]), legend=None),
+            strokeDash=alt.StrokeDash("구분:N", scale=alt.Scale(domain=["2편", "1편"],
+                                                               range=[[1, 0], [5, 4]]), legend=None))
+        st.altair_chart(ch.properties(height=220), width="stretch")
+
+    st.caption("판단 기준선 — **124만** 넘으면 1편 초과(기본 성공) · **200만** = 예매가 약속한 수준 "
+               "(D-1 예매 1.62배) · **250만** = 회귀 상단. 1편은 첫 주말(개봉 4일차)까지 "
+               "누적 406,384명으로 최종의 32.8%를 벌었습니다 — 즉 첫 주말 누적 × 약 3.05 ≈ 최종.")
+
+st.divider()
+st.header("4. 개봉 전 예매율 (기록) — 흥행 예측", divider="blue")
 st.caption("매일 KOBIS 실시간 예매율에서 수집 · 1편 비교: 보도 관측 4개 시점(D-8·D-7·D-5·D-1) + "
            "D-13~D-9는 역추정치 (보도 없음, 관측 4점 성장곡선 +23%/일 역외삽)")
 
@@ -445,7 +549,7 @@ with st.expander("매일 기록 표 (예매)"):
     st.dataframe(bk.sort_values("date", ascending=False), hide_index=True, width="stretch")
 
 # ================= 4. 언급량 추이
-st.header("4. 언급량 추이", divider="blue")
+st.header("5. 언급량 추이", divider="blue")
 buzz_path = DATA / "buzz_daily.csv"
 if not buzz_path.exists():
     st.info("준비 중입니다 — 커뮤니티·뉴스·검색 언급량을 모아서 곧 추가할 예정입니다.")
@@ -561,7 +665,7 @@ else:
                "'D-day 비교' 시트와 동일한 계산")
 
 # ================= 5. 스크린 캐파
-st.header("5. 스크린수 비교", divider="blue")
+st.header("6. 스크린수 비교", divider="blue")
 scr_path = DATA / "screens.json"
 if not scr_path.exists():
     st.info("준비 중입니다 — 스크린 수 데이터를 곧 추가할 예정입니다.")
