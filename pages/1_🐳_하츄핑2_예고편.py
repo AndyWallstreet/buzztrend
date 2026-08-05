@@ -6,7 +6,7 @@ Data files in data/hatchuping/ are refreshed once a day by the local
 scheduled task (hatchuping_update.py), which also updates the Excel tracker.
 """
 import json
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import altair as alt
@@ -179,9 +179,16 @@ week = dm.iloc[-8] if len(dm) > 7 else None
 open_day = date.fromisoformat(src["theater_open"])
 d_to_open = (open_day - last["date"].date()).days
 
+# 개봉 전엔 카운트다운, 개봉 후엔 며칠째인지. 데이터 마지막 행 날짜로 재면 아침 수집분이
+# 어제 자로 기록되는 탓에 개봉 당일에도 '개봉까지 1일'이 떠서, 실제 오늘(KST)로 잰다.
+_today_kst = datetime.now(timezone(timedelta(hours=9))).date()
+_since_open = (_today_kst - open_day).days
+open_label = (f"극장 개봉({src['theater_open']})까지 {d_to_open}일" if _since_open < 0
+              else f"극장 개봉 D+{_since_open} ({src['theater_open']} 개봉)")
+
 st.title("🐳 사랑의 하츄핑 2 — 예고편 트래커")
 st.caption(f"마지막 업데이트: {meta['last_updated']} · 메인 예고편 공개 D+{int(last['day'])} · "
-           f"극장 개봉({src['theater_open']})까지 {d_to_open}일 · 1편(운명의 시작)과 비교")
+           f"{open_label} · 1편(운명의 시작)과 비교")
 
 # ================= 1. 메인 예고편
 st.header("1. 메인 예고편", divider="blue")
