@@ -353,6 +353,48 @@ else:
         k3.metric(f"1편 같은 일차(D+{dnum}) 대비", "비교 불가", "1편 곡선 범위 밖", delta_color="off")
         k4.metric("최종 예상 관객수", "—", "배수 계산 불가", delta_color="off")
 
+    # ---- 숫자 비교표 — 그래프만 보면 "얼마나"가 안 잡힌다. 같은 일차의 실제 값을
+    # 1편/2편 나란히, 배수까지 한 표에 적는다.
+    if len(ref):
+        rr = ref.iloc[0]
+
+        def _n(row, col):
+            v = pd.to_numeric(pd.Series([row.get(col)]), errors="coerce").iloc[0]
+            return None if pd.isna(v) else float(v)
+
+        def _fmt(v, pct=False):
+            if v is None:
+                return "—"
+            return f"{v:.1%}" if pct else f"{v:,.0f}"
+
+        rows_tbl = []
+
+        def add(label, col, pct=False, v1=None, v2=None):
+            a1 = _n(rr, col) if v1 is None else v1
+            a2 = _n(last_bo, col) if v2 is None else v2
+            ratio = (a2 / a1) if (a1 and a2 is not None) else None
+            rows_tbl.append({
+                "항목": label,
+                "1편": _fmt(a1, pct),
+                "2편": _fmt(a2, pct),
+                "1편 대비": f"{ratio:.2f}배" if ratio else "—",
+            })
+
+        add(f"하루 관객수 (개봉 {dnum + 1}일차)", "adm")
+        add("누적 관객수", "cum")
+        add("누적 — 유료시사 제외", "cum", v1=adj1, v2=adj2)
+        add("스크린수", "screens")
+        add("스크린점유율", "screen_share", pct=True)
+        add("상영횟수", "shows")
+        add("상영점유율", "show_share", pct=True)
+        add("좌석점유율", "seat_rate", pct=True)
+        md = ["| 항목 | 1편 | 2편 | 1편 대비 |", "|---|---:|---:|---:|"]
+        for t_ in rows_tbl:
+            md.append(f"| {t_['항목']} | {t_['1편']} | **{t_['2편']}** | **{t_['1편 대비']}** |")
+        st.markdown("\n".join(md))
+        st.caption(f"같은 일차(개봉 {dnum + 1}일차) 기준 · 1편 = 2024-08-07 개봉 · "
+                   "'1편 대비'가 1.00배보다 크면 1편보다 잘하고 있다는 뜻입니다")
+
     # ---- 누적 곡선 비교 (같은 일차끼리)
     span = max(int(m2d["day"].max()) + 7, 14)
     a = m2d[["day", "cum", "adm", "screens"]].copy()
