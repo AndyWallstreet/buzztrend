@@ -384,6 +384,33 @@ else:
                f"그래프의 누적에는 유료시사(1편 {_m1p:,}명 / 2편 {_m2p:,}명)가 포함돼 있어 "
                "출발선이 다릅니다 — 위의 배수는 그 시사분을 뺀 값입니다")
 
+    # ---- 일별 유입 관객수 — 누적은 과거를 다 안고 가서 둔하다. 하루치는 오늘의 힘을
+    # 그대로 보여주고, 주말 봉우리가 얼마나 높고 평일 골이 얼마나 얕은지로 뒷심이 읽힌다.
+    st.markdown("#### 하루 관객수 (일별 유입)")
+    day_line = base.mark_line(point=True, strokeWidth=2.5).encode(
+        y=alt.Y("adm:Q", title="하루 관객수", axis=alt.Axis(format=",.0f")),
+        strokeDash=alt.StrokeDash("구분:N", scale=alt.Scale(domain=["2편", "1편"],
+                                                           range=[[1, 0], [5, 4]]),
+                                  legend=None),
+        tooltip=[alt.Tooltip("구분:N"), alt.Tooltip("day:Q", title="경과일"),
+                 alt.Tooltip("adm:Q", title="하루 관객", format=","),
+                 alt.Tooltip("cum:Q", title="누적", format=","),
+                 alt.Tooltip("screens:Q", title="스크린", format=",")])
+    st.altair_chart(day_line.properties(height=300), width="stretch")
+
+    # 하루치 배수는 누적보다 먼저 움직인다 — 추세가 꺾이는 날 바로 드러나는 조기 신호.
+    d_ratio = None
+    if len(ref) and int(ref["adm"].iloc[0]) > 0:
+        d_ratio = int(last_bo["adm"]) / int(ref["adm"].iloc[0])
+    st.caption(
+        (f"오늘 하루치 배수 **{d_ratio:.2f}배** (2편 {int(last_bo['adm']):,}명 vs "
+         f"1편 같은 일차 {int(ref['adm'].iloc[0]):,}명) — 하루치 배수 × 1편 최종 = "
+         f"**{d_ratio * m1_final:,.0f}명**. " if d_ratio else "")
+        + "누적은 지나간 날을 다 안고 가서 천천히 움직이지만, 하루치는 그날의 힘을 바로 보여줍니다 — "
+          "그래서 흐름이 꺾이면 하루치 배수가 먼저 떨어집니다. "
+          "1편은 주말(개봉 3·4일차)에 121,522 / 109,050명까지 솟았다가 평일에 1.5만 명대로 "
+          "내려앉는 톱니 모양이었습니다. 2편의 봉우리가 그보다 높고 골이 얕으면 최종은 더 커집니다.")
+
     # ---- 공급(스크린·상영횟수)과 그 점유율 — 전부 1편과 두 줄로 비교
     # 왼쪽 = 절대량, 오른쪽 = 시장에서 차지한 비중. 절대량만 보면 그 해 전체 극장 물량이
     # 달라서 착시가 생긴다 (2026년 시장이 2024년보다 작다).
