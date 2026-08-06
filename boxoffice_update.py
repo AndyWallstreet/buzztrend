@@ -20,6 +20,7 @@ import json
 import re
 import subprocess
 import sys
+import time
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
@@ -52,11 +53,20 @@ def fetch_day(day: date, open_date: date):
     점유율은 그날 상영된 **모든 영화**의 스크린/상영횟수 합계를 분모로 쓴다
     (업계에서 쓰는 방식 — 한 스크린에 여러 영화가 걸리므로 물리적 스크린 수와는 다르다).
     """
-    r = requests.post(URL, data={
-        "loadEnd": "0", "searchType": "search",
-        "sSearchFrom": day.isoformat(), "sSearchTo": day.isoformat(),
-        "sMultiMovieYn": "", "sRepNationCd": "", "sWideAreaCd": "",
-    }, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
+    last_err = None
+    for attempt in range(4):          # KOBIS 가 이따금 연결을 끊는다 (10054) — 잠깐 쉬고 재시도
+        try:
+            r = requests.post(URL, data={
+                "loadEnd": "0", "searchType": "search",
+                "sSearchFrom": day.isoformat(), "sSearchTo": day.isoformat(),
+                "sMultiMovieYn": "", "sRepNationCd": "", "sWideAreaCd": "",
+            }, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
+            break
+        except requests.exceptions.ConnectionError as e:
+            last_err = e
+            time.sleep(5 * (attempt + 1))
+    else:
+        raise last_err
     r.encoding = r.apparent_encoding or "utf-8"
 
     hit, tot_scr, tot_shw = None, 0, 0
@@ -124,6 +134,7 @@ def build_curve(path: Path, open_date: date, end: date, refresh_last=0, force=Fa
         if key in have and key not in recent:
             d += timedelta(days=1)
             continue
+        time.sleep(0.8)   # 예의상 간격 — 빠른 연속 요청은 IP 차단을 부른다 (2026-08-07 실제로 당함)
         row = fetch_day(d, open_date)
         if row:
             rows[key] = row
