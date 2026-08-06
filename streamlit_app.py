@@ -89,7 +89,21 @@ pg_logi = st.Page(_placeholder("Logistics / Commerce", "물류·커머스 섹터
 pg_steel = st.Page(_placeholder("Steel & Non-Ferrous Metals", "철강·비철금속 섹터 추적"),
                    title="Steel & Non-Ferrous Metals", url_path="steel-metals")
 
+from app_pages import cover  # noqa: E402  (st.page_link 에 Page 객체가 필요해 여기서 조립)
+
+_PAGES = {"buzz": pg_buzz, "value": pg_value, "bio": pg_bio, "beauty": pg_beauty,
+          "ent": pg_ent, "trailer": pg_trailer, "boxoffice": pg_boxoffice,
+          "consumer": pg_consumer, "logi": pg_logi, "steel": pg_steel}
+
+
+def _cover():
+    cover.render(_PAGES)
+
+
+pg_cover = st.Page(_cover, title="LK Asset Terminal", url_path="home", default=True)
+
 nav = st.navigation({
+    "": [pg_cover],
     "Screener": [pg_buzz, pg_value],
     "Sector Watch": [pg_bio, pg_beauty, pg_ent, pg_trailer, pg_boxoffice,
                      pg_consumer, pg_logi, pg_steel],
