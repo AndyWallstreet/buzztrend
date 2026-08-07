@@ -78,7 +78,7 @@ def _entertainment():
     st.subheader("Movie tracking", divider="orange")
     st.page_link(pg_trailer, label="1. 하츄핑2 예고편 — 유튜브 조회수·댓글, 개봉 전 예매율 기록")
     st.page_link(pg_boxoffice, label="2. 하츄핑2 개봉 후 — KOBIS 실관객수, 실관람객 평점")
-    st.caption("종목: SAMG엔터 (450226) · 사랑의 하츄핑 2: 고래보석의 전설 (2026-08-05 개봉)")
+    st.caption("종목: SAMG엔터 (419530) · 사랑의 하츄핑 2: 고래보석의 전설 (2026-08-05 개봉)")
 
 
 pg_ent = st.Page(_entertainment, title="Entertainment/Contents", url_path="entertainment")

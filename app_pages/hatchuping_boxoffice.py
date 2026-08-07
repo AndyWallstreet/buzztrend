@@ -19,7 +19,8 @@ C_M1 = "#eb6834"   # 1편 (orange)
 st.set_page_config(page_title="하츄핑2 개봉 후", page_icon="🎬", layout="wide")
 
 LOAD_FILES = ("m1_daily.csv", "m2_daily.csv", "boxoffice_now.json",
-              "ratings.csv", "sentiment_daily.csv", "ratings_peers.json")
+              "ratings.csv", "sentiment_daily.csv", "ratings_peers.json",
+              "board_daily.csv", "board_samples.json")
 
 
 def load_stamp():
@@ -38,7 +39,8 @@ def load(stamp):
         return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
 
     return (_csv("m1_daily.csv"), _csv("m2_daily.csv"), _json("boxoffice_now.json"),
-            _csv("ratings.csv"), _csv("sentiment_daily.csv"), _json("ratings_peers.json"))
+            _csv("ratings.csv"), _csv("sentiment_daily.csv"), _json("ratings_peers.json"),
+            _csv("board_daily.csv"), _json("board_samples.json"))
 
 
 def date_span(dates, extra_days=3):
@@ -54,7 +56,7 @@ def day_axis(days, max_labels=12):
                     labelAngle=0, labelOverlap=False)
 
 
-m1d, m2d, bonow, rat, sd, peer = load(load_stamp())
+m1d, m2d, bonow, rat, sd, peer, bd, bsamp = load(load_stamp())
 
 st.title("🎬 사랑의 하츄핑 2 — 개봉 후 트래커")
 st.caption("2026-08-05 개봉 · KOBIS 확정 관객수 기준 · 1편(운명의 시작, 최종 1,239,245명)과 "
@@ -328,3 +330,78 @@ else:
             st.info("댓글 감성 데이터가 아직 없습니다.")
 
 st.divider()
+st.header("3. 네이버 종목토론방 — SAMG엔터 (419530)", divider="blue")
+st.caption("주주들이 지금 무슨 얘기를 하는지. 게시글 **제목**을 주식 어휘 키워드로 긍/부정 분류합니다 — "
+           "거친 분류이니 비율의 **추세**와 아래 실제 글 제목을 같이 보세요. "
+           "오늘 행은 진행 중 스냅샷이라 하루 종일 숫자가 커집니다.")
+
+if bd is None or not len(bd):
+    st.info("아직 수집 전입니다 — 매일 아침 자동으로 쌓입니다.")
+else:
+    bdd = bd.sort_values("date").reset_index(drop=True)
+    b_last = bdd.iloc[-1]
+    b_full = bdd.iloc[-2] if len(bdd) > 1 else None    # 마지막 '완결된' 하루 = 어제
+
+    n1, n2, n3, n4 = st.columns(4)
+    _bl = pd.Timestamp(b_last["date"])
+    n1.metric(f"오늘 게시글 ({_bl.month}/{_bl.day})",
+              f"{int(b_last['posts']):,}건", "진행 중", delta_color="off")
+    if b_full is not None:
+        prev2 = bdd.iloc[-3] if len(bdd) > 2 else None
+        n2.metric("어제 게시글", f"{int(b_full['posts']):,}건",
+                  (f"{int(b_full['posts'] - prev2['posts']):+,} (그제보다)" if prev2 is not None else "—"))
+        n3.metric("어제 긍정 비율", f"{b_full['pos_ratio']:.0%}",
+                  f"긍정 {int(b_full['pos'])}건 / {int(b_full['posts'])}건", delta_color="off")
+        n4.metric("어제 부정 비율", f"{b_full['neg_ratio']:.0%}",
+                  f"부정 {int(b_full['neg'])}건 / {int(b_full['posts'])}건", delta_color="off")
+
+    g1, g2 = st.columns(2)
+    with g1:
+        st.markdown("**하루 게시글 수 — 관심의 크기**")
+        bar = alt.Chart(bdd).mark_bar(color=C_M2).encode(
+            x=alt.X("date:T", title=None, axis=day_axis(date_span(bdd["date"], 2))),
+            y=alt.Y("posts:Q", title="게시글 수"),
+            tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
+                     alt.Tooltip("posts:Q", title="게시글"),
+                     alt.Tooltip("pos:Q", title="긍정"), alt.Tooltip("neg:Q", title="부정")])
+        st.altair_chart(bar.properties(height=240), width="stretch")
+    with g2:
+        st.markdown("**긍정 vs 부정 비율 — 분위기의 방향**")
+        mix = bdd.melt(id_vars=["date"], value_vars=["pos_ratio", "neg_ratio"],
+                       var_name="구분", value_name="비율")
+        mix["구분"] = mix["구분"].map({"pos_ratio": "긍정", "neg_ratio": "부정"})
+        ln = alt.Chart(mix).mark_line(point=True, strokeWidth=2.2).encode(
+            x=alt.X("date:T", title=None, axis=day_axis(date_span(bdd["date"], 2))),
+            y=alt.Y("비율:Q", title="비율", axis=alt.Axis(format=".0%")),
+            color=alt.Color("구분:N", scale=alt.Scale(domain=["긍정", "부정"],
+                                                     range=["#2a9d5c", "#d64545"]),
+                            legend=alt.Legend(title=None, orient="top-left")),
+            tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
+                     alt.Tooltip("구분:N"), alt.Tooltip("비율:Q", format=".1%")])
+        st.altair_chart(ln.properties(height=240), width="stretch")
+
+    if bsamp:
+        p1, p2 = st.columns(2)
+        with p1:
+            st.markdown("**주요 긍정 글** (최근 3일 · 조회·공감 순)")
+            for p in (bsamp.get("top_pos") or [])[:6]:
+                st.markdown(f"- {p['title']}  \n"
+                            f"  <span style='color:#8b919c;font-size:0.8em'>"
+                            f"{p['date'][5:]} · 조회 {p['views']:,}"
+                            + (f" · 공감 {p['agree']}" if p.get("agree") else "")
+                            + "</span>", unsafe_allow_html=True)
+            if not bsamp.get("top_pos"):
+                st.caption("긍정 분류된 글이 없습니다.")
+        with p2:
+            st.markdown("**주요 부정 글** (최근 3일 · 조회·공감 순)")
+            for p in (bsamp.get("top_neg") or [])[:6]:
+                st.markdown(f"- {p['title']}  \n"
+                            f"  <span style='color:#8b919c;font-size:0.8em'>"
+                            f"{p['date'][5:]} · 조회 {p['views']:,}"
+                            + (f" · 공감 {p['agree']}" if p.get("agree") else "")
+                            + "</span>", unsafe_allow_html=True)
+            if not bsamp.get("top_neg"):
+                st.caption("부정 분류된 글이 없습니다.")
+        st.caption(f"수집: {bsamp.get('as_of', '')} · finance.naver.com 종목토론방 · "
+                   "제목 키워드 분류 (긍정: 매수/상승/흥행/대박 계열, 부정: 하락/손절/매도/실망 계열) · "
+                   "주가 얘기와 영화 얘기가 섞여 있습니다")
