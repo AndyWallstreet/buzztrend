@@ -1,9 +1,9 @@
 {
-  "as_of": "2026-08-07 08:55 KST (KOBIS 공식 — 크롬 경유 수집)",
+  "as_of": "2026-08-07 13:18 KST",
   "last_date": "2026-08-06",
   "day": 1,
-  "adm": 43740,
-  "cum": 144315,
+  "adm": 43744,
+  "cum": 144319,
   "screens": 801,
   "shows": 1698,
   "rank": 3,
@@ -15,11 +15,11 @@
   "m1_seat_rate": 0.0845,
   "m2_preview": 27410,
   "m1_preview": 49683,
-  "adj_cum": 116905,
+  "adj_cum": 116909,
   "m1_adj_cum": 92659,
   "ratio_adj": 1.2617,
   "ratio_cum": 1.0139,
-  "ratio_day": 1.2431,
-  "forecast": 1563517,
-  "forecast_raw": 1256422
+  "ratio_day": 1.2432,
+  "forecast": 1563571,
+  "forecast_raw": 1256457
 }
