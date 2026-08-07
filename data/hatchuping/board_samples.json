@@ -1,12 +1,12 @@
 {
-  "as_of": "2026-08-07 09:06 KST",
+  "as_of": "2026-08-07 13:21 KST",
   "stock": "SAMG엔터 (419530)",
   "window": "2026-08-05 ~ 2026-08-07",
   "top_pos": [
     {
       "date": "2026-08-05",
       "title": "회사는 분위기 아주 좋다고 함",
-      "views": 595,
+      "views": 596,
       "agree": 0,
       "disagree": 0
     },
@@ -20,14 +20,7 @@
     {
       "date": "2026-08-06",
       "title": "이정도면 흥행성공아니냐?",
-      "views": 207,
-      "agree": 0,
-      "disagree": 0
-    },
-    {
-      "date": "2026-08-05",
-      "title": "개인11만주매수",
-      "views": 189,
+      "views": 208,
       "agree": 0,
       "disagree": 0
     },
@@ -44,20 +37,27 @@
       "views": 137,
       "agree": 0,
       "disagree": 0
+    },
+    {
+      "date": "2026-08-06",
+      "title": "우리 딸래미가 너무 좋아해서 10주 샀다",
+      "views": 129,
+      "agree": 0,
+      "disagree": 0
     }
   ],
   "top_neg": [
     {
-      "date": "2026-08-05",
-      "title": "오늘 하락은",
+      "date": "2026-08-06",
+      "title": "고래 담주에 예매율 4위로 떨어짐",
       "views": 204,
       "agree": 0,
       "disagree": 0
     },
     {
-      "date": "2026-08-06",
-      "title": "고래 담주에 예매율 4위로 떨어짐",
-      "views": 198,
+      "date": "2026-08-05",
+      "title": "오늘 하락은",
+      "views": 204,
       "agree": 0,
       "disagree": 0
     },
