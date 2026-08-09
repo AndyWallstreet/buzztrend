@@ -20,7 +20,8 @@ st.set_page_config(page_title="하츄핑2 개봉 후", page_icon="🎬", layout=
 
 LOAD_FILES = ("m1_daily.csv", "m2_daily.csv", "boxoffice_now.json",
               "ratings.csv", "sentiment_daily.csv", "ratings_peers.json",
-              "board_daily.csv", "board_samples.json")
+              "board_daily.csv", "board_samples.json",
+              "m1_market.csv", "m2_market.csv")
 
 
 def load_stamp():
@@ -40,7 +41,8 @@ def load(stamp):
 
     return (_csv("m1_daily.csv"), _csv("m2_daily.csv"), _json("boxoffice_now.json"),
             _csv("ratings.csv"), _csv("sentiment_daily.csv"), _json("ratings_peers.json"),
-            _csv("board_daily.csv"), _json("board_samples.json"))
+            _csv("board_daily.csv"), _json("board_samples.json"),
+            _csv("m1_market.csv"), _csv("m2_market.csv"))
 
 
 def date_span(dates, extra_days=3):
@@ -56,7 +58,7 @@ def day_axis(days, max_labels=12):
                     labelAngle=0, labelOverlap=False)
 
 
-m1d, m2d, bonow, rat, sd, peer, bd, bsamp = load(load_stamp())
+m1d, m2d, bonow, rat, sd, peer, bd, bsamp, mk1, mk2 = load(load_stamp())
 
 st.title("🎬 사랑의 하츄핑 2 — 개봉 후 트래커")
 st.caption("2026-08-05 개봉 · KOBIS 확정 관객수 기준 · 1편(운명의 시작, 최종 1,239,245명)과 "
@@ -248,6 +250,92 @@ else:
     st.caption("위 네 개는 극장이 이 영화에 **얼마나 걸어줬나(공급)**, 좌석점유율은 "
                "관객이 **얼마나 채웠나(수요)** 입니다. 공급은 극장이 정하고 수요는 관객이 정하므로, "
                "좌석점유율이 높으면 다음 주 스크린이 늘어나는 쪽으로 이어집니다 — 그래서 남겨 뒀습니다.")
+
+    # ---- 경쟁작 상영점유율 — 상영관 총량은 고정이라, 대작이 빠져야 하츄핑 회차가 늘 수 있다.
+    st.markdown("#### 경쟁작 상영점유율 — 상영관 뺏고 뺏기기")
+    st.caption("극장 전체 상영 횟수는 정해져 있어서, 하츄핑 상영이 늘려면 **다른 영화가 줄어야** 합니다. "
+               "오디세이·스파이더맨 같은 대작의 점유율이 내려가는 것이 하츄핑 상영 확대의 선행 신호입니다. "
+               "1편 때 실제로 어땠는지도 같이 볼 수 있습니다.")
+
+    def _mknum(df):
+        df = df.copy()
+        for c in ("day", "rank", "adm", "shows", "adm_share", "show_share"):
+            if c in df:
+                df[c] = pd.to_numeric(df[c], errors="coerce")
+        return df.dropna(subset=["day", "show_share"])
+
+    def market_lines(mk, mspan, top_n=6):
+        df = _mknum(mk)
+        df = df[df["day"] <= mspan]
+        keep = df.groupby("title")["show_share"].max().nlargest(top_n).index
+        df = df[df["title"].isin(keep)].copy()
+        df["영화"] = df["title"].str.replace(r"[:\-].*$", "", regex=True).str.slice(0, 11).str.strip()
+        return alt.Chart(df).mark_line(point=True).encode(
+            x=alt.X("day:Q", title="경과일 (0 = 하츄핑 개봉일)",
+                    scale=alt.Scale(domain=[float(df["day"].min()), mspan], nice=False),
+                    axis=alt.Axis(tickMinStep=1, format="d")),
+            y=alt.Y("show_share:Q", title="상영점유율", axis=alt.Axis(format=".0%")),
+            color=alt.Color("영화:N", legend=alt.Legend(title=None, orient="bottom", columns=3)),
+            strokeWidth=alt.condition("indexof(datum.영화, '하츄핑') >= 0",
+                                      alt.value(3.5), alt.value(1.4)),
+            opacity=alt.condition("indexof(datum.영화, '하츄핑') >= 0",
+                                  alt.value(1), alt.value(0.65)),
+            tooltip=[alt.Tooltip("영화:N"), alt.Tooltip("date:T", title="날짜", format="%m/%d"),
+                     alt.Tooltip("rank:Q", title="순위"),
+                     alt.Tooltip("show_share:Q", title="상영점유율", format=".1%"),
+                     alt.Tooltip("adm_share:Q", title="관객점유율", format=".1%"),
+                     alt.Tooltip("adm:Q", title="하루 관객", format=",")],
+        ).properties(height=300)
+
+    def share_vs_adm(daily, bar_color, mspan):
+        df = daily[daily["day"] <= mspan][["day", "adm", "show_share"]].copy()
+        df["show_share"] = pd.to_numeric(df["show_share"], errors="coerce")
+        x = alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, mspan], nice=False),
+                  axis=alt.Axis(tickMinStep=1, format="d"))
+        bars = alt.Chart(df).mark_bar(color=bar_color, opacity=0.45).encode(
+            x=x, y=alt.Y("adm:Q", title="하루 관객수", axis=alt.Axis(format=",.0f")),
+            tooltip=[alt.Tooltip("day:Q", title="경과일"),
+                     alt.Tooltip("adm:Q", title="하루 관객", format=","),
+                     alt.Tooltip("show_share:Q", title="상영점유율", format=".1%")])
+        line = alt.Chart(df.dropna(subset=["show_share"])).mark_line(
+            color="#7c3aed", strokeWidth=2.5, point=True).encode(
+            x=x, y=alt.Y("show_share:Q", title="상영점유율", axis=alt.Axis(format=".0%")),
+            tooltip=[alt.Tooltip("day:Q", title="경과일"),
+                     alt.Tooltip("show_share:Q", title="상영점유율", format=".1%")])
+        return alt.layer(bars, line).resolve_scale(y="independent").properties(height=280)
+
+    tab2, tab1 = st.tabs(["2편 지금 (2026)", "1편 그때는 (2024)"])
+    with tab2:
+        if mk2 is None or not len(mk2):
+            st.info("경쟁작 데이터 수집 전입니다 — 매일 아침 자동으로 쌓입니다.")
+        else:
+            st.altair_chart(market_lines(mk2, span), width="stretch")
+            mlast = _mknum(mk2)
+            mlast = mlast[mlast["day"] == mlast["day"].max()].sort_values("rank")
+            hat = mlast[mlast["title"].str.contains("하츄핑")]
+            if len(hat):
+                h = hat.iloc[0]
+                gap = h["adm_share"] - h["show_share"]
+                st.caption(f"어제 하츄핑: 상영점유율 **{h['show_share']:.1%}** vs 관객점유율 "
+                           f"**{h['adm_share']:.1%}** ({gap:+.1%}p) — "
+                           + ("관객점유율이 더 높으면 '자리가 모자라다'는 뜻이라 "
+                              "극장이 상영을 늘릴 유인이 있습니다."
+                              if gap > 0 else
+                              "관객점유율이 상영점유율보다 낮으면 극장이 상영을 줄일 수 있습니다.")
+                           + " 위 경쟁작 선이 꺾이는 날 = 하츄핑 회차가 늘 수 있는 날입니다.")
+            st.markdown("**하츄핑2 — 상영점유율(보라 선)과 하루 관객수(막대)**")
+            st.altair_chart(share_vs_adm(m2d, C_M2, span), width="stretch")
+    with tab1:
+        if mk1 is None or not len(mk1):
+            st.info("1편 경쟁작 데이터가 없습니다 — `python boxoffice_update.py --build-m1-market` 실행 필요")
+        else:
+            m1span = 45
+            st.altair_chart(market_lines(mk1, m1span), width="stretch")
+            st.markdown("**하츄핑1 — 상영점유율(보라 선)과 하루 관객수(막대): 점유율이 움직이면 관객이 어떻게 따라갔나**")
+            st.altair_chart(share_vs_adm(m1d, C_M1, m1span), width="stretch")
+            st.caption("1편의 교훈: 상영점유율은 주말마다 올라가고 평일에 내려가는 톱니 모양이었고, "
+                       "8월 중순 대작들이 빠지면서 점유율이 유지된 구간에서 관객이 계속 들어왔습니다. "
+                       "점유율(공급)이 먼저 움직이고 관객수(수요)가 따라오는지 — 그 순서를 보는 차트입니다.")
 
     st.caption("판단 기준선 — **124만** 넘으면 1편 초과(기본 성공) · **200만** = 예매가 약속한 수준 "
                "(D-1 예매 1.62배) · **250만** = 회귀 상단. 1편은 첫 주말(개봉 4일차)까지 "

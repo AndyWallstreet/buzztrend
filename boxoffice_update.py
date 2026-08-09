@@ -10,12 +10,15 @@ KOBIS 일별 박스오피스의 '확정' 관객수가 유일한 진짜 숫자다
 억지 계수가 없다 — 1편 자기 곡선이 기준이라 관객이 빠지면 배수가 즉시 떨어진다.
 
 사용법:
-  python boxoffice_update.py                # 2편 최신 확정일까지 갱신 + 사이트 파일 + push
-  python boxoffice_update.py --build-m1     # 1편 기준 곡선 최초 생성 (한 번만)
-  python boxoffice_update.py --no-push      # git push 생략
+  python boxoffice_update.py                    # 2편 최신 확정일까지 갱신 + 사이트 파일 + push
+  python boxoffice_update.py --build-m1         # 1편 기준 곡선 최초 생성 (한 번만)
+  python boxoffice_update.py --build-m1-market  # 1편 경쟁작 점유율 백필 (한 번만, ~3분)
+  python boxoffice_update.py --no-push          # git push 생략
 """
 from __future__ import annotations
 
+import csv
+import html
 import json
 import re
 import subprocess
@@ -40,6 +43,11 @@ SEATS_PER_SHOW = 160                # screens.json 과 같은 가정 (좌석점�
 URL = "https://www.kobis.or.kr/kobis/business/stat/boxs/findDailyBoxOfficeList.do"
 HEAD = ["date", "day", "adm", "cum", "screens", "shows", "rank", "seat_rate",
         "total_screens", "total_shows", "screen_share", "show_share"]
+# 경쟁작 추적 — 상영관 총량은 고정이라 오디세이·스파이더맨 같은 대작이 빠져야
+# 하츄핑 상영횟수가 늘 수 있다. 그래서 상위 10편의 점유율을 통째로 쌓는다.
+MARKET_HEAD = ["date", "day", "rank", "title", "open", "adm", "cum", "screens",
+               "shows", "adm_share", "show_share", "screen_share"]
+MARKET_TOP = 10
 
 
 def _num(s):
@@ -47,12 +55,16 @@ def _num(s):
     return int(s) if s not in ("", "-") else 0
 
 
-def fetch_day(day: date, open_date: date):
-    """그 날짜 박스오피스에서 해당 영화 행 + 그날 시장 전체 합계를 dict 로. 없으면 None.
+def _clean_title(s):
+    """영화명 셀에는 순위 증감 배지가 같이 들어온다 — '오디세이 8 상승', '파일럿 &nbsp; 동일'."""
+    s = html.unescape(str(s)).replace("\xa0", " ")
+    # 배지 숫자(몇 계단)는 항상 독립 토큰 — 공백을 요구해야 '베테랑2 하락'의 '2'를 안 깎는다
+    s = re.sub(r"\s+(?:\d+\s+)?(동일|상승|하락|New)\s*$", "", s)
+    return re.sub(r"\s+", " ", s).strip()
 
-    점유율은 그날 상영된 **모든 영화**의 스크린/상영횟수 합계를 분모로 쓴다
-    (업계에서 쓰는 방식 — 한 스크린에 여러 영화가 걸리므로 물리적 스크린 수와는 다르다).
-    """
+
+def _fetch_rows(day: date):
+    """그 날짜 박스오피스 표의 모든 영화 행을 컬럼 리스트로."""
     last_err = None
     for attempt in range(4):          # KOBIS 가 이따금 연결을 끊는다 (10054) — 잠깐 쉬고 재시도
         try:
@@ -69,13 +81,24 @@ def fetch_day(day: date, open_date: date):
         raise last_err
     r.encoding = r.apparent_encoding or "utf-8"
 
-    hit, tot_scr, tot_shw = None, 0, 0
+    rows = []
     for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", r.text, re.S):
         c = [re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", x)).strip()
              for x in re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", tr, re.S)]
         # 순위|영화명|개봉일|매출액|점유율|증감|누적매출|관객수|증감|누적관객|스크린|상영횟수
-        if len(c) < 12:
-            continue
+        if len(c) >= 12:
+            rows.append(c)
+    return rows
+
+
+def fetch_day(day: date, open_date: date):
+    """그 날짜 박스오피스에서 해당 영화 행 + 그날 시장 전체 합계를 dict 로. 없으면 None.
+
+    점유율은 그날 상영된 **모든 영화**의 스크린/상영횟수 합계를 분모로 쓴다
+    (업계에서 쓰는 방식 — 한 스크린에 여러 영화가 걸리므로 물리적 스크린 수와는 다르다).
+    """
+    hit, tot_scr, tot_shw = None, 0, 0
+    for c in _fetch_rows(day):
         tot_scr += _num(c[10])
         tot_shw += _num(c[11])
         if "하츄핑" in c[1] and c[2] == open_date.isoformat():
@@ -97,6 +120,99 @@ def fetch_day(day: date, open_date: date):
     hit["screen_share"] = round(hit["screens"] / tot_scr, 4) if tot_scr else ""
     hit["show_share"] = round(hit["shows"] / tot_shw, 4) if tot_shw else ""
     return hit
+
+
+def fetch_market(day: date, open_date: date):
+    """그 날짜 상위 10편의 점유율 행들. open_date 는 우리 영화 개봉일 (경과일 계산용)."""
+    rows = _fetch_rows(day)
+    tot_scr = sum(_num(c[10]) for c in rows)
+    tot_shw = sum(_num(c[11]) for c in rows)
+    tot_adm = sum(_num(c[7]) for c in rows)
+    out = []
+    for c in rows:
+        rank = _num(c[0])
+        if rank == 0 or rank > MARKET_TOP:
+            continue
+        adm, scr, shw = _num(c[7]), _num(c[10]), _num(c[11])
+        out.append({
+            "date": day.isoformat(),
+            "day": (day - open_date).days,
+            "rank": rank,
+            "title": _clean_title(c[1]),
+            "open": c[2],
+            "adm": adm,
+            "cum": _num(c[9]),
+            "screens": scr,
+            "shows": shw,
+            "adm_share": round(adm / tot_adm, 4) if tot_adm else "",
+            "show_share": round(shw / tot_shw, 4) if tot_shw else "",
+            "screen_share": round(scr / tot_scr, 4) if tot_scr else "",
+        })
+    return out
+
+
+def read_market(path: Path):
+    """date -> [row dict] (제목에 쉼표가 들어갈 수 있어 csv 모듈로 읽고 쓴다)."""
+    if not path.exists():
+        return {}
+    out = {}
+    with path.open(encoding="utf-8", newline="") as f:
+        for row in csv.DictReader(f):
+            out.setdefault(row["date"], []).append(row)
+    return out
+
+
+def write_market(path: Path, by_date: dict):
+    with path.open("w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=MARKET_HEAD)
+        w.writeheader()
+        for k in sorted(by_date):
+            for row in sorted(by_date[k], key=lambda r: int(r["rank"])):
+                w.writerow(row)
+
+
+def _unify_titles(by_date):
+    """배지 정리의 한계 보정 — '슈퍼배드 4 상승'은 '슈퍼배드 4'+상승인지 '슈퍼배드'+4계단 상승인지
+    글자만으로는 구분이 안 된다. 같은 개봉일에 'X'와 'X 4'가 둘 다 보이면 긴 쪽이 진짜 제목이다
+    (깎여서 길어지는 경우는 없으므로)."""
+    variants = {}
+    for rows in by_date.values():
+        for r in rows:
+            variants.setdefault(r["open"], set()).add(r["title"])
+    fix = {}
+    for open_d, titles in variants.items():
+        for t in titles:
+            m = re.match(r"^(.+?)\s?\d+$", t)   # 'X 4'든 'X2'든 — 숫자 잘린 변형을 찾는다
+            if m and m.group(1) in titles:
+                fix[(open_d, m.group(1))] = t
+    for rows in by_date.values():
+        for r in rows:
+            key = (r["open"], r["title"])
+            if key in fix:
+                r["title"] = fix[key]
+    return by_date
+
+
+def build_market(path: Path, open_date: date, end: date, refresh_last=0):
+    """open_date~end 상위 10편 점유율을 채운다. 이미 있는 날은 건너뛰되 최근 refresh_last 일은 다시."""
+    by_date = read_market(path)
+    recent = {(end - timedelta(days=i)).isoformat() for i in range(refresh_last)}
+    d, added = open_date, 0
+    while d <= end:
+        key = d.isoformat()
+        if key in by_date and key not in recent:
+            d += timedelta(days=1)
+            continue
+        time.sleep(0.8)   # 예의상 간격 — 빠른 연속 요청은 IP 차단을 부른다
+        rows = fetch_market(d, open_date)
+        if rows:
+            by_date[key] = rows
+            added += 1
+        d += timedelta(days=1)
+    by_date = _unify_titles(by_date)
+    write_market(path, by_date)
+    print(f"{path.name}: {len(by_date)}일치 (이번에 {added}일 갱신)")
+    return by_date
 
 
 def read_csv(path: Path):
@@ -174,6 +290,11 @@ def main():
                     force="--force" in args)
         return
 
+    if "--build-m1-market" in args:
+        print("1편 경쟁작 점유율 백필 중 (2024-08-07 ~ 141일, 하루 한 요청)...")
+        build_market(DATA / "m1_market.csv", M1_OPEN, M1_OPEN + timedelta(days=140))
+        return
+
     # ---- 2편: 어제 확정분까지 (KOBIS 는 다음날 아침에 전날을 확정한다)
     end = min(today - timedelta(days=1), today)
     if end < M2_OPEN:
@@ -181,6 +302,11 @@ def main():
         return
     m2 = build_curve(DATA / "m2_daily.csv", M2_OPEN, end, refresh_last=3,
                      force="--force" in args)
+    market = build_market(DATA / "m2_market.csv", M2_OPEN, end, refresh_last=3)
+    if market:
+        top = sorted(market[max(market)], key=lambda r: int(r["rank"]))[:5]
+        print("   · 상영점유율 top5: " + " · ".join(
+            f"{r['title'][:12]} {float(r['show_share']):.1%}" for r in top if r["show_share"]))
     m1 = read_csv(DATA / "m1_daily.csv")
     if not m2:
         print("2편 데이터 없음 (개봉일 확정 전일 수 있음)")
