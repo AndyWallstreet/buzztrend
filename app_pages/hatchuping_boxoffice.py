@@ -467,6 +467,41 @@ else:
                      alt.Tooltip("shows:Q", title="상영횟수", format=",")])
         st.altair_chart(ch_chart.properties(height=300), width="stretch")
 
+        # 체인 하나를 골라 그 안의 영화별 비중 — "CGV 는 지금 무엇에 회차를 몰아주나"
+        st.markdown("**🎯 체인을 골라 그 안의 영화별 비중 보기**")
+        sel_ch = st.radio("체인 선택", CH_ORDER, horizontal=True, index=1,
+                          label_visibility="collapsed")
+        one_ch = chd[chd["chain"] == sel_ch].dropna(subset=["show_share"]).copy()
+        if len(one_ch):
+            # 색: 하츄핑 = 파랑 고정, 나머지는 최신 순위 순서로 배정 (날마다 색이 안 바뀌게)
+            latest = one_ch[one_ch["date"] == one_ch["date"].max()].sort_values("rank")
+            others = [t for t in latest["title"] if "하츄핑" not in t]
+            others += [t for t in one_ch["title"].unique()
+                       if t not in others and "하츄핑" not in t]
+            mine_title = next((t for t in one_ch["title"].unique() if "하츄핑" in t), None)
+            dom = ([mine_title] if mine_title else []) + others
+            pal = [C_M2] if mine_title else []
+            pal += ["#e03131", "#f08c00", "#6741d9", "#2f9e44", "#868e96",
+                    "#0ca678", "#d6336c", "#846358"][:len(others)]
+            movie_chart = alt.Chart(one_ch).mark_line(point=True).encode(
+                x=alt.X("date:T", title=None, axis=day_axis(one_ch["date"].unique())),
+                y=alt.Y("show_share:Q", title=f"{sel_ch} 안에서 영화별 상영점유율",
+                        axis=alt.Axis(format=".0%")),
+                color=alt.Color("title:N", scale=alt.Scale(domain=dom, range=pal),
+                                legend=alt.Legend(title=None, orient="bottom", columns=3,
+                                                  labelLimit=220)),
+                strokeWidth=alt.condition("indexof(datum.title, '하츄핑') >= 0",
+                                          alt.value(3.5), alt.value(1.6)),
+                tooltip=[alt.Tooltip("date:T", title="날짜", format="%m/%d"),
+                         alt.Tooltip("title:N", title="영화"),
+                         alt.Tooltip("show_share:Q", title="상영점유율", format=".1%"),
+                         alt.Tooltip("shows:Q", title="상영횟수", format=","),
+                         alt.Tooltip("screens:Q", title="스크린수", format=",")])
+            st.altair_chart(movie_chart.properties(height=320), width="stretch")
+            st.caption(f"{sel_ch} 전체 상영횟수 중 각 영화가 차지한 비중 (KOBIS 하루 상위 5편). "
+                       "굵은 파란 선 = 하츄핑. 대작 선이 내려가면서 하츄핑 선이 올라가면 "
+                       "그 체인이 회차를 하츄핑 쪽으로 돌리고 있다는 뜻입니다.")
+
         # 어제 스냅샷 — 상위 영화 × 체인 상영점유율 표
         last_ch = chd["date"].max()
         snap = chd[(chd["date"] == last_ch) & (chd["chain"] != "기타")]
