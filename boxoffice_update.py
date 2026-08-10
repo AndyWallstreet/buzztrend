@@ -48,6 +48,12 @@ HEAD = ["date", "day", "adm", "cum", "screens", "shows", "rank", "seat_rate",
 MARKET_HEAD = ["date", "day", "rank", "title", "open", "adm", "cum", "screens",
                "shows", "adm_share", "show_share", "screen_share"]
 MARKET_TOP = 10
+# 체인영화관별(CGV·롯데시네마·메가박스·씨네Q) 상영현황 — 어느 체인이 회차를 주는지.
+# 점유율은 KOBIS 가 계산해 주는 값을 그대로 쓴다 (그 체인 전체 상영횟수 대비).
+CHAINS_URL = "https://www.kobis.or.kr/kobis/business/stat/boxs/findDailyMultichainList.do"
+CHAIN_HEAD = ["date", "day", "rank", "title", "chain", "shows", "chain_shows",
+              "show_share", "screens", "chain_screens", "screen_share"]
+CHAIN_TOP = 10
 
 
 def _num(s):
@@ -63,28 +69,33 @@ def _clean_title(s):
     return re.sub(r"\s+", " ", s).strip()
 
 
-def _fetch_rows(day: date):
-    """그 날짜 박스오피스 표의 모든 영화 행을 컬럼 리스트로."""
+def _post_day(url: str, day: date) -> str:
     last_err = None
     for attempt in range(4):          # KOBIS 가 이따금 연결을 끊는다 (10054) — 잠깐 쉬고 재시도
         try:
-            r = requests.post(URL, data={
+            r = requests.post(url, data={
                 "loadEnd": "0", "searchType": "search",
                 "sSearchFrom": day.isoformat(), "sSearchTo": day.isoformat(),
                 "sMultiMovieYn": "", "sRepNationCd": "", "sWideAreaCd": "",
             }, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
-            break
+            r.encoding = r.apparent_encoding or "utf-8"
+            return r.text
         except requests.exceptions.ConnectionError as e:
             last_err = e
             time.sleep(5 * (attempt + 1))
-    else:
-        raise last_err
-    r.encoding = r.apparent_encoding or "utf-8"
+    raise last_err
 
+
+def _trs(text: str):
+    for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", text, re.S):
+        yield [re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", x)).strip()
+               for x in re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", tr, re.S)]
+
+
+def _fetch_rows(day: date):
+    """그 날짜 박스오피스 표의 모든 영화 행을 컬럼 리스트로."""
     rows = []
-    for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", r.text, re.S):
-        c = [re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", x)).strip()
-             for x in re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", tr, re.S)]
+    for c in _trs(_post_day(URL, day)):
         # 순위|영화명|개봉일|매출액|점유율|증감|누적매출|관객수|증감|누적관객|스크린|상영횟수
         if len(c) >= 12:
             rows.append(c)
@@ -149,6 +160,97 @@ def fetch_market(day: date, open_date: date):
             "screen_share": round(scr / tot_scr, 4) if tot_scr else "",
         })
     return out
+
+
+def _pct(s):
+    s = re.sub(r"[^0-9.]", "", str(s))
+    return round(float(s) / 100, 4) if s else ""
+
+
+def fetch_chains(day: date, open_date: date):
+    """체인영화관별 상영현황 — 응답은 요청일 '하루'가 아니라 **요청일로 끝나는 7일치**
+    (날짜별 상위 5편 × 체인)를 한꺼번에 준다. 그래서 '2026년 08월 09일' 같은 날짜
+    머리글로 본문을 쪼개고, 날짜별 dict 로 돌려준다.
+
+    각 날짜 표는 영화 하나가 13행(체인 4×직영/위탁/계 + 기타 + 전체)에 걸쳐 있고
+    순위·영화명·체인명이 rowspan 이라, 행 길이(10/8/7)로 수준을 구분하며 상태를 들고 간다.
+    '계'(체인 합계)와 기타·전체 행만 저장한다. 상위 5편 밖으로 밀리면 그날 데이터는 없다.
+    """
+    text = _post_day(CHAINS_URL, day)
+    parts = re.split(r"(\d{4})년\s*(\d{2})월\s*(\d{2})일", text)
+    out = {}
+    # parts = [머리, y, m, d, 본문, y, m, d, 본문, ...]
+    for i in range(1, len(parts) - 3, 4):
+        sec_date = date(int(parts[i]), int(parts[i + 1]), int(parts[i + 2]))
+        body = parts[i + 3]
+        rows = []
+        rank, title, chain = None, None, None
+        for c in _trs(body):
+            if not c or c[0] == "순위":
+                continue
+            rec = None
+            if len(c) == 10:        # 새 영화의 첫 행: 순위|영화명|체인|구분|숫자 6칸
+                rank, title, chain = _num(c[0]), _clean_title(c[1]), c[2]
+                rec = (c[3], c[4:])
+            elif len(c) == 8:       # 같은 영화의 다음 체인: 체인|구분|숫자 6칸
+                chain, rec = c[0], (c[1], c[2:])
+            elif len(c) == 7:       # 이어지는 행: 위탁/계, 또는 기타/전체
+                if c[0] in ("기타", "전체"):
+                    chain, rec = c[0], ("계", c[1:])
+                else:
+                    rec = (c[0], c[1:])
+            if rec is None or rank is None or rank == 0 or rank > CHAIN_TOP:
+                continue
+            gubun, v = rec
+            if gubun != "계" or len(v) < 6:
+                continue
+            rows.append({
+                "date": sec_date.isoformat(),
+                "day": (sec_date - open_date).days,
+                "rank": rank,
+                "title": title,
+                "chain": chain,
+                "shows": _num(v[0]),
+                "chain_shows": _num(v[1]),
+                "show_share": _pct(v[2]),
+                "screens": _num(v[3]),
+                "chain_screens": _num(v[4]),
+                "screen_share": _pct(v[5]),
+            })
+        if rows:
+            out[sec_date.isoformat()] = rows
+    return out
+
+
+def build_chains(path: Path, open_date: date, end: date, refresh_last=0):
+    """한 요청이 7일을 덮으므로 end 부터 7일씩 거슬러 가며 필요한 구간만 받는다."""
+    by_date = read_market(path)          # date -> rows (제너릭이라 그대로 재사용)
+    recent = {(end - timedelta(days=i)).isoformat() for i in range(refresh_last)}
+
+    def need(d):
+        k = d.isoformat()
+        return k not in by_date or k in recent
+
+    added, req = 0, end
+    while req >= open_date:
+        window = [req - timedelta(days=i) for i in range(7)]
+        if any(need(d) and open_date <= d <= end for d in window):
+            time.sleep(0.8)   # 예의상 간격 — 빠른 연속 요청은 IP 차단을 부른다
+            got = fetch_chains(req, open_date)
+            for k, rows in got.items():
+                if open_date.isoformat() <= k <= end.isoformat() and need(date.fromisoformat(k)):
+                    by_date[k] = rows
+                    added += 1
+        req -= timedelta(days=7)
+
+    with path.open("w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=CHAIN_HEAD)
+        w.writeheader()
+        for k in sorted(by_date):
+            for row in by_date[k]:
+                w.writerow(row)
+    print(f"{path.name}: {len(by_date)}일치 (이번에 {added}일 갱신)")
+    return by_date
 
 
 def read_market(path: Path):
@@ -307,6 +409,12 @@ def main():
         top = sorted(market[max(market)], key=lambda r: int(r["rank"]))[:5]
         print("   · 상영점유율 top5: " + " · ".join(
             f"{r['title'][:12]} {float(r['show_share']):.1%}" for r in top if r["show_share"]))
+    chains = build_chains(DATA / "m2_chains.csv", M2_OPEN, end, refresh_last=3)
+    if chains:
+        mine = [r for r in chains[max(chains)] if "하츄핑" in r["title"] and r["chain"] != "기타"]
+        if mine:
+            print("   · 하츄핑 체인별 상영점유율: " + " · ".join(
+                f"{r['chain']} {float(r['show_share']):.1%}" for r in mine if r["show_share"]))
     m1 = read_csv(DATA / "m1_daily.csv")
     if not m2:
         print("2편 데이터 없음 (개봉일 확정 전일 수 있음)")

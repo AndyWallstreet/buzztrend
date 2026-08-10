@@ -1,9 +1,9 @@
 {
-  "as_of": "2026-08-10 08:40 KST",
+  "as_of": "2026-08-10 14:52 KST",
   "last_date": "2026-08-09",
   "day": 4,
   "adm": 123565,
-  "cum": 433808,
+  "cum": 433807,
   "screens": 941,
   "shows": 2164,
   "rank": 3,
@@ -15,11 +15,11 @@
   "m1_seat_rate": 0.1901,
   "m2_preview": 27410,
   "m1_preview": 49683,
-  "adj_cum": 406398,
+  "adj_cum": 406397,
   "m1_adj_cum": 356701,
   "ratio_adj": 1.1393,
   "ratio_cum": 1.0675,
   "ratio_day": 1.1331,
-  "forecast": 1411902,
-  "forecast_raw": 1322873
+  "forecast": 1411898,
+  "forecast_raw": 1322870
 }

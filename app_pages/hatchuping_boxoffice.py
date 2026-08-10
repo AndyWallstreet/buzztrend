@@ -21,7 +21,7 @@ st.set_page_config(page_title="하츄핑2 개봉 후", page_icon="🎬", layout=
 LOAD_FILES = ("m1_daily.csv", "m2_daily.csv", "boxoffice_now.json",
               "ratings.csv", "sentiment_daily.csv", "ratings_peers.json",
               "board_daily.csv", "board_samples.json",
-              "m1_market.csv", "m2_market.csv")
+              "m1_market.csv", "m2_market.csv", "m2_chains.csv")
 
 
 def load_stamp():
@@ -42,7 +42,7 @@ def load(stamp):
     return (_csv("m1_daily.csv"), _csv("m2_daily.csv"), _json("boxoffice_now.json"),
             _csv("ratings.csv"), _csv("sentiment_daily.csv"), _json("ratings_peers.json"),
             _csv("board_daily.csv"), _json("board_samples.json"),
-            _csv("m1_market.csv"), _csv("m2_market.csv"))
+            _csv("m1_market.csv"), _csv("m2_market.csv"), _csv("m2_chains.csv"))
 
 
 def date_span(dates, extra_days=3):
@@ -58,7 +58,7 @@ def day_axis(days, max_labels=12):
                     labelAngle=0, labelOverlap=False)
 
 
-m1d, m2d, bonow, rat, sd, peer, bd, bsamp, mk1, mk2 = load(load_stamp())
+m1d, m2d, bonow, rat, sd, peer, bd, bsamp, mk1, mk2, chn = load(load_stamp())
 
 st.title("🎬 사랑의 하츄핑 2 — 개봉 후 트래커")
 st.caption("2026-08-05 개봉 · KOBIS 확정 관객수 기준 · 1편(운명의 시작, 최종 1,239,245명)과 "
@@ -438,6 +438,67 @@ else:
                           if _v2 >= _v1 else
                           "아직 1편 때만큼 극장을 잡지 못하고 있습니다.")
                        + " 1편은 45일차까지 표시 — 주말마다 오르고 평일에 내리는 톱니 모양이 정상입니다.")
+
+    # ---- 체인별 상영현황 — 같은 '상영을 얼마나 걸어주나'를 체인(극장 회사) 단위로 쪼개 본다.
+    # KOBIS 체인영화관별 통계는 하루 상위 5편만 제공 — 하츄핑이 5위 밖으로 밀리면 그날은 빈다.
+    if chn is not None and len(chn):
+        st.markdown("#### 체인별 상영현황 — CGV·롯데·메가박스가 얼마나 걸어주나")
+        st.caption("상영 확대 결정은 체인 본사가 내립니다. 어느 체인이 하츄핑에 후하게 회차를 "
+                   "주는지, 그리고 그 차이가 벌어지는지 좁혀지는지를 봅니다 — 한 체인의 선이 "
+                   "혼자 올라가면 그 체인이 먼저 움직였다는 뜻이고 나머지가 따라오는 경우가 많습니다.")
+        chd = chn.copy()
+        chd["show_share"] = pd.to_numeric(chd["show_share"], errors="coerce")
+        mine_ch = chd[chd["title"].str.contains("하츄핑", na=False)
+                      & (chd["chain"] != "기타")].dropna(subset=["show_share"])
+        CH_ORDER = ["전체", "CGV", "롯데시네마", "메가박스", "씨네Q"]
+        CH_COLORS = [C_M2, "#e03131", "#f08c00", "#6741d9", "#2f9e44"]
+        ch_chart = alt.Chart(mine_ch).mark_line(point=True, strokeWidth=2.5).encode(
+            x=alt.X("date:T", title=None, axis=day_axis(mine_ch["date"].unique())),
+            y=alt.Y("show_share:Q", title="하츄핑 상영점유율 (그 체인 안에서)",
+                    axis=alt.Axis(format=".0%")),
+            color=alt.Color("chain:N", scale=alt.Scale(domain=CH_ORDER, range=CH_COLORS),
+                            legend=alt.Legend(title=None, orient="top-left")),
+            strokeDash=alt.StrokeDash("chain:N", scale=alt.Scale(domain=CH_ORDER,
+                                                                 range=[[1, 0]] + [[4, 3]] * 4),
+                                      legend=None),
+            tooltip=[alt.Tooltip("date:T", title="날짜", format="%m/%d"),
+                     alt.Tooltip("chain:N", title="체인"),
+                     alt.Tooltip("show_share:Q", title="상영점유율", format=".1%"),
+                     alt.Tooltip("shows:Q", title="상영횟수", format=",")])
+        st.altair_chart(ch_chart.properties(height=300), width="stretch")
+
+        # 어제 스냅샷 — 상위 영화 × 체인 상영점유율 표
+        last_ch = chd["date"].max()
+        snap = chd[(chd["date"] == last_ch) & (chd["chain"] != "기타")]
+        if len(snap):
+            piv = snap.pivot_table(index=["rank", "title"], columns="chain",
+                                   values="show_share", aggfunc="first").reset_index()
+            piv = piv.sort_values("rank")
+            cols = [c for c in CH_ORDER if c in piv.columns]
+            md = ["| 순위 | 영화 | " + " | ".join(cols) + " |",
+                  "|---:|---|" + "---:|" * len(cols)]
+            for _, r in piv.iterrows():
+                name = str(r["title"])
+                cells = " | ".join(f"{r[c]:.1%}" if pd.notna(r[c]) else "—" for c in cols)
+                line_ = f"| {int(r['rank'])} | {name[:16]} | {cells} |"
+                if "하츄핑" in name:
+                    line_ = f"| **{int(r['rank'])}** | **🐳 {name[:16]}** | " + " | ".join(
+                        f"**{r[c]:.1%}**" if pd.notna(r[c]) else "—" for c in cols) + " |"
+                md.append(line_)
+            _lc = pd.Timestamp(last_ch)
+            st.markdown(f"**어제({_lc.month}/{_lc.day}) 상위 영화 × 체인별 상영점유율** "
+                        "— 각 칸 = 그 체인 전체 상영횟수 중 그 영화의 비중")
+            st.markdown("\n".join(md))
+            mine_row = piv[piv["title"].str.contains("하츄핑", na=False)]
+            if len(mine_row) and {"롯데시네마", "CGV"} <= set(piv.columns):
+                _lot = mine_row["롯데시네마"].iloc[0]
+                _cgv = mine_row["CGV"].iloc[0]
+                if pd.notna(_lot) and pd.notna(_cgv):
+                    st.caption(f"현재 하츄핑에 가장 후한 체인 대비 CGV 차이: 롯데시네마 {_lot:.1%} vs "
+                               f"CGV {_cgv:.1%} ({_lot - _cgv:+.1%}p). 어린이 관객 비중이 높은 "
+                               "체인일수록 후하게 주는 경향이 있고, CGV가 롯데 수준으로 올라오는 것 "
+                               "자체가 흥행 확산 신호입니다. (KOBIS 체인별 통계는 하루 상위 5편만 "
+                               "제공 — 하츄핑이 5위 밖이면 그날 칸이 빕니다)")
 
     st.caption("판단 기준선 — **124만** 넘으면 1편 초과(기본 성공) · **200만** = 예매가 약속한 수준 "
                "(D-1 예매 1.62배) · **250만** = 회귀 상단. 1편은 첫 주말(개봉 4일차)까지 "
