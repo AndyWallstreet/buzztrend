@@ -148,29 +148,48 @@ else:
 
     # ---- 누적 곡선 비교 (같은 일차끼리)
     span = max(int(m2d["day"].max()) + 7, 14)
+    m1_last_day = int(m1d["day"].max())
+
+    # 보기 범위 — 기본은 2편이 실제로 지나온 구간(+1주)만 본다. '전체보기'는 1편이
+    # 극장에서 내려갈 때까지 전 기간을 펴서, 2편이 지금 어디쯤인지와 앞으로 남은
+    # 길이를 한 화면에 보여준다.
+    _v1, _v2 = st.columns([1, 2])
+    view_all = _v1.radio(
+        "보기 범위", [f"최근 (D+0 ~ D+{span})", f"전체보기 (1편 상영 전 기간 D+{m1_last_day})"],
+        horizontal=False, index=0, key="bo_view_range",
+    ).startswith("전체")
+    vspan = m1_last_day if view_all else span
+    _v2.caption("**전체보기**를 켜면 1편이 극장에서 완전히 내려갈 때까지"
+                f" **{m1_last_day + 1}일 전체**가 펴집니다 — 2편이 지금 그 길의 어디쯤인지, "
+                "그리고 지금 배수가 그대로 유지되면 최종이 어디에 닿는지(연한 파란 점선)를 "
+                "같이 그립니다.")
+
     a = m2d[["day", "cum", "adm", "screens"]].copy()
     a["구분"] = "2편"
-    b = m1d[m1d["day"] <= span][["day", "cum", "adm", "screens"]].copy()
+    b = m1d[m1d["day"] <= vspan][["day", "cum", "adm", "screens"]].copy()
     b["구분"] = "1편"
     comp = pd.concat([a, b], ignore_index=True)
 
     # 주말 음영 — 1편·2편 모두 수요일 개봉이라 경과일 D+3·4가 정확히 토·일로 겹친다.
     # 같은 경과일 축에 한 번만 칠해도 두 편의 주말이 동시에 표시되는 이유.
-    wk = pd.DataFrame([{"x0": 7 * w + 2.5, "x1": min(7 * w + 4.5, span)}
-                       for w in range(span // 7 + 1)])
-    wk = wk[wk["x0"] < span]
-    wk_band = alt.Chart(wk).mark_rect(color="#f5c542", opacity=0.12).encode(
-        x=alt.X("x0:Q", scale=alt.Scale(domain=[0, span], nice=False), title=None),
+    wk = pd.DataFrame([{"x0": 7 * w + 2.5, "x1": min(7 * w + 4.5, vspan)}
+                       for w in range(vspan // 7 + 1)])
+    wk = wk[wk["x0"] < vspan]
+    wk_band = alt.Chart(wk).mark_rect(color="#f5c542",
+                                      opacity=0.12 if not view_all else 0.09).encode(
+        x=alt.X("x0:Q", scale=alt.Scale(domain=[0, vspan], nice=False), title=None),
         x2="x1:Q")
 
+    _pt = vspan <= 40          # 141일을 점까지 찍으면 선이 안 보인다
+    _xaxis = (alt.Axis(tickMinStep=1, format="d") if not view_all
+              else alt.Axis(values=list(range(0, vspan + 1, 7)), format="d", labelAngle=0))
     base = alt.Chart(comp).encode(
         x=alt.X("day:Q", title="개봉 후 경과일 (0 = 개봉일)",
-                scale=alt.Scale(domain=[0, span], nice=False),
-                axis=alt.Axis(tickMinStep=1, format="d")),
+                scale=alt.Scale(domain=[0, vspan], nice=False), axis=_xaxis),
         color=alt.Color("구분:N", scale=alt.Scale(domain=["2편", "1편"],
                                                  range=[C_M2, C_M1]),
                         legend=alt.Legend(title=None, orient="top-left")))
-    cum_line = base.mark_line(point=True, strokeWidth=2.5).encode(
+    cum_line = base.mark_line(point=_pt, strokeWidth=2.5).encode(
         y=alt.Y("cum:Q", title="누적 관객수", axis=alt.Axis(format=",.0f")),
         strokeDash=alt.StrokeDash("구분:N", scale=alt.Scale(domain=["2편", "1편"],
                                                            range=[[1, 0], [5, 4]]),
@@ -179,20 +198,57 @@ else:
                  alt.Tooltip("cum:Q", title="누적", format=","),
                  alt.Tooltip("adm:Q", title="당일", format=","),
                  alt.Tooltip("screens:Q", title="스크린", format=",")])
-    st.altair_chart(alt.layer(wk_band, cum_line).properties(height=340), width="stretch")
+
     _m2p = int((bonow or {}).get("m2_preview", 0))
     _m1p = int((bonow or {}).get("m1_preview", 0))
+    cum_layers = [wk_band, cum_line]
+
+    # 전체보기에서만: 지금 배수를 그대로 끌고 갔을 때 2편이 그리게 될 경로.
+    # 1편 곡선을 배수로 늘린 것 = 배수의 정의 그대로라, 새 계수를 지어내지 않는다.
+    proj = None
+    if view_all and len(ref):
+        _ratio = (int(last_bo["cum"]) - _m2p) / max(1, int(ref.iloc[0]["cum"]) - _m1p)
+        proj = m1d[m1d["day"] >= dnum][["day", "cum"]].copy()
+        proj["cum"] = _m2p + (proj["cum"] - _m1p) * _ratio
+        proj["구분"] = "2편 예상 경로"
+        cum_layers.append(
+            alt.Chart(proj).mark_line(strokeWidth=2, strokeDash=[2, 3],
+                                      color="#8fc0f0", opacity=0.95).encode(
+                x=alt.X("day:Q", scale=alt.Scale(domain=[0, vspan], nice=False)),
+                y="cum:Q",
+                tooltip=[alt.Tooltip("구분:N", title=""),
+                         alt.Tooltip("day:Q", title="경과일"),
+                         alt.Tooltip("cum:Q", title="예상 누적", format=",.0f")]))
+        _proj_end = float(proj["cum"].iloc[-1])
+        goals = pd.DataFrame([
+            {"y": m1_final, "t": f"1편 최종 {m1_final / 10000:.0f}만"},
+            {"y": 2000000, "t": "200만 (예매가 약속했던 선)"},
+            {"y": _proj_end, "t": f"지금 배수 유지 시 {_proj_end / 10000:.0f}만"},
+        ])
+        cum_layers.append(alt.Chart(goals).mark_rule(
+            color="#9c9891", strokeDash=[6, 4], strokeWidth=1).encode(y="y:Q"))
+        cum_layers.append(alt.Chart(goals).mark_text(
+            align="left", dx=6, dy=-6, fontSize=11, color="#6f6b66").encode(
+            x=alt.value(4), y="y:Q", text="t:N"))
+
+    st.altair_chart(alt.layer(*cum_layers).properties(height=340), width="stretch")
     st.caption(f"⚫ 파란 실선 = 2편 · 주황 점선 = 1편 (최종 {m1_final:,}명) · 같은 경과일끼리 비교 · "
                "🟡 노란 음영 = **주말(토·일)** — 두 편 다 수요일에 개봉해서 경과일이 요일까지 똑같이 "
                "겹칩니다 (D+3·4가 첫 주말). 음영 구간에서 파란 선이 주황 선보다 가파르면 주말 수요가 "
                "1편보다 강하다는 뜻입니다 · "
-               f"그래프의 누적에는 유료시사(1편 {_m1p:,}명 / 2편 {_m2p:,}명)가 포함돼 있어 "
-               "출발선이 다릅니다 — 위의 배수는 그 시사분을 뺀 값입니다")
+               + (f"연한 파란 점선 = **2편 예상 경로** (지금 배수를 끝까지 유지했을 때) — 끝점 "
+                  f"**{_proj_end / 10000:.0f}만**은 맨 위 '최종 예상 {ratio * m1_final / 10000:.0f}만'보다 "
+                  f"조금 낮은데, 맨 위는 1편 최종에 배수를 곱한 값이라 1편의 큰 유료시사"
+                  f"({_m1p:,}명)까지 같이 불어나기 때문입니다. 이 점선은 2편 실제 시사"
+                  f"({_m2p:,}명)를 그대로 두고 그린 것이라 조금 더 보수적입니다 · "
+                  if (view_all and proj is not None) else "")
+               + f"그래프의 누적에는 유료시사(1편 {_m1p:,}명 / 2편 {_m2p:,}명)가 포함돼 있어 "
+                 "출발선이 다릅니다 — 위의 배수는 그 시사분을 뺀 값입니다")
 
     # ---- 일별 유입 관객수 — 누적은 과거를 다 안고 가서 둔하다. 하루치는 오늘의 힘을
     # 그대로 보여주고, 주말 봉우리가 얼마나 높고 평일 골이 얼마나 얕은지로 뒷심이 읽힌다.
     st.markdown("#### 하루 관객수 (일별 유입)")
-    day_line = base.mark_line(point=True, strokeWidth=2.5).encode(
+    day_line = base.mark_line(point=_pt, strokeWidth=2.5).encode(
         y=alt.Y("adm:Q", title="하루 관객수", axis=alt.Axis(format=",.0f")),
         strokeDash=alt.StrokeDash("구분:N", scale=alt.Scale(domain=["2편", "1편"],
                                                            range=[[1, 0], [5, 4]]),
@@ -261,6 +317,114 @@ else:
         f"1편도 관객의 90%는 D+{d90}({round((d90 + 1) / 7)}주)까지 들었지만, 그 뒤로도 주말 위주로 "
         f"D+{d_end}까지 버텼고 마지막 두 달은 하루 수십 명 수준의 이벤트 상영이었습니다. "
         "즉 승부는 사실상 **첫 7주** 안에 납니다.")
+
+    # ---- 며칠 지나야 최종을 믿을 수 있나 — "지금 예상치가 얼마나 흔들릴 수 있나"
+    # 원리: 예상 = 배수 × 1편 최종. 이미 든 관객은 확정이라 안 흔들리고, 흔들릴 수 있는
+    # 건 '앞으로 들어올 몫'뿐이다. 1편 곡선에서 그날까지 최종의 몇 %가 들었는지(p)를
+    # 읽으면, 남은 (1-p)만 오차가 된다. 꼬리가 1편과 ±TAIL 만큼 다를 수 있다고 보면
+    # 예상치의 흔들림은 (1-p) × TAIL 로 줄어든다. 지어낸 계수는 TAIL 하나뿐이고,
+    # 그 값은 화면에 그대로 적어 둔다.
+    st.markdown("#### 며칠 지나야 최종을 믿을 수 있나")
+    TAIL = 0.30
+    m1_adj_final = m1_final - _m1p
+    lock = m1d[["day", "cum"]].copy()
+    lock["p"] = (lock["cum"] - _m1p) / m1_adj_final
+    lock["err"] = (1 - lock["p"]).clip(lower=0) * TAIL
+
+    def _first_day(limit):
+        hit = lock.loc[lock["err"] <= limit, "day"]
+        return int(hit.min()) if len(hit) else None
+
+    d15, d10, d05 = _first_day(0.15), _first_day(0.10), _first_day(0.05)
+    now_err = float(lock.loc[lock["day"] == dnum, "err"].iloc[0]) if (lock["day"] == dnum).any() else None
+    now_p = float(lock.loc[lock["day"] == dnum, "p"].iloc[0]) if (lock["day"] == dnum).any() else None
+    fc = (ratio * m1_final) if len(ref) else None
+
+    q1, q2, q3, q4 = st.columns(4)
+    q1.metric("지금 예상치가 흔들릴 폭", f"±{now_err:.0%}" if now_err is not None else "—",
+              (f"{fc * (1 - now_err) / 10000:,.0f}만 ~ {fc * (1 + now_err) / 10000:,.0f}만"
+               if fc and now_err is not None else ""), delta_color="off")
+    for col, lim, dd in ((q2, 0.15, d15), (q3, 0.10, d10), (q4, 0.05, d05)):
+        if dd is None:
+            col.metric(f"±{lim:.0%} 안으로", "—", delta_color="off")
+        else:
+            left = dd - dnum
+            col.metric(f"±{lim:.0%} 안으로", f"D+{dd}",
+                       "이미 지남" if left <= 0 else f"{left}일 뒤 ({round(left / 7, 1)}주)",
+                       delta_color="off")
+
+    # 밴드 차트 — 가운데 = 지금 예상치, 위아래 = 그날 기준 흔들릴 수 있는 폭.
+    # 날이 갈수록 밴드가 좁아지는 그림이 곧 "언제 판정이 끝나나"에 대한 답이다.
+    if fc:
+        bandsp = min(m1_last_day, 70)
+        bd_ = lock[lock["day"] <= bandsp].copy()
+        bd_["lo"], bd_["hi"] = fc * (1 - bd_["err"]), fc * (1 + bd_["err"])
+        band = alt.Chart(bd_).mark_area(color=C_M2, opacity=0.16).encode(
+            x=alt.X("day:Q", title="개봉 후 경과일",
+                    scale=alt.Scale(domain=[0, bandsp], nice=False),
+                    axis=alt.Axis(values=list(range(0, bandsp + 1, 7)), format="d", labelAngle=0)),
+            y=alt.Y("lo:Q", title="최종 관객수 예상 범위", axis=alt.Axis(format=",.0f")),
+            y2="hi:Q",
+            tooltip=[alt.Tooltip("day:Q", title="경과일"),
+                     alt.Tooltip("p:Q", title="그날까지 드는 몫(1편)", format=".0%"),
+                     alt.Tooltip("lo:Q", title="아래", format=",.0f"),
+                     alt.Tooltip("hi:Q", title="위", format=",.0f")])
+        mid = alt.Chart(pd.DataFrame({"y": [fc]})).mark_rule(
+            color=C_M2, strokeWidth=2).encode(y="y:Q")
+        lines = pd.DataFrame([{"y": m1_final, "t": f"1편 최종 {m1_final / 10000:.0f}만 (기본 성공선)"},
+                              {"y": 2000000, "t": "200만 (예매가 약속했던 선)"}])
+        gl = alt.Chart(lines).mark_rule(color="#9c9891", strokeDash=[6, 4]).encode(y="y:Q")
+        gt = alt.Chart(lines).mark_text(align="left", dx=6, dy=-6, fontSize=11,
+                                        color="#6f6b66").encode(
+            x=alt.value(4), y="y:Q", text="t:N")
+        nowr = alt.Chart(pd.DataFrame({"x": [dnum]})).mark_rule(
+            color=C_M2, strokeWidth=3, opacity=0.7).encode(x="x:Q")
+        nowt = alt.Chart(pd.DataFrame({"x": [dnum], "t": [f"오늘 D+{dnum}"]})).mark_text(
+            align="left", dx=6, dy=8, fontSize=12, fontWeight="bold", color=C_M2).encode(
+            x="x:Q", y=alt.value(10), text="t:N")
+        st.altair_chart(alt.layer(band, mid, gl, gt, nowr, nowt).properties(height=300),
+                        width="stretch")
+
+    st.caption(
+        f"파란 밴드 = 그날 기준으로 **예상 최종이 흔들릴 수 있는 범위**, 가운데 선 = 지금 예상치 "
+        + (f"{fc:,.0f}명. " if fc else ". ")
+        + "원리는 간단합니다 — 이미 극장에 든 관객은 확정이라 안 흔들리고, 흔들리는 건 "
+          "**앞으로 들어올 몫**뿐입니다. 1편 곡선을 보면 D+"
+        # 굵게 닫는 ** 앞이 '%'(구두점)면 마크다운이 안 먹는다 — 조사까지 감싼다
+        + (f"{dnum}에는 **최종의 {now_p:.0%}가** 이미 들어와 있어서 " if now_p is not None else "…에 ")
+        + f"남은 {1 - (now_p or 0):.0%}만 오차가 됩니다. 그 남은 몫이 1편과 최대 ±{TAIL:.0%}까지 "
+          f"다를 수 있다고 보면 지금 예상치의 폭은 ±{(now_err or 0):.0%}입니다. "
+        + (f"**D+{d10}(오늘로부터 {max(0, d10 - dnum)}일 뒤)면 ±10% 안으로 좁혀져** "
+           "그때는 200만을 넘을 수 있는지 없는지가 사실상 갈립니다. " if d10 else "")
+        + (f"±5%까지 굳는 건 D+{d05}(약 {round((d05 + 1) / 7)}주차)입니다. " if d05 else "")
+        + f"±{TAIL:.0%}는 저희가 정한 유일한 가정값이고, 나머지는 전부 1편 실측 곡선에서 나옵니다.")
+
+    # ---- 배수 이력 — 자(1편)는 고정이니, 배수가 흔들리는지 굳는지가 곧 신뢰도다.
+    hist = m2d[["day", "cum"]].merge(m1d[["day", "cum"]], on="day", suffixes=("_2", "_1"))
+    if len(hist) > 1:
+        hist["배수"] = (hist["cum_2"] - _m2p) / (hist["cum_1"] - _m1p).clip(lower=1)
+        hist["예상"] = hist["배수"] * m1_final
+        h1, h2 = st.columns([2, 1])
+        with h1:
+            rl = alt.Chart(hist).mark_line(point=True, strokeWidth=2.5, color=C_M2).encode(
+                x=alt.X("day:Q", title="경과일", axis=alt.Axis(tickMinStep=1, format="d")),
+                y=alt.Y("배수:Q", title="1편 대비 배수",
+                        scale=alt.Scale(zero=False, nice=True), axis=alt.Axis(format=".2f")),
+                tooltip=[alt.Tooltip("day:Q", title="경과일"),
+                         alt.Tooltip("배수:Q", format=".3f"),
+                         alt.Tooltip("예상:Q", title="그날 예상 최종", format=",.0f")])
+            one = alt.Chart(pd.DataFrame({"y": [1.0]})).mark_rule(
+                color=C_M1, strokeDash=[5, 4]).encode(y="y:Q")
+            st.altair_chart(alt.layer(rl, one).properties(height=230), width="stretch")
+        with h2:
+            _r0, _rn = float(hist["배수"].iloc[0]), float(hist["배수"].iloc[-1])
+            _rp = float(hist["배수"].iloc[-2])
+            st.metric("배수 (어제)", f"{_rn:.3f}배", f"{_rn - _rp:+.3f} (그 전날 대비)")
+            st.metric("개봉일 배수에서", f"{_rn - _r0:+.3f}",
+                      f"{_r0:.3f} → {_rn:.3f}", delta_color="off")
+            st.caption("주황 점선 = 1.00배(1편과 동일). 배수가 **평평해지면** 그 숫자가 "
+                       "최종이라고 믿어도 되는 때고, 계속 내려가면 위 밴드의 아래쪽으로 "
+                       "붙는다는 뜻입니다.")
 
     # ---- 공급(스크린·상영횟수)과 그 점유율 — 전부 1편과 두 줄로 비교
     # 왼쪽 = 절대량, 오른쪽 = 시장에서 차지한 비중. 절대량만 보면 그 해 전체 극장 물량이
