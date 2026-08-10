@@ -347,9 +347,8 @@ else:
     share_cmp = pd.concat([
         m2d.assign(구분="2편"),
         m1d[m1d["day"] <= cmp_span].assign(구분="1편"),
-    ], ignore_index=True)[["day", "구분", "show_share", "adm_share", "adm"]]
-    for c in ("show_share", "adm_share"):
-        share_cmp[c] = pd.to_numeric(share_cmp[c], errors="coerce")
+    ], ignore_index=True)[["day", "구분", "show_share", "adm"]]
+    share_cmp["show_share"] = pd.to_numeric(share_cmp["show_share"], errors="coerce")
     share_cmp = share_cmp.dropna(subset=["show_share"])
 
     cmp_chart = alt.Chart(share_cmp).mark_line(point=True, strokeWidth=2.5).encode(
@@ -365,7 +364,6 @@ else:
                                   legend=None),
         tooltip=[alt.Tooltip("구분:N"), alt.Tooltip("day:Q", title="경과일"),
                  alt.Tooltip("show_share:Q", title="상영점유율", format=".1%"),
-                 alt.Tooltip("adm_share:Q", title="관객점유율", format=".1%"),
                  alt.Tooltip("adm:Q", title="하루 관객", format=",")])
     st.altair_chart(cmp_chart.properties(height=300), width="stretch")
 
