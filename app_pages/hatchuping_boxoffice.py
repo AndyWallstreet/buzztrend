@@ -153,6 +153,15 @@ else:
     b["구분"] = "1편"
     comp = pd.concat([a, b], ignore_index=True)
 
+    # 주말 음영 — 1편·2편 모두 수요일 개봉이라 경과일 D+3·4가 정확히 토·일로 겹친다.
+    # 같은 경과일 축에 한 번만 칠해도 두 편의 주말이 동시에 표시되는 이유.
+    wk = pd.DataFrame([{"x0": 7 * w + 2.5, "x1": min(7 * w + 4.5, span)}
+                       for w in range(span // 7 + 1)])
+    wk = wk[wk["x0"] < span]
+    wk_band = alt.Chart(wk).mark_rect(color="#f5c542", opacity=0.12).encode(
+        x=alt.X("x0:Q", scale=alt.Scale(domain=[0, span], nice=False), title=None),
+        x2="x1:Q")
+
     base = alt.Chart(comp).encode(
         x=alt.X("day:Q", title="개봉 후 경과일 (0 = 개봉일)",
                 scale=alt.Scale(domain=[0, span], nice=False),
@@ -169,10 +178,13 @@ else:
                  alt.Tooltip("cum:Q", title="누적", format=","),
                  alt.Tooltip("adm:Q", title="당일", format=","),
                  alt.Tooltip("screens:Q", title="스크린", format=",")])
-    st.altair_chart(cum_line.properties(height=340), width="stretch")
+    st.altair_chart(alt.layer(wk_band, cum_line).properties(height=340), width="stretch")
     _m2p = int((bonow or {}).get("m2_preview", 0))
     _m1p = int((bonow or {}).get("m1_preview", 0))
     st.caption(f"⚫ 파란 실선 = 2편 · 주황 점선 = 1편 (최종 {m1_final:,}명) · 같은 경과일끼리 비교 · "
+               "🟡 노란 음영 = **주말(토·일)** — 두 편 다 수요일에 개봉해서 경과일이 요일까지 똑같이 "
+               "겹칩니다 (D+3·4가 첫 주말). 음영 구간에서 파란 선이 주황 선보다 가파르면 주말 수요가 "
+               "1편보다 강하다는 뜻입니다 · "
                f"그래프의 누적에는 유료시사(1편 {_m1p:,}명 / 2편 {_m2p:,}명)가 포함돼 있어 "
                "출발선이 다릅니다 — 위의 배수는 그 시사분을 뺀 값입니다")
 
@@ -188,7 +200,7 @@ else:
                  alt.Tooltip("adm:Q", title="하루 관객", format=","),
                  alt.Tooltip("cum:Q", title="누적", format=","),
                  alt.Tooltip("screens:Q", title="스크린", format=",")])
-    st.altair_chart(day_line.properties(height=300), width="stretch")
+    st.altair_chart(alt.layer(wk_band, day_line).properties(height=300), width="stretch")
 
     # 하루치 배수는 누적보다 먼저 움직인다 — 추세가 꺾이는 날 바로 드러나는 조기 신호.
     d_ratio = None
@@ -201,7 +213,53 @@ else:
         + "누적은 지나간 날을 다 안고 가서 천천히 움직이지만, 하루치는 그날의 힘을 바로 보여줍니다 — "
           "그래서 흐름이 꺾이면 하루치 배수가 먼저 떨어집니다. "
           "1편은 주말(개봉 3·4일차)에 121,522 / 109,050명까지 솟았다가 평일에 1.5만 명대로 "
-          "내려앉는 톱니 모양이었습니다. 2편의 봉우리가 그보다 높고 골이 얕으면 최종은 더 커집니다.")
+          "내려앉는 톱니 모양이었습니다. 2편의 봉우리가 그보다 높고 골이 얕으면 최종은 더 커집니다. "
+          "🟡 음영 = 주말 · 1편의 D+8 봉우리는 주말이 아니라 **광복절**(2024-08-15 목요일 공휴일)입니다 — "
+          "2편은 광복절(2026-08-15)이 D+10 토요일과 겹쳐서 그 주말이 특히 중요합니다.")
+
+    # ---- 상영기간 — 1편 실측으로 '얼마나 오래 가나'를 보여주고 2편의 현재 위치를 찍는다
+    st.markdown("#### 상영기간 — 얼마나 오래 상영되나")
+    fin1 = int(m1d["cum"].max())
+    d90 = int(m1d.loc[m1d["cum"] >= 0.9 * fin1, "day"].min())      # 관객 90%가 모인 날
+    d_run = int(m1d.loc[pd.to_numeric(m1d["shows"], errors="coerce") >= 100, "day"].max())
+    d_end = int(m1d.loc[m1d["adm"] >= 1000, "day"].max())          # 하루 1,000명 밑 = 사실상 종영
+    d_last = int(m1d["day"].max())
+
+    p1, p2, p3, p4 = st.columns(4)
+    p1.metric("1편: 관객 90% 모인 날", f"D+{d90}", f"약 {round((d90 + 1) / 7)}주", delta_color="off")
+    p2.metric("1편: 정상 상영 유지", f"D+{d_run}", "하루 100회 이상", delta_color="off")
+    p3.metric("1편: 사실상 종영", f"D+{d_end}", "하루 1,000명 밑으로", delta_color="off")
+    p4.metric("2편: 지금", f"D+{dnum}", f"1편 90% 시점까지 {max(0, d90 - dnum)}일 남음",
+              delta_color="off")
+
+    seg = pd.DataFrame([
+        {"x0": 0,     "x1": d90,    "구간": f"① 관객 90%가 드는 구간 (~D+{d90})"},
+        {"x0": d90,   "x1": d_run,  "구간": f"② 정상 상영 유지 (~D+{d_run})"},
+        {"x0": d_run, "x1": d_end,  "구간": f"③ 상영 축소 (~D+{d_end})"},
+        {"x0": d_end, "x1": d_last, "구간": f"④ 이벤트성 상영 (~D+{d_last})"},
+    ])
+    seg_bar = alt.Chart(seg).mark_bar(height=30).encode(
+        x=alt.X("x0:Q", title="개봉 후 경과일", scale=alt.Scale(domain=[0, d_last], nice=False),
+                axis=alt.Axis(values=[0, d90, d_run, d_end, d_last], format="d")),
+        x2="x1:Q",
+        color=alt.Color("구간:N", scale=alt.Scale(range=["#eb6834", "#f0915f", "#f5bd93", "#9c9891"]),
+                        legend=alt.Legend(title=None, orient="bottom", columns=2)),
+        tooltip=[alt.Tooltip("구간:N"), alt.Tooltip("x0:Q", title="시작일"),
+                 alt.Tooltip("x1:Q", title="끝일")])
+    now_rule = alt.Chart(pd.DataFrame({"x": [dnum]})).mark_rule(
+        color=C_M2, strokeWidth=3).encode(x="x:Q")
+    now_text = alt.Chart(pd.DataFrame({"x": [dnum], "t": [f"◀ 2편 지금 (D+{dnum})"]})).mark_text(
+        align="left", dx=6, dy=-24, fontSize=13, fontWeight="bold", color=C_M2).encode(
+        x="x:Q", text="t:N")
+    st.altair_chart(alt.layer(seg_bar, now_rule, now_text).properties(height=110),
+                    width="stretch")
+    st.caption(
+        f"막대 = **1편의 실제 상영기간 {d_last + 1}일** (2024-08-07 → 12월 말)을 구간으로 나눈 것 · "
+        f"파란 선 = 2편의 현재 위치. 한국 상업영화는 보통 **첫 3~4주 안에 최종 관객의 대부분**이 들고 "
+        "실질 상영은 한 달 반~두 달 정도면 끝납니다. 가족 애니메이션은 방학·연휴를 따라 꼬리가 더 깁니다 — "
+        f"1편도 관객의 90%는 D+{d90}({round((d90 + 1) / 7)}주)까지 들었지만, 그 뒤로도 주말 위주로 "
+        f"D+{d_end}까지 버텼고 마지막 두 달은 하루 수십 명 수준의 이벤트 상영이었습니다. "
+        "즉 승부는 사실상 **첫 7주** 안에 납니다.")
 
     # ---- 공급(스크린·상영횟수)과 그 점유율 — 전부 1편과 두 줄로 비교
     # 왼쪽 = 절대량, 오른쪽 = 시장에서 차지한 비중. 절대량만 보면 그 해 전체 극장 물량이
