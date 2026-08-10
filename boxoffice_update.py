@@ -167,16 +167,47 @@ def _pct(s):
     return round(float(s) / 100, 4) if s else ""
 
 
-def fetch_chains(day: date, open_date: date):
-    """체인영화관별 상영현황 — 응답은 요청일 '하루'가 아니라 **요청일로 끝나는 7일치**
-    (날짜별 상위 5편 × 체인)를 한꺼번에 준다. 그래서 '2026년 08월 09일' 같은 날짜
-    머리글로 본문을 쪼개고, 날짜별 dict 로 돌려준다.
+_chain_sess = None
 
-    각 날짜 표는 영화 하나가 13행(체인 4×직영/위탁/계 + 기타 + 전체)에 걸쳐 있고
-    순위·영화명·체인명이 rowspan 이라, 행 길이(10/8/7)로 수준을 구분하며 상태를 들고 간다.
-    '계'(체인 합계)와 기타·전체 행만 저장한다. 상위 5편 밖으로 밀리면 그날 데이터는 없다.
+
+def _chain_post(start: date, end_d: date) -> str:
+    """체인별 통계는 CSRFToken + startDate/endDate 를 요구한다 — 박스오피스식
+    sSearchFrom 은 조용히 무시되고 '최근 7일'이 온다 (2026-08-10 실측).
+    세션으로 토큰을 한 번 받아 재사용하고, 끊기면 세션부터 다시 만든다."""
+    global _chain_sess
+    last_err = None
+    for attempt in range(4):
+        try:
+            if _chain_sess is None:
+                s = requests.Session()
+                s.headers["User-Agent"] = "Mozilla/5.0"
+                r = s.get(CHAINS_URL, timeout=30)
+                r.encoding = r.apparent_encoding or "utf-8"
+                m = re.search(r'name="CSRFToken"\s+value="([^"]+)"', r.text)
+                _chain_sess = (s, m.group(1) if m else "")
+            s, tok = _chain_sess
+            r = s.post(CHAINS_URL, data={
+                "CSRFToken": tok, "loadEnd": "0", "dmlMode": "search",
+                "startDate": start.isoformat(), "endDate": end_d.isoformat(),
+            }, timeout=30)
+            r.encoding = r.apparent_encoding or "utf-8"
+            return r.text
+        except requests.exceptions.ConnectionError as e:
+            last_err = e
+            _chain_sess = None
+            time.sleep(5 * (attempt + 1))
+    raise last_err
+
+
+def fetch_chains(start: date, end_d: date, open_date: date):
+    """체인영화관별 상영현황을 [start, end_d] 구간(최대 7일)으로 받아 날짜별 dict 로.
+
+    응답은 날짜별 섹션('2026년 08월 09일' 머리글)으로 나뉘고, 각 날짜 표는 영화 하나가
+    13행(체인 4×직영/위탁/계 + 기타 + 전체)에 걸쳐 있으며 순위·영화명·체인명이 rowspan
+    이라, 행 길이(10/8/7)로 수준을 구분하며 상태를 들고 간다. '계'(체인 합계)와
+    기타·전체 행만 저장한다. 하루 상위 5편만 제공 — 그 밖으로 밀리면 그날 데이터는 없다.
     """
-    text = _post_day(CHAINS_URL, day)
+    text = _chain_post(start, end_d)
     parts = re.split(r"(\d{4})년\s*(\d{2})월\s*(\d{2})일", text)
     out = {}
     # parts = [머리, y, m, d, 본문, y, m, d, 본문, ...]
@@ -223,7 +254,7 @@ def fetch_chains(day: date, open_date: date):
 
 
 def build_chains(path: Path, open_date: date, end: date, refresh_last=0):
-    """한 요청이 7일을 덮으므로 end 부터 7일씩 거슬러 가며 필요한 구간만 받는다."""
+    """한 요청이 최대 7일을 덮으므로 7일 창 단위로 필요한 구간만 받는다."""
     by_date = read_market(path)          # date -> rows (제너릭이라 그대로 재사용)
     recent = {(end - timedelta(days=i)).isoformat() for i in range(refresh_last)}
 
@@ -231,17 +262,18 @@ def build_chains(path: Path, open_date: date, end: date, refresh_last=0):
         k = d.isoformat()
         return k not in by_date or k in recent
 
-    added, req = 0, end
-    while req >= open_date:
-        window = [req - timedelta(days=i) for i in range(7)]
-        if any(need(d) and open_date <= d <= end for d in window):
+    added, w_start = 0, open_date
+    while w_start <= end:
+        w_end = min(w_start + timedelta(days=6), end)
+        if any(need(w_start + timedelta(days=i))
+               for i in range((w_end - w_start).days + 1)):
             time.sleep(0.8)   # 예의상 간격 — 빠른 연속 요청은 IP 차단을 부른다
-            got = fetch_chains(req, open_date)
+            got = fetch_chains(w_start, w_end, open_date)
             for k, rows in got.items():
                 if open_date.isoformat() <= k <= end.isoformat() and need(date.fromisoformat(k)):
                     by_date[k] = rows
                     added += 1
-        req -= timedelta(days=7)
+        w_start = w_end + timedelta(days=1)
 
     with path.open("w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=CHAIN_HEAD)
@@ -395,6 +427,11 @@ def main():
     if "--build-m1-market" in args:
         print("1편 경쟁작 점유율 백필 중 (2024-08-07 ~ 141일, 하루 한 요청)...")
         build_market(DATA / "m1_market.csv", M1_OPEN, M1_OPEN + timedelta(days=140))
+        return
+
+    if "--build-m1-chains" in args:
+        print("1편 체인별 상영현황 백필 중 (2024-08-07 ~ 141일, 요청 하나가 7일 커버)...")
+        build_chains(DATA / "m1_chains.csv", M1_OPEN, M1_OPEN + timedelta(days=140))
         return
 
     # ---- 2편: 어제 확정분까지 (KOBIS 는 다음날 아침에 전날을 확정한다)

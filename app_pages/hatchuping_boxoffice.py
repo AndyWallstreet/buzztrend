@@ -21,7 +21,7 @@ st.set_page_config(page_title="하츄핑2 개봉 후", page_icon="🎬", layout=
 LOAD_FILES = ("m1_daily.csv", "m2_daily.csv", "boxoffice_now.json",
               "ratings.csv", "sentiment_daily.csv", "ratings_peers.json",
               "board_daily.csv", "board_samples.json",
-              "m1_market.csv", "m2_market.csv", "m2_chains.csv")
+              "m1_market.csv", "m2_market.csv", "m2_chains.csv", "m1_chains.csv")
 
 
 def load_stamp():
@@ -42,7 +42,8 @@ def load(stamp):
     return (_csv("m1_daily.csv"), _csv("m2_daily.csv"), _json("boxoffice_now.json"),
             _csv("ratings.csv"), _csv("sentiment_daily.csv"), _json("ratings_peers.json"),
             _csv("board_daily.csv"), _json("board_samples.json"),
-            _csv("m1_market.csv"), _csv("m2_market.csv"), _csv("m2_chains.csv"))
+            _csv("m1_market.csv"), _csv("m2_market.csv"), _csv("m2_chains.csv"),
+            _csv("m1_chains.csv"))
 
 
 def date_span(dates, extra_days=3):
@@ -58,7 +59,7 @@ def day_axis(days, max_labels=12):
                     labelAngle=0, labelOverlap=False)
 
 
-m1d, m2d, bonow, rat, sd, peer, bd, bsamp, mk1, mk2, chn = load(load_stamp())
+m1d, m2d, bonow, rat, sd, peer, bd, bsamp, mk1, mk2, chn, chn1 = load(load_stamp())
 
 st.title("🎬 사랑의 하츄핑 2 — 개봉 후 트래커")
 st.caption("2026-08-05 개봉 · KOBIS 확정 관객수 기준 · 1편(운명의 시작, 최종 1,239,245명)과 "
@@ -467,12 +468,69 @@ else:
                      alt.Tooltip("shows:Q", title="상영횟수", format=",")])
         st.altair_chart(ch_chart.properties(height=300), width="stretch")
 
-        # 체인 하나를 골라 그 안의 영화별 비중 — "CGV 는 지금 무엇에 회차를 몰아주나"
-        st.markdown("**🎯 체인을 골라 그 안의 영화별 비중 보기**")
-        sel_ch = st.radio("체인 선택", CH_ORDER, horizontal=True, index=1,
-                          label_visibility="collapsed")
+        # 체인 하나를 골라 들여다보기 — "CGV 는 지금 무엇에 회차를 몰아주나" / "1편 때와 비교하면?"
+        st.markdown("**🎯 체인을 골라 들여다보기**")
+        cc1, cc2 = st.columns([3, 2])
+        sel_ch = cc1.radio("체인 선택", CH_ORDER, horizontal=True, index=1,
+                           label_visibility="collapsed")
+        mode_ch = cc2.radio("보기 모드", ["영화별 비중", "1편 vs 2편"], horizontal=True,
+                            label_visibility="collapsed")
+
+        if mode_ch == "1편 vs 2편":
+            if chn1 is None or not len(chn1):
+                st.info("1편 체인별 데이터(m1_chains.csv)가 없습니다 — "
+                        "`python boxoffice_update.py --build-m1-chains` 실행 필요")
+            else:
+                c1d = chn1.copy()
+                c1d["show_share"] = pd.to_numeric(c1d["show_share"], errors="coerce")
+                mine1 = c1d[c1d["title"].str.contains("하츄핑", na=False)
+                            & (c1d["chain"] == sel_ch)].dropna(subset=["show_share"])
+                mine2 = chd[chd["title"].str.contains("하츄핑", na=False)
+                            & (chd["chain"] == sel_ch)].dropna(subset=["show_share"])
+                span_c = max(int(mine2["day"].max()) + 7, 21) if len(mine2) else 21
+                vs = pd.concat([
+                    mine2.assign(구분="2편"),
+                    mine1[mine1["day"] <= span_c].assign(구분="1편"),
+                ], ignore_index=True)
+                wk_c = pd.DataFrame([{"x0": 7 * w + 2.5, "x1": min(7 * w + 4.5, span_c)}
+                                     for w in range(span_c // 7 + 1)])
+                wk_c = wk_c[wk_c["x0"] < span_c]
+                band_c = alt.Chart(wk_c).mark_rect(color="#f5c542", opacity=0.12).encode(
+                    x=alt.X("x0:Q", scale=alt.Scale(domain=[0, span_c], nice=False),
+                            title=None),
+                    x2="x1:Q")
+                vs_line = alt.Chart(vs).mark_line(point=True, strokeWidth=2.5).encode(
+                    x=alt.X("day:Q", title="개봉 후 경과일 (0 = 개봉일)",
+                            scale=alt.Scale(domain=[0, span_c], nice=False),
+                            axis=alt.Axis(tickMinStep=1, format="d")),
+                    y=alt.Y("show_share:Q", title=f"{sel_ch} 안에서 하츄핑 상영점유율",
+                            axis=alt.Axis(format=".0%")),
+                    color=alt.Color("구분:N", scale=alt.Scale(domain=["2편", "1편"],
+                                                             range=[C_M2, C_M1]),
+                                    legend=alt.Legend(title=None, orient="top-right")),
+                    strokeDash=alt.StrokeDash("구분:N",
+                                              scale=alt.Scale(domain=["2편", "1편"],
+                                                              range=[[1, 0], [5, 4]]),
+                                              legend=None),
+                    tooltip=[alt.Tooltip("구분:N"), alt.Tooltip("day:Q", title="경과일"),
+                             alt.Tooltip("show_share:Q", title="상영점유율", format=".1%"),
+                             alt.Tooltip("shows:Q", title="상영횟수", format=",")])
+                st.altair_chart(alt.layer(band_c, vs_line).properties(height=300),
+                                width="stretch")
+                _v1r = mine1[mine1["day"] == int(mine2["day"].max())] if len(mine2) else []
+                _gap = ""
+                if len(mine2) and len(_v1r):
+                    _a = float(mine2[mine2["day"] == mine2["day"].max()]["show_share"].iloc[0])
+                    _b = float(_v1r["show_share"].iloc[0])
+                    _gap = (f" 어제 같은 일차: 2편 **{_a:.1%}** vs 1편 **{_b:.1%}** "
+                            f"({_a - _b:+.1%}p).")
+                st.caption(f"{sel_ch} 전체 상영횟수 중 하츄핑 비중 — 파란 실선 = 2편, "
+                           f"주황 점선 = 1편 같은 경과일, 🟡 음영 = 주말.{_gap} "
+                           "1편은 하루 상위 5편에 든 날만 데이터가 있어 선이 끊길 수 "
+                           "있습니다 (D+53까지 20일).")
+
         one_ch = chd[chd["chain"] == sel_ch].dropna(subset=["show_share"]).copy()
-        if len(one_ch):
+        if mode_ch == "영화별 비중" and len(one_ch):
             # 색: 하츄핑 = 파랑 고정, 나머지는 최신 순위 순서로 배정 (날마다 색이 안 바뀌게)
             latest = one_ch[one_ch["date"] == one_ch["date"].max()].sort_values("rank")
             others = [t for t in latest["title"] if "하츄핑" not in t]
