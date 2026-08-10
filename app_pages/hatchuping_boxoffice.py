@@ -515,7 +515,7 @@ else:
                     tooltip=[alt.Tooltip("구분:N"), alt.Tooltip("day:Q", title="경과일"),
                              alt.Tooltip("show_share:Q", title="상영점유율", format=".1%"),
                              alt.Tooltip("shows:Q", title="상영횟수", format=",")])
-                st.altair_chart(alt.layer(band_c, vs_line).properties(height=300),
+                st.altair_chart(alt.layer(band_c, vs_line).properties(height=380),
                                 width="stretch")
                 _v1r = mine1[mine1["day"] == int(mine2["day"].max())] if len(mine2) else []
                 _gap = ""
@@ -546,8 +546,8 @@ else:
                 y=alt.Y("show_share:Q", title=f"{sel_ch} 안에서 영화별 상영점유율",
                         axis=alt.Axis(format=".0%")),
                 color=alt.Color("title:N", scale=alt.Scale(domain=dom, range=pal),
-                                legend=alt.Legend(title=None, orient="bottom", columns=3,
-                                                  labelLimit=220)),
+                                legend=alt.Legend(title=None, orient="right",
+                                                  labelLimit=240)),
                 strokeWidth=alt.condition("indexof(datum.title, '하츄핑') >= 0",
                                           alt.value(3.5), alt.value(1.6)),
                 tooltip=[alt.Tooltip("date:T", title="날짜", format="%m/%d"),
@@ -555,7 +555,7 @@ else:
                          alt.Tooltip("show_share:Q", title="상영점유율", format=".1%"),
                          alt.Tooltip("shows:Q", title="상영횟수", format=","),
                          alt.Tooltip("screens:Q", title="스크린수", format=",")])
-            st.altair_chart(movie_chart.properties(height=320), width="stretch")
+            st.altair_chart(movie_chart.properties(height=460), width="stretch")
             st.caption(f"{sel_ch} 전체 상영횟수 중 각 영화가 차지한 비중 (KOBIS 하루 상위 5편). "
                        "굵은 파란 선 = 하츄핑. 대작 선이 내려가면서 하츄핑 선이 올라가면 "
                        "그 체인이 회차를 하츄핑 쪽으로 돌리고 있다는 뜻입니다.")
