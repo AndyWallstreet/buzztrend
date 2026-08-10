@@ -1,50 +1,93 @@
 {
-  "as_of": "2026-08-10 07:56 KST",
+  "as_of": "2026-08-11 07:41 KST",
   "stock": "SAMG엔터 (419530)",
-  "window": "2026-08-08 ~ 2026-08-10",
+  "window": "2026-08-09 ~ 2026-08-11",
   "top_pos": [
     {
-      "date": "2026-08-08",
-      "title": "금요일 관객수는 기대이하, 근데 예매수는 기대이상",
-      "views": 413,
+      "date": "2026-08-10",
+      "title": "일요일 대박이네요",
+      "views": 739,
       "agree": 0,
       "disagree": 0
     },
     {
       "date": "2026-08-09",
       "title": "잘만들었다 기대 이상인데?ㅋㅋ",
-      "views": 318,
-      "agree": 0,
-      "disagree": 0
-    },
-    {
-      "date": "2026-08-10",
-      "title": "일요일 대박이네요",
-      "views": 308,
+      "views": 328,
       "agree": 0,
       "disagree": 0
     },
     {
       "date": "2026-08-10",
       "title": "일요일 관객수 대박",
-      "views": 195,
+      "views": 259,
       "agree": 0,
       "disagree": 0
     },
     {
       "date": "2026-08-09",
       "title": "해적누나 캐릭터 너무좋아",
-      "views": 168,
+      "views": 177,
       "agree": 0,
       "disagree": 0
     },
     {
-      "date": "2026-08-08",
-      "title": "이상한 글 쓰는 사람들은 차단하고 안보는게  좋아요",
-      "views": 104,
+      "date": "2026-08-10",
+      "title": "추가 매수합니다~ㅋㅋ",
+      "views": 95,
+      "agree": 0,
+      "disagree": 0
+    },
+    {
+      "date": "2026-08-10",
+      "title": "개미들에게 절대 수익을 줄 수 없다는 세력",
+      "views": 87,
       "agree": 0,
       "disagree": 0
     }
   ],
-  "top_neg": []
+  "top_neg": [
+    {
+      "date": "2026-08-10",
+      "title": "아직 폭락 확정은 아니고",
+      "views": 98,
+      "agree": 0,
+      "disagree": 0
+    },
+    {
+      "date": "2026-08-10",
+      "title": "외인 기관 매도 연기금 프매 매도 올 매도ㅋㅋㅋㅋ",
+      "views": 85,
+      "agree": 0,
+      "disagree": 0
+    },
+    {
+      "date": "2026-08-10",
+      "title": "samg엔터 nxt 거래에서 하락율 1등 달성",
+      "views": 83,
+      "agree": 0,
+      "disagree": 0
+    },
+    {
+      "date": "2026-08-10",
+      "title": "쌈지엔터에서 그리는 새로운 하락",
+      "views": 63,
+      "agree": 0,
+      "disagree": 0
+    },
+    {
+      "date": "2026-08-10",
+      "title": "프매 던진다ㅋㅋㅋㅋㅋ",
+      "views": 54,
+      "agree": 0,
+      "disagree": 0
+    },
+    {
+      "date": "2026-08-10",
+      "title": "폭등은 커녕 폭락 ㅋ",
+      "views": 48,
+      "agree": 0,
+      "disagree": 0
+    }
+  ]
 }
