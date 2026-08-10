@@ -337,6 +337,52 @@ else:
                        "8월 중순 대작들이 빠지면서 점유율이 유지된 구간에서 관객이 계속 들어왔습니다. "
                        "점유율(공급)이 먼저 움직이고 관객수(수요)가 따라오는지 — 그 순서를 보는 차트입니다.")
 
+    # ---- 1편 vs 2편 상영점유율 오버레이 — 극장이 걸어주는 비중 = 인기도의 대리 지표.
+    # 위 탭은 '그 해 경쟁작들 속에서'를 보여주고, 이 차트는 두 편끼리 직접 겹쳐 본다.
+    st.markdown("#### 하츄핑 1편 vs 2편 — 상영점유율 비교 (인기도 추적)")
+    st.caption("상영점유율 = 그날 전국 전체 상영 횟수 중 하츄핑이 차지한 비중. "
+               "극장은 인기를 보고 다음 주 회차를 정하니, 이 선이 1편 곡선 위에 있으면 "
+               "극장들이 2편을 1편 때보다 더 좋게 보고 있다는 뜻입니다.")
+    cmp_span = 45
+    share_cmp = pd.concat([
+        m2d.assign(구분="2편"),
+        m1d[m1d["day"] <= cmp_span].assign(구분="1편"),
+    ], ignore_index=True)[["day", "구분", "show_share", "adm_share", "adm"]]
+    for c in ("show_share", "adm_share"):
+        share_cmp[c] = pd.to_numeric(share_cmp[c], errors="coerce")
+    share_cmp = share_cmp.dropna(subset=["show_share"])
+
+    cmp_chart = alt.Chart(share_cmp).mark_line(point=True, strokeWidth=2.5).encode(
+        x=alt.X("day:Q", title="개봉 후 경과일 (0 = 개봉일)",
+                scale=alt.Scale(domain=[0, cmp_span], nice=False),
+                axis=alt.Axis(tickMinStep=1, format="d")),
+        y=alt.Y("show_share:Q", title="상영점유율", axis=alt.Axis(format=".0%")),
+        color=alt.Color("구분:N", scale=alt.Scale(domain=["2편", "1편"],
+                                                 range=[C_M2, C_M1]),
+                        legend=alt.Legend(title=None, orient="top-right")),
+        strokeDash=alt.StrokeDash("구분:N", scale=alt.Scale(domain=["2편", "1편"],
+                                                           range=[[1, 0], [5, 4]]),
+                                  legend=None),
+        tooltip=[alt.Tooltip("구분:N"), alt.Tooltip("day:Q", title="경과일"),
+                 alt.Tooltip("show_share:Q", title="상영점유율", format=".1%"),
+                 alt.Tooltip("adm_share:Q", title="관객점유율", format=".1%"),
+                 alt.Tooltip("adm:Q", title="하루 관객", format=",")])
+    st.altair_chart(cmp_chart.properties(height=300), width="stretch")
+
+    _s2 = share_cmp[share_cmp["구분"] == "2편"]
+    if len(_s2):
+        _d = int(_s2["day"].max())
+        _v2 = float(_s2[_s2["day"] == _d]["show_share"].iloc[0])
+        _r1 = share_cmp[(share_cmp["구분"] == "1편") & (share_cmp["day"] == _d)]
+        if len(_r1):
+            _v1 = float(_r1["show_share"].iloc[0])
+            st.caption(f"어제(경과 {_d}일) 상영점유율: 2편 **{_v2:.1%}** vs 1편 같은 일차 **{_v1:.1%}** "
+                       f"(**{_v2 - _v1:+.1%}p**) — "
+                       + ("2편이 1편 때보다 극장을 더 많이 잡고 있습니다."
+                          if _v2 >= _v1 else
+                          "아직 1편 때만큼 극장을 잡지 못하고 있습니다.")
+                       + " 1편은 45일차까지 표시 — 주말마다 오르고 평일에 내리는 톱니 모양이 정상입니다.")
+
     st.caption("판단 기준선 — **124만** 넘으면 1편 초과(기본 성공) · **200만** = 예매가 약속한 수준 "
                "(D-1 예매 1.62배) · **250만** = 회귀 상단. 1편은 첫 주말(개봉 4일차)까지 "
                "누적 406,384명으로 최종의 32.8%를 벌었습니다 — 즉 첫 주말 누적 × 약 3.05 ≈ 최종.")
