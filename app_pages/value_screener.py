@@ -220,6 +220,16 @@ with tab1:
         class_label = st.selectbox("피어그룹 기준 (분류 단계)", list(CLASS_LEVELS), index=0,
                                    help="선택한 회사와 같은 분류에 속한 회사들을 비교 대상으로 잡습니다. "
                                         "아래로 갈수록 더 좁고 비슷한 그룹입니다.")
+        # 피어그룹 수동 설정 — 여러 사업을 하는 회사(예: 동국제약 = 제약+화장품)를
+        # 원하는 다른 산업의 피어들과 비교하고 싶을 때 직접 고른다
+        AUTO_PEER = "(자동 — 선택한 종목과 같은 분류)"
+        _mcol = CLASS_LEVELS[class_label]
+        manual_peer = st.selectbox(
+            "피어그룹 수동 설정", [AUTO_PEER] + sorted(df[_mcol].dropna().unique()),
+            index=0, key=f"ti_manual_{_mcol}",
+            help="기본은 자동(선택한 종목의 분류). 화장품 사업도 하는 제약사를 "
+                 "화장품 피어들과 비교하고 싶을 때처럼, 위에서 고른 분류 단계의 "
+                 "다른 그룹을 직접 지정할 수 있습니다.")
         st.markdown("##### 📌 주요변수 선택")
         y_label1 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=0, key="ti_y")
         x_label1 = st.selectbox("X축", list(X_AXES), index=0, key="ti_x")
@@ -235,14 +245,16 @@ with tab1:
         pick = df[df["label"] == pick_label]
         row = pick.iloc[0]
         class_col = CLASS_LEVELS[class_label]
-        peers = df[df[class_col] == row[class_col]]
+        peer_val = row[class_col] if manual_peer == AUTO_PEER else manual_peer
+        peers = df[df[class_col] == peer_val]
         x_col, y_col = X_AXES[x_label1], MULTIPLES[y_label1]
         good = peers[(peers[x_col] > x_min1) & (peers[y_col] > 0) & (peers[y_col] < y_max1)]
 
         with c1:
             st.markdown(f"**{row['company']}**")
+            _tag = "" if manual_peer == AUTO_PEER else " · 수동 설정"
             st.markdown(f"- 섹터: {row['sector']}\n- 산업: {row['industry']}\n"
-                        f"- 피어그룹: {row[class_col]} ({len(peers)}개사)")
+                        f"- 피어그룹: {peer_val} ({len(peers)}개사){_tag}")
             bx, by, br2 = best_relationship(peers)
             r2 = r_square(good[x_col], good[y_col])
             st.markdown(f"- 현재 조합 R²: {r2:.1%}" if not np.isnan(r2) else "- 현재 조합 R²: 계산 불가")
