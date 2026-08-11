@@ -21,7 +21,8 @@ st.set_page_config(page_title="하츄핑2 개봉 후", page_icon="🎬", layout=
 LOAD_FILES = ("m1_daily.csv", "m2_daily.csv", "boxoffice_now.json",
               "ratings.csv", "sentiment_daily.csv", "ratings_peers.json",
               "board_daily.csv", "board_samples.json",
-              "m1_market.csv", "m2_market.csv", "m2_chains.csv", "m1_chains.csv")
+              "m1_market.csv", "m2_market.csv", "m2_chains.csv", "m1_chains.csv",
+              "booking_flow.csv", "booking_live_now.json", "booking_rivals.csv")
 
 
 def load_stamp():
@@ -43,7 +44,8 @@ def load(stamp):
             _csv("ratings.csv"), _csv("sentiment_daily.csv"), _json("ratings_peers.json"),
             _csv("board_daily.csv"), _json("board_samples.json"),
             _csv("m1_market.csv"), _csv("m2_market.csv"), _csv("m2_chains.csv"),
-            _csv("m1_chains.csv"))
+            _csv("m1_chains.csv"), _csv("booking_flow.csv"),
+            _json("booking_live_now.json"), _csv("booking_rivals.csv"))
 
 
 def date_span(dates, extra_days=3):
@@ -97,7 +99,8 @@ def weekend_band_dates(dates, opacity=0.12):
         color=WK_COLOR, opacity=opacity).encode(x="x0:T", x2="x1:T")
 
 
-m1d, m2d, bonow, rat, sd, peer, bd, bsamp, mk1, mk2, chn, chn1 = load(load_stamp())
+(m1d, m2d, bonow, rat, sd, peer, bd, bsamp, mk1, mk2, chn, chn1,
+ bflow, bknow, briv) = load(load_stamp())
 
 st.title("🎬 사랑의 하츄핑 2 — 개봉 후 트래커")
 st.caption("2026-08-05 개봉 · KOBIS 확정 관객수 기준 · 1편(운명의 시작, 최종 1,239,245명)과 "
@@ -801,6 +804,92 @@ else:
                                "체인일수록 후하게 주는 경향이 있고, CGV가 롯데 수준으로 올라오는 것 "
                                "자체가 흥행 확산 신호입니다. (KOBIS 체인별 통계는 하루 상위 5편만 "
                                "제공 — 하츄핑이 5위 밖이면 그날 칸이 빕니다)")
+
+    # ---- 예매 추적 — 확정 관객수는 '지나간 날'만 알려준다. 예매관객수는 아직 상영되지
+    # 않은 회차의 표라서 주말을 며칠 앞두고 미리 보인다. 다만 잔고는 팔려서 늘고
+    # 상영돼서 줄기 때문에, 잔고가 아니라 '하루 신규 예매량'을 봐야 수요가 읽힌다.
+    st.markdown("#### 예매 추적 — 이번 주말 미리 보기")
+    st.caption("KOBIS **실시간 예매율**을 매일 아침 같은 시각에 찍습니다. 확정 관객수는 다음날 "
+               "아침에야 나오지만, 예매관객수는 **아직 상영 안 된 표**라서 주말을 며칠 앞두고 "
+               "먼저 움직입니다. ⚠️ 1편(2024)의 개봉 후 예매 기록은 **존재하지 않습니다** — "
+               "KOBIS 실시간 예매율은 그 순간만 보여주고 과거를 저장하지 않아서, 지금 와서 "
+               "복구할 방법이 없습니다. 그래서 1편 비교는 위의 **실관객수 배수**로 하고, "
+               "예매는 '앞을 보는 창'으로만 씁니다.")
+
+    if not bknow:
+        st.info("예매 스냅샷 수집 전입니다 — `python booking_live_update.py` 가 매일 아침 쌓습니다.")
+    else:
+        k1, k2, k3, k4 = st.columns(4)
+        k1.metric("지금 예매관객수", f"{int(bknow['tickets']):,}명",
+                  f"{bknow.get('ts', '')} 기준", delta_color="off")
+        k2.metric("예매율 · 순위", f"{bknow.get('rate', '?')}% · {int(bknow['rank'])}위",
+                  delta_color="off")
+        if bknow.get("share") is not None:
+            k3.metric("전체 예매 중 비중", f"{bknow['share']:.1%}",
+                      f"전국 예매 {int(bknow['total_tickets']):,}명", delta_color="off")
+
+        # 하루 신규 예매 = 잔고 증감 + 그날 실관객(소진분). 잔고만 보면 '잘 팔린 날'과
+        # '많이 상영한 날'이 구분되지 않아서, 소진분을 되더해 순수 구매만 남긴다.
+        flow = None
+        if bflow is not None and len(bflow):
+            flow = bflow.dropna(subset=["new_booking"]).copy()
+            flow["new_booking"] = pd.to_numeric(flow["new_booking"], errors="coerce")
+            flow = flow.dropna(subset=["new_booking"])
+        if flow is not None and len(flow):
+            f_last = flow.iloc[-1]
+            f_prev = flow.iloc[-2] if len(flow) > 1 else None
+            k4.metric("어제 신규 예매",
+                      f"{int(f_last['new_booking']):,}명",
+                      (f"{int(f_last['new_booking'] - f_prev['new_booking']):+,} (그제보다)"
+                       if f_prev is not None else "첫 측정"),
+                      delta_color="normal" if f_prev is not None else "off")
+        else:
+            k4.metric("어제 신규 예매", "—", "스냅샷 2일치부터", delta_color="off")
+
+        if bknow.get("rivals"):
+            st.markdown("**지금 예매 상위 — 주말 파이를 누가 선점하고 있나**")
+            md = ["| 영화 | 예매율 | 예매관객수 |", "|---|---:|---:|"]
+            for r in bknow["rivals"]:
+                nm = str(r["title"])[:22]
+                cells = f"| {r.get('rate', '?')}% | {int(r['tickets']):,}명 |"
+                md.append((f"| **🐳 {nm}** " if "하츄핑" in nm else f"| {nm} ") + cells)
+            st.markdown("\n".join(md))
+
+        if flow is not None and len(flow):
+            st.markdown("**하루 신규 예매량 vs 실관객수**")
+            fl = flow.copy()
+            fl["date"] = pd.to_datetime(fl["date"])
+            fl["adm"] = pd.to_numeric(fl["adm"], errors="coerce")
+            fx = alt.X("date:T", title=None, axis=day_axis(date_span(fl["date"], 2)))
+            nb = alt.Chart(fl).mark_bar(color="#7c3aed", opacity=0.55).encode(
+                x=fx, y=alt.Y("new_booking:Q", title="신규 예매(명)",
+                              axis=alt.Axis(format=",.0f")),
+                tooltip=[alt.Tooltip("date:T", title="날짜", format="%m/%d"),
+                         alt.Tooltip("new_booking:Q", title="신규 예매", format=","),
+                         alt.Tooltip("adm:Q", title="실관객", format=",")])
+            al = alt.Chart(fl.dropna(subset=["adm"])).mark_line(
+                color=C_M2, strokeWidth=2.5, point=True).encode(
+                x=fx, y=alt.Y("adm:Q", title="실관객수", axis=alt.Axis(format=",.0f")),
+                tooltip=[alt.Tooltip("date:T", title="날짜", format="%m/%d"),
+                         alt.Tooltip("adm:Q", title="실관객", format=",")])
+            st.altair_chart(alt.layer(weekend_band_dates(fl["date"]), nb, al)
+                            .resolve_scale(y="independent").properties(height=300),
+                            width="stretch")
+            st.caption("🟣 막대 = 그날 **새로 팔린 표** (예매 잔고 증감 + 그날 실관객) · "
+                       "🔵 선 = 실관객수 · 🟡 음영 = 주말. 신규 예매가 실관객보다 **먼저** "
+                       "움직입니다 — 목·금에 막대가 솟으면 그 주말이 크고, 주말을 앞두고도 "
+                       "막대가 안 오르면 그게 경고입니다.")
+        else:
+            st.info("**신규 예매량은 내일 아침부터** 나옵니다 — 잔고 차이를 계산하려면 "
+                    "아침 스냅샷이 최소 2일치 필요합니다. 오늘이 1일차입니다.")
+
+        st.caption("이번 주말 판정법 — ① 위의 **배수 × 1편 같은 일차 주말 관객수** (지금 쓰는 방법) "
+                   "② **목·금 신규 예매량의 방향** (여기서 새로 생기는 방법). 둘이 같은 쪽을 "
+                   "가리키면 신뢰도가 올라가고, ②가 먼저 꺾이면 배수가 곧 떨어진다는 신호입니다. "
+                   "지난 주말과 이번 주말의 예매 적재량을 직접 비교하는 건 **다음 주말부터** "
+                   "가능합니다 (지난 주말의 금요일 아침 스냅샷이 없어서). "
+                   "⚠️ 2편의 D+10(8/15 토)은 **광복절**이라 1편의 평범한 2주차 토요일보다 "
+                   "유리합니다 — 배수가 그날 튀어도 한 주 더 보고 판단하세요.")
 
     st.caption("판단 기준선 — **124만** 넘으면 1편 초과(기본 성공) · **200만** = 예매가 약속한 수준 "
                "(D-1 예매 1.62배) · **250만** = 회귀 상단. 1편은 첫 주말(개봉 4일차)까지 "
