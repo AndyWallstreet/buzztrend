@@ -531,13 +531,16 @@ else:
         keep = df.groupby("title")["show_share"].max().nlargest(top_n).index
         df = df[df["title"].isin(keep)].copy()
         df["영화"] = df["title"].str.replace(r"[:\-].*$", "", regex=True).str.slice(0, 11).str.strip()
+        # 축을 실측이 있는 날까지만 잡는다 — span 은 앞으로 들어올 날까지 미리 잡아 둔
+        # 값이라(개봉 7일차인데 14일까지), 그대로 쓰면 선이 왼쪽 절반에 몰려 눌린다.
         _lo = float(df["day"].min())
+        _hi = min(float(mspan), float(df["day"].max()) + 0.4)
         lines = alt.Chart(df).mark_line(point=True).encode(
             x=alt.X("day:Q", title="경과일 (0 = 하츄핑 개봉일)",
-                    scale=alt.Scale(domain=[_lo, mspan], nice=False),
+                    scale=alt.Scale(domain=[_lo, _hi], nice=False),
                     axis=alt.Axis(tickMinStep=1, format="d")),
             y=alt.Y("show_share:Q", title="상영점유율", axis=alt.Axis(format=".0%")),
-            color=alt.Color("영화:N", legend=alt.Legend(title=None, orient="bottom", columns=3)),
+            color=alt.Color("영화:N", legend=alt.Legend(title=None, orient="bottom", columns=6)),
             strokeWidth=alt.condition("indexof(datum.영화, '하츄핑') >= 0",
                                       alt.value(3.5), alt.value(1.4)),
             opacity=alt.condition("indexof(datum.영화, '하츄핑') >= 0",
@@ -548,13 +551,15 @@ else:
                      alt.Tooltip("adm_share:Q", title="관객점유율", format=".1%"),
                      alt.Tooltip("adm:Q", title="하루 관객", format=",")],
         )
-        band = weekend_band(mspan, lo=_lo, x_title="경과일 (0 = 하츄핑 개봉일)")
-        return alt.layer(band, lines).properties(height=300)
+        band = weekend_band(_hi, lo=_lo, x_title="경과일 (0 = 하츄핑 개봉일)")
+        return alt.layer(band, lines).properties(height=340)
 
     def share_vs_adm(daily, bar_color, mspan):
         df = daily[daily["day"] <= mspan][["day", "adm", "show_share"]].copy()
         df["show_share"] = pd.to_numeric(df["show_share"], errors="coerce")
-        x = alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, mspan], nice=False),
+        # 위 경쟁작 차트와 같은 이유로 빈 날짜까지 축을 늘리지 않는다 (막대도 그만큼 굵어진다)
+        _hi = min(float(mspan), float(df["day"].max()) + 0.6)
+        x = alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[-0.6, _hi], nice=False),
                   axis=alt.Axis(tickMinStep=1, format="d"))
         bars = alt.Chart(df).mark_bar(color=bar_color, opacity=0.45).encode(
             x=x, y=alt.Y("adm:Q", title="하루 관객수", axis=alt.Axis(format=",.0f")),
@@ -566,9 +571,9 @@ else:
             x=x, y=alt.Y("show_share:Q", title="상영점유율", axis=alt.Axis(format=".0%")),
             tooltip=[alt.Tooltip("day:Q", title="경과일"),
                      alt.Tooltip("show_share:Q", title="상영점유율", format=".1%")])
-        band = weekend_band(mspan, x_title="경과일")
+        band = weekend_band(_hi, lo=-0.6, x_title="경과일")
         return (alt.layer(band, bars, line).resolve_scale(y="independent")
-                .properties(height=280))
+                .properties(height=300))
 
     tab2, tab1 = st.tabs(["2편 지금 (2026)", "1편 그때는 (2024)"])
     with tab2:
