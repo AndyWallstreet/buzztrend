@@ -275,8 +275,22 @@ with tab2:
                                  step=0.5, key="sp_ymax")
 
         st.markdown("##### 🏭 산업분류 선택")
-        # 분류 필터 — 위에서 고르면 아래 선택지가 그 안으로 좁혀진다
+        # 통합 산업 검색 — 타이핑하면 5개 분류 단계 전체에서 찾아준다.
+        # 예: 'health' → Health Care [Industry Sector], Health Care Equipment
+        # and Services [Industry Group] … 중에서 골라 바로 필터링.
+        all_opts = [f"{v}  [{lvl_label}]"
+                    for lvl_label, lvl_col in CLASS_LEVELS.items()
+                    for v in sorted(df[lvl_col].dropna().unique())]
+        sel_search = st.selectbox(
+            "🔎 산업 검색 (모든 분류 단계에서 찾기)", all_opts, index=None,
+            placeholder="예: health, semiconductor, cosmetics …", key="sp_isearch",
+            help="영어로 타이핑하면 아래 5개 분류 전체에서 검색됩니다. "
+                 "하나 고르면 그 분류로 바로 필터링되고, 아래 드롭다운으로 더 좁힐 수 있어요.")
         filt = df
+        if sel_search:
+            v, lvl_label = sel_search.rsplit("  [", 1)
+            filt = filt[filt[CLASS_LEVELS[lvl_label.rstrip("]")]] == v]
+        # 분류 필터 — 위에서 고르면 아래 선택지가 그 안으로 좁혀진다
         for lvl_label, lvl_col in CLASS_LEVELS.items():
             opts = ["(전체)"] + sorted(filt[lvl_col].dropna().unique())
             sel = st.selectbox(lvl_label, opts, key=f"sp_{lvl_col}")
