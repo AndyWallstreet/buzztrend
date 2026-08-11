@@ -15,3 +15,5 @@ kbeauty/output/
 kbeauty/logs/
 kbeauty/*.duckdb
 !kbeauty/data/raw/.gitkeep
+
+.streamlit/secrets.toml

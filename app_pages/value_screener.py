@@ -10,13 +10,18 @@ Two tools, same idea as the Excel file:
 X axis = quality (ROIC+SG or ROE+SG), Y axis = price (a multiple).
 Bottom-right = high quality but cheap = worth a deeper look.
 """
+import datetime as dt
 import json
+import sys
 from pathlib import Path
 
 import altair as alt
 import numpy as np
 import pandas as pd
 import streamlit as st
+
+sys.path.append(str(Path(__file__).resolve().parent))
+from history_fetch import dart_key, load_history  # noqa: E402  (과거 멀티플)
 
 DATA = Path(__file__).resolve().parent.parent / "data" / "screener"
 
@@ -269,6 +274,76 @@ with tab1:
             vx = f"{mine[x_col]:.1%}" if pd.notna(mine[x_col]) else "없음"
             vy = f"{mine[y_col]:.2f}" if pd.notna(mine[y_col]) else "없음"
             st.caption(f"🔶 {row['company']}: {x_label1} {vx} · {y_label1} {vy}")
+
+        # ------------------------- 과거 멀티플 (선택 종목) -------------------------
+        st.markdown(f"#### 📈 과거 멀티플 — {row['company']}")
+        if not dart_key():
+            st.info("이 기능을 켜려면 Streamlit Cloud → App settings → Secrets에 "
+                    "`DART_API_KEY = \"...\"` 를 추가해야 합니다 (관리자용, 1회).")
+        else:
+            # 히스토리는 TTM(최근 4개 분기 실적) 기준. EV/EBITDA는 공개 데이터로
+            # 감가상각을 알 수 없어 EV/EBIT로 대신 보여준다.
+            HIST_METRIC = {"EV/Sales": ("evs", "EV/Sales (TTM)"),
+                           "EV/EBIT": ("eve", "EV/EBIT (TTM)"),
+                           "EV/EBITDA": ("eve", "EV/EBIT (TTM · EV/EBITDA 대용)"),
+                           "PER": ("per", "PER (TTM)"),
+                           "PBR": ("pbr", "PBR")}
+            hcol, hname = HIST_METRIC[y_label1]
+            c3, c4 = st.columns([1, 3.2], gap="large")
+            with c3:
+                dur = st.radio("기간", ["1년", "3년", "5년", "10년(최대)", "직접설정"],
+                               index=2, key="hist_dur")
+                d_end = dt.date.today()
+                if dur == "직접설정":
+                    d_start = st.date_input("시작일", value=d_end - dt.timedelta(days=365 * 3),
+                                            key="hist_d1")
+                    d_end = st.date_input("종료일", value=d_end, key="hist_d2")
+                else:
+                    days = {"1년": 365, "3년": 365 * 3, "5년": 365 * 5, "10년(최대)": 3650}[dur]
+                    d_start = d_end - dt.timedelta(days=days)
+            hist = None
+            try:
+                with st.spinner("네이버·DART에서 과거 데이터를 불러오는 중… "
+                                "(종목당 첫 조회만 30초쯤 걸립니다)"):
+                    hist, hmeta = load_history(row["ticker"].lstrip("A"))
+            except Exception as e:
+                st.warning(f"과거 데이터 조회 실패: {e}")
+            if hist is not None and not hist.empty:
+                h = hist[hist[hcol].notna()
+                         & (hist["date"] >= d_start) & (hist["date"] <= d_end)]
+                if h.empty:
+                    with c4:
+                        st.info("이 구간에는 표시할 데이터가 없습니다 (적자 구간 등).")
+                else:
+                    avg = float(h[hcol].mean())
+                    last = float(h[hcol].iloc[-1])
+                    fwd = float(row[y_col]) if pd.notna(row[y_col]) else None
+                    line = alt.Chart(h).mark_line(color=C_MATCH, size=2).encode(
+                        x=alt.X("date:T", title=None),
+                        y=alt.Y(hcol, title=hname,
+                                scale=alt.Scale(zero=False)),
+                        tooltip=[alt.Tooltip("date:T", title="날짜"),
+                                 alt.Tooltip(hcol, title=hname, format=".2f"),
+                                 alt.Tooltip("px", title="주가", format=",.0f"),
+                                 alt.Tooltip("q", title="TTM 기준분기")])
+                    mean_rule = alt.Chart(pd.DataFrame({"v": [avg]})).mark_rule(
+                        strokeDash=[6, 4], color="#888", size=1.5).encode(y="v")
+                    layers = [line, mean_rule]
+                    if fwd is not None:
+                        layers.append(alt.Chart(pd.DataFrame({"v": [fwd]})).mark_rule(
+                            strokeDash=[2, 3], color=C_PICK, size=2).encode(y="v"))
+                    with c4:
+                        st.altair_chart(alt.layer(*layers).properties(height=380)
+                                        .interactive(), use_container_width=True)
+                    with c3:
+                        st.markdown(f"**{hname}**\n- 현재(TTM): **{last:.2f}배**\n"
+                                    f"- 기간 평균: **{avg:.2f}배**"
+                                    + (f"\n- 2026E 기준: **{fwd:.2f}배** (주황 점선)"
+                                       if fwd is not None else ""))
+                        st.caption("회색 점선 = 기간 평균. 파란 선 = 주간 TTM 멀티플. "
+                                   f"재무 {hmeta['quarters']} · "
+                                   "가격 네이버 주간종가 · 재무 DART 연결 TTM(공시지연 45일 가정) · "
+                                   "순부채·주식수는 최신값 고정 근사라 CapIQ 수치와 다소 다를 수 있습니다.")
 
         st.markdown(f"#### 조건 통과 (좋은데 싼) 피어: {len(good)}개")
         match_table(good, x_col, y_col, x_label1, y_label1, key="dl_ticker")
