@@ -59,6 +59,44 @@ def day_axis(days, max_labels=12):
                     labelAngle=0, labelOverlap=False)
 
 
+WK_COLOR = "#f5c542"
+
+
+def weekend_band(hi, lo=0, opacity=0.12, x_title=None):
+    """경과일(또는 D-day) 축에 주말(토·일) 음영.
+
+    1편(2024-08-07)·2편(2026-08-05) 둘 다 **수요일 개봉**이라 경과일 3·4가 토·일로
+    정확히 겹친다 — 같은 축에 한 번만 칠하면 두 편의 주말이 동시에 표시된다.
+    D-day 축처럼 lo 가 음수여도 같은 규칙(7의 배수 + 3·4)이 그대로 이어진다.
+
+    x_title 은 함께 겹칠 선 차트의 축 제목과 같은 값을 넘겨야 한다 — Altair 는
+    레이어의 x 인코딩을 병합하면서 title=None 이 이기기 때문에, 안 맞추면
+    "경과일" 같은 축 제목이 음영을 깐 순간 사라진다.
+    """
+    lo, hi = float(lo), float(hi)
+    rows, w = [], int((lo - 4.5) // 7)
+    while 7 * w + 2.5 < hi:
+        x0, x1 = max(7 * w + 2.5, lo), min(7 * w + 4.5, hi)
+        if x1 > x0:
+            rows.append({"x0": x0, "x1": x1})
+        w += 1
+    return alt.Chart(pd.DataFrame(rows, columns=["x0", "x1"])).mark_rect(
+        color=WK_COLOR, opacity=opacity).encode(
+        x=alt.X("x0:Q", scale=alt.Scale(domain=[lo, hi], nice=False), title=x_title),
+        x2="x1:Q")
+
+
+def weekend_band_dates(dates, opacity=0.12):
+    """날짜(date:T) 축 차트용 주말 음영 — 하루를 ±12시간으로 잡아 그 날에 딱 걸친다."""
+    ds = pd.DatetimeIndex(pd.to_datetime(pd.Series(list(dates))).dt.normalize().unique())
+    rows = []
+    if len(ds):
+        rows = [{"x0": d - pd.Timedelta(hours=12), "x1": d + pd.Timedelta(hours=12)}
+                for d in pd.date_range(ds.min(), ds.max(), freq="D") if d.dayofweek >= 5]
+    return alt.Chart(pd.DataFrame(rows, columns=["x0", "x1"])).mark_rect(
+        color=WK_COLOR, opacity=opacity).encode(x="x0:T", x2="x1:T")
+
+
 m1d, m2d, bonow, rat, sd, peer, bd, bsamp, mk1, mk2, chn, chn1 = load(load_stamp())
 
 st.title("🎬 사랑의 하츄핑 2 — 개봉 후 트래커")
@@ -170,15 +208,7 @@ else:
     b["구분"] = "1편"
     comp = pd.concat([a, b], ignore_index=True)
 
-    # 주말 음영 — 1편·2편 모두 수요일 개봉이라 경과일 D+3·4가 정확히 토·일로 겹친다.
-    # 같은 경과일 축에 한 번만 칠해도 두 편의 주말이 동시에 표시되는 이유.
-    wk = pd.DataFrame([{"x0": 7 * w + 2.5, "x1": min(7 * w + 4.5, vspan)}
-                       for w in range(vspan // 7 + 1)])
-    wk = wk[wk["x0"] < vspan]
-    wk_band = alt.Chart(wk).mark_rect(color="#f5c542",
-                                      opacity=0.12 if not view_all else 0.09).encode(
-        x=alt.X("x0:Q", scale=alt.Scale(domain=[0, vspan], nice=False), title=None),
-        x2="x1:Q")
+    wk_band = weekend_band(vspan, opacity=0.12 if not view_all else 0.09)
 
     _pt = vspan <= 40          # 141일을 점까지 찍으면 선이 안 보인다
     _xaxis = (alt.Axis(tickMinStep=1, format="d") if not view_all
@@ -382,7 +412,9 @@ else:
         nowt = alt.Chart(pd.DataFrame({"x": [dnum], "t": [f"오늘 D+{dnum}"]})).mark_text(
             align="left", dx=6, dy=8, fontSize=12, fontWeight="bold", color=C_M2).encode(
             x="x:Q", y=alt.value(10), text="t:N")
-        st.altair_chart(alt.layer(band, mid, gl, gt, nowr, nowt).properties(height=300),
+        st.altair_chart(alt.layer(weekend_band(bandsp, opacity=0.09,
+                                               x_title="개봉 후 경과일"),
+                                  band, mid, gl, gt, nowr, nowt).properties(height=300),
                         width="stretch")
 
     st.caption(
@@ -415,7 +447,10 @@ else:
                          alt.Tooltip("예상:Q", title="그날 예상 최종", format=",.0f")])
             one = alt.Chart(pd.DataFrame({"y": [1.0]})).mark_rule(
                 color=C_M1, strokeDash=[5, 4]).encode(y="y:Q")
-            st.altair_chart(alt.layer(rl, one).properties(height=230), width="stretch")
+            _hspan = float(hist["day"].max())
+            st.altair_chart(
+                alt.layer(weekend_band(_hspan, x_title="경과일"), rl, one)
+                .properties(height=230), width="stretch")
         with h2:
             _r0, _rn = float(hist["배수"].iloc[0]), float(hist["배수"].iloc[-1])
             _rp = float(hist["배수"].iloc[-2])
@@ -438,7 +473,7 @@ else:
             supply[col] = pd.to_numeric(supply[col], errors="coerce")
 
     def vs_chart(ycol, ytitle, pct=False):
-        return alt.Chart(supply.dropna(subset=[ycol])).mark_line(point=True).encode(
+        line = alt.Chart(supply.dropna(subset=[ycol])).mark_line(point=True).encode(
             x=alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, span], nice=False),
                     axis=alt.Axis(tickMinStep=1, format="d")),
             y=alt.Y(f"{ycol}:Q", title=ytitle,
@@ -450,7 +485,8 @@ else:
             tooltip=[alt.Tooltip("구분:N"), alt.Tooltip("day:Q", title="경과일"),
                      alt.Tooltip(f"{ycol}:Q", title=ytitle,
                                  format=".1%" if pct else ",.0f")],
-        ).properties(height=220)
+        )
+        return alt.layer(weekend_band(span, x_title="경과일"), line).properties(height=220)
 
     a1, a2 = st.columns(2)
     with a1:
@@ -470,6 +506,8 @@ else:
 
     st.markdown("**좌석점유율 — 수요의 질 (관객 ÷ 상영횟수×160석)**")
     st.altair_chart(vs_chart("seat_rate", "좌석점유율", pct=True), width="stretch")
+    st.caption("🟡 음영 = 주말(토·일) — 다섯 개 차트 모두 같은 경과일 축이라 "
+               "주말 봉우리와 평일 골이 어디인지 한눈에 맞춰 볼 수 있습니다.")
     st.caption("위 네 개는 극장이 이 영화에 **얼마나 걸어줬나(공급)**, 좌석점유율은 "
                "관객이 **얼마나 채웠나(수요)** 입니다. 공급은 극장이 정하고 수요는 관객이 정하므로, "
                "좌석점유율이 높으면 다음 주 스크린이 늘어나는 쪽으로 이어집니다 — 그래서 남겨 뒀습니다.")
@@ -493,9 +531,10 @@ else:
         keep = df.groupby("title")["show_share"].max().nlargest(top_n).index
         df = df[df["title"].isin(keep)].copy()
         df["영화"] = df["title"].str.replace(r"[:\-].*$", "", regex=True).str.slice(0, 11).str.strip()
-        return alt.Chart(df).mark_line(point=True).encode(
+        _lo = float(df["day"].min())
+        lines = alt.Chart(df).mark_line(point=True).encode(
             x=alt.X("day:Q", title="경과일 (0 = 하츄핑 개봉일)",
-                    scale=alt.Scale(domain=[float(df["day"].min()), mspan], nice=False),
+                    scale=alt.Scale(domain=[_lo, mspan], nice=False),
                     axis=alt.Axis(tickMinStep=1, format="d")),
             y=alt.Y("show_share:Q", title="상영점유율", axis=alt.Axis(format=".0%")),
             color=alt.Color("영화:N", legend=alt.Legend(title=None, orient="bottom", columns=3)),
@@ -508,7 +547,9 @@ else:
                      alt.Tooltip("show_share:Q", title="상영점유율", format=".1%"),
                      alt.Tooltip("adm_share:Q", title="관객점유율", format=".1%"),
                      alt.Tooltip("adm:Q", title="하루 관객", format=",")],
-        ).properties(height=300)
+        )
+        band = weekend_band(mspan, lo=_lo, x_title="경과일 (0 = 하츄핑 개봉일)")
+        return alt.layer(band, lines).properties(height=300)
 
     def share_vs_adm(daily, bar_color, mspan):
         df = daily[daily["day"] <= mspan][["day", "adm", "show_share"]].copy()
@@ -525,7 +566,9 @@ else:
             x=x, y=alt.Y("show_share:Q", title="상영점유율", axis=alt.Axis(format=".0%")),
             tooltip=[alt.Tooltip("day:Q", title="경과일"),
                      alt.Tooltip("show_share:Q", title="상영점유율", format=".1%")])
-        return alt.layer(bars, line).resolve_scale(y="independent").properties(height=280)
+        band = weekend_band(mspan, x_title="경과일")
+        return (alt.layer(band, bars, line).resolve_scale(y="independent")
+                .properties(height=280))
 
     tab2, tab1 = st.tabs(["2편 지금 (2026)", "1편 그때는 (2024)"])
     with tab2:
@@ -588,7 +631,9 @@ else:
         tooltip=[alt.Tooltip("구분:N"), alt.Tooltip("day:Q", title="경과일"),
                  alt.Tooltip("show_share:Q", title="상영점유율", format=".1%"),
                  alt.Tooltip("adm:Q", title="하루 관객", format=",")])
-    st.altair_chart(cmp_chart.properties(height=300), width="stretch")
+    st.altair_chart(
+        alt.layer(weekend_band(cmp_span, x_title="개봉 후 경과일 (0 = 개봉일)"), cmp_chart)
+        .properties(height=300), width="stretch")
 
     _s2 = share_cmp[share_cmp["구분"] == "2편"]
     if len(_s2):
@@ -630,7 +675,9 @@ else:
                      alt.Tooltip("chain:N", title="체인"),
                      alt.Tooltip("show_share:Q", title="상영점유율", format=".1%"),
                      alt.Tooltip("shows:Q", title="상영횟수", format=",")])
-        st.altair_chart(ch_chart.properties(height=300), width="stretch")
+        st.altair_chart(
+            alt.layer(weekend_band_dates(mine_ch["date"]), ch_chart).properties(height=300),
+            width="stretch")
 
         # 체인 하나를 골라 들여다보기 — "CGV 는 지금 무엇에 회차를 몰아주나" / "1편 때와 비교하면?"
         st.markdown("**🎯 체인을 골라 들여다보기**")
@@ -656,13 +703,7 @@ else:
                     mine2.assign(구분="2편"),
                     mine1[mine1["day"] <= span_c].assign(구분="1편"),
                 ], ignore_index=True)
-                wk_c = pd.DataFrame([{"x0": 7 * w + 2.5, "x1": min(7 * w + 4.5, span_c)}
-                                     for w in range(span_c // 7 + 1)])
-                wk_c = wk_c[wk_c["x0"] < span_c]
-                band_c = alt.Chart(wk_c).mark_rect(color="#f5c542", opacity=0.12).encode(
-                    x=alt.X("x0:Q", scale=alt.Scale(domain=[0, span_c], nice=False),
-                            title=None),
-                    x2="x1:Q")
+                band_c = weekend_band(span_c, x_title="개봉 후 경과일 (0 = 개봉일)")
                 vs_line = alt.Chart(vs).mark_line(point=True, strokeWidth=2.5).encode(
                     x=alt.X("day:Q", title="개봉 후 경과일 (0 = 개봉일)",
                             scale=alt.Scale(domain=[0, span_c], nice=False),
@@ -719,7 +760,9 @@ else:
                          alt.Tooltip("show_share:Q", title="상영점유율", format=".1%"),
                          alt.Tooltip("shows:Q", title="상영횟수", format=","),
                          alt.Tooltip("screens:Q", title="스크린수", format=",")])
-            st.altair_chart(movie_chart.properties(height=460), width="stretch")
+            st.altair_chart(
+                alt.layer(weekend_band_dates(one_ch["date"]), movie_chart)
+                .properties(height=460), width="stretch")
             st.caption(f"{sel_ch} 전체 상영횟수 중 각 영화가 차지한 비중 (KOBIS 하루 상위 5편). "
                        "굵은 파란 선 = 하츄핑. 대작 선이 내려가면서 하츄핑 선이 올라가면 "
                        "그 체인이 회차를 하츄핑 쪽으로 돌리고 있다는 뜻입니다.")
@@ -805,7 +848,7 @@ else:
                     scale=alt.Scale(domain=[max(50, int(eg["cgv_egg"].min()) - 8), 100])),
             tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
                      alt.Tooltip("cgv_egg:Q", title="에그지수")])
-        layers = [line]
+        layers = [weekend_band_dates(eg["date"]), line]
         if peers:
             pdf = pd.DataFrame(peers)
             layers.append(alt.Chart(pdf).mark_rule(
@@ -830,7 +873,9 @@ else:
                                 legend=alt.Legend(title=None, orient="top-left")),
                 tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
                          alt.Tooltip("구분:N"), alt.Tooltip("비율:Q", format=".1%")])
-            st.altair_chart(ch.properties(height=260), width="stretch")
+            st.altair_chart(
+                alt.layer(weekend_band_dates(sd["date"]), ch).properties(height=260),
+                width="stretch")
             st.caption("메인 예고편 댓글 5단계 자동 분류 기준 (강한긍정+긍정 = 긍정) · "
                        "**실관람평이 아니라 예고편 댓글**입니다 — 실관람평은 극장 사이트가 "
                        "자동 수집을 막아 두어 대신 에그지수로 봅니다")
@@ -872,7 +917,9 @@ else:
             tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
                      alt.Tooltip("posts:Q", title="게시글"),
                      alt.Tooltip("pos:Q", title="긍정"), alt.Tooltip("neg:Q", title="부정")])
-        st.altair_chart(bar.properties(height=240), width="stretch")
+        st.altair_chart(
+            alt.layer(weekend_band_dates(bdd["date"]), bar).properties(height=240),
+            width="stretch")
     with g2:
         st.markdown("**긍정 vs 부정 비율 — 분위기의 방향**")
         mix = bdd.melt(id_vars=["date"], value_vars=["pos_ratio", "neg_ratio"],
@@ -886,7 +933,9 @@ else:
                             legend=alt.Legend(title=None, orient="top-left")),
             tooltip=[alt.Tooltip("date:T", title="날짜", format="%Y-%m-%d"),
                      alt.Tooltip("구분:N"), alt.Tooltip("비율:Q", format=".1%")])
-        st.altair_chart(ln.properties(height=240), width="stretch")
+        st.altair_chart(
+            alt.layer(weekend_band_dates(bdd["date"]), ln).properties(height=240),
+            width="stretch")
 
     if bsamp:
         p1, p2 = st.columns(2)
@@ -1011,7 +1060,10 @@ else:
                  alt.Tooltip("값:Q", title="언급량", format=",.0f")])
     zero = alt.Chart(pd.DataFrame({"x": [0]})).mark_rule(
         color="#8a8f98", strokeDash=[3, 3], strokeWidth=1.2).encode(x="x:Q")
-    st.altair_chart((lines + zero).properties(height=320), width="stretch")
+    # D-day 축에도 같은 주말 규칙이 그대로 이어진다 — 두 편 다 수요일 개봉이라
+    # D+3·4 뿐 아니라 개봉 전 D-4·D-3 도 토·일이다.
+    dband = weekend_band(30, lo=-40, x_title="개봉일 기준 D-day")
+    st.altair_chart(alt.layer(dband, lines, zero).properties(height=320), width="stretch")
 
     # ---- chart: YoY bars
     st.markdown("**2편이 1편보다 몇 % 더 화제인가 (같은 D-day끼리)**")
@@ -1023,7 +1075,7 @@ else:
         tooltip=[alt.Tooltip("d:Q", title="D-day"), alt.Tooltip("YoY:Q", format="+.1%"),
                  alt.Tooltip("1편 (2024):Q", title="1편", format=",.0f"),
                  alt.Tooltip("2편 (2026):Q", title="2편", format=",.0f")])
-    st.altair_chart((bars + zero).properties(height=240), width="stretch")
+    st.altair_chart(alt.layer(dband, bars, zero).properties(height=240), width="stretch")
     st.caption("참고: 티니핑 프랜차이즈 자체가 2024년보다 커져서, YoY의 일부는 영화가 아닌 "
                "브랜드 성장분일 수 있습니다. 그래도 모든 D-day에서 1편 곡선 위에 있으면 좋은 신호.")
 
