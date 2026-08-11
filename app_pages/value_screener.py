@@ -171,7 +171,7 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
                 dy=-16, fontSize=13, fontWeight="bold", color=C_PICK,
             ).encode(x=x_col, y=y_col, text="company"))
 
-    return alt.layer(*layers).properties(height=460).interactive()
+    return alt.layer(*layers).properties(height=800).interactive()
 
 
 def match_table(d: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str,
@@ -213,7 +213,7 @@ tab1, tab2 = st.tabs(["🔍 티커 조회", "🧮 조건 검색"])
 
 # ================================================= 1) Ticker Input
 with tab1:
-    c1, c2 = st.columns([1, 2.2], gap="large")
+    c1, c2 = st.columns([1, 3.2], gap="large")
     with c1:
         pick_label = st.selectbox("종목 (이름이나 티커로 검색)", df["label"].sort_values(),
                                   index=None, placeholder="예: SILICON2 또는 A257720")
@@ -263,7 +263,7 @@ with tab1:
 
 # ================================================= 2) Screen Panel
 with tab2:
-    c1, c2 = st.columns([1, 2.2], gap="large")
+    c1, c2 = st.columns([1, 3.2], gap="large")
     with c1:
         st.markdown("##### 📌 주요변수 선택")
         y_label2 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=1, key="sp_y")
