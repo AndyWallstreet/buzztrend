@@ -17,3 +17,4 @@ kbeauty/*.duckdb
 !kbeauty/data/raw/.gitkeep
 
 .streamlit/secrets.toml
+data/screener/history_ciq/_hist_temp.xlsx

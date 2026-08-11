@@ -277,17 +277,27 @@ with tab1:
 
         # ------------------------- 과거 멀티플 (선택 종목) -------------------------
         st.markdown(f"#### 📈 과거 멀티플 — {row['company']}")
-        if not dart_key():
-            st.info("이 기능을 켜려면 Streamlit Cloud → App settings → Secrets에 "
-                    "`DART_API_KEY = \"...\"` 를 추가해야 합니다 (관리자용, 1회).")
+        # 1순위: Capital IQ 월별 히스토리 (관심종목 — history_ciq_update.py로 미리 추출)
+        # 2순위: 네이버+DART 즉석 계산 (모든 종목, DART 키 필요)
+        ciq_csv = DATA / "history_ciq" / f"{row['ticker']}.csv"
+        use_ciq = ciq_csv.exists()
+        if not use_ciq and not dart_key():
+            st.info("이 종목은 CapIQ 히스토리 목록에 없고, 즉석 계산용 DART_API_KEY도 "
+                    "설정돼 있지 않습니다 (Streamlit Cloud → App settings → Secrets, 관리자용 1회).")
         else:
-            # 히스토리는 TTM(최근 4개 분기 실적) 기준. EV/EBITDA는 공개 데이터로
-            # 감가상각을 알 수 없어 EV/EBIT로 대신 보여준다.
-            HIST_METRIC = {"EV/Sales": ("evs", "EV/Sales (TTM)"),
-                           "EV/EBIT": ("eve", "EV/EBIT (TTM)"),
-                           "EV/EBITDA": ("eve", "EV/EBIT (TTM · EV/EBITDA 대용)"),
-                           "PER": ("per", "PER (TTM)"),
-                           "PBR": ("pbr", "PBR")}
+            if use_ciq:
+                HIST_METRIC = {"EV/Sales": ("evs", "EV/Sales (LTM)"),
+                               "EV/EBIT": ("eve", "EV/EBIT (LTM)"),
+                               "EV/EBITDA": ("ebitda", "EV/EBITDA (LTM)"),
+                               "PER": ("per", "PER (LTM)"),
+                               "PBR": ("pbr", "PBR")}
+            else:
+                # 즉석 계산은 감가상각을 알 수 없어 EV/EBITDA 대신 EV/EBIT를 보여준다
+                HIST_METRIC = {"EV/Sales": ("evs", "EV/Sales (TTM)"),
+                               "EV/EBIT": ("eve", "EV/EBIT (TTM)"),
+                               "EV/EBITDA": ("eve", "EV/EBIT (TTM · EV/EBITDA 대용)"),
+                               "PER": ("per", "PER (TTM)"),
+                               "PBR": ("pbr", "PBR")}
             hcol, hname = HIST_METRIC[y_label1]
             c3, c4 = st.columns([1, 3.2], gap="large")
             with c3:
@@ -302,12 +312,17 @@ with tab1:
                     days = {"1년": 365, "3년": 365 * 3, "5년": 365 * 5, "10년(최대)": 3650}[dur]
                     d_start = d_end - dt.timedelta(days=days)
             hist = None
-            try:
-                with st.spinner("네이버·DART에서 과거 데이터를 불러오는 중… "
-                                "(종목당 첫 조회만 30초쯤 걸립니다)"):
-                    hist, hmeta = load_history(row["ticker"].lstrip("A"))
-            except Exception as e:
-                st.warning(f"과거 데이터 조회 실패: {e}")
+            if use_ciq:
+                hist = pd.read_csv(ciq_csv)
+                hist["date"] = pd.to_datetime(hist["date"]).dt.date
+                hmeta = None
+            else:
+                try:
+                    with st.spinner("네이버·DART에서 과거 데이터를 불러오는 중… "
+                                    "(종목당 첫 조회만 30초쯤 걸립니다)"):
+                        hist, hmeta = load_history(row["ticker"].lstrip("A"))
+                except Exception as e:
+                    st.warning(f"과거 데이터 조회 실패: {e}")
             if hist is not None and not hist.empty:
                 h = hist[hist[hcol].notna()
                          & (hist["date"] >= d_start) & (hist["date"] <= d_end)]
@@ -318,14 +333,16 @@ with tab1:
                     avg = float(h[hcol].mean())
                     last = float(h[hcol].iloc[-1])
                     fwd = float(row[y_col]) if pd.notna(row[y_col]) else None
+                    tips = [alt.Tooltip("date:T", title="날짜"),
+                            alt.Tooltip(hcol, title=hname, format=".2f")]
+                    if "px" in h.columns:
+                        tips += [alt.Tooltip("px", title="주가", format=",.0f"),
+                                 alt.Tooltip("q", title="TTM 기준분기")]
                     line = alt.Chart(h).mark_line(color=C_MATCH, size=2).encode(
                         x=alt.X("date:T", title=None),
                         y=alt.Y(hcol, title=hname,
                                 scale=alt.Scale(zero=False)),
-                        tooltip=[alt.Tooltip("date:T", title="날짜"),
-                                 alt.Tooltip(hcol, title=hname, format=".2f"),
-                                 alt.Tooltip("px", title="주가", format=",.0f"),
-                                 alt.Tooltip("q", title="TTM 기준분기")])
+                        tooltip=tips)
                     mean_rule = alt.Chart(pd.DataFrame({"v": [avg]})).mark_rule(
                         strokeDash=[6, 4], color="#888", size=1.5).encode(y="v")
                     layers = [line, mean_rule]
@@ -340,10 +357,15 @@ with tab1:
                                     f"- 기간 평균: **{avg:.2f}배**"
                                     + (f"\n- 2026E 기준: **{fwd:.2f}배** (주황 점선)"
                                        if fwd is not None else ""))
-                        st.caption("회색 점선 = 기간 평균. 파란 선 = 주간 TTM 멀티플. "
-                                   f"재무 {hmeta['quarters']} · "
-                                   "가격 네이버 주간종가 · 재무 DART 연결 TTM(공시지연 45일 가정) · "
-                                   "순부채·주식수는 최신값 고정 근사라 CapIQ 수치와 다소 다를 수 있습니다.")
+                        if use_ciq:
+                            st.caption("회색 점선 = 기간 평균. 파란 선 = 월별 LTM 멀티플. "
+                                       "**데이터: Capital IQ** (관심종목 — "
+                                       "`history_ciq_update.py`로 갱신, 목록에 종목 추가 가능).")
+                        else:
+                            st.caption("회색 점선 = 기간 평균. 파란 선 = 주간 TTM 멀티플. "
+                                       f"재무 {hmeta['quarters']} · "
+                                       "가격 네이버 주간종가 · 재무 DART 연결 TTM(공시지연 45일 가정) · "
+                                       "순부채·주식수는 최신값 고정 근사라 CapIQ 수치와 다소 다를 수 있습니다.")
 
         st.markdown(f"#### 조건 통과 (좋은데 싼) 피어: {len(good)}개")
         match_table(good, x_col, y_col, x_label1, y_label1, key="dl_ticker")
