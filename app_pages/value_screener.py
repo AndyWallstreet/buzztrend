@@ -42,8 +42,9 @@ CLASS_LEVELS = {  # label -> column
 DEFAULT_Y_MAX = {"EV/Sales": 2.0, "EV/EBIT": 15.0, "EV/EBITDA": 20.0, "PER": 20.0, "PBR": 2.0}
 
 C_PEER = "#9ab6d8"     # 회색-파랑: 나머지 종목
-C_MATCH = "#2a78d6"    # 파랑: 조건 통과 종목
+C_MATCH = "#2a78d6"    # 파랑: 조건 통과 종목 (2026E 추정치 기준)
 C_PICK = "#eb6834"     # 주황: 선택한 종목
+C_LTM = "#d9a021"      # 노랑: 2026E 추정치가 없어서 LTM으로 대체된 종목
 
 
 @st.cache_data(ttl=3600, show_spinner=False)
@@ -109,14 +110,27 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
     else:
         d["추세대비"] = np.nan
 
+    # 멀티플 기준 표시: 2026E 추정치를 썼는지, 없어서 LTM으로 대체됐는지
+    src = f"{y_col}_src"
+    if src in d.columns and d[src].eq("LTM").any():
+        d["기준"] = d[src].map({"2026E": "2026E 추정", "LTM": "LTM 대체"}).fillna("LTM 대체")
+        color_enc = alt.Color(
+            "기준:N",
+            scale=alt.Scale(domain=["2026E 추정", "LTM 대체"], range=[C_MATCH, C_LTM]),
+            legend=alt.Legend(title="멀티플 기준", orient="top-right"))
+    else:
+        d["기준"] = "2026E 추정" if src in d.columns else "현재값"
+        color_enc = alt.value(C_MATCH)
+
     base = alt.Chart(d).mark_circle(size=55, opacity=0.75).encode(
         x=alt.X(x_col, title=f"{x_label} (높을수록 좋은 회사)", axis=alt.Axis(format="%")),
         y=alt.Y(y_col, title=f"{y_label} (낮을수록 싼 주식)"),
-        color=alt.condition(alt.datum["통과"], alt.value(C_MATCH), alt.value(C_PEER)),
+        color=color_enc,
         tooltip=[alt.Tooltip("company", title="회사"),
                  alt.Tooltip("ticker", title="티커"),
                  alt.Tooltip(x_col, title=x_label, format=".1%"),
                  alt.Tooltip(y_col, title=y_label, format=".2f"),
+                 alt.Tooltip("기준", title="멀티플 기준"),
                  alt.Tooltip("추세대비", title="추세선 대비 (음수=선 아래)", format="+.2f"),
                  alt.Tooltip("sector", title="섹터")],
     )
@@ -163,15 +177,20 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
 def match_table(d: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str,
                 key: str = "dl"):
     """조건 통과 종목 표 + CSV 다운로드."""
-    t = d[["company", "ticker", "sector", x_col, y_col, "mcap"]].copy()
+    src = f"{y_col}_src"
+    cols = ["company", "ticker", "sector", x_col, y_col, "mcap"] + ([src] if src in d.columns else [])
+    t = d[cols].copy()
     t = t.sort_values(y_col)
     t[x_col] = (t[x_col] * 100).round(1)
     t[y_col] = t[y_col].round(2)
     t["mcap"] = (t["mcap"] / 1000).round(0).astype("Int64")  # KRW mm -> KRW bn
+    if src in t.columns:
+        t[src] = t[src].map({"2026E": "2026E 추정", "LTM": "LTM 대체"}).fillna("")
     # 네이버금융 종목 페이지 링크 (티커 앞의 'A'를 뗀 6자리 코드)
     t["naver"] = ("https://finance.naver.com/item/main.naver?code="
                   + t["ticker"].str.lstrip("A"))
-    t.columns = ["회사", "티커", "섹터", f"{x_label} (%)", y_label, "시총(십억원)", "네이버금융"]
+    t.columns = (["회사", "티커", "섹터", f"{x_label} (%)", y_label, "시총(십억원)"]
+                 + (["멀티플 기준"] if src in cols else []) + ["네이버금융"])
     st.dataframe(t, use_container_width=True, hide_index=True, height=320,
                  column_config={"네이버금융": st.column_config.LinkColumn(
                      "네이버금융", display_text="📈 종목 페이지")})
@@ -182,7 +201,11 @@ def match_table(d: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: 
 df, meta = load()
 
 st.title("📊 밸류 스크리너")
-st.caption(f"한국 상장사 {meta['n_companies']:,}개 · 기준일 {meta['as_of']} · "
+_fwd_note = ""
+if meta.get("basis"):
+    _fwd_note = (f" · 멀티플은 **2026년 추정치(컨센서스)** 기준"
+                 f" ({meta.get('n_fwd', 0):,}개사), 추정치가 없는 종목은 LTM으로 대체")
+st.caption(f"한국 상장사 {meta['n_companies']:,}개 · 기준일 {meta['as_of']}{_fwd_note} · "
            "X축 = 회사의 질(수익성+성장), Y축 = 주가의 비싼 정도(멀티플). "
            "**오른쪽 아래**에 있을수록 '좋은데 싼' 주식입니다.")
 
@@ -279,6 +302,9 @@ with tab2:
 
 st.divider()
 st.caption("차트에는 **조건을 통과한 종목만** 표시됩니다 (티커 조회에서는 선택한 종목도 함께). · "
+           "🔵 파란 점 = 2026년 추정치 기준 멀티플, 🟡 노란 점 = 2026년 추정치가 없어서 "
+           "LTM(최근 4개 분기 실적)으로 대체된 종목입니다. EV는 두 경우 모두 현재 값입니다. "
+           "PBR은 항상 현재 장부가 기준. · "
            "🔴 빨간 점선 = 추세선: 표시된 종목들 기준 '질이 이 정도면 보통 이 가격' 이라는 평균선입니다. "
            "점이 선보다 **아래**에 있으면 같은 질 대비 싸게 거래된다는 뜻 (마우스를 올리면 '추세선 대비' 값이 음수). · "
            "데이터: Capital IQ 기반 비교기업 워크북에서 추출 · 멀티플이 0 이하(적자 등)인 종목은 "

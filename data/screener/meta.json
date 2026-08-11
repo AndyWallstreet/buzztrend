@@ -1,5 +1,7 @@
 {
- "as_of": "2026-06-18",
+ "as_of": "2026-08-11",
  "source": "Capital IQ comparables workbook",
+ "basis": "FY2026E consensus, LTM fallback",
+ "n_fwd": 567,
  "n_companies": 2766
 }
