@@ -22,7 +22,8 @@ LOAD_FILES = ("m1_daily.csv", "m2_daily.csv", "boxoffice_now.json",
               "ratings.csv", "sentiment_daily.csv", "ratings_peers.json",
               "board_daily.csv", "board_samples.json",
               "m1_market.csv", "m2_market.csv", "m2_chains.csv", "m1_chains.csv",
-              "booking_flow.csv", "booking_live_now.json", "booking_rivals.csv")
+              "booking_flow.csv", "booking_live_now.json", "booking_rivals.csv",
+              "seats.csv", "seats_now.json")
 
 
 def load_stamp():
@@ -32,9 +33,10 @@ def load_stamp():
 
 @st.cache_data(show_spinner=False)
 def load(stamp):
-    def _csv(name):
+    def _csv(name, dates=("date",)):
+        # seats.csv 처럼 'date' 열이 없는 파일도 있어서 파싱할 열을 넘길 수 있게 둔다
         p = DATA / name
-        return pd.read_csv(p, parse_dates=["date"]) if p.exists() else None
+        return pd.read_csv(p, parse_dates=list(dates)) if p.exists() else None
 
     def _json(name):
         p = DATA / name
@@ -45,7 +47,8 @@ def load(stamp):
             _csv("board_daily.csv"), _json("board_samples.json"),
             _csv("m1_market.csv"), _csv("m2_market.csv"), _csv("m2_chains.csv"),
             _csv("m1_chains.csv"), _csv("booking_flow.csv"),
-            _json("booking_live_now.json"), _csv("booking_rivals.csv"))
+            _json("booking_live_now.json"), _csv("booking_rivals.csv"),
+            _csv("seats.csv", dates=()), _json("seats_now.json"))
 
 
 def date_span(dates, extra_days=3):
@@ -100,7 +103,7 @@ def weekend_band_dates(dates, opacity=0.12):
 
 
 (m1d, m2d, bonow, rat, sd, peer, bd, bsamp, mk1, mk2, chn, chn1,
- bflow, bknow, briv) = load(load_stamp())
+ bflow, bknow, briv, seats, seatnow) = load(load_stamp())
 
 st.title("🎬 사랑의 하츄핑 2 — 개봉 후 트래커")
 st.caption("2026-08-05 개봉 · KOBIS 확정 관객수 기준 · 1편(운명의 시작, 최종 1,239,245명)과 "
@@ -882,6 +885,72 @@ else:
         else:
             st.info("**신규 예매량은 내일 아침부터** 나옵니다 — 잔고 차이를 계산하려면 "
                     "아침 스냅샷이 최소 2일치 필요합니다. 오늘이 1일차입니다.")
+
+    # ---- 극장 좌석 — KOBIS 예매관객수는 앞으로의 모든 회차를 뭉뚱그린 한 덩어리라
+    # '토요일만' 떼어 볼 수 없다. 극장 예매 API 는 회차별 좌석을 주므로 날짜를 찍는다.
+    st.markdown("#### 극장 좌석 — 날짜별로 몇 석이나 팔렸나 (CGV · 롯데시네마)")
+    st.caption("각 극장 예매 시스템에서 **회차별 총좌석·잔여좌석**을 받아 "
+               "`판매 = 총좌석 − 잔여좌석` 으로 계산합니다. 전국을 매일 두드리지 않도록 "
+               "체인별로 하츄핑을 트는 극장 중 **좌석이 큰 20곳**을 표본으로 고정했습니다 "
+               "(표본이 날마다 바뀌면 추세 비교가 무의미해지므로).")
+
+    if seats is None or not len(seats):
+        st.info("좌석 수집 전입니다 — `python seats_update.py` 가 매일 아침 쌓습니다.")
+    else:
+        sd_ = seats.copy()
+        for c in ("lead", "panel", "published", "shows", "seats", "sold"):
+            sd_[c] = pd.to_numeric(sd_[c], errors="coerce")
+        sd_["fill"] = pd.to_numeric(sd_["fill"], errors="coerce")
+        latest = sd_[sd_["asof"] == sd_["asof"].max()]
+
+        st.markdown(f"**오늘({sd_['asof'].max()}) 기준 — 앞으로 5일**")
+        md = ["| 날짜 | 체인 | 편성 공개 | 회차 | 판매 / 좌석 | 판매율 |",
+              "|---|---|---:|---:|---:|---:|"]
+        for _, r in latest.sort_values(["target", "chain"]).iterrows():
+            ok = r["published"] >= r["panel"] / 2
+            tgt = pd.Timestamp(r["target"])
+            lbl = f"{tgt.month}/{tgt.day}({r['dow']})" + ("" if ok else " ⚠")
+            fill = f"{r['fill']:.1%}" if pd.notna(r["fill"]) else "—"
+            md.append(f"| {lbl} | {r['chain']} | {int(r['published'])}/{int(r['panel'])}곳 | "
+                      f"{int(r['shows'])} | {int(r['sold']):,} / {int(r['seats']):,} | "
+                      + (f"**{fill}**" if ok else f"{fill}") + " |")
+        st.markdown("\n".join(md))
+        st.caption("⚠ = 표본 극장의 절반도 편성을 안 올린 날. **주말 상영표는 목요일쯤 열리기 "
+                   "때문에**, 수요일에 보는 토·일 판매율은 '공개된 몇 회차'만 잰 값이라 "
+                   "그대로 믿으면 안 됩니다. 목·금이 되면 편성이 채워지고 숫자가 쓸 만해집니다.")
+
+        # 같은 리드타임끼리만 비교해야 뜻이 있다 — '금요일에 본 토요일' 대 '지난 금요일에 본 지난 토요일'
+        st.markdown("**주말 좌석 판매율 — 며칠 전에 봤나(리드타임)별로**")
+        wk = sd_[sd_["dow"].isin(["토", "일"]) & sd_["fill"].notna()
+                 & (sd_["published"] >= sd_["panel"] / 2)].copy()
+        if len(wk):
+            wk["라벨"] = wk["target"].astype(str).str.slice(5) + " " + wk["dow"]
+            ch = alt.Chart(wk).mark_line(point=True, strokeWidth=2.5).encode(
+                x=alt.X("lead:Q", title="며칠 전에 조회했나 (0 = 당일)",
+                        scale=alt.Scale(reverse=True), axis=alt.Axis(tickMinStep=1)),
+                y=alt.Y("fill:Q", title="좌석 판매율", axis=alt.Axis(format=".0%")),
+                color=alt.Color("chain:N", scale=alt.Scale(
+                    domain=["CGV", "롯데시네마"], range=["#e03131", "#f08c00"]),
+                    legend=alt.Legend(title=None, orient="top-left")),
+                strokeDash=alt.StrokeDash("라벨:N", legend=alt.Legend(title=None,
+                                                                     orient="top-right")),
+                tooltip=[alt.Tooltip("chain:N", title="체인"),
+                         alt.Tooltip("target:N", title="상영일"),
+                         alt.Tooltip("lead:Q", title="리드타임(일)"),
+                         alt.Tooltip("fill:Q", title="판매율", format=".1%"),
+                         alt.Tooltip("sold:Q", title="판매", format=","),
+                         alt.Tooltip("published:Q", title="편성 공개 극장")])
+            st.altair_chart(ch.properties(height=300), width="stretch")
+            st.caption("선이 오른쪽(당일)으로 갈수록 올라가는 게 정상 — 표는 상영일이 "
+                       "가까워질수록 팔립니다. **비교는 같은 리드타임끼리만** 뜻이 있습니다: "
+                       "'금요일에 본 이번 토요일' vs '지난 금요일에 본 지난 토요일'. "
+                       "같은 리드타임에서 이번 주가 지난주보다 높으면 주말이 커집니다.")
+        else:
+            st.info("주말 판매율은 편성이 충분히 공개된 뒤(보통 목요일)부터 그려집니다.")
+
+        st.caption("체인 커버리지: CGV 178곳 중 **137곳**, 롯데시네마 237곳 중 **123곳**이 "
+                   "하츄핑을 상영 중이고, 그중 좌석 상위 20곳씩을 표본으로 씁니다. "
+                   "메가박스는 API 가 개편되어 아직 못 붙였습니다.")
 
         st.caption("이번 주말 판정법 — ① 위의 **배수 × 1편 같은 일차 주말 관객수** (지금 쓰는 방법) "
                    "② **목·금 신규 예매량의 방향** (여기서 새로 생기는 방법). 둘이 같은 쪽을 "
