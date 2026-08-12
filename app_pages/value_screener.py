@@ -81,7 +81,7 @@ def best_relationship(df: pd.DataFrame) -> tuple[str, str, float]:
 
 def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str,
             x_min: float, y_max: float, pick: pd.DataFrame | None = None,
-            label_matches: bool = False) -> alt.Chart:
+            label_matches: bool = False, rules: bool = True) -> alt.Chart:
     """산점도: 조건 통과는 파랑, 나머지는 연한 색, 선택 종목은 주황 별."""
     d = df[df[x_col].notna() & df[y_col].notna() & (df[y_col] > 0)].copy()
     # 극단값은 차트를 망가뜨리므로 표시 범위만 잘라낸다 (데이터는 그대로)
@@ -139,11 +139,14 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
                  alt.Tooltip("추세대비", title="추세선 대비 (음수=선 아래)", format="+.2f"),
                  alt.Tooltip("sector", title="섹터")],
     )
-    rule_x = alt.Chart(pd.DataFrame({"v": [x_min]})).mark_rule(
-        strokeDash=[5, 4], color="#888").encode(x="v")
-    rule_y = alt.Chart(pd.DataFrame({"v": [y_max]})).mark_rule(
-        strokeDash=[5, 4], color="#888").encode(y="v")
-    layers = [base, rule_x, rule_y]
+    layers = [base]
+    if rules:
+        # 기준선 — 섹터 드릴다운처럼 조건이 없는 차트에서는 끈다 (축이 기준선
+        # 위치까지 늘어나 점이 뭉개지는 것 방지)
+        layers.append(alt.Chart(pd.DataFrame({"v": [x_min]})).mark_rule(
+            strokeDash=[5, 4], color="#888").encode(x="v"))
+        layers.append(alt.Chart(pd.DataFrame({"v": [y_max]})).mark_rule(
+            strokeDash=[5, 4], color="#888").encode(y="v"))
     if trend is not None:
         layers.append(trend)
 
@@ -565,7 +568,7 @@ with tab3:
                             order, key="sv_pick")
         sub3 = df[df[lvl_col3] == sel3]
         st.altair_chart(scatter(sub3, x_col, y_col, x_label3, y_label3,
-                                -999.0, 1e9, label_matches=True),
+                                -999.0, 1e9, label_matches=True, rules=False),
                         use_container_width=True)
         valid3 = sub3[sub3[x_col].notna() & sub3[y_col].notna() & (sub3[y_col] > 0)]
         st.markdown(f"##### {sel3} 종목 순위 — '좋은데 싼' 점수순 ({len(valid3)}개)")
