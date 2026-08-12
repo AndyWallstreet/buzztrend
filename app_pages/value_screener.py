@@ -248,12 +248,21 @@ with tab1:
         # 원하는 다른 산업의 피어들과 비교하고 싶을 때 직접 고른다
         AUTO_PEER = "(자동 — 선택한 종목과 같은 분류)"
         if class_label == ALL_LVL:
-            # 5개 분류 전체 통합 목록 — 'health'라고 치면 모든 단계의
-            # health 관련 그룹이 [분류 단계] 라벨과 함께 나온다
-            manual_opts = [AUTO_PEER] + [f"{v}  [{lvl}]"
-                                         for lvl, col in CLASS_LEVELS.items()
-                                         for v in sorted(df[col].dropna().unique())]
+            # 5개 분류 전체 통합 목록. 셀렉트박스 자체 검색은 글자가 흩어져만
+            # 있어도 매칭되는 퍼지 방식이라, 단어가 그대로 포함된 것만 걸러주는
+            # 검색창을 따로 둔다.
+            q = st.text_input("피어그룹 검색 (단어 포함만 표시)", key="ti_manual_q",
+                              placeholder="예: cosmetics, health, semiconductor …")
+            opts_all = [f"{v}  [{lvl}]"
+                        for lvl, col in CLASS_LEVELS.items()
+                        for v in sorted(df[col].dropna().unique())]
+            if q.strip():
+                opts_all = [o for o in opts_all if q.strip().lower() in o.lower()]
+            manual_opts = [AUTO_PEER] + opts_all
             manual_key = "ti_manual_all"
+            # 검색어가 바뀌어 이전 선택이 목록에서 사라졌으면 자동으로 리셋
+            if st.session_state.get(manual_key) not in manual_opts:
+                st.session_state[manual_key] = AUTO_PEER
         else:
             _mcol = CLASS_LEVELS[class_label]
             manual_opts = [AUTO_PEER] + sorted(df[_mcol].dropna().unique())
