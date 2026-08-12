@@ -20,6 +20,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
+from streamlit_searchbox import st_searchbox
+
 sys.path.append(str(Path(__file__).resolve().parent))
 from history_fetch import dart_key, load_history  # noqa: E402  (과거 멀티플)
 
@@ -248,30 +250,30 @@ with tab1:
         # 원하는 다른 산업의 피어들과 비교하고 싶을 때 직접 고른다
         AUTO_PEER = "(자동 — 선택한 종목과 같은 분류)"
         if class_label == ALL_LVL:
-            # 5개 분류 전체 통합 목록. 셀렉트박스 자체 검색은 글자가 흩어져만
-            # 있어도 매칭되는 퍼지 방식이라, 단어가 그대로 포함된 것만 걸러주는
-            # 검색창을 따로 둔다.
-            q = st.text_input("피어그룹 검색 (단어 포함만 표시)", key="ti_manual_q",
-                              placeholder="예: cosmetics, health, semiconductor …")
+            # (전체): 박스에 바로 타이핑하면 5개 분류 전체에서 '단어가 포함된'
+            # 그룹만 나온다 (기본 셀렉트박스의 퍼지 검색 대신 엄격한 포함 검색).
             opts_all = [f"{v}  [{lvl}]"
                         for lvl, col in CLASS_LEVELS.items()
                         for v in sorted(df[col].dropna().unique())]
-            if q.strip():
-                opts_all = [o for o in opts_all if q.strip().lower() in o.lower()]
-            manual_opts = [AUTO_PEER] + opts_all
-            manual_key = "ti_manual_all"
-            # 검색어가 바뀌어 이전 선택이 목록에서 사라졌으면 자동으로 리셋
-            if st.session_state.get(manual_key) not in manual_opts:
-                st.session_state[manual_key] = AUTO_PEER
+
+            def _search_groups(q: str):
+                ql = q.strip().lower()
+                return [o for o in opts_all if ql in o.lower()][:60]
+
+            st.markdown("피어그룹 수동 설정")
+            manual_peer = st_searchbox(
+                _search_groups, key="ti_manual_sb",
+                placeholder="타이핑해서 검색 — 예: cosmetics, personal, health …",
+                clear_on_submit=False) or AUTO_PEER
+            st.caption("비워두면 자동(선택한 종목의 Industry Sector)입니다.")
         else:
             _mcol = CLASS_LEVELS[class_label]
             manual_opts = [AUTO_PEER] + sorted(df[_mcol].dropna().unique())
-            manual_key = f"ti_manual_{_mcol}"
-        manual_peer = st.selectbox(
-            "피어그룹 수동 설정", manual_opts, index=0, key=manual_key,
-            help="기본은 자동(선택한 종목의 분류). 화장품 사업도 하는 제약사를 "
-                 "화장품 피어들과 비교하고 싶을 때처럼 다른 그룹을 직접 지정할 수 "
-                 "있습니다. 분류 단계를 (전체)로 두면 5개 단계 전체에서 검색됩니다.")
+            manual_peer = st.selectbox(
+                "피어그룹 수동 설정", manual_opts, index=0, key=f"ti_manual_{_mcol}",
+                help="기본은 자동(선택한 종목의 분류). 화장품 사업도 하는 제약사를 "
+                     "화장품 피어들과 비교하고 싶을 때처럼 다른 그룹을 직접 지정할 수 "
+                     "있습니다. 분류 단계를 (전체)로 두면 5개 단계 전체에서 검색됩니다.")
         st.markdown("##### 📌 주요변수 선택")
         y_label1 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=0, key="ti_y")
         x_label1 = st.selectbox("X축", list(X_AXES), index=0, key="ti_x")
