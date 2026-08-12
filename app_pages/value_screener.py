@@ -530,9 +530,12 @@ with tab3:
                 layers3.append(alt.Chart(cd).mark_point(
                     shape="diamond", size=420, filled=True, color=C_PICK,
                     stroke="white", strokeWidth=1.5).encode(x="x", y="y"))
+            # key가 설정 값에 따라 바뀌게 해서, 변수/조건을 바꾸면 확대·이동 상태가
+            # 초기화돼 항상 잘 보이는 화면으로 시작한다 (같은 설정에서는 드래그 유지)
+            chart_key = f"sv_chart_{lvl_col3}_{x_col}_{y_col}_{x_min3}_{y_max3}_{min_n}"
             ev3 = st.altair_chart(alt.layer(*layers3).properties(height=620).interactive(),
                                   use_container_width=True,
-                                  on_select="rerun", key="sv_chart")
+                                  on_select="rerun", key=chart_key)
             try:
                 pts = ev3["selection"]["sector_click"]
                 if pts:
