@@ -1019,6 +1019,94 @@ else:
         else:
             st.info("주말 예약 환산은 편성이 충분히 공개된 뒤(보통 목요일)부터 나옵니다.")
 
+        # ---- 예약 → 최종 관객수 배수.
+        # 개봉 전에 쓰던 '예매 × 16.6' 은 가족애니 11편 평균을 빌려온 값이었다. 여기서는
+        # 같은 영화·같은 리드타임의 실적으로 배수를 **직접 재서** 쓴다. 재는 방법:
+        #   그 날짜를 며칠 전(lead N)에 봤을 때의 전국 환산 예약 × 배수 = 그 날 확정 관객수
+        # KOBIS 가 그 날을 확정해 주면 배수가 하나씩 실측된다.
+        st.markdown("**예약 → 최종 관객수 배수 (직접 측정)**")
+
+        def scaled_frame():
+            """(조회일, 상영일)마다 전국 환산 예약값을 만든다 — 배수 계산의 재료."""
+            rows = []
+            for asof, g in sd_.groupby("asof"):
+                base = g[g["lead"] == 0]
+                fac = {}
+                for _, r in base.iterrows():
+                    nat = ch_nat.get(r["chain"])
+                    if nat and r["shows"]:
+                        fac[r["chain"]] = nat / float(r["shows"])
+                if not fac or not cgv_lotte_share:
+                    continue
+                for tgt, sub in g.groupby("target"):
+                    if not set(sub["chain"]) <= set(fac) or sub["sold"].isna().any():
+                        continue
+                    tot = sum(float(r["sold"]) * fac[r["chain"]] for _, r in sub.iterrows())
+                    rows.append({"asof": asof, "target": tgt,
+                                 "lead": int(sub["lead"].iloc[0]),
+                                 "dow": sub["dow"].iloc[0],
+                                 "booked": tot / cgv_lotte_share,
+                                 "ok": bool((sub["published"] >= sub["panel"] / 2).all())})
+            return pd.DataFrame(rows)
+
+        sc = scaled_frame()
+        if len(sc) and m2d is not None and len(m2d):
+            act = dict(zip(pd.to_datetime(m2d["date"]).dt.strftime("%Y-%m-%d"),
+                           pd.to_numeric(m2d["adm"], errors="coerce")))
+            sc["actual"] = sc["target"].map(act)
+            done = sc[sc["actual"].notna() & (sc["booked"] > 0)].copy()
+            done["mult"] = done["actual"] / done["booked"]
+        else:
+            done = pd.DataFrame()
+
+        if len(done):
+            st.markdown("측정된 배수 — KOBIS 가 확정해 준 날짜만")
+            md3 = ["| 상영일 | 며칠 전에 봤나 | 전국 환산 예약 | 확정 관객수 | **배수** |",
+                   "|---|---:|---:|---:|---:|"]
+            for _, r in done.sort_values(["target", "lead"]).iterrows():
+                t = pd.Timestamp(r["target"])
+                md3.append(f"| {t.month}/{t.day}({r['dow']}) | {int(r['lead'])}일 전 | "
+                           f"{r['booked']:,.0f}명 | {int(r['actual']):,}명 | "
+                           f"**×{r['mult']:.2f}** |")
+            st.markdown("\n".join(md3))
+        else:
+            st.info("**배수는 아직 실측 전입니다.** 오늘이 좌석 수집 1일차라 "
+                    "'예약을 본 날'과 '그 날 확정 관객수'가 아직 한 쌍도 안 맞춰졌습니다. "
+                    "내일 아침 KOBIS 가 오늘(8/12)을 확정해 주면 **당일(0일 전) 배수**가 "
+                    "첫 실측되고, 일요일 아침이면 이번 토요일에 대해 "
+                    "**3일 전·2일 전·1일 전·당일 배수가 한 번에** 채워집니다.")
+
+        # 실측 전까지는 '배수법(1편 곡선)' 추정치를 역산해 잠정 배수를 보여 준다.
+        # 지어낸 계수가 아니라, 이미 쓰고 있는 다른 방법이 함축하는 값이다.
+        _ratio_adj = (bonow or {}).get("ratio_adj")
+        if len(wknd) and factor and cgv_lotte_share and m1d is not None and _ratio_adj:
+            st.markdown("잠정 배수 — 지금 쓰는 **1편 배수법**이 함축하는 값")
+            md4 = ["| 상영일 | 며칠 전 | 전국 환산 예약 | 1편 배수법 추정 | 함축 배수 |",
+                   "|---|---:|---:|---:|---:|"]
+            for tgt_s, sub in wknd.groupby("target"):
+                t = pd.Timestamp(tgt_s)
+                dnum_t = (t - pd.Timestamp(2026, 8, 5)).days
+                m1ref = m1d[m1d["day"] == dnum_t]
+                bk = national(sub)
+                if not len(m1ref) or not bk:
+                    continue
+                est_r = float(_ratio_adj) * float(pd.to_numeric(m1ref["adm"].iloc[0]))
+                md4.append(f"| {t.month}/{t.day}({sub['dow'].iloc[0]}) | "
+                           f"{int(sub['lead'].iloc[0])}일 전 | {bk:,.0f}명 | "
+                           f"{est_r:,.0f}명 | **×{est_r/bk:.2f}** |")
+            st.markdown("\n".join(md4))
+            st.caption(
+                "읽는 법 — 1편 배수법(누적 배수 × 1편 같은 일차 관객수)이 맞다면, "
+                "**수요일 예약분에 곱해야 할 배수가 저 값**이라는 뜻입니다. "
+                "개봉 전 쓰던 `예매 × 16.6`(가족애니 11편 평균)처럼 남의 평균을 빌리는 게 "
+                "아니라, 이번 주말이 지나면 위 '측정된 배수' 표에 **이 영화 자신의 실측값**이 "
+                "채워지고 그때부터는 그걸 씁니다. 두 값이 비슷하면 두 방법이 서로를 확인해 "
+                "주는 것이고, 크게 다르면 예약이 먼저 진실을 말하고 있을 가능성이 큽니다. "
+                "⚠️ 2편의 8/15는 **광복절이자 토요일**인데 1편의 같은 일차(D+10)는 평범한 "
+                "토요일이었습니다 — 1편은 광복절을 D+8 목요일에 받아 92,529명이 나왔습니다. "
+                "그래서 위 '1편 배수법 추정'은 8/15를 **낮게 잡고 있을 가능성**이 있고, "
+                "함축 배수도 그만큼 낮게 나옵니다.")
+
         # 하루치라도 읽히는 그림 — 리드타임 곡선은 이틀 이상 쌓여야 뜻이 생긴다
         st.markdown("**날짜별 판매 좌석**")
         bars = latest.copy()
