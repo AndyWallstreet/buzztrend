@@ -180,12 +180,18 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
 
 
 def match_table(d: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str,
-                key: str = "dl"):
-    """조건 통과 종목 표 + CSV 다운로드."""
+                key: str = "dl", score: bool = False):
+    """조건 통과 종목 표 + CSV 다운로드. score=True면 '좋은데 싼' 점수순 정렬."""
     src = f"{y_col}_src"
     cols = ["company", "ticker", "sector", x_col, y_col, "mcap"] + ([src] if src in d.columns else [])
     t = d[cols].copy()
-    t = t.sort_values(y_col)
+    if score:
+        # 점수 = 질 백분위 + (100 - 멀티플 백분위) 평균 → 높을수록 '좋은데 싼' 종목
+        t["_score"] = ((t[x_col].rank(pct=True)
+                        + (1 - t[y_col].rank(pct=True))) / 2 * 100).round(0)
+        t = t.sort_values("_score", ascending=False)
+    else:
+        t = t.sort_values(y_col)
     t[x_col] = (t[x_col] * 100).round(1)
     t[y_col] = t[y_col].round(2)
     t["mcap"] = (t["mcap"] / 1000).round(0).astype("Int64")  # KRW mm -> KRW bn
@@ -194,8 +200,14 @@ def match_table(d: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: 
     # 네이버금융 종목 페이지 링크 (티커 앞의 'A'를 뗀 6자리 코드)
     t["naver"] = ("https://finance.naver.com/item/main.naver?code="
                   + t["ticker"].str.lstrip("A"))
-    t.columns = (["회사", "티커", "섹터", f"{x_label} (%)", y_label, "시총(십억원)"]
-                 + (["멀티플 기준"] if src in cols else []) + ["네이버금융"])
+    if score:
+        t = t[["company", "ticker", "sector", "_score", x_col, y_col, "mcap"]
+              + ([src] if src in cols else []) + ["naver"]]
+        t.columns = (["회사", "티커", "섹터", "점수", f"{x_label} (%)", y_label, "시총(십억원)"]
+                     + (["멀티플 기준"] if src in cols else []) + ["네이버금융"])
+    else:
+        t.columns = (["회사", "티커", "섹터", f"{x_label} (%)", y_label, "시총(십억원)"]
+                     + (["멀티플 기준"] if src in cols else []) + ["네이버금융"])
     st.dataframe(t, use_container_width=True, hide_index=True, height=320,
                  column_config={"네이버금융": st.column_config.LinkColumn(
                      "네이버금융", display_text="📈 종목 페이지")})
@@ -214,7 +226,7 @@ st.caption(f"한국 상장사 {meta['n_companies']:,}개 · 기준일 {meta['as_
            "X축 = 회사의 질(수익성+성장), Y축 = 주가의 비싼 정도(멀티플). "
            "**오른쪽 아래**에 있을수록 '좋은데 싼' 주식입니다.")
 
-tab1, tab2 = st.tabs(["🔍 티커 조회", "🧮 조건 검색"])
+tab1, tab2, tab3 = st.tabs(["🔍 티커 조회", "🧮 조건 검색", "🏭 섹터별 보기"])
 
 # ================================================= 1) Ticker Input
 with tab1:
@@ -422,6 +434,112 @@ with tab2:
 
     st.markdown(f"#### 조건 통과 종목: {len(good)}개")
     match_table(good, x_col, y_col, x_label2, y_label2, key="dl_screen")
+
+# ================================================= 3) Sector View
+with tab3:
+    c1, c2 = st.columns([1, 3.2], gap="large")
+    with c1:
+        st.markdown("##### 🏭 산업분류 선택")
+        lvl_label3 = st.selectbox("분류 단계", list(CLASS_LEVELS), index=0, key="sv_lvl",
+                                  help="점 하나 = 이 분류 단계의 그룹 하나. "
+                                       "아래로 갈수록 더 잘게 쪼개집니다.")
+        lvl_col3 = CLASS_LEVELS[lvl_label3]
+        st.markdown("##### 📌 주요변수 선택")
+        y_label3 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=1, key="sv_y")
+        x_label3 = st.selectbox("X축", list(X_AXES), index=0, key="sv_x")
+        min_n = int(st.number_input("그룹 최소 종목 수", value=5, min_value=1, step=1,
+                                    key="sv_minn",
+                                    help="종목이 이보다 적은 그룹은 평균이 불안정해서 뺍니다."))
+
+    x_col, y_col = X_AXES[x_label3], MULTIPLES[y_label3]
+    d3 = df[df[x_col].notna() & df[y_col].notna() & (df[y_col] > 0)].copy()
+    # 평균 왜곡 방지: 극단값(상하위 1%) 제외 후 그룹 평균
+    x_lo, x_hi = d3[x_col].quantile([0.01, 0.99])
+    y_hi = d3[y_col].quantile(0.99)
+    d3 = d3[(d3[x_col] >= x_lo) & (d3[x_col] <= x_hi) & (d3[y_col] <= y_hi)]
+    grp = (d3.groupby(lvl_col3)
+           .agg(x=(x_col, "mean"), y=(y_col, "mean"), n=(x_col, "size"))
+           .reset_index().rename(columns={lvl_col3: "그룹"}))
+    grp = grp[grp["n"] >= min_n].reset_index(drop=True)
+
+    trend3 = None
+    if len(grp) >= 3 and grp["x"].std() > 0:
+        slope3, icept3 = np.polyfit(grp["x"], grp["y"], 1)
+        grp["추세대비"] = (grp["y"] - (slope3 * grp["x"] + icept3)).round(2)
+        xs = pd.DataFrame({"x": [float(grp["x"].min()), float(grp["x"].max())]})
+        xs["y"] = slope3 * xs["x"] + icept3
+        trend3 = alt.Chart(xs).mark_line(color="#d43a2f", strokeDash=[5, 4],
+                                         size=2, opacity=0.9).encode(x="x", y="y")
+    else:
+        grp["추세대비"] = np.nan
+
+    # 챔피언: 질(X 평균)이 그룹들 중앙값 이상이면서 추세선 대비 가장 아래
+    champ = None
+    if grp["추세대비"].notna().any():
+        cand = grp[grp["x"] >= grp["x"].median()]
+        champ = (cand if not cand.empty else grp).sort_values("추세대비").iloc[0]
+
+    with c2:
+        if grp.empty:
+            st.info("표시할 그룹이 없습니다. 최소 종목 수를 낮춰보세요.")
+        else:
+            try:
+                dark = st.context.theme.type == "dark"
+            except Exception:
+                dark = False
+            base3 = alt.Chart(grp).mark_circle(opacity=0.8, color=C_MATCH).encode(
+                x=alt.X("x", title=f"{x_label3} 평균 (높을수록 좋은 그룹)",
+                        axis=alt.Axis(format="%"), scale=alt.Scale(zero=False)),
+                y=alt.Y("y", title=f"{y_label3} 평균 (낮을수록 싼 그룹)",
+                        scale=alt.Scale(zero=False)),
+                size=alt.Size("n", title="종목 수", scale=alt.Scale(range=[80, 700])),
+                tooltip=[alt.Tooltip("그룹"), alt.Tooltip("n", title="종목 수"),
+                         alt.Tooltip("x", title=f"{x_label3} 평균", format=".1%"),
+                         alt.Tooltip("y", title=f"{y_label3} 평균", format=".2f"),
+                         alt.Tooltip("추세대비", title="추세선 대비 (음수=선 아래)",
+                                     format="+.2f")])
+            lbl3 = alt.Chart(grp).mark_text(
+                dy=-13, fontSize=12, fontWeight="bold",
+                color="#9ecbff" if dark else "#1a5cad").encode(x="x", y="y", text="그룹")
+            layers3 = [base3, lbl3]
+            if trend3 is not None:
+                layers3.append(trend3)
+            if champ is not None:
+                cd = grp[grp["그룹"] == champ["그룹"]]
+                layers3.append(alt.Chart(cd).mark_point(
+                    shape="diamond", size=420, filled=True, color=C_PICK,
+                    stroke="white", strokeWidth=1.5).encode(x="x", y="y"))
+            st.altair_chart(alt.layer(*layers3).properties(height=620).interactive(),
+                            use_container_width=True)
+
+    if champ is not None:
+        st.markdown("#### 🏆 이번 주 추천 섹터")
+        st.markdown(
+            f"**{champ['그룹']}** — {x_label3} 평균 **{champ['x']:.1%}**, "
+            f"{y_label3} 평균 **{champ['y']:.2f}배**, 추세선 대비 **{champ['추세대비']:+.2f}** "
+            f"(종목 {int(champ['n'])}개). 질이 그룹 평균 이상이면서, 같은 질 대비 "
+            f"멀티플이 가장 낮게(=싸게) 거래되는 그룹입니다.")
+        top3 = grp.sort_values("추세대비").head(3)
+        st.caption("추세선 대비 상위 3개 그룹: "
+                   + " · ".join(f"{r['그룹']} ({r['추세대비']:+.2f})"
+                                for _, r in top3.iterrows()))
+
+    if not grp.empty:
+        st.markdown("#### 🔎 섹터 안 들여다보기 — 해당 섹터의 종목들")
+        order = grp.sort_values("추세대비")["그룹"].tolist() if grp["추세대비"].notna().any() \
+            else grp["그룹"].tolist()
+        default_i = order.index(champ["그룹"]) if champ is not None else 0
+        sel3 = st.selectbox("섹터 선택 (추세선 대비 싼 순서)", order, index=default_i,
+                            key="sv_pick")
+        sub3 = df[df[lvl_col3] == sel3]
+        st.altair_chart(scatter(sub3, x_col, y_col, x_label3, y_label3,
+                                -999.0, 1e9, label_matches=True),
+                        use_container_width=True)
+        valid3 = sub3[sub3[x_col].notna() & sub3[y_col].notna() & (sub3[y_col] > 0)]
+        st.markdown(f"##### {sel3} 종목 순위 — '좋은데 싼' 점수순 ({len(valid3)}개)")
+        st.caption("점수 = 그룹 안에서 질(X) 백분위와 멀티플 낮음(Y) 백분위의 평균 (100점 만점). "
+                   "높을수록 '질 대비 싸다'는 뜻입니다.")
+        match_table(valid3, x_col, y_col, x_label3, y_label3, key="dl_sector", score=True)
 
 st.divider()
 st.caption("차트에는 **조건을 통과한 종목만** 표시됩니다 (티커 조회에서는 선택한 종목도 함께). · "
