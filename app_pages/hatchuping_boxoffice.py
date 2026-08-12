@@ -23,7 +23,7 @@ LOAD_FILES = ("m1_daily.csv", "m2_daily.csv", "boxoffice_now.json",
               "board_daily.csv", "board_samples.json",
               "m1_market.csv", "m2_market.csv", "m2_chains.csv", "m1_chains.csv",
               "booking_flow.csv", "booking_live_now.json", "booking_rivals.csv",
-              "seats.csv", "seats_now.json")
+              "seats.csv", "seats_now.json", "hen_daily.csv")
 
 
 def load_stamp():
@@ -48,7 +48,8 @@ def load(stamp):
             _csv("m1_market.csv"), _csv("m2_market.csv"), _csv("m2_chains.csv"),
             _csv("m1_chains.csv"), _csv("booking_flow.csv"),
             _json("booking_live_now.json"), _csv("booking_rivals.csv"),
-            _csv("seats.csv", dates=()), _json("seats_now.json"))
+            _csv("seats.csv", dates=()), _json("seats_now.json"),
+            _csv("hen_daily.csv"))
 
 
 def date_span(dates, extra_days=3):
@@ -103,7 +104,7 @@ def weekend_band_dates(dates, opacity=0.12):
 
 
 (m1d, m2d, bonow, rat, sd, peer, bd, bsamp, mk1, mk2, chn, chn1,
- bflow, bknow, briv, seats, seatnow) = load(load_stamp())
+ bflow, bknow, briv, seats, seatnow, hen) = load(load_stamp())
 
 st.title("🎬 사랑의 하츄핑 2 — 개봉 후 트래커")
 st.caption("2026-08-05 개봉 · KOBIS 확정 관객수 기준 · 1편(운명의 시작, 최종 1,239,245명)과 "
@@ -1554,4 +1555,142 @@ else:
         st.dataframe(bz.sort_values("date", ascending=False), hide_index=True, width="stretch")
     st.caption("데이터: 썸트렌드(some.co.kr) · 엑셀 원본: Heartuping movie 2_Buzz trend_v1.xlsx "
                "'D-day 비교' 시트와 동일한 계산")
+
+
+# ================= 5. 마당을 나온 암탉 — 천장이 어디인가
+# 1편은 '직전작'이라 가장 정확한 자(尺)지만 천장은 알려 주지 않는다. 암탉은 한국 창작
+# 애니 최고 기록(220만)이라, 그 자리에 가려면 곡선이 어떤 모양이어야 하는지를 보여 준다.
+st.divider()
+st.header("5. 마당을 나온 암탉 (2011) — 한국 애니 최고 흥행작과 비교", divider="blue")
+C_HEN = "#2a9d5c"
+HEN_OPEN = pd.Timestamp(2011, 7, 28)
+
+if hen is None or not len(hen):
+    st.info("암탉 곡선이 없습니다 — `python hen_backfill.py` 실행 필요")
+elif m2d is None or not len(m2d) or m1d is None or not len(m1d):
+    st.info("하츄핑 곡선이 있어야 비교할 수 있습니다.")
+else:
+    hd = hen.copy()
+    for c in ("day", "adm", "cum", "screens", "shows", "screen_share",
+              "show_share", "seats", "seat_sale", "seat_share"):
+        hd[c] = pd.to_numeric(hd[c], errors="coerce")
+    hen_final = int(hd["cum"].max())
+    # 유료시사 = 개봉일 누적 − 개봉일 당일. 세 편 다 시사가 있어 출발선이 달라서,
+    # 누적 비교는 반드시 이걸 빼고 해야 한다.
+    hen_pre = int(hd.iloc[0]["cum"] - hd.iloc[0]["adm"])
+    m2_pre = int((bonow or {}).get("m2_preview", 0))
+    m1_pre = int((bonow or {}).get("m1_preview", 0))
+
+    st.caption(f"2011-07-28 개봉 · 최종 **{hen_final:,}명** · 한국 창작 애니메이션 최고 기록. "
+               f"1편(124만)이 '직전작'이라면 암탉은 **천장**입니다 — 220만에 가려면 곡선이 "
+               f"어떤 모양이어야 하는지를 보여 줍니다. "
+               f"유료시사 암탉 {hen_pre:,} / 1편 {m1_pre:,} / 2편 {m2_pre:,}명은 빼고 비교합니다.")
+
+    h1, h2, h3 = st.columns(3)
+    _first_we = float(hd[hd["day"] == 4]["cum"].iloc[0]) if (hd["day"] == 4).any() else None
+    h1.metric("암탉 최종", f"{hen_final:,}명", "2편 목표선 250만의 88%", delta_color="off")
+    if _first_we:
+        h2.metric("암탉 첫 주말까지 누적", f"{_first_we / hen_final:.1%}",
+                  f"1편은 32.8% — 암탉이 훨씬 **뒷심형**", delta_color="off")
+    _d90 = int(hd.loc[hd["cum"] >= 0.9 * hen_final, "day"].min())
+    h3.metric("암탉 관객 90% 모인 날", f"D+{_d90}", f"약 {round((_d90 + 1) / 7)}주", delta_color="off")
+
+    hspan = 45
+    tri = pd.concat([
+        m2d.assign(구분="2편", _pre=m2_pre),
+        m1d[m1d["day"] <= hspan].assign(구분="1편", _pre=m1_pre),
+        hd[hd["day"] <= hspan].assign(구분="암탉", _pre=hen_pre),
+    ], ignore_index=True)
+    for c in ("day", "adm", "cum", "screens", "shows", "screen_share",
+              "show_share", "seats", "seat_sale", "seat_share"):
+        tri[c] = pd.to_numeric(tri[c], errors="coerce")
+    tri["cum_adj"] = tri["cum"] - tri["_pre"]
+
+    DOM = ["2편", "1편", "암탉"]
+    RNG = [C_M2, C_M1, C_HEN]
+
+    def tri_chart(ycol, ytitle, pct=False, height=260):
+        line = alt.Chart(tri.dropna(subset=[ycol])).mark_line(point=False,
+                                                              strokeWidth=2.4).encode(
+            x=alt.X("day:Q", title="개봉 후 경과일",
+                    scale=alt.Scale(domain=[0, hspan], nice=False),
+                    axis=alt.Axis(values=list(range(0, hspan + 1, 7)), format="d",
+                                  labelAngle=0)),
+            y=alt.Y(f"{ycol}:Q", title=ytitle,
+                    axis=alt.Axis(format=".0%" if pct else ",.0f")),
+            color=alt.Color("구분:N", scale=alt.Scale(domain=DOM, range=RNG),
+                            legend=alt.Legend(title=None, orient="top-left")),
+            strokeDash=alt.StrokeDash("구분:N", scale=alt.Scale(
+                domain=DOM, range=[[1, 0], [5, 4], [2, 2]]), legend=None),
+            tooltip=[alt.Tooltip("구분:N"), alt.Tooltip("day:Q", title="경과일"),
+                     alt.Tooltip(f"{ycol}:Q", title=ytitle,
+                                 format=".1%" if pct else ",.0f")])
+        return alt.layer(weekend_band(hspan, x_title="개봉 후 경과일"),
+                         line).properties(height=height)
+
+    st.markdown("#### 누적 관객수 (유료시사 제외)")
+    st.altair_chart(tri_chart("cum_adj", "누적 관객수", height=320), width="stretch")
+    st.caption("2편은 개봉 직후 암탉보다 빨랐지만 D+2부터 뒤집혔습니다. "
+               "암탉은 평일에도 안 꺾이는 곡선이라 시간이 갈수록 벌어집니다.")
+
+    st.markdown("#### 하루 관객수 — 평일에 얼마나 버티나")
+    st.altair_chart(tri_chart("adm", "하루 관객수", height=300), width="stretch")
+
+    st.markdown("#### 좌석판매율 — 여기가 갈린 지점")
+    st.altair_chart(tri_chart("seat_sale", "좌석판매율", pct=True, height=300),
+                    width="stretch")
+    _cmp = tri[tri["day"] == int(m2d["day"].max())]
+    _g = {r["구분"]: r for _, r in _cmp.iterrows()}
+    if {"2편", "암탉"} <= set(_g) and pd.notna(_g["암탉"]["seat_sale"]):
+        st.caption(
+            f"어제(D+{int(m2d['day'].max())}) 좌석판매율: 2편 **{_g['2편']['seat_sale']:.1%}** vs "
+            f"암탉 **{_g['암탉']['seat_sale']:.1%}**. "
+            "**암탉은 평일에도 30%대를 유지했습니다** — 2편은 평일에 12~18%로 내려앉습니다. "
+            "220만은 '주말이 컸던 영화'가 아니라 **'평일이 안 죽은 영화'** 였습니다. "
+            "2편이 그 자리에 가려면 주말 봉우리가 아니라 **평일 골이 얕아져야** 합니다.")
+
+    g1, g2 = st.columns(2)
+    with g1:
+        st.markdown("**스크린수**")
+        st.altair_chart(tri_chart("screens", "스크린수", height=220), width="stretch")
+    with g2:
+        st.markdown("**스크린점유율**")
+        st.altair_chart(tri_chart("screen_share", "스크린점유율", pct=True, height=220),
+                        width="stretch")
+    g3, g4 = st.columns(2)
+    with g3:
+        st.markdown("**상영횟수**")
+        st.altair_chart(tri_chart("shows", "상영횟수", height=220), width="stretch")
+    with g4:
+        st.markdown("**상영점유율**")
+        st.altair_chart(tri_chart("show_share", "상영점유율", pct=True, height=220),
+                        width="stretch")
+    g5, g6 = st.columns(2)
+    with g5:
+        st.markdown("**좌석수**")
+        st.altair_chart(tri_chart("seats", "좌석수", height=220), width="stretch")
+    with g6:
+        st.markdown("**좌석점유율**")
+        st.altair_chart(tri_chart("seat_share", "좌석점유율", pct=True, height=220),
+                        width="stretch")
+
+    st.markdown("#### 같은 일차 숫자로 보기")
+    md = ["| 일차 | 2편 누적 | 1편 누적 | 암탉 누적 | 2편 ÷ 암탉 |",
+          "|---|---:|---:|---:|---:|"]
+    for d in range(0, int(m2d["day"].max()) + 1):
+        row = {r["구분"]: r for _, r in tri[tri["day"] == d].iterrows()}
+        if not {"2편", "1편", "암탉"} <= set(row):
+            continue
+        a2, a1, ah = (float(row[k]["cum_adj"]) for k in ("2편", "1편", "암탉"))
+        md.append(f"| D+{d} | {a2:,.0f} | {a1:,.0f} | {ah:,.0f} | "
+                  f"**{a2/ah:.2f}배** |")
+    st.markdown("\n".join(md))
+    st.caption("암탉 곡선을 그대로 따라간다면 최종은 220만이 됩니다. "
+               "지금 2편은 암탉 페이스의 0.8배 수준이고, 1편 페이스로는 141만입니다 — "
+               "**실제 착지점은 이 둘 사이**이고, 어느 쪽에 붙을지는 평일 좌석판매율이 정합니다.")
+
+    st.caption("⚠️ **2011년 예매율은 존재하지 않습니다.** KOBIS 실시간 예매율은 그 순간만 "
+               "제공하고 과거를 보관하지 않아서, 암탉의 '사전예매율 → 실관객' 추적은 "
+               "만들 수 없습니다. 남아 있는 건 확정 관객수·스크린·상영횟수·좌석 통계이고 "
+               "위 차트가 그 전부입니다. 예매 기반 추적은 2편(위 1번 섹션)에서만 가능합니다.")
 
