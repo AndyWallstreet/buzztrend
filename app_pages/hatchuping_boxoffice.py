@@ -478,6 +478,25 @@ else:
         if col in supply:
             supply[col] = pd.to_numeric(supply[col], errors="coerce")
 
+    # 좌석수 = 상영횟수 × 회차당 좌석수. 극장이 실제로 '판 수 있었던' 자리의 총량이라,
+    # 스크린·회차보다 관객수에 한 걸음 더 가깝다. (160석은 이 프로젝트가 쭉 쓰는 근사값)
+    SEATS_PER_SHOW = 160
+    supply["seats_offered"] = supply["shows"] * SEATS_PER_SHOW
+
+    # 판매점유율 = 그날 전국 관객 중 하츄핑이 데려온 비율. 위 셋(스크린·상영·좌석)은
+    # 극장이 준 몫이고, 이건 관객이 실제로 고른 몫이라 마지막 칸에 놓는다.
+    def _adm_share(mk, label):
+        if mk is None or not len(mk):
+            return None
+        x = mk[mk["title"].str.contains("하츄핑", na=False)][["day", "adm_share"]].copy()
+        x["adm_share"] = pd.to_numeric(x["adm_share"], errors="coerce")
+        return x.assign(구분=label)
+
+    _shares = [s for s in (_adm_share(mk2, "2편"), _adm_share(mk1, "1편")) if s is not None]
+    if _shares:
+        supply = supply.merge(pd.concat(_shares, ignore_index=True),
+                              on=["day", "구분"], how="left")
+
     def vs_chart(ycol, ytitle, pct=False):
         line = alt.Chart(supply.dropna(subset=[ycol])).mark_line(point=True).encode(
             x=alt.X("day:Q", title="경과일", scale=alt.Scale(domain=[0, span], nice=False),
@@ -510,13 +529,53 @@ else:
         st.markdown("**상영점유율 — 그날 전체 상영 중 몇 %**")
         st.altair_chart(vs_chart("show_share", "상영점유율", pct=True), width="stretch")
 
-    st.markdown("**좌석점유율 — 수요의 질 (관객 ÷ 상영횟수×160석)**")
-    st.altair_chart(vs_chart("seat_rate", "좌석점유율", pct=True), width="stretch")
-    st.caption("🟡 음영 = 주말(토·일) — 다섯 개 차트 모두 같은 경과일 축이라 "
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown("**좌석수 — 팔 수 있었던 자리 (상영횟수 × 160석)**")
+        st.altair_chart(vs_chart("seats_offered", "좌석수"), width="stretch")
+    with c2:
+        st.markdown("**좌석점유율 — 그 자리가 몇 % 찼나**")
+        st.altair_chart(vs_chart("seat_rate", "좌석점유율", pct=True), width="stretch")
+
+    d1, d2 = st.columns(2)
+    with d1:
+        st.markdown("**공급에서 관객까지 — 어디서 줄어드나**")
+        st.markdown(
+            "```\n"
+            "  스크린수 ×  스크린당 회차\n"
+            "        = 상영횟수\n"
+            "  상영횟수 ×  회차당 160석\n"
+            "        = 좌석수 (팔 수 있었던 자리)\n"
+            "  좌석수  ×  좌석점유율\n"
+            "        = 관객수\n"
+            "```")
+        if len(ref) and mk2 is not None and len(mk2):
+            _mm = mk2[mk2["title"].str.contains("하츄핑", na=False)]
+            _mm = _mm[_mm["day"] == _mm["day"].max()]
+            if len(_mm):
+                _r = _mm.iloc[0]
+                st.markdown(
+                    f"어제 하츄핑이 전국에서 차지한 몫:\n\n"
+                    f"| 단계 | 몫 |\n|---|---:|\n"
+                    f"| 스크린 | {float(last_bo['screen_share']):.1%} |\n"
+                    f"| 상영횟수 | {float(last_bo['show_share']):.1%} |\n"
+                    f"| **관객(판매)** | **{float(_r['adm_share']):.1%}** |")
+                st.caption("스크린은 13%대를 받았는데 관객은 4%대 — 아이 영화라 "
+                           "한 관에서 트는 횟수가 적고(심야 없음), 평일 낮 객석이 "
+                           "비기 때문입니다. 주말엔 이 격차가 줄어듭니다.")
+    with d2:
+        st.markdown("**판매점유율 — 그날 전국 관객 중 몇 %**")
+        if "adm_share" in supply and supply["adm_share"].notna().any():
+            st.altair_chart(vs_chart("adm_share", "판매점유율", pct=True), width="stretch")
+        else:
+            st.info("경쟁작 데이터(m2_market.csv)가 있어야 그려집니다.")
+
+    st.caption("🟡 음영 = 주말(토·일) — 모든 차트가 같은 경과일 축이라 "
                "주말 봉우리와 평일 골이 어디인지 한눈에 맞춰 볼 수 있습니다.")
-    st.caption("위 네 개는 극장이 이 영화에 **얼마나 걸어줬나(공급)**, 좌석점유율은 "
-               "관객이 **얼마나 채웠나(수요)** 입니다. 공급은 극장이 정하고 수요는 관객이 정하므로, "
-               "좌석점유율이 높으면 다음 주 스크린이 늘어나는 쪽으로 이어집니다 — 그래서 남겨 뒀습니다.")
+    st.caption("**왼쪽 = 극장이 준 양(공급), 오른쪽 = 시장에서 차지한 비중.** "
+               "위에서 아래로 스크린 → 상영횟수 → 좌석수로 내려갈수록 관객수에 가까워집니다. "
+               "맨 아래 **판매점유율**만 관객이 정하는 값이고 나머지는 극장이 정합니다 — "
+               "좌석점유율이 높으면 다음 주 스크린이 늘어나는 쪽으로 이어집니다.")
 
     # ---- 경쟁작 상영점유율 — 상영관 총량은 고정이라, 대작이 빠져야 하츄핑 회차가 늘 수 있다.
     st.markdown("#### 경쟁작 상영점유율 — 상영관 뺏고 뺏기기")
