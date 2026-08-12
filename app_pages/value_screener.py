@@ -460,6 +460,7 @@ with tab3:
                                     help="종목이 이보다 적은 그룹은 평균이 불안정해서 뺍니다."))
 
     x_col, y_col = X_AXES[x_label3], MULTIPLES[y_label3]
+    clicked3 = None
     d3 = df[df[x_col].notna() & df[y_col].notna() & (df[y_col] > 0)].copy()
     # 평균 왜곡 방지: 극단값(상하위 1%) 제외 후 그룹 평균
     x_lo, x_hi = d3[x_col].quantile([0.01, 0.99])
@@ -500,7 +501,11 @@ with tab3:
                 dark = st.context.theme.type == "dark"
             except Exception:
                 dark = False
-            base3 = alt.Chart(grp).mark_circle(opacity=0.8, color=C_MATCH).encode(
+            # 점 클릭 → 아래 드릴다운이 그 섹터로 바뀐다
+            sel_pt = alt.selection_point(name="sector_click", fields=["그룹"],
+                                         on="click", empty=False)
+            base3 = alt.Chart(grp).add_params(sel_pt).mark_circle(
+                opacity=0.8, color=C_MATCH).encode(
                 x=alt.X("x", title=f"{x_label3} 평균 (높을수록 좋은 그룹)",
                         axis=alt.Axis(format="%"), scale=alt.Scale(zero=False)),
                 y=alt.Y("y", title=f"{y_label3} 평균 (낮을수록 싼 그룹)",
@@ -522,8 +527,16 @@ with tab3:
                 layers3.append(alt.Chart(cd).mark_point(
                     shape="diamond", size=420, filled=True, color=C_PICK,
                     stroke="white", strokeWidth=1.5).encode(x="x", y="y"))
-            st.altair_chart(alt.layer(*layers3).properties(height=620).interactive(),
-                            use_container_width=True)
+            ev3 = st.altair_chart(alt.layer(*layers3).properties(height=620).interactive(),
+                                  use_container_width=True,
+                                  on_select="rerun", key="sv_chart")
+            try:
+                pts = ev3["selection"]["sector_click"]
+                if pts:
+                    clicked3 = pts[0]["그룹"]
+            except Exception:
+                pass
+            st.caption("💡 점을 **클릭**하면 아래 '섹터 안 들여다보기'가 그 섹터로 바뀝니다.")
 
     if champ is not None:
         st.markdown("#### 🏆 이번 주 추천 섹터")
@@ -541,9 +554,15 @@ with tab3:
         st.markdown("#### 🔎 섹터 안 들여다보기 — 해당 섹터의 종목들")
         order = grp.sort_values("추세대비")["그룹"].tolist() if grp["추세대비"].notna().any() \
             else grp["그룹"].tolist()
-        default_i = order.index(champ["그룹"]) if champ is not None else 0
-        sel3 = st.selectbox("섹터 선택 (추세선 대비 싼 순서)", order, index=default_i,
-                            key="sv_pick")
+        default = champ["그룹"] if champ is not None else order[0]
+        # 차트에서 점을 클릭했으면 그 섹터로 동기화. 분류 단계가 바뀌어 이전
+        # 선택이 목록에 없으면 챔피언으로 리셋.
+        if clicked3 in order:
+            st.session_state["sv_pick"] = clicked3
+        elif st.session_state.get("sv_pick") not in order:
+            st.session_state["sv_pick"] = default
+        sel3 = st.selectbox("섹터 선택 (추세선 대비 싼 순서 · 차트 점 클릭으로도 선택됩니다)",
+                            order, key="sv_pick")
         sub3 = df[df[lvl_col3] == sel3]
         st.altair_chart(scatter(sub3, x_col, y_col, x_label3, y_label3,
                                 -999.0, 1e9, label_matches=True),
