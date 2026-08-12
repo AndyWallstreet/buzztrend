@@ -447,6 +447,14 @@ with tab3:
         st.markdown("##### 📌 주요변수 선택")
         y_label3 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=1, key="sv_y")
         x_label3 = st.selectbox("X축", list(X_AXES), index=0, key="sv_x")
+        st.markdown("##### 🎯 주요조건 입력")
+        # 섹터 탭에서는 조건이 '그룹 평균'에 적용된다
+        x_min3 = st.number_input(f"{x_label3} 평균 이상 (%)", value=0.0, step=1.0,
+                                 key="sv_xmin") / 100
+        y_max3 = st.number_input(f"{y_label3} 평균 이하", value=DEFAULT_Y_MAX[y_label3] * 2,
+                                 step=0.5, key="sv_ymax",
+                                 help="그룹 평균은 개별 종목보다 높게 나오는 경향이 있어 "
+                                      "기본값을 종목 기준의 2배로 넉넉하게 잡았습니다.")
         min_n = int(st.number_input("그룹 최소 종목 수", value=5, min_value=1, step=1,
                                     key="sv_minn",
                                     help="종목이 이보다 적은 그룹은 평균이 불안정해서 뺍니다."))
@@ -460,7 +468,9 @@ with tab3:
     grp = (d3.groupby(lvl_col3)
            .agg(x=(x_col, "mean"), y=(y_col, "mean"), n=(x_col, "size"))
            .reset_index().rename(columns={lvl_col3: "그룹"}))
-    grp = grp[grp["n"] >= min_n].reset_index(drop=True)
+    n_all = len(grp[grp["n"] >= min_n])
+    grp = grp[(grp["n"] >= min_n) & (grp["x"] > x_min3)
+              & (grp["y"] < y_max3)].reset_index(drop=True)
 
     trend3 = None
     if len(grp) >= 3 and grp["x"].std() > 0:
@@ -479,9 +489,12 @@ with tab3:
         cand = grp[grp["x"] >= grp["x"].median()]
         champ = (cand if not cand.empty else grp).sort_values("추세대비").iloc[0]
 
+    with c1:
+        st.markdown(f"**그룹 {n_all}개 중 조건 통과 {len(grp)}개**")
+
     with c2:
         if grp.empty:
-            st.info("표시할 그룹이 없습니다. 최소 종목 수를 낮춰보세요.")
+            st.info("표시할 그룹이 없습니다. 조건을 완화하거나 최소 종목 수를 낮춰보세요.")
         else:
             try:
                 dark = st.context.theme.type == "dark"
