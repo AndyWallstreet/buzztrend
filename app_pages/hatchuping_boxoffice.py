@@ -923,8 +923,12 @@ else:
             if nat and r["shows"]:
                 factor[r["chain"]] = nat / float(r["shows"])
 
-        def national(sub):
-            """표본 판매좌석 → 전국 예약좌석 (CGV·롯데를 각각 되곱한 뒤 두 체인 점유율로 나눔)."""
+        def national(sub, adjust=False):
+            """표본 판매좌석 → 전국 예약좌석 (CGV·롯데를 각각 되곱한 뒤 두 체인 점유율로 나눔).
+
+            adjust=True 면 아직 시간표를 안 올린 극장 몫을 '공개된 극장의 극장당 평균'으로
+            채운다 — 주말은 편성이 덜 열려 있어서, 보정 안 하면 주말만 체계적으로 낮게 나온다.
+            """
             if not factor or not cgv_lotte_share:
                 return None
             tot = 0.0
@@ -932,7 +936,9 @@ else:
                 f = factor.get(r["chain"])
                 if f is None or pd.isna(r["sold"]):
                     return None
-                tot += float(r["sold"]) * f
+                boost = (float(r["panel"]) / float(r["published"])
+                         if (adjust and r["published"]) else 1.0)
+                tot += float(r["sold"]) * boost * f
             return tot / cgv_lotte_share
 
         t1, t2 = st.columns([3, 2])
@@ -951,20 +957,26 @@ else:
             st.markdown("\n".join(md))
         with t2:
             st.markdown("**날짜별 합계 — 전국 환산**")
-            md2 = ["| 날짜 | 회차 | 판매 좌석 | 판매율 | 전국 환산 예약 |",
+            md2 = ["| 날짜 | 극장당 회차 | 판매율 | 전국 환산 | 편성 보정 |",
                    "|---|---:|---:|---:|---:|"]
             for tgt_s, sub in latest.groupby("target"):
                 tgt = pd.Timestamp(tgt_s)
                 dow = sub["dow"].iloc[0]
                 ok = bool((sub["published"] >= sub["panel"] / 2).all())
                 s_sold, s_seat = sub["sold"].sum(), sub["seats"].sum()
-                est = national(sub)
+                per = (sub["shows"].sum() / sub["published"].sum()
+                       if sub["published"].sum() else 0)
+                est, est_a = national(sub), national(sub, adjust=True)
                 md2.append(
                     f"| {tgt.month}/{tgt.day}({dow})" + ("" if ok else " ⚠") + " | "
-                    f"{int(sub['shows'].sum())} | {int(s_sold):,} / {int(s_seat):,} | "
+                    f"{per:.2f}회 | "
                     + (f"{s_sold/s_seat:.1%}" if s_seat else "—") + " | "
-                    + (f"**{est:,.0f}명**" if est else "—") + " |")
+                    + (f"{est:,.0f}명" if est else "—") + " | "
+                    + (f"**{est_a:,.0f}명**" if est_a else "—") + " |")
             st.markdown("\n".join(md2))
+            st.caption("**극장당 회차** = 시간표를 올린 극장 하나가 그날 트는 하츄핑 회차. "
+                       "총 회차는 미공개 극장 때문에 주말이 낮아 보이지만, 극장당으로 보면 "
+                       "**주말이 이미 더 많습니다** — 편성이 안 열린 것이지 줄어든 게 아닙니다.")
 
         st.caption("**시간표 올린 극장** = 표본 20곳 중 그 날짜 상영시간표를 이미 공개한 극장 수입니다 "
                    "(20/20 이면 전부 공개, 7/20 이면 13곳은 아직 안 올림). "
@@ -995,7 +1007,7 @@ else:
         if len(wknd) and factor and cgv_lotte_share:
             cols = st.columns(len(wknd["target"].unique()) or 1)
             for col, (tgt_s, sub) in zip(cols, wknd.groupby("target")):
-                est = national(sub)
+                est, est_a = national(sub), national(sub, adjust=True)
                 tgt = pd.Timestamp(tgt_s)
                 dow = sub["dow"].iloc[0]
                 # 지난주 같은 요일 실측과 비교 — 이 예약분이 그 대비 어느 정도인지
@@ -1004,10 +1016,30 @@ else:
                     same = m2d[pd.to_datetime(m2d["date"]).dt.weekday == tgt.weekday()]
                     if len(same):
                         ref = int(pd.to_numeric(same["adm"], errors="coerce").iloc[-1])
-                col.metric(f"{tgt.month}/{tgt.day}({dow}) 예약 좌석",
-                           f"{est:,.0f}명" if est else "—",
-                           (f"지난 {dow}요일 실제 {ref:,}명의 {est/ref:.0%}"
-                            if (est and ref) else ""), delta_color="off")
+                col.metric(f"{tgt.month}/{tgt.day}({dow}) 예약 좌석 (편성 보정)",
+                           f"{est_a:,.0f}명" if est_a else "—",
+                           (f"보정 전 {est:,.0f}명 · 지난 {dow}요일 실제 {ref:,}명의 "
+                            f"{est_a/ref:.0%}" if (est_a and est and ref) else ""),
+                           delta_color="off")
+            # 지난 주말 실측이 '주말엔 회차도 판매율도 오른다'를 증명해 준다 — 지금 표본이
+            # 평평해 보이는 건 편성 미공개 탓이지 수요가 없어서가 아니다.
+            if m2d is not None and len(m2d):
+                _m = m2d.copy()
+                _m["wd"] = pd.to_datetime(_m["date"]).dt.weekday
+                _wd = _m[_m["wd"].isin([0, 1])]          # 월·화
+                _we = _m[_m["wd"].isin([5, 6])]          # 토·일
+                if len(_wd) and len(_we):
+                    _sh = _we["shows"].mean() / _wd["shows"].mean()
+                    _sr = (pd.to_numeric(_we["seat_rate"]).mean()
+                           / pd.to_numeric(_wd["seat_rate"]).mean())
+                    st.caption(
+                        f"📈 **주말엔 회차도 판매율도 오릅니다** — 지난주 전국 실측 기준 "
+                        f"회차 평일 {_wd['shows'].mean():,.0f}회 → 주말 {_we['shows'].mean():,.0f}회 "
+                        f"(**{_sh:.2f}배**), 좌석점유율 {pd.to_numeric(_wd['seat_rate']).mean():.1%} "
+                        f"→ {pd.to_numeric(_we['seat_rate']).mean():.1%} (**{_sr:.1f}배**). "
+                        "표에서 주말 총 회차가 평일과 비슷해 보이는 건 **아직 시간표를 안 올린 "
+                        "극장 때문**이지 회차가 안 늘어서가 아닙니다 — 극장당 회차를 보면 "
+                        "주말이 이미 더 많습니다.")
             st.caption(
                 "⚠️ 이 숫자는 **최종 관객수가 아니라 지금까지 예약된 좌석**입니다. "
                 "가족 영화는 표를 당일 현장에서 사는 비중이 커서 최종은 이보다 훨씬 큽니다. "
