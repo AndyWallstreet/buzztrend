@@ -965,19 +965,28 @@ else:
         # ---- 전국 환산 배수: 표본 회차가 그 체인 전국 하츄핑 회차의 몇 분의 1인가.
         # 오늘(편성이 다 열린 날) 기준으로 재고, 그 배수를 다른 날짜에 그대로 쓴다.
         # 실측: 표본 CGV 60회 / 전국 CGV 598회, 롯데 49회 / 전국 490회 → 둘 다 약 10%.
-        ch_nat, cgv_lotte_share = {}, None
+        ch_nat, cgv_lotte_share, _nat_day = {}, None, None
         if chn is not None and len(chn):
             h = chn[chn["title"].str.contains("하츄핑", na=False)]
             h = h[h["date"] == h["date"].max()]
+            _nat_day = str(pd.Timestamp(h["date"].max()).date())
             for _, r in h.iterrows():
                 ch_nat[r["chain"]] = float(pd.to_numeric(r["shows"], errors="coerce"))
             if ch_nat.get("전체"):
                 cgv_lotte_share = ((ch_nat.get("CGV", 0) + ch_nat.get("롯데시네마", 0))
                                    / ch_nat["전체"])
 
+        # 배수는 반드시 **같은 날짜끼리** 재야 한다 — 전국 회차는 어제치가 마지막이므로,
+        # 표본도 '어제를 본' 행을 쓴다. 오늘 표본과 어제 전국을 섞으면, 8/12 처럼 편성이
+        # 하루에 반토막 나는 날(1,509→793회) 배수가 2배 넘게 부풀어 주말 추정이 뒤집힌다.
+        _ref = sd_[sd_["target"] == _nat_day] if _nat_day else sd_.iloc[0:0]
+        if len(_ref):
+            _ref = _ref[_ref["lead"] == _ref["lead"].min()]
+        else:                              # 그 날짜 표본이 없으면 차선책으로 lead 0
+            _ref = latest[latest["lead"] == 0]
         today_row = latest[latest["lead"] == 0]
-        factor = {}                       # 체인별  전국 회차 ÷ 표본 회차
-        for _, r in today_row.iterrows():
+        factor = {}                       # 체인별  전국 회차 ÷ 같은 날 표본 회차
+        for _, r in _ref.iterrows():
             nat = ch_nat.get(r["chain"])
             if nat and r["shows"]:
                 factor[r["chain"]] = nat / float(r["shows"])
