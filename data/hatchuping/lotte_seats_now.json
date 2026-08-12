@@ -1,0 +1,73 @@
+{
+  "ts": "2026-08-12 09:48",
+  "asof": "2026-08-12",
+  "panel": 20,
+  "rows": [
+    {
+      "ts": "2026-08-12 09:48",
+      "asof": "2026-08-12",
+      "target": "2026-08-12",
+      "dow": "수",
+      "lead": 0,
+      "panel": 20,
+      "published": 20,
+      "shows": 52,
+      "seats": 8588,
+      "sold": 888,
+      "fill": 0.1034
+    },
+    {
+      "ts": "2026-08-12 09:48",
+      "asof": "2026-08-12",
+      "target": "2026-08-13",
+      "dow": "목",
+      "lead": 1,
+      "panel": 20,
+      "published": 20,
+      "shows": 44,
+      "seats": 7302,
+      "sold": 303,
+      "fill": 0.0415
+    },
+    {
+      "ts": "2026-08-12 09:48",
+      "asof": "2026-08-12",
+      "target": "2026-08-14",
+      "dow": "금",
+      "lead": 2,
+      "panel": 20,
+      "published": 19,
+      "shows": 41,
+      "seats": 6721,
+      "sold": 582,
+      "fill": 0.0866
+    },
+    {
+      "ts": "2026-08-12 09:48",
+      "asof": "2026-08-12",
+      "target": "2026-08-15",
+      "dow": "토",
+      "lead": 3,
+      "panel": 20,
+      "published": 7,
+      "shows": 21,
+      "seats": 3637,
+      "sold": 320,
+      "fill": 0.088
+    },
+    {
+      "ts": "2026-08-12 09:48",
+      "asof": "2026-08-12",
+      "target": "2026-08-16",
+      "dow": "일",
+      "lead": 4,
+      "panel": 20,
+      "published": 7,
+      "shows": 20,
+      "seats": 3171,
+      "sold": 852,
+      "fill": 0.2687
+    }
+  ],
+  "note": "BookingSeatCount=잔여석 · 판매=Total-Booking · published 가 표본 절반 미만이면 편성 미공개라 판매율을 쓰면 안 됨"
+}
