@@ -903,27 +903,149 @@ else:
         sd_["fill"] = pd.to_numeric(sd_["fill"], errors="coerce")
         latest = sd_[sd_["asof"] == sd_["asof"].max()]
 
-        st.markdown(f"**오늘({sd_['asof'].max()}) 기준 — 앞으로 5일**")
-        md = ["| 날짜 | 체인 | 편성 공개 | 회차 | 판매 / 좌석 | 판매율 |",
-              "|---|---|---:|---:|---:|---:|"]
-        for _, r in latest.sort_values(["target", "chain"]).iterrows():
-            ok = r["published"] >= r["panel"] / 2
-            tgt = pd.Timestamp(r["target"])
-            lbl = f"{tgt.month}/{tgt.day}({r['dow']})" + ("" if ok else " ⚠")
-            fill = f"{r['fill']:.1%}" if pd.notna(r["fill"]) else "—"
-            md.append(f"| {lbl} | {r['chain']} | {int(r['published'])}/{int(r['panel'])}곳 | "
-                      f"{int(r['shows'])} | {int(r['sold']):,} / {int(r['seats']):,} | "
-                      + (f"**{fill}**" if ok else f"{fill}") + " |")
-        st.markdown("\n".join(md))
-        st.caption("⚠ = 표본 극장의 절반도 편성을 안 올린 날. **주말 상영표는 목요일쯤 열리기 "
-                   "때문에**, 수요일에 보는 토·일 판매율은 '공개된 몇 회차'만 잰 값이라 "
-                   "그대로 믿으면 안 됩니다. 목·금이 되면 편성이 채워지고 숫자가 쓸 만해집니다.")
+        # ---- 전국 환산 배수: 표본 회차가 그 체인 전국 하츄핑 회차의 몇 분의 1인가.
+        # 오늘(편성이 다 열린 날) 기준으로 재고, 그 배수를 다른 날짜에 그대로 쓴다.
+        # 실측: 표본 CGV 60회 / 전국 CGV 598회, 롯데 49회 / 전국 490회 → 둘 다 약 10%.
+        ch_nat, cgv_lotte_share = {}, None
+        if chn is not None and len(chn):
+            h = chn[chn["title"].str.contains("하츄핑", na=False)]
+            h = h[h["date"] == h["date"].max()]
+            for _, r in h.iterrows():
+                ch_nat[r["chain"]] = float(pd.to_numeric(r["shows"], errors="coerce"))
+            if ch_nat.get("전체"):
+                cgv_lotte_share = ((ch_nat.get("CGV", 0) + ch_nat.get("롯데시네마", 0))
+                                   / ch_nat["전체"])
+
+        today_row = latest[latest["lead"] == 0]
+        factor = {}                       # 체인별  전국 회차 ÷ 표본 회차
+        for _, r in today_row.iterrows():
+            nat = ch_nat.get(r["chain"])
+            if nat and r["shows"]:
+                factor[r["chain"]] = nat / float(r["shows"])
+
+        def national(sub):
+            """표본 판매좌석 → 전국 예약좌석 (CGV·롯데를 각각 되곱한 뒤 두 체인 점유율로 나눔)."""
+            if not factor or not cgv_lotte_share:
+                return None
+            tot = 0.0
+            for _, r in sub.iterrows():
+                f = factor.get(r["chain"])
+                if f is None or pd.isna(r["sold"]):
+                    return None
+                tot += float(r["sold"]) * f
+            return tot / cgv_lotte_share
+
+        t1, t2 = st.columns([3, 2])
+        with t1:
+            st.markdown(f"**체인별 — 오늘({sd_['asof'].max()}) 조회 기준**")
+            md = ["| 날짜 | 체인 | 시간표 올린 극장 | 회차 | 판매 / 좌석 | 판매율 |",
+                  "|---|---|---:|---:|---:|---:|"]
+            for _, r in latest.sort_values(["target", "chain"]).iterrows():
+                ok = r["published"] >= r["panel"] / 2
+                tgt = pd.Timestamp(r["target"])
+                lbl = f"{tgt.month}/{tgt.day}({r['dow']})" + ("" if ok else " ⚠")
+                fill = f"{r['fill']:.1%}" if pd.notna(r["fill"]) else "—"
+                md.append(f"| {lbl} | {r['chain']} | {int(r['published'])} / {int(r['panel'])}곳 | "
+                          f"{int(r['shows'])} | {int(r['sold']):,} / {int(r['seats']):,} | "
+                          + (f"**{fill}**" if ok else f"{fill}") + " |")
+            st.markdown("\n".join(md))
+        with t2:
+            st.markdown("**날짜별 합계 — 전국 환산**")
+            md2 = ["| 날짜 | 회차 | 판매 좌석 | 판매율 | 전국 환산 예약 |",
+                   "|---|---:|---:|---:|---:|"]
+            for tgt_s, sub in latest.groupby("target"):
+                tgt = pd.Timestamp(tgt_s)
+                dow = sub["dow"].iloc[0]
+                ok = bool((sub["published"] >= sub["panel"] / 2).all())
+                s_sold, s_seat = sub["sold"].sum(), sub["seats"].sum()
+                est = national(sub)
+                md2.append(
+                    f"| {tgt.month}/{tgt.day}({dow})" + ("" if ok else " ⚠") + " | "
+                    f"{int(sub['shows'].sum())} | {int(s_sold):,} / {int(s_seat):,} | "
+                    + (f"{s_sold/s_seat:.1%}" if s_seat else "—") + " | "
+                    + (f"**{est:,.0f}명**" if est else "—") + " |")
+            st.markdown("\n".join(md2))
+
+        st.caption("**시간표 올린 극장** = 표본 20곳 중 그 날짜 상영시간표를 이미 공개한 극장 수입니다 "
+                   "(20/20 이면 전부 공개, 7/20 이면 13곳은 아직 안 올림). "
+                   "⚠ = 표본 절반도 안 올린 날. **주말 상영표는 목요일쯤 열리기 때문에** "
+                   "수요일에 보는 토·일 숫자는 '공개된 몇 회차'만 잰 값이라 그대로 믿으면 안 됩니다.")
+        if factor and cgv_lotte_share:
+            st.caption(
+                "**전국 환산 방법** — 표본은 각 체인 전국 회차의 약 1/10입니다 "
+                + " · ".join(f"{k} ×{v:.1f}" for k, v in factor.items())
+                + f". 그렇게 되곱해 CGV+롯데 전국 예약좌석을 만들고, 두 체인이 하츄핑 "
+                  f"전국 상영횟수의 **{cgv_lotte_share:.1%}**를 차지하므로 그 값으로 나눠 "
+                  "메가박스·기타까지 포함한 전국값을 냅니다.")
+            # 방법이 맞는지 KOBIS 자체 집계와 맞춰 본다 — 완전히 같은 정의는 아니지만
+            # (KOBIS 는 '아직 상영 안 된 회차'만, 우리는 그날 전체) 자릿수 검증은 된다.
+            _t0 = national(today_row)
+            if _t0 and bknow and bknow.get("tickets"):
+                _k = int(bknow["tickets"])
+                st.caption(f"🔍 **검산** — 이 방법으로 오늘치를 환산하면 {_t0:,.0f}명인데, "
+                           f"KOBIS 가 직접 집계한 예매관객수는 {_k:,}명입니다 "
+                           f"({_t0/_k - 1:+.0%}). 정의가 완전히 같진 않지만"
+                           "(KOBIS 는 아직 상영 안 된 회차만, 여기는 그날 전체) "
+                           "환산 배수가 크게 틀리지 않았다는 확인은 됩니다. "
+                           "표본이 큰 극장 위주라 실제보다 조금 높게 나오는 쪽입니다.")
+
+        # ---- 이번 주말 추정 — 예약분은 '최소치'다. 나머지는 당일 현장 구매로 채워진다.
+        st.markdown("**이번 주말 관객수 — 지금까지 예약된 분**")
+        wknd = latest[latest["dow"].isin(["토", "일"])]
+        if len(wknd) and factor and cgv_lotte_share:
+            cols = st.columns(len(wknd["target"].unique()) or 1)
+            for col, (tgt_s, sub) in zip(cols, wknd.groupby("target")):
+                est = national(sub)
+                tgt = pd.Timestamp(tgt_s)
+                dow = sub["dow"].iloc[0]
+                # 지난주 같은 요일 실측과 비교 — 이 예약분이 그 대비 어느 정도인지
+                ref = None
+                if m2d is not None and len(m2d):
+                    same = m2d[pd.to_datetime(m2d["date"]).dt.weekday == tgt.weekday()]
+                    if len(same):
+                        ref = int(pd.to_numeric(same["adm"], errors="coerce").iloc[-1])
+                col.metric(f"{tgt.month}/{tgt.day}({dow}) 예약 좌석",
+                           f"{est:,.0f}명" if est else "—",
+                           (f"지난 {dow}요일 실제 {ref:,}명의 {est/ref:.0%}"
+                            if (est and ref) else ""), delta_color="off")
+            st.caption(
+                "⚠️ 이 숫자는 **최종 관객수가 아니라 지금까지 예약된 좌석**입니다. "
+                "가족 영화는 표를 당일 현장에서 사는 비중이 커서 최종은 이보다 훨씬 큽니다. "
+                "예약 → 최종으로 바꾸는 **전환 배수는 이번 주말이 지나야 실측**됩니다 "
+                "(토요일 예약분과 토요일 확정 관객수를 맞춰 보면 그 배수가 나오고, "
+                "다음 주말부터는 바로 최종 관객수를 추정할 수 있습니다). "
+                "그때까지 이 값은 **바닥값**으로만 읽으세요 — 지난주 같은 요일 대비 비율이 "
+                "지난주 같은 시점보다 높으면 주말이 커지고 있다는 뜻입니다.")
+        else:
+            st.info("주말 예약 환산은 편성이 충분히 공개된 뒤(보통 목요일)부터 나옵니다.")
+
+        # 하루치라도 읽히는 그림 — 리드타임 곡선은 이틀 이상 쌓여야 뜻이 생긴다
+        st.markdown("**날짜별 판매 좌석**")
+        bars = latest.copy()
+        bars["라벨"] = (pd.to_datetime(bars["target"]).dt.strftime("%m/%d")
+                      + "(" + bars["dow"] + ")")
+        bc = alt.Chart(bars).mark_bar().encode(
+            x=alt.X("라벨:N", title=None, sort=None, axis=alt.Axis(labelAngle=0)),
+            y=alt.Y("sold:Q", title="판매 좌석 (표본 20곳)", axis=alt.Axis(format=",.0f")),
+            color=alt.Color("chain:N", scale=alt.Scale(
+                domain=["CGV", "롯데시네마"], range=["#e03131", "#f08c00"]),
+                legend=alt.Legend(title=None, orient="top-left")),
+            xOffset="chain:N",
+            tooltip=[alt.Tooltip("chain:N", title="체인"),
+                     alt.Tooltip("target:N", title="상영일"),
+                     alt.Tooltip("sold:Q", title="판매 좌석", format=","),
+                     alt.Tooltip("seats:Q", title="총 좌석", format=","),
+                     alt.Tooltip("fill:Q", title="판매율", format=".1%"),
+                     alt.Tooltip("published:Q", title="시간표 올린 극장")])
+        st.altair_chart(bc.properties(height=260), width="stretch")
+        st.caption("표본 20곳씩의 실제 판매 좌석입니다. 목·금이 낮고 토·일이 높은 게 정상 — "
+                   "다만 아직 시간표가 덜 열린 날은 회차 자체가 적어서 낮게 보입니다.")
 
         # 같은 리드타임끼리만 비교해야 뜻이 있다 — '금요일에 본 토요일' 대 '지난 금요일에 본 지난 토요일'
-        st.markdown("**주말 좌석 판매율 — 며칠 전에 봤나(리드타임)별로**")
         wk = sd_[sd_["dow"].isin(["토", "일"]) & sd_["fill"].notna()
                  & (sd_["published"] >= sd_["panel"] / 2)].copy()
-        if len(wk):
+        if sd_["asof"].nunique() >= 2 and len(wk):
+            st.markdown("**주말 좌석 판매율 — 며칠 전에 봤나(리드타임)별로**")
             wk["라벨"] = wk["target"].astype(str).str.slice(5) + " " + wk["dow"]
             ch = alt.Chart(wk).mark_line(point=True, strokeWidth=2.5).encode(
                 x=alt.X("lead:Q", title="며칠 전에 조회했나 (0 = 당일)",
@@ -946,7 +1068,8 @@ else:
                        "'금요일에 본 이번 토요일' vs '지난 금요일에 본 지난 토요일'. "
                        "같은 리드타임에서 이번 주가 지난주보다 높으면 주말이 커집니다.")
         else:
-            st.info("주말 판매율은 편성이 충분히 공개된 뒤(보통 목요일)부터 그려집니다.")
+            st.caption("리드타임 곡선(며칠 전에 얼마나 팔려 있었나)은 수집이 **이틀 이상** "
+                       "쌓이면 여기에 그려집니다 — 오늘이 1일차입니다.")
 
         st.caption("체인 커버리지: CGV 178곳 중 **137곳**, 롯데시네마 237곳 중 **123곳**이 "
                    "하츄핑을 상영 중이고, 그중 좌석 상위 20곳씩을 표본으로 씁니다. "
