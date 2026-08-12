@@ -474,28 +474,13 @@ else:
         m2d.assign(구분="2편"),
         m1d[m1d["day"] <= span].assign(구분="1편"),
     ], ignore_index=True)
-    for col in ("screens", "shows", "screen_share", "show_share", "seat_rate"):
+    # seats / seat_sale / seat_share 는 KOBIS 좌석 통계(findDailySeatTicketList.do)의
+    # 실측값이다 — kobis_seats.py 가 채운다. 예전의 seat_rate(관객÷상영횟수×160석)는
+    # 160석이 가정이라 실제와 어긋났다 (8/11: 근사 7.96% vs 실제 11.9%).
+    for col in ("screens", "shows", "screen_share", "show_share", "seat_rate",
+                "seats", "seat_sale", "seat_share"):
         if col in supply:
             supply[col] = pd.to_numeric(supply[col], errors="coerce")
-
-    # 좌석수 = 상영횟수 × 회차당 좌석수. 극장이 실제로 '판 수 있었던' 자리의 총량이라,
-    # 스크린·회차보다 관객수에 한 걸음 더 가깝다. (160석은 이 프로젝트가 쭉 쓰는 근사값)
-    SEATS_PER_SHOW = 160
-    supply["seats_offered"] = supply["shows"] * SEATS_PER_SHOW
-
-    # 판매점유율 = 그날 전국 관객 중 하츄핑이 데려온 비율. 위 셋(스크린·상영·좌석)은
-    # 극장이 준 몫이고, 이건 관객이 실제로 고른 몫이라 마지막 칸에 놓는다.
-    def _adm_share(mk, label):
-        if mk is None or not len(mk):
-            return None
-        x = mk[mk["title"].str.contains("하츄핑", na=False)][["day", "adm_share"]].copy()
-        x["adm_share"] = pd.to_numeric(x["adm_share"], errors="coerce")
-        return x.assign(구분=label)
-
-    _shares = [s for s in (_adm_share(mk2, "2편"), _adm_share(mk1, "1편")) if s is not None]
-    if _shares:
-        supply = supply.merge(pd.concat(_shares, ignore_index=True),
-                              on=["day", "구분"], how="left")
 
     def vs_chart(ycol, ytitle, pct=False):
         line = alt.Chart(supply.dropna(subset=[ycol])).mark_line(point=True).encode(
@@ -529,53 +514,68 @@ else:
         st.markdown("**상영점유율 — 그날 전체 상영 중 몇 %**")
         st.altair_chart(vs_chart("show_share", "상영점유율", pct=True), width="stretch")
 
+    _has_seat = "seats" in supply and supply["seats"].notna().any()
     c1, c2 = st.columns(2)
     with c1:
-        st.markdown("**좌석수 — 팔 수 있었던 자리 (상영횟수 × 160석)**")
-        st.altair_chart(vs_chart("seats_offered", "좌석수"), width="stretch")
+        st.markdown("**좌석수 — 팔 수 있었던 자리 (KOBIS 실측)**")
+        if _has_seat:
+            st.altair_chart(vs_chart("seats", "좌석수"), width="stretch")
+        else:
+            st.info("`python kobis_seats.py` 를 돌리면 채워집니다.")
     with c2:
-        st.markdown("**좌석점유율 — 그 자리가 몇 % 찼나**")
-        st.altair_chart(vs_chart("seat_rate", "좌석점유율", pct=True), width="stretch")
+        st.markdown("**좌석점유율 — 그날 전국 좌석 중 몇 %**")
+        if _has_seat:
+            st.altair_chart(vs_chart("seat_share", "좌석점유율", pct=True), width="stretch")
+        else:
+            st.info("수집 전")
 
     d1, d2 = st.columns(2)
     with d1:
-        st.markdown("**공급에서 관객까지 — 어디서 줄어드나**")
-        st.markdown(
-            "```\n"
-            "  스크린수 ×  스크린당 회차\n"
-            "        = 상영횟수\n"
-            "  상영횟수 ×  회차당 160석\n"
-            "        = 좌석수 (팔 수 있었던 자리)\n"
-            "  좌석수  ×  좌석점유율\n"
-            "        = 관객수\n"
-            "```")
-        if len(ref) and mk2 is not None and len(mk2):
-            _mm = mk2[mk2["title"].str.contains("하츄핑", na=False)]
-            _mm = _mm[_mm["day"] == _mm["day"].max()]
-            if len(_mm):
-                _r = _mm.iloc[0]
+        st.markdown("**관객수는 이 두 개의 곱입니다**")
+        st.markdown("```\n좌석수 × 좌석판매율 = 관객수\n```")
+        # 배수를 두 조각으로 쪼개면 '왜 앞서는지'가 바로 보인다 —
+        # 자리를 더 받아서인지, 자리를 더 잘 채워서인지.
+        if _has_seat and len(ref):
+            _j = (m2d[["day", "seats", "seat_sale", "adm"]]
+                  .merge(m1d[["day", "seats", "seat_sale", "adm"]],
+                         on="day", suffixes=("_2", "_1")))
+            for c in _j.columns:
+                _j[c] = pd.to_numeric(_j[c], errors="coerce")
+            _j = _j.dropna()
+            if len(_j):
+                _l = _j.iloc[-1]
                 st.markdown(
-                    f"어제 하츄핑이 전국에서 차지한 몫:\n\n"
-                    f"| 단계 | 몫 |\n|---|---:|\n"
-                    f"| 스크린 | {float(last_bo['screen_share']):.1%} |\n"
-                    f"| 상영횟수 | {float(last_bo['show_share']):.1%} |\n"
-                    f"| **관객(판매)** | **{float(_r['adm_share']):.1%}** |")
-                st.caption("스크린은 13%대를 받았는데 관객은 4%대 — 아이 영화라 "
-                           "한 관에서 트는 횟수가 적고(심야 없음), 평일 낮 객석이 "
-                           "비기 때문입니다. 주말엔 이 격차가 줄어듭니다.")
+                    f"어제(D+{int(_l['day'])}) 1편 같은 일차와 비교:\n\n"
+                    f"| | 2편 | 1편 | 배수 |\n|---|---:|---:|---:|\n"
+                    f"| 좌석수 | {int(_l['seats_2']):,} | {int(_l['seats_1']):,} | "
+                    f"**{_l['seats_2']/_l['seats_1']:.2f}배** |\n"
+                    f"| 좌석판매율 | {_l['seat_sale_2']:.1%} | {_l['seat_sale_1']:.1%} | "
+                    f"**{_l['seat_sale_2']/_l['seat_sale_1']:.2f}배** |\n"
+                    f"| 관객수 | {int(_l['adm_2']):,} | {int(_l['adm_1']):,} | "
+                    f"**{_l['adm_2']/_l['adm_1']:.2f}배** |")
+                st.caption(
+                    f"**자리는 {_l['seats_2']/_l['seats_1']:.2f}배밖에 못 받았는데, "
+                    f"그 자리를 {_l['seat_sale_2']/_l['seat_sale_1']:.2f}배로 채워서** "
+                    f"관객이 {_l['adm_2']/_l['adm_1']:.2f}배가 됐습니다 "
+                    f"({_l['seats_2']/_l['seats_1']:.2f} × "
+                    f"{_l['seat_sale_2']/_l['seat_sale_1']:.2f} = "
+                    f"{_l['adm_2']/_l['adm_1']:.2f}). 극장은 1편 때보다 적게 걸어줬지만 "
+                    "관객 밀도가 두 배입니다 — 좌석판매율이 유지되면 극장이 자리를 "
+                    "늘릴 수밖에 없습니다.")
     with d2:
-        st.markdown("**판매점유율 — 그날 전국 관객 중 몇 %**")
-        if "adm_share" in supply and supply["adm_share"].notna().any():
-            st.altair_chart(vs_chart("adm_share", "판매점유율", pct=True), width="stretch")
+        st.markdown("**좌석판매율 — 그 자리가 몇 % 찼나 (수요의 질)**")
+        if _has_seat:
+            st.altair_chart(vs_chart("seat_sale", "좌석판매율", pct=True), width="stretch")
         else:
-            st.info("경쟁작 데이터(m2_market.csv)가 있어야 그려집니다.")
+            st.info("수집 전")
 
     st.caption("🟡 음영 = 주말(토·일) — 모든 차트가 같은 경과일 축이라 "
                "주말 봉우리와 평일 골이 어디인지 한눈에 맞춰 볼 수 있습니다.")
     st.caption("**왼쪽 = 극장이 준 양(공급), 오른쪽 = 시장에서 차지한 비중.** "
-               "위에서 아래로 스크린 → 상영횟수 → 좌석수로 내려갈수록 관객수에 가까워집니다. "
-               "맨 아래 **판매점유율**만 관객이 정하는 값이고 나머지는 극장이 정합니다 — "
-               "좌석점유율이 높으면 다음 주 스크린이 늘어나는 쪽으로 이어집니다.")
+               "스크린 → 상영횟수 → 좌석수로 내려갈수록 관객수에 가까워집니다. "
+               "맨 아래 **좌석판매율**만 관객이 정하는 값이고 나머지는 극장이 정합니다. "
+               "좌석수·좌석판매율·좌석점유율은 KOBIS 좌석 통계의 실측값입니다 "
+               "(예전 160석 가정 근사가 아닙니다).")
 
     # ---- 경쟁작 상영점유율 — 상영관 총량은 고정이라, 대작이 빠져야 하츄핑 회차가 늘 수 있다.
     st.markdown("#### 경쟁작 상영점유율 — 상영관 뺏고 뺏기기")
