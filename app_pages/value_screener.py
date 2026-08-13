@@ -91,6 +91,16 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         x_lo, x_hi = d[x_col].quantile([0.01, 0.99])
         y_hi = d[y_col].quantile(0.99)
         d = d[(d[x_col] >= x_lo) & (d[x_col] <= x_hi) & (d[y_col] <= max(y_hi, y_max))]
+    # 축 범위는 조건 필터 '전'의 전체 데이터로 고정한다 — 조건을 바꿔도
+    # 화면 틀은 그대로 있고 점만 나타났다 사라진다 (드래그/줌은 그대로 가능)
+    if len(d):
+        span_x = float(d[x_col].max() - d[x_col].min()) or 0.01
+        x_dom = [float(d[x_col].min()) - span_x * 0.04,
+                 float(d[x_col].max()) + span_x * 0.04]
+        y_dom = [0.0, float(d[y_col].max()) * 1.05]
+    else:
+        x_dom = y_dom = None
+
     # 조건을 통과한 종목만 차트에 그린다
     d["통과"] = (d[x_col] > x_min) & (d[y_col] < y_max)
     d = d[d["통과"]]
@@ -112,7 +122,7 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         if max(y1, y2) > 0:
             xs = pd.DataFrame({x_col: [x1, x2], y_col: [y1, y2]})
             trend = alt.Chart(xs).mark_line(
-                color="#d43a2f", strokeDash=[5, 4], size=2, opacity=0.9,
+                color="#d43a2f", strokeDash=[5, 4], size=2, opacity=0.9, clip=True,
             ).encode(x=x_col, y=y_col)
     else:
         d["추세대비"] = np.nan
@@ -129,9 +139,12 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         d["기준"] = "2026E 추정" if src in d.columns else "현재값"
         color_enc = alt.value(C_MATCH)
 
+    x_scale = alt.Scale(domain=x_dom, nice=False) if x_dom else alt.Undefined
+    y_scale = alt.Scale(domain=y_dom, nice=False) if y_dom else alt.Undefined
     base = alt.Chart(d).mark_circle(size=55, opacity=0.75).encode(
-        x=alt.X(x_col, title=f"{x_label} (높을수록 좋은 회사)", axis=alt.Axis(format="%")),
-        y=alt.Y(y_col, title=f"{y_label} (낮을수록 싼 주식)"),
+        x=alt.X(x_col, title=f"{x_label} (높을수록 좋은 회사)", axis=alt.Axis(format="%"),
+                scale=x_scale),
+        y=alt.Y(y_col, title=f"{y_label} (낮을수록 싼 주식)", scale=y_scale),
         color=color_enc,
         tooltip=[alt.Tooltip("company", title="회사"),
                  alt.Tooltip("ticker", title="티커"),
@@ -146,9 +159,9 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         # 기준선 — 섹터 드릴다운처럼 조건이 없는 차트에서는 끈다 (축이 기준선
         # 위치까지 늘어나 점이 뭉개지는 것 방지)
         layers.append(alt.Chart(pd.DataFrame({"v": [x_min]})).mark_rule(
-            strokeDash=[5, 4], color="#888").encode(x="v"))
+            strokeDash=[5, 4], color="#888", clip=True).encode(x=alt.X("v", scale=x_scale)))
         layers.append(alt.Chart(pd.DataFrame({"v": [y_max]})).mark_rule(
-            strokeDash=[5, 4], color="#888").encode(y="v"))
+            strokeDash=[5, 4], color="#888", clip=True).encode(y=alt.Y("v", scale=y_scale)))
     if trend is not None:
         layers.append(trend)
 
