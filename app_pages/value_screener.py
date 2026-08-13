@@ -91,13 +91,15 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         x_lo, x_hi = d[x_col].quantile([0.01, 0.99])
         y_hi = d[y_col].quantile(0.99)
         d = d[(d[x_col] >= x_lo) & (d[x_col] <= x_hi) & (d[y_col] <= max(y_hi, y_max))]
-    # 축 범위는 조건 필터 '전'의 전체 데이터로 고정한다 — 조건을 바꿔도
-    # 화면 틀은 그대로 있고 점만 나타났다 사라진다 (드래그/줌은 그대로 가능)
+    # 축 범위를 '조건 값'에 앵커해서 고정한다 — 같은 조건에서는 화면 틀이
+    # 절대 안 움직이고 점만 나타났다 사라진다 (드래그/줌은 그대로 가능).
+    # X 왼쪽 = 조건값(또는 데이터 최소), Y 위쪽 = 조건값(또는 데이터 최대) 약간 위.
     if len(d):
         span_x = float(d[x_col].max() - d[x_col].min()) or 0.01
-        x_dom = [float(d[x_col].min()) - span_x * 0.04,
-                 float(d[x_col].max()) + span_x * 0.04]
-        y_dom = [0.0, float(d[y_col].max()) * 1.05]
+        x_left = max(x_min, float(d[x_col].min()))
+        x_dom = [x_left - span_x * 0.04, float(d[x_col].max()) + span_x * 0.04]
+        y_top = min(y_max, float(d[y_col].max()))
+        y_dom = [0.0, y_top * 1.07]
     else:
         x_dom = y_dom = None
 
