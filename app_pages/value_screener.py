@@ -105,14 +105,39 @@ def r_square(x: pd.Series, y: pd.Series) -> float:
     return float(np.corrcoef(x[m], y[m])[0, 1] ** 2)
 
 
-def best_relationship(df: pd.DataFrame) -> tuple[str, str, float]:
-    """이 그룹에서 R²가 가장 높은 X·멀티플 조합을 찾는다."""
+def signed_r(x: pd.Series, y: pd.Series) -> float:
+    """부호 있는 상관계수 R (-1~1). 양수 = 우상향 관계. 데이터 부족이면 nan."""
+    m = x.notna() & y.notna()
+    if m.sum() < 3 or x[m].std() == 0 or y[m].std() == 0:
+        return float("nan")
+    return float(np.corrcoef(x[m], y[m])[0, 1])
+
+
+def drop_iqr(d: pd.DataFrame, xc: str, yc: str) -> pd.DataFrame:
+    """IQR 기준 극단값 행 제거 (양 축)."""
+    if len(d) < 5:
+        return d
+    q1y, q3y = d[yc].quantile([0.25, 0.75])
+    iy = q3y - q1y
+    q1x, q3x = d[xc].quantile([0.25, 0.75])
+    ix = q3x - q1x
+    return d[~((d[yc] > q3y + 1.5 * iy) | (d[yc] < q1y - 1.5 * iy)
+               | (d[xc] > q3x + 1.5 * ix) | (d[xc] < q1x - 1.5 * ix))]
+
+
+def best_relationship(df: pd.DataFrame, drop_outliers: bool = False) -> tuple[str, str, float]:
+    """'질이 좋을수록 멀티플이 높다'는 방향(양의 상관)이 맞는 조합 중
+    상관계수 R가 가장 높은 X·멀티플 조합을 찾는다.
+    R²는 방향을 무시해서 우하향(거꾸로) 관계도 높게 나오므로 부호 있는 R를 쓴다."""
     best = ("", "", -1.0)
     for xl, xc in X_AXES.items():
         for yl, yc in MULTIPLES.items():
-            r2 = r_square(df[xc], df[yc])
-            if not np.isnan(r2) and r2 > best[2]:
-                best = (xl, yl, r2)
+            d = df[df[xc].notna() & df[yc].notna() & (df[yc] > 0)]
+            if drop_outliers:
+                d = drop_iqr(d, xc, yc)
+            r = signed_r(d[xc], d[yc])
+            if not np.isnan(r) and r > best[2]:
+                best = (xl, yl, r)
     return best
 
 
@@ -376,13 +401,13 @@ with tab1:
             _tag = "" if manual_peer == AUTO_PEER else " · 수동 설정"
             st.markdown(f"- 섹터: {row['sector']}\n- 산업: {row['industry']}\n"
                         f"- 피어그룹: {peer_val} ({len(peers)}개사){_tag}")
-            bx, by, br2 = best_relationship(peers)
-            r2 = r_square(good[x_col], good[y_col])
-            st.markdown(f"- 현재 조합 R = {np.sqrt(r2):.2f}" if not np.isnan(r2)
+            bx, by, br = best_relationship(peers, drop_outliers=out1)
+            rr = signed_r(good[x_col], good[y_col])
+            st.markdown(f"- 현재 조합 R = {rr:.2f}" if not np.isnan(rr)
                         else "- 현재 조합 R: 계산 불가")
-            if br2 > 0:
-                st.info(f"💡 **추천 조합**: 이 그룹에서는 **X {bx} · Y {by}** 조합의 "
-                        f"설명력이 가장 높습니다 (R = {np.sqrt(br2):.2f}). "
+            if br > 0:
+                st.info(f"💡 **추천 조합**: 이 그룹에서는 **X {bx} · Y {by}** 조합이 "
+                        f"우상향 관계로 설명력이 가장 높습니다 (R = {br:.2f}). "
                         "위 주요변수 선택에서 바꿔서 보세요.")
 
         with c2:
@@ -533,14 +558,14 @@ with tab2:
     good = filt[(filt[x_col] > x_min2) & (filt[y_col] > 0) & (filt[y_col] < y_max2)]
 
     with c1:
-        r2 = r_square(good[x_col], good[y_col])
+        rr2 = signed_r(good[x_col], good[y_col])
         st.markdown(f"**대상 {len(filt):,}개사 · 조건 통과 {len(good)}개**")
-        if not np.isnan(r2):
-            st.caption(f"R = {np.sqrt(r2):.2f} — X와 멀티플의 상관 정도")
-        bx2, by2, br22 = best_relationship(filt)
-        if br22 > 0:
-            st.info(f"💡 **추천 조합**: 이 조건에서는 **X {bx2} · Y {by2}** 조합의 "
-                    f"설명력이 가장 높습니다 (R = {np.sqrt(br22):.2f}).")
+        if not np.isnan(rr2):
+            st.caption(f"R = {rr2:.2f} — X와 멀티플의 상관 정도 (양수=우상향)")
+        bx2, by2, br2_ = best_relationship(filt, drop_outliers=out2)
+        if br2_ > 0:
+            st.info(f"💡 **추천 조합**: 이 조건에서는 **X {bx2} · Y {by2}** 조합이 "
+                    f"우상향 관계로 설명력이 가장 높습니다 (R = {br2_:.2f}).")
 
     with c2:
         st.altair_chart(scatter(filt, x_col, y_col, x_label2, y_label2, x_min2, y_max2,
@@ -630,7 +655,9 @@ with tab3:
             _note = ""
         st.markdown(f"**그룹 {n_all}개 중 조건 통과 {len(grp)}개**{_note}")
 
-        # 추천 조합: 이 분류 단계에서 그룹 평균들의 설명력(R²)이 가장 높은 X·Y 조합
+        # 추천 조합: 이 분류 단계에서 그룹 평균들이 '우상향(양의 상관)'으로
+        # 가장 잘 늘어서는 X·Y 조합. 극단값 제외 토글도 그대로 반영해서
+        # 지금 보고 있는 화면과 같은 데이터로 판단한다.
         best_combo = ("", "", -1.0)
         for _xl, _xc in X_AXES.items():
             for _yl, _yc in MULTIPLES.items():
@@ -643,14 +670,19 @@ with tab3:
                 _g = (_dd.groupby(lvl_col3)
                       .agg(x=(_xc, "mean"), y=(_yc, "mean"), n=(_xc, "size")))
                 _g = _g[_g["n"] >= min_n]
-                _r2 = r_square(_g["x"], _g["y"])
-                if not np.isnan(_r2) and _r2 > best_combo[2]:
-                    best_combo = (_xl, _yl, _r2)
+                if fix_out:
+                    _g = drop_iqr(_g, "x", "y")
+                _r = signed_r(_g["x"], _g["y"])
+                if not np.isnan(_r) and _r > best_combo[2]:
+                    best_combo = (_xl, _yl, _r)
         if best_combo[2] > 0:
             st.info(f"💡 **추천 조합**: 이 분류 단계에서는 "
-                    f"**X {best_combo[0]} · Y {best_combo[1]}** 조합의 설명력이 "
-                    f"가장 높습니다 (R = {np.sqrt(best_combo[2]):.2f}). "
+                    f"**X {best_combo[0]} · Y {best_combo[1]}** 조합이 우상향 관계로 "
+                    f"설명력이 가장 높습니다 (R = {best_combo[2]:.2f}). "
                     "위 주요변수 선택에서 바꿔서 보세요.")
+        elif best_combo[2] > -1:
+            st.info("💡 이 분류 단계에서는 우상향(질↑=멀티플↑) 관계를 보이는 조합이 "
+                    "없습니다 — 추세선 해석에 주의하세요.")
 
     with c2:
         if grp.empty:
