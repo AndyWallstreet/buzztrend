@@ -825,18 +825,36 @@ with tab3:
                 pass
             st.caption("💡 점을 **클릭**하면 아래 '섹터 안 들여다보기'가 그 섹터로 바뀝니다.")
 
+    rec_clicked = None
     if champ is not None:
         st.divider()
-        st.markdown("#### 🏆 이번 주 추천 섹터")
+        st.markdown(f"#### 🏆 이번 주 추천 섹터 — {lvl_label3} 기준")
         st.markdown(
             f"**{champ['그룹']}** — {x_label3} 평균 **{champ['x']:.1%}**, "
             f"{y_label3} 평균 **{champ['y']:.2f}배**, 추세선 대비 **{champ['추세대비']:+.2f}** "
             f"(종목 {int(champ['n'])}개). 질이 그룹 평균 이상이면서, 같은 질 대비 "
             f"멀티플이 가장 낮게(=싸게) 거래되는 그룹입니다.")
-        top3 = grp.sort_values("추세대비").head(3)
-        st.caption("추세선 대비 상위 3개 그룹: "
-                   + " · ".join(f"{r['그룹']} ({r['추세대비']:+.2f})"
-                                for _, r in top3.iterrows()))
+        # 추천 리스트: 추세선 대비 싸게 거래되는 순서 상위 10개 — 행을 클릭하면
+        # 아래 '섹터 안 들여다보기'가 그 섹터로 바뀐다
+        rec = grp.sort_values("추세대비").head(10).copy()
+        rec_disp = pd.DataFrame({
+            "그룹": rec["그룹"].values,
+            "종목 수": rec["n"].astype(int).values,
+            f"{x_label3} 평균 (%)": (rec["x"] * 100).round(1).values,
+            f"{y_label3} 평균": rec["y"].round(2).values,
+            "추세선 대비 (음수=싸다)": rec["추세대비"].values,
+        })
+        st.caption("추세선 대비 싼 순서 상위 10개 — **행을 클릭**하면 아래 "
+                   "'섹터 안 들여다보기'가 그 섹터로 바뀝니다.")
+        ev_rec = st.dataframe(rec_disp, hide_index=True, use_container_width=True,
+                              on_select="rerun", selection_mode="single-row",
+                              key=f"sv_rec_{lvl_col3}")
+        try:
+            rows = ev_rec["selection"]["rows"]
+            if rows:
+                rec_clicked = rec_disp.iloc[rows[0]]["그룹"]
+        except Exception:
+            pass
 
     if not grp.empty:
         st.divider()
@@ -844,11 +862,15 @@ with tab3:
         order = grp.sort_values("추세대비")["그룹"].tolist() if grp["추세대비"].notna().any() \
             else grp["그룹"].tolist()
         default = champ["그룹"] if champ is not None else order[0]
-        # 차트에서 점을 클릭했으면 그 섹터로 동기화. 분류 단계가 바뀌어 이전
-        # 선택이 목록에 없으면 챔피언으로 리셋.
-        if clicked3 in order:
+        # 차트 점 클릭 / 추천 리스트 행 클릭 → 그 섹터로 동기화.
+        # (선택 상태는 rerun마다 남아 있으므로 '방금 바뀐 쪽'만 반영한다)
+        if clicked3 in order and clicked3 != st.session_state.get("_sv_chart_prev"):
+            st.session_state["_sv_chart_prev"] = clicked3
             st.session_state["sv_pick"] = clicked3
-        elif st.session_state.get("sv_pick") not in order:
+        if rec_clicked in order and rec_clicked != st.session_state.get("_sv_rec_prev"):
+            st.session_state["_sv_rec_prev"] = rec_clicked
+            st.session_state["sv_pick"] = rec_clicked
+        if st.session_state.get("sv_pick") not in order:
             st.session_state["sv_pick"] = default
         d1, d2 = st.columns([1, 3.2], gap="large")
         with d1:
