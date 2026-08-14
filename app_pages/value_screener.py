@@ -826,6 +826,7 @@ with tab3:
             st.caption("💡 점을 **클릭**하면 아래 '섹터 안 들여다보기'가 그 섹터로 바뀝니다.")
 
     if champ is not None:
+        st.divider()
         st.markdown("#### 🏆 이번 주 추천 섹터")
         st.markdown(
             f"**{champ['그룹']}** — {x_label3} 평균 **{champ['x']:.1%}**, "
@@ -838,6 +839,7 @@ with tab3:
                                 for _, r in top3.iterrows()))
 
     if not grp.empty:
+        st.divider()
         st.markdown("#### 🔎 섹터 안 들여다보기 — 해당 섹터의 종목들")
         order = grp.sort_values("추세대비")["그룹"].tolist() if grp["추세대비"].notna().any() \
             else grp["그룹"].tolist()
@@ -848,14 +850,28 @@ with tab3:
             st.session_state["sv_pick"] = clicked3
         elif st.session_state.get("sv_pick") not in order:
             st.session_state["sv_pick"] = default
-        sel3 = st.selectbox("섹터 선택 (추세선 대비 싼 순서 · 차트 점 클릭으로도 선택됩니다)",
-                            order, key="sv_pick")
+        d1, d2 = st.columns([1, 3.2], gap="large")
+        with d1:
+            sel3 = st.selectbox("섹터 선택 (추세선 대비 싼 순서)", order, key="sv_pick",
+                                help="위 차트의 점을 클릭해도 선택됩니다.")
+            st.markdown("##### 🎯 주요조건 입력")
+            dy_max = st.number_input(f"{y_label3} 이하", value=DEFAULT_Y_MAX[y_label3],
+                                     step=0.5, key=f"sv_dd_ymax_{y_col}")
+            dx_min = st.number_input(f"{x_label3} 이상 (%)", value=0.0, step=5.0,
+                                     key="sv_dd_xmin") / 100
+            dd_out = st.toggle("극단값 제외 (추세선 보정)", value=False, key="sv_dd_outlier",
+                               help="동떨어진 종목(IQR 기준)을 차트와 추세선에서 빼서 "
+                                    "추세선이 극단값에 눌리지 않게 합니다.")
         sub3 = df[df[lvl_col3] == sel3]
-        st.altair_chart(scatter(sub3, x_col, y_col, x_label3, y_label3,
-                                -999.0, 1e9, label_matches=True, rules=False,
-                                drop_outliers=fix_out),
-                        use_container_width=True)
-        valid3 = sub3[sub3[x_col].notna() & sub3[y_col].notna() & (sub3[y_col] > 0)]
+        valid3 = sub3[sub3[x_col].notna() & (sub3[x_col] > dx_min)
+                      & (sub3[y_col] > 0) & (sub3[y_col] < dy_max)]
+        with d1:
+            st.markdown(f"**{sel3} {len(sub3)}개 중 조건 통과 {len(valid3)}개**")
+        with d2:
+            st.altair_chart(scatter(sub3, x_col, y_col, x_label3, y_label3,
+                                    dx_min, dy_max, label_matches=True,
+                                    drop_outliers=dd_out),
+                            use_container_width=True)
         st.markdown(f"##### {sel3} 종목 순위 — '좋은데 싼' 점수순 ({len(valid3)}개)")
         st.caption("점수 = 그룹 안에서 질(X) 백분위와 멀티플 낮음(Y) 백분위의 평균 (100점 만점). "
                    "높을수록 '질 대비 싸다'는 뜻입니다.")
