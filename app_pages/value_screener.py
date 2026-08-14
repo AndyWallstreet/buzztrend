@@ -29,6 +29,41 @@ DATA = Path(__file__).resolve().parent.parent / "data" / "screener"
 
 st.set_page_config(page_title="밸류 스크리너", page_icon="📊", layout="wide")
 
+# ---- 입력 위젯 스타일: 엑셀의 노란 입력칸처럼, '바꿀 수 있는 곳'이 한눈에 보이게 ----
+st.markdown("""<style>
+/* 셀렉트박스 본체 (드롭다운 목록은 어두운 테마 유지) */
+div[data-baseweb="select"] > div,
+div[data-testid="stSelectbox"] .react-aria-ComboBox > div,
+div[data-testid="stSelectbox"] [role="group"] {
+    background-color: #fff3c4 !important;
+    border: 1px solid #d9b23a !important;
+}
+div[data-baseweb="select"] > div *,
+div[data-testid="stSelectbox"] .react-aria-ComboBox input,
+div[data-testid="stSelectbox"] [role="combobox"] {
+    color: #222 !important;
+    background: transparent !important;
+}
+div[data-baseweb="select"] svg,
+div[data-testid="stSelectbox"] svg { fill: #555 !important; color: #555 !important; }
+/* 숫자·텍스트 입력칸 */
+div[data-testid="stNumberInput"] input,
+div[data-testid="stTextInput"] input {
+    background-color: #fff3c4 !important;
+    color: #222 !important;
+}
+div[data-testid="stNumberInput"] button {
+    background-color: #efdc9a !important;
+}
+div[data-testid="stNumberInput"] button svg { fill: #444 !important; }
+/* 섹션 제목 아래 구분선 — 그룹끼리 나뉘어 보이게 */
+[data-testid="stMarkdownContainer"] h5 {
+    border-bottom: 2px solid rgba(217, 178, 58, 0.45);
+    padding-bottom: 6px;
+    margin-top: 0.7rem;
+}
+</style>""", unsafe_allow_html=True)
+
 # ---------------------------------------------------------------- constants
 MULTIPLES = {  # label -> column
     "EV/Sales": "ev_sales",
