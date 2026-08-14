@@ -11,8 +11,8 @@ import datetime as dt
 import io
 import os
 import re
-import time
 import zipfile
+from concurrent.futures import ThreadPoolExecutor
 
 import pandas as pd
 import requests
@@ -130,29 +130,42 @@ def _netdebt(corp: str, key: str):
     return 0
 
 
+def _fund_one(args):
+    corp, key, yr, rc, qn = args
+    try:
+        j = requests.get("https://opendart.fss.or.kr/api/fnlttSinglAcnt.json",
+                         params={"crtfc_key": key, "corp_code": corp,
+                                 "bsns_year": yr, "reprt_code": rc},
+                         timeout=15, headers=UA).json()
+    except Exception:
+        return None
+    if j.get("status") != "000":
+        return None
+    rec = {}
+    for it in j["list"]:
+        if it.get("fs_div") != "CFS":
+            continue
+        nm = it["account_nm"].strip()
+        if nm.startswith("당기순이익"):
+            nm = "당기순이익"
+        if nm in ("매출액", "영업이익", "당기순이익", "자본총계") and nm not in rec:
+            s = (it.get("thstrm_amount") or "").replace(",", "")
+            rec[nm] = int(s) if s and s != "-" else None
+    return ((yr, qn), rec) if rec else None
+
+
 def _fund(corp: str, key: str):
-    """(연도, 분기) -> {매출액, 영업이익, 당기순이익, 자본총계} (연결 CFS, 누적)."""
+    """(연도, 분기) -> {매출액, 영업이익, 당기순이익, 자본총계} (연결 CFS, 누적).
+    분기 보고서 하나가 요청 하나라 병렬로 받는다 (순차로 하면 40여 번 왕복에
+    수십 초씩 걸려서 화면이 멈춘 것처럼 보인다)."""
+    jobs = [(corp, key, yr, rc, qn)
+            for yr in range(FUND_START, dt.date.today().year + 1)
+            for rc, qn in [("11013", 1), ("11012", 2), ("11014", 3), ("11011", 4)]]
     out = {}
-    for yr in range(FUND_START, dt.date.today().year + 1):
-        for rc, qn in [("11013", 1), ("11012", 2), ("11014", 3), ("11011", 4)]:
-            j = requests.get("https://opendart.fss.or.kr/api/fnlttSinglAcnt.json",
-                             params={"crtfc_key": key, "corp_code": corp,
-                                     "bsns_year": yr, "reprt_code": rc},
-                             timeout=60, headers=UA).json()
-            if j.get("status") == "000":
-                rec = {}
-                for it in j["list"]:
-                    if it.get("fs_div") != "CFS":
-                        continue
-                    nm = it["account_nm"].strip()
-                    if nm.startswith("당기순이익"):
-                        nm = "당기순이익"
-                    if nm in ("매출액", "영업이익", "당기순이익", "자본총계") and nm not in rec:
-                        s = (it.get("thstrm_amount") or "").replace(",", "")
-                        rec[nm] = int(s) if s and s != "-" else None
-                if rec:
-                    out[(yr, qn)] = rec
-            time.sleep(0.1)
+    with ThreadPoolExecutor(max_workers=8) as ex:
+        for r in ex.map(_fund_one, jobs):
+            if r:
+                out[r[0]] = r[1]
     return out
 
 

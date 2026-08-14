@@ -388,7 +388,7 @@ with tab1:
             else:
                 try:
                     with st.spinner("네이버·DART에서 과거 데이터를 불러오는 중… "
-                                    "(종목당 첫 조회만 30초쯤 걸립니다)"):
+                                    "(종목당 첫 조회만 10초쯤 걸립니다)"):
                         hist, hmeta = load_history(row["ticker"].lstrip("A"))
                 except Exception as e:
                     st.warning(f"과거 데이터 조회 실패: {e}")
