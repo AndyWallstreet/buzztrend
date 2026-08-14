@@ -276,7 +276,10 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
                 dy=-16, fontSize=13, fontWeight="bold", color=C_PICK,
             ).encode(x=x_col, y=y_col, text="company"))
 
-    return alt.layer(*layers).properties(height=700).interactive()
+    chart = alt.layer(*layers).properties(height=700).interactive()
+    # 점 클릭(네이버금융 링크)이 현재 페이지를 덮지 않고 새 탭으로 열리게
+    chart.usermeta = {"embedOptions": {"loader": {"target": "_blank"}}}
+    return chart
 
 
 def match_table(d: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str,
