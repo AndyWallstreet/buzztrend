@@ -392,48 +392,53 @@ with tab1:
         if not auto1:
             y_label1 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=0, key="ti_y")
             x_label1 = st.selectbox("X축", list(X_AXES), index=0, key="ti_x")
-        combo_slot1 = st.empty()
-        cond_box1 = st.container()   # 주요조건 — 변수가 확정된 뒤 채운다
         out1 = st.toggle("극단값 제외 (추세선 보정)", value=False, key="ti_outlier",
                          help="동떨어진 종목(IQR 기준)을 차트와 추세선에서 뺍니다. "
                               "아래 통과 목록에는 그대로 남습니다.")
 
-    if pick_label is None:
-        with c2:
-            st.info("왼쪽에서 종목을 선택하면 피어그룹 차트가 나옵니다.")
-    else:
-        pick = df[df["label"] == pick_label]
-        row = pick.iloc[0]
-        if class_label == ALL_LVL:
-            if manual_peer == AUTO_PEER:
-                # (전체) + 자동이면 가장 넓은 단계(Industry Sector) 기준으로
-                class_col = CLASS_LEVELS["Industry Sector"]
-                peer_val = row[class_col]
+        # 종목이 정해졌으면 피어그룹·추천조합을 이 자리에서 바로 계산해 그린다
+        # (빈 슬롯을 나중에 채우면 +/- 클릭 때마다 화면이 출렁이므로 한 번에 렌더)
+        peers = None
+        bx = by = ""
+        br = -1.0
+        if pick_label is not None:
+            pick = df[df["label"] == pick_label]
+            row = pick.iloc[0]
+            if class_label == ALL_LVL:
+                if manual_peer == AUTO_PEER:
+                    # (전체) + 자동이면 가장 넓은 단계(Industry Sector) 기준으로
+                    class_col = CLASS_LEVELS["Industry Sector"]
+                    peer_val = row[class_col]
+                else:
+                    v, lvl_label = manual_peer.rsplit("  [", 1)
+                    class_col = CLASS_LEVELS[lvl_label.rstrip("]")]
+                    peer_val = v
             else:
-                v, lvl_label = manual_peer.rsplit("  [", 1)
-                class_col = CLASS_LEVELS[lvl_label.rstrip("]")]
-                peer_val = v
-        else:
-            class_col = CLASS_LEVELS[class_label]
-            peer_val = row[class_col] if manual_peer == AUTO_PEER else manual_peer
-        peers = df[df[class_col] == peer_val]
-        bx, by, br = best_relationship(peers, drop_outliers=out1)
-        if auto1:
-            if br > 0:
-                x_label1, y_label1 = bx, by
-                combo_slot1.info(f"🤖 **자동 선택**: X **{bx}** · Y **{by}** "
-                                 f"(R = {br:.2f}) — 이 피어그룹에서 우상향 상관이 "
-                                 "가장 높은 조합입니다.")
-            else:
-                x_label1, y_label1 = "ROIC+SG", "EV/Sales"
-                combo_slot1.info("우상향 상관 조합이 없어 기본값 X ROIC+SG · "
-                                 "Y EV/Sales를 사용합니다.")
-        with cond_box1:
+                class_col = CLASS_LEVELS[class_label]
+                peer_val = row[class_col] if manual_peer == AUTO_PEER else manual_peer
+            peers = df[df[class_col] == peer_val]
+            bx, by, br = best_relationship(peers, drop_outliers=out1)
+            if auto1:
+                if br > 0:
+                    x_label1, y_label1 = bx, by
+                    st.info(f"🤖 **자동 선택**: X **{bx}** · Y **{by}** "
+                            f"(R = {br:.2f}) — 이 피어그룹에서 우상향 상관이 "
+                            "가장 높은 조합입니다.")
+                else:
+                    x_label1, y_label1 = "ROIC+SG", "EV/Sales"
+                    st.info("우상향 상관 조합이 없어 기본값 X ROIC+SG · "
+                            "Y EV/Sales를 사용합니다.")
+        if pick_label is not None or not auto1:
             st.markdown("##### 🎯 주요조건 입력")
             y_max1 = st.number_input(f"{y_label1} 이하", value=DEFAULT_Y_MAX[y_label1],
                                      step=0.5, key=f"ti_ymax_{MULTIPLES[y_label1]}")
             x_min1 = st.number_input(f"{x_label1} 이상 (%)", value=0.0, step=5.0,
                                      key="ti_xmin") / 100
+
+    if pick_label is None:
+        with c2:
+            st.info("왼쪽에서 종목을 선택하면 피어그룹 차트가 나옵니다.")
+    else:
         x_col, y_col = X_AXES[x_label1], MULTIPLES[y_label1]
         good = peers[(peers[x_col] > x_min1) & (peers[y_col] > 0) & (peers[y_col] < y_max1)]
 
@@ -561,20 +566,6 @@ with tab1:
 with tab2:
     c1, c2 = st.columns([1, 3.2], gap="large")
     with c1:
-        st.markdown("##### 📌 주요변수 선택")
-        auto2 = st.toggle("추천 변수 (상관 높은 조합 자동)", value=True, key="sp_auto",
-                          help="켜져 있으면 아래 산업분류 필터 안에서 우상향 상관이 "
-                               "가장 높은 X·Y 조합을 자동으로 씁니다. 끄면 직접 고르는 "
-                               "수동 설정이 됩니다.")
-        if not auto2:
-            y_label2 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=1, key="sp_y")
-            x_label2 = st.selectbox("X축", list(X_AXES), index=0, key="sp_x")
-        combo_slot2 = st.empty()
-        cond_box2 = st.container()   # 주요조건 — 변수가 확정된 뒤 채운다
-        out2 = st.toggle("극단값 제외 (추세선 보정)", value=False, key="sp_outlier",
-                         help="동떨어진 종목(IQR 기준)을 차트와 추세선에서 뺍니다. "
-                              "아래 통과 목록에는 그대로 남습니다.")
-
         st.markdown("##### 🏭 산업분류 선택")
         # 통합 산업 검색 — 타이핑하면 5개 분류 단계 전체에서 찾아준다.
         # 예: 'health' → Health Care [Industry Sector], Health Care Equipment
@@ -606,18 +597,28 @@ with tab2:
             if sel != "(전체)":
                 filt = filt[filt[lvl_col] == sel]
 
-    bx2, by2, br2_ = best_relationship(filt, drop_outliers=out2)
-    if auto2:
-        if br2_ > 0:
-            x_label2, y_label2 = bx2, by2
-            combo_slot2.info(f"🤖 **자동 선택**: X **{bx2}** · Y **{by2}** "
-                             f"(R = {br2_:.2f}) — 현재 산업분류 필터 안에서 우상향 "
-                             "상관이 가장 높은 조합입니다.")
-        else:
-            x_label2, y_label2 = "ROIC+SG", "EV/EBIT"
-            combo_slot2.info("우상향 상관 조합이 없어 기본값 X ROIC+SG · Y EV/EBIT를 "
-                             "사용합니다.")
-    with cond_box2:
+        st.markdown("##### 📌 주요변수 선택")
+        auto2 = st.toggle("추천 변수 (상관 높은 조합 자동)", value=True, key="sp_auto",
+                          help="켜져 있으면 위 산업분류 필터 안에서 우상향 상관이 "
+                               "가장 높은 X·Y 조합을 자동으로 씁니다. 끄면 직접 고르는 "
+                               "수동 설정이 됩니다.")
+        if not auto2:
+            y_label2 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=1, key="sp_y")
+            x_label2 = st.selectbox("X축", list(X_AXES), index=0, key="sp_x")
+        out2 = st.toggle("극단값 제외 (추세선 보정)", value=False, key="sp_outlier",
+                         help="동떨어진 종목(IQR 기준)을 차트와 추세선에서 뺍니다. "
+                              "아래 통과 목록에는 그대로 남습니다.")
+        bx2, by2, br2_ = best_relationship(filt, drop_outliers=out2)
+        if auto2:
+            if br2_ > 0:
+                x_label2, y_label2 = bx2, by2
+                st.info(f"🤖 **자동 선택**: X **{bx2}** · Y **{by2}** "
+                        f"(R = {br2_:.2f}) — 현재 산업분류 필터 안에서 우상향 "
+                        "상관이 가장 높은 조합입니다.")
+            else:
+                x_label2, y_label2 = "ROIC+SG", "EV/EBIT"
+                st.info("우상향 상관 조합이 없어 기본값 X ROIC+SG · Y EV/EBIT를 "
+                        "사용합니다.")
         st.markdown("##### 🎯 주요조건 입력")
         y_max2 = st.number_input(f"{y_label2} 이하", value=DEFAULT_Y_MAX[y_label2],
                                  step=0.5, key=f"sp_ymax_{MULTIPLES[y_label2]}")
@@ -656,6 +657,13 @@ with tab3:
                                   help="점 하나 = 이 분류 단계의 그룹 하나. "
                                        "아래로 갈수록 더 잘게 쪼개집니다.")
         lvl_col3 = CLASS_LEVELS[lvl_label3]
+        min_n = int(st.number_input("그룹 최소 종목 수", value=5, min_value=1, step=1,
+                                    key="sv_minn",
+                                    help="종목이 이보다 적은 그룹은 평균이 불안정해서 뺍니다."))
+        fix_out = st.toggle("극단값 제외 (추세선 보정)", value=False, key="sv_outlier",
+                            help="평균이 유독 동떨어진 그룹(IQR 기준)을 차트와 추세선에서 "
+                                 "빼서, 극단값 한두 개가 추세선을 왜곡하는 것을 막습니다.")
+
         st.markdown("##### 📌 주요변수 선택")
         # 기본은 '추천 변수' — 우상향 상관이 가장 높은 X·Y 조합을 자동으로 쓴다.
         # 토글을 끄면 수동 설정 (직접 고르기).
@@ -666,45 +674,37 @@ with tab3:
         if not auto_var:
             y_label3 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=1, key="sv_y")
             x_label3 = st.selectbox("X축", list(X_AXES), index=0, key="sv_x")
-        combo_slot = st.empty()
-        min_n = int(st.number_input("그룹 최소 종목 수", value=5, min_value=1, step=1,
-                                    key="sv_minn",
-                                    help="종목이 이보다 적은 그룹은 평균이 불안정해서 뺍니다."))
-        fix_out = st.toggle("극단값 제외 (추세선 보정)", value=False, key="sv_outlier",
-                            help="평균이 유독 동떨어진 그룹(IQR 기준)을 차트와 추세선에서 "
-                                 "빼서, 극단값 한두 개가 추세선을 왜곡하는 것을 막습니다.")
 
-    # ---- 추천 조합 계산: 자동 모드의 변수 선택 + 수동 모드의 추천 안내에 사용 ----
-    best_combo = ("", "", -1.0)
-    for _xl, _xc in X_AXES.items():
-        for _yl, _yc in MULTIPLES.items():
-            _dd = df[df[_xc].notna() & df[_yc].notna() & (df[_yc] > 0)]
-            if len(_dd) < 10:
-                continue
-            _xlo, _xhi = _dd[_xc].quantile([0.01, 0.99])
-            _yhi = _dd[_yc].quantile(0.99)
-            _dd = _dd[(_dd[_xc] >= _xlo) & (_dd[_xc] <= _xhi) & (_dd[_yc] <= _yhi)]
-            _g = (_dd.groupby(lvl_col3)
-                  .agg(x=(_xc, "mean"), y=(_yc, "mean"), n=(_xc, "size")))
-            _g = _g[_g["n"] >= min_n]
-            if fix_out:
-                _g = drop_iqr(_g, "x", "y")
-            _r = signed_r(_g["x"], _g["y"])
-            if not np.isnan(_r) and _r > best_combo[2]:
-                best_combo = (_xl, _yl, _r)
+        # ---- 추천 조합 계산: 자동 모드의 변수 선택 + 수동 모드의 추천 안내 ----
+        best_combo = ("", "", -1.0)
+        for _xl, _xc in X_AXES.items():
+            for _yl, _yc in MULTIPLES.items():
+                _dd = df[df[_xc].notna() & df[_yc].notna() & (df[_yc] > 0)]
+                if len(_dd) < 10:
+                    continue
+                _xlo, _xhi = _dd[_xc].quantile([0.01, 0.99])
+                _yhi = _dd[_yc].quantile(0.99)
+                _dd = _dd[(_dd[_xc] >= _xlo) & (_dd[_xc] <= _xhi) & (_dd[_yc] <= _yhi)]
+                _g = (_dd.groupby(lvl_col3)
+                      .agg(x=(_xc, "mean"), y=(_yc, "mean"), n=(_xc, "size")))
+                _g = _g[_g["n"] >= min_n]
+                if fix_out:
+                    _g = drop_iqr(_g, "x", "y")
+                _r = signed_r(_g["x"], _g["y"])
+                if not np.isnan(_r) and _r > best_combo[2]:
+                    best_combo = (_xl, _yl, _r)
 
-    if auto_var:
-        if best_combo[2] > 0:
-            x_label3, y_label3 = best_combo[0], best_combo[1]
-            combo_slot.info(f"🤖 **자동 선택**: X **{x_label3}** · Y **{y_label3}** "
-                            f"(R = {best_combo[2]:.2f}) — 이 분류에서 우상향 상관이 "
-                            "가장 높은 조합입니다.")
-        else:
-            x_label3, y_label3 = "ROIC+SG", "EV/Sales"
-            combo_slot.info("우상향 상관 조합이 없어 기본값 X ROIC+SG · Y EV/Sales를 "
-                            "사용합니다. 수동 설정으로 바꿔서 직접 골라보세요.")
+        if auto_var:
+            if best_combo[2] > 0:
+                x_label3, y_label3 = best_combo[0], best_combo[1]
+                st.info(f"🤖 **자동 선택**: X **{x_label3}** · Y **{y_label3}** "
+                        f"(R = {best_combo[2]:.2f}) — 이 분류에서 우상향 상관이 "
+                        "가장 높은 조합입니다.")
+            else:
+                x_label3, y_label3 = "ROIC+SG", "EV/Sales"
+                st.info("우상향 상관 조합이 없어 기본값 X ROIC+SG · Y EV/Sales를 "
+                        "사용합니다. 수동 설정으로 바꿔서 직접 골라보세요.")
 
-    with c1:
         st.markdown("##### 🎯 주요조건 입력")
         # 섹터 탭에서는 조건이 '그룹 평균'에 적용된다 (멀티플 조건이 먼저)
         y_max3 = st.number_input(f"{y_label3} 평균 이하", value=DEFAULT_Y_MAX[y_label3] * 2,
