@@ -331,9 +331,11 @@ with tab1:
                         f"- 피어그룹: {peer_val} ({len(peers)}개사){_tag}")
             bx, by, br2 = best_relationship(peers)
             r2 = r_square(good[x_col], good[y_col])
-            st.markdown(f"- 현재 조합 R²: {r2:.1%}" if not np.isnan(r2) else "- 현재 조합 R²: 계산 불가")
+            st.markdown(f"- 현재 조합 R = {np.sqrt(r2):.2f}" if not np.isnan(r2)
+                        else "- 현재 조합 R: 계산 불가")
             if br2 > 0:
-                st.caption(f"이 그룹에서 설명력이 가장 높은 조합: X {bx} · Y {by} (R² {br2:.1%})")
+                st.caption(f"이 그룹에서 설명력이 가장 높은 조합: X {bx} · Y {by} "
+                           f"(R = {np.sqrt(br2):.2f})")
 
         with c2:
             st.altair_chart(scatter(peers, x_col, y_col, x_label1, y_label1,
@@ -482,11 +484,11 @@ with tab2:
         r2 = r_square(good[x_col], good[y_col])
         st.markdown(f"**대상 {len(filt):,}개사 · 조건 통과 {len(good)}개**")
         if not np.isnan(r2):
-            st.caption(f"R² {r2:.1%} — X와 멀티플의 상관 정도")
+            st.caption(f"R = {np.sqrt(r2):.2f} — X와 멀티플의 상관 정도")
         bx2, by2, br22 = best_relationship(filt)
         if br22 > 0:
             st.info(f"💡 **추천 조합**: 이 조건에서는 **X {bx2} · Y {by2}** 조합의 "
-                    f"설명력이 가장 높습니다 (R² {br22:.0%}).")
+                    f"설명력이 가장 높습니다 (R = {np.sqrt(br22):.2f}).")
 
     with c2:
         st.altair_chart(scatter(filt, x_col, y_col, x_label2, y_label2, x_min2, y_max2,
@@ -595,7 +597,7 @@ with tab3:
         if best_combo[2] > 0:
             st.info(f"💡 **추천 조합**: 이 분류 단계에서는 "
                     f"**X {best_combo[0]} · Y {best_combo[1]}** 조합의 설명력이 "
-                    f"가장 높습니다 (R² {best_combo[2]:.0%}). "
+                    f"가장 높습니다 (R = {np.sqrt(best_combo[2]):.2f}). "
                     "위 주요변수 선택에서 바꿔서 보세요.")
 
     with c2:
