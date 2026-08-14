@@ -332,8 +332,20 @@ tab1, tab2, tab3 = st.tabs(["🔍 티커 조회", "🧮 조건 검색", "🏭 �
 with tab1:
     c1, c2 = st.columns([1, 3.2], gap="large")
     with c1:
-        pick_label = st.selectbox("종목 (이름이나 티커로 검색)", df["label"].sort_values(),
-                                  index=None, placeholder="예: SILICON2 또는 A257720")
+        # 종목 검색 — 입력한 단어가 '포함된' 종목만 (기본 셀렉트박스는 퍼지 매칭이라
+        # cosmax를 쳐도 엉뚱한 SPAC이 섞여 나온다)
+        _stock_labels = df["label"].sort_values().tolist()
+
+        def _search_stocks(q: str):
+            ql = q.strip().lower()
+            if not ql:
+                return []
+            return [s for s in _stock_labels if ql in s.lower()][:60]
+
+        pick_label = st_searchbox(_search_stocks, key="ti_pick_sb",
+                                  label="종목 (이름이나 티커로 검색)",
+                                  placeholder="예: SILICON2 또는 A257720",
+                                  clear_on_submit=False)
         ALL_LVL = "(전체)"
         class_label = st.selectbox("피어그룹 기준 (분류 단계)", [ALL_LVL] + list(CLASS_LEVELS),
                                    index=1,
@@ -567,11 +579,19 @@ with tab2:
         all_opts = [f"{v}  [{lvl_label}]"
                     for lvl_label, lvl_col in CLASS_LEVELS.items()
                     for v in sorted(df[lvl_col].dropna().unique())]
-        sel_search = st.selectbox(
-            "🔎 산업 검색 (모든 분류 단계에서 찾기)", all_opts, index=None,
-            placeholder="예: health, semiconductor, cosmetics …", key="sp_isearch",
-            help="영어로 타이핑하면 아래 5개 분류 전체에서 검색됩니다. "
-                 "하나 고르면 그 분류로 바로 필터링되고, 아래 드롭다운으로 더 좁힐 수 있어요.")
+
+        def _search_inds(q: str):
+            ql = q.strip().lower()
+            if not ql:
+                return []
+            return [o for o in all_opts if ql in o.lower()][:60]
+
+        sel_search = st_searchbox(_search_inds, key="sp_isearch_sb",
+                                  label="🔎 산업 검색 (모든 분류 단계에서 찾기)",
+                                  placeholder="예: health, semiconductor, personal …",
+                                  clear_on_submit=False,
+                                  help="입력한 단어가 이름에 포함된 그룹만 5개 분류 전체에서 "
+                                       "찾아줍니다. 하나 고르면 그 분류로 바로 필터링돼요.")
         filt = df
         if sel_search:
             v, lvl_label = sel_search.rsplit("  [", 1)
