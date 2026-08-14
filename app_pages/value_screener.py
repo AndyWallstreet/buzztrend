@@ -118,7 +118,8 @@ def best_relationship(df: pd.DataFrame) -> tuple[str, str, float]:
 
 def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str,
             x_min: float, y_max: float, pick: pd.DataFrame | None = None,
-            label_matches: bool = False, rules: bool = True) -> alt.Chart:
+            label_matches: bool = False, rules: bool = True,
+            drop_outliers: bool = False) -> alt.Chart:
     """산점도: 조건 통과는 파랑, 나머지는 연한 색, 선택 종목은 주황 별."""
     d = df[df[x_col].notna() & df[y_col].notna() & (df[y_col] > 0)].copy()
     # 극단값은 차트를 망가뜨리므로 표시 범위만 잘라낸다 (데이터는 그대로)
@@ -146,6 +147,14 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
     d = d[d["통과"]]
     if x_dom is not None:
         d = d[(d[x_col] >= x_dom[0]) & (d[x_col] <= x_dom[1])]
+    if drop_outliers and len(d) >= 5:
+        # IQR 기준 극단값 종목을 차트·추세선에서 제외 (아래 통과 목록에는 그대로 있음)
+        q1y, q3y = d[y_col].quantile([0.25, 0.75])
+        iy = q3y - q1y
+        q1x, q3x = d[x_col].quantile([0.25, 0.75])
+        ix = q3x - q1x
+        d = d[~((d[y_col] > q3y + 1.5 * iy) | (d[y_col] < q1y - 1.5 * iy)
+                | (d[x_col] > q3x + 1.5 * ix) | (d[x_col] < q1x - 1.5 * ix))]
 
     # 추세선(회귀선): 선 아래에 있으면 같은 질 대비 멀티플이 낮다 = 싸 보인다
     trend = None
@@ -336,6 +345,9 @@ with tab1:
         x_min1 = st.number_input(f"{x_label1} 이상 (%)", value=0.0, step=5.0, key="ti_xmin") / 100
         y_max1 = st.number_input(f"{y_label1} 이하", value=DEFAULT_Y_MAX[y_label1],
                                  step=0.5, key="ti_ymax")
+        out1 = st.toggle("극단값 제외 (추세선 보정)", value=False, key="ti_outlier",
+                         help="동떨어진 종목(IQR 기준)을 차트와 추세선에서 뺍니다. "
+                              "아래 통과 목록에는 그대로 남습니다.")
 
     if pick_label is None:
         with c2:
@@ -374,7 +386,8 @@ with tab1:
 
         with c2:
             st.altair_chart(scatter(peers, x_col, y_col, x_label1, y_label1,
-                                    x_min1, y_max1, pick=pick, label_matches=True),
+                                    x_min1, y_max1, pick=pick, label_matches=True,
+                                    drop_outliers=out1),
                             use_container_width=True)
             mine = pick.iloc[0]
             vx = f"{mine[x_col]:.1%}" if pd.notna(mine[x_col]) else "없음"
@@ -488,6 +501,9 @@ with tab2:
         x_min2 = st.number_input(f"{x_label2} 이상 (%)", value=20.0, step=5.0, key="sp_xmin") / 100
         y_max2 = st.number_input(f"{y_label2} 이하", value=DEFAULT_Y_MAX[y_label2],
                                  step=0.5, key="sp_ymax")
+        out2 = st.toggle("극단값 제외 (추세선 보정)", value=False, key="sp_outlier",
+                         help="동떨어진 종목(IQR 기준)을 차트와 추세선에서 뺍니다. "
+                              "아래 통과 목록에는 그대로 남습니다.")
 
         st.markdown("##### 🏭 산업분류 선택")
         # 통합 산업 검색 — 타이핑하면 5개 분류 단계 전체에서 찾아준다.
@@ -527,7 +543,7 @@ with tab2:
 
     with c2:
         st.altair_chart(scatter(filt, x_col, y_col, x_label2, y_label2, x_min2, y_max2,
-                                label_matches=True),
+                                label_matches=True, drop_outliers=out2),
                         use_container_width=True)
 
     st.markdown(f"#### 조건 통과 종목: {len(good)}개")
@@ -710,7 +726,8 @@ with tab3:
                             order, key="sv_pick")
         sub3 = df[df[lvl_col3] == sel3]
         st.altair_chart(scatter(sub3, x_col, y_col, x_label3, y_label3,
-                                -999.0, 1e9, label_matches=True, rules=False),
+                                -999.0, 1e9, label_matches=True, rules=False,
+                                drop_outliers=fix_out),
                         use_container_width=True)
         valid3 = sub3[sub3[x_col].notna() & sub3[y_col].notna() & (sub3[y_col] > 0)]
         st.markdown(f"##### {sel3} 종목 순위 — '좋은데 싼' 점수순 ({len(valid3)}개)")
