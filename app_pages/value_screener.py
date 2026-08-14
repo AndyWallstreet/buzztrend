@@ -95,17 +95,22 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
     # 절대 안 움직이고 점만 나타났다 사라진다 (드래그/줌은 그대로 가능).
     # X 왼쪽 = 조건값(또는 데이터 최소), Y 위쪽 = 조건값(또는 데이터 최대) 약간 위.
     if len(d):
-        span_x = float(d[x_col].max() - d[x_col].min()) or 0.01
+        # 오른쪽 끝은 최댓값 대신 97.5% 지점까지만 — 극단값 하나가 화면을
+        # 옆으로 길게 늘리는 것 방지 (그 밖의 점은 표시에서 제외)
+        x_right = float(d[x_col].quantile(0.975))
         x_left = max(x_min, float(d[x_col].min()))
-        x_dom = [x_left - span_x * 0.04, float(d[x_col].max()) + span_x * 0.04]
+        span_x = (x_right - x_left) or 0.01
+        x_dom = [x_left - span_x * 0.03, x_right + span_x * 0.03]
         y_top = min(y_max, float(d[y_col].max()))
         y_dom = [0.0, y_top * 1.07]
     else:
         x_dom = y_dom = None
 
-    # 조건을 통과한 종목만 차트에 그린다
+    # 조건을 통과한 종목만 차트에 그린다 (고정 화면 밖 극단값도 제외)
     d["통과"] = (d[x_col] > x_min) & (d[y_col] < y_max)
     d = d[d["통과"]]
+    if x_dom is not None:
+        d = d[(d[x_col] >= x_dom[0]) & (d[x_col] <= x_dom[1])]
 
     # 추세선(회귀선): 선 아래에 있으면 같은 질 대비 멀티플이 낮다 = 싸 보인다
     trend = None
