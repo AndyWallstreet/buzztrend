@@ -483,6 +483,10 @@ with tab2:
         st.markdown(f"**대상 {len(filt):,}개사 · 조건 통과 {len(good)}개**")
         if not np.isnan(r2):
             st.caption(f"R² {r2:.1%} — X와 멀티플의 상관 정도")
+        bx2, by2, br22 = best_relationship(filt)
+        if br22 > 0:
+            st.info(f"💡 **추천 조합**: 이 조건에서는 **X {bx2} · Y {by2}** 조합의 "
+                    f"설명력이 가장 높습니다 (R² {br22:.0%}).")
 
     with c2:
         st.altair_chart(scatter(filt, x_col, y_col, x_label2, y_label2, x_min2, y_max2,
@@ -515,6 +519,9 @@ with tab3:
         min_n = int(st.number_input("그룹 최소 종목 수", value=5, min_value=1, step=1,
                                     key="sv_minn",
                                     help="종목이 이보다 적은 그룹은 평균이 불안정해서 뺍니다."))
+        fix_out = st.toggle("극단값 제외 (추세선 보정)", value=False, key="sv_outlier",
+                            help="평균이 유독 동떨어진 그룹(IQR 기준)을 차트와 추세선에서 "
+                                 "빼서, 극단값 한두 개가 추세선을 왜곡하는 것을 막습니다.")
 
     x_col, y_col = X_AXES[x_label3], MULTIPLES[y_label3]
     clicked3 = None
@@ -529,6 +536,19 @@ with tab3:
     n_all = len(grp[grp["n"] >= min_n])
     grp = grp[(grp["n"] >= min_n) & (grp["x"] > x_min3)
               & (grp["y"] < y_max3)].reset_index(drop=True)
+
+    # 극단값 그룹 감지 (IQR 규칙): 평균이 유독 동떨어진 그룹은 추세선을 왜곡한다
+    n_out = 0
+    if len(grp) >= 5:
+        q1y, q3y = grp["y"].quantile([0.25, 0.75])
+        iqr_y = q3y - q1y
+        q1x, q3x = grp["x"].quantile([0.25, 0.75])
+        iqr_x = q3x - q1x
+        out_mask = ((grp["y"] > q3y + 1.5 * iqr_y) | (grp["y"] < q1y - 1.5 * iqr_y)
+                    | (grp["x"] > q3x + 1.5 * iqr_x) | (grp["x"] < q1x - 1.5 * iqr_x))
+        n_out = int(out_mask.sum())
+        if fix_out and n_out:
+            grp = grp[~out_mask].reset_index(drop=True)
 
     trend3 = None
     if len(grp) >= 3 and grp["x"].std() > 0:
@@ -548,7 +568,35 @@ with tab3:
         champ = (cand if not cand.empty else grp).sort_values("추세대비").iloc[0]
 
     with c1:
-        st.markdown(f"**그룹 {n_all}개 중 조건 통과 {len(grp)}개**")
+        if fix_out and n_out:
+            _note = f" · 극단값 {n_out}개 제외됨"
+        elif n_out:
+            _note = f" · ⚠️ 극단값 의심 {n_out}개 (위 토글로 제외 가능)"
+        else:
+            _note = ""
+        st.markdown(f"**그룹 {n_all}개 중 조건 통과 {len(grp)}개**{_note}")
+
+        # 추천 조합: 이 분류 단계에서 그룹 평균들의 설명력(R²)이 가장 높은 X·Y 조합
+        best_combo = ("", "", -1.0)
+        for _xl, _xc in X_AXES.items():
+            for _yl, _yc in MULTIPLES.items():
+                _dd = df[df[_xc].notna() & df[_yc].notna() & (df[_yc] > 0)]
+                if len(_dd) < 10:
+                    continue
+                _xlo, _xhi = _dd[_xc].quantile([0.01, 0.99])
+                _yhi = _dd[_yc].quantile(0.99)
+                _dd = _dd[(_dd[_xc] >= _xlo) & (_dd[_xc] <= _xhi) & (_dd[_yc] <= _yhi)]
+                _g = (_dd.groupby(lvl_col3)
+                      .agg(x=(_xc, "mean"), y=(_yc, "mean"), n=(_xc, "size")))
+                _g = _g[_g["n"] >= min_n]
+                _r2 = r_square(_g["x"], _g["y"])
+                if not np.isnan(_r2) and _r2 > best_combo[2]:
+                    best_combo = (_xl, _yl, _r2)
+        if best_combo[2] > 0:
+            st.info(f"💡 **추천 조합**: 이 분류 단계에서는 "
+                    f"**X {best_combo[0]} · Y {best_combo[1]}** 조합의 설명력이 "
+                    f"가장 높습니다 (R² {best_combo[2]:.0%}). "
+                    "위 주요변수 선택에서 바꿔서 보세요.")
 
     with c2:
         if grp.empty:
