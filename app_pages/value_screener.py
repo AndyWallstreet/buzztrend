@@ -92,8 +92,13 @@ C_LTM = "#d9a021"      # 노랑: 2026E 추정치가 없어서 LTM으로 대체�
 @st.cache_data(ttl=3600, show_spinner=False)
 def load():
     df = pd.read_csv(DATA / "screener_data.csv")
+    # 원본 워크북에 중복 티커가 있어 표에 같은 종목이 두 번 나오는 것 방지
+    df = df.drop_duplicates(subset=["ticker"]).reset_index(drop=True)
     meta = json.loads((DATA / "meta.json").read_text(encoding="utf-8"))
     df["label"] = df["company"] + " (" + df["ticker"] + ")"
+    # 차트에서 점 클릭 → 네이버금융 종목 페이지
+    df["naver"] = ("https://finance.naver.com/item/main.naver?code="
+                   + df["ticker"].str.lstrip("A"))
     return df, meta
 
 
@@ -217,11 +222,12 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
 
     x_scale = alt.Scale(domain=x_dom, nice=False) if x_dom else alt.Undefined
     y_scale = alt.Scale(domain=y_dom, nice=False) if y_dom else alt.Undefined
-    base = alt.Chart(d).mark_circle(size=55, opacity=0.75).encode(
+    base = alt.Chart(d).mark_circle(size=55, opacity=0.75, cursor="pointer").encode(
         x=alt.X(x_col, title=f"{x_label} (높을수록 좋은 회사)", axis=alt.Axis(format="%"),
                 scale=x_scale),
         y=alt.Y(y_col, title=f"{y_label} (낮을수록 싼 주식)", scale=y_scale),
         color=color_enc,
+        href=alt.Href("naver:N") if "naver" in d.columns else alt.Undefined,
         tooltip=[alt.Tooltip("company", title="회사"),
                  alt.Tooltip("ticker", title="티커"),
                  alt.Tooltip(x_col, title=x_label, format=".1%"),
@@ -513,7 +519,9 @@ with tab1:
                                        "순부채·주식수는 최신값 고정 근사라 CapIQ 수치와 다소 다를 수 있습니다.")
 
         st.markdown(f"#### 조건 통과 (좋은데 싼) 피어: {len(good)}개")
-        match_table(good, x_col, y_col, x_label1, y_label1, key="dl_ticker")
+        st.caption("점수(질 백분위 + 멀티플 낮음 백분위, 100점 만점) 높은 순 · "
+                   "차트의 점을 클릭하면 네이버금융 종목 페이지가 열립니다.")
+        match_table(good, x_col, y_col, x_label1, y_label1, key="dl_ticker", score=True)
 
 # ================================================= 2) Screen Panel
 with tab2:
@@ -573,7 +581,9 @@ with tab2:
                         use_container_width=True)
 
     st.markdown(f"#### 조건 통과 종목: {len(good)}개")
-    match_table(good, x_col, y_col, x_label2, y_label2, key="dl_screen")
+    st.caption("점수(질 백분위 + 멀티플 낮음 백분위, 100점 만점) 높은 순 · "
+               "차트의 점을 클릭하면 네이버금융 종목 페이지가 열립니다.")
+    match_table(good, x_col, y_col, x_label2, y_label2, key="dl_screen", score=True)
 
 # ================================================= 3) Sector View
 with tab3:
