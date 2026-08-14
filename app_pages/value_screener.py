@@ -595,22 +595,62 @@ with tab3:
                                        "아래로 갈수록 더 잘게 쪼개집니다.")
         lvl_col3 = CLASS_LEVELS[lvl_label3]
         st.markdown("##### 📌 주요변수 선택")
-        y_label3 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=1, key="sv_y")
-        x_label3 = st.selectbox("X축", list(X_AXES), index=0, key="sv_x")
-        st.markdown("##### 🎯 주요조건 입력")
-        # 섹터 탭에서는 조건이 '그룹 평균'에 적용된다
-        x_min3 = st.number_input(f"{x_label3} 평균 이상 (%)", value=0.0, step=1.0,
-                                 key="sv_xmin") / 100
-        y_max3 = st.number_input(f"{y_label3} 평균 이하", value=DEFAULT_Y_MAX[y_label3] * 2,
-                                 step=0.5, key="sv_ymax",
-                                 help="그룹 평균은 개별 종목보다 높게 나오는 경향이 있어 "
-                                      "기본값을 종목 기준의 2배로 넉넉하게 잡았습니다.")
+        # 기본은 '추천 변수' — 우상향 상관이 가장 높은 X·Y 조합을 자동으로 쓴다.
+        # 토글을 끄면 수동 설정 (직접 고르기).
+        auto_var = st.toggle("추천 변수 (상관 높은 조합 자동)", value=True, key="sv_auto",
+                             help="켜져 있으면 이 분류 단계에서 우상향(질↑=멀티플↑) "
+                                  "상관이 가장 높은 X·Y 조합을 자동으로 씁니다. "
+                                  "끄면 아래에서 직접 고르는 수동 설정이 됩니다.")
+        if not auto_var:
+            y_label3 = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=1, key="sv_y")
+            x_label3 = st.selectbox("X축", list(X_AXES), index=0, key="sv_x")
+        combo_slot = st.empty()
         min_n = int(st.number_input("그룹 최소 종목 수", value=5, min_value=1, step=1,
                                     key="sv_minn",
                                     help="종목이 이보다 적은 그룹은 평균이 불안정해서 뺍니다."))
         fix_out = st.toggle("극단값 제외 (추세선 보정)", value=False, key="sv_outlier",
                             help="평균이 유독 동떨어진 그룹(IQR 기준)을 차트와 추세선에서 "
                                  "빼서, 극단값 한두 개가 추세선을 왜곡하는 것을 막습니다.")
+
+    # ---- 추천 조합 계산: 자동 모드의 변수 선택 + 수동 모드의 추천 안내에 사용 ----
+    best_combo = ("", "", -1.0)
+    for _xl, _xc in X_AXES.items():
+        for _yl, _yc in MULTIPLES.items():
+            _dd = df[df[_xc].notna() & df[_yc].notna() & (df[_yc] > 0)]
+            if len(_dd) < 10:
+                continue
+            _xlo, _xhi = _dd[_xc].quantile([0.01, 0.99])
+            _yhi = _dd[_yc].quantile(0.99)
+            _dd = _dd[(_dd[_xc] >= _xlo) & (_dd[_xc] <= _xhi) & (_dd[_yc] <= _yhi)]
+            _g = (_dd.groupby(lvl_col3)
+                  .agg(x=(_xc, "mean"), y=(_yc, "mean"), n=(_xc, "size")))
+            _g = _g[_g["n"] >= min_n]
+            if fix_out:
+                _g = drop_iqr(_g, "x", "y")
+            _r = signed_r(_g["x"], _g["y"])
+            if not np.isnan(_r) and _r > best_combo[2]:
+                best_combo = (_xl, _yl, _r)
+
+    if auto_var:
+        if best_combo[2] > 0:
+            x_label3, y_label3 = best_combo[0], best_combo[1]
+            combo_slot.info(f"🤖 **자동 선택**: X **{x_label3}** · Y **{y_label3}** "
+                            f"(R = {best_combo[2]:.2f}) — 이 분류에서 우상향 상관이 "
+                            "가장 높은 조합입니다.")
+        else:
+            x_label3, y_label3 = "ROIC+SG", "EV/Sales"
+            combo_slot.info("우상향 상관 조합이 없어 기본값 X ROIC+SG · Y EV/Sales를 "
+                            "사용합니다. 수동 설정으로 바꿔서 직접 골라보세요.")
+
+    with c1:
+        st.markdown("##### 🎯 주요조건 입력")
+        # 섹터 탭에서는 조건이 '그룹 평균'에 적용된다
+        x_min3 = st.number_input(f"{x_label3} 평균 이상 (%)", value=0.0, step=1.0,
+                                 key="sv_xmin") / 100
+        y_max3 = st.number_input(f"{y_label3} 평균 이하", value=DEFAULT_Y_MAX[y_label3] * 2,
+                                 step=0.5, key=f"sv_ymax_{MULTIPLES[y_label3]}",
+                                 help="그룹 평균은 개별 종목보다 높게 나오는 경향이 있어 "
+                                      "기본값을 종목 기준의 2배로 넉넉하게 잡았습니다.")
 
     x_col, y_col = X_AXES[x_label3], MULTIPLES[y_label3]
     clicked3 = None
@@ -665,34 +705,15 @@ with tab3:
             _note = ""
         st.markdown(f"**그룹 {n_all}개 중 조건 통과 {len(grp)}개**{_note}")
 
-        # 추천 조합: 이 분류 단계에서 그룹 평균들이 '우상향(양의 상관)'으로
-        # 가장 잘 늘어서는 X·Y 조합. 극단값 제외 토글도 그대로 반영해서
-        # 지금 보고 있는 화면과 같은 데이터로 판단한다.
-        best_combo = ("", "", -1.0)
-        for _xl, _xc in X_AXES.items():
-            for _yl, _yc in MULTIPLES.items():
-                _dd = df[df[_xc].notna() & df[_yc].notna() & (df[_yc] > 0)]
-                if len(_dd) < 10:
-                    continue
-                _xlo, _xhi = _dd[_xc].quantile([0.01, 0.99])
-                _yhi = _dd[_yc].quantile(0.99)
-                _dd = _dd[(_dd[_xc] >= _xlo) & (_dd[_xc] <= _xhi) & (_dd[_yc] <= _yhi)]
-                _g = (_dd.groupby(lvl_col3)
-                      .agg(x=(_xc, "mean"), y=(_yc, "mean"), n=(_xc, "size")))
-                _g = _g[_g["n"] >= min_n]
-                if fix_out:
-                    _g = drop_iqr(_g, "x", "y")
-                _r = signed_r(_g["x"], _g["y"])
-                if not np.isnan(_r) and _r > best_combo[2]:
-                    best_combo = (_xl, _yl, _r)
-        if best_combo[2] > 0:
-            st.info(f"💡 **추천 조합**: 이 분류 단계에서는 "
-                    f"**X {best_combo[0]} · Y {best_combo[1]}** 조합이 우상향 관계로 "
-                    f"설명력이 가장 높습니다 (R = {best_combo[2]:.2f}). "
-                    "위 주요변수 선택에서 바꿔서 보세요.")
-        elif best_combo[2] > -1:
-            st.info("💡 이 분류 단계에서는 우상향(질↑=멀티플↑) 관계를 보이는 조합이 "
-                    "없습니다 — 추세선 해석에 주의하세요.")
+        if not auto_var:
+            if best_combo[2] > 0:
+                st.info(f"💡 **추천 조합**: 이 분류 단계에서는 "
+                        f"**X {best_combo[0]} · Y {best_combo[1]}** 조합이 우상향 관계로 "
+                        f"설명력이 가장 높습니다 (R = {best_combo[2]:.2f}). "
+                        "직접 바꾸거나 위의 '추천 변수' 토글을 켜면 자동 적용됩니다.")
+            else:
+                st.info("💡 이 분류 단계에서는 우상향(질↑=멀티플↑) 관계를 보이는 조합이 "
+                        "없습니다 — 추세선 해석에 주의하세요.")
 
     with c2:
         if grp.empty:
