@@ -912,28 +912,56 @@ with tab3:
         with d1:
             sel3 = st.selectbox("섹터 선택 (추세선 대비 싼 순서)", order, key="sv_pick",
                                 help="위 차트의 점을 클릭해도 선택됩니다.")
-            st.markdown("##### 🎯 주요조건 입력")
-            dy_max = st.number_input(f"{y_label3} 이하", value=DEFAULT_Y_MAX[y_label3],
-                                     step=0.5, key=f"sv_dd_ymax_{y_col}")
-            dx_min = st.number_input(f"{x_label3} 이상 (%)", value=0.0, step=5.0,
-                                     key="sv_dd_xmin") / 100
+            sub3 = df[df[lvl_col3] == sel3]
+
+            # 이 섹터 종목들만 놓고 다시 고르는 주요변수 — 섹터 평균에서 좋았던
+            # 조합이 개별 섹터 안에서는 우하향일 수 있어서 따로 추천한다
+            st.markdown("##### 📌 주요변수 선택")
+            dd_auto = st.toggle("추천 변수 (상관 높은 조합 자동)", value=True,
+                                key="sv_dd_auto",
+                                help="이 섹터 종목들 사이에서 우상향 상관이 가장 높은 "
+                                     "X·Y 조합을 자동으로 씁니다. 끄면 직접 선택.")
+            if not dd_auto:
+                dy_label = st.selectbox("Y축 (멀티플)", list(MULTIPLES), index=1,
+                                        key="sv_dd_y")
+                dx_label = st.selectbox("X축", list(X_AXES), index=0, key="sv_dd_x")
             dd_out = st.toggle("극단값 제외 (추세선 보정)", value=False, key="sv_dd_outlier",
                                help="동떨어진 종목(IQR 기준)을 차트와 추세선에서 빼서 "
                                     "추세선이 극단값에 눌리지 않게 합니다.")
-        sub3 = df[df[lvl_col3] == sel3]
-        valid3 = sub3[sub3[x_col].notna() & (sub3[x_col] > dx_min)
-                      & (sub3[y_col] > 0) & (sub3[y_col] < dy_max)]
+            dbx, dby, dbr = best_relationship(sub3, drop_outliers=dd_out)
+            if dd_auto:
+                if dbr > 0:
+                    dx_label, dy_label = dbx, dby
+                    st.info(f"🤖 **자동 선택**: X **{dbx}** · Y **{dby}** "
+                            f"(R = {dbr:.2f}) — 이 섹터 안에서 우상향 상관이 "
+                            "가장 높은 조합입니다.")
+                else:
+                    dx_label, dy_label = x_label3, y_label3
+                    st.info("이 섹터 안에는 우상향 상관 조합이 없어 위 섹터 차트와 "
+                            "같은 변수를 사용합니다 — 추세선 해석에 주의하세요.")
+            elif dbr > 0:
+                st.info(f"💡 **추천 조합**: 이 섹터에서는 **X {dbx} · Y {dby}** "
+                        f"(R = {dbr:.2f})가 우상향으로 설명력이 가장 높습니다.")
+
+            st.markdown("##### 🎯 주요조건 입력")
+            dy_max = st.number_input(f"{dy_label} 이하", value=DEFAULT_Y_MAX[dy_label],
+                                     step=0.5, key=f"sv_dd_ymax_{MULTIPLES[dy_label]}")
+            dx_min = st.number_input(f"{dx_label} 이상 (%)", value=0.0, step=5.0,
+                                     key="sv_dd_xmin") / 100
+        dx_col, dy_col = X_AXES[dx_label], MULTIPLES[dy_label]
+        valid3 = sub3[sub3[dx_col].notna() & (sub3[dx_col] > dx_min)
+                      & (sub3[dy_col] > 0) & (sub3[dy_col] < dy_max)]
         with d1:
             st.markdown(f"**{sel3} {len(sub3)}개 중 조건 통과 {len(valid3)}개**")
         with d2:
-            st.altair_chart(scatter(sub3, x_col, y_col, x_label3, y_label3,
+            st.altair_chart(scatter(sub3, dx_col, dy_col, dx_label, dy_label,
                                     dx_min, dy_max, label_matches=True,
                                     drop_outliers=dd_out),
                             use_container_width=True)
         st.markdown(f"##### {sel3} 종목 순위 — '좋은데 싼' 점수순 ({len(valid3)}개)")
         st.caption("점수 = 그룹 안에서 질(X) 백분위와 멀티플 낮음(Y) 백분위의 평균 (100점 만점). "
                    "높을수록 '질 대비 싸다'는 뜻입니다.")
-        match_table(valid3, x_col, y_col, x_label3, y_label3, key="dl_sector", score=True)
+        match_table(valid3, dx_col, dy_col, dx_label, dy_label, key="dl_sector", score=True)
 
 st.divider()
 st.caption("차트에는 **조건을 통과한 종목만** 표시됩니다 (티커 조회에서는 선택한 종목도 함께). · "
