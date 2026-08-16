@@ -1,37 +1,37 @@
 {
-  "ts": "2026-08-16 13:38",
+  "ts": "2026-08-16 13:45",
   "date": "2026-08-16",
   "rank": 4,
   "rate": 2.3,
-  "tickets": 29793,
+  "tickets": 29118,
   "cum": 575182,
-  "total_tickets": 1282111,
-  "share": 0.02324,
+  "total_tickets": 1276309,
+  "share": 0.02281,
   "rivals": [
     {
       "title": "오디세이",
       "rate": 70.4,
-      "tickets": 902865
+      "tickets": 898288
     },
     {
       "title": "스파이더맨: 브랜드 뉴 데이",
-      "rate": 16.7,
-      "tickets": 214079
+      "rate": 16.8,
+      "tickets": 213908
     },
     {
       "title": "명탐정 코난: 하이웨이의 타천사",
       "rate": 2.7,
-      "tickets": 34408
+      "tickets": 34367
     },
     {
       "title": "사랑의 하츄핑: 고래보석의 전설",
       "rate": 2.3,
-      "tickets": 29793
+      "tickets": 29118
     },
     {
       "title": "오케이 마담2",
       "rate": 2.0,
-      "tickets": 25596
+      "tickets": 25364
     }
   ],
   "note": "KOBIS 실시간 예매율은 과거를 보관하지 않아 1편(2024) 개봉 후 예매는 존재하지 않음"
