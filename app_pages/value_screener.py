@@ -64,6 +64,29 @@ div[data-testid="stNumberInput"] button svg { fill: #444 !important; }
 }
 </style>""", unsafe_allow_html=True)
 
+# ---- 차트 점 클릭(네이버금융 링크)이 반드시 '새 탭'으로 열리게 하는 패치 ----
+# 차트 렌더러(vega)는 링크 클릭 시 화면에 붙어있지 않은 임시 <a>를 만들어
+# 클릭 이벤트를 쏘는데, target이 없어 현재 탭을 덮어써 화면 설정이 초기화된다.
+# 그 패턴(떠 있는 앵커)에만 target=_blank를 강제한다.
+import streamlit.components.v1 as _components  # noqa: E402
+
+_components.html("""<script>
+try {
+  const P = window.parent;
+  if (!P.__vegaBlankPatch) {
+    P.__vegaBlankPatch = true;
+    const orig = P.HTMLAnchorElement.prototype.dispatchEvent;
+    P.HTMLAnchorElement.prototype.dispatchEvent = function (e) {
+      if (!this.isConnected && this.href && !this.getAttribute('target')) {
+        this.setAttribute('target', '_blank');
+        this.setAttribute('rel', 'noopener');
+      }
+      return orig.call(this, e);
+    };
+  }
+} catch (err) {}
+</script>""", height=0)
+
 # ---------------------------------------------------------------- constants
 MULTIPLES = {  # label -> column
     "EV/Sales": "ev_sales",
@@ -96,6 +119,10 @@ def load():
     df = pd.read_csv(DATA / "screener_data.csv")
     # 원본 워크북에 중복 티커가 있어 표에 같은 종목이 두 번 나오는 것 방지
     df = df.drop_duplicates(subset=["ticker"]).reset_index(drop=True)
+    # 데이터 파일이 코드보다 오래된 경우에도 죽지 않게, 없는 멀티플 컬럼은 빈 값으로
+    for _c in MULTIPLES.values():
+        if _c not in df.columns:
+            df[_c] = np.nan
     meta = json.loads((DATA / "meta.json").read_text(encoding="utf-8"))
     df["label"] = df["company"] + " (" + df["ticker"] + ")"
     # 차트에서 점 클릭 → 네이버금융 종목 페이지
@@ -139,6 +166,8 @@ def best_relationship(df: pd.DataFrame, drop_outliers: bool = False) -> tuple[st
     best = ("", "", -1.0)
     for xl, xc in X_AXES.items():
         for yl, yc in MULTIPLES.items():
+            if xc not in df.columns or yc not in df.columns:
+                continue
             d = df[df[xc].notna() & df[yc].notna() & (df[yc] > 0)]
             if drop_outliers:
                 d = drop_iqr(d, xc, yc)
