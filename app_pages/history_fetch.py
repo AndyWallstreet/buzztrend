@@ -169,21 +169,8 @@ def _fund(corp: str, key: str):
     return out
 
 
-@st.cache_data(ttl=86400, show_spinner=False)
-def load_history(ticker6: str):
-    """주간 히스토리 DataFrame(date, px, q, per, pbr, evs, eve) + 메타."""
-    key = dart_key()
-    if not key:
-        raise RuntimeError("DART_API_KEY가 설정되지 않았습니다")
-    corp = _corp_map().get(ticker6)
-    if corp is None:
-        raise RuntimeError(f"DART에서 종목코드 {ticker6}을 찾을 수 없습니다")
-
-    px = _prices(ticker6)
-    shares = _shares(corp, key)
-    nd = _netdebt(corp, key)
-    fund = _fund(corp, key)
-
+def _quarterly_rows(fund: dict) -> list:
+    """DART 누적 분기 데이터를 '분기 단독' 값으로 변환한 rows 목록."""
     QEND = {1: (3, 31), 2: (6, 30), 3: (9, 30), 4: (12, 31)}
     rows = []
     for (yr, qn), rec in sorted(fund.items()):
@@ -202,6 +189,61 @@ def load_history(ticker6: str):
         m, d = QEND[qn]
         rows.append({"date": dt.date(yr, m, d), "q": f"{yr}Q{qn}", **v})
     rows.sort(key=lambda r: r["date"])
+    return rows
+
+
+@st.cache_data(ttl=86400, show_spinner=False)
+def load_financials(ticker6: str):
+    """분기 실적 DataFrame(date, q, rev, ebit, ni, eq — 분기 단독, KRW) + 메타.
+    종목 상세 페이지용 (연결 CFS 기준)."""
+    key = dart_key()
+    if not key:
+        raise RuntimeError("DART_API_KEY가 설정되지 않았습니다")
+    corp = _corp_map().get(ticker6)
+    if corp is None:
+        raise RuntimeError(f"DART에서 종목코드 {ticker6}을 찾을 수 없습니다")
+    fund = _fund(corp, key)
+    rows = _quarterly_rows(fund)
+    if not rows:
+        raise RuntimeError("DART 분기 재무 데이터가 없습니다")
+    df = pd.DataFrame(rows)
+    return df, {"corp_code": corp}
+
+
+@st.cache_data(ttl=86400, show_spinner=False)
+def load_filings(ticker6: str, count: int = 12):
+    """최근 공시 목록: [(날짜, 보고서명, 링크)] — DART list API."""
+    key = dart_key()
+    corp = _corp_map().get(ticker6)
+    if not key or corp is None:
+        return []
+    j = requests.get("https://opendart.fss.or.kr/api/list.json",
+                     params={"crtfc_key": key, "corp_code": corp,
+                             "bgn_de": (dt.date.today() - dt.timedelta(days=365)).strftime("%Y%m%d"),
+                             "page_count": str(count)},
+                     timeout=15, headers=UA).json()
+    if j.get("status") != "000":
+        return []
+    return [(it.get("rcept_dt", ""), it.get("report_nm", ""),
+             f"https://dart.fss.or.kr/dsaf001/main.do?rcpNo={it.get('rcept_no', '')}")
+            for it in j.get("list", [])]
+
+
+@st.cache_data(ttl=86400, show_spinner=False)
+def load_history(ticker6: str):
+    """주간 히스토리 DataFrame(date, px, q, per, pbr, evs, eve) + 메타."""
+    key = dart_key()
+    if not key:
+        raise RuntimeError("DART_API_KEY가 설정되지 않았습니다")
+    corp = _corp_map().get(ticker6)
+    if corp is None:
+        raise RuntimeError(f"DART에서 종목코드 {ticker6}을 찾을 수 없습니다")
+
+    px = _prices(ticker6)
+    shares = _shares(corp, key)
+    nd = _netdebt(corp, key)
+    fund = _fund(corp, key)
+    rows = _quarterly_rows(fund)
 
     ttm = []
     for i in range(3, len(rows)):

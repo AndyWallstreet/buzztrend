@@ -331,20 +331,26 @@ def match_table(d: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: 
     t["mcap"] = (t["mcap"] / 1000).round(0).astype("Int64")  # KRW mm -> KRW bn
     if src in t.columns:
         t[src] = t[src].map({"2026E": "2026E 추정", "LTM": "LTM 대체"}).fillna("")
-    # 네이버금융 종목 페이지 링크 (티커 앞의 'A'를 뗀 6자리 코드)
+    # 네이버금융 + 종목 상세 페이지 링크
     t["naver"] = ("https://finance.naver.com/item/main.naver?code="
                   + t["ticker"].str.lstrip("A"))
+    t["detail"] = "/종목상세?ticker=" + t["ticker"]
     if score:
         t = t[["company", "ticker", "sector", "_score", x_col, y_col, "mcap"]
-              + ([src] if src in cols else []) + ["naver"]]
+              + ([src] if src in cols else []) + ["detail", "naver"]]
         t.columns = (["회사", "티커", "섹터", "점수", f"{x_label} (%)", y_label, "시총(십억원)"]
-                     + (["멀티플 기준"] if src in cols else []) + ["네이버금융"])
+                     + (["멀티플 기준"] if src in cols else []) + ["상세", "네이버금융"])
     else:
+        t = t[["company", "ticker", "sector", x_col, y_col, "mcap"]
+              + ([src] if src in cols else []) + ["detail", "naver"]]
         t.columns = (["회사", "티커", "섹터", f"{x_label} (%)", y_label, "시총(십억원)"]
-                     + (["멀티플 기준"] if src in cols else []) + ["네이버금융"])
+                     + (["멀티플 기준"] if src in cols else []) + ["상세", "네이버금융"])
     st.dataframe(t, use_container_width=True, hide_index=True, height=320,
-                 column_config={"네이버금융": st.column_config.LinkColumn(
-                     "네이버금융", display_text="📈 종목 페이지")})
+                 column_config={
+                     "네이버금융": st.column_config.LinkColumn(
+                         "네이버금융", display_text="📈 종목 페이지"),
+                     "상세": st.column_config.LinkColumn(
+                         "상세", display_text="📋 상세")})
     st.download_button("⬇️ CSV로 받기", t.to_csv(index=False).encode("utf-8-sig"),
                        "screener_matches.csv", "text/csv", key=key)
 
