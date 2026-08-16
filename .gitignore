@@ -18,3 +18,5 @@ kbeauty/*.duckdb
 
 .streamlit/secrets.toml
 data/screener/history_ciq/_hist_temp.xlsx
+data/screener/_v04_copy.xlsx
+data/screener/_evfcf_temp.xlsx

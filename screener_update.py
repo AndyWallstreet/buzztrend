@@ -31,7 +31,7 @@ COLS = ["ticker", "company", "roic_sg", "roe_sg", "ev_sales", "ev_ebit",
 # 없으면 LTM' 으로 엑셀에서 블렌딩된 값이고, 아래 raw 컬럼으로 어느 쪽인지 판별한다
 FWD_RAW = {"ev_sales": 128, "ev_ebit": 129, "ev_ebitda": 130, "per": 131}
 NUM_COLS = ["roic_sg", "roe_sg", "ev_sales", "ev_ebit", "ev_ebitda",
-            "per", "pbr", "price", "mcap"]
+            "per", "pbr", "price", "mcap", "ev_fcf"]
 
 
 def main():
@@ -40,12 +40,13 @@ def main():
     ws = wb["Data"]
 
     rows = []
-    for r in ws.iter_rows(min_row=9, max_col=132):
+    for r in ws.iter_rows(min_row=9, max_col=133):
         if r[100].value is None:          # CW: ticker
             continue
         rec = {name: cell.value for name, cell in zip(COLS, r[100:114])}
         rec["price"] = r[9].value         # J: stock price
         rec["mcap"] = r[16].value         # Q: market cap (KRW mm)
+        rec["ev_fcf"] = r[132].value      # EC: EV/FCF (LTM, evfcf_update.py가 채움)
         for name, idx in FWD_RAW.items():  # DY:EB — 2026E raw
             rec[f"_{name}_fwd"] = r[idx].value
         rows.append(rec)

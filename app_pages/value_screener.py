@@ -69,6 +69,7 @@ MULTIPLES = {  # label -> column
     "EV/Sales": "ev_sales",
     "EV/EBIT": "ev_ebit",
     "EV/EBITDA": "ev_ebitda",
+    "EV/FCF": "ev_fcf",     # LTM 전용 (FCF는 forward 컨센서스가 거의 없음)
     "PER": "per",
     "PBR": "pbr",
 }
@@ -80,8 +81,9 @@ CLASS_LEVELS = {  # label -> column
     "Primary Industry": "primary_industry",
     "Primary SIC Industry": "sic_industry",
 }
-# 멀티플별 기본 상한 (엑셀 F열 기본값과 동일)
-DEFAULT_Y_MAX = {"EV/Sales": 2.0, "EV/EBIT": 15.0, "EV/EBITDA": 20.0, "PER": 20.0, "PBR": 2.0}
+# 멀티플별 기본 상한 (엑셀 F열 기본값과 동일; EV/FCF는 FCF 변동성 감안해 넉넉히)
+DEFAULT_Y_MAX = {"EV/Sales": 2.0, "EV/EBIT": 15.0, "EV/EBITDA": 20.0, "EV/FCF": 20.0,
+                 "PER": 20.0, "PBR": 2.0}
 
 C_PEER = "#9ab6d8"     # 회색-파랑: 나머지 종목
 C_MATCH = "#2a78d6"    # 파랑: 조건 통과 종목 (2026E 추정치 기준)
@@ -479,13 +481,15 @@ with tab1:
                 HIST_METRIC = {"EV/Sales": ("evs", "EV/Sales (LTM)"),
                                "EV/EBIT": ("eve", "EV/EBIT (LTM)"),
                                "EV/EBITDA": ("ebitda", "EV/EBITDA (LTM)"),
+                               "EV/FCF": ("fcf", "EV/FCF (LTM)"),
                                "PER": ("per", "PER (LTM)"),
                                "PBR": ("pbr", "PBR")}
             else:
-                # 즉석 계산은 감가상각을 알 수 없어 EV/EBITDA 대신 EV/EBIT를 보여준다
+                # 즉석 계산은 감가상각·capex를 알 수 없어 EV/EBIT로 대신 보여준다
                 HIST_METRIC = {"EV/Sales": ("evs", "EV/Sales (TTM)"),
                                "EV/EBIT": ("eve", "EV/EBIT (TTM)"),
                                "EV/EBITDA": ("eve", "EV/EBIT (TTM · EV/EBITDA 대용)"),
+                               "EV/FCF": ("eve", "EV/EBIT (TTM · EV/FCF 대용)"),
                                "PER": ("per", "PER (TTM)"),
                                "PBR": ("pbr", "PBR")}
             hcol, hname = HIST_METRIC[y_label1]
@@ -506,6 +510,9 @@ with tab1:
                 hist = pd.read_csv(ciq_csv)
                 hist["date"] = pd.to_datetime(hist["date"]).dt.date
                 hmeta = None
+                if hcol not in hist.columns:
+                    # 예전에 추출한 CSV라 이 지표가 없으면 EV/EBIT로 대체
+                    hcol, hname = "eve", f"EV/EBIT (LTM · {y_label1} 대용)"
             else:
                 try:
                     with st.spinner("네이버·DART에서 과거 데이터를 불러오는 중… "
@@ -903,7 +910,7 @@ st.divider()
 st.caption("차트에는 **조건을 통과한 종목만** 표시됩니다 (티커 조회에서는 선택한 종목도 함께). · "
            "🔵 파란 점 = 2026년 추정치 기준 멀티플, 🟡 노란 점 = 2026년 추정치가 없어서 "
            "LTM(최근 4개 분기 실적)으로 대체된 종목입니다. EV는 두 경우 모두 현재 값입니다. "
-           "PBR은 항상 현재 장부가 기준. · "
+           "PBR은 항상 현재 장부가, EV/FCF는 항상 LTM 기준(FCF는 추정치가 거의 없음). · "
            "🔴 빨간 점선 = 추세선: 표시된 종목들 기준 '질이 이 정도면 보통 이 가격' 이라는 평균선입니다. "
            "점이 선보다 **아래**에 있으면 같은 질 대비 싸게 거래된다는 뜻 (마우스를 올리면 '추세선 대비' 값이 음수). · "
            "데이터: Capital IQ 기반 비교기업 워크북에서 추출 · 멀티플이 0 이하(적자 등)인 종목은 "

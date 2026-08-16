@@ -12,6 +12,10 @@ Usage:
 동작: 새 임시 워크북에 종목×월(10년, 121개) CIQ 수식을 깔고 그 워크북만
 새로고침(RefreshWorkbook은 활성 워크북 대상) → 값 추출 → 임시 워크북은 저장 없이
 닫는다. 비교기업 워크북은 건드리지 않는다.
+
+수식 작성은 애드인 없는 안전 인스턴스에서 파일로 하고, 라이브 엑셀은 열어서
+새로고침만 한다 (라이브 인스턴스에 수식을 대량 입력하면 애드인이 엑셀을 죽인 적
+있음).
 """
 import datetime as dt
 import json
@@ -28,7 +32,10 @@ WATCHLIST = OUT / "watchlist.txt"
 SEEDS = ["A257720", "A086450", "A419530", "A092730", "A161890", "A122870"]
 MONTHS = 121  # 10년 월별 + 이번 달
 METRICS = [("evs", "IQ_TEV_TOTAL_REV"), ("eve", "IQ_TEV_EBIT"),
-           ("ebitda", "IQ_TEV_EBITDA"), ("per", "IQ_PE_EXCL"), ("pbr", "IQ_PBV")]
+           ("ebitda", "IQ_TEV_EBITDA"), ("per", "IQ_PE_EXCL"), ("pbr", "IQ_PBV"),
+           ("fcf", "IQ_TEV_UFCF")]
+LAST_COL = chr(ord("C") + len(METRICS) - 1)   # 수식이 들어가는 마지막 열
+TEMP_XLSX = str(OUT / "_hist_temp.xlsx")
 
 
 def retry(fn, tries=60, wait=3, label=""):
@@ -55,14 +62,8 @@ def month_ends():
     return out
 
 
-TEMP_XLSX = str(Path(__file__).resolve().parent / "data" / "screener"
-                / "history_ciq" / "_hist_temp.xlsx")
-
-
 def build_formula_workbook(tickers, dates):
-    """애드인 없는 자동화 인스턴스에서 수식 워크북을 만들어 파일로 저장.
-    (라이브 인스턴스에 수식을 대량 입력하면 CapIQ 애드인이 엑셀을 죽이는
-    일이 있어서, 어제 검증된 '작성은 안전 인스턴스, 새로고침은 라이브' 경로)"""
+    """애드인 없는 자동화 인스턴스에서 수식 워크북을 만들어 파일로 저장."""
     n = len(tickers) * len(dates)
     xl = win32com.client.DispatchEx("Excel.Application")
     xl.Visible = False
@@ -90,18 +91,21 @@ def build_formula_workbook(tickers, dates):
 
 
 def attach_live():
-    """애드인이 로드된 라이브 엑셀에 연결.
-    없으면 임시 파일을 셸로 열어 인스턴스를 만든다 (빈 엑셀은 시작 화면 상태라
-    COM ROT에 등록되지 않아 붙을 수 없다)."""
+    """자동화 전용 엑셀 인스턴스에 연결 (사용자 작업 인스턴스는 건드리지 않는다)."""
+    from evfcf_update import get_work_instance
+    return get_work_instance()
+
+
+def ensure_snl_xla(xl):
+    """CIQ 함수(#NAME? 방지)를 제공하는 SNL XLA가 세션에 없으면 강제 로드."""
+    for a in xl.AddIns:
+        if a.Name == "SNLXLAddin.xla" and a.IsOpen:
+            return
     try:
-        return win32com.client.GetActiveObject("Excel.Application")
-    except Exception:
-        pass
-    import os
-    os.startfile(TEMP_XLSX)
-    time.sleep(25)
-    return retry(lambda: win32com.client.GetActiveObject("Excel.Application"),
-                 tries=15, wait=4, label="엑셀 연결 — 엑셀을 직접 한 번 열어주세요")
+        xl.Workbooks.Open(r"C:\Program Files\SNL Financial\SNLxl\SNLXLAddin.xla")
+        print("SNL XLA 강제 로드")
+    except Exception as e:
+        print("XLA 로드 실패:", repr(e)[:80])
 
 
 def main():
@@ -119,11 +123,12 @@ def main():
 
     dates = month_ends()
     n = len(tickers) * len(dates)
-    print(f"1) 수식 워크북 작성 ({n}행 × 5지표, 안전 인스턴스)...")
+    print(f"1) 수식 워크북 작성 ({n}행 × {len(METRICS)}지표, 안전 인스턴스)...")
     build_formula_workbook(tickers, dates)
 
     print("2) 라이브 엑셀에서 새로고침...")
     xl = attach_live()
+    ensure_snl_xla(xl)
     wb = next((w for w in xl.Workbooks if w.Name == Path(TEMP_XLSX).name), None)
     if wb is None:
         wb = retry(lambda: xl.Workbooks.Open(TEMP_XLSX), label="임시 워크북 열기")
@@ -137,7 +142,7 @@ def main():
         unresolved = -1
         while time.time() < deadline:
             try:
-                vals = ws.Range(f"C2:G{n + 1}").Value
+                vals = ws.Range(f"C2:{LAST_COL}{n + 1}").Value
                 unresolved = sum(1 for row in vals for v in row
                                  if v in ("#PEND", "#REFRESH"))
                 if unresolved == 0:
@@ -149,7 +154,7 @@ def main():
         if unresolved != 0:
             raise RuntimeError(f"새로고침 미완료 (남은 셀 {unresolved}) — 나중에 다시 실행하세요")
 
-        vals = retry(lambda: ws.Range(f"C2:G{n + 1}").Value, label="extract")
+        vals = retry(lambda: ws.Range(f"C2:{LAST_COL}{n + 1}").Value, label="extract")
         rows = []
         i = 0
         for t in tickers:
