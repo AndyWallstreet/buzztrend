@@ -154,16 +154,47 @@ else:
         else:
             with st.spinner("DART에서 분기 실적을 불러오는 중… (종목당 첫 조회만 10초쯤)"):
                 fin, _fmeta = load_financials(t6)
-        fin = fin.tail(16).copy()   # 최근 4년
+        fin = fin[fin["rev"].notna()].copy()
+        fin["_yr"] = fin["q"].str[:4].astype(int)
+
+        # 주기(분기/연간) 토글 + 연도 범위 슬라이더 (끝까지 끌면 최대 = 직접설정 겸용)
+        fc1, fc2 = st.columns([1, 3], gap="large")
+        with fc1:
+            freq = st.radio("주기", ["분기", "연간"], horizontal=True, key="sd_freq")
+        with fc2:
+            y_min, y_max_ = int(fin["_yr"].min()), int(fin["_yr"].max())
+            if y_min < y_max_:
+                y0, y1 = st.slider("기간 (연도 범위 — 끝까지 끌면 최대)",
+                                   y_min, y_max_, (max(y_min, y_max_ - 3), y_max_),
+                                   key="sd_finyr")
+            else:
+                y0 = y1 = y_min
+        fin = fin[(fin["_yr"] >= y0) & (fin["_yr"] <= y1)]
+
+        if freq == "연간":
+            g = fin.groupby("_yr")
+            fin = pd.DataFrame({
+                "rev": g["rev"].sum(min_count=1),
+                "ebit": g["ebit"].sum(min_count=1),
+                "ni": g["ni"].sum(min_count=1),
+                "n_q": g["rev"].count(),
+            }).reset_index()
+            # 분기가 4개 안 되는 해(올해 등)는 * 표시
+            fin["q"] = fin["_yr"].astype(str) + np.where(fin["n_q"] < 4, "*", "")
+            fin["YoY(%)"] = fin["rev"].pct_change(1) * 100
+            x_title = "연간 (* = 진행 중인 해)"
+        else:
+            fin = fin.sort_values("date" if "date" in fin.columns else "q")
+            fin["YoY(%)"] = fin["rev"].pct_change(4) * 100
+            x_title = None
         fin["매출(억)"] = fin["rev"] / 1e8
         fin["영업이익(억)"] = fin["ebit"] / 1e8
         fin["순이익(억)"] = fin["ni"] / 1e8
         fin["OPM(%)"] = np.where(fin["rev"] > 0, fin["ebit"] / fin["rev"] * 100, np.nan)
-        fin["YoY(%)"] = fin["rev"].pct_change(4) * 100
 
         g1, g2 = st.columns([2.2, 1.8], gap="large")
         with g1:
-            base = alt.Chart(fin).encode(x=alt.X("q:N", title=None, sort=None))
+            base = alt.Chart(fin).encode(x=alt.X("q:N", title=x_title, sort=None))
             bars = base.mark_bar(color=C_BAR, opacity=0.85).encode(
                 y=alt.Y("매출(억):Q", title="매출 (억원)"),
                 tooltip=["q", alt.Tooltip("매출(억)", format=",.0f"),
@@ -174,15 +205,17 @@ else:
                 tooltip=["q", alt.Tooltip("OPM(%)", format=".1f")])
             st.altair_chart(alt.layer(bars, line).resolve_scale(y="independent")
                             .properties(height=330), use_container_width=True)
-            st.caption("파란 막대 = 분기 매출, 주황 선 = 영업이익률(OPM)")
+            st.caption(("파란 막대 = 분기 매출, 주황 선 = 영업이익률(OPM)" if freq == "분기"
+                        else "파란 막대 = 연간 매출, 주황 선 = 영업이익률(OPM) · * = 진행 중인 해"))
         with g2:
-            t = fin.tail(8)[["q", "매출(억)", "YoY(%)", "영업이익(억)", "OPM(%)", "순이익(억)"]].copy()
+            t = fin.tail(12)[["q", "매출(억)", "YoY(%)", "영업이익(억)", "OPM(%)", "순이익(억)"]].copy()
             for c in t.columns[1:]:
                 t[c] = t[c].round(1)
-            t.columns = ["분기", "매출(억)", "YoY%", "영업이익(억)", "OPM%", "순이익(억)"]
+            t.columns = [("분기" if freq == "분기" else "연도"),
+                         "매출(억)", "YoY%", "영업이익(억)", "OPM%", "순이익(억)"]
             st.dataframe(t.iloc[::-1], hide_index=True, use_container_width=True, height=330)
     except Exception as e:
-        st.warning(f"분기 실적 조회 실패: {e}")
+        st.warning(f"분기 실적 조회 실패 ({type(e).__name__})")
 
 st.divider()
 
