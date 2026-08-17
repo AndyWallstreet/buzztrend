@@ -306,8 +306,10 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         if not p.empty:
             layers.append(alt.Chart(p).mark_point(
                 shape="diamond", size=320, filled=True, color=C_PICK,
-                stroke="white", strokeWidth=1.5,
+                stroke="white", strokeWidth=1.5, cursor="pointer",
             ).encode(x=x_col, y=y_col,
+                     href=(alt.Href("naver:N") if "naver" in p.columns
+                           else alt.Undefined),
                      tooltip=[alt.Tooltip("company", title="회사"),
                               alt.Tooltip(x_col, title=x_label, format=".1%"),
                               alt.Tooltip(y_col, title=y_label, format=".2f")]))
