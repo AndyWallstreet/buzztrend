@@ -60,7 +60,7 @@ def _placeholder(title, note):
 pg_buzz = st.Page("app_pages/buzztrend.py", title="Buzz Trend", url_path="buzz")
 pg_value = st.Page("app_pages/value_screener.py", title="Value Screener",
                    url_path="밸류_스크리너")
-pg_stock = st.Page("app_pages/stock_detail.py", title="└ Stock Picker",
+pg_stock = st.Page("app_pages/stock_detail.py", title="Stock Picker",
                    url_path="종목상세")
 
 # ---- Sector Watch
