@@ -17,8 +17,18 @@ import streamlit as st
 from streamlit_searchbox import st_searchbox
 
 sys.path.append(str(Path(__file__).resolve().parent))
-from history_fetch import (dart_key, load_filings, load_financials,  # noqa: E402
-                           load_history)
+import importlib  # noqa: E402
+
+import history_fetch  # noqa: E402
+
+# 배포 서버가 예전 버전 모듈을 캐시하고 있으면 새 함수가 없어 ImportError가
+# 나므로, 없으면 다시 로드한다
+if not hasattr(history_fetch, "load_financials"):
+    history_fetch = importlib.reload(history_fetch)
+dart_key = history_fetch.dart_key
+load_filings = history_fetch.load_filings
+load_financials = history_fetch.load_financials
+load_history = history_fetch.load_history
 
 DATA = Path(__file__).resolve().parent.parent / "data" / "screener"
 
