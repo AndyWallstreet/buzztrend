@@ -534,6 +534,7 @@ with tab1:
                     "불가한 환경입니다.")
         else:
             if use_ciq:
+                # CIQ 관심종목은 6개 지표 전부 (EV/EBITDA·EV/FCF 포함)
                 HIST_METRIC = {"EV/Sales": ("evs", "EV/Sales (LTM)"),
                                "EV/EBIT": ("eve", "EV/EBIT (LTM)"),
                                "EV/EBITDA": ("ebitda", "EV/EBITDA (LTM)"),
@@ -541,16 +542,19 @@ with tab1:
                                "PER": ("per", "PER (LTM)"),
                                "PBR": ("pbr", "PBR")}
             else:
-                # DB/즉석 계산은 감가상각·capex를 알 수 없어 EV/EBIT로 대신 보여준다
+                # DB/즉석 계산은 공개 데이터로 만들 수 있는 4개 지표만
                 HIST_METRIC = {"EV/Sales": ("evs", "EV/Sales (TTM)"),
                                "EV/EBIT": ("eve", "EV/EBIT (TTM)"),
-                               "EV/EBITDA": ("eve", "EV/EBIT (TTM · EV/EBITDA 대용)"),
-                               "EV/FCF": ("eve", "EV/EBIT (TTM · EV/FCF 대용)"),
                                "PER": ("per", "PER (TTM)"),
                                "PBR": ("pbr", "PBR")}
-            hcol, hname = HIST_METRIC[y_label1]
             c3, c4 = st.columns([1, 3.2], gap="large")
             with c3:
+                _hm_opts = list(HIST_METRIC)
+                sel_hm = st.selectbox(
+                    "멀티플", _hm_opts,
+                    index=_hm_opts.index(y_label1) if y_label1 in _hm_opts else 0,
+                    key="ti_hm")
+                hcol, hname = HIST_METRIC[sel_hm]
                 dur = st.radio("기간", ["1년", "3년", "5년", "10년(최대)", "직접설정"],
                                index=2, key="hist_dur")
                 d_end = dt.date.today()
@@ -568,7 +572,7 @@ with tab1:
                 hmeta = None
                 if hcol not in hist.columns:
                     # 예전에 추출한 CSV라 이 지표가 없으면 EV/EBIT로 대체
-                    hcol, hname = "eve", f"EV/EBIT (LTM · {y_label1} 대용)"
+                    hcol, hname = "eve", f"EV/EBIT (LTM · {sel_hm} 대용)"
             elif hdb_row is not None:
                 hist = hdb_row     # 전 종목 사전 계산 DB — 즉시 로딩
                 hmeta = None
@@ -593,7 +597,9 @@ with tab1:
                 else:
                     avg = float(h[hcol].mean())
                     last = float(h[hcol].iloc[-1])
-                    fwd = float(row[y_col]) if pd.notna(row[y_col]) else None
+                    _cur_col = MULTIPLES.get(sel_hm)
+                    fwd = (float(row[_cur_col])
+                           if _cur_col and pd.notna(row[_cur_col]) else None)
                     tips = [alt.Tooltip("date:T", title="날짜"),
                             alt.Tooltip(hcol, title=hname, format=".2f")]
                     if "px" in h.columns:
@@ -615,9 +621,9 @@ with tab1:
                         st.altair_chart(alt.layer(*layers).properties(height=380)
                                         .interactive(), use_container_width=True)
                     with c3:
-                        st.markdown(f"**{hname}**\n- 현재(TTM): **{last:.2f}배**\n"
+                        st.markdown(f"- 최근 히스토리: **{last:.2f}배**\n"
                                     f"- 기간 평균: **{avg:.2f}배**"
-                                    + (f"\n- 2026E 기준: **{fwd:.2f}배** (주황 점선)"
+                                    + (f"\n- 현재(스크리너): **{fwd:.2f}배** (주황 점선)"
                                        if fwd is not None else ""))
                         if use_ciq:
                             st.caption("회색 점선 = 기간 평균. 파란 선 = 월별 LTM 멀티플. "
