@@ -52,6 +52,17 @@ def load():
     return df, meta
 
 
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_findb():
+    """전 종목 분기 재무 DB (findb_update.py가 주기적으로 갱신). 없으면 None."""
+    p = DATA.parent / "findb" / "financials.csv.gz"
+    if not p.exists():
+        return None
+    fdb = pd.read_csv(p)
+    fdb["date"] = pd.to_datetime(fdb["date"]).dt.date
+    return fdb
+
+
 df, meta = load()
 
 # ---------------------------------------------------------------- 종목 선택
@@ -117,12 +128,21 @@ st.divider()
 
 # ---------------------------------------------------------------- 분기 실적
 st.markdown("#### 📊 분기 실적 (DART 연결 기준)")
-if not dart_key():
+_fdb = load_findb()
+_db_fin = None
+if _fdb is not None:
+    _db_fin = _fdb[_fdb["ticker"] == ticker]
+    if len(_db_fin) < 4:
+        _db_fin = None
+if _db_fin is None and not dart_key():
     st.info("DART_API_KEY가 설정돼 있지 않아 분기 실적을 불러올 수 없습니다.")
 else:
     try:
-        with st.spinner("DART에서 분기 실적을 불러오는 중… (종목당 첫 조회만 10초쯤)"):
-            fin, _fmeta = load_financials(t6)
+        if _db_fin is not None:
+            fin = _db_fin.copy()   # DB에서 즉시 로딩
+        else:
+            with st.spinner("DART에서 분기 실적을 불러오는 중… (종목당 첫 조회만 10초쯤)"):
+                fin, _fmeta = load_financials(t6)
         fin = fin.tail(16).copy()   # 최근 4년
         fin["매출(억)"] = fin["rev"] / 1e8
         fin["영업이익(억)"] = fin["ebit"] / 1e8
