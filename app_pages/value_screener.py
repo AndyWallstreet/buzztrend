@@ -554,7 +554,12 @@ with tab1:
                                     "(종목당 첫 조회만 10초쯤 걸립니다)"):
                         hist, hmeta = load_history(row["ticker"].lstrip("A"))
                 except Exception as e:
-                    st.warning(f"과거 데이터 조회 실패: {e}")
+                    # 예외 원문에 API 키가 섞일 수 있어 표시하지 않는다
+                    if "opendart" in str(e) or "timed out" in str(e).lower():
+                        st.info("서버에서 DART에 접속할 수 없어 즉석 계산이 불가합니다 "
+                                "(해외 서버 차단). 사전 계산된 종목만 표시됩니다.")
+                    else:
+                        st.warning(f"과거 데이터 조회 실패 ({type(e).__name__})")
             if hist is not None and not hist.empty:
                 h = hist[hist[hcol].notna()
                          & (hist["date"] >= d_start) & (hist["date"] <= d_end)]

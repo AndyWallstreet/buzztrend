@@ -41,8 +41,9 @@ def dart_key() -> str:
 @st.cache_resource(ttl=7 * 86400, show_spinner=False)
 def _corp_map() -> dict:
     """6자리 종목코드 -> DART corp_code."""
+    # 해외(클라우드) 서버는 DART가 차단해 접속 자체가 안 되므로 빨리 실패시킨다
     r = requests.get("https://opendart.fss.or.kr/api/corpCode.xml",
-                     params={"crtfc_key": dart_key()}, timeout=120, headers=UA)
+                     params={"crtfc_key": dart_key()}, timeout=20, headers=UA)
     z = zipfile.ZipFile(io.BytesIO(r.content))
     xml = z.read(z.namelist()[0]).decode("utf-8")
     out = {}

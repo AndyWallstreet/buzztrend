@@ -209,7 +209,12 @@ try:
                     "`DART_API_KEY = \"...\"` 추가 — 1회면 모든 종목이 열립니다)")
 except Exception as e:
     with h2:
-        st.warning(f"과거 멀티플 조회 실패: {e}")
+        # 예외 문자열에 API 키가 섞일 수 있으므로 원문은 표시하지 않는다
+        if "opendart" in str(e) or "timed out" in str(e).lower():
+            st.info("서버에서 DART에 접속할 수 없어 즉석 계산이 불가합니다 "
+                    "(해외 서버 차단). 사전 계산된 종목만 표시됩니다.")
+        else:
+            st.warning(f"과거 멀티플 조회 실패 ({type(e).__name__})")
 
 if hist is not None:
     hcol = HM[sel_m]
@@ -275,14 +280,18 @@ st.divider()
 # ---------------------------------------------------------------- 최근 공시
 st.markdown("#### 📰 최근 공시 (1년)")
 if dart_key():
-    filings = load_filings(t6)
+    try:
+        filings = load_filings(t6)
+    except Exception:
+        filings = []
     if filings:
         ft = pd.DataFrame(filings, columns=["날짜", "보고서", "링크"])
         ft["날짜"] = ft["날짜"].str.replace(r"(\d{4})(\d{2})(\d{2})", r"\1-\2-\3", regex=True)
         st.dataframe(ft, hide_index=True, use_container_width=True,
                      column_config={"링크": st.column_config.LinkColumn("DART", display_text="📄 열기")})
     else:
-        st.caption("공시 조회 결과가 없습니다.")
+        st.caption(f"공시를 불러올 수 없습니다 — "
+                   f"[DART에서 직접 보기](https://dart.fss.or.kr/dsab007/main.do?option=corp&textCrpNm={t6})")
 else:
     st.caption("DART_API_KEY가 없어 공시를 불러올 수 없습니다.")
 
