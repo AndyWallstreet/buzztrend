@@ -505,12 +505,25 @@ with tab1:
         # ------------------------- 과거 멀티플 (선택 종목) -------------------------
         st.markdown(f"#### 📈 과거 멀티플 — {row['company']}")
         # 1순위: Capital IQ 월별 히스토리 (관심종목 — history_ciq_update.py로 미리 추출)
-        # 2순위: 네이버+DART 즉석 계산 (모든 종목, DART 키 필요)
+        # 2순위: 전 종목 사전 계산 DB (histdb) · 3순위: 네이버+DART 즉석 계산
         ciq_csv = DATA / "history_ciq" / f"{row['ticker']}.csv"
         use_ciq = ciq_csv.exists()
-        if not use_ciq and not dart_key():
-            st.info("이 종목은 CapIQ 히스토리 목록에 없고, 즉석 계산용 DART_API_KEY도 "
-                    "설정돼 있지 않습니다 (Streamlit Cloud → App settings → Secrets, 관리자용 1회).")
+        hdb_row = None
+        if not use_ciq:
+            _hdb_p = DATA.parent / "histdb" / "multiples.csv.gz"
+            if _hdb_p.exists():
+                @st.cache_data(ttl=3600, show_spinner=False)
+                def _load_hdb():
+                    x = pd.read_csv(_hdb_p)
+                    x["date"] = pd.to_datetime(x["date"]).dt.date
+                    return x
+                _hdb = _load_hdb()
+                hdb_row = _hdb[_hdb["ticker"] == row["ticker"]]
+                if len(hdb_row) < 6:
+                    hdb_row = None
+        if not use_ciq and hdb_row is None and not dart_key():
+            st.info("이 종목은 사전 계산 데이터가 없고, 즉석 계산용 DART 접근도 "
+                    "불가한 환경입니다.")
         else:
             if use_ciq:
                 HIST_METRIC = {"EV/Sales": ("evs", "EV/Sales (LTM)"),
@@ -520,7 +533,7 @@ with tab1:
                                "PER": ("per", "PER (LTM)"),
                                "PBR": ("pbr", "PBR")}
             else:
-                # 즉석 계산은 감가상각·capex를 알 수 없어 EV/EBIT로 대신 보여준다
+                # DB/즉석 계산은 감가상각·capex를 알 수 없어 EV/EBIT로 대신 보여준다
                 HIST_METRIC = {"EV/Sales": ("evs", "EV/Sales (TTM)"),
                                "EV/EBIT": ("eve", "EV/EBIT (TTM)"),
                                "EV/EBITDA": ("eve", "EV/EBIT (TTM · EV/EBITDA 대용)"),
@@ -548,6 +561,9 @@ with tab1:
                 if hcol not in hist.columns:
                     # 예전에 추출한 CSV라 이 지표가 없으면 EV/EBIT로 대체
                     hcol, hname = "eve", f"EV/EBIT (LTM · {y_label1} 대용)"
+            elif hdb_row is not None:
+                hist = hdb_row     # 전 종목 사전 계산 DB — 즉시 로딩
+                hmeta = None
             else:
                 try:
                     with st.spinner("네이버·DART에서 과거 데이터를 불러오는 중… "
@@ -598,6 +614,10 @@ with tab1:
                             st.caption("회색 점선 = 기간 평균. 파란 선 = 월별 LTM 멀티플. "
                                        "**데이터: Capital IQ** (관심종목 — "
                                        "`history_ciq_update.py`로 갱신, 목록에 종목 추가 가능).")
+                        elif hmeta is None:
+                            st.caption("회색 점선 = 기간 평균. 파란 선 = 월별 TTM 멀티플. "
+                                       "**데이터: 사전 계산 DB** (`histdb_update.py`로 갱신) · "
+                                       "순부채·주식수는 최신값 고정 근사라 CapIQ 수치와 다소 다를 수 있습니다.")
                         else:
                             st.caption("회색 점선 = 기간 평균. 파란 선 = 주간 TTM 멀티플. "
                                        f"재무 {hmeta['quarters']} · "

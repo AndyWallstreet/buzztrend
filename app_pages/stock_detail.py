@@ -63,6 +63,17 @@ def load_findb():
     return fdb
 
 
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_histdb():
+    """전 종목 과거 멀티플 DB (histdb_update.py가 주기적으로 갱신). 없으면 None."""
+    p = DATA.parent / "histdb" / "multiples.csv.gz"
+    if not p.exists():
+        return None
+    hdb = pd.read_csv(p)
+    hdb["date"] = pd.to_datetime(hdb["date"]).dt.date
+    return hdb
+
+
 df, meta = load()
 
 # ---------------------------------------------------------------- 종목 선택
@@ -181,6 +192,12 @@ h1, h2 = st.columns([1, 3.2], gap="large")
 with h1:
     ciq_csv = DATA / "history_ciq" / f"{ticker}.csv"
     use_ciq = ciq_csv.exists()
+    _hdb = load_histdb()
+    _hd = None
+    if not use_ciq and _hdb is not None:
+        _hd = _hdb[_hdb["ticker"] == ticker]
+        if len(_hd) < 6:
+            _hd = None
     if use_ciq:
         HM = {"EV/Sales": "evs", "EV/EBIT": "eve", "EV/EBITDA": "ebitda",
               "PER": "per", "PBR": "pbr"}
@@ -197,16 +214,17 @@ try:
         hist = pd.read_csv(ciq_csv)
         hist["date"] = pd.to_datetime(hist["date"]).dt.date
         src_note = "데이터: Capital IQ (월별, LTM)"
+    elif _hd is not None:
+        hist = _hd    # 전 종목 사전 계산 DB — 즉시 로딩
+        src_note = "데이터: 사전 계산 DB (월별, TTM — histdb_update.py로 갱신)"
     elif dart_key():
         with st.spinner("과거 데이터 계산 중…"):
             hist, _hm = load_history(t6)
         src_note = "데이터: 네이버 주가 + DART 재무 (주간, TTM 근사)"
     else:
         with h2:
-            st.info("이 종목은 CIQ 히스토리 목록에 없고, 즉석 계산용 **DART_API_KEY**도 "
-                    "설정돼 있지 않아 과거 멀티플을 계산할 수 없습니다. "
-                    "(관리자: share.streamlit.io → 앱 → Settings → Secrets에 "
-                    "`DART_API_KEY = \"...\"` 추가 — 1회면 모든 종목이 열립니다)")
+            st.info("이 종목은 사전 계산 데이터가 없고, 즉석 계산용 DART 접근도 "
+                    "불가한 환경입니다.")
 except Exception as e:
     with h2:
         # 예외 문자열에 API 키가 섞일 수 있으므로 원문은 표시하지 않는다
