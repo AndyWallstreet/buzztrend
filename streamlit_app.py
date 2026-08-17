@@ -62,6 +62,8 @@ pg_value = st.Page("app_pages/value_screener.py", title="Value Screener",
                    url_path="밸류_스크리너")
 pg_stock = st.Page("app_pages/stock_detail.py", title="Stock Picker",
                    url_path="종목상세")
+pg_watch = st.Page("app_pages/watchlist.py", title="Watchlist",
+                   url_path="watchlist")
 
 # ---- Sector Watch
 pg_bio = st.Page(_placeholder("Bio / Healthcare", "제약·바이오·의료기기 섹터 추적"),
@@ -106,7 +108,7 @@ pg_cover = st.Page(_cover, title="LK Asset Terminal", url_path="home", default=T
 
 nav = st.navigation({
     "": [pg_cover],
-    "Screener": [pg_buzz, pg_value, pg_stock],
+    "Screener": [pg_buzz, pg_value, pg_stock, pg_watch],
     "Sector Watch": [pg_bio, pg_beauty, pg_ent, pg_trailer, pg_boxoffice,
                      pg_consumer, pg_logi, pg_steel],
 })
