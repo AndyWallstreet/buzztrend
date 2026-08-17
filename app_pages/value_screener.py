@@ -200,6 +200,14 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         x_dom = [x_left - span_x * 0.03, x_right + span_x * 0.03]
         y_top = min(y_max, float(d[y_col].max()))
         y_dom = [0.0, y_top * 1.07]
+        # 선택한 종목(주황 다이아몬드)이 조건 밖이어도 화면에는 항상 보이게
+        if pick is not None and len(pick):
+            pv = pick.iloc[0]
+            if pd.notna(pv[x_col]):
+                x_dom[0] = min(x_dom[0], float(pv[x_col]) - span_x * 0.03)
+                x_dom[1] = max(x_dom[1], float(pv[x_col]) + span_x * 0.03)
+            if pd.notna(pv[y_col]) and pv[y_col] > 0:
+                y_dom[1] = max(y_dom[1], float(pv[y_col]) * 1.07)
     else:
         x_dom = y_dom = None
 
@@ -589,8 +597,9 @@ with tab1:
                     tips = [alt.Tooltip("date:T", title="날짜"),
                             alt.Tooltip(hcol, title=hname, format=".2f")]
                     if "px" in h.columns:
-                        tips += [alt.Tooltip("px", title="주가", format=",.0f"),
-                                 alt.Tooltip("q", title="TTM 기준분기")]
+                        tips.append(alt.Tooltip("px", title="주가", format=",.0f"))
+                    if "q" in h.columns:
+                        tips.append(alt.Tooltip("q", title="TTM 기준분기"))
                     line = alt.Chart(h).mark_line(color=C_MATCH, size=2).encode(
                         x=alt.X("date:T", title=None),
                         y=alt.Y(hcol, title=hname,
