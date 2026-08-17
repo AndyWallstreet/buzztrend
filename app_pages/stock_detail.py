@@ -191,6 +191,7 @@ with h1:
     days = {"1년": 365, "3년": 365 * 3, "5년": 365 * 5, "10년(최대)": 3650}[dur]
 
 hist = None
+src_note = ""
 try:
     if use_ciq:
         hist = pd.read_csv(ciq_csv)
@@ -201,9 +202,14 @@ try:
             hist, _hm = load_history(t6)
         src_note = "데이터: 네이버 주가 + DART 재무 (주간, TTM 근사)"
     else:
-        src_note = ""
+        with h2:
+            st.info("이 종목은 CIQ 히스토리 목록에 없고, 즉석 계산용 **DART_API_KEY**도 "
+                    "설정돼 있지 않아 과거 멀티플을 계산할 수 없습니다. "
+                    "(관리자: share.streamlit.io → 앱 → Settings → Secrets에 "
+                    "`DART_API_KEY = \"...\"` 추가 — 1회면 모든 종목이 열립니다)")
 except Exception as e:
-    st.warning(f"과거 멀티플 조회 실패: {e}")
+    with h2:
+        st.warning(f"과거 멀티플 조회 실패: {e}")
 
 if hist is not None:
     hcol = HM[sel_m]
