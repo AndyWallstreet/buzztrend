@@ -562,17 +562,71 @@ else:
         if len(_ndl):
             _nd = float(_ndl["netdebt"].iloc[0])
 
+    def dcf_equity(g, opm, wacc, gt, tax, cxp, dpp, nwp, rev0, netdebt):
+        """5년 예측 + 영구가치 -> (지분가치, FCF 리스트, 터미널가치)."""
+        if wacc <= gt:
+            return np.nan, [], np.nan
+        rev_p, fcfs = rev0, []
+        for _ in range(5):
+            rev_n = rev_p * (1 + g)
+            nopat = rev_n * opm * (1 - tax)
+            fcf = nopat + rev_n * dpp - rev_n * cxp - (rev_n - rev_p) * nwp
+            fcfs.append(fcf)
+            rev_p = rev_n
+        tv = fcfs[-1] * (1 + gt) / (wacc - gt)
+        ev = sum(f / (1 + wacc) ** (i + 1) for i, f in enumerate(fcfs))
+        ev += tv / (1 + wacc) ** 5
+        return ev - netdebt, fcfs, tv
+
+    def _solve(fn, lo, hi):
+        """[lo, hi]를 격자로 훑어 시총과 교차하는 구간을 찾은 뒤 이분법."""
+        xs = np.linspace(lo, hi, 46)
+        ys = [fn(x) - _mcap_won for x in xs]
+        for i in range(len(xs) - 1):
+            if pd.isna(ys[i]) or pd.isna(ys[i + 1]):
+                continue
+            if ys[i] == 0:
+                return float(xs[i])
+            if ys[i] * ys[i + 1] < 0:
+                a, b = float(xs[i]), float(xs[i + 1])
+                fa = ys[i]
+                for _ in range(60):
+                    mid = (a + b) / 2
+                    fm = fn(mid) - _mcap_won
+                    if fa * fm <= 0:
+                        b = mid
+                    else:
+                        a, fa = mid, fm
+                return (a + b) / 2
+        return np.nan
+
+    # 기본 성장률 = 현재 시총을 정당화하는 데 필요한 성장률 (역산).
+    # 슬라이더가 이 값에서 시작하므로 "이만큼 성장해야 시총이 설명된다"를
+    # 보자마자 알 수 있다. 역산 불가하면 최근 TTM 성장률로 폴백.
+    _def_args = dict(opm=float(np.clip(_dcf_base["opm"], 0.0, 0.50)),
+                     wacc=0.10, gt=0.015, tax=0.25,
+                     cxp=_capex_pct_d, dpp=_capex_pct_d, nwp=_nwc_pct_d,
+                     rev0=_dcf_base["rev"], netdebt=_nd)
+    _g_imp0 = _solve(lambda g: dcf_equity(g, **_def_args)[0], -0.30, 0.60)
+    if pd.notna(_g_imp0):
+        _g_def = int(np.clip(round(_g_imp0 * 100), -20, 50))
+        _g_note = (f"⚖️ 기본값 {_g_imp0 * 100:+.0f}% = **현재 시총을 정당화하는 "
+                   "성장률**. 이게 무리면 비싼 것, 쉬우면 싼 것. 0으로 내리면 "
+                   "무성장 가치를 볼 수 있습니다.")
+    else:
+        _g_def = 10
+        if pd.notna(_dcf_base["g_ttm"]):
+            _g_def = int(np.clip(round(_dcf_base["g_ttm"] * 100), -20, 30))
+        _g_note = "기본값 = 최근 실적(TTM) 성장률 (시총 정당화 성장률 역산 불가)"
+
     dc1, dc2 = st.columns([1.15, 2.85], gap="large")
     with dc1:
         st.markdown("**가정 입력**")
-        _g_def = 10
-        if pd.notna(_dcf_base["g_ttm"]):
-            # 기본값 = 실제 최근 성장률 (역성장이면 음수 그대로 보여준다)
-            _g_def = int(np.clip(round(_dcf_base["g_ttm"] * 100), -20, 30))
         # 키에 티커를 붙여 종목을 바꾸면 그 종목의 기본값으로 새로 시작하게 한다
         # (고정 키를 쓰면 이전 종목에서 만진 슬라이더 값이 그대로 남는다)
         g5 = st.slider("매출 성장률 — 향후 5년 (연 %)", -20, 50, _g_def,
                        key=f"dcf_g_{ticker}")
+        st.caption(_g_note)
         opm_in = st.slider("영업이익률 OPM (%)", 0.0, 50.0,
                            float(np.clip(round(_dcf_base["opm"] * 100, 1), 0.0, 50.0)),
                            0.5, key=f"dcf_opm_{ticker}")
@@ -591,24 +645,8 @@ else:
             nwc_in = st.slider("운전자본 (매출 증가분 대비 %)", 0.0, 50.0,
                                round(_nwc_pct_d * 100, 1),
                                key=f"dcf_nwc_{ticker}")
-        st.caption("기본값 = 최근 실적(TTM)과 과거 Capex·운전자본 비율에서 자동 산출. "
+        st.caption("OPM·Capex 기본값 = 최근 실적(TTM)과 과거 비율에서 자동 산출. "
                    "세율 25%, WACC 10%, 영구성장 1.5%는 템플릿 기본값.")
-
-    def dcf_equity(g, opm, wacc, gt, tax, cxp, dpp, nwp, rev0, netdebt):
-        """5년 예측 + 영구가치 -> (지분가치, FCF 리스트, 터미널가치)."""
-        if wacc <= gt:
-            return np.nan, [], np.nan
-        rev_p, fcfs = rev0, []
-        for _ in range(5):
-            rev_n = rev_p * (1 + g)
-            nopat = rev_n * opm * (1 - tax)
-            fcf = nopat + rev_n * dpp - rev_n * cxp - (rev_n - rev_p) * nwp
-            fcfs.append(fcf)
-            rev_p = rev_n
-        tv = fcfs[-1] * (1 + gt) / (wacc - gt)
-        ev = sum(f / (1 + wacc) ** (i + 1) for i, f in enumerate(fcfs))
-        ev += tv / (1 + wacc) ** 5
-        return ev - netdebt, fcfs, tv
 
     _args = dict(opm=opm_in / 100, wacc=wacc_in / 100, gt=gt_in / 100,
                  tax=tax_in / 100, cxp=capex_in / 100, dpp=dep_in / 100,
@@ -665,28 +703,6 @@ else:
                                "현재 가격에는 성장 기대가 들어가 있습니다.")
 
             # ---- 퀵 체크 ②: 시총을 정당화하는 성장률/OPM 역산
-            def _solve(fn, lo, hi):
-                """[lo, hi]를 격자로 훑어 시총과 교차하는 구간을 찾은 뒤 이분법."""
-                xs = np.linspace(lo, hi, 46)
-                ys = [fn(x) - _mcap_won for x in xs]
-                for i in range(len(xs) - 1):
-                    if pd.isna(ys[i]) or pd.isna(ys[i + 1]):
-                        continue
-                    if ys[i] == 0:
-                        return float(xs[i])
-                    if ys[i] * ys[i + 1] < 0:
-                        a, b = float(xs[i]), float(xs[i + 1])
-                        fa = ys[i]
-                        for _ in range(60):
-                            mid = (a + b) / 2
-                            fm = fn(mid) - _mcap_won
-                            if fa * fm <= 0:
-                                b = mid
-                            else:
-                                a, fa = mid, fm
-                        return (a + b) / 2
-                return np.nan
-
             _args_no_opm = {k: v for k, v in _args.items() if k != "opm"}
             # "성장 0%" 역산은 퀵 체크 ①과 동일하게 영구 성장도 0%로 계산
             _args0_no_opm = {**_args_no_opm, "gt": 0.0}
@@ -731,9 +747,20 @@ else:
             # ---- FCF 도출 과정 (템플릿 DCF Process 재현)
             # 실적 연도: 수집된 실제 현금흐름(CFO, Capex, 연말 NWC 변화)
             # 전망 연도: NOPAT + D&A − ΔNWC = 영업현금흐름, − Capex = FCF
+            # v2(현금흐름 상세) 미수집 종목도 v1 Capex는 있으므로 capexdb에서
+            # 직접 읽는다 — 있는 항목만 채우고 나머지는 "—"
             _hist_cf = {}
-            if qd is not None:
-                _qa = qd.copy()
+            _qa = _cdb2[_cdb2["ticker"] == ticker].copy() \
+                if _cdb2 is not None else pd.DataFrame()
+            if len(_qa):
+                for _c3 in ("cfo", "dep", "ar", "inv", "ap",
+                            "capex_t", "capex_i"):
+                    if _c3 not in _qa.columns:
+                        _qa[_c3] = np.nan
+                _qa = _qa.sort_values("q")
+                _qa["capex"] = np.where(
+                    _qa[["capex_t", "capex_i"]].notna().any(axis=1),
+                    _qa["capex_t"].fillna(0) + _qa["capex_i"].fillna(0), np.nan)
                 _qa["_y"] = _qa["q"].str[:4]
                 _qa["_nwc"] = np.where(
                     _qa[["ar", "inv", "ap"]].notna().any(axis=1),
@@ -807,10 +834,13 @@ else:
                  _row("(−) 운전자본 증감 (억원)", pdf["ΔNWC"], _num_f),
                  _row("(=) 영업현금흐름 (억원)", pdf["OCF"], _num_f),
                  _row("(−) Capex (억원)", pdf["Capex"], _num_f),
-                 _row("(=) FCF (억원)", pdf["FCF"], _num_f)],
+                 _row("(=) FCF (억원)", pdf["FCF"], _num_f),
+                 _row("FCF 수익률 (%, FCF/현재EV)",
+                      pdf["FCF"] / _ev_cur * 100 if _ev_cur > 0
+                      else pdf["FCF"] * np.nan, _pct_f)],
                 columns=["지표"] + pdf["연도"].tolist())
             st.dataframe(tbl, hide_index=True, use_container_width=True,
-                         height=420)
+                         height=460)
             st.caption("실적 연도의 영업현금흐름·Capex·FCF는 실제 현금흐름표 수치"
                        "(CFO − Capex = FCF), 전망 연도는 NOPAT + D&A − 운전자본 증감 "
                        "− Capex 간이 계산. 실적 D&A는 회사가 주석에만 공시하면 비어 "
