@@ -64,6 +64,15 @@ def load_findb():
 
 
 @st.cache_data(ttl=3600, show_spinner=False)
+def load_capexdb():
+    """Capex(유형/무형 취득) DB (capexdb_update.py가 매일 커버리지 확장). 없으면 None."""
+    p = DATA.parent / "capexdb" / "capex.csv.gz"
+    if not p.exists():
+        return None
+    return pd.read_csv(p)
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
 def load_histdb():
     """전 종목 과거 멀티플 DB (histdb_update.py가 주기적으로 갱신). 없으면 None."""
     p = DATA.parent / "histdb" / "multiples.csv.gz"
@@ -191,29 +200,104 @@ else:
         fin["영업이익(억)"] = fin["ebit"] / 1e8
         fin["순이익(억)"] = fin["ni"] / 1e8
         fin["OPM(%)"] = np.where(fin["rev"] > 0, fin["ebit"] / fin["rev"] * 100, np.nan)
+        _lag = 4 if freq == "분기" else 1
+        fin["매출YoY(%)"] = fin["rev"].pct_change(_lag) * 100
+        # 증가율은 직전값이 0 이하(적자 등)면 의미가 없어 비움
+        fin["영업YoY(%)"] = np.where(fin["ebit"].shift(_lag) > 0,
+                                    fin["ebit"].pct_change(_lag) * 100, np.nan)
+        fin["매출QoQ(%)"] = fin["rev"].pct_change(1) * 100
+        fin["영업QoQ(%)"] = np.where(fin["ebit"].shift(1) > 0,
+                                    fin["ebit"].pct_change(1) * 100, np.nan)
 
-        g1, g2 = st.columns([2.2, 1.8], gap="large")
-        with g1:
-            base = alt.Chart(fin).encode(x=alt.X("q:N", title=x_title, sort=None))
+        def bar_line(df, bar_col, bar_title, line_col, line_title):
+            base = alt.Chart(df).encode(x=alt.X("q:N", title=x_title, sort=None))
             bars = base.mark_bar(color=C_BAR, opacity=0.85).encode(
-                y=alt.Y("매출(억):Q", title="매출 (억원)"),
-                tooltip=["q", alt.Tooltip("매출(억)", format=",.0f"),
-                         alt.Tooltip("영업이익(억)", format=",.0f"),
-                         alt.Tooltip("OPM(%)", format=".1f")])
+                y=alt.Y(f"{bar_col}:Q", title=bar_title),
+                tooltip=["q", alt.Tooltip(bar_col, format=",.0f"),
+                         alt.Tooltip(line_col, format=".1f")])
             line = base.mark_line(color=C_LINE, size=2.5, point=True).encode(
-                y=alt.Y("OPM(%):Q", title="영업이익률 (%)"),
-                tooltip=["q", alt.Tooltip("OPM(%)", format=".1f")])
-            st.altair_chart(alt.layer(bars, line).resolve_scale(y="independent")
-                            .properties(height=330), use_container_width=True)
-            st.caption(("파란 막대 = 분기 매출, 주황 선 = 영업이익률(OPM)" if freq == "분기"
-                        else "파란 막대 = 연간 매출, 주황 선 = 영업이익률(OPM) · * = 진행 중인 해"))
-        with g2:
-            t = fin.tail(12)[["q", "매출(억)", "YoY(%)", "영업이익(억)", "OPM(%)", "순이익(억)"]].copy()
-            for c in t.columns[1:]:
-                t[c] = t[c].round(1)
-            t.columns = [("분기" if freq == "분기" else "연도"),
-                         "매출(억)", "YoY%", "영업이익(억)", "OPM%", "순이익(억)"]
-            st.dataframe(t.iloc[::-1], hide_index=True, use_container_width=True, height=330)
+                y=alt.Y(f"{line_col}:Q", title=line_title),
+                tooltip=["q", alt.Tooltip(line_col, format=".1f")])
+            return (alt.layer(bars, line).resolve_scale(y="independent")
+                    .properties(height=270))
+
+        r1c1, r1c2 = st.columns(2, gap="large")
+        with r1c1:
+            st.markdown("**매출** · 주황 선 = 매출 증가율(YoY)")
+            st.altair_chart(bar_line(fin, "매출(억)", "매출 (억원)",
+                                     "매출YoY(%)", "매출 YoY (%)"),
+                            use_container_width=True)
+        with r1c2:
+            st.markdown("**영업이익** · 주황 선 = 영업이익률(OPM)")
+            st.altair_chart(bar_line(fin, "영업이익(억)", "영업이익 (억원)",
+                                     "OPM(%)", "영업이익률 (%)"),
+                            use_container_width=True)
+
+        r2c1, r2c2 = st.columns(2, gap="large")
+        with r2c1:
+            _basis = "YoY"
+            if freq == "분기":
+                _basis = st.radio("증가율 기준", ["YoY", "QoQ"], horizontal=True,
+                                  key="sd_lev_basis")
+            st.markdown(f"**오퍼레이팅 레버리지** — 매출 vs 영업이익 증가율 ({_basis})")
+            _g1, _g2 = f"매출{_basis}(%)", f"영업{_basis}(%)"
+            lev = fin[["q", _g1, _g2]].melt("q", var_name="지표", value_name="증가율")
+            lev_chart = alt.Chart(lev).mark_line(size=2.5, point=True).encode(
+                x=alt.X("q:N", title=x_title, sort=None),
+                y=alt.Y("증가율:Q", title="증가율 (%)"),
+                color=alt.Color("지표:N",
+                                scale=alt.Scale(domain=[_g1, _g2],
+                                                range=[C_BAR, C_LINE]),
+                                legend=alt.Legend(orient="top")),
+                tooltip=["q", "지표", alt.Tooltip("증가율", format=".1f")])
+            zero = alt.Chart(pd.DataFrame({"v": [0]})).mark_rule(
+                color="#666", strokeDash=[4, 3]).encode(y="v")
+            st.altair_chart(alt.layer(lev_chart, zero).properties(height=250),
+                            use_container_width=True)
+            st.caption("주황(영업이익)이 파랑(매출) 위에 있으면 레버리지가 작동 중 — "
+                       "매출보다 이익이 빨리 늘고 있다는 뜻.")
+        with r2c2:
+            st.markdown("**Capex — 유형/무형자산 취득**")
+            _cdb = load_capexdb()
+            _cx = _cdb[_cdb["ticker"] == ticker] if _cdb is not None else None
+            if _cx is not None and len(_cx) >= 2:
+                cx = _cx.copy()
+                cx["_yr"] = cx["q"].str[:4].astype(int)
+                cx = cx[(cx["_yr"] >= y0) & (cx["_yr"] <= y1)]
+                if freq == "연간":
+                    gg = cx.groupby("_yr")
+                    cx = pd.DataFrame({
+                        "capex_t": gg["capex_t"].sum(min_count=1),
+                        "capex_i": gg["capex_i"].sum(min_count=1),
+                        "n_q": gg["capex_t"].count()}).reset_index()
+                    cx["q"] = cx["_yr"].astype(str) + np.where(cx["n_q"] < 4, "*", "")
+                cx["유형(억)"] = cx["capex_t"] / 1e8
+                cx["무형(억)"] = cx["capex_i"] / 1e8
+                cm = cx[["q", "유형(억)", "무형(억)"]].melt("q", var_name="구분",
+                                                          value_name="capex")
+                cap_chart = alt.Chart(cm).mark_bar(opacity=0.9).encode(
+                    x=alt.X("q:N", title=x_title, sort=None),
+                    y=alt.Y("capex:Q", title="Capex (억원)", stack=True),
+                    color=alt.Color("구분:N",
+                                    scale=alt.Scale(domain=["유형(억)", "무형(억)"],
+                                                    range=[C_BAR, "#8ec9ff"]),
+                                    legend=alt.Legend(orient="top")),
+                    tooltip=["q", "구분", alt.Tooltip("capex", format=",.0f")])
+                st.altair_chart(cap_chart.properties(height=250),
+                                use_container_width=True)
+                st.caption("현금흐름표 기준 취득액 (분기 단독 환산) · 2021년 이후")
+            else:
+                st.info("이 종목의 Capex는 아직 수집 전입니다 — 관심종목·시총 상위부터 "
+                        "매일 조금씩 수집이 넓어집니다 (capexdb_update.py).")
+
+        t = fin.tail(12)[["q", "매출(억)", "매출YoY(%)", "영업이익(억)", "영업YoY(%)",
+                          "OPM(%)", "순이익(억)"]].copy()
+        for c in t.columns[1:]:
+            t[c] = t[c].round(1)
+        t.columns = [("분기" if freq == "분기" else "연도"), "매출(억)", "매출YoY%",
+                     "영업이익(억)", "영업YoY%", "OPM%", "순이익(억)"]
+        st.dataframe(t.iloc[::-1], hide_index=True, use_container_width=True,
+                     height=min(80 + 36 * len(t), 380))
     except Exception as e:
         st.warning(f"분기 실적 조회 실패 ({type(e).__name__})")
 
