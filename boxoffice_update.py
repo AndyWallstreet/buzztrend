@@ -350,21 +350,38 @@ def build_market(path: Path, open_date: date, end: date, refresh_last=0):
 
 
 def read_csv(path: Path):
+    """파일에 실제로 적힌 헤더 그대로 읽는다.
+
+    HEAD 로 고정해 zip 하면 kobis_seats.py 가 뒤에 붙여 둔 seats/seat_sale/
+    seat_share 가 잘려 나가고, 이어지는 write_csv 에서 통째로 사라진다 —
+    2026-08-18 아침에 실제로 사이트가 KeyError 로 죽었다. BOM 이 붙은 파일이
+    있어 utf-8-sig 로 읽어야 첫 열 이름이 깨지지 않는다.
+    """
     if not path.exists():
         return {}
+    lines = path.read_text(encoding="utf-8-sig").strip().split("\n")
+    if not lines:
+        return {}
+    head = [h.strip() for h in lines[0].split(",")] or list(HEAD)
     out = {}
-    for line in path.read_text(encoding="utf-8").strip().split("\n")[1:]:
+    for line in lines[1:]:
         p = line.split(",")
         if p and p[0]:
-            out[p[0]] = dict(zip(HEAD, p))
+            out[p[0]] = dict(zip(head, p))
     return out
 
 
 def write_csv(path: Path, rows: dict):
-    lines = [",".join(HEAD)]
+    """HEAD 뒤에 다른 스크립트가 덧붙인 열이 있으면 그대로 보존해서 쓴다."""
+    cols = list(HEAD)
+    for r in rows.values():
+        for k in r:
+            if k not in cols:
+                cols.append(k)
+    lines = [",".join(cols)]
     for k in sorted(rows):
         r = rows[k]
-        lines.append(",".join(str(r[h]) for h in HEAD))
+        lines.append(",".join(str(r.get(h, "")) for h in cols))
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -387,6 +404,11 @@ def build_curve(path: Path, open_date: date, end: date, refresh_last=0, force=Fa
         time.sleep(0.8)   # 예의상 간격 — 빠른 연속 요청은 IP 차단을 부른다 (2026-08-07 실제로 당함)
         row = fetch_day(d, open_date)
         if row:
+            # 최근 며칠을 다시 받을 때 fetch_day 가 돌려주는 건 HEAD 열뿐이라,
+            # 기존 행에 kobis_seats.py 가 채워 둔 열은 그대로 옮겨 싣는다.
+            for k_extra, v in rows.get(key, {}).items():
+                if k_extra not in row:
+                    row[k_extra] = v
             rows[key] = row
             added += 1
             misses = 0
