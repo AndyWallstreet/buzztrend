@@ -221,9 +221,11 @@ else:
     _pt = vspan <= 40          # 141일을 점까지 찍으면 선이 안 보인다
     # 경과일 숫자만 있으면 "그래서 그게 며칠이었지?"가 매번 걸린다 — 숫자 아래에
     # 2편의 실제 날짜를 같이 찍어 준다 (2026-08-05 + 경과일). datetime()의 월은
-    # 0부터라 8월 = 7. 배열을 돌려주면 Vega가 두 줄로 그린다.
+    # 0부터라 8월 = 7. 날짜 인자에 경과일을 그냥 더하면 Date 가 알아서 월을 넘겨
+    # 준다 — datetime() 결과(Date)에 밀리초를 더하면 NaN 이 되니 그러면 안 된다.
+    # 배열을 돌려주면 Vega 가 두 줄로 그린다.
     _date_label = ("[format(datum.value,'d'), "
-                   "timeFormat(datetime(2026,7,5)+datum.value*86400000,'%m/%d')]")
+                   "timeFormat(datetime(2026,7,5+datum.value),'%m/%d')]")
     _xtitle = "개봉 후 경과일 (0 = 개봉일) · 아래 날짜는 2편 기준"
     _xaxis = (alt.Axis(tickMinStep=1, labelExpr=_date_label, labelAngle=0)
               if not view_all
