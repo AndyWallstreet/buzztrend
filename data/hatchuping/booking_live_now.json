@@ -5,13 +5,13 @@
   "rate": 0.8,
   "tickets": 5389,
   "cum": 698079,
-  "total_tickets": 691098,
+  "total_tickets": 691100,
   "share": 0.0078,
   "rivals": [
     {
       "title": "오디세이",
       "rate": 74.5,
-      "tickets": 515006
+      "tickets": 515008
     },
     {
       "title": "스파이더맨: 브랜드 뉴 데이",
