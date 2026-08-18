@@ -74,6 +74,18 @@ ST_EXTRA_CSS = """<style>
     border-radius: 4px; padding: 0 3px;
 }
 .lk-ind { padding: 6px 1px 5px 1px; font-size: 0.72rem; line-height: 1.5; }
+/* 차트/소섹션 제목 — Epic 스타일 블루 타이틀 바 */
+.lk-h {
+    font-size: 0.97rem; font-weight: 700;
+    background: linear-gradient(90deg, #16283e, rgba(22,40,62,0.2));
+    border-left: 4px solid #2e7de9;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin: 0.9rem 0 0.5rem 0;
+}
+.lk-h span {
+    font-weight: 400; font-size: 0.8rem; opacity: 0.8; margin-left: 7px;
+}
 </style>"""
 st.markdown(ST_EXTRA_CSS, unsafe_allow_html=True)
 
@@ -81,6 +93,12 @@ st.markdown(ST_EXTRA_CSS, unsafe_allow_html=True)
 def sec(title: str):
     """눈에 띄는 섹션 헤더 (왼쪽 골드 바 + 배경 밴드)."""
     st.markdown(f'<div class="lk-sec">{title}</div>', unsafe_allow_html=True)
+
+
+def sub(title: str, note: str = ""):
+    """차트/소섹션 제목 — Epic 스타일 블루 타이틀 바."""
+    n = f"<span>{note}</span>" if note else ""
+    st.markdown(f'<div class="lk-h">{title}{n}</div>', unsafe_allow_html=True)
 
 MULTIPLES = {"EV/Sales": "ev_sales", "EV/EBIT": "ev_ebit", "EV/EBITDA": "ev_ebitda",
              "EV/FCF": "ev_fcf", "PER": "per", "PBR": "pbr"}
@@ -359,12 +377,12 @@ with _right:
 
                 r1c1, r1c2 = st.columns(2, gap="large")
                 with r1c1:
-                    st.markdown("**매출** · 주황 선 = 매출 증가율(YoY)")
+                    sub("매출", "주황 선 = 매출 증가율(YoY)")
                     st.altair_chart(bar_line(fin, "매출(억)", "매출 (억원)",
                                              "매출YoY(%)", "매출 YoY (%)"),
                                     use_container_width=True)
                 with r1c2:
-                    st.markdown("**영업이익** · 주황 선 = 영업이익률(OPM)")
+                    sub("영업이익", "주황 선 = 영업이익률(OPM)")
                     st.altair_chart(bar_line(fin, "영업이익(억)", "영업이익 (억원)",
                                              "OPM(%)", "영업이익률 (%)"),
                                     use_container_width=True)
@@ -375,7 +393,7 @@ with _right:
                     if freq == "분기":
                         _basis = st.radio("증가율 기준", ["YoY", "QoQ"], horizontal=True,
                                           key="sd_lev_basis")
-                    st.markdown(f"**오퍼레이팅 레버리지** — 매출 vs 영업이익 증가율 ({_basis})")
+                    sub("오퍼레이팅 레버리지", f"매출 vs 영업이익 증가율 ({_basis})")
                     _g1, _g2 = f"매출{_basis}(%)", f"영업{_basis}(%)"
                     lev = fin[["q", _g1, _g2]].melt("q", var_name="지표", value_name="증가율")
                     lev_chart = alt.Chart(lev).mark_line(size=2.5, point=True).encode(
@@ -393,7 +411,7 @@ with _right:
                     st.caption("주황(영업이익)이 파랑(매출) 위에 있으면 레버리지가 작동 중 — "
                                "매출보다 이익이 빨리 늘고 있다는 뜻.")
                 with r2c2:
-                    st.markdown("**Capex — 유형/무형자산 취득**")
+                    sub("Capex", "유형/무형자산 취득")
                     _cdb = load_capexdb()
                     _cx = _cdb[_cdb["ticker"] == ticker] if _cdb is not None else None
                     if _cx is not None and len(_cx) >= 2:
@@ -529,14 +547,14 @@ with _right:
 
             qc1, qc2 = st.columns(2, gap="large")
             with qc1:
-                st.markdown("**ROIC (TTM, 세율 25% 가정)** — 자본을 얼마나 잘 굴리는가")
+                sub("ROIC (TTM, 세율 25% 가정)", "자본을 얼마나 잘 굴리는가")
                 ch = _line_chart(qv, ["ROIC(%)"], [C_BAR], "ROIC (%)")
                 if ch is not None:
                     st.altair_chart(ch, use_container_width=True)
                 else:
                     st.info("투하자본 계산에 필요한 데이터가 부족합니다.")
             with qc2:
-                st.markdown("**현금창출력 (TTM)** — 이익이 실제 현금으로 들어오는가")
+                sub("현금창출력 (TTM)", "이익이 실제 현금으로 들어오는가")
                 ch = _line_chart(qv, ["CFO/EBIT(%)", "FCF/순이익(%)"], [C_BAR, C_LINE], "%")
                 if ch is not None:
                     st.altair_chart(ch, use_container_width=True)
@@ -547,7 +565,7 @@ with _right:
 
             qc3, qc4 = st.columns(2, gap="large")
             with qc3:
-                st.markdown("**운전자본 일수** — 돈이 얼마나 묶이는가 (CCC = 채권+재고−채무)")
+                sub("운전자본 일수", "돈이 얼마나 묶이는가 (CCC = 채권+재고−채무)")
                 _ccc_cols = [c for c in ["매출채권일수", "재고일수", "매입채무일수", "CCC일수"]
                              if qv[c].notna().any()]
                 ch = _line_chart(qv, _ccc_cols,
@@ -558,7 +576,7 @@ with _right:
                 else:
                     st.info("운전자본 데이터가 부족합니다.")
             with qc4:
-                st.markdown("**주주환원 (연간)** — 배당 + 자사주, 선 = 환원율(순이익 대비)")
+                sub("주주환원 (연간)", "배당 + 자사주, 선 = 환원율(순이익 대비)")
                 ya = qd.copy()
                 ya["_yr"] = ya["q"].str[:4]
                 g = ya.groupby("_yr")
@@ -700,7 +718,7 @@ with _right:
 
             dc1, dc2 = st.columns([1.15, 2.85], gap="large")
             with dc1:
-                st.markdown("**가정 입력**")
+                sub("가정 입력")
 
                 # 원클릭 버튼: 성장 0% 스냅 / 전체 가정 초기화(시총 정당화 기본값)
                 _g_key = f"dcf_g_{ticker}"
@@ -816,7 +834,7 @@ with _right:
 
                     # ---- 연간 실적 + 전망 경로 (템플릿의 Financials Forecast 재현)
                     # 왼쪽 가정을 바꾸면 매출/영업이익 경로와 표가 즉시 다시 계산된다
-                    st.markdown("**연간 실적 → 전망 경로** — 가정을 바꾸면 즉시 반영")
+                    sub("연간 실적 → 전망 경로", "가정을 바꾸면 즉시 반영")
                     _fa = _fq2.copy()
                     _fa["_yr"] = _fa["q"].str[:4].astype(int)
                     _g = _fa.groupby("_yr").agg(rev=("rev", "sum"), ebit=("ebit", "sum"),
@@ -1075,7 +1093,7 @@ with _right:
         _hdb_b = load_histdb()
         _bd = _hdb_b[_hdb_b["ticker"] == ticker] if _hdb_b is not None else None
         if _bd is not None and len(_bd) >= 12 and "px" in _bd.columns:
-            st.markdown("**밴드 차트 — 주가가 밴드의 어디를 지나고 있나**")
+            sub("밴드 차트", "주가가 밴드의 어디를 지나고 있나")
             b1, b2 = st.columns([1, 3.2], gap="large")
             _band_opts = ["PER", "PBR", "EV/Sales", "EV/EBIT"]
             _ciq_eb = None

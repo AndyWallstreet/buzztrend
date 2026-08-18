@@ -56,11 +56,14 @@ div[data-testid="stNumberInput"] button {
     background-color: #efdc9a !important;
 }
 div[data-testid="stNumberInput"] button svg { fill: #444 !important; }
-/* 섹션 제목 아래 구분선 — 그룹끼리 나뉘어 보이게 */
+/* 소섹션 제목 — Epic 스타일 블루 타이틀 바 */
 [data-testid="stMarkdownContainer"] h5 {
-    border-bottom: 2px solid rgba(217, 178, 58, 0.45);
-    padding-bottom: 6px;
-    margin-top: 0.7rem;
+    font-size: 0.97rem !important;
+    background: linear-gradient(90deg, #16283e, rgba(22,40,62,0.2));
+    border-left: 4px solid #2e7de9;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin-top: 0.8rem;
 }
 /* 큰 섹션 헤더 — 어디서 새 섹션이 시작되는지 한눈에 보이게 */
 .lk-sec {
