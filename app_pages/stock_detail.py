@@ -719,8 +719,53 @@ else:
             pdf["YoY(%)"] = pdf["매출"].pct_change() * 100
             pdf["OPM(%)"] = pdf["영업이익"] / pdf["매출"] * 100
             pdf["NOPAT"] = pdf["영업이익"] * (1 - tax_in / 100)
-            _fcf_map = {f"+{i + 1}년E": fcfs[i] for i in range(5)}
-            pdf["FCF"] = pdf["연도"].map(_fcf_map)
+
+            # ---- FCF 도출 과정 (템플릿 DCF Process 재현)
+            # 실적 연도: 수집된 실제 현금흐름(CFO, Capex, 연말 NWC 변화)
+            # 전망 연도: NOPAT + D&A − ΔNWC = 영업현금흐름, − Capex = FCF
+            _hist_cf = {}
+            if qd is not None:
+                _qa = qd.copy()
+                _qa["_y"] = _qa["q"].str[:4]
+                _qa["_nwc"] = np.where(
+                    _qa[["ar", "inv", "ap"]].notna().any(axis=1),
+                    _qa["ar"].fillna(0) + _qa["inv"].fillna(0) - _qa["ap"].fillna(0),
+                    np.nan)
+                _nwc_end = {}
+                for _y, _d in _qa.groupby("_y"):
+                    _hist_cf[_y] = {
+                        "cfo": _d["cfo"].sum(min_count=4),
+                        "capex": _d["capex"].sum(min_count=4),
+                        "dep": _d["dep"].sum(min_count=4)}
+                    if _d["_nwc"].notna().any():
+                        _nwc_end[_y] = float(_d["_nwc"].dropna().iloc[-1])
+                for _i2, _y in enumerate(sorted(_hist_cf)):
+                    _py = sorted(_hist_cf)[_i2 - 1] if _i2 else None
+                    _hist_cf[_y]["dnwc"] = (
+                        _nwc_end[_y] - _nwc_end[_py]
+                        if _py in _nwc_end and _y in _nwc_end else np.nan)
+                # TTM (최근 4분기)
+                _t_cfo = _qa["cfo"].tail(4).sum(min_count=4)
+                _t_cap = _qa["capex"].tail(4).sum(min_count=4)
+                _t_dep = _qa["dep"].tail(4).sum(min_count=4)
+                _nwcs = _qa["_nwc"].dropna()
+                _t_dnwc = (float(_nwcs.iloc[-1] - _nwcs.iloc[-5])
+                           if len(_nwcs) >= 5 else np.nan)
+                _hist_cf["TTM"] = {"cfo": _t_cfo, "capex": _t_cap,
+                                   "dep": _t_dep, "dnwc": _t_dnwc}
+
+            _is_f = pdf["구분"].eq("전망")
+            _d_rev = pdf["매출"] - pdf["매출"].shift(1)
+            _hmap = lambda k: pdf["연도"].map(
+                lambda y: _hist_cf.get(y, {}).get(k, np.nan))
+            pdf["D&A"] = np.where(_is_f, pdf["매출"] * dep_in / 100, _hmap("dep"))
+            pdf["ΔNWC"] = np.where(_is_f, _d_rev * nwc_in / 100, _hmap("dnwc"))
+            pdf["Capex"] = np.where(_is_f, pdf["매출"] * capex_in / 100,
+                                    _hmap("capex"))
+            pdf["OCF"] = np.where(_is_f,
+                                  pdf["NOPAT"] + pdf["D&A"] - pdf["ΔNWC"],
+                                  _hmap("cfo"))
+            pdf["FCF"] = pdf["OCF"] - pdf["Capex"]
 
             fb1, fb2 = st.columns(2, gap="large")
             _dom = ["실적", "전망"]
@@ -750,9 +795,18 @@ else:
                  _row("영업이익 (억원)", pdf["영업이익"], _num_f),
                  _row("OPM (%)", pdf["OPM(%)"], _pct_f),
                  _row(f"NOPAT (억원, 세율 {tax_in}%)", pdf["NOPAT"], _num_f),
-                 _row("FCF (억원)", pdf["FCF"], _num_f)],
+                 _row("(+) D&A (억원)", pdf["D&A"], _num_f),
+                 _row("(−) 운전자본 증감 (억원)", pdf["ΔNWC"], _num_f),
+                 _row("(=) 영업현금흐름 (억원)", pdf["OCF"], _num_f),
+                 _row("(−) Capex (억원)", pdf["Capex"], _num_f),
+                 _row("(=) FCF (억원)", pdf["FCF"], _num_f)],
                 columns=["지표"] + pdf["연도"].tolist())
-            st.dataframe(tbl, hide_index=True, use_container_width=True)
+            st.dataframe(tbl, hide_index=True, use_container_width=True,
+                         height=420)
+            st.caption("실적 연도의 영업현금흐름·Capex·FCF는 실제 현금흐름표 수치"
+                       "(CFO − Capex = FCF), 전망 연도는 NOPAT + D&A − 운전자본 증감 "
+                       "− Capex 간이 계산. 실적 D&A는 회사가 주석에만 공시하면 비어 "
+                       "있을 수 있습니다.")
 
             _nd_txt = ("순현금 " + _fmt_won(-_nd)) if _nd < 0 else ("순부채 " + _fmt_won(_nd))
             st.caption(f"5년 명시 예측 + 영구가치(그로잉 퍼페추이티) − 순부채. "
