@@ -148,7 +148,7 @@ def _search_stocks(q: str):
     return [s for s in _labels if ql in s.lower()][:60]
 
 
-c_top1, c_top2 = st.columns([1.2, 2.8], gap="large")
+c_top1, c_top2 = st.columns([0.9, 4.1], gap="medium")
 with c_top1:
     picked = st_searchbox(_search_stocks, key="sd_pick",
                           label="종목 검색 (이름/티커 — 단어 포함만 표시)",
@@ -173,7 +173,7 @@ t6 = ticker.lstrip("A")
 
 # ---------------------------------------------------------------- 헤더
 with c_top2:
-    st.title(f"📋 {row['company']}")
+    st.title(row["company"])
     st.caption(f"{ticker} · {row['sector']} › {row['industry_group']} › {row['industry']} · "
                f"기준일 {meta['as_of']} · "
                f"[네이버금융](https://finance.naver.com/item/main.naver?code={t6}) · "
