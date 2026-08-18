@@ -68,7 +68,7 @@ def day_axis(days, max_labels=12):
 WK_COLOR = "#f5c542"
 
 
-def weekend_band(hi, lo=0, opacity=0.12, x_title=None):
+def weekend_band(hi, lo=0, opacity=0.12, x_title=None, x_axis=alt.Undefined):
     """경과일(또는 D-day) 축에 주말(토·일) 음영.
 
     1편(2024-08-07)·2편(2026-08-05) 둘 다 **수요일 개봉**이라 경과일 3·4가 토·일로
@@ -77,7 +77,9 @@ def weekend_band(hi, lo=0, opacity=0.12, x_title=None):
 
     x_title 은 함께 겹칠 선 차트의 축 제목과 같은 값을 넘겨야 한다 — Altair 는
     레이어의 x 인코딩을 병합하면서 title=None 이 이기기 때문에, 안 맞추면
-    "경과일" 같은 축 제목이 음영을 깐 순간 사라진다.
+    "경과일" 같은 축 제목이 음영을 깐 순간 사라진다. x_axis 도 같은 이유로,
+    선 차트 쪽에 준 alt.Axis(...) 를 그대로 넘겨야 눈금 라벨 설정(labelExpr 로
+    찍는 실제 날짜 등)이 병합 과정에서 지워지지 않는다.
     """
     lo, hi = float(lo), float(hi)
     rows, w = [], int((lo - 4.5) // 7)
@@ -88,7 +90,8 @@ def weekend_band(hi, lo=0, opacity=0.12, x_title=None):
         w += 1
     return alt.Chart(pd.DataFrame(rows, columns=["x0", "x1"])).mark_rect(
         color=WK_COLOR, opacity=opacity).encode(
-        x=alt.X("x0:Q", scale=alt.Scale(domain=[lo, hi], nice=False), title=x_title),
+        x=alt.X("x0:Q", scale=alt.Scale(domain=[lo, hi], nice=False), title=x_title,
+                axis=x_axis),
         x2="x1:Q")
 
 
@@ -215,13 +218,23 @@ else:
     b["구분"] = "1편"
     comp = pd.concat([a, b], ignore_index=True)
 
-    wk_band = weekend_band(vspan, opacity=0.12 if not view_all else 0.09)
-
     _pt = vspan <= 40          # 141일을 점까지 찍으면 선이 안 보인다
-    _xaxis = (alt.Axis(tickMinStep=1, format="d") if not view_all
-              else alt.Axis(values=list(range(0, vspan + 1, 7)), format="d", labelAngle=0))
+    # 경과일 숫자만 있으면 "그래서 그게 며칠이었지?"가 매번 걸린다 — 숫자 아래에
+    # 2편의 실제 날짜를 같이 찍어 준다 (2026-08-05 + 경과일). datetime()의 월은
+    # 0부터라 8월 = 7. 배열을 돌려주면 Vega가 두 줄로 그린다.
+    _date_label = ("[format(datum.value,'d'), "
+                   "timeFormat(datetime(2026,7,5)+datum.value*86400000,'%m/%d')]")
+    _xtitle = "개봉 후 경과일 (0 = 개봉일) · 아래 날짜는 2편 기준"
+    _xaxis = (alt.Axis(tickMinStep=1, labelExpr=_date_label, labelAngle=0)
+              if not view_all
+              else alt.Axis(values=list(range(0, vspan + 1, 7)),
+                            labelExpr=_date_label, labelAngle=0))
+
+    wk_band = weekend_band(vspan, opacity=0.12 if not view_all else 0.09,
+                           x_title=_xtitle, x_axis=_xaxis)
+
     base = alt.Chart(comp).encode(
-        x=alt.X("day:Q", title="개봉 후 경과일 (0 = 개봉일)",
+        x=alt.X("day:Q", title=_xtitle,
                 scale=alt.Scale(domain=[0, vspan], nice=False), axis=_xaxis),
         color=alt.Color("구분:N", scale=alt.Scale(domain=["2편", "1편"],
                                                  range=[C_M2, C_M1]),
@@ -251,7 +264,8 @@ else:
         cum_layers.append(
             alt.Chart(proj).mark_line(strokeWidth=2, strokeDash=[2, 3],
                                       color="#8fc0f0", opacity=0.95).encode(
-                x=alt.X("day:Q", scale=alt.Scale(domain=[0, vspan], nice=False)),
+                x=alt.X("day:Q", title=_xtitle, axis=_xaxis,
+                        scale=alt.Scale(domain=[0, vspan], nice=False)),
                 y="cum:Q",
                 tooltip=[alt.Tooltip("구분:N", title=""),
                          alt.Tooltip("day:Q", title="경과일"),
