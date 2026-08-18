@@ -62,7 +62,22 @@ div[data-testid="stNumberInput"] button svg { fill: #444 !important; }
     padding-bottom: 6px;
     margin-top: 0.7rem;
 }
+/* 큰 섹션 헤더 — 어디서 새 섹션이 시작되는지 한눈에 보이게 */
+.lk-sec {
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding: 9px 14px;
+    margin: 1.8rem 0 0.7rem 0;
+    border-left: 5px solid #d9a021;
+    border-radius: 4px;
+    background: linear-gradient(90deg, rgba(217,160,33,0.18), rgba(217,160,33,0.02));
+}
 </style>""", unsafe_allow_html=True)
+
+
+def sec(title: str):
+    """눈에 띄는 섹션 헤더 (왼쪽 골드 바 + 배경 밴드)."""
+    st.markdown(f'<div class="lk-sec">{title}</div>', unsafe_allow_html=True)
 
 # ---- 차트 점 클릭(네이버금융 링크)이 반드시 '새 탭'으로 열리게 하는 패치 ----
 # 차트 렌더러(vega)는 링크 클릭 시 화면에 붙어있지 않은 임시 <a>를 만들어
@@ -513,7 +528,7 @@ with tab1:
             st.caption(f"🔶 {row['company']}: {x_label1} {vx} · {y_label1} {vy}")
 
         # ------------------------- 과거 멀티플 (선택 종목) -------------------------
-        st.markdown(f"#### 📈 과거 멀티플 — {row['company']}")
+        sec(f"📈 과거 멀티플 — {row['company']}")
         # 1순위: Capital IQ 월별 히스토리 (관심종목 — history_ciq_update.py로 미리 추출)
         # 2순위: 전 종목 사전 계산 DB (histdb) · 3순위: 네이버+DART 즉석 계산
         ciq_csv = DATA / "history_ciq" / f"{row['ticker']}.csv"
@@ -641,7 +656,7 @@ with tab1:
                                        "가격 네이버 주간종가 · 재무 DART 연결 TTM(공시지연 45일 가정) · "
                                        "순부채·주식수는 최신값 고정 근사라 CapIQ 수치와 다소 다를 수 있습니다.")
 
-        st.markdown(f"#### 조건 통과 (좋은데 싼) 피어: {len(good)}개")
+        sec(f"🏁 조건 통과 (좋은데 싼) 피어: {len(good)}개")
         st.caption("점수(질 백분위 + 멀티플 낮음 백분위, 100점 만점) 높은 순 · "
                    "차트의 점을 클릭하면 네이버금융 종목 페이지가 열립니다.")
         match_table(good, x_col, y_col, x_label1, y_label1, key="dl_ticker", score=True)
@@ -727,7 +742,7 @@ with tab2:
                                 label_matches=True, drop_outliers=out2),
                         use_container_width=True)
 
-    st.markdown(f"#### 조건 통과 종목: {len(good)}개")
+    sec(f"🏁 조건 통과 종목: {len(good)}개")
     st.caption("점수(질 백분위 + 멀티플 낮음 백분위, 100점 만점) 높은 순 · "
                "차트의 점을 클릭하면 네이버금융 종목 페이지가 열립니다.")
     match_table(good, x_col, y_col, x_label2, y_label2, key="dl_screen", score=True)
@@ -912,7 +927,7 @@ with tab3:
     rec_clicked = None
     if champ is not None:
         st.divider()
-        st.markdown(f"#### 🏆 이번 주 추천 섹터 — {lvl_label3} 기준")
+        sec(f"🏆 이번 주 추천 섹터 — {lvl_label3} 기준")
         st.markdown(
             f"**{champ['그룹']}** — {x_label3} 평균 **{champ['x']:.1%}**, "
             f"{y_label3} 평균 **{champ['y']:.2f}배**, 추세선 대비 **{champ['추세대비']:+.2f}** "
@@ -942,7 +957,7 @@ with tab3:
 
     if not grp.empty:
         st.divider()
-        st.markdown("#### 🔎 섹터 안 들여다보기 — 해당 섹터의 종목들")
+        sec("🔎 섹터 안 들여다보기 — 해당 섹터의 종목들")
         order = grp.sort_values("추세대비")["그룹"].tolist() if grp["추세대비"].notna().any() \
             else grp["그룹"].tolist()
         default = champ["그룹"] if champ is not None else order[0]

@@ -34,6 +34,24 @@ DATA = Path(__file__).resolve().parent.parent / "data" / "screener"
 
 st.set_page_config(page_title="종목 상세", page_icon="📋", layout="wide")
 
+st.markdown("""<style>
+/* 큰 섹션 헤더 — 어디서 새 섹션이 시작되는지 한눈에 보이게 */
+.lk-sec {
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding: 9px 14px;
+    margin: 1.8rem 0 0.7rem 0;
+    border-left: 5px solid #d9a021;
+    border-radius: 4px;
+    background: linear-gradient(90deg, rgba(217,160,33,0.18), rgba(217,160,33,0.02));
+}
+</style>""", unsafe_allow_html=True)
+
+
+def sec(title: str):
+    """눈에 띄는 섹션 헤더 (왼쪽 골드 바 + 배경 밴드)."""
+    st.markdown(f'<div class="lk-sec">{title}</div>', unsafe_allow_html=True)
+
 MULTIPLES = {"EV/Sales": "ev_sales", "EV/EBIT": "ev_ebit", "EV/EBITDA": "ev_ebitda",
              "EV/FCF": "ev_fcf", "PER": "per", "PBR": "pbr"}
 C_BAR = "#2a78d6"
@@ -154,7 +172,7 @@ st.caption("멀티플은 2026E 컨센서스 우선(작은 글씨 = 기준), 없�
 st.divider()
 
 # ---------------------------------------------------------------- 분기 실적
-st.markdown("#### 📊 분기 실적 (DART 연결 기준)")
+sec("📊 분기 실적 (DART 연결 기준)")
 _fdb = load_findb()
 _db_fin = None
 if _fdb is not None:
@@ -172,6 +190,7 @@ else:
                 fin, _fmeta = load_financials(t6)
         fin = fin[fin["rev"].notna()].copy()
         fin["_yr"] = fin["q"].str[:4].astype(int)
+        _fin_full = fin.copy()   # 연간 뷰의 TTM 대체 계산용 (기간 슬라이더 무관)
 
         # 주기(분기/연간) 토글 + 연도 범위 슬라이더 (끝까지 끌면 최대 = 직접설정 겸용)
         fc1, fc2 = st.columns([1, 3], gap="large")
@@ -195,10 +214,50 @@ else:
                 "ni": g["ni"].sum(min_count=1),
                 "n_q": g["rev"].count(),
             }).reset_index()
-            # 분기가 4개 안 되는 해(올해 등)는 * 표시
             fin["q"] = fin["_yr"].astype(str) + np.where(fin["n_q"] < 4, "*", "")
+            x_title = "연간"
+            # 진행 중인 해는 분기 부분합(급락처럼 보임) 대신
+            # 2026E 컨센서스 역산값, 컨센서스가 없는 항목은 TTM으로 대체
+            if len(fin) and fin["n_q"].iloc[-1] < 4 \
+                    and int(fin["_yr"].iloc[-1]) == dt.date.today().year:
+                _ttm4 = _fin_full.sort_values(
+                    "date" if "date" in _fin_full.columns else "q").tail(4)
+                _t = {c: _ttm4[c].sum(min_count=4) for c in ("rev", "ebit", "ni")}
+                _nz = lambda v: float(v) if pd.notna(v) else 0.0
+                _mc = float(row["mcap"]) * 1e6 if pd.notna(row["mcap"]) else np.nan
+                _nd_q = 0.0
+                _cq0 = load_capexdb()
+                if _cq0 is not None and "cash" in _cq0.columns:
+                    _cr = _cq0[(_cq0["ticker"] == ticker)
+                               & _cq0["cash"].notna()].sort_values("q").tail(1)
+                    if len(_cr):
+                        _r0 = _cr.iloc[0]
+                        _nd_q = (_nz(_r0.get("debt")) + _nz(_r0.get("lease"))
+                                 - _nz(_r0.get("cash")) - _nz(_r0.get("stfin")))
+                _tev = _mc + _nd_q if pd.notna(_mc) else np.nan
+
+                def _cons(mult_col, use_tev=True):
+                    """2026E 멀티플에서 컨센서스 금액 역산 (없으면 None)."""
+                    src = row.get(f"{mult_col}_src")
+                    v = row.get(mult_col)
+                    base = _tev if use_tev else _mc
+                    if src == "2026E" and pd.notna(v) and v > 0 and pd.notna(base):
+                        return base / v
+                    return None
+
+                _c_rev = _cons("ev_sales")
+                _c_ebit = _cons("ev_ebit")
+                _c_ni = _cons("per", use_tev=False)
+                _used_cons = any(x is not None for x in (_c_rev, _c_ebit, _c_ni))
+                _i = fin.index[-1]
+                fin.loc[_i, "rev"] = _c_rev if _c_rev is not None else _t["rev"]
+                fin.loc[_i, "ebit"] = _c_ebit if _c_ebit is not None else _t["ebit"]
+                fin.loc[_i, "ni"] = _c_ni if _c_ni is not None else _t["ni"]
+                fin.loc[_i, "q"] = (f"{int(fin['_yr'].iloc[-1])}E"
+                                    if _used_cons else "TTM")
+                x_title = ("연간 (마지막 = 2026E 컨센서스, 컨센 없는 항목은 TTM)"
+                           if _used_cons else "연간 (마지막 = TTM, 최근 4분기 합)")
             fin["YoY(%)"] = fin["rev"].pct_change(1) * 100
-            x_title = "연간 (* = 진행 중인 해)"
         else:
             fin = fin.sort_values("date" if "date" in fin.columns else "q")
             fin["YoY(%)"] = fin["rev"].pct_change(4) * 100
@@ -312,7 +371,7 @@ st.divider()
 
 # ---------------------------------------------------------------- 퀄리티 체크
 # 사용자 워크플로 ①: "이 사업이 좋은 사업인가" — ROIC·현금창출·운전자본·주주환원
-st.markdown("#### 🧭 퀄리티 체크 — ROIC · 현금흐름 · 주주환원")
+sec("🧭 퀄리티 체크 — ROIC · 현금흐름 · 주주환원")
 
 _cdb2 = load_capexdb()
 qd = None
@@ -470,7 +529,7 @@ st.divider()
 # ---------------------------------------------------------------- Quick DCF
 # 사용자 워크플로 ②: 절대 밸류에이션 — "성장 0이어도 싼가? 시총을 정당화하려면
 # 어떤 성장/OPM이 필요한가?"
-st.markdown("#### 💰 Quick DCF — 절대 밸류에이션")
+sec("💰 Quick DCF — 절대 밸류에이션")
 
 _mcap_won = float(row["mcap"]) * 1e6 if pd.notna(row["mcap"]) else np.nan
 _dcf_base = None
@@ -705,7 +764,7 @@ st.divider()
 
 # ---------------------------------------------------------------- 과거 멀티플
 # 사용자 워크플로 ③: 상대 밸류에이션 — 지금 멀티플이 과거 밴드의 어디쯤인가
-st.markdown("#### 📈 과거 멀티플 밴드 — 상대 밸류에이션")
+sec("📈 과거 멀티플 밴드 — 상대 밸류에이션")
 h1, h2 = st.columns([1, 3.2], gap="large")
 with h1:
     ciq_csv = DATA / "history_ciq" / f"{ticker}.csv"
@@ -884,7 +943,7 @@ if _bd is not None and len(_bd) >= 12 and "px" in _bd.columns:
 st.divider()
 
 # ---------------------------------------------------------------- 업종 내 위치
-st.markdown(f"#### 🏭 업종 내 위치 — {row['industry']}")
+sec(f"🏭 업종 내 위치 — {row['industry']}")
 peers = df[df["industry"] == row["industry"]]
 v = peers[peers["roic_sg"].notna() & peers["ev_sales"].notna()
           & (peers["ev_sales"] > 0)].copy()
@@ -909,7 +968,7 @@ else:
 st.divider()
 
 # ---------------------------------------------------------------- 최근 공시
-st.markdown("#### 📰 최근 공시 (1년)")
+sec("📰 최근 공시 (1년)")
 if dart_key():
     try:
         filings = load_filings(t6)
