@@ -508,17 +508,18 @@ else:
         st.markdown("**가정 입력**")
         _g_def = 10
         if pd.notna(_dcf_base["g_ttm"]):
-            _g_def = int(np.clip(round(_dcf_base["g_ttm"] * 100), 0, 30))
+            # 기본값 = 실제 최근 성장률 (역성장이면 음수 그대로 보여준다)
+            _g_def = int(np.clip(round(_dcf_base["g_ttm"] * 100), -20, 30))
         g5 = st.slider("매출 성장률 — 향후 5년 (연 %)", -20, 50, _g_def, key="dcf_g")
         opm_in = st.slider("영업이익률 OPM (%)", 0.0, 50.0,
                            float(np.clip(round(_dcf_base["opm"] * 100, 1), 0.0, 50.0)),
                            0.5, key="dcf_opm")
-        wacc_in = st.slider("할인율 WACC (%)", 6.0, 15.0, 10.0, 0.5, key="dcf_wacc")
+        capex_in = st.slider("Capex (매출 대비 %)", 0.0, 30.0,
+                             round(_capex_pct_d * 100, 1), 0.5, key="dcf_cx")
         with st.expander("세부 가정"):
+            wacc_in = st.slider("할인율 WACC (%)", 6.0, 15.0, 10.0, 0.5, key="dcf_wacc")
             gt_in = st.slider("영구 성장률 (%)", 0.0, 3.0, 1.5, 0.5, key="dcf_gt")
             tax_in = st.slider("세율 (%)", 15, 30, 25, key="dcf_tax")
-            capex_in = st.slider("Capex (매출 대비 %)", 0.0, 30.0,
-                                 round(_capex_pct_d * 100, 1), 0.5, key="dcf_cx")
             dep_in = st.slider("감가상각 D&A (매출 대비 %)", 0.0, 30.0,
                                round(_capex_pct_d * 100, 1), 0.5, key="dcf_dep")
             nwc_in = st.slider("운전자본 (매출 증가분 대비 %)", 0.0, 50.0,
@@ -583,41 +584,54 @@ else:
                       if _ev_cur > 0 and fcf0 > 0 else "—",
                       delta="FCF(TTM기준)/현재EV", delta_color="off")
 
-            # ---- 퀵 체크 ①: 성장 0%여도 싼가
+            # ---- 퀵 체크 ①: 성장 0%여도 싼가 (5년·영구 성장 모두 0%)
             eq0, _, _ = dcf_equity(0.0, **{**_args, "gt": 0.0})
             if pd.notna(eq0):
                 up0 = eq0 / _mcap_won - 1
                 if up0 >= 0:
-                    st.success(f"**성장 0% 체크** — 매출이 더 이상 안 늘어도 적정 시총 "
-                               f"{_fmt_won(eq0)} → 현재보다 **{up0 * 100:+.0f}%**. "
-                               "성장 없이도 싼 구간입니다.")
+                    st.success(f"**성장 0% 체크** (영구 성장도 0%) — 매출이 더 이상 안 "
+                               f"늘어도 적정 시총 {_fmt_won(eq0)} → 현재보다 "
+                               f"**{up0 * 100:+.0f}%**. 성장 없이도 싼 구간입니다.")
                 else:
-                    st.warning(f"**성장 0% 체크** — 성장이 멈추면 적정 시총 {_fmt_won(eq0)} "
-                               f"({up0 * 100:+.0f}%). 현재 가격에는 성장 기대가 "
-                               "들어가 있습니다.")
+                    st.warning(f"**성장 0% 체크** (영구 성장도 0%) — 성장이 완전히 멈추면 "
+                               f"적정 시총 {_fmt_won(eq0)} ({up0 * 100:+.0f}%). "
+                               "현재 가격에는 성장 기대가 들어가 있습니다.")
 
             # ---- 퀵 체크 ②: 시총을 정당화하는 성장률/OPM 역산
             def _solve(fn, lo, hi):
-                if (fn(lo) - _mcap_won) * (fn(hi) - _mcap_won) > 0:
-                    return np.nan
-                for _ in range(60):
-                    mid = (lo + hi) / 2
-                    if fn(mid) < _mcap_won:
-                        lo = mid
-                    else:
-                        hi = mid
-                return (lo + hi) / 2
+                """[lo, hi]를 격자로 훑어 시총과 교차하는 구간을 찾은 뒤 이분법."""
+                xs = np.linspace(lo, hi, 46)
+                ys = [fn(x) - _mcap_won for x in xs]
+                for i in range(len(xs) - 1):
+                    if pd.isna(ys[i]) or pd.isna(ys[i + 1]):
+                        continue
+                    if ys[i] == 0:
+                        return float(xs[i])
+                    if ys[i] * ys[i + 1] < 0:
+                        a, b = float(xs[i]), float(xs[i + 1])
+                        fa = ys[i]
+                        for _ in range(60):
+                            mid = (a + b) / 2
+                            fm = fn(mid) - _mcap_won
+                            if fa * fm <= 0:
+                                b = mid
+                            else:
+                                a, fa = mid, fm
+                        return (a + b) / 2
+                return np.nan
 
             _args_no_opm = {k: v for k, v in _args.items() if k != "opm"}
+            # "성장 0%" 역산은 퀵 체크 ①과 동일하게 영구 성장도 0%로 계산
+            _args0_no_opm = {**_args_no_opm, "gt": 0.0}
             g_imp = _solve(lambda g: dcf_equity(g, **_args)[0], -0.30, 0.60)
-            opm_imp = _solve(lambda m: dcf_equity(0.0, opm=m, **_args_no_opm)[0],
+            opm_imp = _solve(lambda m: dcf_equity(0.0, opm=m, **_args0_no_opm)[0],
                              0.001, 0.60)
             _msg = []
             if pd.notna(g_imp):
                 _msg.append(f"OPM {opm_in:.1f}% 유지 시 **매출 연 {g_imp * 100:+.1f}% "
                             f"× 5년**")
             if pd.notna(opm_imp):
-                _msg.append(f"성장 0% 가정 시 **OPM {opm_imp * 100:.1f}%**")
+                _msg.append(f"성장 0%(영구 포함) 가정 시 **OPM {opm_imp * 100:.1f}%**")
             if _msg:
                 st.info("**현재 시총이 정당화되려면**: " + " 또는 ".join(_msg)
                         + " 정도가 필요합니다. 회사가 이걸 해낼 수 있을지가 투자 판단의 "
