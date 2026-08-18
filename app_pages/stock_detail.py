@@ -619,19 +619,44 @@ else:
             _g_def = int(np.clip(round(_dcf_base["g_ttm"] * 100), -20, 30))
         _g_note = "기본값 = 최근 실적(TTM) 성장률 (시총 정당화 성장률 역산 불가)"
 
+    # 슬라이더 기본값 모음 — 초기화 버튼이 이 값들로 되돌린다
+    _opm_def = float(np.clip(round(_dcf_base["opm"] * 100, 1), 0.0, 50.0))
+    _cx_def = round(_capex_pct_d * 100, 1)
+    _nwc_def = round(_nwc_pct_d * 100, 1)
+    _DCF_DEFAULTS = {"dcf_g": _g_def, "dcf_opm": _opm_def, "dcf_cx": _cx_def,
+                     "dcf_wacc": 10.0, "dcf_gt": 1.5, "dcf_tax": 25,
+                     "dcf_dep": _cx_def, "dcf_nwc": _nwc_def}
+
     dc1, dc2 = st.columns([1.15, 2.85], gap="large")
     with dc1:
         st.markdown("**가정 입력**")
+
+        # 원클릭 버튼: 성장 0% 스냅 / 전체 가정 초기화(시총 정당화 기본값)
+        _g_key = f"dcf_g_{ticker}"
+
+        def _set_g_zero():
+            st.session_state[_g_key] = 0
+
+        def _reset_dcf():
+            for _k, _v in _DCF_DEFAULTS.items():
+                st.session_state[f"{_k}_{ticker}"] = _v
+
+        _bc1, _bc2 = st.columns(2)
+        _bc1.button("0️⃣ 성장 0%로", on_click=_set_g_zero,
+                    key=f"dcf_btn0_{ticker}", use_container_width=True,
+                    help="성장률 슬라이더를 정확히 0으로 — 무성장 가치 확인")
+        _bc2.button("↺ 초기화", on_click=_reset_dcf,
+                    key=f"dcf_btnr_{ticker}", use_container_width=True,
+                    help="모든 가정을 기본값(시총을 정당화하는 성장률 등)으로 되돌립니다")
+
         # 키에 티커를 붙여 종목을 바꾸면 그 종목의 기본값으로 새로 시작하게 한다
         # (고정 키를 쓰면 이전 종목에서 만진 슬라이더 값이 그대로 남는다)
         g5 = st.slider("매출 성장률 — 향후 5년 (연 %)", -20, 50, _g_def,
-                       key=f"dcf_g_{ticker}")
+                       key=_g_key)
         st.caption(_g_note)
-        opm_in = st.slider("영업이익률 OPM (%)", 0.0, 50.0,
-                           float(np.clip(round(_dcf_base["opm"] * 100, 1), 0.0, 50.0)),
+        opm_in = st.slider("영업이익률 OPM (%)", 0.0, 50.0, _opm_def,
                            0.5, key=f"dcf_opm_{ticker}")
-        capex_in = st.slider("Capex (매출 대비 %)", 0.0, 30.0,
-                             round(_capex_pct_d * 100, 1), 0.5,
+        capex_in = st.slider("Capex (매출 대비 %)", 0.0, 30.0, _cx_def, 0.5,
                              key=f"dcf_cx_{ticker}")
         with st.expander("세부 가정"):
             wacc_in = st.slider("할인율 WACC (%)", 6.0, 15.0, 10.0, 0.5,
@@ -640,11 +665,9 @@ else:
                               key=f"dcf_gt_{ticker}")
             tax_in = st.slider("세율 (%)", 15, 30, 25, key=f"dcf_tax_{ticker}")
             dep_in = st.slider("감가상각 D&A (매출 대비 %)", 0.0, 30.0,
-                               round(_capex_pct_d * 100, 1), 0.5,
-                               key=f"dcf_dep_{ticker}")
+                               _cx_def, 0.5, key=f"dcf_dep_{ticker}")
             nwc_in = st.slider("운전자본 (매출 증가분 대비 %)", 0.0, 50.0,
-                               round(_nwc_pct_d * 100, 1),
-                               key=f"dcf_nwc_{ticker}")
+                               _nwc_def, key=f"dcf_nwc_{ticker}")
         st.caption("OPM·Capex 기본값 = 최근 실적(TTM)과 과거 비율에서 자동 산출. "
                    "세율 25%, WACC 10%, 영구성장 1.5%는 템플릿 기본값.")
 
