@@ -918,6 +918,8 @@ with _right:
                     _dom = ["실적", "전망"]
                     _rng = [C_BAR, C_LINE]
                     _C_GOLD = "#e8c15a"
+                    _sub_ttl = {"매출": "매출 & 매출성장률",
+                                "영업이익": "영업이익 & 영업이익률"}
                     for _col, (_v, _ttl, _ln, _lt) in zip(
                             (fb1, fb2),
                             [("매출", "매출 (억원)", "YoY(%)", "매출 YoY (%)"),
@@ -940,6 +942,7 @@ with _right:
                         ch = (alt.layer(bars, line)
                               .resolve_scale(y="independent"))
                         with _col:
+                            sub(_sub_ttl[_v])
                             st.altair_chart(ch.properties(height=330),
                                             use_container_width=True)
                     st.caption("금색 선 = 왼쪽 차트 매출 YoY, 오른쪽 차트 OPM. "
