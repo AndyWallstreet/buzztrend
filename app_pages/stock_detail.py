@@ -917,19 +917,33 @@ with _right:
                     fb1, fb2 = st.columns(2, gap="large")
                     _dom = ["실적", "전망"]
                     _rng = [C_BAR, C_LINE]
-                    for _col, (_v, _ttl) in zip(
-                            (fb1, fb2), [("매출", "매출 (억원)"), ("영업이익", "영업이익 (억원)")]):
-                        cdf = pdf[["연도", "구분", _v]].copy()
+                    _C_GOLD = "#e8c15a"
+                    for _col, (_v, _ttl, _ln, _lt) in zip(
+                            (fb1, fb2),
+                            [("매출", "매출 (억원)", "YoY(%)", "매출 YoY (%)"),
+                             ("영업이익", "영업이익 (억원)", "OPM(%)", "OPM (%)")]):
+                        cdf = pdf[["연도", "구분", _v, _ln]].copy()
                         cdf["v"] = cdf[_v] / 1e8
-                        ch = alt.Chart(cdf).mark_bar(opacity=0.88).encode(
-                            x=alt.X("연도:N", sort=None, title=None),
+                        _b0 = alt.Chart(cdf).encode(
+                            x=alt.X("연도:N", sort=None, title=None))
+                        bars = _b0.mark_bar(opacity=0.88).encode(
                             y=alt.Y("v:Q", title=_ttl),
                             color=alt.Color("구분:N",
                                             scale=alt.Scale(domain=_dom, range=_rng),
                                             legend=alt.Legend(orient="top", title=None)),
-                            tooltip=["연도", "구분", alt.Tooltip("v", format=",.0f", title=_ttl)])
+                            tooltip=["연도", "구분",
+                                     alt.Tooltip("v", format=",.0f", title=_ttl),
+                                     alt.Tooltip(_ln, format=".1f", title=_lt)])
+                        line = _b0.mark_line(color=_C_GOLD, size=2.5, point=True).encode(
+                            y=alt.Y(f"{_ln}:Q", title=_lt),
+                            tooltip=["연도", alt.Tooltip(_ln, format=".1f", title=_lt)])
+                        ch = (alt.layer(bars, line)
+                              .resolve_scale(y="independent"))
                         with _col:
-                            st.altair_chart(ch.properties(height=330), use_container_width=True)
+                            st.altair_chart(ch.properties(height=330),
+                                            use_container_width=True)
+                    st.caption("금색 선 = 왼쪽 차트 매출 YoY, 오른쪽 차트 OPM. "
+                               "전망 구간은 입력한 가정 그대로의 경로.")
 
                     # 전체 숫자 표 (억원 단위, 천 단위 구분)
                     def _row(name, vals, fmt):
