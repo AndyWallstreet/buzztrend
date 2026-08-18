@@ -40,6 +40,13 @@ C_BAR = "#2a78d6"
 C_LINE = "#eb6834"
 
 
+def _fmt_won(x):
+    """원 단위 금액 -> '1.5조' / '1,234억' 표기."""
+    if pd.isna(x):
+        return "—"
+    return f"{x / 1e12:,.1f}조" if abs(x) >= 1e12 else f"{x / 1e8:,.0f}억"
+
+
 @st.cache_data(ttl=3600, show_spinner=False)
 def load():
     df = pd.read_csv(DATA / "screener_data.csv")
@@ -303,8 +310,332 @@ else:
 
 st.divider()
 
+# ---------------------------------------------------------------- 퀄리티 체크
+# 사용자 워크플로 ①: "이 사업이 좋은 사업인가" — ROIC·현금창출·운전자본·주주환원
+st.markdown("#### 🧭 퀄리티 체크 — ROIC · 현금흐름 · 주주환원")
+
+_cdb2 = load_capexdb()
+qd = None
+if _fdb is not None and _cdb2 is not None:
+    _fq = _fdb[_fdb["ticker"] == ticker].copy()
+    _cq = _cdb2[_cdb2["ticker"] == ticker].copy()
+    if len(_fq) >= 4 and len(_cq) and "cash" in _cq.columns \
+            and _cq["cash"].notna().any():
+        qd = _fq.merge(_cq.drop(columns=["date"], errors="ignore"),
+                       on=["ticker", "q"], how="left").sort_values("q")
+
+if qd is None:
+    st.info("이 종목의 상세 재무(현금·부채·CFO·운전자본)는 아직 수집 전입니다 — "
+            "관심종목·시총 상위부터 매일 자동으로 수집이 넓어집니다.")
+else:
+    for _c in ["capex_t", "capex_i", "cfo", "dep", "div_paid", "buyback", "cogs",
+               "sga", "cash", "stfin", "ar", "inv", "ap", "debt", "lease"]:
+        if _c not in qd.columns:
+            qd[_c] = np.nan
+    # TTM 합계 (분기 4개 롤링)
+    for _c in ["rev", "ebit", "ni", "cfo", "cogs"]:
+        qd[f"{_c}_ttm"] = qd[_c].rolling(4, min_periods=4).sum()
+    qd["capex"] = qd["capex_t"].fillna(0) + qd["capex_i"].fillna(0)
+    qd["capex_ttm"] = qd["capex"].rolling(4, min_periods=4).sum()
+
+    # ROIC = NOPAT(TTM, 세율 25% 가정) / 투하자본(자본 + 차입 - 현금성)
+    _z = lambda c: qd[c].fillna(0)
+    qd["ic"] = np.where(qd["cash"].notna(),
+                        qd["eq"] + _z("debt") + _z("lease")
+                        - _z("cash") - _z("stfin"), np.nan)
+    qd["ROIC(%)"] = np.where(qd["ic"] > 0,
+                             qd["ebit_ttm"] * 0.75 / qd["ic"] * 100, np.nan)
+    qd["netdebt"] = np.where(qd["cash"].notna(),
+                             _z("debt") + _z("lease") - _z("cash") - _z("stfin"),
+                             np.nan)
+    # 현금창출력
+    # 극단값은 ±300%로 잘라 차트가 눌리는 것을 방지
+    qd["CFO/EBIT(%)"] = np.where(qd["ebit_ttm"] > 0,
+                                 (qd["cfo_ttm"] / qd["ebit_ttm"] * 100)
+                                 .clip(-300, 300), np.nan)
+    qd["fcf_ttm"] = qd["cfo_ttm"] - qd["capex_ttm"]
+    qd["FCF/순이익(%)"] = np.where(qd["ni_ttm"] > 0,
+                                  (qd["fcf_ttm"] / qd["ni_ttm"] * 100)
+                                  .clip(-300, 300), np.nan)
+    # 운전자본 일수 (재고·매입은 매출원가 기준, 없으면 매출 기준)
+    _base = np.where(qd["cogs_ttm"] > 0, qd["cogs_ttm"], qd["rev_ttm"])
+    qd["매출채권일수"] = np.where(qd["rev_ttm"] > 0, qd["ar"] / qd["rev_ttm"] * 365, np.nan)
+    qd["재고일수"] = np.where(_base > 0, qd["inv"] / _base * 365, np.nan)
+    qd["매입채무일수"] = np.where(_base > 0, qd["ap"] / _base * 365, np.nan)
+    qd["CCC일수"] = qd["매출채권일수"] + qd["재고일수"] - qd["매입채무일수"]
+
+    qv = qd[qd["ROIC(%)"].notna() | qd["CFO/EBIT(%)"].notna()]
+    _last = qd.dropna(subset=["netdebt"]).tail(1)
+    _nd = float(_last["netdebt"].iloc[0]) if len(_last) else np.nan
+
+    # 한 줄 요약 (애널리스트 첫인상)
+    _bits = []
+    _r = qv["ROIC(%)"].dropna()
+    if len(_r):
+        _bits.append(f"ROIC 최근 **{_r.iloc[-1]:.1f}%** (3년 평균 {_r.tail(12).mean():.1f}%)")
+    _cc = qv["CFO/EBIT(%)"].dropna()
+    if len(_cc):
+        _bits.append(f"CFO/EBIT **{_cc.iloc[-1]:.0f}%**")
+    if pd.notna(_nd):
+        _bits.append(("순현금 **" + _fmt_won(-_nd) + "**") if _nd < 0
+                     else ("순부채 **" + _fmt_won(_nd) + "**"))
+    if _bits:
+        st.markdown("· ".join(_bits))
+
+    def _line_chart(data, cols, colors, y_title, pct=True, height=250):
+        dd = data[["q"] + cols].melt("q", var_name="지표", value_name="v")
+        dd = dd[dd["v"].notna()]
+        if not len(dd):
+            return None
+        ch = alt.Chart(dd).mark_line(size=2.2, point=True).encode(
+            x=alt.X("q:N", title=None, sort="ascending",
+                    axis=alt.Axis(labelAngle=-45)),
+            y=alt.Y("v:Q", title=y_title, scale=alt.Scale(zero=False)),
+            color=alt.Color("지표:N", scale=alt.Scale(domain=cols, range=colors),
+                            legend=alt.Legend(orient="top", title=None)),
+            tooltip=["q", "지표", alt.Tooltip("v", format=".1f")])
+        zero = alt.Chart(pd.DataFrame({"v": [0]})).mark_rule(
+            color="#999", strokeDash=[4, 3]).encode(y="v")
+        return alt.layer(ch, zero).properties(height=height)
+
+    qc1, qc2 = st.columns(2, gap="large")
+    with qc1:
+        st.markdown("**ROIC (TTM, 세율 25% 가정)** — 자본을 얼마나 잘 굴리는가")
+        ch = _line_chart(qv, ["ROIC(%)"], [C_BAR], "ROIC (%)")
+        if ch is not None:
+            st.altair_chart(ch, use_container_width=True)
+        else:
+            st.info("투하자본 계산에 필요한 데이터가 부족합니다.")
+    with qc2:
+        st.markdown("**현금창출력 (TTM)** — 이익이 실제 현금으로 들어오는가")
+        ch = _line_chart(qv, ["CFO/EBIT(%)", "FCF/순이익(%)"], [C_BAR, C_LINE], "%")
+        if ch is not None:
+            st.altair_chart(ch, use_container_width=True)
+            st.caption("CFO/EBIT 100% 내외면 이익의 질이 좋음. FCF/순이익이 낮으면 "
+                       "Capex·운전자본이 이익을 먹고 있다는 뜻.")
+        else:
+            st.info("현금흐름 데이터가 부족합니다.")
+
+    qc3, qc4 = st.columns(2, gap="large")
+    with qc3:
+        st.markdown("**운전자본 일수** — 돈이 얼마나 묶이는가 (CCC = 채권+재고−채무)")
+        _ccc_cols = [c for c in ["매출채권일수", "재고일수", "매입채무일수", "CCC일수"]
+                     if qv[c].notna().any()]
+        ch = _line_chart(qv, _ccc_cols,
+                         ["#8ec9ff", "#f2b06c", "#b5b5b5", C_LINE][:len(_ccc_cols)],
+                         "일수")
+        if ch is not None:
+            st.altair_chart(ch, use_container_width=True)
+        else:
+            st.info("운전자본 데이터가 부족합니다.")
+    with qc4:
+        st.markdown("**주주환원 (연간)** — 배당 + 자사주, 선 = 환원율(순이익 대비)")
+        ya = qd.copy()
+        ya["_yr"] = ya["q"].str[:4]
+        g = ya.groupby("_yr")
+        yr = pd.DataFrame({
+            "배당(억)": g["div_paid"].sum(min_count=1) / 1e8,
+            "자사주(억)": g["buyback"].sum(min_count=1) / 1e8,
+            "ni": g["ni"].sum(min_count=1),
+            "n_q": g["rev"].count()}).reset_index()
+        yr = yr[(yr["n_q"] >= 4)
+                & yr[["배당(억)", "자사주(억)"]].notna().any(axis=1)]
+        yr["환원율(%)"] = np.where(
+            yr["ni"] > 0,
+            (yr["배당(억)"].fillna(0) + yr["자사주(억)"].fillna(0)) * 1e8
+            / yr["ni"] * 100, np.nan)
+        if len(yr) and (yr["배당(억)"].notna().any() or yr["자사주(억)"].notna().any()):
+            pm = yr.melt("_yr", value_vars=["배당(억)", "자사주(억)"],
+                         var_name="구분", value_name="v")
+            bars = alt.Chart(pm).mark_bar(opacity=0.9).encode(
+                x=alt.X("_yr:N", title=None),
+                y=alt.Y("v:Q", title="주주환원 (억원)", stack=True),
+                color=alt.Color("구분:N",
+                                scale=alt.Scale(domain=["배당(억)", "자사주(억)"],
+                                                range=[C_BAR, "#8ec9ff"]),
+                                legend=alt.Legend(orient="top", title=None)),
+                tooltip=["_yr", "구분", alt.Tooltip("v", format=",.0f")])
+            line = alt.Chart(yr).mark_line(color=C_LINE, size=2.5, point=True).encode(
+                x="_yr:N", y=alt.Y("환원율(%):Q", title="환원율 (%)"),
+                tooltip=["_yr", alt.Tooltip("환원율(%)", format=".1f")])
+            st.altair_chart(alt.layer(bars, line).resolve_scale(y="independent")
+                            .properties(height=250), use_container_width=True)
+        else:
+            st.info("배당·자사주 데이터가 아직 없습니다 (현금흐름표 기준).")
+    st.caption("데이터: DART 전체 재무제표 (2021년 이후, 분기 단독 환산). "
+               "일부 계정은 회사가 주석에만 공시하면 비어 있을 수 있습니다.")
+
+st.divider()
+
+# ---------------------------------------------------------------- Quick DCF
+# 사용자 워크플로 ②: 절대 밸류에이션 — "성장 0이어도 싼가? 시총을 정당화하려면
+# 어떤 성장/OPM이 필요한가?"
+st.markdown("#### 💰 Quick DCF — 절대 밸류에이션")
+
+_mcap_won = float(row["mcap"]) * 1e6 if pd.notna(row["mcap"]) else np.nan
+_dcf_base = None
+if _fdb is not None:
+    _fq2 = _fdb[_fdb["ticker"] == ticker].sort_values("q")
+    if len(_fq2) >= 4:
+        _rev_ttm = _fq2["rev"].tail(4).sum()
+        _ebit_ttm = _fq2["ebit"].tail(4).sum()
+        _rev_prev = _fq2["rev"].iloc[-8:-4].sum() if len(_fq2) >= 8 else np.nan
+        if _rev_ttm > 0:
+            _dcf_base = {"rev": _rev_ttm, "ebit": _ebit_ttm,
+                         "opm": _ebit_ttm / _rev_ttm,
+                         "g_ttm": (_rev_ttm / _rev_prev - 1)
+                         if pd.notna(_rev_prev) and _rev_prev > 0 else np.nan}
+
+if _dcf_base is None or pd.isna(_mcap_won):
+    st.info("Quick DCF에 필요한 분기 재무 또는 시가총액 데이터가 부족합니다.")
+else:
+    # 과거 데이터에서 기본 가정 뽑기 (없으면 보수적 기본값)
+    _capex_pct_d, _nwc_pct_d, _nd = 0.04, 0.10, 0.0
+    if qd is not None:
+        _cp = (qd["capex_ttm"] / qd["rev_ttm"]).replace([np.inf, -np.inf], np.nan).dropna()
+        if len(_cp):
+            _capex_pct_d = float(np.clip(_cp.tail(8).median(), 0.0, 0.30))
+        _nw = ((qd["ar"].fillna(0) + qd["inv"].fillna(0) - qd["ap"].fillna(0))
+               / qd["rev_ttm"]).replace([np.inf, -np.inf], np.nan).dropna()
+        if len(_nw):
+            _nwc_pct_d = float(np.clip(_nw.tail(8).median(), 0.0, 0.50))
+        _ndl = qd.dropna(subset=["netdebt"]).tail(1)
+        if len(_ndl):
+            _nd = float(_ndl["netdebt"].iloc[0])
+
+    dc1, dc2 = st.columns([1.15, 2.85], gap="large")
+    with dc1:
+        st.markdown("**가정 입력**")
+        _g_def = 10
+        if pd.notna(_dcf_base["g_ttm"]):
+            _g_def = int(np.clip(round(_dcf_base["g_ttm"] * 100), 0, 30))
+        g5 = st.slider("매출 성장률 — 향후 5년 (연 %)", -20, 50, _g_def, key="dcf_g")
+        opm_in = st.slider("영업이익률 OPM (%)", 0.0, 50.0,
+                           float(np.clip(round(_dcf_base["opm"] * 100, 1), 0.0, 50.0)),
+                           0.5, key="dcf_opm")
+        wacc_in = st.slider("할인율 WACC (%)", 6.0, 15.0, 10.0, 0.5, key="dcf_wacc")
+        with st.expander("세부 가정"):
+            gt_in = st.slider("영구 성장률 (%)", 0.0, 3.0, 1.5, 0.5, key="dcf_gt")
+            tax_in = st.slider("세율 (%)", 15, 30, 25, key="dcf_tax")
+            capex_in = st.slider("Capex (매출 대비 %)", 0.0, 30.0,
+                                 round(_capex_pct_d * 100, 1), 0.5, key="dcf_cx")
+            dep_in = st.slider("감가상각 D&A (매출 대비 %)", 0.0, 30.0,
+                               round(_capex_pct_d * 100, 1), 0.5, key="dcf_dep")
+            nwc_in = st.slider("운전자본 (매출 증가분 대비 %)", 0.0, 50.0,
+                               round(_nwc_pct_d * 100, 1), key="dcf_nwc")
+        st.caption("기본값 = 최근 실적(TTM)과 과거 Capex·운전자본 비율에서 자동 산출. "
+                   "세율 25%, WACC 10%, 영구성장 1.5%는 템플릿 기본값.")
+
+    def dcf_equity(g, opm, wacc, gt, tax, cxp, dpp, nwp, rev0, netdebt):
+        """5년 예측 + 영구가치 -> (지분가치, FCF 리스트, 터미널가치)."""
+        if wacc <= gt:
+            return np.nan, [], np.nan
+        rev_p, fcfs = rev0, []
+        for _ in range(5):
+            rev_n = rev_p * (1 + g)
+            nopat = rev_n * opm * (1 - tax)
+            fcf = nopat + rev_n * dpp - rev_n * cxp - (rev_n - rev_p) * nwp
+            fcfs.append(fcf)
+            rev_p = rev_n
+        tv = fcfs[-1] * (1 + gt) / (wacc - gt)
+        ev = sum(f / (1 + wacc) ** (i + 1) for i, f in enumerate(fcfs))
+        ev += tv / (1 + wacc) ** 5
+        return ev - netdebt, fcfs, tv
+
+    _args = dict(opm=opm_in / 100, wacc=wacc_in / 100, gt=gt_in / 100,
+                 tax=tax_in / 100, cxp=capex_in / 100, dpp=dep_in / 100,
+                 nwp=nwc_in / 100, rev0=_dcf_base["rev"], netdebt=_nd)
+    eqv, fcfs, tv = dcf_equity(g5 / 100, **_args)
+
+    def _irr(cfs):
+        lo, hi = -0.5, 1.5
+        f = lambda r: sum(c / (1 + r) ** i for i, c in enumerate(cfs))
+        if f(lo) < 0 or f(hi) > 0:
+            return np.nan
+        for _ in range(60):
+            mid = (lo + hi) / 2
+            if f(mid) > 0:
+                lo = mid
+            else:
+                hi = mid
+        return (lo + hi) / 2
+
+    with dc2:
+        if pd.isna(eqv):
+            st.warning("WACC가 영구 성장률보다 커야 합니다.")
+        else:
+            upside = eqv / _mcap_won - 1
+            irr = _irr([-_mcap_won] + fcfs[:-1] + [fcfs[-1] + tv - _nd])
+            fcf0 = (_dcf_base["ebit"] * (1 - tax_in / 100)
+                    + _dcf_base["rev"] * (dep_in - capex_in) / 100)
+            o1, o2, o3, o4 = st.columns(4)
+            o1.metric("적정 시총 (이 가정)", _fmt_won(eqv))
+            o2.metric("업사이드", f"{upside * 100:+.0f}%")
+            o3.metric("기대 IRR (5년)", f"{irr * 100:.1f}%" if pd.notna(irr) else "—")
+            _ev_cur = _mcap_won + _nd
+            o4.metric("현재 FCF 수익률", f"{fcf0 / _ev_cur * 100:.1f}%"
+                      if _ev_cur > 0 and fcf0 > 0 else "—",
+                      delta="FCF(TTM기준)/현재EV", delta_color="off")
+
+            # ---- 퀵 체크 ①: 성장 0%여도 싼가
+            eq0, _, _ = dcf_equity(0.0, **{**_args, "gt": 0.0})
+            if pd.notna(eq0):
+                up0 = eq0 / _mcap_won - 1
+                if up0 >= 0:
+                    st.success(f"**성장 0% 체크** — 매출이 더 이상 안 늘어도 적정 시총 "
+                               f"{_fmt_won(eq0)} → 현재보다 **{up0 * 100:+.0f}%**. "
+                               "성장 없이도 싼 구간입니다.")
+                else:
+                    st.warning(f"**성장 0% 체크** — 성장이 멈추면 적정 시총 {_fmt_won(eq0)} "
+                               f"({up0 * 100:+.0f}%). 현재 가격에는 성장 기대가 "
+                               "들어가 있습니다.")
+
+            # ---- 퀵 체크 ②: 시총을 정당화하는 성장률/OPM 역산
+            def _solve(fn, lo, hi):
+                if (fn(lo) - _mcap_won) * (fn(hi) - _mcap_won) > 0:
+                    return np.nan
+                for _ in range(60):
+                    mid = (lo + hi) / 2
+                    if fn(mid) < _mcap_won:
+                        lo = mid
+                    else:
+                        hi = mid
+                return (lo + hi) / 2
+
+            _args_no_opm = {k: v for k, v in _args.items() if k != "opm"}
+            g_imp = _solve(lambda g: dcf_equity(g, **_args)[0], -0.30, 0.60)
+            opm_imp = _solve(lambda m: dcf_equity(0.0, opm=m, **_args_no_opm)[0],
+                             0.001, 0.60)
+            _msg = []
+            if pd.notna(g_imp):
+                _msg.append(f"OPM {opm_in:.1f}% 유지 시 **매출 연 {g_imp * 100:+.1f}% "
+                            f"× 5년**")
+            if pd.notna(opm_imp):
+                _msg.append(f"성장 0% 가정 시 **OPM {opm_imp * 100:.1f}%**")
+            if _msg:
+                st.info("**현재 시총이 정당화되려면**: " + " 또는 ".join(_msg)
+                        + " 정도가 필요합니다. 회사가 이걸 해낼 수 있을지가 투자 판단의 "
+                          "핵심 질문.")
+
+            # FCF 경로 미니 차트
+            fdf = pd.DataFrame({"연차": [f"{i + 1}년" for i in range(5)],
+                                "FCF(억)": [f / 1e8 for f in fcfs]})
+            fchart = alt.Chart(fdf).mark_bar(color=C_BAR, opacity=0.85).encode(
+                x=alt.X("연차:N", sort=None, title=None),
+                y=alt.Y("FCF(억):Q", title="예상 FCF (억원)"),
+                tooltip=["연차", alt.Tooltip("FCF(억)", format=",.0f")])
+            st.altair_chart(fchart.properties(height=170), use_container_width=True)
+            _nd_txt = ("순현금 " + _fmt_won(-_nd)) if _nd < 0 else ("순부채 " + _fmt_won(_nd))
+            st.caption(f"5년 명시 예측 + 영구가치(그로잉 퍼페추이티) − 순부채. "
+                       f"현재 시총 {_fmt_won(_mcap_won)} · {_nd_txt}"
+                       + (" (상세 재무 수집 전이라 순부채 0으로 가정)" if qd is None else "")
+                       + " · 참고용 간이 모델입니다.")
+
+st.divider()
+
 # ---------------------------------------------------------------- 과거 멀티플
-st.markdown("#### 📈 과거 멀티플")
+# 사용자 워크플로 ③: 상대 밸류에이션 — 지금 멀티플이 과거 밴드의 어디쯤인가
+st.markdown("#### 📈 과거 멀티플 밴드 — 상대 밸류에이션")
 h1, h2 = st.columns([1, 3.2], gap="large")
 with h1:
     ciq_csv = DATA / "history_ciq" / f"{ticker}.csv"
@@ -358,14 +689,17 @@ if hist is not None:
                  & (hist["date"] >= dt.date.today() - dt.timedelta(days=days))]
         if len(h):
             avg = float(h[hcol].mean())
+            q25, q75 = (float(h[hcol].quantile(x)) for x in (0.25, 0.75))
             cur_col = MULTIPLES.get(sel_m)
             cur = float(row[cur_col]) if cur_col and pd.notna(row[cur_col]) else None
+            band = alt.Chart(pd.DataFrame({"y": [q25], "y2": [q75]})).mark_rect(
+                opacity=0.10, color=C_BAR).encode(y="y", y2="y2")
             line = alt.Chart(h).mark_line(color=C_BAR, size=2).encode(
                 x=alt.X("date:T", title=None),
                 y=alt.Y(hcol, title=sel_m, scale=alt.Scale(zero=False)),
                 tooltip=[alt.Tooltip("date:T", title="날짜"),
                          alt.Tooltip(hcol, title=sel_m, format=".2f")])
-            layers = [line,
+            layers = [band, line,
                       alt.Chart(pd.DataFrame({"v": [avg]})).mark_rule(
                           strokeDash=[6, 4], color="#888").encode(y="v")]
             if cur is not None:
@@ -375,9 +709,46 @@ if hist is not None:
                 st.altair_chart(alt.layer(*layers).properties(height=320).interactive(),
                                 use_container_width=True)
             with h1:
-                st.markdown(f"- 기간 평균: **{avg:.2f}배**"
-                            + (f"\n- 현재(스크리너): **{cur:.2f}배**" if cur is not None else ""))
-                st.caption(src_note + " · 회색 점선 = 기간 평균, 주황 점선 = 현재")
+                _lines = [f"- 기간 평균: **{avg:.2f}배**",
+                          f"- 25~75% 밴드: **{q25:.2f} ~ {q75:.2f}배**"]
+                if cur is not None:
+                    pctl = float((h[hcol] < cur).mean() * 100)
+                    if pctl <= 25:
+                        _tag = "🟢 밴드 하단 — 역사적으로 싼 구간"
+                    elif pctl >= 75:
+                        _tag = "🔴 밴드 상단 — 역사적으로 비싼 구간"
+                    else:
+                        _tag = "🟡 밴드 중간"
+                    _lines.append(f"- 현재: **{cur:.2f}배** = 구간 하위 **{pctl:.0f}%**")
+                    _lines.append(f"- {_tag}")
+                st.markdown("\n".join(_lines))
+                st.caption(src_note + " · 음영 = 25~75% 밴드, 회색 점선 = 평균, "
+                           "주황 점선 = 현재")
+
+            # 전 멀티플 위치 요약 — "PBR은 바닥, EV/Sales는 중간" 한눈에
+            _rows = []
+            for _lbl, _hc in HM.items():
+                if _hc not in hist.columns:
+                    continue
+                _hs = hist[hist[_hc].notna()
+                           & (hist["date"] >= dt.date.today()
+                              - dt.timedelta(days=days))][_hc]
+                _cc2 = MULTIPLES.get(_lbl)
+                _cv = float(row[_cc2]) if _cc2 and pd.notna(row[_cc2]) else np.nan
+                if len(_hs) < 6 or pd.isna(_cv):
+                    continue
+                _p = float((_hs < _cv).mean() * 100)
+                _rows.append({"멀티플": _lbl, "현재": round(_cv, 2),
+                              "기간 평균": round(float(_hs.mean()), 2),
+                              "위치(하위 %)": round(_p),
+                              "판정": ("🟢 싼 편" if _p <= 25 else
+                                      "🔴 비싼 편" if _p >= 75 else "🟡 중간")})
+            if len(_rows) >= 2:
+                with h2:
+                    st.dataframe(pd.DataFrame(_rows), hide_index=True,
+                                 use_container_width=True)
+                    st.caption("현재 멀티플(2026E 우선)을 같은 기간 히스토리와 비교한 위치. "
+                               "0%에 가까울수록 역사적 저점 부근.")
         else:
             with h2:
                 st.info("이 구간에 표시할 데이터가 없습니다.")
