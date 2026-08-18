@@ -59,7 +59,7 @@ div[data-testid="stNumberInput"] button svg { fill: #444 !important; }
 /* 소섹션 제목 — Epic 스타일 블루 타이틀 바 */
 [data-testid="stMarkdownContainer"] h5 {
     font-size: 0.97rem !important;
-    background: linear-gradient(90deg, #16283e, rgba(22,40,62,0.2));
+    background: #16283e;
     border-left: 4px solid #2e7de9;
     border-radius: 4px;
     padding: 6px 12px;

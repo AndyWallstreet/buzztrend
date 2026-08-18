@@ -77,7 +77,7 @@ ST_EXTRA_CSS = """<style>
 /* 차트/소섹션 제목 — Epic 스타일 블루 타이틀 바 */
 .lk-h {
     font-size: 0.97rem; font-weight: 700;
-    background: linear-gradient(90deg, #16283e, rgba(22,40,62,0.2));
+    background: #16283e;
     border-left: 4px solid #2e7de9;
     border-radius: 4px;
     padding: 6px 12px;
@@ -389,11 +389,11 @@ with _right:
 
                 r2c1, r2c2 = st.columns(2, gap="large")
                 with r2c1:
+                    sub("오퍼레이팅 레버리지", "매출 vs 영업이익 증가율")
                     _basis = "YoY"
                     if freq == "분기":
                         _basis = st.radio("증가율 기준", ["YoY", "QoQ"], horizontal=True,
                                           key="sd_lev_basis")
-                    sub("오퍼레이팅 레버리지", f"매출 vs 영업이익 증가율 ({_basis})")
                     _g1, _g2 = f"매출{_basis}(%)", f"영업{_basis}(%)"
                     lev = fin[["q", _g1, _g2]].melt("q", var_name="지표", value_name="증가율")
                     lev_chart = alt.Chart(lev).mark_line(size=2.5, point=True).encode(
