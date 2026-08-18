@@ -226,7 +226,7 @@ else:
                 y=alt.Y(f"{line_col}:Q", title=line_title),
                 tooltip=["q", alt.Tooltip(line_col, format=".1f")])
             return (alt.layer(bars, line).resolve_scale(y="independent")
-                    .properties(height=270))
+                    .properties(height=420))
 
         r1c1, r1c2 = st.columns(2, gap="large")
         with r1c1:
@@ -259,7 +259,7 @@ else:
                 tooltip=["q", "지표", alt.Tooltip("증가율", format=".1f")])
             zero = alt.Chart(pd.DataFrame({"v": [0]})).mark_rule(
                 color="#666", strokeDash=[4, 3]).encode(y="v")
-            st.altair_chart(alt.layer(lev_chart, zero).properties(height=250),
+            st.altair_chart(alt.layer(lev_chart, zero).properties(height=400),
                             use_container_width=True)
             st.caption("주황(영업이익)이 파랑(매출) 위에 있으면 레버리지가 작동 중 — "
                        "매출보다 이익이 빨리 늘고 있다는 뜻.")
@@ -290,7 +290,7 @@ else:
                                                     range=[C_BAR, "#8ec9ff"]),
                                     legend=alt.Legend(orient="top")),
                     tooltip=["q", "구분", alt.Tooltip("capex", format=",.0f")])
-                st.altair_chart(cap_chart.properties(height=250),
+                st.altair_chart(cap_chart.properties(height=400),
                                 use_container_width=True)
                 st.caption("현금흐름표 기준 취득액 (분기 단독 환산) · 2021년 이후")
             else:
@@ -382,7 +382,7 @@ else:
     if _bits:
         st.markdown("· ".join(_bits))
 
-    def _line_chart(data, cols, colors, y_title, pct=True, height=250):
+    def _line_chart(data, cols, colors, y_title, pct=True, height=380):
         dd = data[["q"] + cols].melt("q", var_name="지표", value_name="v")
         dd = dd[dd["v"].notna()]
         if not len(dd):
@@ -459,7 +459,7 @@ else:
                 x="_yr:N", y=alt.Y("환원율(%):Q", title="환원율 (%)"),
                 tooltip=["_yr", alt.Tooltip("환원율(%)", format=".1f")])
             st.altair_chart(alt.layer(bars, line).resolve_scale(y="independent")
-                            .properties(height=250), use_container_width=True)
+                            .properties(height=380), use_container_width=True)
         else:
             st.info("배당·자사주 데이터가 아직 없습니다 (현금흐름표 기준).")
     st.caption("데이터: DART 전체 재무제표 (2021년 이후, 분기 단독 환산). "
@@ -568,8 +568,14 @@ else:
             irr = _irr([-_mcap_won] + fcfs[:-1] + [fcfs[-1] + tv - _nd])
             fcf0 = (_dcf_base["ebit"] * (1 - tax_in / 100)
                     + _dcf_base["rev"] * (dep_in - capex_in) / 100)
+            def _fmt_full(x):
+                if pd.isna(x):
+                    return "—"
+                return (f"{x / 1e12:,.1f}조" if abs(x) >= 1e13
+                        else f"{x / 1e8:,.0f}억")
+
             o1, o2, o3, o4 = st.columns(4)
-            o1.metric("적정 시총 (이 가정)", _fmt_won(eqv))
+            o1.metric("적정 시총 (이 가정)", _fmt_full(eqv))
             o2.metric("업사이드", f"{upside * 100:+.0f}%")
             o3.metric("기대 IRR (5년)", f"{irr * 100:.1f}%" if pd.notna(irr) else "—")
             _ev_cur = _mcap_won + _nd
@@ -617,19 +623,69 @@ else:
                         + " 정도가 필요합니다. 회사가 이걸 해낼 수 있을지가 투자 판단의 "
                           "핵심 질문.")
 
-            # FCF 경로 미니 차트
-            fdf = pd.DataFrame({"연차": [f"{i + 1}년" for i in range(5)],
-                                "FCF(억)": [f / 1e8 for f in fcfs]})
-            fchart = alt.Chart(fdf).mark_bar(color=C_BAR, opacity=0.85).encode(
-                x=alt.X("연차:N", sort=None, title=None),
-                y=alt.Y("FCF(억):Q", title="예상 FCF (억원)"),
-                tooltip=["연차", alt.Tooltip("FCF(억)", format=",.0f")])
-            st.altair_chart(fchart.properties(height=170), use_container_width=True)
+            # ---- 연간 실적 + 전망 경로 (템플릿의 Financials Forecast 재현)
+            # 왼쪽 가정을 바꾸면 매출/영업이익 경로와 표가 즉시 다시 계산된다
+            st.markdown("**연간 실적 → 전망 경로** — 가정을 바꾸면 즉시 반영")
+            _fa = _fq2.copy()
+            _fa["_yr"] = _fa["q"].str[:4].astype(int)
+            _g = _fa.groupby("_yr").agg(rev=("rev", "sum"), ebit=("ebit", "sum"),
+                                        n_q=("rev", "count"))
+            _g = _g[_g["n_q"] == 4].tail(4)
+            path = [{"연도": str(y), "구분": "실적",
+                     "매출": float(r["rev"]), "영업이익": float(r["ebit"])}
+                    for y, r in _g.iterrows()]
+            path.append({"연도": "TTM", "구분": "실적",
+                         "매출": _dcf_base["rev"], "영업이익": _dcf_base["ebit"]})
+            _rev_p = _dcf_base["rev"]
+            for i in range(5):
+                _rev_n = _rev_p * (1 + g5 / 100)
+                path.append({"연도": f"+{i + 1}년E", "구분": "전망",
+                             "매출": _rev_n, "영업이익": _rev_n * opm_in / 100})
+                _rev_p = _rev_n
+            pdf = pd.DataFrame(path)
+            pdf["YoY(%)"] = pdf["매출"].pct_change() * 100
+            pdf["OPM(%)"] = pdf["영업이익"] / pdf["매출"] * 100
+            pdf["NOPAT"] = pdf["영업이익"] * (1 - tax_in / 100)
+            _fcf_map = {f"+{i + 1}년E": fcfs[i] for i in range(5)}
+            pdf["FCF"] = pdf["연도"].map(_fcf_map)
+
+            fb1, fb2 = st.columns(2, gap="large")
+            _dom = ["실적", "전망"]
+            _rng = [C_BAR, C_LINE]
+            for _col, (_v, _ttl) in zip(
+                    (fb1, fb2), [("매출", "매출 (억원)"), ("영업이익", "영업이익 (억원)")]):
+                cdf = pdf[["연도", "구분", _v]].copy()
+                cdf["v"] = cdf[_v] / 1e8
+                ch = alt.Chart(cdf).mark_bar(opacity=0.88).encode(
+                    x=alt.X("연도:N", sort=None, title=None),
+                    y=alt.Y("v:Q", title=_ttl),
+                    color=alt.Color("구분:N",
+                                    scale=alt.Scale(domain=_dom, range=_rng),
+                                    legend=alt.Legend(orient="top", title=None)),
+                    tooltip=["연도", "구분", alt.Tooltip("v", format=",.0f", title=_ttl)])
+                with _col:
+                    st.altair_chart(ch.properties(height=330), use_container_width=True)
+
+            # 전체 숫자 표 (억원 단위, 천 단위 구분)
+            def _row(name, vals, fmt):
+                return [name] + [fmt(v) if pd.notna(v) else "—" for v in vals]
+            _num_f = lambda v: f"{v / 1e8:,.0f}"
+            _pct_f = lambda v: f"{v:.1f}"
+            tbl = pd.DataFrame(
+                [_row("매출 (억원)", pdf["매출"], _num_f),
+                 _row("매출 YoY (%)", pdf["YoY(%)"], _pct_f),
+                 _row("영업이익 (억원)", pdf["영업이익"], _num_f),
+                 _row("OPM (%)", pdf["OPM(%)"], _pct_f),
+                 _row(f"NOPAT (억원, 세율 {tax_in}%)", pdf["NOPAT"], _num_f),
+                 _row("FCF (억원)", pdf["FCF"], _num_f)],
+                columns=["지표"] + pdf["연도"].tolist())
+            st.dataframe(tbl, hide_index=True, use_container_width=True)
+
             _nd_txt = ("순현금 " + _fmt_won(-_nd)) if _nd < 0 else ("순부채 " + _fmt_won(_nd))
             st.caption(f"5년 명시 예측 + 영구가치(그로잉 퍼페추이티) − 순부채. "
-                       f"현재 시총 {_fmt_won(_mcap_won)} · {_nd_txt}"
+                       f"현재 시총 {_fmt_full(_mcap_won)} · {_nd_txt}"
                        + (" (상세 재무 수집 전이라 순부채 0으로 가정)" if qd is None else "")
-                       + " · 참고용 간이 모델입니다.")
+                       + " · TTM = 최근 4분기 합, +1년E부터가 전망 · 참고용 간이 모델입니다.")
 
 st.divider()
 
@@ -706,7 +762,7 @@ if hist is not None:
                 layers.append(alt.Chart(pd.DataFrame({"v": [cur]})).mark_rule(
                     strokeDash=[2, 3], color=C_LINE, size=2).encode(y="v"))
             with h2:
-                st.altair_chart(alt.layer(*layers).properties(height=320).interactive(),
+                st.altair_chart(alt.layer(*layers).properties(height=450).interactive(),
                                 use_container_width=True)
             with h1:
                 _lines = [f"- 기간 평균: **{avg:.2f}배**",
@@ -755,6 +811,61 @@ if hist is not None:
     else:
         with h2:
             st.info(f"{sel_m} 히스토리가 없습니다.")
+
+# ---- 밸류에이션 밴드 차트 (주가 vs 멀티플 밴드 — 콴티와이즈 스타일)
+_hdb_b = load_histdb()
+_bd = _hdb_b[_hdb_b["ticker"] == ticker] if _hdb_b is not None else None
+if _bd is not None and len(_bd) >= 12 and "px" in _bd.columns:
+    st.markdown("**밴드 차트 — 주가가 밴드의 어디를 지나고 있나**")
+    b1, b2 = st.columns([1, 3.2], gap="large")
+    with b1:
+        bsel = st.radio("밴드 기준", ["PER", "PBR"], horizontal=True, key="sd_band")
+        bcol = {"PER": "per", "PBR": "pbr"}[bsel]
+    b = _bd[_bd[bcol].notna() & (_bd[bcol] > 0) & _bd["px"].notna()
+            & (_bd["date"] >= dt.date.today() - dt.timedelta(days=days))].copy()
+    if len(b) >= 12:
+        # 주가 = 멀티플 × 주당 펀더멘털  →  펀더멘털(주당) = 주가 / 멀티플
+        b["_f"] = b["px"] / b[bcol]
+        # 이익 급감기의 PER 폭등 같은 극단값은 밴드 레벨 계산에서 제외
+        _m = b[bcol]
+        _m = _m[_m <= _m.median() * 3]
+        _q10, _q90 = (float(_m.quantile(x)) for x in (0.10, 0.90))
+        levels = np.linspace(_q10, _q90, 4)
+        long_rows = []
+        for lv in levels:
+            for _, r_ in b.iterrows():
+                long_rows.append({"date": r_["date"], "v": r_["_f"] * lv,
+                                  "시리즈": f"{lv:.1f}X"})
+        band_df = pd.DataFrame(long_rows)
+        _band_names = [f"{lv:.1f}X" for lv in levels]
+        band_lines = alt.Chart(band_df).mark_line(size=1.2, opacity=0.85).encode(
+            x=alt.X("date:T", title=None),
+            y=alt.Y("v:Q", title="주가 (원)", scale=alt.Scale(zero=False)),
+            color=alt.Color("시리즈:N",
+                            scale=alt.Scale(domain=_band_names,
+                                            range=["#d65a5a", "#9aa26b",
+                                                   "#8a6fc9", "#4fb8c9"]),
+                            legend=alt.Legend(orient="right", title=f"{bsel} 밴드")),
+            tooltip=[alt.Tooltip("date:T", title="날짜"), "시리즈",
+                     alt.Tooltip("v", format=",.0f", title="밴드 주가")])
+        price_line = alt.Chart(b).mark_line(color=C_BAR, size=3).encode(
+            x="date:T", y=alt.Y("px:Q", scale=alt.Scale(zero=False)),
+            tooltip=[alt.Tooltip("date:T", title="날짜"),
+                     alt.Tooltip("px", format=",.0f", title="주가")])
+        with b2:
+            st.altair_chart(alt.layer(band_lines, price_line)
+                            .properties(height=450).interactive(),
+                            use_container_width=True)
+        with b1:
+            _cur_m = float(b[bcol].iloc[-1])
+            st.markdown(f"- 밴드 = {bsel} **{levels[0]:.1f}~{levels[-1]:.1f}배** "
+                        "(구간 10~90% 사이 4등분, 극단값 제외)\n"
+                        f"- 최근 {bsel}: **{_cur_m:.1f}배**")
+            st.caption("파란 굵은 선 = 주가. 주가가 아래쪽 밴드에 붙어 있으면 "
+                       "역사적 저평가 구간. 데이터: 월별 사전 계산 DB (TTM).")
+    else:
+        with b2:
+            st.info(f"{bsel} 밴드를 그릴 데이터가 부족합니다.")
 
 st.divider()
 
