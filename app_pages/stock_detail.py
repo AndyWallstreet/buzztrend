@@ -49,8 +49,12 @@ st.markdown("""<style>
 
 
 ST_EXTRA_CSS = """<style>
-/* 본문 좌우 여백 축소 — 정보 패널이 더 왼쪽에 붙게 */
-.block-container { padding-left: 1.2rem; padding-right: 1.2rem; }
+/* 본문 여백 축소 — 위는 바짝, 정보 패널은 더 왼쪽에 붙게 */
+.block-container {
+    padding-top: 1.2rem;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+}
 .lk-info {
     border: 1px solid rgba(128,128,128,0.3);
     border-radius: 8px;
