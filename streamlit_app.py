@@ -9,41 +9,86 @@ import streamlit as st
 
 st.set_page_config(page_title="LK Terminal", page_icon="◆", layout="wide")
 
-# ---- 블룸버그 터미널풍: 순검정 배경 + 앰버 포인트 + 대문자 섹션 라벨
+# ---- Epic Finance풍: 네이비-블루 배경 + 상단 고정 메뉴바 (호버 드롭다운)
 st.markdown("""
 <style>
-/* 사이드바 — 더 검게, 경계선 한 줄 */
+/* 기본 상단 헤더는 숨기고 우리 메뉴바로 대체 */
+header[data-testid="stHeader"] { display: none; }
+.block-container { padding-top: 4rem !important; }
+/* 본문/사이드바 배경 — 파이낸스 네이비 */
+[data-testid="stAppViewContainer"] { background: #0c1320; }
 [data-testid="stSidebar"] {
-    background: #08090b;
-    border-right: 1px solid #1e2128;
+    background: #0a111c;
+    border-right: 1px solid #1c2a3f;
 }
-/* 내비 섹션 제목 (Screener / Sector Watch) — 터미널 헤더처럼 */
-[data-testid="stSidebar"] [data-testid="stNavSectionHeader"] {
-    color: #f5a623 !important;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    font-size: 0.72rem !important;
-    font-weight: 700;
-    margin-top: 0.9rem;
-}
-/* 내비 링크 */
-[data-testid="stSidebar"] a[data-testid="stSidebarNavLink"] span {
-    color: #c9ccd3;
-    font-size: 0.92rem;
-}
-[data-testid="stSidebar"] a[data-testid="stSidebarNavLink"]:hover span { color: #f5a623; }
-[data-testid="stSidebar"] a[data-testid="stSidebarNavLink"][aria-current="page"] {
-    background: #15181d;
-    border-left: 2px solid #f5a623;
-    border-radius: 0;
-}
-/* 본문 배경 */
-[data-testid="stAppViewContainer"] { background: #0b0d10; }
-[data-testid="stHeader"] { background: #0b0d10; }
 /* 지표 숫자 — 터미널처럼 등폭 숫자 */
 [data-testid="stMetricValue"] { font-variant-numeric: tabular-nums; }
 h1, h2, h3 { letter-spacing: -0.01em; }
+
+/* ---- 상단 고정 메뉴바 ---- */
+.lk-topbar {
+    position: fixed; top: 0; left: 0; right: 0; height: 46px;
+    background: #0a0f18;
+    border-bottom: 1px solid #1c2a3f;
+    display: flex; align-items: center;
+    padding: 0 18px;
+    z-index: 999999;
+}
+.lk-logo {
+    font-weight: 800; font-size: 1.02rem; color: #e8edf5;
+    margin-right: 22px; letter-spacing: -0.01em; white-space: nowrap;
+}
+.lk-logo .lk-chip {
+    background: #2e7de9; color: #fff; border-radius: 4px;
+    padding: 1px 7px; font-size: 0.7rem; margin-left: 6px; vertical-align: 2px;
+}
+.lk-menu { position: relative; height: 46px; display: flex; align-items: center; }
+.lk-menu > a {
+    color: #aeb9c9; text-decoration: none; font-size: 0.9rem; font-weight: 600;
+    padding: 0 16px; height: 46px; line-height: 46px; display: block;
+    white-space: nowrap;
+}
+.lk-menu:hover > a {
+    color: #fff; background: #121b2b;
+    box-shadow: inset 0 -2px 0 #2e7de9;
+}
+.lk-drop {
+    display: none; position: absolute; top: 46px; left: 0; min-width: 235px;
+    background: #0e1626; border: 1px solid #1c2a3f; border-top: none;
+    padding: 7px 0; box-shadow: 0 14px 34px rgba(0,0,0,0.55);
+}
+.lk-menu:hover .lk-drop { display: block; }
+.lk-drop a {
+    display: block; padding: 9px 18px; color: #c6d0de;
+    text-decoration: none; font-size: 0.88rem;
+}
+.lk-drop a:hover { background: #16223a; color: #7cb3ff; }
+.lk-drop .lk-sub { padding-left: 36px; font-size: 0.82rem; color: #93a1b5; }
 </style>
+<div class="lk-topbar">
+  <span class="lk-logo">LK<span class="lk-chip">Terminal</span></span>
+  <div class="lk-menu"><a href="/home" target="_self">Home</a></div>
+  <div class="lk-menu"><a href="/밸류_스크리너" target="_self">Screener ▾</a>
+    <div class="lk-drop">
+      <a href="/buzz" target="_self">Buzz Trend</a>
+      <a href="/밸류_스크리너" target="_self">Value Screener</a>
+      <a href="/종목상세" target="_self">Stock Picker</a>
+      <a href="/watchlist" target="_self">Watchlist</a>
+    </div>
+  </div>
+  <div class="lk-menu"><a href="/entertainment" target="_self">Sector Watch ▾</a>
+    <div class="lk-drop">
+      <a href="/bio-healthcare" target="_self">Bio / Healthcare</a>
+      <a href="/cosmetics-beauty" target="_self">Cosmetics / Beauty</a>
+      <a href="/entertainment" target="_self">Entertainment / Contents</a>
+      <a class="lk-sub" href="/하츄핑2_예고편" target="_self">└ 하츄핑2 예고편</a>
+      <a class="lk-sub" href="/하츄핑2_개봉후" target="_self">└ 하츄핑2 개봉 후</a>
+      <a href="/consumer" target="_self">Consumer</a>
+      <a href="/logistics-commerce" target="_self">Logistics / Commerce</a>
+      <a href="/steel-metals" target="_self">Steel &amp; Non-Ferrous Metals</a>
+    </div>
+  </div>
+</div>
 """, unsafe_allow_html=True)
 
 
@@ -106,10 +151,12 @@ def _cover():
 
 pg_cover = st.Page(_cover, title="LK Asset Terminal", url_path="home", default=True)
 
+# 좌측 사이드바 내비 대신 상단 메뉴바를 쓰므로 내비는 숨긴다
+# (Buzz Trend처럼 페이지 자체 사이드바 위젯이 있으면 그것만 표시된다)
 nav = st.navigation({
     "": [pg_cover],
     "Screener": [pg_buzz, pg_value, pg_stock, pg_watch],
     "Sector Watch": [pg_bio, pg_beauty, pg_ent, pg_trailer, pg_boxoffice,
                      pg_consumer, pg_logi, pg_steel],
-})
+}, position="hidden")
 nav.run()
