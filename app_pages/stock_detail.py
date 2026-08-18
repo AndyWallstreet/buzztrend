@@ -49,25 +49,27 @@ st.markdown("""<style>
 
 
 ST_EXTRA_CSS = """<style>
+/* 본문 좌우 여백 축소 — 정보 패널이 더 왼쪽에 붙게 */
+.block-container { padding-left: 1.2rem; padding-right: 1.2rem; }
 .lk-info {
     border: 1px solid rgba(128,128,128,0.3);
-    border-radius: 10px;
-    padding: 10px 14px 4px 14px;
-    margin-top: 0.4rem;
+    border-radius: 8px;
+    padding: 4px 10px 2px 10px;
+    margin-top: 0.2rem;
 }
 .lk-ir {
     display: flex; justify-content: space-between; align-items: baseline;
-    padding: 7px 2px;
+    padding: 4px 1px;
     border-bottom: 1px solid rgba(128,128,128,0.15);
-    font-size: 0.95rem;
+    font-size: 0.78rem;
 }
-.lk-ir b { font-weight: 700; font-size: 1.02rem; }
+.lk-ir b { font-weight: 700; font-size: 0.84rem; }
 .lk-b {
-    font-size: 0.7rem; font-weight: 500; opacity: 0.75;
+    font-size: 0.6rem; font-weight: 500; opacity: 0.75;
     border: 1px solid rgba(128,128,128,0.4);
-    border-radius: 4px; padding: 0 4px;
+    border-radius: 4px; padding: 0 3px;
 }
-.lk-ind { padding: 9px 2px 8px 2px; font-size: 0.88rem; line-height: 1.55; }
+.lk-ind { padding: 6px 1px 5px 1px; font-size: 0.72rem; line-height: 1.5; }
 </style>"""
 st.markdown(ST_EXTRA_CSS, unsafe_allow_html=True)
 
@@ -205,7 +207,7 @@ def _ir(label, val, badge=""):
     return f'<div class="lk-ir"><span>{label}</span><b>{val}{b}</b></div>'
 
 
-_left, _right = st.columns([1, 3.4], gap="large")
+_left, _right = st.columns([0.9, 4.1], gap="medium")
 with _left:
     _mult_rows = []
     for _lbl2 in ("EV/Sales", "EV/EBIT", "EV/FCF", "PER", "PBR"):
