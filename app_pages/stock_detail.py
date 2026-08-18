@@ -1077,23 +1077,53 @@ with _right:
         if _bd is not None and len(_bd) >= 12 and "px" in _bd.columns:
             st.markdown("**밴드 차트 — 주가가 밴드의 어디를 지나고 있나**")
             b1, b2 = st.columns([1, 3.2], gap="large")
+            _band_opts = ["PER", "PBR", "EV/Sales", "EV/EBIT"]
+            _ciq_eb = None
+            if use_ciq and hist is not None and "ebitda" in hist.columns:
+                _ciq_eb = hist[hist["ebitda"].notna()][["date", "ebitda"]]
+                if len(_ciq_eb) >= 12:
+                    _band_opts.append("EV/EBITDA")
             with b1:
-                bsel = st.radio("밴드 기준", ["PER", "PBR"], horizontal=True, key="sd_band")
-                bcol = {"PER": "per", "PBR": "pbr"}[bsel]
-            b = _bd[_bd[bcol].notna() & (_bd[bcol] > 0) & _bd["px"].notna()
-                    & (_bd["date"] >= dt.date.today() - dt.timedelta(days=days))].copy()
+                bsel = st.radio("밴드 기준", _band_opts, horizontal=True,
+                                key=f"sd_band_{ticker}")
+            _is_ev = bsel.startswith("EV/")
+            if bsel == "EV/EBITDA":
+                # CIQ 월별 EV/EBITDA + histdb 월별 주가를 연월로 결합
+                _pxm = _bd[_bd["px"].notna()][["date", "px"]].copy()
+                _pxm["_ym"] = pd.to_datetime(_pxm["date"]).dt.strftime("%Y-%m")
+                _ebm = _ciq_eb.copy()
+                _ebm["_ym"] = pd.to_datetime(_ebm["date"]).dt.strftime("%Y-%m")
+                b = _pxm.merge(_ebm[["_ym", "ebitda"]], on="_ym", how="inner")
+                b["_m"] = b["ebitda"]
+            else:
+                bcol = {"PER": "per", "PBR": "pbr",
+                        "EV/Sales": "evs", "EV/EBIT": "eve"}[bsel]
+                b = _bd[_bd[bcol].notna() & _bd["px"].notna()].copy()
+                b["_m"] = b[bcol]
+            b = b[(b["_m"] > 0)
+                  & (b["date"] >= dt.date.today() - dt.timedelta(days=days))]
             if len(b) >= 12:
-                # 주가 = 멀티플 × 주당 펀더멘털  →  펀더멘털(주당) = 주가 / 멀티플
-                b["_f"] = b["px"] / b[bcol]
-                # 이익 급감기의 PER 폭등 같은 극단값은 밴드 레벨 계산에서 제외
-                _m = b[bcol]
+                b = b.sort_values("date")
+                # EV 멀티플은 주가에 정비례하지 않으므로 주당 순부채로 보정:
+                # 주가 = (멀티플 × 주당펀더멘털) − 주당순부채
+                _ndps, _nd_note = 0.0, ""
+                if _is_ev:
+                    if pd.notna(_nd_page) and pd.notna(_mcap_v):
+                        _sh_est = _mcap_v / float(b["px"].iloc[-1])
+                        _ndps = _nd_page / _sh_est
+                    else:
+                        _nd_note = " · 순부채 미수집 종목이라 EV ≈ 시총 근사."
+                b["_f"] = (b["px"] + _ndps) / b["_m"]   # 주당 펀더멘털 역산
+                # 이익 급감기의 멀티플 폭등 같은 극단값은 밴드 레벨 계산에서 제외
+                _m = b["_m"]
                 _m = _m[_m <= _m.median() * 3]
                 _q10, _q90 = (float(_m.quantile(x)) for x in (0.10, 0.90))
                 levels = np.linspace(_q10, _q90, 4)
                 long_rows = []
                 for lv in levels:
                     for _, r_ in b.iterrows():
-                        long_rows.append({"date": r_["date"], "v": r_["_f"] * lv,
+                        long_rows.append({"date": r_["date"],
+                                          "v": r_["_f"] * lv - _ndps,
                                           "시리즈": f"{lv:.1f}X"})
                 band_df = pd.DataFrame(long_rows)
                 _band_names = [f"{lv:.1f}X" for lv in levels]
@@ -1116,12 +1146,14 @@ with _right:
                                     .properties(height=450).interactive(),
                                     use_container_width=True)
                 with b1:
-                    _cur_m = float(b[bcol].iloc[-1])
+                    _cur_m = float(b["_m"].iloc[-1])
                     st.markdown(f"- 밴드 = {bsel} **{levels[0]:.1f}~{levels[-1]:.1f}배** "
                                 "(구간 10~90% 사이 4등분, 극단값 제외)\n"
                                 f"- 최근 {bsel}: **{_cur_m:.1f}배**")
                     st.caption("파란 굵은 선 = 주가. 주가가 아래쪽 밴드에 붙어 있으면 "
-                               "역사적 저평가 구간. 데이터: 월별 사전 계산 DB (TTM).")
+                               "역사적 저평가 구간. 데이터: 월별 사전 계산 DB (TTM)"
+                               + (", EV/EBITDA는 CIQ 관심종목" if bsel == "EV/EBITDA"
+                                  else "") + "." + _nd_note)
             else:
                 with b2:
                     st.info(f"{bsel} 밴드를 그릴 데이터가 부족합니다.")
