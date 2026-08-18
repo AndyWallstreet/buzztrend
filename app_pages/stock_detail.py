@@ -569,20 +569,28 @@ else:
         if pd.notna(_dcf_base["g_ttm"]):
             # 기본값 = 실제 최근 성장률 (역성장이면 음수 그대로 보여준다)
             _g_def = int(np.clip(round(_dcf_base["g_ttm"] * 100), -20, 30))
-        g5 = st.slider("매출 성장률 — 향후 5년 (연 %)", -20, 50, _g_def, key="dcf_g")
+        # 키에 티커를 붙여 종목을 바꾸면 그 종목의 기본값으로 새로 시작하게 한다
+        # (고정 키를 쓰면 이전 종목에서 만진 슬라이더 값이 그대로 남는다)
+        g5 = st.slider("매출 성장률 — 향후 5년 (연 %)", -20, 50, _g_def,
+                       key=f"dcf_g_{ticker}")
         opm_in = st.slider("영업이익률 OPM (%)", 0.0, 50.0,
                            float(np.clip(round(_dcf_base["opm"] * 100, 1), 0.0, 50.0)),
-                           0.5, key="dcf_opm")
+                           0.5, key=f"dcf_opm_{ticker}")
         capex_in = st.slider("Capex (매출 대비 %)", 0.0, 30.0,
-                             round(_capex_pct_d * 100, 1), 0.5, key="dcf_cx")
+                             round(_capex_pct_d * 100, 1), 0.5,
+                             key=f"dcf_cx_{ticker}")
         with st.expander("세부 가정"):
-            wacc_in = st.slider("할인율 WACC (%)", 6.0, 15.0, 10.0, 0.5, key="dcf_wacc")
-            gt_in = st.slider("영구 성장률 (%)", 0.0, 3.0, 1.5, 0.5, key="dcf_gt")
-            tax_in = st.slider("세율 (%)", 15, 30, 25, key="dcf_tax")
+            wacc_in = st.slider("할인율 WACC (%)", 6.0, 15.0, 10.0, 0.5,
+                                key=f"dcf_wacc_{ticker}")
+            gt_in = st.slider("영구 성장률 (%)", 0.0, 3.0, 1.5, 0.5,
+                              key=f"dcf_gt_{ticker}")
+            tax_in = st.slider("세율 (%)", 15, 30, 25, key=f"dcf_tax_{ticker}")
             dep_in = st.slider("감가상각 D&A (매출 대비 %)", 0.0, 30.0,
-                               round(_capex_pct_d * 100, 1), 0.5, key="dcf_dep")
+                               round(_capex_pct_d * 100, 1), 0.5,
+                               key=f"dcf_dep_{ticker}")
             nwc_in = st.slider("운전자본 (매출 증가분 대비 %)", 0.0, 50.0,
-                               round(_nwc_pct_d * 100, 1), key="dcf_nwc")
+                               round(_nwc_pct_d * 100, 1),
+                               key=f"dcf_nwc_{ticker}")
         st.caption("기본값 = 최근 실적(TTM)과 과거 Capex·운전자본 비율에서 자동 산출. "
                    "세율 25%, WACC 10%, 영구성장 1.5%는 템플릿 기본값.")
 
