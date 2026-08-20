@@ -1,37 +1,37 @@
 {
-  "ts": "2026-08-20 13:05",
+  "ts": "2026-08-20 13:46",
   "date": "2026-08-20",
   "rank": 7,
   "rate": 1.1,
-  "tickets": 10230,
+  "tickets": 10338,
   "cum": 713547,
-  "total_tickets": 951065,
-  "share": 0.01076,
+  "total_tickets": 955197,
+  "share": 0.01082,
   "rivals": [
     {
       "title": "오디세이",
-      "rate": 73.1,
-      "tickets": 695348
+      "rate": 73.2,
+      "tickets": 699404
     },
     {
       "title": "스파이더맨: 브랜드 뉴 데이",
       "rate": 10.4,
-      "tickets": 98674
+      "tickets": 98914
     },
     {
       "title": "경주기행",
       "rate": 2.6,
-      "tickets": 24551
+      "tickets": 24585
     },
     {
       "title": "인시디어스: 그들이 넘어왔다",
       "rate": 2.3,
-      "tickets": 22079
+      "tickets": 21979
     },
     {
       "title": "명탐정 코난: 하이웨이의 타천사",
       "rate": 1.7,
-      "tickets": 16527
+      "tickets": 16587
     }
   ],
   "note": "KOBIS 실시간 예매율은 과거를 보관하지 않아 1편(2024) 개봉 후 예매는 존재하지 않음"
