@@ -100,11 +100,12 @@ def render(artist, tour_csv, booking_csv, ticker_note):
 
     # ---- 2. 월별·분기별 매출 추정
     st.subheader("2. 월별 · 분기별 매출 추정", divider="blue")
+    # \$ : Streamlit 마크다운이 $...$ 를 수식으로 해석하므로 이스케이프
     st.caption("공연이 열리는 달에 매출을 인식한다고 가정. "
-               f"티켓가격(1인): 한국 ${assum.get('price_usd', {}).get('KR', 100)} · "
-               f"일본 ${assum.get('price_usd', {}).get('JP', 125)} · "
-               f"북미·유럽 ${assum.get('price_usd', {}).get('NA/EU', 200)} · "
-               f"기타 ${assum.get('price_usd', {}).get('Others', 80)} / "
+               f"티켓가격(1인): 한국 \\${assum.get('price_usd', {}).get('KR', 100)} · "
+               f"일본 \\${assum.get('price_usd', {}).get('JP', 125)} · "
+               f"북미·유럽 \\${assum.get('price_usd', {}).get('NA/EU', 200)} · "
+               f"기타 \\${assum.get('price_usd', {}).get('Others', 80)} / "
                "인식률: 한국 40%(자체제작 총액) · 일본 30%(YGEX) · 그외 35%(개런티) / "
                f"환율 {assum.get('fx', 1500):,}원")
 
