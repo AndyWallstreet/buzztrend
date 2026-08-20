@@ -14,8 +14,11 @@
 import argparse
 import csv
 import subprocess
+import sys
 from datetime import date
 from pathlib import Path
+
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 DATA = Path(__file__).resolve().parent / "data" / "yg"
 FILES = {"bigbang": ("bigbang_tour.csv", "bigbang_booking.csv"),
