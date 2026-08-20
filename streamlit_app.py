@@ -64,6 +64,12 @@ h1, h2, h3 { letter-spacing: -0.01em; }
 }
 .lk-drop a:hover { background: #16223a; color: #7cb3ff; }
 .lk-drop .lk-sub { padding-left: 36px; font-size: 0.82rem; color: #93a1b5; }
+.lk-drop .lk-co {
+    display: block; padding: 8px 18px 3px; font-size: 0.72rem; font-weight: 700;
+    color: #5f7089; letter-spacing: 0.06em; text-transform: uppercase;
+    border-top: 1px solid #16223a; margin-top: 4px;
+}
+.lk-drop .lk-co:first-child { border-top: none; margin-top: 0; }
 </style>
 <div class="lk-topbar">
   <span class="lk-logo">LK<span class="lk-chip">Terminal</span></span>
@@ -81,8 +87,12 @@ h1, h2, h3 { letter-spacing: -0.01em; }
       <a href="/bio-healthcare" target="_self">Bio / Healthcare</a>
       <a href="/cosmetics-beauty" target="_self">Cosmetics / Beauty</a>
       <a href="/entertainment" target="_self">Entertainment / Contents</a>
+      <span class="lk-co">SAMG Entertainment</span>
       <a class="lk-sub" href="/하츄핑2_예고편" target="_self">└ 하츄핑2 예고편</a>
       <a class="lk-sub" href="/하츄핑2_개봉후" target="_self">└ 하츄핑2 개봉 후</a>
+      <span class="lk-co">YG Entertainment</span>
+      <a class="lk-sub" href="/bigbang_tour" target="_self">└ BIGBANG Tour 2026</a>
+      <a class="lk-sub" href="/babymonster_tour" target="_self">└ BABYMONSTER 2026</a>
       <a href="/consumer" target="_self">Consumer</a>
       <a href="/logistics-commerce" target="_self">Logistics / Commerce</a>
       <a href="/steel-metals" target="_self">Steel &amp; Non-Ferrous Metals</a>
@@ -119,15 +129,23 @@ pg_trailer = st.Page("app_pages/hatchuping_trailer.py", title="└ 하츄핑2 �
                      url_path="하츄핑2_예고편")
 pg_boxoffice = st.Page("app_pages/hatchuping_boxoffice.py", title="└ 하츄핑2 개봉 후",
                        url_path="하츄핑2_개봉후")
+pg_bigbang = st.Page("app_pages/yg_bigbang.py", title="└ BIGBANG Tour 2026",
+                     url_path="bigbang_tour")
+pg_babymon = st.Page("app_pages/yg_babymonster.py", title="└ BABYMONSTER 2026",
+                     url_path="babymonster_tour")
 
 
 def _entertainment():
     st.title("Entertainment / Contents")
-    st.caption("엔터·콘텐츠 섹터 — 진행 중인 추적")
-    st.subheader("Movie tracking", divider="orange")
+    st.caption("엔터·콘텐츠 섹터 — 진행 중인 추적 (회사별)")
+    st.subheader("SAMG Entertainment (419530)", divider="orange")
     st.page_link(pg_trailer, label="1. 하츄핑2 예고편 — 유튜브 조회수·댓글, 개봉 전 예매율 기록")
     st.page_link(pg_boxoffice, label="2. 하츄핑2 개봉 후 — KOBIS 실관객수, 실관람객 평점")
-    st.caption("종목: SAMG엔터 (419530) · 사랑의 하츄핑 2: 고래보석의 전설 (2026-08-05 개봉)")
+    st.caption("사랑의 하츄핑 2: 고래보석의 전설 (2026-08-05 개봉)")
+    st.subheader("YG Entertainment (122870)", divider="orange")
+    st.page_link(pg_bigbang, label="1. BIGBANG Tour 2026 — XX : COSMOS 월드투어 일정·예매율·매출 추정")
+    st.page_link(pg_babymon, label="2. BABYMONSTER 2026 — 월드투어 일정·매출 추정")
+    st.caption("투어 좌석·가격 가정: YG 분석 워크북 (Tour detail / Assumptions)")
 
 
 pg_ent = st.Page(_entertainment, title="Entertainment/Contents", url_path="entertainment")
@@ -142,6 +160,7 @@ from app_pages import cover  # noqa: E402  (st.page_link 에 Page 객체가 필�
 
 _PAGES = {"buzz": pg_buzz, "value": pg_value, "bio": pg_bio, "beauty": pg_beauty,
           "ent": pg_ent, "trailer": pg_trailer, "boxoffice": pg_boxoffice,
+          "bigbang": pg_bigbang, "babymon": pg_babymon,
           "consumer": pg_consumer, "logi": pg_logi, "steel": pg_steel}
 
 
@@ -157,6 +176,7 @@ nav = st.navigation({
     "": [pg_cover],
     "Screener": [pg_buzz, pg_value, pg_stock, pg_watch],
     "Sector Watch": [pg_bio, pg_beauty, pg_ent, pg_trailer, pg_boxoffice,
+                     pg_bigbang, pg_babymon,
                      pg_consumer, pg_logi, pg_steel],
 }, position="hidden")
 nav.run()

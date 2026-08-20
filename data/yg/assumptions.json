@@ -1,0 +1,17 @@
+{
+  "price_usd": {
+    "KR": 100,
+    "JP": 125,
+    "NA/EU": 200,
+    "Others": 80
+  },
+  "taking": {
+    "KR": 0.4,
+    "JP": 0.3,
+    "NA/EU": 0.35,
+    "Others": 0.35
+  },
+  "fx": 1500,
+  "fill": 0.95,
+  "source": "YG 엔터_Analysis template_2026 08_v02.xlsx"
+}
