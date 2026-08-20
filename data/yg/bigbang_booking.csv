@@ -1,2 +1,6 @@
-asof,tour_date,city,seats_total,seats_sold,fill,status,source,note
-2026-08-20,2026-08-21,Goyang,,,,매진,https://mhnse.com/news/articleView.html?idxno=1454720,일반예매 22분만에 3회차 전석매진(6/25·동접 21만)·7/13-14 추가좌석도 판매·예매처 쿠팡플레이(국내)/NOL(글로벌)
+asof,tour_date,city,seats_total,seats_sold,fill,status,speed,source,note
+2026-08-20,2026-08-21,Goyang,,,,매진,22분,https://mhnse.com/news/articleView.html?idxno=1454720,일반예매(6/25) 22분만에 3회차 전석매진·동접 21만·7/13-14 추가좌석도 판매·예매처 쿠팡플레이(국내)/NOL(글로벌)
+2026-08-20,2026-09-04,Oakland,,,,매진,30분,https://en.wikipedia.org/wiki/XX:_Cosmos_World_Tour,9/5 원공연 30분 전석매진(6/26 온세일)→수요 몰려 9/4 회차 추가(6/30 발표·잔여 미확인)·예매처 AXS/Ticketmaster
+2026-06-28,2026-09-11,East Rutherford,50606,49866,0.9854,,,https://x.com/TouringAsiaPop/status/2071417655903560056,TouringAsiaPop 집계(6/28) 판매율 98.56%·잔여 740석·실판매 캐파 50606석(워크북 82500석 대비 무대설치로 축소)
+2026-08-20,2026-09-19,Saint-Denis,,,,판매중,,https://www.stadefrance.com/en/ticket/bigbang,공식 페이지 판매 진행중(€57~255)·리세일 데이터상 잔여 ~1% 수준
+2026-08-20,2026-09-26,London,,,,판매중,,https://www.axs.com/events/1489042/bigbang-tickets,AEG 일반판매 6/26 개시·리세일 수요 강함·잔여 미확인

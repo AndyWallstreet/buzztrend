@@ -24,7 +24,7 @@ DATA = Path(__file__).resolve().parent / "data" / "yg"
 FILES = {"bigbang": ("bigbang_tour.csv", "bigbang_booking.csv"),
          "babymonster": ("babymonster_tour.csv", "babymonster_booking.csv")}
 COLS = ["asof", "tour_date", "city", "seats_total", "seats_sold", "fill", "status",
-        "source", "note"]
+        "speed", "source", "note"]
 
 
 def main():
@@ -34,6 +34,7 @@ def main():
     ap.add_argument("--sold", type=int, help="판매된 좌석수 (숫자를 알 때)")
     ap.add_argument("--status", default="",
                     help="매진 / 추가판매 / 판매중 / 미오픈 (숫자를 못 구할 때)")
+    ap.add_argument("--speed", default="", help="매진까지 걸린 시간 (예: 22분) — '매진 (22분)' 으로 표시")
     ap.add_argument("--total", type=int, help="총좌석 (생략시 투어 CSV 에서 찾음)")
     ap.add_argument("--asof", default=date.today().isoformat())
     ap.add_argument("--source", default="")
@@ -56,7 +57,7 @@ def main():
            "seats_total": total if a.sold is not None else "",
            "seats_sold": a.sold if a.sold is not None else "",
            "fill": round(a.sold / total, 4) if a.sold is not None else "",
-           "status": a.status, "source": a.source, "note": a.note}
+           "status": a.status, "speed": a.speed, "source": a.source, "note": a.note}
 
     p = DATA / booking_csv
     rows = []

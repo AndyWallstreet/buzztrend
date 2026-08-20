@@ -45,12 +45,15 @@ def _fmt_eok(mn):
 
 
 def _status_text(row):
-    """스냅샷 한 줄 → 사람이 읽는 예매상태."""
+    """스냅샷 한 줄 → 사람이 읽는 예매상태. speed 가 있으면 '매진 (22분)' 식으로."""
+    txt = None
     if isinstance(row.get("status"), str) and row["status"]:
-        return STATUS_BADGE.get(row["status"], row["status"])
-    if pd.notna(row.get("fill")):
-        return f"{row['fill']:.0%} 판매"
-    return None
+        txt = STATUS_BADGE.get(row["status"], row["status"])
+    elif pd.notna(row.get("fill")):
+        txt = f"{row['fill']:.0%} 판매"
+    if txt and isinstance(row.get("speed"), str) and row["speed"]:
+        txt += f" ({row['speed']})"
+    return txt
 
 
 def render(artist, tour_csv, booking_csv, ticker_note):
@@ -223,10 +226,12 @@ def render(artist, tour_csv, booking_csv, ticker_note):
     hist = booking.sort_values("asof", ascending=False).copy()
     hist["asof"] = hist["asof"].dt.strftime("%Y-%m-%d")
     hist["tour_date"] = hist["tour_date"].dt.strftime("%Y-%m-%d")
-    hist = hist[["asof", "city", "tour_date", "status", "seats_sold", "seats_total",
-                 "fill", "note", "source"]]
-    hist.columns = ["기록일", "도시", "공연일", "상태", "판매좌석", "총좌석",
-                    "판매율", "메모", "출처"]
+    if "speed" not in hist.columns:
+        hist["speed"] = ""
+    hist = hist[["asof", "city", "tour_date", "status", "speed", "seats_sold",
+                 "seats_total", "fill", "note", "source"]]
+    hist.columns = ["기록일", "도시", "공연일", "상태", "매진 속도", "판매좌석",
+                    "총좌석", "판매율", "메모", "출처"]
     st.dataframe(hist, use_container_width=True, hide_index=True,
                  column_config={
                      "출처": st.column_config.LinkColumn("출처", display_text="링크"),
