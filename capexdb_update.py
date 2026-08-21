@@ -102,14 +102,26 @@ def _add(d, k, v):
         d[k] = (d.get(k) or 0) + v
 
 
-def parse_report(items: list) -> dict:
-    """전체 재무제표 항목 리스트 -> 필드 dict (CF/IS는 누적 기준)."""
+USDKRW = {2016: 1160, 2017: 1131, 2018: 1100, 2019: 1166, 2020: 1180, 2021: 1144,
+          2022: 1292, 2023: 1306, 2024: 1364, 2025: 1420, 2026: 1400}
+
+
+def _krw(v, ccy, yr):
+    """외국적 상장사의 USD 공시 금액을 원화로 (연평균 근사 환율)."""
+    if v is None or ccy in ("", "KRW"):
+        return v
+    return int(v * USDKRW.get(yr, 1400)) if ccy == "USD" else None
+
+
+def parse_report(items: list, yr: int = 2026) -> dict:
+    """전체 재무제표 항목 리스트 -> 필드 dict (CF/IS는 누적 기준, 원화 환산)."""
     d = {}
     for it in items:
         sj = it.get("sj_div")
         nm = (it.get("account_nm") or "").replace(" ", "")
         aid = it.get("account_id") or ""
-        v = _num(it.get("thstrm_amount"))
+        ccy = (it.get("currency") or "KRW").strip().upper()
+        v = _krw(_num(it.get("thstrm_amount")), ccy, yr)
 
         if sj == "BS":
             for f, names in BS_EXACT.items():
@@ -140,7 +152,7 @@ def parse_report(items: list) -> dict:
                 _add(d, "buyback", av)
         elif sj in ("IS", "CIS"):
             # 분기보고서 손익은 3개월/누적이 둘 다 오므로 누적(add)을 우선 사용
-            cum = _num(it.get("thstrm_add_amount"))
+            cum = _krw(_num(it.get("thstrm_add_amount")), ccy, yr)
             if cum is None:
                 cum = v
             if nm == "매출원가":
@@ -169,7 +181,7 @@ def fetch_one(args):
             return (yr, qn, None)
     except Exception:
         return (yr, qn, None)
-    return (yr, qn, parse_report(j.get("list", [])))
+    return (yr, qn, parse_report(j.get("list", []), int(yr)))
 
 
 def main():

@@ -21,7 +21,7 @@ import openpyxl
 import pandas as pd
 
 XLSX = (r"C:\Users\user99i1\LK자산운용\LK자산운용 - 문서\Resources"
-        r"\02_Industry Analysis\Comparables cap iq_value_AJ editing_v04.xlsx")
+        r"\02_Industry Analysis\Comparables cap iq_value_AJ editing_v05.xlsx")
 OUT = Path(__file__).resolve().parent / "data" / "screener"
 
 COLS = ["ticker", "company", "roic_sg", "roe_sg", "ev_sales", "ev_ebit",

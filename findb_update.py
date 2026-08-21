@@ -32,6 +32,18 @@ OUT = BASE / "data" / "findb"
 CSV = BASE / "data" / "screener" / "screener_data.csv"
 UA = {"User-Agent": "Mozilla/5.0 (lk-terminal findb)"}
 FUND_START = 2016
+# 외국적 상장사(950xxx 등)는 USD로 공시하므로 원화로 환산한다 — 연평균 근사 (원/달러)
+USDKRW = {2016: 1160, 2017: 1131, 2018: 1100, 2019: 1166, 2020: 1180, 2021: 1144,
+          2022: 1292, 2023: 1306, 2024: 1364, 2025: 1420, 2026: 1400}
+
+
+def to_krw(v, ccy, yr):
+    """DART 금액을 원화로. KRW면 그대로, USD면 연평균 환율 적용, 그 외 통화는 None."""
+    if v is None or ccy in (None, "", "KRW"):
+        return v
+    if ccy == "USD":
+        return int(v * USDKRW.get(int(yr), 1400))
+    return None
 BATCH = 50          # fnlttMultiAcnt 한 번에 보낼 corp_code 수
 RC = [("11013", 1), ("11012", 2), ("11014", 3), ("11011", 4)]
 
@@ -100,6 +112,10 @@ def fetch_batch(args):
         except ValueError:
             continue
         fs = it.get("fs_div", "OFS")
+        ccy = (it.get("currency") or "KRW").strip().upper()
+        v = to_krw(v, ccy, yr)
+        if v is None:
+            continue
         rec = out.setdefault(cc, {})
         # 연결(CFS) 우선 — 이미 CFS 값이 있으면 OFS로 덮지 않는다
         if nm not in rec or (fs == "CFS" and rec[nm][1] != "CFS"):
@@ -121,6 +137,15 @@ def main():
     codes = list(corps.values())
     batches = [codes[i:i + BATCH] for i in range(0, len(codes), BATCH)]
     jobs = [(key, b, str(yr), rc) for yr in years for rc, _ in RC for b in batches]
+    # 증분 모드라도 DB에 아직 없는 종목(유니버스 신규 편입)은 처음부터 백필한다
+    if not backfill and (OUT / "financials.csv.gz").exists():
+        have = set(pd.read_csv(OUT / "financials.csv.gz")["ticker"].str.lstrip("A"))
+        fresh = [corps[t] for t in corps if t not in have]
+        if fresh:
+            fb = [fresh[i:i + BATCH] for i in range(0, len(fresh), BATCH)]
+            jobs += [(key, b, str(yr), rc) for yr in range(FUND_START, this_year - 1)
+                     for rc, _ in RC for b in fb]
+            print(f"신규 종목 {len(fresh)}개 전체 백필 포함")
     print(f"API 호출 {len(jobs)}건 ({'백필' if backfill else '증분'})...")
 
     raw = {}
