@@ -1,37 +1,37 @@
 {
-  "ts": "2026-08-24 07:52",
-  "date": "2026-08-24",
-  "rank": 14,
-  "rate": 0.4,
-  "tickets": 2213,
-  "cum": 788263,
-  "total_tickets": 575236,
-  "share": 0.00385,
+  "ts": "2026-08-25 07:31",
+  "date": "2026-08-25",
+  "rank": 16,
+  "rate": 0.5,
+  "tickets": 3197,
+  "cum": 791424,
+  "total_tickets": 633817,
+  "share": 0.00504,
   "rivals": [
     {
       "title": "오디세이",
-      "rate": 71.0,
-      "tickets": 408401
+      "rate": 67.3,
+      "tickets": 426639
     },
     {
       "title": "스파이더맨: 브랜드 뉴 데이",
       "rate": 7.8,
-      "tickets": 44642
+      "tickets": 49132
     },
     {
       "title": "경주기행",
-      "rate": 5.7,
-      "tickets": 32897
+      "rate": 6.0,
+      "tickets": 38027
     },
     {
       "title": "오크 스트리트의 마지막 날",
-      "rate": 4.0,
-      "tickets": 22794
+      "rate": 4.5,
+      "tickets": 28808
     },
     {
       "title": "인시디어스: 그들이 넘어왔다",
-      "rate": 1.0,
-      "tickets": 5611
+      "rate": 1.5,
+      "tickets": 9791
     }
   ],
   "note": "KOBIS 실시간 예매율은 과거를 보관하지 않아 1편(2024) 개봉 후 예매는 존재하지 않음"
