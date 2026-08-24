@@ -1,35 +1,35 @@
 {
-  "as_of": "2026-08-24 12:35 KST",
+  "as_of": "2026-08-25 07:34 KST",
   "stock": "SAMG엔터 (419530)",
-  "window": "2026-08-22 ~ 2026-08-24",
+  "window": "2026-08-23 ~ 2026-08-25",
   "top_pos": [
     {
       "date": "2026-08-23",
       "title": "영화흥행순위",
-      "views": 377,
+      "views": 421,
       "agree": 0,
       "disagree": 0
     },
     {
       "date": "2026-08-24",
       "title": "1만원대로 매수 걸어놔라",
-      "views": 42,
+      "views": 75,
       "agree": 0,
       "disagree": 0
     }
   ],
   "top_neg": [
     {
-      "date": "2026-08-22",
-      "title": "판교 망했나요...?",
-      "views": 504,
+      "date": "2026-08-24",
+      "title": "오늘 공매도  연중 최소 거래량입니다.",
+      "views": 166,
       "agree": 0,
       "disagree": 0
     },
     {
       "date": "2026-08-24",
       "title": "...폭락",
-      "views": 25,
+      "views": 34,
       "agree": 0,
       "disagree": 0
     }
