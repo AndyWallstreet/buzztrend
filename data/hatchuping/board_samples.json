@@ -1,19 +1,33 @@
 {
-  "as_of": "2026-08-25 07:34 KST",
+  "as_of": "2026-08-25 16:03 KST",
   "stock": "SAMG엔터 (419530)",
   "window": "2026-08-23 ~ 2026-08-25",
   "top_pos": [
     {
       "date": "2026-08-23",
       "title": "영화흥행순위",
-      "views": 421,
+      "views": 425,
       "agree": 0,
       "disagree": 0
     },
     {
       "date": "2026-08-24",
       "title": "1만원대로 매수 걸어놔라",
-      "views": 75,
+      "views": 86,
+      "agree": 0,
+      "disagree": 0
+    },
+    {
+      "date": "2026-08-25",
+      "title": "오늘 2000주 추가 매수했어요.",
+      "views": 85,
+      "agree": 0,
+      "disagree": 0
+    },
+    {
+      "date": "2026-08-25",
+      "title": "딸래미가 티니핑을 좋아해서",
+      "views": 78,
       "agree": 0,
       "disagree": 0
     }
@@ -22,14 +36,35 @@
     {
       "date": "2026-08-24",
       "title": "오늘 공매도  연중 최소 거래량입니다.",
-      "views": 166,
+      "views": 240,
       "agree": 0,
       "disagree": 0
     },
     {
       "date": "2026-08-24",
       "title": "...폭락",
-      "views": 34,
+      "views": 37,
+      "agree": 0,
+      "disagree": 0
+    },
+    {
+      "date": "2026-08-25",
+      "title": "내가 더 떨어진다 캣제?ㅉㅉ",
+      "views": 21,
+      "agree": 0,
+      "disagree": 0
+    },
+    {
+      "date": "2026-08-25",
+      "title": "매도도 쉽게안될듯",
+      "views": 20,
+      "agree": 0,
+      "disagree": 0
+    },
+    {
+      "date": "2026-08-25",
+      "title": "5% 이상 하락했어요 😞",
+      "views": 7,
       "agree": 0,
       "disagree": 0
     }
