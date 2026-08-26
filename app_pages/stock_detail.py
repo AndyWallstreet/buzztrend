@@ -753,25 +753,34 @@ with _right:
                 g5 = st.slider("매출 성장률 — 향후 5년 (연 %)", -20, 50, _g_def,
                                key=_g_key)
                 st.caption(_g_note)
-                opm_in = st.slider("영업이익률 OPM (%)", 0.0, 50.0, _opm_def,
-                                   0.5, key=f"dcf_opm_{ticker}")
-                capex_in = st.slider("Capex (매출 대비 %)", 0.0, 30.0, _cx_def, 0.5,
-                                     key=f"dcf_cx_{ticker}")
+                opm_in = st.slider("영업이익률 OPM (%) — 기본값: 최근 TTM 실적",
+                                   0.0, 50.0, _opm_def, 0.5,
+                                   key=f"dcf_opm_{ticker}",
+                                   help="전망 영업이익 = 매출 × 이 비율")
+                capex_in = st.slider("Capex/매출 (%) — 기본값: 과거 평균",
+                                     0.0, 30.0, _cx_def, 0.5,
+                                     key=f"dcf_cx_{ticker}",
+                                     help="전망 Capex = 매출 × 이 비율. 기본값은 "
+                                          "최근 8개 분기 Capex/매출(TTM)의 중앙값")
                 with st.expander("세부 가정"):
                     wacc_in = st.slider("할인율 WACC (%)", 6.0, 15.0, 10.0, 0.5,
                                         key=f"dcf_wacc_{ticker}")
                     gt_in = st.slider("영구 성장률 (%)", 0.0, 3.0, 1.5, 0.5,
                                       key=f"dcf_gt_{ticker}")
                     tax_in = st.slider("세율 (%)", 15, 30, 25, key=f"dcf_tax_{ticker}")
-                    dep_in = st.slider("감가상각 D&A (Capex 대비 %)", 0, 150,
+                    dep_in = st.slider("D&A/Capex (%) — 기본값: 과거 평균", 0, 150,
                                        round(_dar_d * 100), 5,
                                        key=f"dcf_dep_{ticker}",
                                        help="전망 D&A = Capex × 이 비율. 과거 평균 "
                                             "D&A/Capex에서 자동 산출 (미수집 시 100%)")
-                    nwc_in = st.slider("운전자본 (매출 증가분 대비 %)", 0.0, 50.0,
-                                       _nwc_def, key=f"dcf_nwc_{ticker}")
-                st.caption("OPM·Capex 기본값 = 최근 실적(TTM)과 과거 비율에서 자동 산출. "
-                           "세율 25%, WACC 10%, 영구성장 1.5%는 템플릿 기본값.")
+                    nwc_in = st.slider("운전자본/매출 증가분 (%) — 기본값: 과거 평균",
+                                       0.0, 50.0, _nwc_def, key=f"dcf_nwc_{ticker}",
+                                       help="매출이 늘어난 만큼 운전자본(채권+재고−채무)에 "
+                                            "묶이는 현금. 기본값은 과거 NWC/매출 중앙값")
+                st.caption("모든 비율의 기본값은 이 회사의 실제 과거 데이터에서 자동 "
+                           "산출됩니다 (전망 = 매출 → Capex(×과거 Capex/매출) → "
+                           "D&A(×과거 D&A/Capex) → FCF). 세율 25%, WACC 10%, "
+                           "영구성장 1.5%는 템플릿 기본값.")
 
             _args = dict(opm=opm_in / 100, wacc=wacc_in / 100, gt=gt_in / 100,
                          tax=tax_in / 100, cxp=capex_in / 100, dar=dep_in / 100,
