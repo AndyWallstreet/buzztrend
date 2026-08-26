@@ -657,18 +657,40 @@ with _right:
                 if len(_ndl):
                     _nd = float(_ndl["netdebt"].iloc[0])
 
-            def dcf_equity(g, opm, wacc, gt, tax, cxp, dar, nwp, rev0, netdebt):
+            # Capex는 매출 비례가 아니라 '연간 절대 금액'으로 전망한다.
+            # (매출이 늘어도 설비를 그만큼 더 짓지는 않는다 = 오퍼레이팅 레버리지)
+            _cx_hist = pd.Series(dtype=float)
+            if qd is not None and qd["capex"].notna().any():
+                _ann = qd.groupby(qd["q"].str[:4]).agg(
+                    cx=("capex", "sum"), n=("capex", "count"))
+                _cx_hist = _ann[_ann["n"] == 4]["cx"].tail(5)   # 완전한 최근 5개년
+            if len(_cx_hist) >= 2:
+                _cx_base = float(_cx_hist.tail(3).mean())   # 최근 3년 평균
+                _cx_bear = float(_cx_hist.max())            # 과거 최대 = 계속 크게 투자
+                _cx_bull = float(_cx_hist.min())            # 과거 최소 = 투자 부담 완화
+                _cx_src = f"과거 {len(_cx_hist)}개년 실적"
+            elif qd is not None and qd["capex_ttm"].notna().any():
+                _t_cx = float(qd["capex_ttm"].dropna().iloc[-1])
+                _cx_base, _cx_bear, _cx_bull = _t_cx, _t_cx * 1.3, _t_cx * 0.7
+                _cx_src = "최근 TTM 실적 (연간 이력 부족 — ±30% 가정)"
+            else:
+                _cx_base = _dcf_base["rev"] * _capex_pct_d
+                _cx_bear, _cx_bull = _cx_base * 1.3, _cx_base * 0.7
+                _cx_src = "Capex 미수집 — 매출 대비 과거 비율로 추정"
+            _CX_SCEN = {"Bear": _cx_bear, "Base": _cx_base, "Bull": _cx_bull}
+
+            def dcf_equity(g, opm, wacc, gt, tax, capex, dar, nwp, rev0, netdebt):
                 """5년 예측 + 영구가치 -> (지분가치, FCF 리스트, 터미널가치).
 
-                템플릿 방식: Capex = 매출 × 과거 Capex/매출 비율,
-                D&A = Capex × 과거 D&A/Capex 비율."""
+                Capex는 매출에 비례시키지 않고 시나리오별 '연간 절대 금액'으로
+                고정한다 — 매출이 늘어도 설비 투자가 같은 비율로 늘지는 않기
+                때문(오퍼레이팅 레버리지). D&A = Capex × 과거 D&A/Capex 비율."""
                 if wacc <= gt:
                     return np.nan, [], np.nan
                 rev_p, fcfs = rev0, []
                 for _ in range(5):
                     rev_n = rev_p * (1 + g)
                     nopat = rev_n * opm * (1 - tax)
-                    capex = rev_n * cxp
                     fcf = nopat + capex * dar - capex - (rev_n - rev_p) * nwp
                     fcfs.append(fcf)
                     rev_p = rev_n
@@ -704,7 +726,7 @@ with _right:
             # 보자마자 알 수 있다. 역산 불가하면 최근 TTM 성장률로 폴백.
             _def_args = dict(opm=float(np.clip(_dcf_base["opm"], 0.0, 0.50)),
                              wacc=0.10, gt=0.015, tax=0.25,
-                             cxp=_capex_pct_d, dar=_dar_d, nwp=_nwc_pct_d,
+                             capex=_cx_base, dar=_dar_d, nwp=_nwc_pct_d,
                              rev0=_dcf_base["rev"], netdebt=_nd)
             _g_imp0 = _solve(lambda g: dcf_equity(g, **_def_args)[0], -0.30, 0.60)
             if pd.notna(_g_imp0):
@@ -720,11 +742,11 @@ with _right:
 
             # 슬라이더 기본값 모음 — 초기화 버튼이 이 값들로 되돌린다
             _opm_def = float(np.clip(round(_dcf_base["opm"] * 100, 1), 0.0, 50.0))
-            _cx_def = round(_capex_pct_d * 100, 1)
             _nwc_def = round(_nwc_pct_d * 100, 1)
-            _DCF_DEFAULTS = {"dcf_g": _g_def, "dcf_opm": _opm_def, "dcf_cx": _cx_def,
+            _DCF_DEFAULTS = {"dcf_g": _g_def, "dcf_opm": _opm_def,
                              "dcf_wacc": 10.0, "dcf_gt": 1.5, "dcf_tax": 25,
-                             "dcf_dep": round(_dar_d * 100), "dcf_nwc": _nwc_def}
+                             "dcf_dep": round(_dar_d * 100), "dcf_nwc": _nwc_def,
+                             "dcf_cxs": "Base"}
 
             dc1, dc2 = st.columns([1.15, 2.85], gap="large")
             with dc1:
@@ -739,6 +761,9 @@ with _right:
                 def _reset_dcf():
                     for _k, _v in _DCF_DEFAULTS.items():
                         st.session_state[f"{_k}_{ticker}"] = _v
+                    for _sc, _sv in _CX_SCEN.items():   # 시나리오별 Capex 금액
+                        _k2 = f"dcf_cxa_{ticker}_{_sc}"
+                        st.session_state[_k2] = int(round(_sv / 1e8))
 
                 _bc1, _bc2 = st.columns(2)
                 _bc1.button("0️⃣ 성장 0%로", on_click=_set_g_zero,
@@ -757,11 +782,24 @@ with _right:
                                    0.0, 50.0, _opm_def, 0.5,
                                    key=f"dcf_opm_{ticker}",
                                    help="전망 영업이익 = 매출 × 이 비율")
-                capex_in = st.slider("Capex/매출 (%) — 기본값: 과거 평균",
-                                     0.0, 30.0, _cx_def, 0.5,
-                                     key=f"dcf_cx_{ticker}",
-                                     help="전망 Capex = 매출 × 이 비율. 기본값은 "
-                                          "최근 8개 분기 Capex/매출(TTM)의 중앙값")
+                cx_scen = st.radio(
+                    "Capex 시나리오 (연간 절대 금액)",
+                    ["Bear", "Base", "Bull"], index=1, horizontal=True,
+                    key=f"dcf_cxs_{ticker}",
+                    help="Bear = 과거 최대(지금 매출을 유지하려면 계속 크게 투자) · "
+                         "Base = 최근 3년 평균 · Bull = 과거 최소(오퍼레이팅 레버리지 "
+                         "국면 — 과거만큼 투자할 필요 없음)")
+                _cx_amt_def = int(round(_CX_SCEN[cx_scen] / 1e8))
+                _cx_hi = max(int(round(max(_CX_SCEN.values()) / 1e8 * 2.5)), 10)
+                capex_amt = st.slider(
+                    f"└ Capex (연간, 억원) — {cx_scen} 기본값",
+                    0, _cx_hi, min(_cx_amt_def, _cx_hi),
+                    max(1, _cx_hi // 200),
+                    key=f"dcf_cxa_{ticker}_{cx_scen}",
+                    help=f"전망 5년간 매년 이 금액을 투자한다고 가정 ({_cx_src}). "
+                         "매출에 비례시키지 않으므로, 매출이 늘면 Capex/매출 비율은 "
+                         "자연히 내려간다 = 오퍼레이팅 레버리지")
+                capex_won = capex_amt * 1e8
                 with st.expander("세부 가정"):
                     wacc_in = st.slider("할인율 WACC (%)", 6.0, 15.0, 10.0, 0.5,
                                         key=f"dcf_wacc_{ticker}")
@@ -777,13 +815,13 @@ with _right:
                                        0.0, 50.0, _nwc_def, key=f"dcf_nwc_{ticker}",
                                        help="매출이 늘어난 만큼 운전자본(채권+재고−채무)에 "
                                             "묶이는 현금. 기본값은 과거 NWC/매출 중앙값")
-                st.caption("모든 비율의 기본값은 이 회사의 실제 과거 데이터에서 자동 "
-                           "산출됩니다 (전망 = 매출 → Capex(×과거 Capex/매출) → "
-                           "D&A(×과거 D&A/Capex) → FCF). 세율 25%, WACC 10%, "
+                st.caption("기본값은 모두 이 회사의 실제 과거 데이터에서 자동 산출됩니다. "
+                           "전망 = 매출·OPM은 비율, Capex는 절대 금액(시나리오), "
+                           "D&A = Capex × 과거 D&A/Capex. 세율 25%, WACC 10%, "
                            "영구성장 1.5%는 템플릿 기본값.")
 
             _args = dict(opm=opm_in / 100, wacc=wacc_in / 100, gt=gt_in / 100,
-                         tax=tax_in / 100, cxp=capex_in / 100, dar=dep_in / 100,
+                         tax=tax_in / 100, capex=capex_won, dar=dep_in / 100,
                          nwp=nwc_in / 100, rev0=_dcf_base["rev"], netdebt=_nd)
             eqv, fcfs, tv = dcf_equity(g5 / 100, **_args)
 
@@ -807,7 +845,7 @@ with _right:
                     upside = eqv / _mcap_won - 1
                     irr = _irr([-_mcap_won] + fcfs[:-1] + [fcfs[-1] + tv - _nd])
                     fcf0 = (_dcf_base["ebit"] * (1 - tax_in / 100)
-                            + _dcf_base["rev"] * capex_in / 100 * (dep_in / 100 - 1))
+                            + capex_won * (dep_in / 100 - 1))
                     def _fmt_full(x):
                         if pd.isna(x):
                             return "—"
@@ -927,8 +965,7 @@ with _right:
                     _d_rev = pdf["매출"] - pdf["매출"].shift(1)
                     _hmap = lambda k: pdf["연도"].map(
                         lambda y: _hist_cf.get(y, {}).get(k, np.nan))
-                    pdf["Capex"] = np.where(_is_f, pdf["매출"] * capex_in / 100,
-                                            _hmap("capex"))
+                    pdf["Capex"] = np.where(_is_f, capex_won, _hmap("capex"))
                     pdf["D&A"] = np.where(_is_f, pdf["Capex"] * dep_in / 100,
                                           _hmap("dep"))
                     pdf["ΔNWC"] = np.where(_is_f, _d_rev * nwc_in / 100, _hmap("dnwc"))
@@ -990,7 +1027,9 @@ with _right:
                                                 use_container_width=True)
                     st.caption("파랑 = 실적, 주황 = 전망(입력한 가정 그대로), "
                                "금색 선 = 각 차트의 비율(매출 YoY · OPM · Capex/매출 · "
-                               "FCF 마진). 실적 구간의 Capex·FCF는 실제 현금흐름표 "
+                               "FCF 마진). Capex 전망은 매년 같은 금액이라 매출이 "
+                               "늘수록 Capex/매출 선이 내려간다 — 이게 오퍼레이팅 "
+                               "레버리지. 실적 구간의 Capex·FCF는 실제 현금흐름표 "
                                "수치라 아직 수집 전이면 비어 있을 수 있습니다.")
 
                     # 전체 숫자 표 (억원 단위, 천 단위 구분)
