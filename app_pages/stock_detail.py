@@ -937,39 +937,61 @@ with _right:
                                           _hmap("cfo"))
                     pdf["FCF"] = pdf["OCF"] - pdf["Capex"]
 
-                    fb1, fb2 = st.columns(2, gap="large")
+                    # 비율 라인용 열 (막대와 모양이 달라야 정보가 늘어난다)
+                    pdf["Capex/매출(%)"] = np.where(
+                        pdf["매출"] > 0, pdf["Capex"] / pdf["매출"] * 100, np.nan)
+                    pdf["FCF마진(%)"] = np.where(
+                        pdf["매출"] > 0, pdf["FCF"] / pdf["매출"] * 100, np.nan)
+
                     _dom = ["실적", "전망"]
                     _rng = [C_BAR, C_LINE]
                     _C_GOLD = "#e8c15a"
-                    _sub_ttl = {"매출": "매출 & 매출성장률",
-                                "영업이익": "영업이익 & 영업이익률"}
-                    for _col, (_v, _ttl, _ln, _lt) in zip(
-                            (fb1, fb2),
-                            [("매출", "매출 (억원)", "YoY(%)", "매출 YoY (%)"),
-                             ("영업이익", "영업이익 (억원)", "OPM(%)", "OPM (%)")]):
-                        cdf = pdf[["연도", "구분", _v, _ln]].copy()
-                        cdf["v"] = cdf[_v] / 1e8
-                        _b0 = alt.Chart(cdf).encode(
-                            x=alt.X("연도:N", sort=None, title=None))
-                        bars = _b0.mark_bar(opacity=0.88).encode(
-                            y=alt.Y("v:Q", title=_ttl),
-                            color=alt.Color("구분:N",
-                                            scale=alt.Scale(domain=_dom, range=_rng),
-                                            legend=alt.Legend(orient="top", title=None)),
-                            tooltip=["연도", "구분",
-                                     alt.Tooltip("v", format=",.0f", title=_ttl),
-                                     alt.Tooltip(_ln, format=".1f", title=_lt)])
-                        line = _b0.mark_line(color=_C_GOLD, size=2.5, point=True).encode(
-                            y=alt.Y(f"{_ln}:Q", title=_lt),
-                            tooltip=["연도", alt.Tooltip(_ln, format=".1f", title=_lt)])
-                        ch = (alt.layer(bars, line)
-                              .resolve_scale(y="independent"))
-                        with _col:
-                            sub(_sub_ttl[_v])
-                            st.altair_chart(ch.properties(height=330),
-                                            use_container_width=True)
-                    st.caption("금색 선 = 왼쪽 차트 매출 YoY, 오른쪽 차트 OPM. "
-                               "전망 구간은 입력한 가정 그대로의 경로.")
+                    # (값 열, 막대 축 제목, 비율 열, 비율 축 제목, 소제목)
+                    _specs = [
+                        ("매출", "매출 (억원)", "YoY(%)", "매출 YoY (%)",
+                         "매출 & 매출성장률"),
+                        ("영업이익", "영업이익 (억원)", "OPM(%)", "OPM (%)",
+                         "영업이익 & 영업이익률"),
+                        ("Capex", "Capex (억원)", "Capex/매출(%)", "Capex/매출 (%)",
+                         "Capex & Capex/매출"),
+                        ("FCF", "FCF (억원)", "FCF마진(%)", "FCF 마진 (%)",
+                         "FCF & FCF 마진"),
+                    ]
+                    for _i3 in range(0, len(_specs), 2):
+                        _cols = st.columns(2, gap="large")
+                        for _col, (_v, _ttl, _ln, _lt, _st) in zip(
+                                _cols, _specs[_i3:_i3 + 2]):
+                            cdf = pdf[["연도", "구분", _v, _ln]].copy()
+                            cdf["v"] = cdf[_v] / 1e8
+                            _b0 = alt.Chart(cdf).encode(
+                                x=alt.X("연도:N", sort=None, title=None))
+                            bars = _b0.mark_bar(opacity=0.88).encode(
+                                y=alt.Y("v:Q", title=_ttl),
+                                color=alt.Color("구분:N",
+                                                scale=alt.Scale(domain=_dom,
+                                                                range=_rng),
+                                                legend=alt.Legend(orient="top",
+                                                                  title=None)),
+                                tooltip=["연도", "구분",
+                                         alt.Tooltip("v", format=",.0f", title=_ttl),
+                                         alt.Tooltip(_ln, format=".1f", title=_lt)])
+                            line = _b0.mark_line(color=_C_GOLD, size=2.5,
+                                                 point=True).encode(
+                                y=alt.Y(f"{_ln}:Q", title=_lt),
+                                tooltip=["연도",
+                                         alt.Tooltip(_ln, format=".1f", title=_lt)])
+                            zero = alt.Chart(pd.DataFrame({"z": [0]})).mark_rule(
+                                color="#8894a6", strokeDash=[4, 3]).encode(y="z:Q")
+                            ch = (alt.layer(bars, zero, line)
+                                  .resolve_scale(y="independent"))
+                            with _col:
+                                sub(_st)
+                                st.altair_chart(ch.properties(height=330),
+                                                use_container_width=True)
+                    st.caption("파랑 = 실적, 주황 = 전망(입력한 가정 그대로), "
+                               "금색 선 = 각 차트의 비율(매출 YoY · OPM · Capex/매출 · "
+                               "FCF 마진). 실적 구간의 Capex·FCF는 실제 현금흐름표 "
+                               "수치라 아직 수집 전이면 비어 있을 수 있습니다.")
 
                     # 전체 숫자 표 (억원 단위, 천 단위 구분)
                     def _row(name, vals, fmt):
