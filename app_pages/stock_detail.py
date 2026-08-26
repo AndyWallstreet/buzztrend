@@ -639,6 +639,7 @@ with _right:
         else:
             # 과거 데이터에서 기본 가정 뽑기 (없으면 보수적 기본값)
             _capex_pct_d, _nwc_pct_d, _nd = 0.04, 0.10, 0.0
+            _dar_d = 1.0   # D&A / Capex 비율 기본값 (미수집이면 100% = 정상상태 가정)
             if qd is not None:
                 _cp = (qd["capex_ttm"] / qd["rev_ttm"]).replace([np.inf, -np.inf], np.nan).dropna()
                 if len(_cp):
@@ -647,19 +648,28 @@ with _right:
                        / qd["rev_ttm"]).replace([np.inf, -np.inf], np.nan).dropna()
                 if len(_nw):
                     _nwc_pct_d = float(np.clip(_nw.tail(8).median(), 0.0, 0.50))
+                qd["dep_ttm"] = qd["dep"].rolling(4, min_periods=4).sum()
+                _dr = (qd["dep_ttm"] / qd["capex_ttm"]).replace(
+                    [np.inf, -np.inf], np.nan).dropna()
+                if len(_dr):
+                    _dar_d = float(np.clip(_dr.tail(8).median(), 0.2, 1.5))
                 _ndl = qd.dropna(subset=["netdebt"]).tail(1)
                 if len(_ndl):
                     _nd = float(_ndl["netdebt"].iloc[0])
 
-            def dcf_equity(g, opm, wacc, gt, tax, cxp, dpp, nwp, rev0, netdebt):
-                """5년 예측 + 영구가치 -> (지분가치, FCF 리스트, 터미널가치)."""
+            def dcf_equity(g, opm, wacc, gt, tax, cxp, dar, nwp, rev0, netdebt):
+                """5년 예측 + 영구가치 -> (지분가치, FCF 리스트, 터미널가치).
+
+                템플릿 방식: Capex = 매출 × 과거 Capex/매출 비율,
+                D&A = Capex × 과거 D&A/Capex 비율."""
                 if wacc <= gt:
                     return np.nan, [], np.nan
                 rev_p, fcfs = rev0, []
                 for _ in range(5):
                     rev_n = rev_p * (1 + g)
                     nopat = rev_n * opm * (1 - tax)
-                    fcf = nopat + rev_n * dpp - rev_n * cxp - (rev_n - rev_p) * nwp
+                    capex = rev_n * cxp
+                    fcf = nopat + capex * dar - capex - (rev_n - rev_p) * nwp
                     fcfs.append(fcf)
                     rev_p = rev_n
                 tv = fcfs[-1] * (1 + gt) / (wacc - gt)
@@ -694,7 +704,7 @@ with _right:
             # 보자마자 알 수 있다. 역산 불가하면 최근 TTM 성장률로 폴백.
             _def_args = dict(opm=float(np.clip(_dcf_base["opm"], 0.0, 0.50)),
                              wacc=0.10, gt=0.015, tax=0.25,
-                             cxp=_capex_pct_d, dpp=_capex_pct_d, nwp=_nwc_pct_d,
+                             cxp=_capex_pct_d, dar=_dar_d, nwp=_nwc_pct_d,
                              rev0=_dcf_base["rev"], netdebt=_nd)
             _g_imp0 = _solve(lambda g: dcf_equity(g, **_def_args)[0], -0.30, 0.60)
             if pd.notna(_g_imp0):
@@ -714,7 +724,7 @@ with _right:
             _nwc_def = round(_nwc_pct_d * 100, 1)
             _DCF_DEFAULTS = {"dcf_g": _g_def, "dcf_opm": _opm_def, "dcf_cx": _cx_def,
                              "dcf_wacc": 10.0, "dcf_gt": 1.5, "dcf_tax": 25,
-                             "dcf_dep": _cx_def, "dcf_nwc": _nwc_def}
+                             "dcf_dep": round(_dar_d * 100), "dcf_nwc": _nwc_def}
 
             dc1, dc2 = st.columns([1.15, 2.85], gap="large")
             with dc1:
@@ -753,15 +763,18 @@ with _right:
                     gt_in = st.slider("영구 성장률 (%)", 0.0, 3.0, 1.5, 0.5,
                                       key=f"dcf_gt_{ticker}")
                     tax_in = st.slider("세율 (%)", 15, 30, 25, key=f"dcf_tax_{ticker}")
-                    dep_in = st.slider("감가상각 D&A (매출 대비 %)", 0.0, 30.0,
-                                       _cx_def, 0.5, key=f"dcf_dep_{ticker}")
+                    dep_in = st.slider("감가상각 D&A (Capex 대비 %)", 0, 150,
+                                       round(_dar_d * 100), 5,
+                                       key=f"dcf_dep_{ticker}",
+                                       help="전망 D&A = Capex × 이 비율. 과거 평균 "
+                                            "D&A/Capex에서 자동 산출 (미수집 시 100%)")
                     nwc_in = st.slider("운전자본 (매출 증가분 대비 %)", 0.0, 50.0,
                                        _nwc_def, key=f"dcf_nwc_{ticker}")
                 st.caption("OPM·Capex 기본값 = 최근 실적(TTM)과 과거 비율에서 자동 산출. "
                            "세율 25%, WACC 10%, 영구성장 1.5%는 템플릿 기본값.")
 
             _args = dict(opm=opm_in / 100, wacc=wacc_in / 100, gt=gt_in / 100,
-                         tax=tax_in / 100, cxp=capex_in / 100, dpp=dep_in / 100,
+                         tax=tax_in / 100, cxp=capex_in / 100, dar=dep_in / 100,
                          nwp=nwc_in / 100, rev0=_dcf_base["rev"], netdebt=_nd)
             eqv, fcfs, tv = dcf_equity(g5 / 100, **_args)
 
@@ -785,7 +798,7 @@ with _right:
                     upside = eqv / _mcap_won - 1
                     irr = _irr([-_mcap_won] + fcfs[:-1] + [fcfs[-1] + tv - _nd])
                     fcf0 = (_dcf_base["ebit"] * (1 - tax_in / 100)
-                            + _dcf_base["rev"] * (dep_in - capex_in) / 100)
+                            + _dcf_base["rev"] * capex_in / 100 * (dep_in / 100 - 1))
                     def _fmt_full(x):
                         if pd.isna(x):
                             return "—"
@@ -905,10 +918,11 @@ with _right:
                     _d_rev = pdf["매출"] - pdf["매출"].shift(1)
                     _hmap = lambda k: pdf["연도"].map(
                         lambda y: _hist_cf.get(y, {}).get(k, np.nan))
-                    pdf["D&A"] = np.where(_is_f, pdf["매출"] * dep_in / 100, _hmap("dep"))
-                    pdf["ΔNWC"] = np.where(_is_f, _d_rev * nwc_in / 100, _hmap("dnwc"))
                     pdf["Capex"] = np.where(_is_f, pdf["매출"] * capex_in / 100,
                                             _hmap("capex"))
+                    pdf["D&A"] = np.where(_is_f, pdf["Capex"] * dep_in / 100,
+                                          _hmap("dep"))
+                    pdf["ΔNWC"] = np.where(_is_f, _d_rev * nwc_in / 100, _hmap("dnwc"))
                     pdf["OCF"] = np.where(_is_f,
                                           pdf["NOPAT"] + pdf["D&A"] - pdf["ΔNWC"],
                                           _hmap("cfo"))
