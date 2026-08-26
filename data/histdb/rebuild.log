@@ -1,14 +1,19 @@
-2026-08-21 13:13:55.780 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
-2026-08-21 13:13:55.780 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
-2026-08-21 13:13:55.781 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
+2026-08-26 18:48:05.059 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
+2026-08-26 18:48:05.059 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
+2026-08-26 18:48:05.059 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
 대상 2625개 종목 — 주가/주식수/순부채 수집 + 멀티플 계산...
-  200/2625 (성공 150, 80s)
-  400/2625 (성공 297, 156s)
-  600/2625 (성공 447, 227s)
-  800/2625 (성공 637, 303s)
-  1000/2625 (성공 832, 378s)
-  1200/2625 (성공 977, 447s)
-  1400/2625 (성공 1170, 523s)
-  1600/2625 (성공 1364, 599s)
-  1800/2625 (성공 1540, 671s)
-  2000/2625 (성공 1731, 748s)
+  200/2625 (성공 161, 82s)
+  400/2625 (성공 333, 161s)
+  600/2625 (성공 501, 239s)
+  800/2625 (성공 691, 316s)
+  1000/2625 (성공 884, 394s)
+  1200/2625 (성공 1080, 471s)
+  1400/2625 (성공 1271, 546s)
+  1600/2625 (성공 1457, 622s)
+  1800/2625 (성공 1649, 696s)
+  2000/2625 (성공 1836, 773s)
+  2200/2625 (성공 2022, 852s)
+  2400/2625 (성공 2192, 931s)
+  2600/2625 (성공 2333, 1015s)
+OK — 종목 2348개, 214757행 → C:\Users\user99i1\buzztrend\data\histdb\multiples.csv.gz
+이제: git add data/histdb && git commit -m 'histdb update' && git push
