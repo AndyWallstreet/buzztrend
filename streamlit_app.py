@@ -91,8 +91,7 @@ h1, h2, h3 { letter-spacing: -0.01em; }
       <a class="lk-sub" href="/하츄핑2_예고편" target="_self">└ 하츄핑2 예고편</a>
       <a class="lk-sub" href="/하츄핑2_개봉후" target="_self">└ 하츄핑2 개봉 후</a>
       <span class="lk-co">YG Entertainment</span>
-      <a class="lk-sub" href="/bigbang_tour" target="_self">└ BIGBANG Tour 2026</a>
-      <a class="lk-sub" href="/babymonster_tour" target="_self">└ BABYMONSTER 2026</a>
+      <a class="lk-sub" href="/yg" target="_self">└ YG 트래커 (앨범·콘서트·컨센서스)</a>
       <a href="/consumer" target="_self">Consumer</a>
       <a href="/logistics-commerce" target="_self">Logistics / Commerce</a>
       <a href="/steel-metals" target="_self">Steel &amp; Non-Ferrous Metals</a>
@@ -129,6 +128,9 @@ pg_trailer = st.Page("app_pages/hatchuping_trailer.py", title="└ 하츄핑2 �
                      url_path="하츄핑2_예고편")
 pg_boxoffice = st.Page("app_pages/hatchuping_boxoffice.py", title="└ 하츄핑2 개봉 후",
                        url_path="하츄핑2_개봉후")
+pg_yg = st.Page("app_pages/yg_dashboard.py", title="└ YG 트래커",
+                url_path="yg")
+# 예전 북마크가 살아 있도록 개별 투어 페이지 URL은 그대로 둔다
 pg_bigbang = st.Page("app_pages/yg_bigbang.py", title="└ BIGBANG Tour 2026",
                      url_path="bigbang_tour")
 pg_babymon = st.Page("app_pages/yg_babymonster.py", title="└ BABYMONSTER 2026",
@@ -143,9 +145,9 @@ def _entertainment():
     st.page_link(pg_boxoffice, label="2. 하츄핑2 개봉 후 — KOBIS 실관객수, 실관람객 평점")
     st.caption("사랑의 하츄핑 2: 고래보석의 전설 (2026-08-05 개봉)")
     st.subheader("YG Entertainment (122870)", divider="orange")
-    st.page_link(pg_bigbang, label="1. BIGBANG Tour 2026 — XX : COSMOS 월드투어 일정·예매율·매출 추정")
-    st.page_link(pg_babymon, label="2. BABYMONSTER 2026 — 월드투어 일정·매출 추정")
-    st.caption("투어 좌석·가격 가정: YG 분석 워크북 (Tour detail / Assumptions)")
+    st.page_link(pg_yg, label="YG 트래커 — 📀 제품(앨범) · 🎤 콘서트 · 🎯 컨센서스 비트")
+    st.caption("앨범 판매량(Circle Chart), 투어 좌석·가격 가정, 일별 컨센서스: "
+               "YG 분석 워크북")
 
 
 pg_ent = st.Page(_entertainment, title="Entertainment/Contents", url_path="entertainment")
@@ -160,7 +162,7 @@ from app_pages import cover  # noqa: E402  (st.page_link 에 Page 객체가 필�
 
 _PAGES = {"buzz": pg_buzz, "value": pg_value, "bio": pg_bio, "beauty": pg_beauty,
           "ent": pg_ent, "trailer": pg_trailer, "boxoffice": pg_boxoffice,
-          "bigbang": pg_bigbang, "babymon": pg_babymon,
+          "yg": pg_yg, "bigbang": pg_bigbang, "babymon": pg_babymon,
           "consumer": pg_consumer, "logi": pg_logi, "steel": pg_steel}
 
 
@@ -176,7 +178,7 @@ nav = st.navigation({
     "": [pg_cover],
     "Screener": [pg_buzz, pg_value, pg_stock, pg_watch],
     "Sector Watch": [pg_bio, pg_beauty, pg_ent, pg_trailer, pg_boxoffice,
-                     pg_bigbang, pg_babymon,
+                     pg_yg, pg_bigbang, pg_babymon,
                      pg_consumer, pg_logi, pg_steel],
 }, position="hidden")
 nav.run()
