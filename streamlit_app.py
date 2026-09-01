@@ -84,6 +84,7 @@ h1, h2, h3 { letter-spacing: -0.01em; }
   </div>
   <div class="lk-menu"><a href="/entertainment" target="_self">Sector Watch ▾</a>
     <div class="lk-drop">
+      <a href="/batteries" target="_self">Batteries / EV / ESS</a>
       <a href="/bio-healthcare" target="_self">Bio / Healthcare</a>
       <a href="/cosmetics-beauty" target="_self">Cosmetics / Beauty</a>
       <a href="/entertainment" target="_self">Entertainment / Contents</a>
@@ -120,6 +121,8 @@ pg_watch = st.Page("app_pages/watchlist.py", title="Watchlist",
                    url_path="watchlist")
 
 # ---- Sector Watch
+pg_batt = st.Page("app_pages/batteries.py", title="Batteries/EV/ESS",
+                  url_path="batteries")
 pg_bio = st.Page(_placeholder("Bio / Healthcare", "제약·바이오·의료기기 섹터 추적"),
                  title="Bio/Healthcare", url_path="bio-healthcare")
 pg_beauty = st.Page(_placeholder("Cosmetics / Beauty", "화장품·뷰티 섹터 추적"),
@@ -177,7 +180,7 @@ pg_cover = st.Page(_cover, title="LK Asset Terminal", url_path="home", default=T
 nav = st.navigation({
     "": [pg_cover],
     "Screener": [pg_buzz, pg_value, pg_stock, pg_watch],
-    "Sector Watch": [pg_bio, pg_beauty, pg_ent, pg_trailer, pg_boxoffice,
+    "Sector Watch": [pg_batt, pg_bio, pg_beauty, pg_ent, pg_trailer, pg_boxoffice,
                      pg_yg, pg_bigbang, pg_babymon,
                      pg_consumer, pg_logi, pg_steel],
 }, position="hidden")
