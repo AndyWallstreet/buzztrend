@@ -43,6 +43,17 @@ def sub(title, note=""):
 
 YEAR_C = 2026
 
+# 아티스트 고정 색 — BABYMONSTER=노랑(블핑 빨강과 구분), 두 표기(Ikon/iKON) 모두 등록
+ARTIST_C = {"BLACKPINK": "#e8425a", "BABYMONSTER": "#f2c744",
+            "TREASURE": "#2fa89a", "BIGBANG": "#e8722a",
+            "WINNER": "#8ec9ff", "Ikon": "#4fb862", "iKON": "#4fb862",
+            "2NE1": "#b06fc9", "AKMU": "#2a78d6"}
+
+
+def artist_scale(names):
+    names = [n for n in names if n in ARTIST_C]
+    return alt.Scale(domain=names, range=[ARTIST_C[n] for n in names])
+
 
 @st.cache_data(show_spinner=False)
 def load_circle(name, stamp):
@@ -139,6 +150,7 @@ with tab_prod:
             x=alt.X("연도:N", sort=None, title=None),
             y=alt.Y("장수(만장):Q", title="앨범 판매 (만장)", stack=True),
             color=alt.Color("artist:N", title="아티스트",
+                            scale=artist_scale(sorted(a["artist"].unique())),
                             legend=alt.Legend(orient="top", columns=5)),
             tooltip=["연도", "artist",
                      alt.Tooltip("장수(만장)", format=",.1f")])
@@ -236,6 +248,7 @@ with tab_prod:
                 x=alt.X("월:N", sort=_mx, title=None),
                 y=alt.Y("만장:Q", title="월 판매 (만장)", stack=True),
                 color=alt.Color("group:N", title=None,
+                                scale=artist_scale(sorted(mon["group"].unique())),
                                 legend=alt.Legend(orient="top")),
                 tooltip=["월", "group", alt.Tooltip("만장", format=",.1f")])
             _mt = mon.groupby("월", as_index=False)["만장"].sum()
@@ -254,15 +267,19 @@ with tab_prod:
             qg = qq.groupby(["분기", "group"], as_index=False)["sales"].sum()
             qg["만장"] = qg["sales"] / 1e4
             bars = alt.Chart(qg).mark_bar(opacity=0.9).encode(
-                x=alt.X("분기:N", title=None),
+                x=alt.X("분기:N", title=None,
+                        scale=alt.Scale(domain=["Q1", "Q2", "Q3", "Q4"])),
                 y=alt.Y("만장:Q", title="분기 판매 (만장)", stack=True),
                 color=alt.Color("group:N", title=None,
+                                scale=artist_scale(sorted(qg["group"].unique())),
                                 legend=alt.Legend(orient="top")),
                 tooltip=["분기", "group", alt.Tooltip("만장", format=",.1f")])
             _qt = qg.groupby("분기", as_index=False)["만장"].sum()
             lab = alt.Chart(_qt).mark_text(dy=-8, color="#dde5f0",
                                            fontSize=11).encode(
-                x="분기:N", y="만장:Q", text=alt.Text("만장:Q", format=",.1f"))
+                x=alt.X("분기:N",
+                        scale=alt.Scale(domain=["Q1", "Q2", "Q3", "Q4"])),
+                y="만장:Q", text=alt.Text("만장:Q", format=",.1f"))
             st.altair_chart(alt.layer(bars, lab).properties(height=300),
                             use_container_width=True)
             st.caption(f"**읽는법**: 확정 월간({last_pub_m}월까지)만 합산한 분기 "
