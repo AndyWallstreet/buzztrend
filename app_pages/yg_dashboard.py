@@ -41,6 +41,17 @@ def sub(title, note=""):
     st.markdown(f'<div class="lk-h">{title}{n}</div>', unsafe_allow_html=True)
 
 
+YEAR_C = 2026
+
+
+@st.cache_data(show_spinner=False)
+def load_circle(name, stamp):
+    p = DATA / name
+    if not p.exists():
+        return None
+    return pd.read_csv(p)
+
+
 @st.cache_data(show_spinner=False)
 def load_album(stamp):
     p = DATA / "album_sales.csv"
@@ -151,6 +162,77 @@ with tab_prod:
         st.caption("실물 앨범 판매량은 Circle Chart(구 가온) 집계 기준이며, 워크북 "
                    "Album 시트에서 가져옵니다. 매출 추정은 단순히 판매량 × ASP라 "
                    "실제 제품 매출(음원·MD 포함)과는 다릅니다.")
+
+    # ---------------- 앨범별 상세 (Circle Chart 자동 수집) ----------------
+    st.divider()
+    sub("앨범별 상세 — Circle Chart 자동 수집",
+        "월간(1월~) + 주간(7월~) · 그룹·앨범 단위 · 출하량-반품량 기준")
+    cm = load_circle("yg_albums_monthly.csv", _stamp("yg_albums_monthly.csv"))
+    cw = load_circle("yg_albums_weekly.csv", _stamp("yg_albums_weekly.csv"))
+    if cm is None or not len(cm):
+        st.info("Circle 데이터가 없습니다 — `python yg_circle_update.py` 를 실행하세요.")
+    else:
+        cm = cm.copy()
+        cm["sales"] = cm["sales"].astype(float)
+        cm["_m"] = cm["period"].str[5:7].astype(int)
+        cm["분기"] = "Q" + ((cm["_m"] - 1) // 3 + 1).astype(str)
+
+        q1, q2 = st.columns(2, gap="large")
+        with q1:
+            qq = cm.groupby(["분기", "group"], as_index=False)["sales"].sum()
+            qq["만장"] = qq["sales"] / 1e4
+            ch = alt.Chart(qq).mark_bar(opacity=0.9).encode(
+                x=alt.X("분기:N", title=None),
+                y=alt.Y("만장:Q", title="분기 판매 (만장)", stack=True),
+                color=alt.Color("group:N", title=None,
+                                legend=alt.Legend(orient="top")),
+                tooltip=["분기", "group", alt.Tooltip("만장", format=",.1f")])
+            st.altair_chart(ch.properties(height=300), use_container_width=True)
+            _mmax = int(cm["_m"].max())
+            st.caption(f"**읽는법**: 월간 차트 합산(현재 {YEAR_C}년 {_mmax}월까지 반영, "
+                       "진행 중 분기는 미완성). 컴백 분기에 막대가 서는 구조라 분기 간 "
+                       "낙차 자체가 정상 — 전년 같은 분기와 비교해야 함.")
+        with q2:
+            if cw is not None and len(cw):
+                cwp = cw.copy()
+                cwp["sales"] = cwp["sales"].astype(float)
+                cwp["start"] = pd.to_datetime(cwp["start"])
+                top_albums = (cwp.groupby("album")["sales"].sum()
+                              .sort_values(ascending=False).head(6).index)
+                ww = cwp[cwp["album"].isin(top_albums)]
+                ch = alt.Chart(ww).mark_line(size=2, point=True).encode(
+                    x=alt.X("start:T", title=None),
+                    y=alt.Y("sales:Q", title="주간 판매 (장)"),
+                    color=alt.Color("album:N", title=None,
+                                    legend=alt.Legend(orient="top", columns=2,
+                                                      labelLimit=180)),
+                    tooltip=["album", alt.Tooltip("start:T", title="주 시작"),
+                             alt.Tooltip("sales", format=",.0f")])
+                st.altair_chart(ch.properties(height=300),
+                                use_container_width=True)
+                st.caption("**읽는법**: 주간 판매 상위 6개 앨범(7월 이후). 발매 첫 주 "
+                           "초동이 치솟고 급감하는 게 정상 패턴 — 2주차 잔존율이 "
+                           "높으면 팬덤 확장 신호. 톱100 밖으로 밀리면 선이 끊김.")
+
+        # 앨범별 누적 테이블
+        tot = (cm.groupby(["group", "album"], as_index=False)
+               .agg(연간누적=("sales", "sum")))
+        if cw is not None and len(cw):
+            _lw = cw[cw["week"].astype(int) == cw["week"].astype(int).max()]
+            _lwm = dict(zip(_lw["album"], _lw["sales"].astype(float)))
+            tot["최근주간"] = tot["album"].map(_lwm)
+        tot = tot.sort_values("연간누적", ascending=False)
+        tot["연간누적"] = tot["연간누적"].map(lambda v: f"{v:,.0f}")
+        tot["최근주간"] = tot["최근주간"].map(
+            lambda v: f"{v:,.0f}" if pd.notna(v) else "—")
+        tot.columns = ["그룹", "앨범", f"{YEAR_C}년 누적(장)", "최근 주간(장)"]
+        st.dataframe(tot, hide_index=True, use_container_width=True,
+                     height=min(80 + 36 * len(tot), 420))
+        st.caption("**읽는법**: 버전(KiT·LP·Weverse 등)은 별도 행. 누적은 월간 차트 "
+                   "합산이라 톱100 밖 롱테일은 빠짐(과소집계). 갱신: "
+                   "`python yg_circle_update.py` — 매일 배치에 포함돼 주간 차트가 "
+                   "나오는 대로 자동 반영. 분기 마감 후 월간 3개가 모이면 Q3·Q4 "
+                   "막대가 완성됨.")
 
 # ------------------------------------------------------------------ 콘서트
 with tab_tour:
