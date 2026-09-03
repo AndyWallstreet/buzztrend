@@ -142,7 +142,14 @@ with tab_prod:
                             legend=alt.Legend(orient="top", columns=5)),
             tooltip=["연도", "artist",
                      alt.Tooltip("장수(만장)", format=",.1f")])
-        st.altair_chart(bars.properties(height=380), use_container_width=True)
+        _tot = a.groupby("연도", as_index=False)["장수(만장)"].sum()
+        labels = alt.Chart(_tot).mark_text(dy=-8, color="#dde5f0",
+                                           fontSize=11).encode(
+            x=alt.X("연도:N", sort=None),
+            y=alt.Y("장수(만장):Q"),
+            text=alt.Text("장수(만장):Q", format=",.0f"))
+        st.altair_chart(alt.layer(bars, labels).properties(height=380),
+                        use_container_width=True)
 
         sub("앨범 매출 추정", f"판매량 × ASP {asp:,}원")
         by_year["연도"] = (by_year["year"].astype(str)
@@ -158,7 +165,13 @@ with tab_prod:
                                                         "? '추정' : '실적'")),
             tooltip=["연도", alt.Tooltip("매출추정(억)", format=",.0f"),
                      alt.Tooltip("copies", format=",.0f", title="판매량(장)")])
-        st.altair_chart(rev_bars.properties(height=300), use_container_width=True)
+        rev_lab = alt.Chart(by_year).mark_text(dy=-8, color="#dde5f0",
+                                               fontSize=11).encode(
+            x=alt.X("연도:N", sort=None),
+            y=alt.Y("매출추정(억):Q"),
+            text=alt.Text("매출추정(억):Q", format=",.0f"))
+        st.altair_chart(alt.layer(rev_bars, rev_lab).properties(height=300),
+                        use_container_width=True)
         st.caption("실물 앨범 판매량은 Circle Chart(구 가온) 집계 기준이며, 워크북 "
                    "Album 시트에서 가져옵니다. 매출 추정은 단순히 판매량 × ASP라 "
                    "실제 제품 매출(음원·MD 포함)과는 다릅니다.")
@@ -166,73 +179,167 @@ with tab_prod:
     # ---------------- 앨범별 상세 (Circle Chart 자동 수집) ----------------
     st.divider()
     sub("앨범별 상세 — Circle Chart 자동 수집",
-        "월간(1월~) + 주간(7월~) · 그룹·앨범 단위 · 출하량-반품량 기준")
+        "집계 계단: 주간(잠정) → 월간(확정) → 분기·반기 → 연간 · 출하량-반품량 기준")
     cm = load_circle("yg_albums_monthly.csv", _stamp("yg_albums_monthly.csv"))
     cw = load_circle("yg_albums_weekly.csv", _stamp("yg_albums_weekly.csv"))
     if cm is None or not len(cm):
-        st.info("Circle 데이터가 없습니다 — `python yg_circle_update.py` 를 실행하세요.")
+        st.info("Circle 데이터가 없습니다 — python yg_circle_update.py 를 실행하세요.")
     else:
         cm = cm.copy()
         cm["sales"] = cm["sales"].astype(float)
         cm["_m"] = cm["period"].str[5:7].astype(int)
-        cm["분기"] = "Q" + ((cm["_m"] - 1) // 3 + 1).astype(str)
+        last_pub_m = int(cm["_m"].max())          # 월간 차트가 발표된 마지막 달
 
-        q1, q2 = st.columns(2, gap="large")
-        with q1:
-            qq = cm.groupby(["분기", "group"], as_index=False)["sales"].sum()
-            qq["만장"] = qq["sales"] / 1e4
-            ch = alt.Chart(qq).mark_bar(opacity=0.9).encode(
+        # 주간 → 잠정 월 합산 (월간 미발표 달만)
+        wk = None
+        if cw is not None and len(cw):
+            wk = cw.copy()
+            wk["sales"] = wk["sales"].astype(float)
+            wk["start"] = pd.to_datetime(wk["start"])
+            wk["_m"] = wk["start"].dt.month       # 주 시작일 기준 귀속 월(근사)
+        pend = (wk[wk["_m"] > last_pub_m] if wk is not None else None)
+
+        # ---- 요약 지표: 반기 → 연간 계단
+        h1 = cm[cm["_m"] <= 6]["sales"].sum()
+        h2_pub = cm[cm["_m"] > 6]["sales"].sum()
+        h2_pend = pend["sales"].sum() if pend is not None else 0
+        s1, s2, s3, s4 = st.columns(4)
+        s1.metric("상반기(1H) 확정", f"{h1 / 1e4:,.0f}만장", "월간 차트 1~6월 합",
+                  delta_color="off")
+        s2.metric("하반기(2H) 진행", f"{(h2_pub + h2_pend) / 1e4:,.1f}만장",
+                  f"월간 {h2_pub / 1e4:,.1f} + 주간 잠정 {h2_pend / 1e4:,.1f}",
+                  delta_color="off")
+        s3.metric("연간 누적 (잠정)", f"{(h1 + h2_pub + h2_pend) / 1e4:,.0f}만장",
+                  "확정 월간 + 잠정 주간", delta_color="off")
+        if wk is not None and len(wk):
+            _lw = wk[wk["week"].astype(int) == wk["week"].astype(int).max()]
+            s4.metric(f"최근 주간 (W{int(_lw['week'].iloc[0])})",
+                      f"{_lw['sales'].sum():,.0f}장",
+                      f"{_lw['end'].iloc[0]} 마감", delta_color="off")
+
+        # ---- 월별 판매 (그룹 스택) — 진행 중인 달은 주간 잠정 합산으로 채움
+        mon = cm.groupby(["_m", "group"], as_index=False)["sales"].sum()
+        mon["월"] = mon["_m"].astype(str) + "월"
+        if pend is not None and len(pend):
+            pm = pend.groupby(["_m", "group"], as_index=False)["sales"].sum()
+            pm["월"] = pm["_m"].astype(str) + "월*"
+            mon = pd.concat([mon, pm], ignore_index=True)
+        mon["만장"] = mon["sales"] / 1e4
+        _morder = ([f"{m}월" for m in range(1, 13)]
+                   + [f"{m}월*" for m in range(1, 13)])
+        mon["_ord"] = mon["월"].map({v: i for i, v in enumerate(_morder)})
+        mon = mon.sort_values("_ord")
+        _mx = list(dict.fromkeys(mon["월"]))
+        g1, g2 = st.columns(2, gap="large")
+        with g1:
+            bars = alt.Chart(mon).mark_bar(opacity=0.9).encode(
+                x=alt.X("월:N", sort=_mx, title=None),
+                y=alt.Y("만장:Q", title="월 판매 (만장)", stack=True),
+                color=alt.Color("group:N", title=None,
+                                legend=alt.Legend(orient="top")),
+                tooltip=["월", "group", alt.Tooltip("만장", format=",.1f")])
+            _mt = mon.groupby("월", as_index=False)["만장"].sum()
+            lab = alt.Chart(_mt).mark_text(dy=-8, color="#dde5f0",
+                                           fontSize=10).encode(
+                x=alt.X("월:N", sort=_mx),
+                y="만장:Q", text=alt.Text("만장:Q", format=",.1f"))
+            st.altair_chart(alt.layer(bars, lab).properties(height=300),
+                            use_container_width=True)
+            st.caption("**읽는법**: 그룹별 월 판매. 별표(*) 달 = 월간 차트 미발표라 "
+                       "주간 차트 잠정 합산 — Circle이 월간을 발표하면 자동으로 확정치로 "
+                       "바뀜(주간→월간 계단). 컴백 달에 막대가 서는 게 정상.")
+        with g2:
+            qq = cm.copy()
+            qq["분기"] = "Q" + ((qq["_m"] - 1) // 3 + 1).astype(str)
+            qg = qq.groupby(["분기", "group"], as_index=False)["sales"].sum()
+            qg["만장"] = qg["sales"] / 1e4
+            bars = alt.Chart(qg).mark_bar(opacity=0.9).encode(
                 x=alt.X("분기:N", title=None),
                 y=alt.Y("만장:Q", title="분기 판매 (만장)", stack=True),
                 color=alt.Color("group:N", title=None,
                                 legend=alt.Legend(orient="top")),
                 tooltip=["분기", "group", alt.Tooltip("만장", format=",.1f")])
-            st.altair_chart(ch.properties(height=300), use_container_width=True)
-            _mmax = int(cm["_m"].max())
-            st.caption(f"**읽는법**: 월간 차트 합산(현재 {YEAR_C}년 {_mmax}월까지 반영, "
-                       "진행 중 분기는 미완성). 컴백 분기에 막대가 서는 구조라 분기 간 "
-                       "낙차 자체가 정상 — 전년 같은 분기와 비교해야 함.")
-        with q2:
-            if cw is not None and len(cw):
-                cwp = cw.copy()
-                cwp["sales"] = cwp["sales"].astype(float)
-                cwp["start"] = pd.to_datetime(cwp["start"])
-                top_albums = (cwp.groupby("album")["sales"].sum()
-                              .sort_values(ascending=False).head(6).index)
-                ww = cwp[cwp["album"].isin(top_albums)]
-                ch = alt.Chart(ww).mark_line(size=2, point=True).encode(
-                    x=alt.X("start:T", title=None),
-                    y=alt.Y("sales:Q", title="주간 판매 (장)"),
-                    color=alt.Color("album:N", title=None,
-                                    legend=alt.Legend(orient="top", columns=2,
-                                                      labelLimit=180)),
-                    tooltip=["album", alt.Tooltip("start:T", title="주 시작"),
-                             alt.Tooltip("sales", format=",.0f")])
-                st.altair_chart(ch.properties(height=300),
-                                use_container_width=True)
-                st.caption("**읽는법**: 주간 판매 상위 6개 앨범(7월 이후). 발매 첫 주 "
-                           "초동이 치솟고 급감하는 게 정상 패턴 — 2주차 잔존율이 "
-                           "높으면 팬덤 확장 신호. 톱100 밖으로 밀리면 선이 끊김.")
+            _qt = qg.groupby("분기", as_index=False)["만장"].sum()
+            lab = alt.Chart(_qt).mark_text(dy=-8, color="#dde5f0",
+                                           fontSize=11).encode(
+                x="분기:N", y="만장:Q", text=alt.Text("만장:Q", format=",.1f"))
+            st.altair_chart(alt.layer(bars, lab).properties(height=300),
+                            use_container_width=True)
+            st.caption(f"**읽는법**: 확정 월간({last_pub_m}월까지)만 합산한 분기 "
+                       "롤업 — 진행 중 분기는 미완성. 분기 3개월이 다 발표되면 "
+                       "막대가 완성됨(월간→분기 계단). 반기·연간은 위 지표 카드.")
 
-        # 앨범별 누적 테이블
-        tot = (cm.groupby(["group", "album"], as_index=False)
-               .agg(연간누적=("sales", "sum")))
-        if cw is not None and len(cw):
-            _lw = cw[cw["week"].astype(int) == cw["week"].astype(int).max()]
-            _lwm = dict(zip(_lw["album"], _lw["sales"].astype(float)))
-            tot["최근주간"] = tot["album"].map(_lwm)
-        tot = tot.sort_values("연간누적", ascending=False)
-        tot["연간누적"] = tot["연간누적"].map(lambda v: f"{v:,.0f}")
-        tot["최근주간"] = tot["최근주간"].map(
-            lambda v: f"{v:,.0f}" if pd.notna(v) else "—")
-        tot.columns = ["그룹", "앨범", f"{YEAR_C}년 누적(장)", "최근 주간(장)"]
-        st.dataframe(tot, hide_index=True, use_container_width=True,
-                     height=min(80 + 36 * len(tot), 420))
-        st.caption("**읽는법**: 버전(KiT·LP·Weverse 등)은 별도 행. 누적은 월간 차트 "
-                   "합산이라 톱100 밖 롱테일은 빠짐(과소집계). 갱신: "
-                   "`python yg_circle_update.py` — 매일 배치에 포함돼 주간 차트가 "
-                   "나오는 대로 자동 반영. 분기 마감 후 월간 3개가 모이면 Q3·Q4 "
-                   "막대가 완성됨.")
+        # ---- 주간 상세 (최근 펄스) — 그룹 라벨 + 상위 5개만
+        if wk is not None and len(wk):
+            sub("주간 판매 펄스", "최근 주간 차트 · 상위 5개 앨범 · 이름 앞 = 그룹")
+            wk2 = wk.copy()
+            wk2["표시"] = wk2["group"] + " · " + wk2["album"].str.slice(0, 22)
+            top5 = (wk2.groupby("표시")["sales"].sum()
+                    .sort_values(ascending=False).head(5).index)
+            ww = wk2[wk2["표시"].isin(top5)]
+            ch = alt.Chart(ww).mark_line(
+                size=3, point=alt.OverlayMarkDef(size=70)).encode(
+                x=alt.X("start:T", title=None,
+                        axis=alt.Axis(format="%m/%d", tickCount=10)),
+                y=alt.Y("sales:Q", title="주간 판매 (장)"),
+                color=alt.Color("표시:N", title=None,
+                                legend=alt.Legend(orient="top", columns=2,
+                                                  labelLimit=260)),
+                tooltip=["표시", alt.Tooltip("start:T", title="주 시작"),
+                         alt.Tooltip("sales", format=",.0f")])
+            wlab = alt.Chart(ww).mark_text(dy=-11, fontSize=9,
+                                           color="#c9d4e4").encode(
+                x="start:T", y="sales:Q",
+                text=alt.Text("sales:Q", format=",.0f"),
+                detail="표시:N")
+            st.altair_chart(alt.layer(ch, wlab).properties(height=320),
+                            use_container_width=True)
+            st.caption("**읽는법**: 주간 차트 그대로의 최신 펄스 — 월간 발표 전의 "
+                       "선행 지표(위 월별 차트의 별표 달을 만드는 재료). 발매 첫 주 "
+                       "초동 후 급감이 정상, 2주차 잔존율이 높으면 팬덤 확장 신호. "
+                       "톱100 밖으로 밀리면 선이 끊김. 점 위 숫자 = 해당 주 판매량.")
+
+        # ---- 그룹별 합산 표 (그룹 합계 행 + 소속 앨범 행)
+        sub("그룹 → 앨범 누적 표", f"{YEAR_C}년 · 확정 월간 + 잠정 주간(미발표 달) 합산")
+        alb_tot = cm.groupby(["group", "album"], as_index=False).agg(
+            누적=("sales", "sum"))
+        if pend is not None and len(pend):
+            pt = pend.groupby(["group", "album"], as_index=False).agg(
+                잠정=("sales", "sum"))
+            alb_tot = alb_tot.merge(pt, on=["group", "album"], how="outer")
+        else:
+            alb_tot["잠정"] = 0.0
+        alb_tot[["누적", "잠정"]] = alb_tot[["누적", "잠정"]].fillna(0)
+        alb_tot["합계"] = alb_tot["누적"] + alb_tot["잠정"]
+        _lwm = {}
+        if wk is not None and len(wk):
+            _lw = wk[wk["week"].astype(int) == wk["week"].astype(int).max()]
+            _lwm = dict(zip(_lw["group"] + "|" + _lw["album"],
+                            _lw["sales"].astype(float)))
+        rows = []
+        gtot = (alb_tot.groupby("group")["합계"].sum()
+                .sort_values(ascending=False))
+        for grp, gv in gtot.items():
+            rows.append({"그룹/앨범": f"■ {grp} — 합계", "연간 누적(장)": gv,
+                         "최근 주간(장)": sum(v for k, v in _lwm.items()
+                                          if k.startswith(grp + "|"))})
+            sub_df = (alb_tot[alb_tot["group"] == grp]
+                      .sort_values("합계", ascending=False))
+            for _, r_ in sub_df.iterrows():
+                rows.append({"그룹/앨범": "      └ " + r_["album"],
+                             "연간 누적(장)": r_["합계"],
+                             "최근 주간(장)": _lwm.get(grp + "|" + r_["album"])})
+        tdf = pd.DataFrame(rows)
+        tdf["연간 누적(장)"] = tdf["연간 누적(장)"].map(
+            lambda v: f"{v:,.0f}" if pd.notna(v) and v else "—")
+        tdf["최근 주간(장)"] = tdf["최근 주간(장)"].map(
+            lambda v: f"{v:,.0f}" if pd.notna(v) and v else "—")
+        st.dataframe(tdf, hide_index=True, use_container_width=True,
+                     height=min(80 + 36 * len(tdf), 480))
+        st.caption("**읽는법**: ■ = 그룹 합계(모든 앨범·버전 포함), └ = 개별 앨범/버전. "
+                   "누적은 톱100 안에 든 기간만 합산이라 롱테일은 빠짐(과소집계). "
+                   "매일 배치가 주간 차트를 자동 반영하고, 월간 발표 시 잠정치가 "
+                   "확정치로 대체됨.")
 
 # ------------------------------------------------------------------ 콘서트
 with tab_tour:
