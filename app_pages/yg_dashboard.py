@@ -55,6 +55,31 @@ def artist_scale(names):
     return alt.Scale(domain=names, range=[ARTIST_C[n] for n in names])
 
 
+def _shade(hex_c, f):
+    """#rrggbb 를 f<1이면 어둡게, f>1이면 밝게."""
+    r, g, b = (int(hex_c[i:i + 2], 16) for i in (1, 3, 5))
+    if f <= 1:
+        r, g, b = int(r * f), int(g * f), int(b * f)
+    else:
+        r = int(r + (255 - r) * (f - 1))
+        g = int(g + (255 - g) * (f - 1))
+        b = int(b + (255 - b) * (f - 1))
+    return f"#{r:02x}{g:02x}{b:02x}"
+
+
+def album_scale(pairs):
+    """[(표시, group), ...] -> 그룹 색 계열로 앨범별 색 스케일."""
+    seen = {}
+    domain, rng = [], []
+    for disp, grp in pairs:
+        base = ARTIST_C.get(grp, "#8894a6")
+        i = seen.get(grp, 0)
+        seen[grp] = i + 1
+        domain.append(disp)
+        rng.append(_shade(base, [1.0, 1.35, 0.7, 1.6, 0.5][i % 5]))
+    return alt.Scale(domain=domain, range=rng)
+
+
 @st.cache_data(show_spinner=False)
 def load_circle(name, stamp):
     p = DATA / name
@@ -294,12 +319,15 @@ with tab_prod:
             top5 = (wk2.groupby("표시")["sales"].sum()
                     .sort_values(ascending=False).head(5).index)
             ww = wk2[wk2["표시"].isin(top5)]
+            _pairs = (ww[["표시", "group"]].drop_duplicates()
+                      .sort_values(["group", "표시"]).values.tolist())
             ch = alt.Chart(ww).mark_line(
                 size=3, point=alt.OverlayMarkDef(size=70)).encode(
                 x=alt.X("start:T", title=None,
                         axis=alt.Axis(format="%m/%d", tickCount=10)),
                 y=alt.Y("sales:Q", title="주간 판매 (장)"),
                 color=alt.Color("표시:N", title=None,
+                                scale=album_scale(_pairs),
                                 legend=alt.Legend(orient="top", columns=2,
                                                   labelLimit=260)),
                 tooltip=["표시", alt.Tooltip("start:T", title="주 시작"),
@@ -351,7 +379,13 @@ with tab_prod:
             lambda v: f"{v:,.0f}" if pd.notna(v) and v else "—")
         tdf["최근 주간(장)"] = tdf["최근 주간(장)"].map(
             lambda v: f"{v:,.0f}" if pd.notna(v) and v else "—")
-        st.dataframe(tdf, hide_index=True, use_container_width=True,
+        def _hl(row):
+            if str(row["그룹/앨범"]).startswith("■"):
+                return ["background-color: #1e3a5c; color: #f2c744; "
+                        "font-weight: 700"] * len(row)
+            return [""] * len(row)
+        st.dataframe(tdf.style.apply(_hl, axis=1), hide_index=True,
+                     use_container_width=True,
                      height=min(80 + 36 * len(tdf), 480))
         st.caption("**읽는법**: ■ = 그룹 합계(모든 앨범·버전 포함), └ = 개별 앨범/버전. "
                    "누적은 톱100 안에 든 기간만 합산이라 롱테일은 빠짐(과소집계). "
