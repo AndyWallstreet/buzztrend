@@ -1,99 +1,190 @@
 # -*- coding: utf-8 -*-
-"""YG 워크북에서 앨범 판매량 + 컨센서스 추이를 뽑아 data/yg/ 에 저장.
+"""YG 워크북(v05d+)에서 앨범·컨센서스 데이터를 뽑아 data/yg/ 에 저장.
 
 Usage:
-    python yg_album_export.py
-    (끝나면: git add data/yg && git commit && git push)
+    python yg_album_export.py [워크북경로]   # 생략 시 폴더에서 최신 파일
 
-- Album 시트  : 연도 × 아티스트 실물 앨범 판매량(Circle Chart 집계)
-- Consensus 시트 : 2026년 연간 매출/영업이익 컨센서스의 일별 추이 + 참여 증권사 수
-투어 데이터는 yg_tour_export.py 가 따로 담당한다.
+산출물:
+    album_sales.csv      연도×아티스트 판매량 (Album_Quarterly 연간 합산)
+    album_quarterly.csv  분기×아티스트 판매량 + YG 앨범 매출 ₩mn (2024~)
+    consensus.csv        연간(2026AS) 매출/영업이익 컨센서스 일별 + 참여 증권사
+    consensus_q.csv      분기(3Q26/4Q26) 매출/영업이익 컨센서스 일별
+투어는 yg_tour_export.py 담당.
 """
+import datetime as dt
 import json
-import shutil
-import tempfile
+import sys
 from pathlib import Path
 
 import openpyxl
 import pandas as pd
 
-WB_PATH = Path(r"C:\Users\user99i1\LK자산운용\LK자산운용 - 문서\Companies\YG 엔터"
-               r"\YG 엔터_Analysis template_2026 08_v02.xlsx")
+WB_DIR = Path(r"C:\Users\user99i1\LK자산운용\LK자산운용 - 문서\Companies\YG 엔터")
 DATA = Path(__file__).resolve().parent / "data" / "yg"
 
 
-def open_workbook():
-    """엑셀이 파일을 잠그고 있으면 임시 사본으로 읽는다."""
+def latest_workbook() -> Path:
+    cands = sorted(WB_DIR.glob("YG 엔터_Analysis template_*.xlsx"),
+                   key=lambda p: p.stat().st_mtime)
+    if not cands:
+        raise SystemExit("YG 워크북을 찾지 못했습니다")
+    return cands[-1]
+
+
+def open_workbook(path: Path):
     try:
-        return openpyxl.load_workbook(WB_PATH, read_only=True, data_only=True)
+        return openpyxl.load_workbook(path, read_only=True, data_only=True)
     except PermissionError:
+        import shutil
+        import tempfile
         tmp = Path(tempfile.gettempdir()) / "yg_album_copy.xlsx"
-        shutil.copy(WB_PATH, tmp)
+        shutil.copy(path, tmp)
         print(f"워크북이 잠겨 있어 사본으로 읽음: {tmp}")
         return openpyxl.load_workbook(tmp, read_only=True, data_only=True)
 
 
-def export_album(wb) -> pd.DataFrame:
-    """Album 시트 B4:K26 -> (year, artist, copies) 롱 포맷."""
-    ws = wb["Album"]
-    rows = list(ws.iter_rows(min_row=4, max_row=27, min_col=2, max_col=11,
-                             values_only=True))
-    artists = [a for a in rows[0][1:] if a]
+def export_album(wb):
+    """Album_Quarterly -> 분기 CSV(2024~) + 연간 롤업(전 기간)."""
+    ws = wb["Album_Quarterly"]
+    hdr = [str(c or "").replace(" 장", "").strip()
+           for c in next(ws.iter_rows(min_row=3, max_row=3, values_only=True))]
+    artists = hdr[1:-2]                      # B..J (마지막 두 열 = Total, YG rev)
+    rows = []
+    for r in ws.iter_rows(min_row=4, values_only=True):
+        q = str(r[0] or "")
+        if not q[:4].isdigit():
+            continue
+        rec = {"quarter": q, "year": int(q[:4])}
+        for i, a in enumerate(artists, start=1):
+            rec[a] = float(r[i] or 0)
+        rec["total"] = float(r[len(artists) + 1] or 0)
+        rec["yg_rev_mn"] = float(r[len(artists) + 2] or 0)
+        rows.append(rec)
+    df = pd.DataFrame(rows)
+    df[df["year"] >= 2024].to_csv(DATA / "album_quarterly.csv", index=False,
+                                  encoding="utf-8")
+    print(f"album_quarterly.csv: {len(df[df['year'] >= 2024])}개 분기 (2024~)")
+
+    # 연간 롤업 -> album_sales.csv (대시보드 연도별 차트용)
+    this_year = dt.date.today().year
     out = []
-    for r in rows[1:]:
-        yr_raw = r[0]
-        if yr_raw is None:
+    for yr, g in df.groupby("year"):
+        for a in artists:
+            v = g[a].sum()
+            if v > 0:
+                out.append({"year": yr, "is_est": yr > this_year,
+                            "artist": a, "copies": v})
+        out.append({"year": yr, "is_est": yr > this_year, "artist": "Sum",
+                    "copies": g["total"].sum()})
+    ya = pd.DataFrame(out)
+    ya = ya[ya["copies"] > 0]
+    ya.to_csv(DATA / "album_sales.csv", index=False, encoding="utf-8")
+    print(f"album_sales.csv: {ya['year'].nunique()}개 연도 "
+          f"(Album_Quarterly 연간 합산, {this_year + 1}년~ = 추정)")
+
+
+def _consensus_frame(ws):
+    """콴티와이즈 컨센서스 시트 -> (base_dates, 일별 DataFrame)."""
+    bases, items = [], []
+    for r in ws.iter_rows(min_row=1, max_row=14, values_only=True):
+        label = str(r[0] or "")
+        if label.startswith("Base Date"):
+            bases = [str(x or "") for x in r[1:]]
+        if label.replace(" ", "").startswith("DATE"):
+            items = [str(x or "") for x in r[1:]]
+            break
+    rows = []
+    for r in ws.iter_rows(min_row=15, values_only=True):
+        if r[0] is None:
             continue
-        yr_s = str(yr_raw).strip()
-        if not yr_s[:4].isdigit():
+        try:
+            d = pd.Timestamp(r[0]).date().isoformat()
+        except Exception:
             continue
-        for artist, v in zip(artists, r[1:1 + len(artists)]):
-            if v is None or not isinstance(v, (int, float)) or v <= 0:
+        rows.append((d, r[1:1 + len(bases)]))
+    return bases, items, rows
+
+
+def export_consensus(wb):
+    # 연간 (Consensus 또는 vs CONSEN 시트: 2026AS 매출/영업이익 + 참여 증권사 수)
+    _annual = next((n for n in ("Consensus", "vs CONSEN") if n in wb.sheetnames),
+                   None)
+    if _annual is None:
+        raise SystemExit("연간 컨센서스 시트를 찾지 못했습니다")
+    b, it, rows = _consensus_frame(wb[_annual])
+    out_annual = []
+    for d, vals in rows:
+        rec = {"date": d}
+        for base, item, v in zip(b, it, vals):
+            if not isinstance(v, (int, float)):
                 continue
-            out.append({"year": int(yr_s[:4]),
-                        "is_est": yr_s.upper().endswith("E"),
-                        # 컬럼 헤더의 '(copies)' 같은 꼬리표 제거
-                        "artist": artist.split("(")[0].strip(),
-                        "copies": float(v)})
-    df = pd.DataFrame(out).sort_values(["year", "artist"]).reset_index(drop=True)
-    df.to_csv(DATA / "album_sales.csv", index=False, encoding="utf-8")
-    print(f"album_sales.csv — {df['year'].nunique()}개 연도, "
-          f"{df['artist'].nunique()}팀, {len(df)}행")
-    return df
+            if "매출" in item and "AS" in base:
+                rec["rev_eok"] = v / 1e5
+            elif "영업" in item and "AS" in base:
+                rec["op_eok"] = v / 1e5
+            elif "매출" in item and "증권사" in item:
+                rec["n_rev"] = v
+        if "n_rev" not in rec:      # 구권 시트: D/E열이 증권사 수
+            for item, v in zip(it, vals):
+                if "증권사" in item and isinstance(v, (int, float)):
+                    rec["n_rev"] = v
+                    break
+        if "rev_eok" in rec:
+            out_annual.append(rec)
+    pd.DataFrame(out_annual).to_csv(DATA / "consensus.csv", index=False,
+                             encoding="utf-8")
+    print(f"consensus.csv: {len(out_annual)}일 (연간 2026AS)")
 
-
-def export_consensus(wb) -> pd.DataFrame:
-    """Consensus 시트 -> 일별 2026E 매출/영업이익 컨센서스 (억원)."""
-    ws = wb["Consensus"]
-    base = ws.cell(12, 2).value or ""        # 예: 2026AS
-    unit = str(ws.cell(11, 2).value or "")   # Local thou = 천원
+    # 분기+연간 (vs CONSENSUS 시트: 2026AS + 202609 + 202612)
+    b, it, rows = _consensus_frame(wb["vs CONSENSUS"])
     out = []
-    for r in ws.iter_rows(min_row=15, max_row=ws.max_row, min_col=1, max_col=5,
-                          values_only=True):
-        d, rev, op, n_rev, n_op = r[0], r[1], r[2], r[3], r[4]
-        if d is None or not isinstance(rev, (int, float)):
-            continue
-        out.append({"date": pd.Timestamp(d).date().isoformat(),
-                    # 천원 단위 -> 억원
-                    "rev_eok": rev / 1e5, "op_eok": (op or 0) / 1e5,
-                    "n_rev": n_rev, "n_op": n_op})
-    df = pd.DataFrame(out)
-    df.to_csv(DATA / "consensus.csv", index=False, encoding="utf-8")
-    meta = {"base": str(base), "unit_src": unit,
-            "updated": str(ws.cell(1, 2).value or "")}
-    (DATA / "consensus_meta.json").write_text(
-        json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"consensus.csv — {len(df)}일 ({df['date'].min()} ~ {df['date'].max()}), "
-          f"기준 {base}")
-    return df
+    annual2 = []
+    for d, vals in rows:
+        rec = {"date": d}
+        rec_a = {"date": d}
+        for base, item, v in zip(b, it, vals):
+            if not isinstance(v, (int, float)):
+                continue
+            key = None
+            if "매출" in item:
+                key = {"202609": "rev3q_eok", "202612": "rev4q_eok"}.get(base)
+                if "AS" in base:
+                    rec_a["rev_eok"] = v / 1e5
+            elif "영업" in item:
+                key = {"202609": "op3q_eok", "202612": "op4q_eok"}.get(base)
+                if "AS" in base:
+                    rec_a["op_eok"] = v / 1e5
+            if key:
+                rec[key] = v / 1e5
+        if len(rec) > 1:
+            out.append(rec)
+        if "rev_eok" in rec_a:
+            annual2.append(rec_a)
+    pd.DataFrame(out).to_csv(DATA / "consensus_q.csv", index=False,
+                             encoding="utf-8")
+    # 연간: 최신 시트(vs CONSENSUS)가 더 길면 그걸 쓰고 증권사 수만 병합
+    if annual2:
+        a2 = pd.DataFrame(annual2)
+        a1 = pd.DataFrame(out_annual)
+        if len(a2) >= len(a1):
+            merged = a2.merge(a1[["date", "n_rev"]] if "n_rev" in a1.columns
+                              else a1[["date"]], on="date", how="left")
+            merged.to_csv(DATA / "consensus.csv", index=False, encoding="utf-8")
+            print(f"consensus.csv: vs CONSENSUS 기준으로 갱신 ({len(merged)}일, "
+                  f"~{merged['date'].max()})")
+    last = out[-1] if out else {}
+    print(f"consensus_q.csv: {len(out)}일 | 최신 3Q 매출 "
+          f"{last.get('rev3q_eok', 0):,.0f}억 / 4Q {last.get('rev4q_eok', 0):,.0f}억")
 
 
 def main():
     DATA.mkdir(parents=True, exist_ok=True)
-    wb = open_workbook()
+    path = Path(sys.argv[1]) if len(sys.argv) > 1 else latest_workbook()
+    print("워크북:", path.name)
+    wb = open_workbook(path)
     export_album(wb)
     export_consensus(wb)
-    print("이제: git add data/yg && git commit -m 'yg album/consensus' && git push")
+    print("완료 — git add data/yg && commit && push")
 
 
 if __name__ == "__main__":

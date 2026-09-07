@@ -15,7 +15,9 @@ import streamlit as st
 
 DATA = Path(__file__).resolve().parent.parent / "data" / "yg"
 
-C_REGION = {"KR": "#2a78d6", "JP": "#e0508c", "NA/EU": "#eb6834", "Others": "#4fae62"}
+C_REGION = {"KR": "#2a78d6", "JP": "#e0508c", "NA/EU": "#eb6834",
+            "LatAm": "#b06fc9", "APAC-DM": "#2fa89a", "APAC-EM": "#4fae62",
+            "Others": "#8894a6"}
 STATUS_BADGE = {"매진": "🔴 매진", "추가판매": "🟠 추가좌석 판매중", "판매중": "🟢 판매중",
                 "미오픈": "⚪ 예매 전"}
 
@@ -154,14 +156,16 @@ def render(artist, tour_csv, booking_csv, ticker_note):
 
     # ---- 2. 월별·분기별 매출 추정
     st.subheader("2. 월별 · 분기별 매출 추정", divider="blue")
-    # \$ : Streamlit 마크다운이 $...$ 를 수식으로 해석하므로 이스케이프
+    # \\$ : Streamlit 마크다운이 $...$ 를 수식으로 해석하므로 이스케이프
     st.caption("공연이 열리는 달에 매출을 인식한다고 가정. "
-               f"티켓가격(1인): 한국 \\${assum.get('price_usd', {}).get('KR', 100)} · "
-               f"일본 \\${assum.get('price_usd', {}).get('JP', 125)} · "
-               f"북미·유럽 \\${assum.get('price_usd', {}).get('NA/EU', 200)} · "
-               f"기타 \\${assum.get('price_usd', {}).get('Others', 80)} / "
-               "인식률: 한국 40%(자체제작 총액) · 일본 30%(YGEX) · 그외 35%(개런티) / "
-               f"환율 {assum.get('fx', 1500):,}원")
+               "지역별 드라이버(워크북 Tour_drivers, "
+               f"{assum.get('scenario', 'Base')} 시나리오): "
+               + " · ".join(
+                   f"{r} \\${d.get('price_usd', 0):.0f}/배분 "
+                   f"{d.get('allocation', 0) * 100:.0f}%/마진 "
+                   f"{d.get('margin', 0) * 100:.0f}%"
+                   for r, d in assum.get('regions', {}).items())
+               + f" · 환율 {assum.get('fx', 1500):,}원")
 
     mon = (tour.groupby(["month", "region"], as_index=False)["yg_rev_krw_mn"].sum())
     mon["억원"] = mon["yg_rev_krw_mn"] / 100

@@ -1,17 +1,56 @@
 {
-  "price_usd": {
-    "KR": 100,
-    "JP": 125,
-    "NA/EU": 200,
-    "Others": 80
+ "scenario": "Base",
+ "fx": 1500,
+ "ticket_inflation": 0.025,
+ "taking_world": 0.35,
+ "taking_jp": 0.3,
+ "taking_kr": 0.4,
+ "regions": {
+  "KR": {
+   "price_usd": 110,
+   "allocation": 0.4,
+   "margin": 0.3
   },
-  "taking": {
-    "KR": 0.4,
-    "JP": 0.3,
-    "NA/EU": 0.35,
-    "Others": 0.35
+  "JP": {
+   "price_usd": 130,
+   "allocation": 0.3,
+   "margin": 0.42
   },
-  "fx": 1500,
-  "fill": 0.95,
-  "source": "YG 엔터_Analysis template_2026 08_v02.xlsx"
+  "NA/EU": {
+   "price_usd": 180,
+   "allocation": 0.35,
+   "margin": 0.22
+  },
+  "LatAm": {
+   "price_usd": 130,
+   "allocation": 0.35,
+   "margin": 0.32
+  },
+  "APAC-DM": {
+   "price_usd": 150,
+   "allocation": 0.35,
+   "margin": 0.34
+  },
+  "APAC-EM": {
+   "price_usd": 80,
+   "allocation": 0.35,
+   "margin": 0.32
+  }
+ },
+ "price_x_alloc": {
+  "KR": 44,
+  "JP": 39,
+  "NA/EU": 62.99999999999999,
+  "LatAm": 45.5,
+  "APAC-DM": 52.5,
+  "APAC-EM": 28
+ },
+ "price_x_alloc_x_margin": {
+  "KR": 13.2,
+  "JP": 16.38,
+  "NA/EU": 13.859999999999998,
+  "LatAm": 14.56,
+  "APAC-DM": 17.85,
+  "APAC-EM": 8.96
+ }
 }

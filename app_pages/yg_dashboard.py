@@ -394,10 +394,13 @@ with tab_prod:
 
 # ------------------------------------------------------------------ 콘서트
 with tab_tour:
-    artist = st.radio("아티스트", ["BIGBANG", "BABYMONSTER"], horizontal=True,
-                      key="yg_tour_artist")
     _cfg = {"BIGBANG": ("bigbang_tour.csv", "bigbang_booking.csv"),
-            "BABYMONSTER": ("babymonster_tour.csv", "babymonster_booking.csv")}
+            "BABYMONSTER": ("babymonster_tour.csv", "babymonster_booking.csv"),
+            "TREASURE": ("treasure_tour.csv", "treasure_booking.csv"),
+            "BLACKPINK": ("blackpink_tour.csv", "blackpink_booking.csv")}
+    _avail = [a for a, (tc, _bc0) in _cfg.items() if (DATA / tc).exists()]
+    artist = st.radio("아티스트", _avail, horizontal=True,
+                      key="yg_tour_artist")
     _tc, _bc = _cfg[artist]
     yg_tour_common.render(artist=artist, tour_csv=_tc, booking_csv=_bc,
                           ticker_note="종목: 와이지엔터테인먼트 (122870)")
@@ -420,8 +423,14 @@ with tab_cons:
                   f"3개월 {cur['op_eok'] / _m3['op_eok'] * 100 - 100:+.1f}%"
                   if _m3["op_eok"] else None)
         m3.metric("2026E 영업이익률", f"{cur['op_eok'] / cur['rev_eok'] * 100:.1f}%")
-        m4.metric("참여 증권사", f"{int(cur['n_rev'])}곳",
-                  f"1년 전 {int(first['n_rev'])}곳", delta_color="off")
+        if "n_rev" in cons.columns and pd.notna(cur.get("n_rev")):
+            m4.metric("참여 증권사", f"{int(cur['n_rev'])}곳",
+                      f"1년 전 {int(first['n_rev'])}곳"
+                      if pd.notna(first.get("n_rev")) else None,
+                      delta_color="off")
+        else:
+            m4.metric("컨센서스 기준일", str(cur["date"])[:10],
+                      "콴티와이즈 일별", delta_color="off")
 
         sub("컨센서스 추이", "1년간 2026년 연간 추정치가 어떻게 바뀌었나 "
                          "(올라가면 실적이 기대를 넘고 있다는 뜻)")
@@ -447,6 +456,46 @@ with tab_cons:
                         use_container_width=True)
         st.caption("파랑 = 매출(왼쪽 축), 금색 = 영업이익(오른쪽 축). "
                    "출처: 워크북 Consensus 시트 (Quantiwise 일별 컨센서스).")
+
+        # ---- 분기 컨센서스 vs 워크북 바텀업 (투어+앨범)
+        cq = load_circle("consensus_q.csv", _stamp("consensus_q.csv"))
+        tq = load_circle("tour_quarterly.csv", _stamp("tour_quarterly.csv"))
+        aq = load_circle("album_quarterly.csv", _stamp("album_quarterly.csv"))
+        if cq is not None and len(cq) and tq is not None and aq is not None:
+            sub("분기 컨센서스 vs 내 베이스 추정 (3Q·4Q)",
+                "컨센서스(콴티와이즈) ↔ 워크북 바텀업: 투어(Tour_Quarterly) + "
+                "앨범(Album_Quarterly), Base 시나리오")
+            _cql = cq.iloc[-1]
+            rows_c = []
+            for _qn, _rk, _ok in (("2026 3Q", "rev3q_eok", "op3q_eok"),
+                                  ("2026 4Q", "rev4q_eok", "op4q_eok")):
+                _t = tq[tq["quarter"] == _qn]
+                _a = aq[aq["quarter"] == _qn]
+                tour_eok = float(_t["total_mn"].iloc[0]) / 100 if len(_t) else 0
+                alb_eok = float(_a["yg_rev_mn"].iloc[0]) / 100 if len(_a) else 0
+                cons_rev = float(_cql.get(_rk)) if pd.notna(_cql.get(_rk)) else None
+                cons_op = float(_cql.get(_ok)) if pd.notna(_cql.get(_ok)) else None
+                covered = tour_eok + alb_eok
+                rows_c.append({
+                    "분기": _qn.replace("2026 ", "") + "26",
+                    "컨센 매출(억)": f"{cons_rev:,.0f}" if cons_rev else "—",
+                    "투어(억)": f"{tour_eok:,.0f}",
+                    "앨범(억)": f"{alb_eok:,.0f}",
+                    "투어+앨범(억)": f"{covered:,.0f}",
+                    "커버리지": (f"{covered / cons_rev * 100:.0f}%"
+                                if cons_rev else "—"),
+                    "나머지 필요(억)": (f"{cons_rev - covered:,.0f}"
+                                    if cons_rev else "—"),
+                    "컨센 영업이익(억)": f"{cons_op:,.0f}" if cons_op else "—",
+                })
+            st.dataframe(pd.DataFrame(rows_c), hide_index=True,
+                         use_container_width=True)
+            st.caption("**읽는법**: '나머지 필요'는 음원·유튜브·MD·출연료 등 투어·앨범 "
+                       "외 매출이 채워야 하는 몫 — YG의 기타 매출은 분기당 대략 "
+                       "1,000억 안팎이므로 이 값이 그 근처면 컨센서스는 달성 가능 "
+                       "범위, 크게 위면 컨센 상향(비트) 여지, 아래면 하향 위험. "
+                       f"컨센서스 기준일 {_cql['date']}. 투어·앨범 수치는 워크북 "
+                       "Base 시나리오 계산값(2026 3Q 투어 674억·4Q 711억).")
 
         # ---- 상반기 실적의 컨센서스 달성률
         if act is not None:
