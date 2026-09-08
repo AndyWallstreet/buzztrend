@@ -125,7 +125,7 @@ pg_batt = st.Page("app_pages/batteries.py", title="Batteries/EV/ESS",
                   url_path="batteries")
 pg_bio = st.Page(_placeholder("Bio / Healthcare", "제약·바이오·의료기기 섹터 추적"),
                  title="Bio/Healthcare", url_path="bio-healthcare")
-pg_beauty = st.Page(_placeholder("Cosmetics / Beauty", "화장품·뷰티 섹터 추적"),
+pg_beauty = st.Page("app_pages/cosmetics.py",
                     title="Cosmetics/Beauty", url_path="cosmetics-beauty")
 pg_trailer = st.Page("app_pages/hatchuping_trailer.py", title="└ 하츄핑2 예고편",
                      url_path="하츄핑2_예고편")

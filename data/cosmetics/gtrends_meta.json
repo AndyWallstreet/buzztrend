@@ -1,0 +1,17 @@
+{
+ "fetched": "2026-09-08T14:27:40",
+ "geo": "US",
+ "timeframe": "today 12-m",
+ "sets": {
+  "solo": [
+   "centellian24",
+   "madeca cream"
+  ],
+  "compare": [
+   "centellian24",
+   "medicube",
+   "anua",
+   "cosrx"
+  ]
+ }
+}
