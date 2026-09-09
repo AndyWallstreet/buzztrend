@@ -201,14 +201,15 @@ with g4:
 # --------------------------------------------- 구글 트렌드 직접 검색
 sub("구글 트렌드 직접 검색", "원하는 브랜드 최대 5개 — 관심도·Mindshare·YoY 한 번에")
 _GEO = {"미국": "US", "전세계": "", "한국": "KR"}
-_TF = {"12개월": "today 12-m", "5년": "today 5-y"}
+_TF = {"3개월": "today 3-m", "12개월": "today 12-m", "5년": "today 5-y",
+       "전체 (2004~)": "all"}
 _CAT = {"뷰티·피트니스": 44, "전체": 0}
 c1, c2, c3, c4, c5 = st.columns([2.8, 0.9, 0.9, 1.1, 0.8])
 kw_in = c1.text_input("키워드 (쉼표로 구분, 최대 5개)",
                       value="madeca cream, medicube, anua, cosrx, biodance",
                       key="gt_kw")
 geo_k = c2.selectbox("지역", list(_GEO), key="gt_geo")
-tf_k = c3.selectbox("기간", list(_TF), index=1, key="gt_tf")
+tf_k = c3.selectbox("기간", list(_TF), index=2, key="gt_tf")
 cat_k = c4.selectbox("카테고리", list(_CAT), key="gt_cat",
                      help="뷰티·피트니스로 좁히면 뷰티 외 바이럴 검색이 빠져 "
                           "실수요에 더 가까움 — 구글 화면과 동일 조건")
@@ -275,7 +276,7 @@ if _res:
                      alt.Tooltip("share:Q", format=".1f")])
         st.altair_chart(ch.properties(height=270), use_container_width=True)
         st.caption("Mindshare — 월 평균 관심도 ÷ 5개 합계")
-    if _res["tf"] == "5년":
+    if _res["tf"] in ("5년", "전체 (2004~)"):
         yy = _yoy(rdf)
         yy = yy[yy["month"] >= yy["month"].max() - pd.DateOffset(months=36)]
         zero = alt.Chart(pd.DataFrame({"y": [0]})).mark_rule(
