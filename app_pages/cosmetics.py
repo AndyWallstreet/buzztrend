@@ -150,35 +150,123 @@ if am is not None and len(am):
                      alt.Tooltip("bought_last_month", format=",.0f")])
         st.altair_chart(ch.properties(height=280), use_container_width=True)
 
-# ------------------------------------------------------- 경쟁사 순위 (아마존 BSR)
-cp = load("manual_amazon_competitors.csv", _stamp("manual_amazon_competitors.csv"))
-if cp is not None and len(cp):
-    sub("아마존 베스트셀러 순위 — K뷰티 경쟁 구도",
-        "BSR(판매 속도 순위) · 카테고리별 · 수동 스냅샷")
-    last_d = cp["date"].max()
-    cc = cp[cp["date"] == last_d].copy()
-    cc["_ctl"] = cc["brand"].eq("CENTELLIAN 24")
-    cc = cc.sort_values(["rank_scope", "rank"])
-    view = cc[["rank_scope", "rank", "brand", "product", "rating", "reviews",
-               "bought_last_month", "price_krw", "note"]].copy()
-    view.columns = ["카테고리", "순위", "브랜드", "제품", "평점", "리뷰 수",
-                    "월 구매(개+)", "가격(원)", "비고"]
-    _hl = cc["_ctl"].tolist()
+# ------------------------------------------------- 아마존 인기도 워치 (Top 30)
+aw = load("amazon_watch.csv", _stamp("amazon_watch.csv"))
+if aw is not None and len(aw):
+    sub("아마존 인기도 워치 — 페이셜 크림·모이스처라이저 Top 30",
+        "베스트셀러 리스트 + 각 제품 상세페이지 · 수동 스냅샷")
+    dates = sorted(aw["date"].unique())
+    cur = aw[aw["date"] == dates[-1]].copy()
+    prev = aw[aw["date"] == dates[-2]].copy() if len(dates) >= 2 else None
+
+    kbn = int((cur["kbeauty"] == 1).sum())
+    ct = cur[cur["brand"] == "CENTELLIAN 24"]
+    w1, w2, w3 = st.columns(3)
+    w1.metric("Top 30 중 K뷰티 제품", f"{kbn}개",
+              "실리콘투 등 K뷰티 수출주 방향 지표", delta_color="off")
+    if len(ct):
+        w2.metric("센텔리안24 순위", f"{int(ct['rank'].iloc[0])}위",
+                  f"뷰티 전체 #{int(ct['bsr_beauty'].iloc[0])}", delta_color="off")
+    _top_kb = cur[cur["kbeauty"] == 1].sort_values("rank").iloc[0]
+    w3.metric(f"K뷰티 1위: {_top_kb['brand']}", f"{int(_top_kb['rank'])}위",
+              (f"월 구매 {_top_kb['bought_month']:,.0f}+"
+               if pd.notna(_top_kb["bought_month"]) else None),
+              delta_color="off")
+
+    # ---- 변화 요약 (직전 스냅샷 대비)
+    if prev is not None:
+        msgs = []
+        m = cur.merge(prev[["asin", "rank", "rating", "bought_month"]],
+                      on="asin", suffixes=("", "_p"))
+        for _, r in m.sort_values("rank").iterrows():
+            nm = r["brand"]
+            if abs(r["rank"] - r["rank_p"]) >= 3:
+                a = "▲" if r["rank"] < r["rank_p"] else "▼"
+                msgs.append(f"{a} **{nm}** 순위 {int(r['rank_p'])}→{int(r['rank'])}위")
+            if (pd.notna(r["rating"]) and pd.notna(r["rating_p"])
+                    and abs(r["rating"] - r["rating_p"]) >= 0.1):
+                msgs.append(f"**{nm}** 평점 {r['rating_p']}→{r['rating']}")
+            if (pd.notna(r["bought_month"]) and pd.notna(r["bought_month_p"])
+                    and r["bought_month"] != r["bought_month_p"]):
+                msgs.append(f"**{nm}** 월 구매 {r['bought_month_p']:,.0f}+"
+                            f"→{r['bought_month']:,.0f}+")
+        for _, r in cur[~cur["asin"].isin(prev["asin"])].iterrows():
+            msgs.append(f"🆕 **{r['brand']} {str(r['product'])[:16]}** "
+                        f"Top 30 진입({int(r['rank'])}위)")
+        for _, r in prev[~prev["asin"].isin(cur["asin"])].iterrows():
+            msgs.append(f"⛔ **{r['brand']} {str(r['product'])[:16]}** Top 30 이탈")
+        if msgs:
+            st.markdown(f"**{dates[-2]} → {dates[-1]} 변화**: "
+                        + " · ".join(msgs[:12]))
+        else:
+            st.caption(f"{dates[-2]} 대비 큰 변화 없음 (기준: 순위 ±3, 평점 ±0.1, "
+                       "월 구매 구간 변동)")
+    else:
+        st.caption("첫 스냅샷 — 두 번째 갱신부터 이 자리에 '무엇이 오르고 내렸는지' "
+                   "요약이 자동으로 붙습니다.")
+
+    only_kb = st.toggle("K-Beauty만 보기", value=True, key="aw_kb")
+    show = (cur[cur["kbeauty"] == 1] if only_kb else cur).sort_values("rank").copy()
+
+    if prev is not None:
+        pv = prev.set_index("asin")["rank"]
+
+        def _delta(r):
+            if r["asin"] not in pv.index:
+                return "🆕"
+            d = int(pv[r["asin"]] - r["rank"])
+            return f"▲{d}" if d > 0 else (f"▼{-d}" if d < 0 else "＝")
+        show["Δ"] = show.apply(_delta, axis=1)
+    else:
+        show["Δ"] = "—"
+    show["할인%"] = (1 - show["price_krw"] / show["list_price_krw"]) * 100
+
+    view = show[["rank", "Δ", "brand", "product", "price_krw", "list_price_krw",
+                 "할인%", "rating", "reviews", "bought_month", "bsr_beauty",
+                 "bsr_sub", "sub_note", "note"]].copy()
+    view.columns = ["순위", "Δ", "브랜드", "제품", "가격(원)", "정가(원)", "할인%",
+                    "평점", "리뷰 수", "월 구매(개+)", "BSR 뷰티", "세부 순위",
+                    "세부 카테고리", "비고"]
+    for c, f in {"순위": "{:.0f}", "가격(원)": "{:,.0f}", "정가(원)": "{:,.0f}",
+                 "할인%": "{:.0f}%", "평점": "{:.1f}", "리뷰 수": "{:,.0f}",
+                 "월 구매(개+)": "{:,.0f}", "BSR 뷰티": "{:.0f}",
+                 "세부 순위": "{:.0f}"}.items():
+        view[c] = view[c].map(lambda v, f=f: f.format(v) if pd.notna(v) else "—")
+    view = view.fillna("—")
+    _hl = show["brand"].eq("CENTELLIAN 24").tolist()
     st.dataframe(
         view.style.apply(
             lambda r: ["background-color:#1e3a5c; color:#f2c744; font-weight:700"
                        if _hl[list(view.index).index(r.name)] else ""] * len(r),
-            axis=1
-        ).format({"순위": "{:.0f}", "평점": "{:.1f}", "리뷰 수": "{:,.0f}",
-                  "월 구매(개+)": "{:,.0f}", "가격(원)": "{:,.0f}"},
-                 na_rep="—"),
-        hide_index=True, use_container_width=True)
-    st.caption(f"**읽는법**: BSR은 아마존이 판매 속도로 매기는 순위(자주 갱신). "
-               "센텔리안(강조 행)은 '페이셜 크림·모이스처라이저' #19, 세부 "
-               "'페이스 모이스처라이저' #12 — Anua(#3)·medicube(#7)가 크림에서 "
-               "앞서 있고, medicube 토너패드·BIODANCE 마스크는 뷰티 전체 2·3위로 "
-               "월 10만+개 팔림(센텔리안 히어로는 5만+). 순위가 주 단위로 오르는지가 "
-               f"핵심. 기준일 {last_d}.")
+            axis=1),
+        hide_index=True, use_container_width=True,
+        height=min(430, 40 + 35 * len(view)))
+    st.caption("**읽는법**: 순위=아마존 '페이셜 크림·모이스처라이저' 베스트셀러(판매 "
+               "속도 기준, 자주 갱신), Δ=직전 스냅샷 대비 이동. '월 구매'는 아마존 "
+               "표시값(1천+, 5만+ 식 반올림). 배송지가 한국이라 일부 리스팅은 "
+               "가격·월구매가 숨겨짐(비고 참조). 'Customers say' AI 요약은 로그인 "
+               "화면에만 표시돼 아직 미수집. 실리콘투(257720) 프록시로 쓸 때는 "
+               "브랜드별 유통 경로(직판 vs 수출대행)를 따로 확인할 것.")
+
+    # ---- 월 구매 비교 차트 (K뷰티)
+    kb = cur[(cur["kbeauty"] == 1) & cur["bought_month"].notna()].copy()
+    if len(kb):
+        kb["label"] = kb["brand"] + " " + kb["product"].str.slice(0, 14)
+        kb["ctl"] = kb["brand"].eq("CENTELLIAN 24")
+        base = alt.Chart(kb).encode(
+            x=alt.X("bought_month:Q", title="월 구매 (개+, 아마존 표시값)"),
+            y=alt.Y("label:N", sort="-x", title=None))
+        bars = base.mark_bar().encode(
+            color=alt.Color("ctl:N", legend=None,
+                            scale=alt.Scale(domain=[False, True],
+                                            range=[C_BAR, C_GOLD])))
+        txt = base.mark_text(align="left", dx=4, color="#c6d0de").encode(
+            text=alt.Text("bought_month:Q", format=",.0f"))
+        st.altair_chart((bars + txt).properties(height=220),
+                        use_container_width=True)
+        st.caption("**읽는법**: 상세페이지에 '월 구매'가 표시된 K뷰티 제품만 비교. "
+                   "Anua PDRN 크림 10만+ vs 센텔리안(금색 막대) 5만+ — 이 격차가 "
+                   "줄어드는지가 핵심 관전 포인트.")
 
 st.info("**갱신 방법** — ① 구글 트렌드: 매일 배치 자동. ② 아마존: 주 1회 "
         "amazon.com에서 'centellian24' 검색 → 각 제품의 평점·리뷰 수·'지난달 "
