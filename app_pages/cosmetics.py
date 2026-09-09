@@ -225,8 +225,8 @@ def _gt_fetch(kws, geo, tf, cat):
 
 if go:
     kws = [k.strip() for k in kw_in.split(",") if k.strip()][:5]
-    if len(kws) < 2:
-        st.warning("키워드를 2개 이상 넣어주세요 (쉼표로 구분).")
+    if not kws:
+        st.warning("키워드를 1개 이상 넣어주세요.")
     else:
         try:
             st.session_state["gt_res"] = {
@@ -243,16 +243,7 @@ if _res:
     rdf, rk = _res["df"], _res["kws"]
     st.caption(f"조회: {', '.join(rk)} · {_res['geo']} · {_res['tf']} — "
                "값은 이 묶음 안에서의 상대값(최고=100)")
-    ms = _mindshare(rdf)
-    cur_m = ms[ms["month"] == ms["month"].max()].set_index("keyword")["share"]
-    prv_m = ms[ms["month"] == sorted(ms["month"].unique())[-2]] \
-        .set_index("keyword")["share"] if ms["month"].nunique() >= 2 else cur_m
-    mcols = st.columns(len(rk))
-    for col, k in zip(mcols, cur_m.sort_values(ascending=False).index):
-        col.metric(k, f"{cur_m[k]:.1f}%",
-                   f"{cur_m[k] - prv_m.get(k, cur_m[k]):+.1f}%p vs 직전 월")
-    r1, r2 = st.columns(2, gap="large")
-    with r1:
+    def _raw_chart(height):
         d = rdf.copy()
         d["date"] = pd.to_datetime(d["date"])
         ch = alt.Chart(d).mark_line(size=2).encode(
@@ -262,20 +253,37 @@ if _res:
             color=alt.Color("keyword:N", title=None,
                             legend=alt.Legend(orient="top")),
             tooltip=["keyword", alt.Tooltip("date:T"), "value"])
-        st.altair_chart(ch.properties(height=270), use_container_width=True)
-        st.caption("원본 관심도 — 같은 묶음 안 상대 비교")
-    with r2:
-        ch = alt.Chart(ms).mark_area().encode(
-            x=alt.X("month:T", title=None,
-                    axis=alt.Axis(format="%y %b", labelAngle=0)),
-            y=alt.Y("share:Q", stack=True, title="Mindshare (%)",
-                    scale=alt.Scale(domain=[0, 100])),
-            color=alt.Color("keyword:N", title=None,
-                            legend=alt.Legend(orient="top")),
-            tooltip=["keyword", alt.Tooltip("month:T"),
-                     alt.Tooltip("share:Q", format=".1f")])
-        st.altair_chart(ch.properties(height=270), use_container_width=True)
-        st.caption("Mindshare — 월 평균 관심도 ÷ 5개 합계")
+        st.altair_chart(ch.properties(height=height), use_container_width=True)
+
+    if len(rk) >= 2:
+        ms = _mindshare(rdf)
+        cur_m = ms[ms["month"] == ms["month"].max()].set_index("keyword")["share"]
+        prv_m = ms[ms["month"] == sorted(ms["month"].unique())[-2]] \
+            .set_index("keyword")["share"] if ms["month"].nunique() >= 2 else cur_m
+        mcols = st.columns(len(rk))
+        for col, k in zip(mcols, cur_m.sort_values(ascending=False).index):
+            col.metric(k, f"{cur_m[k]:.1f}%",
+                       f"{cur_m[k] - prv_m.get(k, cur_m[k]):+.1f}%p vs 직전 월")
+        r1, r2 = st.columns(2, gap="large")
+        with r1:
+            _raw_chart(270)
+            st.caption("원본 관심도 — 같은 묶음 안 상대 비교")
+        with r2:
+            ch = alt.Chart(ms).mark_area().encode(
+                x=alt.X("month:T", title=None,
+                        axis=alt.Axis(format="%y %b", labelAngle=0)),
+                y=alt.Y("share:Q", stack=True, title="Mindshare (%)",
+                        scale=alt.Scale(domain=[0, 100])),
+                color=alt.Color("keyword:N", title=None,
+                                legend=alt.Legend(orient="top")),
+                tooltip=["keyword", alt.Tooltip("month:T"),
+                         alt.Tooltip("share:Q", format=".1f")])
+            st.altair_chart(ch.properties(height=270), use_container_width=True)
+            st.caption("Mindshare — 월 평균 관심도 ÷ 묶음 합계")
+    else:
+        _raw_chart(320)
+        st.caption("원본 관심도 — 이 키워드 자체 기준(최고=100). Mindshare는 "
+                   "비교 키워드를 쉼표로 추가하면 나타납니다.")
     if _res["tf"] in ("5년", "전체 (2004~)"):
         yy = _yoy(rdf)
         yy = yy[yy["month"] >= yy["month"].max() - pd.DateOffset(months=36)]
