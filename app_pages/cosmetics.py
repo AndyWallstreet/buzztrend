@@ -446,9 +446,12 @@ if aw is not None and len(aw):
                                                 unit="D")
         hist["week"] = (_ws.dt.strftime("%Y.%m.%d") + "~"
                         + (_ws + pd.Timedelta(days=6)).dt.strftime("%m.%d"))
-        # 시간축 도메인: 데이터는 왼쪽부터, 오른쪽은 앞으로 채워질 날짜 공간
-        _dom = [(hist["date_dt"].min() - pd.Timedelta(days=1)).isoformat(),
-                (hist["date_dt"].max() + pd.Timedelta(days=12)).isoformat()]
+        # 시간축 도메인: 데이터는 왼쪽 끝부터, 오른쪽은 앞으로 채워질 날짜 공간
+        def _tdom(s):
+            return [s.min().isoformat(),
+                    (s.max() + pd.Timedelta(days=12)).isoformat()]
+
+        _dom = _tdom(hist["date_dt"])
 
         # ① 주간 트래킹 — 한 주에 스냅샷이 여러 번이면 마지막 값
         sub("① 주간 트래킹 — 주 단위로 쌓이는 기록",
@@ -541,7 +544,7 @@ if aw is not None and len(aw):
             ed = pd.DataFrame(est_rows)
             base_e = alt.Chart(ed).encode(
                 x=alt.X("date:T", title="스냅샷 일자",
-                        scale=alt.Scale(domain=_dom),
+                        scale=alt.Scale(domain=_tdom(ed["date"])),
                         axis=alt.Axis(format="%m/%d", tickCount="day",
                                       labelAngle=0)),
                 y=alt.Y("weekly_est:Q", title="주간 판매 추정 (개)"),
@@ -576,10 +579,10 @@ if aw is not None and len(aw):
             bs["date_dt"] = pd.to_datetime(bs["date"])
             base_b = alt.Chart(bs).encode(
                 x=alt.X("date_dt:T", title="관측일",
-                        scale=alt.Scale(domain=_dom),
+                        scale=alt.Scale(domain=_tdom(bs["date_dt"])),
                         axis=alt.Axis(format="%m/%d", tickCount="day",
                                       labelAngle=0)),
-                y=alt.Y("bsr_beauty:Q", title="BSR (뷰티 전체, 위=좋음)",
+                y=alt.Y("bsr_beauty:Q", title="BSR (뷰티 전체) — 높을수록 좋음",
                         scale=alt.Scale(reverse=True)),
                 color=alt.Color("label:N", title=None,
                                 scale=_kscale(bs["label"].unique()),
