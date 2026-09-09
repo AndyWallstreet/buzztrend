@@ -489,6 +489,125 @@ if aw is not None and len(aw):
                    "나오는 게 정상 — 계단식으로 **구간이 바뀌는 순간**이 진짜 신호 "
                    "(반올림 표시값). 스냅샷이 쌓일수록 선이 촘촘해짐.")
 
+        def _kscale(ls):
+            ls = sorted(ls)
+            cs = [C_GOLD if l.startswith("CENTELLIAN") else pal[i % len(pal)]
+                  for i, l in enumerate(ls)]
+            return alt.Scale(domain=ls, range=cs)
+
+        # ③ 주간 판매 추정 — 리뷰 증분 방식 (반올림 없는 유일한 주간 지표)
+        sub("③ 주간 판매 추정 — 리뷰 증가분 방식 (내 추정)",
+            "주간 Δ리뷰 ÷ 리뷰 작성률 · 작성률 = (일평균 Δ리뷰 × 30) ÷ 최신 월구매")
+        rv = aw[(aw["kbeauty"] == 1) & aw["reviews"].notna()][
+            ["date", "brand", "product", "reviews"]].copy()
+        if am is not None and len(am):
+            _h = am[am["product"].astype(str).str.contains("타임 리버스 50ml",
+                                                           na=False)
+                    & am["reviews"].notna()]
+            for _, r in _h.iterrows():
+                rv.loc[len(rv)] = [r["date"], "CENTELLIAN 24",
+                                   "Madeca 크림 타임 리버스 50ml", r["reviews"]]
+        rv["label"] = rv["brand"] + " " + rv["product"].str.slice(0, 12)
+        rv = rv.groupby(["date", "label"], as_index=False)["reviews"].max()
+        rv["date_dt"] = pd.to_datetime(rv["date"])
+        rv = rv.sort_values("date_dt")
+        est_rows, ex = [], None
+        for lab, g in rv.groupby("label"):
+            if len(g) < 2:
+                continue
+            days_all = (g["date_dt"].iloc[-1] - g["date_dt"].iloc[0]).days
+            drev_all = g["reviews"].iloc[-1] - g["reviews"].iloc[0]
+            b = hist[hist["label"] == lab]
+            if days_all <= 0 or drev_all <= 0 or not len(b):
+                continue
+            bought = b.sort_values("date_dt")["bought_month"].iloc[-1]
+            rate = (drev_all / days_all * 30) / bought   # 구매 중 리뷰 작성 비율
+            if not (0.001 <= rate <= 0.2):
+                continue
+            if lab.startswith("CENTELLIAN"):
+                ex = (drev_all / days_all, rate)
+            for i in range(1, len(g)):
+                dd = (g["date_dt"].iloc[i] - g["date_dt"].iloc[i - 1]).days
+                dr = g["reviews"].iloc[i] - g["reviews"].iloc[i - 1]
+                if dd <= 0:
+                    continue
+                est_rows.append({"label": lab, "date": g["date_dt"].iloc[i],
+                                 "weekly_est": dr / dd * 7 / rate})
+        if est_rows:
+            ed = pd.DataFrame(est_rows)
+            base_e = alt.Chart(ed).encode(
+                x=alt.X("date:T", title="스냅샷 일자",
+                        axis=alt.Axis(format="%m/%d", tickCount="day",
+                                      labelAngle=0)),
+                y=alt.Y("weekly_est:Q", title="주간 판매 추정 (개)"),
+                color=alt.Color("label:N", title=None,
+                                scale=_kscale(ed["label"].unique()),
+                                legend=cleg))
+            ln_e = base_e.mark_line(size=2.5, point=alt.OverlayMarkDef(size=70))
+            tx_e = base_e.mark_text(dy=-12, fontSize=11, color="#c6d0de").encode(
+                text=alt.Text("weekly_est:Q", format=",.0f"))
+            st.altair_chart((ln_e + tx_e).properties(height=380),
+                            use_container_width=True)
+            _exs = (f"지금 센텔리안: 리뷰 +{ex[0]:.0f}개/일 → 주간 "
+                    f"+{ex[0] * 7:.0f}개 ÷ 작성률 {ex[1] * 100:.1f}% ≈ "
+                    f"{ex[0] * 7 / ex[1]:,.0f}개/주. " if ex else "")
+            st.caption("**읽는법**: 리뷰 수는 반올림 없는 정확한 누적치 — 주간 "
+                       "Δ리뷰가 유일한 '진짜 주간 흐름'. 작성률(구매 몇 건당 리뷰 "
+                       f"1개)은 월구매 표시값으로 보정한 **내 추정**. {_exs}"
+                       "작성률은 프로모션 시기에 변할 수 있어 매달 재보정.")
+        else:
+            st.caption("리뷰 스냅샷이 2개 이상 쌓이면 여기에 주간 추정 판매가 "
+                       "그려집니다 — 다음 '아마존 스냅샷 갱신' 때부터.")
+
+        # ④ BSR 추이 — 시간당 갱신되는 가장 빠른 신호
+        sub("④ BSR 추이 — 아마존 판매 속도 순위",
+            "뷰티 전체 순위 · 낮을수록 빨리 팔림 · 축을 뒤집어 위 = 좋음")
+        bs = aw[(aw["kbeauty"] == 1) & aw["bsr_beauty"].notna()][
+            ["date", "brand", "product", "bsr_beauty"]].copy()
+        if len(bs):
+            bs["label"] = bs["brand"] + " " + bs["product"].str.slice(0, 12)
+            bs = bs.groupby(["date", "label"], as_index=False)["bsr_beauty"].min()
+            bs["date_dt"] = pd.to_datetime(bs["date"])
+            base_b = alt.Chart(bs).encode(
+                x=alt.X("date_dt:T", title="관측일",
+                        axis=alt.Axis(format="%m/%d", tickCount="day",
+                                      labelAngle=0)),
+                y=alt.Y("bsr_beauty:Q", title="BSR (뷰티 전체, 위=좋음)",
+                        scale=alt.Scale(reverse=True)),
+                color=alt.Color("label:N", title=None,
+                                scale=_kscale(bs["label"].unique()),
+                                legend=cleg))
+            ln_b = base_b.mark_line(size=2.5, point=alt.OverlayMarkDef(size=70))
+            tx_b = base_b.mark_text(dy=-12, fontSize=11, color="#c6d0de").encode(
+                text=alt.Text("bsr_beauty:Q", format=",.0f"))
+            st.altair_chart((ln_b + tx_b).properties(height=380),
+                            use_container_width=True)
+            st.caption("**읽는법**: BSR은 매시간 갱신 — '월구매' 표시값보다 먼저 "
+                       "움직이는 조기 신호. 선이 위로 가면(순위 숫자 하락) 판매 "
+                       "가속. 주의: 순위는 상대값이라 Q4 선물 시즌엔 순위 유지만 "
+                       "해도 판매는 늘고 있는 것. 스냅샷마다 기록 — 주 2~3회 "
+                       "'아마존 스냅샷 갱신해줘'로 촘촘하게 쌓을 수 있음.")
+
+        # ⑤ 롤링 신호 — 직전 스냅샷 대비 구간 변화
+        sub("⑤ 롤링 신호 — 구간 변화 감지",
+            "롤링 30일 값이 오르면: 최근 7일 판매가 약 5주 전 같은 7일보다 강함")
+        sig = []
+        for lab, g in hist.sort_values("date_dt").groupby("label"):
+            if len(g) < 2:
+                continue
+            pv, cv = g["bought_month"].iloc[-2], g["bought_month"].iloc[-1]
+            sig.append({"제품": lab,
+                        "직전": f"{pv:,.0f}+", "최신": f"{cv:,.0f}+",
+                        "신호": ("▲ 가속" if cv > pv
+                                 else ("▼ 감속" if cv < pv else "＝ 구간 유지"))})
+        if sig:
+            st.dataframe(pd.DataFrame(sig), hide_index=True,
+                         use_container_width=True)
+        st.caption("**읽는법**: 롤링 30일 값의 변화 = (새로 들어온 최근 7일) − "
+                   "(빠져나간 5주 전 7일). 그래서 값이 오르면 가속, 내리면 감속 "
+                   "신호. 단 표시값이 5만+ 같은 구간 단위라 구간 안 움직임은 안 "
+                   "보임 — ③번 리뷰 방식이 그 빈틈을 메움.")
+
 st.info("**갱신 방법** — ① 구글 트렌드: 매일 배치 자동. ② 아마존: 주 1회 "
         "amazon.com에서 'centellian24' 검색 → 각 제품의 평점·리뷰 수·'지난달 "
         "구매횟수'·가격을 `data/cosmetics/manual_amazon.csv`에 한 줄씩 추가 "
