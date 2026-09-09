@@ -6,11 +6,14 @@
   수동 스냅샷(manual_amazon.csv) + Keepa API 구독 시 자동화 가능
 """
 import json
+import sys
 from pathlib import Path
 
 import altair as alt
 import pandas as pd
 import streamlit as st
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 DATA = Path(__file__).resolve().parent.parent / "data" / "cosmetics"
 C_BAR, C_LINE, C_GOLD = "#2a78d6", "#eb6834", "#e8c15a"
@@ -20,11 +23,11 @@ st.set_page_config(page_title="Cosmetics/Beauty", page_icon="💄", layout="wide
 st.markdown("""<style>
 .block-container { padding-top: 4rem !important; }
 .lk-h {
-    font-size: 0.97rem; font-weight: 700; background: #16283e;
+    font-size: 1.18rem; font-weight: 600; background: #16283e;
     border-left: 4px solid #2e7de9; border-radius: 4px;
-    padding: 6px 12px; margin: 0.9rem 0 0.5rem 0;
+    padding: 7px 14px; margin: 0.9rem 0 0.5rem 0;
 }
-.lk-h span { font-weight: 400; font-size: 0.8rem; opacity: 0.8; margin-left: 7px; }
+.lk-h span { font-weight: 300; font-size: 0.85rem; opacity: 0.8; margin-left: 8px; }
 </style>""", unsafe_allow_html=True)
 
 
@@ -111,6 +114,169 @@ with g2:
         st.caption("**읽는법**: anua·medicube·cosrx 같은 대형 K뷰티 인디 브랜드 대비 "
                    "센텔리안24의 미국 인지도 위치. 격차가 좁혀지는지가 아마존 채널 "
                    "성장 여력의 가늠자.")
+
+
+# --------------------------------------------- 트렌드 파생 지표 (YoY·Mindshare)
+def _monthly(df):
+    d = df.copy()
+    d["date"] = pd.to_datetime(d["date"])
+    d["month"] = d["date"].dt.to_period("M")
+    m = d.groupby(["month", "keyword"], as_index=False)["value"].mean()
+    return m.sort_values("month")
+
+
+def _mindshare(df):
+    m = _monthly(df)
+    tot = m.groupby("month")["value"].transform("sum")
+    m["share"] = (m["value"] / tot * 100).where(tot > 0)
+    m["month"] = m["month"].dt.to_timestamp()
+    return m
+
+
+def _yoy(df):
+    m = _monthly(df)
+    m["base"] = m.groupby("keyword")["value"].shift(12)
+    # 1년 전 값이 너무 작으면(관심도 5 미만) YoY %가 수천%로 튀어 의미가 없다
+    m["yoy"] = ((m["value"] / m["base"] - 1) * 100).where(m["base"] >= 5)
+    m["month"] = m["month"].dt.to_timestamp()
+    return m.dropna(subset=["yoy"])
+
+
+g3, g4 = st.columns(2, gap="large")
+with g3:
+    sub("검색량 YoY 증가율", "구글 트렌드 5년치 · 월 평균 · 전년 같은 달 대비 %")
+    s5 = load("gtrends_solo_5y.csv", _stamp("gtrends_solo_5y.csv"))
+    if s5 is not None and len(s5):
+        yy = _yoy(s5)
+        yy = yy[yy["month"] >= yy["month"].max() - pd.DateOffset(months=36)]
+        zero = alt.Chart(pd.DataFrame({"y": [0]})).mark_rule(
+            color=C_GOLD, strokeDash=[4, 3]).encode(y="y:Q")
+        ch = alt.Chart(yy).mark_line(size=2.5, point=True).encode(
+            x=alt.X("month:T", title=None),
+            y=alt.Y("yoy:Q", title="YoY (%)"),
+            color=alt.Color("keyword:N", title=None,
+                            scale=alt.Scale(domain=["madeca cream", "centellian24"],
+                                            range=[C_LINE, C_BAR]),
+                            legend=alt.Legend(orient="top")),
+            tooltip=["keyword", alt.Tooltip("month:T"),
+                     alt.Tooltip("yoy:Q", format="+.0f")])
+        st.altair_chart((ch + zero).properties(height=280),
+                        use_container_width=True)
+        st.caption("**읽는법**: 작년 같은 달보다 검색이 얼마나 늘었는지(%). 금색 "
+                   "점선(0%) 위 = 성장. 계절성(연말 선물 시즌 등)을 걷어낸 실제 "
+                   "성장 속도. 1년 전 관심도가 5 미만인 달은 %가 수천%로 튀어 "
+                   "제외. 마지막 달은 진행 중이라 값이 바뀔 수 있음.")
+    else:
+        st.info("5년치 데이터가 아직 없습니다 — 다음 일배치에서 생성됩니다.")
+with g4:
+    sub("Mindshare — K뷰티 브랜드 검색 점유율", "같은 묶음 상대값 ÷ 합계 · 월 평균")
+    if comp is not None and len(comp):
+        ms = _mindshare(comp)
+        cur_m = ms[ms["month"] == ms["month"].max()].set_index("keyword")["share"]
+        prv_m = ms[ms["month"] == sorted(ms["month"].unique())[-2]] \
+            .set_index("keyword")["share"] if ms["month"].nunique() >= 2 else cur_m
+        ch = alt.Chart(ms).mark_area().encode(
+            x=alt.X("month:T", title=None),
+            y=alt.Y("share:Q", stack=True, title="Mindshare (%)",
+                    scale=alt.Scale(domain=[0, 100])),
+            color=alt.Color("keyword:N", title=None,
+                            legend=alt.Legend(orient="top")),
+            tooltip=["keyword", alt.Tooltip("month:T"),
+                     alt.Tooltip("share:Q", format=".1f")])
+        st.altair_chart(ch.properties(height=280), use_container_width=True)
+        parts = [f"{k} {cur_m[k]:.1f}% ({cur_m[k] - prv_m.get(k, cur_m[k]):+.1f}%p)"
+                 for k in cur_m.sort_values(ascending=False).index]
+        st.caption("**최신 월 점유율**: " + " · ".join(parts)
+                   + " — 검색량 기준 상대 점유(절대 판매량 아님). 센텔리안 몫이 "
+                     "커지는지가 관전 포인트.")
+
+# --------------------------------------------- 구글 트렌드 직접 검색
+sub("구글 트렌드 직접 검색", "원하는 브랜드 최대 5개 — 관심도·Mindshare·YoY 한 번에")
+_GEO = {"미국": "US", "전세계": "", "한국": "KR"}
+_TF = {"12개월": "today 12-m", "5년": "today 5-y"}
+c1, c2, c3, c4 = st.columns([3.2, 1, 1, 0.8])
+kw_in = c1.text_input("키워드 (쉼표로 구분, 최대 5개)",
+                      value="madeca cream, medicube, anua, cosrx, biodance",
+                      key="gt_kw")
+geo_k = c2.selectbox("지역", list(_GEO), key="gt_geo")
+tf_k = c3.selectbox("기간", list(_TF), index=1, key="gt_tf")
+c4.write("")
+go = c4.button("조회", type="primary", use_container_width=True)
+
+
+@st.cache_data(ttl=3600, show_spinner="구글 트렌드 조회 중… (10초 정도)")
+def _gt_fetch(kws, geo, tf):
+    from gtrends import fetch_trends
+    return fetch_trends(list(kws), geo=geo, timeframe=tf)
+
+
+if go:
+    kws = [k.strip() for k in kw_in.split(",") if k.strip()][:5]
+    if len(kws) < 2:
+        st.warning("키워드를 2개 이상 넣어주세요 (쉼표로 구분).")
+    else:
+        try:
+            st.session_state["gt_res"] = {
+                "df": _gt_fetch(tuple(kws), _GEO[geo_k], _TF[tf_k]),
+                "kws": kws, "geo": geo_k, "tf": tf_k}
+        except Exception:
+            st.error("구글이 요청을 막았습니다 (429 요청 과다일 가능성). 1~2분 뒤 "
+                     "다시 눌러보세요. 클라우드 서버에서는 차단이 잦습니다 — "
+                     "계속 안 되면 로컬에서 확인해 드립니다.")
+
+_res = st.session_state.get("gt_res")
+if _res:
+    rdf, rk = _res["df"], _res["kws"]
+    st.caption(f"조회: {', '.join(rk)} · {_res['geo']} · {_res['tf']} — "
+               "값은 이 묶음 안에서의 상대값(최고=100)")
+    ms = _mindshare(rdf)
+    cur_m = ms[ms["month"] == ms["month"].max()].set_index("keyword")["share"]
+    prv_m = ms[ms["month"] == sorted(ms["month"].unique())[-2]] \
+        .set_index("keyword")["share"] if ms["month"].nunique() >= 2 else cur_m
+    mcols = st.columns(len(rk))
+    for col, k in zip(mcols, cur_m.sort_values(ascending=False).index):
+        col.metric(k, f"{cur_m[k]:.1f}%",
+                   f"{cur_m[k] - prv_m.get(k, cur_m[k]):+.1f}%p vs 직전 월")
+    r1, r2 = st.columns(2, gap="large")
+    with r1:
+        d = rdf.copy()
+        d["date"] = pd.to_datetime(d["date"])
+        ch = alt.Chart(d).mark_line(size=2).encode(
+            x=alt.X("date:T", title=None),
+            y=alt.Y("value:Q", title="검색 관심도 (상대값)"),
+            color=alt.Color("keyword:N", title=None,
+                            legend=alt.Legend(orient="top")),
+            tooltip=["keyword", alt.Tooltip("date:T"), "value"])
+        st.altair_chart(ch.properties(height=270), use_container_width=True)
+        st.caption("원본 관심도 — 같은 묶음 안 상대 비교")
+    with r2:
+        ch = alt.Chart(ms).mark_area().encode(
+            x=alt.X("month:T", title=None),
+            y=alt.Y("share:Q", stack=True, title="Mindshare (%)",
+                    scale=alt.Scale(domain=[0, 100])),
+            color=alt.Color("keyword:N", title=None,
+                            legend=alt.Legend(orient="top")),
+            tooltip=["keyword", alt.Tooltip("month:T"),
+                     alt.Tooltip("share:Q", format=".1f")])
+        st.altair_chart(ch.properties(height=270), use_container_width=True)
+        st.caption("Mindshare — 월 평균 관심도 ÷ 5개 합계")
+    if _res["tf"] == "5년":
+        yy = _yoy(rdf)
+        yy = yy[yy["month"] >= yy["month"].max() - pd.DateOffset(months=36)]
+        zero = alt.Chart(pd.DataFrame({"y": [0]})).mark_rule(
+            color=C_GOLD, strokeDash=[4, 3]).encode(y="y:Q")
+        ch = alt.Chart(yy).mark_line(size=2, point=True).encode(
+            x=alt.X("month:T", title=None),
+            y=alt.Y("yoy:Q", title="YoY (%)"),
+            color=alt.Color("keyword:N", title=None,
+                            legend=alt.Legend(orient="top")),
+            tooltip=["keyword", alt.Tooltip("month:T"),
+                     alt.Tooltip("yoy:Q", format="+.0f")])
+        st.altair_chart((ch + zero).properties(height=270),
+                        use_container_width=True)
+        st.caption("YoY 증가율 — 전년 같은 달 대비 %. 0% 금색 점선 위 = 성장.")
+    else:
+        st.caption("YoY 증가율을 보려면 기간을 '5년'으로 선택하세요.")
 
 # ---------------------------------------------------------------- 아마존
 sub("아마존 스냅샷 — 센텔리안24 (수동 확인)",

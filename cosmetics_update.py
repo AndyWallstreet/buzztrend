@@ -19,78 +19,40 @@ import json
 import time
 from pathlib import Path
 
-import pandas as pd
-import requests
-
-try:
-    import truststore
-    truststore.inject_into_ssl()
-except Exception:
-    pass
+from gtrends import fetch_trends
 
 DATA = Path(__file__).resolve().parent / "data" / "cosmetics"
-UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                    "(KHTML, like Gecko) Chrome/128.0 Safari/537.36",
-      "Referer": "https://trends.google.com/trends/explore"}
 
-# 두 묶음으로 나눠 받는다:
-#  solo    — 센텔리안 자체 추세 (큰 브랜드와 같이 넣으면 상대값이 0으로 눌림)
-#  compare — K뷰티 브랜드 간 검색 점유 비교 (상대 스케일 공유)
-SETS = {"solo": ["centellian24", "madeca cream"],
-        "compare": ["centellian24", "medicube", "anua", "cosrx"]}
+# 묶음별로 나눠 받는다 (상대값이라 묶음 안에서만 비교 가능):
+#  solo     — 센텔리안 자체 추세 (큰 브랜드와 같이 넣으면 상대값이 0으로 눌림)
+#  compare  — K뷰티 브랜드 간 검색 점유 비교 (상대 스케일 공유)
+#  solo_5y  — solo와 같은 키워드의 5년치 (YoY 증가율 계산용, 주간→월 집계)
+SETS = {"solo": ("today 12-m", ["centellian24", "madeca cream"]),
+        "compare": ("today 12-m", ["centellian24", "medicube", "anua", "cosrx"]),
+        "solo_5y": ("today 5-y", ["centellian24", "madeca cream"])}
 GEO = "US"
-TIMEFRAME = "today 12-m"
-
-
-def fetch_trends(keywords) -> pd.DataFrame:
-    s = requests.Session()
-    s.headers.update(UA)
-    s.get("https://trends.google.com/trends/?geo=US", timeout=20)   # NID 쿠키
-    time.sleep(1.5)
-    req = {"comparisonItem": [{"keyword": k, "geo": GEO, "time": TIMEFRAME}
-                              for k in keywords],
-           "category": 0, "property": ""}
-    r = s.get("https://trends.google.com/trends/api/explore",
-              params={"hl": "en-US", "tz": "-540", "req": json.dumps(req)},
-              timeout=30)
-    r.raise_for_status()
-    widgets = json.loads(r.text[5:])["widgets"]
-    w = next(x for x in widgets if x["id"] == "TIMESERIES")
-    time.sleep(1.5)
-    r2 = s.get("https://trends.google.com/trends/api/widgetdata/multiline",
-               params={"hl": "en-US", "tz": "-540",
-                       "req": json.dumps(w["request"]), "token": w["token"]},
-               timeout=30)
-    r2.raise_for_status()
-    data = json.loads(r2.text[5:])["default"]["timelineData"]
-    rows = []
-    for d in data:
-        day = dt.datetime.fromtimestamp(int(d["time"])).date().isoformat()
-        for k, v in zip(keywords, d["value"]):
-            rows.append({"date": day, "keyword": k, "value": v})
-    return pd.DataFrame(rows)
 
 
 def main():
     DATA.mkdir(parents=True, exist_ok=True)
     ok = []
-    for name, kws in SETS.items():
+    for name, (tf, kws) in SETS.items():
         try:
-            df = fetch_trends(kws)
+            df = fetch_trends(kws, geo=GEO, timeframe=tf)
         except Exception as e:
             print(f"구글 트렌드 '{name}' 수집 실패 ({type(e).__name__}) — "
                   "기존 데이터 유지, 다음 배치에서 재시도")
             continue
         df.to_csv(DATA / f"gtrends_{name}.csv", index=False, encoding="utf-8")
         last = df[df["date"] == df["date"].max()].set_index("keyword")["value"]
-        print(f"gtrends_{name}.csv: {df['date'].nunique()}주 | 최신 주 "
+        print(f"gtrends_{name}.csv: {df['date'].nunique()}개 시점 | 최신 "
               f"centellian24={last.get('centellian24', '—')}")
         ok.append(name)
         time.sleep(3)
     if ok:
         (DATA / "gtrends_meta.json").write_text(json.dumps(
             {"fetched": dt.datetime.now().isoformat(timespec="seconds"),
-             "geo": GEO, "timeframe": TIMEFRAME, "sets": SETS},
+             "geo": GEO, "sets": {k: v[1] for k, v in SETS.items()}},
             ensure_ascii=False, indent=1), encoding="utf-8")
 
 
