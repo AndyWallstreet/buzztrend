@@ -34,7 +34,7 @@ date,keyword,value
 2021-12-26,centellian24,0
 2021-12-26,madeca cream,0
 2022-01-02,centellian24,0
-2022-01-02,madeca cream,0
+2022-01-02,madeca cream,13
 2022-01-09,centellian24,0
 2022-01-09,madeca cream,0
 2022-01-16,centellian24,0
@@ -324,7 +324,7 @@ date,keyword,value
 2024-10-06,centellian24,0
 2024-10-06,madeca cream,0
 2024-10-13,centellian24,0
-2024-10-13,madeca cream,23
+2024-10-13,madeca cream,0
 2024-10-20,centellian24,0
 2024-10-20,madeca cream,0
 2024-10-27,centellian24,0
@@ -342,7 +342,7 @@ date,keyword,value
 2024-12-08,centellian24,0
 2024-12-08,madeca cream,0
 2024-12-15,centellian24,0
-2024-12-15,madeca cream,0
+2024-12-15,madeca cream,14
 2024-12-22,centellian24,0
 2024-12-22,madeca cream,0
 2024-12-29,centellian24,0
@@ -370,14 +370,14 @@ date,keyword,value
 2025-03-16,centellian24,0
 2025-03-16,madeca cream,0
 2025-03-23,centellian24,0
-2025-03-23,madeca cream,15
+2025-03-23,madeca cream,0
 2025-03-30,centellian24,0
 2025-03-30,madeca cream,0
 2025-04-06,centellian24,0
 2025-04-06,madeca cream,0
 2025-04-13,centellian24,0
-2025-04-13,madeca cream,11
-2025-04-20,centellian24,0
+2025-04-13,madeca cream,0
+2025-04-20,centellian24,13
 2025-04-20,madeca cream,0
 2025-04-27,centellian24,0
 2025-04-27,madeca cream,0
@@ -386,7 +386,7 @@ date,keyword,value
 2025-05-11,centellian24,0
 2025-05-11,madeca cream,0
 2025-05-18,centellian24,0
-2025-05-18,madeca cream,12
+2025-05-18,madeca cream,0
 2025-05-25,centellian24,0
 2025-05-25,madeca cream,0
 2025-06-01,centellian24,0
@@ -400,29 +400,29 @@ date,keyword,value
 2025-06-29,centellian24,0
 2025-06-29,madeca cream,0
 2025-07-06,centellian24,0
-2025-07-06,madeca cream,12
+2025-07-06,madeca cream,19
 2025-07-13,centellian24,0
-2025-07-13,madeca cream,13
+2025-07-13,madeca cream,17
 2025-07-20,centellian24,0
-2025-07-20,madeca cream,24
+2025-07-20,madeca cream,31
 2025-07-27,centellian24,0
-2025-07-27,madeca cream,0
+2025-07-27,madeca cream,11
 2025-08-03,centellian24,0
 2025-08-03,madeca cream,0
 2025-08-10,centellian24,0
-2025-08-10,madeca cream,17
+2025-08-10,madeca cream,12
 2025-08-17,centellian24,0
-2025-08-17,madeca cream,19
+2025-08-17,madeca cream,14
 2025-08-24,centellian24,0
-2025-08-24,madeca cream,28
+2025-08-24,madeca cream,37
 2025-08-31,centellian24,0
-2025-08-31,madeca cream,58
+2025-08-31,madeca cream,55
 2025-09-07,centellian24,0
 2025-09-07,madeca cream,39
 2025-09-14,centellian24,0
 2025-09-14,madeca cream,17
 2025-09-21,centellian24,0
-2025-09-21,madeca cream,26
+2025-09-21,madeca cream,29
 2025-09-28,centellian24,0
 2025-09-28,madeca cream,40
 2025-10-05,centellian24,0
@@ -432,7 +432,7 @@ date,keyword,value
 2025-10-19,centellian24,0
 2025-10-19,madeca cream,33
 2025-10-26,centellian24,0
-2025-10-26,madeca cream,39
+2025-10-26,madeca cream,40
 2025-11-02,centellian24,0
 2025-11-02,madeca cream,30
 2025-11-09,centellian24,0
@@ -440,21 +440,21 @@ date,keyword,value
 2025-11-16,centellian24,0
 2025-11-16,madeca cream,55
 2025-11-23,centellian24,0
-2025-11-23,madeca cream,66
+2025-11-23,madeca cream,67
 2025-11-30,centellian24,0
-2025-11-30,madeca cream,90
+2025-11-30,madeca cream,91
 2025-12-07,centellian24,0
-2025-12-07,madeca cream,66
+2025-12-07,madeca cream,67
 2025-12-14,centellian24,0
 2025-12-14,madeca cream,71
 2025-12-21,centellian24,0
-2025-12-21,madeca cream,82
+2025-12-21,madeca cream,83
 2025-12-28,centellian24,0
-2025-12-28,madeca cream,96
+2025-12-28,madeca cream,91
 2026-01-04,centellian24,0
-2026-01-04,madeca cream,67
+2026-01-04,madeca cream,66
 2026-01-11,centellian24,0
-2026-01-11,madeca cream,75
+2026-01-11,madeca cream,80
 2026-01-18,centellian24,0
 2026-01-18,madeca cream,51
 2026-01-25,centellian24,0
@@ -462,39 +462,39 @@ date,keyword,value
 2026-02-01,centellian24,0
 2026-02-01,madeca cream,62
 2026-02-08,centellian24,0
-2026-02-08,madeca cream,55
+2026-02-08,madeca cream,56
 2026-02-15,centellian24,0
-2026-02-15,madeca cream,61
+2026-02-15,madeca cream,60
 2026-02-22,centellian24,0
-2026-02-22,madeca cream,77
+2026-02-22,madeca cream,79
 2026-03-01,centellian24,0
-2026-03-01,madeca cream,58
+2026-03-01,madeca cream,59
 2026-03-08,centellian24,0
-2026-03-08,madeca cream,68
+2026-03-08,madeca cream,69
 2026-03-15,centellian24,0
 2026-03-15,madeca cream,60
 2026-03-22,centellian24,0
-2026-03-22,madeca cream,65
-2026-03-29,centellian24,19
-2026-03-29,madeca cream,80
-2026-04-05,centellian24,32
+2026-03-22,madeca cream,66
+2026-03-29,centellian24,20
+2026-03-29,madeca cream,81
+2026-04-05,centellian24,33
 2026-04-05,madeca cream,77
-2026-04-12,centellian24,42
-2026-04-12,madeca cream,81
+2026-04-12,centellian24,43
+2026-04-12,madeca cream,83
 2026-04-19,centellian24,22
-2026-04-19,madeca cream,69
+2026-04-19,madeca cream,70
 2026-04-26,centellian24,17
-2026-04-26,madeca cream,75
+2026-04-26,madeca cream,76
 2026-05-03,centellian24,20
 2026-05-03,madeca cream,80
 2026-05-10,centellian24,28
-2026-05-10,madeca cream,76
+2026-05-10,madeca cream,78
 2026-05-17,centellian24,23
 2026-05-17,madeca cream,60
 2026-05-24,centellian24,18
-2026-05-24,madeca cream,60
-2026-05-31,centellian24,16
-2026-05-31,madeca cream,56
+2026-05-24,madeca cream,61
+2026-05-31,centellian24,17
+2026-05-31,madeca cream,57
 2026-06-07,centellian24,11
 2026-06-07,madeca cream,59
 2026-06-14,centellian24,0
@@ -502,24 +502,24 @@ date,keyword,value
 2026-06-21,centellian24,28
 2026-06-21,madeca cream,97
 2026-06-28,centellian24,14
-2026-06-28,madeca cream,79
+2026-06-28,madeca cream,81
 2026-07-05,centellian24,14
 2026-07-05,madeca cream,87
 2026-07-12,centellian24,0
-2026-07-12,madeca cream,76
+2026-07-12,madeca cream,83
 2026-07-19,centellian24,0
 2026-07-19,madeca cream,77
 2026-07-26,centellian24,0
 2026-07-26,madeca cream,59
 2026-08-02,centellian24,0
-2026-08-02,madeca cream,59
+2026-08-02,madeca cream,60
 2026-08-09,centellian24,0
-2026-08-09,madeca cream,69
+2026-08-09,madeca cream,70
 2026-08-16,centellian24,11
 2026-08-16,madeca cream,94
-2026-08-23,centellian24,9
+2026-08-23,centellian24,7
 2026-08-23,madeca cream,91
 2026-08-30,centellian24,10
 2026-08-30,madeca cream,100
-2026-09-06,centellian24,10
-2026-09-06,madeca cream,91
+2026-09-06,centellian24,9
+2026-09-06,madeca cream,82
