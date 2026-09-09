@@ -419,7 +419,7 @@ if aw is not None and len(aw):
 
     # ------------------------------------------- 월 구매 추이 (날짜별 세로 막대)
     sub("아마존 월 구매 추이 — 판매량 트래킹",
-        "'지난달 구매' 표시값 · 스냅샷 날짜별 · 쌓일수록 추세가 됨")
+        "각 막대 = 관측일 기준 직전 30일 구매 (달력상 '8월' 같은 월별 수치 아님)")
     hist = aw[(aw["kbeauty"] == 1) & aw["bought_month"].notna()][
         ["date", "brand", "product", "bought_month"]].copy()
     # 워치 시작(9/9) 전의 수동 스냅샷에서 센텔리안 히어로 기록을 이어 붙인다
@@ -440,9 +440,10 @@ if aw is not None and len(aw):
         colors = [C_GOLD if l.startswith("CENTELLIAN") else pal[i % len(pal)]
                   for i, l in enumerate(labs)]
         base = alt.Chart(hist).encode(
-            x=alt.X("date:O", title=None, axis=alt.Axis(labelAngle=0)),
+            x=alt.X("date:O", title="관측일 (이날 기준 직전 30일)",
+                    axis=alt.Axis(labelAngle=0)),
             xOffset=alt.XOffset("label:N"),
-            y=alt.Y("bought_month:Q", title="월 구매 (개+, 아마존 표시값)"),
+            y=alt.Y("bought_month:Q", title="직전 30일 구매 (개+, 표시값)"),
             color=alt.Color("label:N", title=None,
                             scale=alt.Scale(domain=labs, range=colors),
                             legend=alt.Legend(orient="top", labelLimit=260,
@@ -452,11 +453,12 @@ if aw is not None and len(aw):
             text=alt.Text("bought_month:Q", format=",.0f"))
         st.altair_chart((bars + txt).properties(height=300),
                         use_container_width=True)
-        st.caption("**읽는법**: 날짜 하나 = 스냅샷 1회. 같은 날짜 안에서는 브랜드 간 "
-                   "비교(센텔리안=금색), 날짜를 가로지르면 제품별 판매 추세. 값은 "
-                   "아마존이 표시하는 '지난달 구매횟수' 반올림값(5만+ 식)이라 "
-                   "계단식으로 움직임 — 구간이 바뀌는 순간이 진짜 신호. 스냅샷을 "
-                   "쌓는 만큼 촘촘해짐 (주 1회 권장).")
+        st.caption("**읽는법**: '지난달 구매'는 달력상 월(8월 등)이 아니라 **보는 "
+                   "시점부터 거꾸로 30일**을 센 롤링 값 — 9/9 막대는 대략 8/10~9/9 "
+                   "판매분. 그래서 축은 관측일로 표기. 같은 날짜 안에서는 브랜드 "
+                   "비교(센텔리안=금색), 날짜를 가로지르면 추세. 주간 스냅샷끼리는 "
+                   "30일 중 23일이 겹쳐 값이 비슷하게 나오는 게 정상 — 5만+→6만+처럼 "
+                   "**구간이 바뀌는 순간**이 진짜 신호 (반올림 표시값이라 계단식).")
 
 st.info("**갱신 방법** — ① 구글 트렌드: 매일 배치 자동. ② 아마존: 주 1회 "
         "amazon.com에서 'centellian24' 검색 → 각 제품의 평점·리뷰 수·'지난달 "
