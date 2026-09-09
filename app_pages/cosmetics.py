@@ -409,24 +409,36 @@ if aw is not None and len(aw):
     view.columns = ["순위", "Δ", "브랜드", "제품", "가격(원)", "정가(원)", "할인%",
                     "평점", "리뷰 수", "월 구매(개+)", "BSR 뷰티", "세부 순위",
                     "세부 카테고리", "비고"]
-    for c, f in {"순위": "{:.0f}", "가격(원)": "{:,.0f}", "정가(원)": "{:,.0f}",
-                 "할인%": "{:.0f}%", "평점": "{:.1f}", "리뷰 수": "{:,.0f}",
-                 "월 구매(개+)": "{:,.0f}", "BSR 뷰티": "{:.0f}",
-                 "세부 순위": "{:.0f}"}.items():
-        view[c] = view[c].map(lambda v, f=f: f.format(v) if pd.notna(v) else "—")
-    view = view.fillna("—")
-    _hl = show["brand"].eq("CENTELLIAN 24").tolist()
+    # 숫자는 숫자 그대로 둬야 열 클릭 정렬이 크기순으로 됨 (문자로 바꾸면
+    # "100,000"이 "20,000"보다 앞에 오는 사전순 정렬이 됨). Styler 행 하이라이트는
+    # 빈 값을 'None'으로 찍는 버그가 있어 안 씀 — 센텔리안은 🟡 마커로 표시.
+    for c in ("Δ", "세부 카테고리", "비고"):
+        view[c] = view[c].fillna("—")
+    for c in ("순위", "가격(원)", "정가(원)", "할인%", "평점", "리뷰 수",
+              "월 구매(개+)", "BSR 뷰티", "세부 순위"):
+        view[c] = view[c].astype("Float64")
+    view.loc[show["brand"].eq("CENTELLIAN 24").values, "브랜드"] = \
+        "🟡 CENTELLIAN 24"
+    _num = st.column_config.NumberColumn
     st.dataframe(
-        view.style.apply(
-            lambda r: ["background-color:#1e3a5c; color:#f2c744; font-weight:700"
-                       if _hl[list(view.index).index(r.name)] else ""] * len(r),
-            axis=1),
-        hide_index=True, use_container_width=True,
-        height=min(430, 40 + 35 * len(view)))
+        view, hide_index=True, use_container_width=True,
+        height=min(430, 40 + 35 * len(view)),
+        column_config={
+            "순위": _num(format="%d"),
+            "가격(원)": _num(format="localized"),
+            "정가(원)": _num(format="localized"),
+            "할인%": _num(format="%.0f%%"),
+            "평점": _num(format="%.1f"),
+            "리뷰 수": _num(format="localized"),
+            "월 구매(개+)": _num(format="localized"),
+            "BSR 뷰티": _num(format="%d"),
+            "세부 순위": _num(format="%d"),
+        })
     st.caption("**읽는법**: 순위=아마존 '페이셜 크림·모이스처라이저' 베스트셀러(판매 "
                "속도 기준, 자주 갱신), Δ=직전 스냅샷 대비 이동. '월 구매'는 아마존 "
-               "표시값(1천+, 5만+ 식 반올림). 배송지가 한국이라 일부 리스팅은 "
-               "가격·월구매가 숨겨짐(비고 참조). 'Customers say' AI 요약은 로그인 "
+               "표시값(1천+, 5만+ 식 반올림). 열 제목을 클릭하면 크기순 정렬. "
+               "회색 'None' = 데이터 없음 — 배송지가 한국이라 일부 리스팅은 "
+               "가격·월구매를 숨김(비고 참조). 'Customers say' AI 요약은 로그인 "
                "화면에만 표시돼 아직 미수집. 실리콘투(257720) 프록시로 쓸 때는 "
                "브랜드별 유통 경로(직판 vs 수출대행)를 따로 확인할 것.")
 
