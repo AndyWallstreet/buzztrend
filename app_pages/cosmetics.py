@@ -446,6 +446,9 @@ if aw is not None and len(aw):
                                                 unit="D")
         hist["week"] = (_ws.dt.strftime("%Y.%m.%d") + "~"
                         + (_ws + pd.Timedelta(days=6)).dt.strftime("%m.%d"))
+        # 시간축 도메인: 데이터는 왼쪽부터, 오른쪽은 앞으로 채워질 날짜 공간
+        _dom = [(hist["date_dt"].min() - pd.Timedelta(days=1)).isoformat(),
+                (hist["date_dt"].max() + pd.Timedelta(days=12)).isoformat()]
 
         # ① 주간 트래킹 — 한 주에 스냅샷이 여러 번이면 마지막 값
         sub("① 주간 트래킹 — 주 단위로 쌓이는 기록",
@@ -473,6 +476,7 @@ if aw is not None and len(aw):
             "각 점 = 그날 본 '지난달(직전 30일) 구매' · 선이 위로 꺾이면 가속")
         base_r = alt.Chart(hist).encode(
             x=alt.X("date_dt:T", title="관측일 (이날 기준 직전 30일)",
+                    scale=alt.Scale(domain=_dom),
                     axis=alt.Axis(format="%m/%d", tickCount="day",
                                   labelAngle=0)),
             y=alt.Y("bought_month:Q", title="직전 30일 구매 (개+, 표시값)"),
@@ -537,6 +541,7 @@ if aw is not None and len(aw):
             ed = pd.DataFrame(est_rows)
             base_e = alt.Chart(ed).encode(
                 x=alt.X("date:T", title="스냅샷 일자",
+                        scale=alt.Scale(domain=_dom),
                         axis=alt.Axis(format="%m/%d", tickCount="day",
                                       labelAngle=0)),
                 y=alt.Y("weekly_est:Q", title="주간 판매 추정 (개)"),
@@ -561,7 +566,8 @@ if aw is not None and len(aw):
 
         # ④ BSR 추이 — 시간당 갱신되는 가장 빠른 신호
         sub("④ BSR 추이 — 아마존 판매 속도 순위",
-            "뷰티 전체 순위 · 낮을수록 빨리 팔림 · 축을 뒤집어 위 = 좋음")
+            "뷰티 전체 순위 · 선이 높을수록 빨리 팔림 (순위 숫자는 낮을수록 좋음 "
+            "— 축 뒤집음)")
         bs = aw[(aw["kbeauty"] == 1) & aw["bsr_beauty"].notna()][
             ["date", "brand", "product", "bsr_beauty"]].copy()
         if len(bs):
@@ -570,6 +576,7 @@ if aw is not None and len(aw):
             bs["date_dt"] = pd.to_datetime(bs["date"])
             base_b = alt.Chart(bs).encode(
                 x=alt.X("date_dt:T", title="관측일",
+                        scale=alt.Scale(domain=_dom),
                         axis=alt.Axis(format="%m/%d", tickCount="day",
                                       labelAngle=0)),
                 y=alt.Y("bsr_beauty:Q", title="BSR (뷰티 전체, 위=좋음)",
