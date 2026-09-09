@@ -150,6 +150,36 @@ if am is not None and len(am):
                      alt.Tooltip("bought_last_month", format=",.0f")])
         st.altair_chart(ch.properties(height=280), use_container_width=True)
 
+# ------------------------------------------------------- 경쟁사 순위 (아마존 BSR)
+cp = load("manual_amazon_competitors.csv", _stamp("manual_amazon_competitors.csv"))
+if cp is not None and len(cp):
+    sub("아마존 베스트셀러 순위 — K뷰티 경쟁 구도",
+        "BSR(판매 속도 순위) · 카테고리별 · 수동 스냅샷")
+    last_d = cp["date"].max()
+    cc = cp[cp["date"] == last_d].copy()
+    cc["_ctl"] = cc["brand"].eq("CENTELLIAN 24")
+    cc = cc.sort_values(["rank_scope", "rank"])
+    view = cc[["rank_scope", "rank", "brand", "product", "rating", "reviews",
+               "bought_last_month", "price_krw", "note"]].copy()
+    view.columns = ["카테고리", "순위", "브랜드", "제품", "평점", "리뷰 수",
+                    "월 구매(개+)", "가격(원)", "비고"]
+    _hl = cc["_ctl"].tolist()
+    st.dataframe(
+        view.style.apply(
+            lambda r: ["background-color:#1e3a5c; color:#f2c744; font-weight:700"
+                       if _hl[list(view.index).index(r.name)] else ""] * len(r),
+            axis=1
+        ).format({"순위": "{:.0f}", "평점": "{:.1f}", "리뷰 수": "{:,.0f}",
+                  "월 구매(개+)": "{:,.0f}", "가격(원)": "{:,.0f}"},
+                 na_rep="—"),
+        hide_index=True, use_container_width=True)
+    st.caption(f"**읽는법**: BSR은 아마존이 판매 속도로 매기는 순위(자주 갱신). "
+               "센텔리안(강조 행)은 '페이셜 크림·모이스처라이저' #19, 세부 "
+               "'페이스 모이스처라이저' #12 — Anua(#3)·medicube(#7)가 크림에서 "
+               "앞서 있고, medicube 토너패드·BIODANCE 마스크는 뷰티 전체 2·3위로 "
+               "월 10만+개 팔림(센텔리안 히어로는 5만+). 순위가 주 단위로 오르는지가 "
+               f"핵심. 기준일 {last_d}.")
+
 st.info("**갱신 방법** — ① 구글 트렌드: 매일 배치 자동. ② 아마존: 주 1회 "
         "amazon.com에서 'centellian24' 검색 → 각 제품의 평점·리뷰 수·'지난달 "
         "구매횟수'·가격을 `data/cosmetics/manual_amazon.csv`에 한 줄씩 추가 "
