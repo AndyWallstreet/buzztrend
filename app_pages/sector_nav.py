@@ -47,7 +47,10 @@ SECTORS = [
 # 나머지는 그 묶음에 마우스를 올렸을 때만 보이게 한다.
 _CSS = """<style>
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]
-  { gap: 0.15rem; }
+  { gap: 0.2rem; }
+/* 회사 이름(캡션) 위에 숨 쉴 공간 */
+section[data-testid="stSidebar"] [class*="st-key-secnav_"]
+  [data-testid="stCaptionContainer"] { margin-top: 0.55rem; }
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]
   > div:not(:first-child) { display: none; }
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]:hover
@@ -77,9 +80,9 @@ def sidebar(current: str):
                                 f'<a href="{ref}" target="_self" style="display:'
                                 'block;padding:2px 0 2px 14px;color:#c6d0de;'
                                 'text-decoration:none;font-size:0.88rem">'
-                                f'{plabel}</a>', unsafe_allow_html=True)
+                                f'ㄴ {plabel}</a>', unsafe_allow_html=True)
                         elif ref in _PAGES:
-                            st.page_link(_PAGES[ref], label=plabel)
+                            st.page_link(_PAGES[ref], label=f"ㄴ {plabel}")
                 if not comps:
-                    st.caption("└ 회사별 페이지 준비 중")
+                    st.caption("ㄴ 회사별 페이지 준비 중")
         st.divider()
