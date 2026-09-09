@@ -417,25 +417,46 @@ if aw is not None and len(aw):
                "화면에만 표시돼 아직 미수집. 실리콘투(257720) 프록시로 쓸 때는 "
                "브랜드별 유통 경로(직판 vs 수출대행)를 따로 확인할 것.")
 
-    # ---- 월 구매 비교 차트 (K뷰티)
-    kb = cur[(cur["kbeauty"] == 1) & cur["bought_month"].notna()].copy()
-    if len(kb):
-        kb["label"] = kb["brand"] + " " + kb["product"].str.slice(0, 14)
-        kb["ctl"] = kb["brand"].eq("CENTELLIAN 24")
-        base = alt.Chart(kb).encode(
-            x=alt.X("bought_month:Q", title="월 구매 (개+, 아마존 표시값)"),
-            y=alt.Y("label:N", sort="-x", title=None))
-        bars = base.mark_bar().encode(
-            color=alt.Color("ctl:N", legend=None,
-                            scale=alt.Scale(domain=[False, True],
-                                            range=[C_BAR, C_GOLD])))
-        txt = base.mark_text(align="left", dx=4, color="#c6d0de").encode(
+    # ------------------------------------------- 월 구매 추이 (날짜별 세로 막대)
+    sub("아마존 월 구매 추이 — 판매량 트래킹",
+        "'지난달 구매' 표시값 · 스냅샷 날짜별 · 쌓일수록 추세가 됨")
+    hist = aw[(aw["kbeauty"] == 1) & aw["bought_month"].notna()][
+        ["date", "brand", "product", "bought_month"]].copy()
+    # 워치 시작(9/9) 전의 수동 스냅샷에서 센텔리안 히어로 기록을 이어 붙인다
+    if am is not None and len(am):
+        _h = am[am["product"].astype(str).str.contains("타임 리버스 50ml", na=False)
+                & am["bought_last_month"].notna()]
+        for _, r in _h.iterrows():
+            hist.loc[len(hist)] = [r["date"], "CENTELLIAN 24",
+                                   "Madeca 크림 타임 리버스 50ml",
+                                   r["bought_last_month"]]
+    if len(hist):
+        hist["label"] = hist["brand"] + " " + hist["product"].str.slice(0, 12)
+        hist = (hist.groupby(["date", "label"], as_index=False)["bought_month"]
+                .max())
+        labs = sorted(hist["label"].unique())
+        pal = ["#2a78d6", "#8ec9ff", "#4fb8c9", "#eb6834", "#b06fc9", "#4fb862",
+               "#b5b5b5"]
+        colors = [C_GOLD if l.startswith("CENTELLIAN") else pal[i % len(pal)]
+                  for i, l in enumerate(labs)]
+        base = alt.Chart(hist).encode(
+            x=alt.X("date:O", title=None, axis=alt.Axis(labelAngle=0)),
+            xOffset=alt.XOffset("label:N"),
+            y=alt.Y("bought_month:Q", title="월 구매 (개+, 아마존 표시값)"),
+            color=alt.Color("label:N", title=None,
+                            scale=alt.Scale(domain=labs, range=colors),
+                            legend=alt.Legend(orient="top", labelLimit=260,
+                                              columns=3)))
+        bars = base.mark_bar(width={"band": 0.9})
+        txt = base.mark_text(dy=-7, fontSize=10, color="#c6d0de").encode(
             text=alt.Text("bought_month:Q", format=",.0f"))
-        st.altair_chart((bars + txt).properties(height=220),
+        st.altair_chart((bars + txt).properties(height=300),
                         use_container_width=True)
-        st.caption("**읽는법**: 상세페이지에 '월 구매'가 표시된 K뷰티 제품만 비교. "
-                   "Anua PDRN 크림 10만+ vs 센텔리안(금색 막대) 5만+ — 이 격차가 "
-                   "줄어드는지가 핵심 관전 포인트.")
+        st.caption("**읽는법**: 날짜 하나 = 스냅샷 1회. 같은 날짜 안에서는 브랜드 간 "
+                   "비교(센텔리안=금색), 날짜를 가로지르면 제품별 판매 추세. 값은 "
+                   "아마존이 표시하는 '지난달 구매횟수' 반올림값(5만+ 식)이라 "
+                   "계단식으로 움직임 — 구간이 바뀌는 순간이 진짜 신호. 스냅샷을 "
+                   "쌓는 만큼 촘촘해짐 (주 1회 권장).")
 
 st.info("**갱신 방법** — ① 구글 트렌드: 매일 배치 자동. ② 아마존: 주 1회 "
         "amazon.com에서 'centellian24' 검색 → 각 제품의 평점·리뷰 수·'지난달 "
