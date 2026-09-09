@@ -25,15 +25,19 @@ UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.3
       "Referer": "https://trends.google.com/trends/explore"}
 
 
-def fetch_trends(keywords, geo="US", timeframe="today 12-m") -> pd.DataFrame:
-    """키워드 리스트(최대 5개) → date/keyword/value 롱 포맷 DataFrame."""
+def fetch_trends(keywords, geo="US", timeframe="today 12-m",
+                 category=0) -> pd.DataFrame:
+    """키워드 리스트(최대 5개) → date/keyword/value 롱 포맷 DataFrame.
+
+    category: 구글 트렌드 카테고리 필터 (0=전체, 44=Beauty & Fitness).
+    """
     s = requests.Session()
     s.headers.update(UA)
     s.get("https://trends.google.com/trends/?geo=US", timeout=20)   # NID 쿠키
     time.sleep(1.5)
     req = {"comparisonItem": [{"keyword": k, "geo": geo, "time": timeframe}
                               for k in keywords],
-           "category": 0, "property": ""}
+           "category": category, "property": ""}
     r = s.get("https://trends.google.com/trends/api/explore",
               params={"hl": "en-US", "tz": "-540", "req": json.dumps(req)},
               timeout=30)

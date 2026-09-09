@@ -31,17 +31,28 @@ SETS = {"solo": ("today 12-m", ["centellian24", "madeca cream"]),
         "compare": ("today 12-m", ["centellian24", "medicube", "anua", "cosrx"]),
         "solo_5y": ("today 5-y", ["centellian24", "madeca cream"])}
 GEO = "US"
+# 44 = Beauty & Fitness 카테고리 필터 — 전체(0)로 받으면 뷰티 외로 분류된 바이럴
+# 검색이 섞여 2026-04에 가짜 피크가 생김 (2026-09-09 사용자 구글 화면과 대조로 확인)
+CATEGORY = 44
 
 
 def main():
     DATA.mkdir(parents=True, exist_ok=True)
     ok = []
     for name, (tf, kws) in SETS.items():
-        try:
-            df = fetch_trends(kws, geo=GEO, timeframe=tf)
-        except Exception as e:
-            print(f"구글 트렌드 '{name}' 수집 실패 ({type(e).__name__}) — "
-                  "기존 데이터 유지, 다음 배치에서 재시도")
+        df = None
+        for attempt in range(2):
+            try:
+                df = fetch_trends(kws, geo=GEO, timeframe=tf,
+                                  category=CATEGORY)
+                break
+            except Exception as e:
+                # cp949 콘솔이라 em-dash 등 특수문자 금지 (배치 크래시 원인)
+                print(f"구글 트렌드 '{name}' 수집 실패 ({type(e).__name__}), "
+                      f"시도 {attempt + 1}/2")
+                time.sleep(60)
+        if df is None:
+            print(f"'{name}' 건너뜀: 기존 데이터 유지, 다음 배치에서 재시도")
             continue
         df.to_csv(DATA / f"gtrends_{name}.csv", index=False, encoding="utf-8")
         last = df[df["date"] == df["date"].max()].set_index("keyword")["value"]
@@ -52,7 +63,8 @@ def main():
     if ok:
         (DATA / "gtrends_meta.json").write_text(json.dumps(
             {"fetched": dt.datetime.now().isoformat(timespec="seconds"),
-             "geo": GEO, "sets": {k: v[1] for k, v in SETS.items()}},
+             "geo": GEO, "category": CATEGORY,
+             "sets": {k: v[1] for k, v in SETS.items()}},
             ensure_ascii=False, indent=1), encoding="utf-8")
 
 

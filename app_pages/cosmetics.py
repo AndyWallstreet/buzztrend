@@ -201,20 +201,24 @@ with g4:
 sub("구글 트렌드 직접 검색", "원하는 브랜드 최대 5개 — 관심도·Mindshare·YoY 한 번에")
 _GEO = {"미국": "US", "전세계": "", "한국": "KR"}
 _TF = {"12개월": "today 12-m", "5년": "today 5-y"}
-c1, c2, c3, c4 = st.columns([3.2, 1, 1, 0.8])
+_CAT = {"뷰티·피트니스": 44, "전체": 0}
+c1, c2, c3, c4, c5 = st.columns([2.8, 0.9, 0.9, 1.1, 0.8])
 kw_in = c1.text_input("키워드 (쉼표로 구분, 최대 5개)",
                       value="madeca cream, medicube, anua, cosrx, biodance",
                       key="gt_kw")
 geo_k = c2.selectbox("지역", list(_GEO), key="gt_geo")
 tf_k = c3.selectbox("기간", list(_TF), index=1, key="gt_tf")
-c4.write("")
-go = c4.button("조회", type="primary", use_container_width=True)
+cat_k = c4.selectbox("카테고리", list(_CAT), key="gt_cat",
+                     help="뷰티·피트니스로 좁히면 뷰티 외 바이럴 검색이 빠져 "
+                          "실수요에 더 가까움 — 구글 화면과 동일 조건")
+c5.write("")
+go = c5.button("조회", type="primary", use_container_width=True)
 
 
 @st.cache_data(ttl=3600, show_spinner="구글 트렌드 조회 중… (10초 정도)")
-def _gt_fetch(kws, geo, tf):
+def _gt_fetch(kws, geo, tf, cat):
     from gtrends import fetch_trends
-    return fetch_trends(list(kws), geo=geo, timeframe=tf)
+    return fetch_trends(list(kws), geo=geo, timeframe=tf, category=cat)
 
 
 if go:
@@ -224,7 +228,8 @@ if go:
     else:
         try:
             st.session_state["gt_res"] = {
-                "df": _gt_fetch(tuple(kws), _GEO[geo_k], _TF[tf_k]),
+                "df": _gt_fetch(tuple(kws), _GEO[geo_k], _TF[tf_k],
+                                _CAT[cat_k]),
                 "kws": kws, "geo": geo_k, "tf": tf_k}
         except Exception:
             st.error("구글이 요청을 막았습니다 (429 요청 과다일 가능성). 1~2분 뒤 "
