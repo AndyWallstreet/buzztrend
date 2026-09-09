@@ -63,13 +63,24 @@ h1, h2, h3 { letter-spacing: -0.01em; }
     text-decoration: none; font-size: 0.88rem;
 }
 .lk-drop a:hover { background: #16223a; color: #7cb3ff; }
-.lk-drop .lk-sub { padding-left: 36px; font-size: 0.82rem; color: #93a1b5; }
 .lk-drop .lk-co {
     display: block; padding: 8px 18px 3px; font-size: 0.72rem; font-weight: 700;
     color: #5f7089; letter-spacing: 0.06em; text-transform: uppercase;
-    border-top: 1px solid #16223a; margin-top: 4px;
 }
-.lk-drop .lk-co:first-child { border-top: none; margin-top: 0; }
+/* 2단 플라이아웃: 섹터에 마우스를 올리면 회사·페이지가 오른쪽으로 펼쳐진다 */
+.lk-item { position: relative; }
+.lk-item > a {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 9px 18px; color: #c6d0de; text-decoration: none; font-size: 0.88rem;
+}
+.lk-item > a:hover { background: #16223a; color: #7cb3ff; }
+.lk-arrow { color: #5f7089; font-size: 0.72rem; margin-left: 12px; }
+.lk-fly {
+    display: none; position: absolute; left: 100%; top: -8px; min-width: 220px;
+    background: #0e1626; border: 1px solid #1c2a3f; padding: 7px 0;
+    box-shadow: 0 14px 34px rgba(0,0,0,0.55);
+}
+.lk-item:hover .lk-fly { display: block; }
 </style>
 <div class="lk-topbar">
   <span class="lk-logo">LK<span class="lk-chip">Terminal</span></span>
@@ -86,13 +97,26 @@ h1, h2, h3 { letter-spacing: -0.01em; }
     <div class="lk-drop">
       <a href="/batteries" target="_self">Batteries / EV / ESS</a>
       <a href="/bio-healthcare" target="_self">Bio / Healthcare</a>
-      <a href="/cosmetics-beauty" target="_self">Cosmetics / Beauty</a>
-      <a href="/entertainment" target="_self">Entertainment / Contents</a>
-      <span class="lk-co">SAMG Entertainment</span>
-      <a class="lk-sub" href="/하츄핑2_예고편" target="_self">└ 하츄핑2 예고편</a>
-      <a class="lk-sub" href="/하츄핑2_개봉후" target="_self">└ 하츄핑2 개봉 후</a>
-      <span class="lk-co">YG Entertainment</span>
-      <a class="lk-sub" href="/yg" target="_self">└ YG 트래커 (앨범·콘서트·컨센서스)</a>
+      <div class="lk-item">
+        <a href="/cosmetics-beauty" target="_self">Cosmetics / Beauty
+          <span class="lk-arrow">▸</span></a>
+        <div class="lk-fly">
+          <span class="lk-co">동국제약 (086450)</span>
+          <a href="/cosmetics-beauty" target="_self">센텔리안24 미국 수요</a>
+          <a href="/종목상세?ticker=A086450" target="_self">동국제약 Stock Picker</a>
+        </div>
+      </div>
+      <div class="lk-item">
+        <a href="/entertainment" target="_self">Entertainment / Contents
+          <span class="lk-arrow">▸</span></a>
+        <div class="lk-fly">
+          <span class="lk-co">SAMG Entertainment (419530)</span>
+          <a href="/하츄핑2_예고편" target="_self">하츄핑2 예고편</a>
+          <a href="/하츄핑2_개봉후" target="_self">하츄핑2 개봉 후</a>
+          <span class="lk-co">YG Entertainment (122870)</span>
+          <a href="/yg" target="_self">YG 트래커 (앨범·콘서트·컨센서스)</a>
+        </div>
+      </div>
       <a href="/consumer" target="_self">Consumer</a>
       <a href="/logistics-commerce" target="_self">Logistics / Commerce</a>
       <a href="/steel-metals" target="_self">Steel &amp; Non-Ferrous Metals</a>
@@ -141,6 +165,13 @@ pg_babymon = st.Page("app_pages/yg_babymonster.py", title="└ BABYMONSTER 2026"
 
 
 def _entertainment():
+    with st.sidebar:
+        st.markdown("**🏢 Entertainment / Contents**")
+        st.caption("SAMG 엔터 (419530)")
+        st.page_link(pg_trailer, label="🐳 하츄핑2 예고편")
+        st.page_link(pg_boxoffice, label="🎬 하츄핑2 개봉 후")
+        st.caption("YG 엔터 (122870)")
+        st.page_link(pg_yg, label="🎵 YG 트래커")
     st.title("Entertainment / Contents")
     st.caption("엔터·콘텐츠 섹터 — 진행 중인 추적 (회사별)")
     st.subheader("SAMG Entertainment (419530)", divider="orange")

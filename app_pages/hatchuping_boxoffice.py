@@ -18,6 +18,9 @@ C_M1 = "#eb6834"   # 1편 (orange)
 
 st.set_page_config(page_title="하츄핑2 개봉 후", page_icon="🎬", layout="wide")
 
+from app_pages import ent_nav  # noqa: E402
+ent_nav.sidebar()
+
 LOAD_FILES = ("m1_daily.csv", "m2_daily.csv", "boxoffice_now.json",
               "ratings.csv", "sentiment_daily.csv", "ratings_peers.json",
               "board_daily.csv", "board_samples.json",
