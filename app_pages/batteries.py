@@ -27,7 +27,7 @@ sector_nav.sidebar("batt")
 st.markdown("""<style>
 .block-container { padding-top: 4rem !important; }
 .lk-h {
-    font-size: 0.97rem; font-weight: 700; background: #16283e;
+    font-size: 1.18rem; font-weight: 600; background: #2a4a73;
     border-left: 4px solid #2e7de9; border-radius: 4px;
     padding: 6px 12px; margin: 0.9rem 0 0.5rem 0;
 }

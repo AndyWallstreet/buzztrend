@@ -76,8 +76,8 @@ ST_EXTRA_CSS = """<style>
 .lk-ind { padding: 6px 1px 5px 1px; font-size: 0.72rem; line-height: 1.5; }
 /* 차트/소섹션 제목 — Epic 스타일 블루 타이틀 바 */
 .lk-h {
-    font-size: 0.97rem; font-weight: 700;
-    background: #16283e;
+    font-size: 1.1rem; font-weight: 600;
+    background: #2a4a73;
     border-left: 4px solid #2e7de9;
     border-radius: 4px;
     padding: 6px 12px;
