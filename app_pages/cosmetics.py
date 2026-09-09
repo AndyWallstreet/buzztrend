@@ -116,8 +116,9 @@ with g2:
                             legend=alt.Legend(orient="top")),
             tooltip=["keyword", alt.Tooltip("date:T"), "value"])
         st.altair_chart(ch.properties(height=300), use_container_width=True)
-        st.caption("**읽는법**: anua·medicube·cosrx 같은 대형 K뷰티 인디 브랜드 대비 "
-                   "센텔리안24의 미국 인지도 위치. 격차가 좁혀지는지가 아마존 채널 "
+        st.caption("**읽는법**: anua·medicube·cosrx 같은 대형 K뷰티 브랜드 대비 "
+                   "**madeca cream**(센텔리안24의 히어로 제품명 — 미국 소비자가 "
+                   "실제로 검색하는 단어)의 위치. 격차가 좁혀지는지가 아마존 채널 "
                    "성장 여력의 가늠자.")
 
 

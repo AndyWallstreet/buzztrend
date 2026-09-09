@@ -28,7 +28,7 @@ DATA = Path(__file__).resolve().parent / "data" / "cosmetics"
 #  compare  — K뷰티 브랜드 간 검색 점유 비교 (상대 스케일 공유)
 #  solo_5y  — solo와 같은 키워드의 5년치 (YoY 증가율 계산용, 주간→월 집계)
 SETS = {"solo": ("today 12-m", ["centellian24", "madeca cream"]),
-        "compare": ("today 12-m", ["centellian24", "medicube", "anua", "cosrx"]),
+        "compare": ("today 12-m", ["madeca cream", "medicube", "anua", "cosrx"]),
         "solo_5y": ("today 5-y", ["centellian24", "madeca cream"])}
 GEO = "US"
 # 44 = Beauty & Fitness 카테고리 필터 — 전체(0)로 받으면 뷰티 외로 분류된 바이럴
@@ -57,7 +57,7 @@ def main():
         df.to_csv(DATA / f"gtrends_{name}.csv", index=False, encoding="utf-8")
         last = df[df["date"] == df["date"].max()].set_index("keyword")["value"]
         print(f"gtrends_{name}.csv: {df['date'].nunique()}개 시점 | 최신 "
-              f"centellian24={last.get('centellian24', '—')}")
+              f"{kws[0]}={last.get(kws[0], '-')}")
         ok.append(name)
         time.sleep(3)
     if ok:
