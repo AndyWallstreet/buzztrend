@@ -1,63 +1,85 @@
 # -*- coding: utf-8 -*-
 """Sector Watch 공용 좌측 메뉴 — 모든 섹터·회사 페이지가 같이 쓴다.
 
-sidebar("ent") 처럼 현재 섹터 키를 넘기면: 전체 섹터 목록을 보여주고,
-현재 섹터만 펼쳐서 회사·페이지 링크를 나열한다.
-새 회사 페이지를 만들면 여기 SECTORS와 streamlit_app.py 상단바 플라이아웃
-두 곳에 같이 추가할 것.
+- 평소엔 섹터 이름만 보이고, 마우스를 올리면(hover) 그 섹터의 회사·페이지가
+  펼쳐진다 (상단바 플라이아웃과 같은 동작, CSS만 사용).
+- 링크는 st.page_link → SPA 전환이라 흰 화면 새로고침이 없다.
+- Page 객체는 streamlit_app.py가 시작할 때 register()로 넣어준다
+  (함수 페이지도 링크 가능해짐).
+새 회사 페이지 추가 시: SECTORS + streamlit_app.py의 register 매핑 +
+상단바 플라이아웃 세 곳을 같이 갱신할 것.
 """
 import streamlit as st
 
-# key, 표시 이름, URL, [(회사 캡션, [(등록된 페이지 경로 or '/URL', 라벨)])]
+_PAGES = {}
+
+
+def register(pages: dict):
+    """key -> st.Page 객체. streamlit_app.py가 nav.run() 전에 호출."""
+    _PAGES.update(pages)
+
+
+# (섹터 키, 표시 이름, [(회사 캡션, [(페이지 키 or '/URL', 라벨)])])
 SECTORS = [
-    ("batt", "Batteries / EV / ESS", "/batteries", []),
-    ("bio", "Bio / Healthcare", "/bio-healthcare", []),
-    ("beauty", "Cosmetics / Beauty", "/cosmetics-beauty", [
+    ("batt", "Batteries / EV / ESS", []),
+    ("bio", "Bio / Healthcare", []),
+    ("beauty", "Cosmetics / Beauty", [
         ("동국제약 (086450)", [
-            ("app_pages/cosmetics.py", "💄 센텔리안24 미국 수요"),
+            ("beauty", "💄 센텔리안24 미국 수요"),
             ("/종목상세?ticker=A086450", "📋 동국제약 Stock Picker"),
         ]),
     ]),
-    ("ent", "Entertainment / Contents", "/entertainment", [
+    ("ent", "Entertainment / Contents", [
         ("SAMG 엔터 (419530)", [
-            ("app_pages/hatchuping_trailer.py", "🐳 하츄핑2 예고편"),
-            ("app_pages/hatchuping_boxoffice.py", "🎬 하츄핑2 개봉 후"),
+            ("trailer", "🐳 하츄핑2 예고편"),
+            ("boxoffice", "🎬 하츄핑2 개봉 후"),
         ]),
         ("YG 엔터 (122870)", [
-            ("app_pages/yg_dashboard.py", "🎵 YG 트래커"),
+            ("yg", "🎵 YG 트래커"),
         ]),
     ]),
-    ("consumer", "Consumer", "/consumer", []),
-    ("logi", "Logistics / Commerce", "/logistics-commerce", []),
-    ("steel", "Steel & Non-Ferrous Metals", "/steel-metals", []),
+    ("consumer", "Consumer", []),
+    ("logi", "Logistics / Commerce", []),
+    ("steel", "Steel & Non-Ferrous Metals", []),
 ]
+
+# 섹터 묶음(st.container key=secnav_*)의 첫 요소(섹터 링크)만 보이고,
+# 나머지는 그 묶음에 마우스를 올렸을 때만 보이게 한다.
+_CSS = """<style>
+section[data-testid="stSidebar"] [class*="st-key-secnav_"]
+  { gap: 0.15rem; }
+section[data-testid="stSidebar"] [class*="st-key-secnav_"]
+  > div:not(:first-child) { display: none; }
+section[data-testid="stSidebar"] [class*="st-key-secnav_"]:hover
+  > div:not(:first-child) { display: block; }
+section[data-testid="stSidebar"] [class*="st-key-secnav_"]:hover
+  { background: #0e1626; border-radius: 6px; }
+</style>"""
 
 
 def sidebar(current: str):
     with st.sidebar:
+        st.markdown(_CSS, unsafe_allow_html=True)
         st.markdown("**📊 SECTOR WATCH**")
-        for key, label, url, comps in SECTORS:
-            if key != current:
-                st.markdown(f'<a href="{url}" target="_self" style="display:block;'
-                            'padding:3px 0;color:#93a1b5;text-decoration:none;'
-                            f'font-size:0.9rem">{label}</a>',
-                            unsafe_allow_html=True)
-                continue
-            st.markdown(f'<a href="{url}" target="_self" style="display:block;'
-                        'padding:3px 0;color:#7cb3ff;font-weight:700;'
-                        'text-decoration:none;border-left:3px solid #2e7de9;'
-                        f'padding-left:8px">{label}</a>', unsafe_allow_html=True)
-            for caption, pages in comps:
-                st.caption(caption)
-                for path, plabel in pages:
-                    if path.startswith("/"):
-                        st.markdown(f'<a href="{path}" target="_self" '
-                                    'style="display:block;padding:2px 0 2px 14px;'
-                                    'color:#c6d0de;text-decoration:none;'
-                                    f'font-size:0.88rem">{plabel}</a>',
-                                    unsafe_allow_html=True)
-                    else:
-                        st.page_link(path, label=plabel)
-            if not comps:
-                st.caption("└ 회사별 페이지 준비 중")
+        for key, label, comps in SECTORS:
+            with st.container(key=f"secnav_{key}"):
+                pg = _PAGES.get(key)
+                lbl = f"🔹 {label}" if key == current else label
+                if pg is not None:
+                    st.page_link(pg, label=lbl)
+                else:
+                    st.markdown(lbl)
+                for caption, pages in comps:
+                    st.caption(caption)
+                    for ref, plabel in pages:
+                        if ref.startswith("/"):
+                            st.markdown(
+                                f'<a href="{ref}" target="_self" style="display:'
+                                'block;padding:2px 0 2px 14px;color:#c6d0de;'
+                                'text-decoration:none;font-size:0.88rem">'
+                                f'{plabel}</a>', unsafe_allow_html=True)
+                        elif ref in _PAGES:
+                            st.page_link(_PAGES[ref], label=plabel)
+                if not comps:
+                    st.caption("└ 회사별 페이지 준비 중")
         st.divider()

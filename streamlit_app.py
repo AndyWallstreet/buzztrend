@@ -194,6 +194,12 @@ pg_steel = st.Page(_placeholder("Steel & Non-Ferrous Metals", "철강·비철금
 
 from app_pages import cover  # noqa: E402  (st.page_link 에 Page 객체가 필요해 여기서 조립)
 
+# 좌측 섹터 메뉴가 st.page_link(SPA 전환, 새로고침 없음)를 쓸 수 있게 Page 등록
+sector_nav.register({"batt": pg_batt, "bio": pg_bio, "beauty": pg_beauty,
+                     "ent": pg_ent, "consumer": pg_consumer, "logi": pg_logi,
+                     "steel": pg_steel, "trailer": pg_trailer,
+                     "boxoffice": pg_boxoffice, "yg": pg_yg})
+
 _PAGES = {"buzz": pg_buzz, "value": pg_value, "bio": pg_bio, "beauty": pg_beauty,
           "ent": pg_ent, "trailer": pg_trailer, "boxoffice": pg_boxoffice,
           "yg": pg_yg, "bigbang": pg_bigbang, "babymon": pg_babymon,
