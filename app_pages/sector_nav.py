@@ -55,6 +55,12 @@ section[data-testid="stSidebar"] [class*="st-key-secnav_"]
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]
   > div:not(:first-child) div[data-testid="stPageLink"]
   { padding-left: 20px; }
+/* 섹터 이름과 회사 이름의 첫 글자를 같은 세로선에 맞춘다 */
+section[data-testid="stSidebar"] [class*="st-key-secnav_"]
+  > div:first-child a[data-testid="stPageLink-NavLink"]
+  { padding-left: 2px; }
+section[data-testid="stSidebar"] [class*="st-key-secnav_"]
+  [data-testid="stCaptionContainer"] { padding-left: 2px; }
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]
   > div:not(:first-child) { display: none; }
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]:hover
