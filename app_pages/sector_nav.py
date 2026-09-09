@@ -51,6 +51,10 @@ section[data-testid="stSidebar"] [class*="st-key-secnav_"]
 /* 회사 이름(캡션) 위에 숨 쉴 공간 */
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]
   [data-testid="stCaptionContainer"] { margin-top: 0.55rem; }
+/* 하위 페이지 링크(ㄴ …)는 회사 이름보다 오른쪽으로 들여쓰기 */
+section[data-testid="stSidebar"] [class*="st-key-secnav_"]
+  > div:not(:first-child) div[data-testid="stPageLink"]
+  { padding-left: 20px; }
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]
   > div:not(:first-child) { display: none; }
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]:hover
@@ -78,7 +82,7 @@ def sidebar(current: str):
                         if ref.startswith("/"):
                             st.markdown(
                                 f'<a href="{ref}" target="_self" style="display:'
-                                'block;padding:2px 0 2px 14px;color:#c6d0de;'
+                                'block;padding:2px 0 2px 26px;color:#c6d0de;'
                                 'text-decoration:none;font-size:0.88rem">'
                                 f'ㄴ {plabel}</a>', unsafe_allow_html=True)
                         elif ref in _PAGES:
