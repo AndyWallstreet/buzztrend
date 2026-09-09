@@ -20,8 +20,8 @@ C_M1 = "#eb6834"   # 1편 (orange)
 
 st.set_page_config(page_title="하츄핑2 예고편 트래커", page_icon="🐳", layout="wide")
 
-from app_pages import ent_nav  # noqa: E402
-ent_nav.sidebar()
+from app_pages import sector_nav  # noqa: E402
+sector_nav.sidebar("ent")
 
 
 # stamp = load()가 읽는 파일 전부의 수정 시각 — 하나라도 바뀌면 캐시 키가 바뀌어

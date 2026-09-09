@@ -126,8 +126,13 @@ h1, h2, h3 { letter-spacing: -0.01em; }
 """, unsafe_allow_html=True)
 
 
-def _placeholder(title, note):
+from app_pages import sector_nav  # noqa: E402
+
+
+def _placeholder(title, note, sector_key=None):
     def _page():
+        if sector_key:
+            sector_nav.sidebar(sector_key)
         st.title(title)
         st.caption(note)
         st.info("준비 중입니다 — 추적 대상이 정해지면 이 자리에 대시보드가 들어옵니다.")
@@ -147,7 +152,7 @@ pg_watch = st.Page("app_pages/watchlist.py", title="Watchlist",
 # ---- Sector Watch
 pg_batt = st.Page("app_pages/batteries.py", title="Batteries/EV/ESS",
                   url_path="batteries")
-pg_bio = st.Page(_placeholder("Bio / Healthcare", "제약·바이오·의료기기 섹터 추적"),
+pg_bio = st.Page(_placeholder("Bio / Healthcare", "제약·바이오·의료기기 섹터 추적", "bio"),
                  title="Bio/Healthcare", url_path="bio-healthcare")
 pg_beauty = st.Page("app_pages/cosmetics.py",
                     title="Cosmetics/Beauty", url_path="cosmetics-beauty")
@@ -165,13 +170,7 @@ pg_babymon = st.Page("app_pages/yg_babymonster.py", title="└ BABYMONSTER 2026"
 
 
 def _entertainment():
-    with st.sidebar:
-        st.markdown("**🏢 Entertainment / Contents**")
-        st.caption("SAMG 엔터 (419530)")
-        st.page_link(pg_trailer, label="🐳 하츄핑2 예고편")
-        st.page_link(pg_boxoffice, label="🎬 하츄핑2 개봉 후")
-        st.caption("YG 엔터 (122870)")
-        st.page_link(pg_yg, label="🎵 YG 트래커")
+    sector_nav.sidebar("ent")
     st.title("Entertainment / Contents")
     st.caption("엔터·콘텐츠 섹터 — 진행 중인 추적 (회사별)")
     st.subheader("SAMG Entertainment (419530)", divider="orange")
@@ -185,11 +184,12 @@ def _entertainment():
 
 
 pg_ent = st.Page(_entertainment, title="Entertainment/Contents", url_path="entertainment")
-pg_consumer = st.Page(_placeholder("Consumer", "필수·임의소비재 섹터 추적"),
+pg_consumer = st.Page(_placeholder("Consumer", "필수·임의소비재 섹터 추적", "consumer"),
                       title="Consumer", url_path="consumer")
-pg_logi = st.Page(_placeholder("Logistics / Commerce", "물류·커머스 섹터 추적"),
+pg_logi = st.Page(_placeholder("Logistics / Commerce", "물류·커머스 섹터 추적", "logi"),
                   title="Logistics/Commerce", url_path="logistics-commerce")
-pg_steel = st.Page(_placeholder("Steel & Non-Ferrous Metals", "철강·비철금속 섹터 추적"),
+pg_steel = st.Page(_placeholder("Steel & Non-Ferrous Metals", "철강·비철금속 섹터 추적",
+                                "steel"),
                    title="Steel & Non-Ferrous Metals", url_path="steel-metals")
 
 from app_pages import cover  # noqa: E402  (st.page_link 에 Page 객체가 필요해 여기서 조립)

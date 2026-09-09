@@ -21,6 +21,9 @@ C_K3 = {"LGES": "#2a78d6", "SK On": "#8ec9ff", "SDI": "#4fb8c9",
 
 st.set_page_config(page_title="2차전지 수급", page_icon="🔋", layout="wide")
 
+from app_pages import sector_nav  # noqa: E402
+sector_nav.sidebar("batt")
+
 st.markdown("""<style>
 .block-container { padding-top: 4rem !important; }
 .lk-h {

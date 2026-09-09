@@ -20,6 +20,9 @@ C_BAR, C_LINE, C_GOLD = "#2a78d6", "#eb6834", "#e8c15a"
 
 st.set_page_config(page_title="Cosmetics/Beauty", page_icon="💄", layout="wide")
 
+from app_pages import sector_nav  # noqa: E402
+sector_nav.sidebar("beauty")
+
 st.markdown("""<style>
 .block-container { padding-top: 4rem !important; }
 .lk-h {
