@@ -89,7 +89,8 @@ with g1:
         d = solo.copy()
         d["date"] = pd.to_datetime(d["date"])
         ch = alt.Chart(d).mark_line(size=2.5, point=True).encode(
-            x=alt.X("date:T", title=None),
+            x=alt.X("date:T", title=None,
+                    axis=alt.Axis(format="%y %b", labelAngle=0)),
             y=alt.Y("value:Q", title="검색 관심도 (상대값)"),
             color=alt.Color("keyword:N", title=None,
                             scale=alt.Scale(domain=["madeca cream", "centellian24"],
@@ -108,7 +109,8 @@ with g2:
         d = comp.copy()
         d["date"] = pd.to_datetime(d["date"])
         ch = alt.Chart(d).mark_line(size=2).encode(
-            x=alt.X("date:T", title=None),
+            x=alt.X("date:T", title=None,
+                    axis=alt.Axis(format="%y %b", labelAngle=0)),
             y=alt.Y("value:Q", title="검색 관심도 (상대값)"),
             color=alt.Color("keyword:N", title=None,
                             legend=alt.Legend(orient="top")),
@@ -155,7 +157,8 @@ with g3:
         zero = alt.Chart(pd.DataFrame({"y": [0]})).mark_rule(
             color=C_GOLD, strokeDash=[4, 3]).encode(y="y:Q")
         ch = alt.Chart(yy).mark_line(size=2.5, point=True).encode(
-            x=alt.X("month:T", title=None),
+            x=alt.X("month:T", title=None,
+                    axis=alt.Axis(format="%y %b", labelAngle=0)),
             y=alt.Y("yoy:Q", title="YoY (%)"),
             color=alt.Color("keyword:N", title=None,
                             scale=alt.Scale(domain=["madeca cream", "centellian24"],
@@ -179,7 +182,8 @@ with g4:
         prv_m = ms[ms["month"] == sorted(ms["month"].unique())[-2]] \
             .set_index("keyword")["share"] if ms["month"].nunique() >= 2 else cur_m
         ch = alt.Chart(ms).mark_area().encode(
-            x=alt.X("month:T", title=None),
+            x=alt.X("month:T", title=None,
+                    axis=alt.Axis(format="%y %b", labelAngle=0)),
             y=alt.Y("share:Q", stack=True, title="Mindshare (%)",
                     scale=alt.Scale(domain=[0, 100])),
             color=alt.Color("keyword:N", title=None,
@@ -245,7 +249,8 @@ if _res:
         d = rdf.copy()
         d["date"] = pd.to_datetime(d["date"])
         ch = alt.Chart(d).mark_line(size=2).encode(
-            x=alt.X("date:T", title=None),
+            x=alt.X("date:T", title=None,
+                    axis=alt.Axis(format="%y %b", labelAngle=0)),
             y=alt.Y("value:Q", title="검색 관심도 (상대값)"),
             color=alt.Color("keyword:N", title=None,
                             legend=alt.Legend(orient="top")),
@@ -254,7 +259,8 @@ if _res:
         st.caption("원본 관심도 — 같은 묶음 안 상대 비교")
     with r2:
         ch = alt.Chart(ms).mark_area().encode(
-            x=alt.X("month:T", title=None),
+            x=alt.X("month:T", title=None,
+                    axis=alt.Axis(format="%y %b", labelAngle=0)),
             y=alt.Y("share:Q", stack=True, title="Mindshare (%)",
                     scale=alt.Scale(domain=[0, 100])),
             color=alt.Color("keyword:N", title=None,
@@ -269,7 +275,8 @@ if _res:
         zero = alt.Chart(pd.DataFrame({"y": [0]})).mark_rule(
             color=C_GOLD, strokeDash=[4, 3]).encode(y="y:Q")
         ch = alt.Chart(yy).mark_line(size=2, point=True).encode(
-            x=alt.X("month:T", title=None),
+            x=alt.X("month:T", title=None,
+                    axis=alt.Axis(format="%y %b", labelAngle=0)),
             y=alt.Y("yoy:Q", title="YoY (%)"),
             color=alt.Color("keyword:N", title=None,
                             legend=alt.Legend(orient="top")),
