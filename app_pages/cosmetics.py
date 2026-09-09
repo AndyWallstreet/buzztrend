@@ -439,26 +439,55 @@ if aw is not None and len(aw):
                "#b5b5b5"]
         colors = [C_GOLD if l.startswith("CENTELLIAN") else pal[i % len(pal)]
                   for i, l in enumerate(labs)]
-        base = alt.Chart(hist).encode(
-            x=alt.X("date:O", title="관측일 (이날 기준 직전 30일)",
+        cscale = alt.Scale(domain=labs, range=colors)
+        cleg = alt.Legend(orient="top", labelLimit=260, columns=3)
+        hist["date_dt"] = pd.to_datetime(hist["date"])
+        _ws = hist["date_dt"] - pd.to_timedelta(hist["date_dt"].dt.weekday,
+                                                unit="D")
+        hist["week"] = (_ws.dt.strftime("%Y.%m.%d") + "~"
+                        + (_ws + pd.Timedelta(days=6)).dt.strftime("%m.%d"))
+
+        # ① 주간 트래킹 — 한 주에 스냅샷이 여러 번이면 마지막 값
+        sub("① 주간 트래킹 — 주 단위로 쌓이는 기록",
+            "x축 = 관측 주간 (월~일) · 값 = 그 주 마지막 스냅샷의 직전 30일 구매")
+        wk = (hist.sort_values("date_dt")
+              .groupby(["week", "label"], as_index=False).last())
+        base_w = alt.Chart(wk).encode(
+            x=alt.X("week:O", title="관측 주간", sort=None,
                     axis=alt.Axis(labelAngle=0)),
             xOffset=alt.XOffset("label:N"),
             y=alt.Y("bought_month:Q", title="직전 30일 구매 (개+, 표시값)"),
-            color=alt.Color("label:N", title=None,
-                            scale=alt.Scale(domain=labs, range=colors),
-                            legend=alt.Legend(orient="top", labelLimit=260,
-                                              columns=3)))
-        bars = base.mark_bar(width={"band": 0.9})
-        txt = base.mark_text(dy=-7, fontSize=10, color="#c6d0de").encode(
+            color=alt.Color("label:N", title=None, scale=cscale, legend=cleg))
+        bars_w = base_w.mark_bar(width={"band": 0.9})
+        txt_w = base_w.mark_text(dy=-8, fontSize=11, color="#c6d0de").encode(
             text=alt.Text("bought_month:Q", format=",.0f"))
-        st.altair_chart((bars + txt).properties(height=300),
+        st.altair_chart((bars_w + txt_w).properties(height=430),
+                        use_container_width=True)
+        st.caption("**읽는법**: 주 1회 스냅샷이 쌓이면 이 차트가 주간 추세가 됨. "
+                   "아마존은 주간 판매량 자체는 공개하지 않으므로, 값은 그 주에 "
+                   "본 '직전 30일 구매' — **주와 주 사이에 구간이 바뀌는 것** "
+                   "(5만+→6만+)이 신호. 센텔리안 = 금색.")
+
+        # ② 롤링 30일 원본 — 관측일별 전 기록
+        sub("② 롤링 30일 추이 — 관측일별 원본 기록",
+            "각 점 = 그날 본 '지난달(직전 30일) 구매' · 선이 위로 꺾이면 가속")
+        base_r = alt.Chart(hist).encode(
+            x=alt.X("date_dt:T", title="관측일 (이날 기준 직전 30일)",
+                    axis=alt.Axis(format="%m/%d", tickCount="day",
+                                  labelAngle=0)),
+            y=alt.Y("bought_month:Q", title="직전 30일 구매 (개+, 표시값)"),
+            color=alt.Color("label:N", title=None, scale=cscale, legend=cleg))
+        line_r = base_r.mark_line(size=2.5, point=alt.OverlayMarkDef(size=70),
+                                  interpolate="monotone")
+        txt_r = base_r.mark_text(dy=-12, fontSize=11, color="#c6d0de").encode(
+            text=alt.Text("bought_month:Q", format=",.0f"))
+        st.altair_chart((line_r + txt_r).properties(height=430),
                         use_container_width=True)
         st.caption("**읽는법**: '지난달 구매'는 달력상 월(8월 등)이 아니라 **보는 "
-                   "시점부터 거꾸로 30일**을 센 롤링 값 — 9/9 막대는 대략 8/10~9/9 "
-                   "판매분. 그래서 축은 관측일로 표기. 같은 날짜 안에서는 브랜드 "
-                   "비교(센텔리안=금색), 날짜를 가로지르면 추세. 주간 스냅샷끼리는 "
-                   "30일 중 23일이 겹쳐 값이 비슷하게 나오는 게 정상 — 5만+→6만+처럼 "
-                   "**구간이 바뀌는 순간**이 진짜 신호 (반올림 표시값이라 계단식).")
+                   "시점부터 거꾸로 30일**을 센 롤링 값 — 9/9 점은 대략 8/10~9/9 "
+                   "판매분. 주간 스냅샷끼리는 30일 중 23일이 겹쳐 값이 비슷하게 "
+                   "나오는 게 정상 — 계단식으로 **구간이 바뀌는 순간**이 진짜 신호 "
+                   "(반올림 표시값). 스냅샷이 쌓일수록 선이 촘촘해짐.")
 
 st.info("**갱신 방법** — ① 구글 트렌드: 매일 배치 자동. ② 아마존: 주 1회 "
         "amazon.com에서 'centellian24' 검색 → 각 제품의 평점·리뷰 수·'지난달 "
