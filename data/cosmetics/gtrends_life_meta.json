@@ -1,0 +1,32 @@
+{
+ "fetched": "2026-09-10T19:22:33",
+ "timeframe": "today 5-y",
+ "category": 44,
+ "geos": [
+  "JP",
+  "US"
+ ],
+ "last_run": {
+  "US": {
+   "ok": 18,
+   "fail": []
+  },
+  "JP": {
+   "ok": 9,
+   "fail": [
+    "round lab",
+    "biodance",
+    "d'alba",
+    "manyo",
+    "mixsoon",
+    "numbuzin",
+    "abib",
+    "isntree",
+    "laneige"
+   ]
+  }
+ },
+ "jp_uncertain": [
+  "mixsoon"
+ ]
+}
