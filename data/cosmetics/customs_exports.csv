@@ -1,0 +1,1090 @@
+year,region,country_en,country_kr,hs,usd_k
+2016,Asia,China,중국,3304 Skincare/Makeup,1242591.0
+2016,Asia,Hong Kong,홍콩,3304 Skincare/Makeup,1078278.0
+2016,North America,United States,미국,3304 Skincare/Makeup,297863.0
+2016,Asia,China,중국,3307 Shaving/Deo·Other,177778.0
+2016,Asia,Japan,일본,3304 Skincare/Makeup,154299.0
+2016,Asia,Hong Kong,홍콩,3307 Shaving/Deo·Other,131147.0
+2016,Asia,China,중국,3305 Haircare,120515.0
+2016,Asia,Taiwan,대만,3304 Skincare/Makeup,100335.0
+2016,Asia,Thailand,태국,3304 Skincare/Makeup,96385.0
+2016,Asia,Singapore,싱가포르,3304 Skincare/Makeup,80045.0
+2016,Asia,Vietnam,베트남,3304 Skincare/Makeup,58856.0
+2016,Asia,Malaysia,말레이시아,3304 Skincare/Makeup,45900.0
+2016,Asia,China,중국,3306 Oral care,44699.0
+2016,CIS,Russia,러시아,3304 Skincare/Makeup,39892.0
+2016,North America,United States,미국,3307 Shaving/Deo·Other,29083.0
+2016,Europe,France,프랑스,3304 Skincare/Makeup,27893.0
+2016,Asia,Japan,일본,3307 Shaving/Deo·Other,21907.0
+2016,Asia,Hong Kong,홍콩,3305 Haircare,21853.0
+2016,Asia,Philippines,필리핀,3304 Skincare/Makeup,19351.0
+2016,North America,United States,미국,3305 Haircare,16723.0
+2016,Oceania,Australia,호주,3304 Skincare/Makeup,16095.0
+2016,Asia,Japan,일본,3306 Oral care,13618.0
+2016,Europe,Italy,이탈리아,3304 Skincare/Makeup,13221.0
+2016,Europe,Spain,스페인,3304 Skincare/Makeup,13218.0
+2016,North America,Canada,캐나다,3304 Skincare/Makeup,12520.0
+2016,Asia,Indonesia,인도네시아,3304 Skincare/Makeup,12415.0
+2016,Asia,Myanmar,미얀마,3304 Skincare/Makeup,11921.0
+2016,Asia,Taiwan,대만,3305 Haircare,11362.0
+2016,Europe,United Kingdom,영국,3304 Skincare/Makeup,10020.0
+2016,Asia,Japan,일본,3305 Haircare,9845.0
+2016,CIS,Kazakhstan,카자흐스탄,3304 Skincare/Makeup,7840.0
+2016,Asia,Thailand,태국,3307 Shaving/Deo·Other,7814.0
+2016,Asia,Taiwan,대만,3307 Shaving/Deo·Other,7745.0
+2016,Middle East,Iran,이란,3304 Skincare/Makeup,7692.0
+2016,Asia,Cambodia,캄보디아,3304 Skincare/Makeup,7504.0
+2016,Asia,Mongolia,몽골,3304 Skincare/Makeup,7350.0
+2016,Middle East,UAE,아랍에미리트,3304 Skincare/Makeup,7269.0
+2016,Asia,Vietnam,베트남,3305 Haircare,7163.0
+2016,Asia,Macau,마카오,3304 Skincare/Makeup,6603.0
+2016,Europe,Germany,독일,3304 Skincare/Makeup,5824.0
+2016,Europe,Poland,폴란드,3304 Skincare/Makeup,5660.0
+2016,Europe,France,프랑스,3307 Shaving/Deo·Other,5533.0
+2016,Europe,Netherlands,네덜란드,3307 Shaving/Deo·Other,5390.0
+2016,Middle East,Saudi Arabia,사우디아라비아,3304 Skincare/Makeup,4925.0
+2016,Asia,Thailand,태국,3305 Haircare,4837.0
+2016,Europe,Turkiye,튀르키예,3304 Skincare/Makeup,4803.0
+2016,Asia,Malaysia,말레이시아,3307 Shaving/Deo·Other,4435.0
+2016,CIS,Russia,러시아,3307 Shaving/Deo·Other,4401.0
+2016,Asia,Vietnam,베트남,3307 Shaving/Deo·Other,4158.0
+2016,Oceania,Australia,호주,3307 Shaving/Deo·Other,4008.0
+2016,Asia,Taiwan,대만,3306 Oral care,3871.0
+2016,Asia,Malaysia,말레이시아,3305 Haircare,3701.0
+2016,Asia,Singapore,싱가포르,3307 Shaving/Deo·Other,3610.0
+2016,CIS,Russia,러시아,3305 Haircare,3475.0
+2016,Asia,India,인도,3304 Skincare/Makeup,3442.0
+2016,Asia,Singapore,싱가포르,3305 Haircare,3289.0
+2016,CIS,Ukraine,우크라이나,3304 Skincare/Makeup,3034.0
+2016,Europe,United Kingdom,영국,3307 Shaving/Deo·Other,2979.0
+2016,Latin America,Mexico,멕시코,3304 Skincare/Makeup,2840.0
+2016,Asia,Singapore,싱가포르,3303 Perfume,2698.0
+2016,Asia,Hong Kong,홍콩,3306 Oral care,2667.0
+2016,North America,Canada,캐나다,3307 Shaving/Deo·Other,2467.0
+2016,Latin America,Colombia,콜롬비아,3304 Skincare/Makeup,2442.0
+2016,Middle East,Iran,이란,3306 Oral care,2384.0
+2016,Asia,Pakistan,파키스탄,3304 Skincare/Makeup,2237.0
+2016,CIS,Kyrgyzstan,키르기스스탄,3304 Skincare/Makeup,2183.0
+2016,Europe,Spain,스페인,3307 Shaving/Deo·Other,2172.0
+2016,Asia,Vietnam,베트남,3306 Oral care,1932.0
+2016,Asia,China,중국,3303 Perfume,1883.0
+2016,Europe,Netherlands,네덜란드,3304 Skincare/Makeup,1839.0
+2016,Europe,Germany,독일,3307 Shaving/Deo·Other,1782.0
+2016,Asia,Bangladesh,방글라데시,3305 Haircare,1739.0
+2016,Asia,Philippines,필리핀,3307 Shaving/Deo·Other,1712.0
+2016,Asia,Mongolia,몽골,3305 Haircare,1699.0
+2016,North America,United States,미국,3306 Oral care,1636.0
+2016,Europe,Italy,이탈리아,3307 Shaving/Deo·Other,1636.0
+2016,CIS,Russia,러시아,3306 Oral care,1599.0
+2016,Oceania,Australia,호주,3305 Haircare,1596.0
+2016,Oceania,New Zealand,뉴질랜드,3304 Skincare/Makeup,1552.0
+2016,Middle East,Saudi Arabia,사우디아라비아,3307 Shaving/Deo·Other,1477.0
+2016,Asia,Macau,마카오,3307 Shaving/Deo·Other,1199.0
+2016,Asia,Indonesia,인도네시아,3307 Shaving/Deo·Other,1153.0
+2016,Asia,Cambodia,캄보디아,3305 Haircare,1134.0
+2016,CIS,Uzbekistan,우즈베키스탄,3304 Skincare/Makeup,1122.0
+2016,Asia,Indonesia,인도네시아,3305 Haircare,1090.0
+2016,Asia,India,인도,3305 Haircare,1041.0
+2016,Asia,Philippines,필리핀,3305 Haircare,1035.0
+2016,Europe,Czechia,체코,3304 Skincare/Makeup,1008.0
+2016,Europe,Estonia,에스토니아,3304 Skincare/Makeup,976.0
+2016,Middle East,Iran,이란,3305 Haircare,973.0
+2016,Middle East,Kuwait,쿠웨이트,3304 Skincare/Makeup,970.0
+2016,Latin America,Chile,칠레,3304 Skincare/Makeup,954.0
+2016,Europe,Latvia,라트비아,3304 Skincare/Makeup,925.0
+2016,Middle East,UAE,아랍에미리트,3307 Shaving/Deo·Other,884.0
+2016,North America,Canada,캐나다,3305 Haircare,860.0
+2016,Europe,Switzerland,스위스,3304 Skincare/Makeup,829.0
+2016,CIS,Kazakhstan,카자흐스탄,3305 Haircare,795.0
+2016,Middle East,UAE,아랍에미리트,3305 Haircare,792.0
+2016,Asia,Mongolia,몽골,3307 Shaving/Deo·Other,782.0
+2017,Asia,China,중국,3304 Skincare/Makeup,1465648.0
+2017,Asia,Hong Kong,홍콩,3304 Skincare/Makeup,963479.0
+2017,North America,United States,미국,3304 Skincare/Makeup,367038.0
+2017,Asia,China,중국,3307 Shaving/Deo·Other,316648.0
+2017,Asia,Hong Kong,홍콩,3307 Shaving/Deo·Other,226661.0
+2017,Asia,Japan,일본,3304 Skincare/Makeup,193650.0
+2017,Asia,Thailand,태국,3304 Skincare/Makeup,131932.0
+2017,Asia,Taiwan,대만,3304 Skincare/Makeup,124539.0
+2017,Asia,Vietnam,베트남,3304 Skincare/Makeup,123335.0
+2017,Asia,China,중국,3305 Haircare,112385.0
+2017,Asia,Singapore,싱가포르,3304 Skincare/Makeup,85784.0
+2017,CIS,Russia,러시아,3304 Skincare/Makeup,80796.0
+2017,North America,United States,미국,3307 Shaving/Deo·Other,56092.0
+2017,Asia,Malaysia,말레이시아,3304 Skincare/Makeup,52665.0
+2017,Europe,France,프랑스,3304 Skincare/Makeup,39977.0
+2017,Asia,Philippines,필리핀,3304 Skincare/Makeup,26572.0
+2017,Asia,Japan,일본,3307 Shaving/Deo·Other,25182.0
+2017,Asia,China,중국,3306 Oral care,22995.0
+2017,Asia,Indonesia,인도네시아,3304 Skincare/Makeup,21605.0
+2017,North America,Canada,캐나다,3304 Skincare/Makeup,20943.0
+2017,Asia,Hong Kong,홍콩,3305 Haircare,20505.0
+2017,Oceania,Australia,호주,3304 Skincare/Makeup,18972.0
+2017,North America,United States,미국,3305 Haircare,17826.0
+2017,Europe,United Kingdom,영국,3304 Skincare/Makeup,17759.0
+2017,Asia,Taiwan,대만,3305 Haircare,12977.0
+2017,Asia,Thailand,태국,3307 Shaving/Deo·Other,12903.0
+2017,Asia,Taiwan,대만,3307 Shaving/Deo·Other,11056.0
+2017,Europe,Poland,폴란드,3304 Skincare/Makeup,10831.0
+2017,Asia,Myanmar,미얀마,3304 Skincare/Makeup,10608.0
+2017,CIS,Kazakhstan,카자흐스탄,3304 Skincare/Makeup,10295.0
+2017,Asia,Japan,일본,3306 Oral care,10198.0
+2017,Europe,Spain,스페인,3304 Skincare/Makeup,10072.0
+2017,CIS,Russia,러시아,3307 Shaving/Deo·Other,9671.0
+2017,Asia,Japan,일본,3305 Haircare,9513.0
+2017,Europe,Germany,독일,3304 Skincare/Makeup,9401.0
+2017,Asia,Cambodia,캄보디아,3304 Skincare/Makeup,9281.0
+2017,Europe,Italy,이탈리아,3304 Skincare/Makeup,9265.0
+2017,Middle East,UAE,아랍에미리트,3304 Skincare/Makeup,8478.0
+2017,Asia,Mongolia,몽골,3304 Skincare/Makeup,8455.0
+2017,Asia,Vietnam,베트남,3305 Haircare,8425.0
+2017,Europe,Netherlands,네덜란드,3307 Shaving/Deo·Other,7476.0
+2017,Asia,Vietnam,베트남,3307 Shaving/Deo·Other,7212.0
+2017,Middle East,Iran,이란,3304 Skincare/Makeup,7082.0
+2017,Europe,United Kingdom,영국,3307 Shaving/Deo·Other,6643.0
+2017,Asia,Malaysia,말레이시아,3307 Shaving/Deo·Other,6562.0
+2017,Europe,Turkiye,튀르키예,3304 Skincare/Makeup,6459.0
+2017,Asia,Singapore,싱가포르,3303 Perfume,6048.0
+2017,CIS,Kyrgyzstan,키르기스스탄,3304 Skincare/Makeup,5788.0
+2017,CIS,Ukraine,우크라이나,3304 Skincare/Makeup,5727.0
+2017,Asia,India,인도,3304 Skincare/Makeup,5575.0
+2017,Middle East,Saudi Arabia,사우디아라비아,3304 Skincare/Makeup,5544.0
+2017,CIS,Russia,러시아,3305 Haircare,5501.0
+2017,Asia,Singapore,싱가포르,3307 Shaving/Deo·Other,5123.0
+2017,Europe,France,프랑스,3307 Shaving/Deo·Other,5068.0
+2017,Latin America,Mexico,멕시코,3304 Skincare/Makeup,5008.0
+2017,Asia,Malaysia,말레이시아,3305 Haircare,4835.0
+2017,Asia,Taiwan,대만,3306 Oral care,4294.0
+2017,Asia,Macau,마카오,3304 Skincare/Makeup,4168.0
+2017,Asia,Singapore,싱가포르,3305 Haircare,4033.0
+2017,Europe,Germany,독일,3307 Shaving/Deo·Other,3908.0
+2017,Asia,Thailand,태국,3305 Haircare,3790.0
+2017,Europe,Italy,이탈리아,3307 Shaving/Deo·Other,3586.0
+2017,North America,Canada,캐나다,3307 Shaving/Deo·Other,3584.0
+2017,Europe,Netherlands,네덜란드,3303 Perfume,3432.0
+2017,CIS,Russia,러시아,3306 Oral care,2978.0
+2017,Asia,Philippines,필리핀,3307 Shaving/Deo·Other,2871.0
+2017,Oceania,Australia,호주,3307 Shaving/Deo·Other,2778.0
+2017,Europe,Czechia,체코,3304 Skincare/Makeup,2608.0
+2017,Middle East,UAE,아랍에미리트,3307 Shaving/Deo·Other,2542.0
+2017,Asia,Vietnam,베트남,3306 Oral care,2419.0
+2017,Asia,Mongolia,몽골,3305 Haircare,2214.0
+2017,Europe,Belgium,벨기에,3304 Skincare/Makeup,2139.0
+2017,Asia,Hong Kong,홍콩,3306 Oral care,2110.0
+2017,Europe,Estonia,에스토니아,3304 Skincare/Makeup,2100.0
+2017,Middle East,UAE,아랍에미리트,3303 Perfume,2020.0
+2017,Asia,Indonesia,인도네시아,3307 Shaving/Deo·Other,1991.0
+2017,Europe,Netherlands,네덜란드,3304 Skincare/Makeup,1898.0
+2017,Asia,Bangladesh,방글라데시,3305 Haircare,1883.0
+2017,Middle East,Kuwait,쿠웨이트,3304 Skincare/Makeup,1878.0
+2017,Europe,Poland,폴란드,3307 Shaving/Deo·Other,1813.0
+2017,Europe,Spain,스페인,3307 Shaving/Deo·Other,1800.0
+2017,Latin America,Chile,칠레,3304 Skincare/Makeup,1690.0
+2017,North America,United States,미국,3306 Oral care,1680.0
+2017,Oceania,New Zealand,뉴질랜드,3304 Skincare/Makeup,1563.0
+2017,Europe,Sweden,스웨덴,3304 Skincare/Makeup,1539.0
+2017,Asia,Malaysia,말레이시아,3306 Oral care,1505.0
+2017,Oceania,Australia,호주,3305 Haircare,1485.0
+2017,Europe,Norway,노르웨이,3304 Skincare/Makeup,1421.0
+2017,Europe,France,프랑스,3305 Haircare,1419.0
+2017,Europe,Switzerland,스위스,3304 Skincare/Makeup,1289.0
+2017,CIS,Uzbekistan,우즈베키스탄,3304 Skincare/Makeup,1282.0
+2017,Middle East,Saudi Arabia,사우디아라비아,3307 Shaving/Deo·Other,1278.0
+2017,Europe,Turkiye,튀르키예,3307 Shaving/Deo·Other,1225.0
+2017,Middle East,UAE,아랍에미리트,3305 Haircare,1202.0
+2017,Middle East,Iraq,이라크,3304 Skincare/Makeup,1192.0
+2017,North America,Canada,캐나다,3305 Haircare,1172.0
+2017,Asia,Indonesia,인도네시아,3305 Haircare,1152.0
+2017,Asia,India,인도,3305 Haircare,1136.0
+2017,Asia,Cambodia,캄보디아,3305 Haircare,1089.0
+2018,Asia,China,중국,3304 Skincare/Makeup,2014079.0
+2018,Asia,Hong Kong,홍콩,3304 Skincare/Makeup,1034660.0
+2018,Asia,China,중국,3307 Shaving/Deo·Other,458426.0
+2018,North America,United States,미국,3304 Skincare/Makeup,428684.0
+2018,Asia,Japan,일본,3304 Skincare/Makeup,255245.0
+2018,Asia,Hong Kong,홍콩,3307 Shaving/Deo·Other,249444.0
+2018,Asia,Vietnam,베트남,3304 Skincare/Makeup,145985.0
+2018,Asia,Thailand,태국,3304 Skincare/Makeup,139125.0
+2018,CIS,Russia,러시아,3304 Skincare/Makeup,134353.0
+2018,Asia,China,중국,3305 Haircare,131926.0
+2018,Asia,Taiwan,대만,3304 Skincare/Makeup,124425.0
+2018,Asia,Singapore,싱가포르,3304 Skincare/Makeup,110635.0
+2018,North America,United States,미국,3307 Shaving/Deo·Other,77826.0
+2018,Asia,Malaysia,말레이시아,3304 Skincare/Makeup,65419.0
+2018,Europe,France,프랑스,3304 Skincare/Makeup,62647.0
+2018,Asia,Indonesia,인도네시아,3304 Skincare/Makeup,44847.0
+2018,Asia,Japan,일본,3307 Shaving/Deo·Other,33820.0
+2018,Asia,Philippines,필리핀,3304 Skincare/Makeup,33686.0
+2018,Europe,United Kingdom,영국,3304 Skincare/Makeup,31279.0
+2018,Asia,China,중국,3306 Oral care,27909.0
+2018,Oceania,Australia,호주,3304 Skincare/Makeup,25830.0
+2018,North America,Canada,캐나다,3304 Skincare/Makeup,24253.0
+2018,North America,United States,미국,3305 Haircare,22757.0
+2018,CIS,Kazakhstan,카자흐스탄,3304 Skincare/Makeup,20072.0
+2018,Asia,Thailand,태국,3307 Shaving/Deo·Other,18290.0
+2018,Asia,Hong Kong,홍콩,3305 Haircare,15756.0
+2018,Asia,Taiwan,대만,3307 Shaving/Deo·Other,15418.0
+2018,Europe,Poland,폴란드,3304 Skincare/Makeup,15096.0
+2018,CIS,Russia,러시아,3307 Shaving/Deo·Other,14864.0
+2018,Europe,Germany,독일,3304 Skincare/Makeup,13980.0
+2018,Asia,Cambodia,캄보디아,3304 Skincare/Makeup,13960.0
+2018,Asia,Japan,일본,3305 Haircare,13050.0
+2018,CIS,Ukraine,우크라이나,3304 Skincare/Makeup,12330.0
+2018,Asia,Taiwan,대만,3305 Haircare,11805.0
+2018,Middle East,UAE,아랍에미리트,3304 Skincare/Makeup,11796.0
+2018,Asia,Singapore,싱가포르,3307 Shaving/Deo·Other,11178.0
+2018,Asia,Japan,일본,3306 Oral care,10944.0
+2018,Europe,Turkiye,튀르키예,3304 Skincare/Makeup,10748.0
+2018,Asia,Vietnam,베트남,3307 Shaving/Deo·Other,10210.0
+2018,Europe,Netherlands,네덜란드,3307 Shaving/Deo·Other,10099.0
+2018,CIS,Kyrgyzstan,키르기스스탄,3304 Skincare/Makeup,9769.0
+2018,Asia,Malaysia,말레이시아,3307 Shaving/Deo·Other,9753.0
+2018,Europe,United Kingdom,영국,3307 Shaving/Deo·Other,9652.0
+2018,Asia,India,인도,3304 Skincare/Makeup,9561.0
+2018,Europe,Spain,스페인,3304 Skincare/Makeup,9285.0
+2018,Latin America,Mexico,멕시코,3304 Skincare/Makeup,9142.0
+2018,Asia,Myanmar,미얀마,3304 Skincare/Makeup,9054.0
+2018,Asia,Mongolia,몽골,3304 Skincare/Makeup,8766.0
+2018,Asia,Vietnam,베트남,3305 Haircare,8441.0
+2018,Middle East,Iran,이란,3304 Skincare/Makeup,7966.0
+2018,CIS,Russia,러시아,3305 Haircare,7331.0
+2018,Asia,Macau,마카오,3304 Skincare/Makeup,6928.0
+2018,Europe,Italy,이탈리아,3304 Skincare/Makeup,6911.0
+2018,Asia,Malaysia,말레이시아,3305 Haircare,6012.0
+2018,Middle East,Saudi Arabia,사우디아라비아,3304 Skincare/Makeup,5431.0
+2018,Europe,Estonia,에스토니아,3304 Skincare/Makeup,5340.0
+2018,Europe,Netherlands,네덜란드,3304 Skincare/Makeup,4849.0
+2018,Asia,Philippines,필리핀,3307 Shaving/Deo·Other,4704.0
+2018,CIS,Russia,러시아,3306 Oral care,4563.0
+2018,Europe,France,프랑스,3307 Shaving/Deo·Other,4467.0
+2018,Asia,Singapore,싱가포르,3305 Haircare,4371.0
+2018,Europe,Poland,폴란드,3307 Shaving/Deo·Other,4101.0
+2018,Asia,Indonesia,인도네시아,3307 Shaving/Deo·Other,4048.0
+2018,Asia,Thailand,태국,3305 Haircare,4027.0
+2018,Asia,Taiwan,대만,3306 Oral care,3859.0
+2018,North America,Canada,캐나다,3307 Shaving/Deo·Other,3545.0
+2018,Europe,Sweden,스웨덴,3304 Skincare/Makeup,3534.0
+2018,Europe,Switzerland,스위스,3304 Skincare/Makeup,3346.0
+2018,Europe,Norway,노르웨이,3304 Skincare/Makeup,3165.0
+2018,Oceania,New Zealand,뉴질랜드,3304 Skincare/Makeup,2995.0
+2018,Latin America,Chile,칠레,3304 Skincare/Makeup,2711.0
+2018,Asia,Hong Kong,홍콩,3306 Oral care,2669.0
+2018,Oceania,Australia,호주,3307 Shaving/Deo·Other,2656.0
+2018,Europe,Italy,이탈리아,3307 Shaving/Deo·Other,2582.0
+2018,Asia,Malaysia,말레이시아,3306 Oral care,2538.0
+2018,Europe,Germany,독일,3307 Shaving/Deo·Other,2523.0
+2018,Middle East,Kuwait,쿠웨이트,3304 Skincare/Makeup,2411.0
+2018,Asia,Mongolia,몽골,3305 Haircare,2390.0
+2018,Asia,Vietnam,베트남,3306 Oral care,2312.0
+2018,Europe,Belgium,벨기에,3304 Skincare/Makeup,2286.0
+2018,Asia,Japan,일본,3303 Perfume,2182.0
+2018,Europe,Spain,스페인,3307 Shaving/Deo·Other,2167.0
+2018,Europe,Czechia,체코,3304 Skincare/Makeup,2133.0
+2018,Asia,Bangladesh,방글라데시,3305 Haircare,2031.0
+2018,Asia,China,중국,3303 Perfume,1986.0
+2018,Oceania,Australia,호주,3305 Haircare,1981.0
+2018,North America,United States,미국,3306 Oral care,1946.0
+2018,Latin America,Peru,페루,3304 Skincare/Makeup,1912.0
+2018,Europe,Finland,핀란드,3304 Skincare/Makeup,1860.0
+2018,Asia,Indonesia,인도네시아,3305 Haircare,1853.0
+2018,Middle East,UAE,아랍에미리트,3305 Haircare,1775.0
+2018,Middle East,Iran,이란,3306 Oral care,1720.0
+2018,Europe,Latvia,라트비아,3304 Skincare/Makeup,1711.0
+2018,Middle East,UAE,아랍에미리트,3307 Shaving/Deo·Other,1703.0
+2018,Asia,Singapore,싱가포르,3303 Perfume,1666.0
+2018,Asia,Cambodia,캄보디아,3305 Haircare,1659.0
+2018,CIS,Kazakhstan,카자흐스탄,3305 Haircare,1615.0
+2018,Latin America,Brazil,브라질,3304 Skincare/Makeup,1613.0
+2018,Europe,Turkiye,튀르키예,3305 Haircare,1581.0
+2019,Asia,China,중국,3304 Skincare/Makeup,2440142.0
+2019,Asia,Hong Kong,홍콩,3304 Skincare/Makeup,789276.0
+2019,North America,United States,미국,3304 Skincare/Makeup,430383.0
+2019,Asia,China,중국,3307 Shaving/Deo·Other,396763.0
+2019,Asia,Japan,일본,3304 Skincare/Makeup,342759.0
+2019,Asia,Vietnam,베트남,3304 Skincare/Makeup,193357.0
+2019,CIS,Russia,러시아,3304 Skincare/Makeup,180727.0
+2019,Asia,China,중국,3305 Haircare,156397.0
+2019,Asia,Taiwan,대만,3304 Skincare/Makeup,119371.0
+2019,Asia,Thailand,태국,3304 Skincare/Makeup,117490.0
+2019,Asia,Hong Kong,홍콩,3307 Shaving/Deo·Other,110758.0
+2019,Asia,Singapore,싱가포르,3304 Skincare/Makeup,107347.0
+2019,Asia,Malaysia,말레이시아,3304 Skincare/Makeup,65952.0
+2019,North America,United States,미국,3307 Shaving/Deo·Other,62279.0
+2019,Asia,Indonesia,인도네시아,3304 Skincare/Makeup,54159.0
+2019,Europe,France,프랑스,3304 Skincare/Makeup,39947.0
+2019,Asia,Philippines,필리핀,3304 Skincare/Makeup,37780.0
+2019,Asia,Japan,일본,3307 Shaving/Deo·Other,37549.0
+2019,Europe,United Kingdom,영국,3304 Skincare/Makeup,35013.0
+2019,Asia,China,중국,3306 Oral care,32476.0
+2019,Oceania,Australia,호주,3304 Skincare/Makeup,27531.0
+2019,CIS,Ukraine,우크라이나,3304 Skincare/Makeup,26488.0
+2019,North America,Canada,캐나다,3304 Skincare/Makeup,25683.0
+2019,North America,United States,미국,3305 Haircare,24128.0
+2019,CIS,Kyrgyzstan,키르기스스탄,3304 Skincare/Makeup,19328.0
+2019,CIS,Kazakhstan,카자흐스탄,3304 Skincare/Makeup,19200.0
+2019,Europe,Poland,폴란드,3304 Skincare/Makeup,18633.0
+2019,Asia,Japan,일본,3305 Haircare,17634.0
+2019,CIS,Russia,러시아,3307 Shaving/Deo·Other,16671.0
+2019,Asia,Vietnam,베트남,3307 Shaving/Deo·Other,15929.0
+2019,Asia,Taiwan,대만,3307 Shaving/Deo·Other,14021.0
+2019,Asia,India,인도,3304 Skincare/Makeup,14001.0
+2019,Asia,Myanmar,미얀마,3304 Skincare/Makeup,13919.0
+2019,Asia,Taiwan,대만,3305 Haircare,13823.0
+2019,Middle East,UAE,아랍에미리트,3304 Skincare/Makeup,13756.0
+2019,Asia,Thailand,태국,3307 Shaving/Deo·Other,13618.0
+2019,Asia,Hong Kong,홍콩,3305 Haircare,13314.0
+2019,Europe,Germany,독일,3304 Skincare/Makeup,13211.0
+2019,Asia,Cambodia,캄보디아,3304 Skincare/Makeup,13208.0
+2019,Asia,Mongolia,몽골,3304 Skincare/Makeup,12358.0
+2019,Europe,Netherlands,네덜란드,3307 Shaving/Deo·Other,11528.0
+2019,CIS,Russia,러시아,3305 Haircare,11093.0
+2019,Europe,Turkiye,튀르키예,3304 Skincare/Makeup,10682.0
+2019,Asia,Japan,일본,3306 Oral care,10426.0
+2019,Latin America,Mexico,멕시코,3304 Skincare/Makeup,9562.0
+2019,Europe,United Kingdom,영국,3307 Shaving/Deo·Other,9556.0
+2019,Europe,Spain,스페인,3304 Skincare/Makeup,9388.0
+2019,Asia,Malaysia,말레이시아,3307 Shaving/Deo·Other,8901.0
+2019,Asia,Vietnam,베트남,3305 Haircare,8899.0
+2019,Europe,Estonia,에스토니아,3304 Skincare/Makeup,8687.0
+2019,Middle East,Saudi Arabia,사우디아라비아,3304 Skincare/Makeup,8635.0
+2019,Asia,Malaysia,말레이시아,3305 Haircare,8196.0
+2019,Asia,Singapore,싱가포르,3307 Shaving/Deo·Other,8053.0
+2019,Middle East,Iran,이란,3304 Skincare/Makeup,7993.0
+2019,Europe,France,프랑스,3307 Shaving/Deo·Other,7015.0
+2019,Middle East,Kuwait,쿠웨이트,3304 Skincare/Makeup,6578.0
+2019,Oceania,Australia,호주,3305 Haircare,6355.0
+2019,Asia,Singapore,싱가포르,3305 Haircare,6163.0
+2019,Europe,Netherlands,네덜란드,3304 Skincare/Makeup,5871.0
+2019,Europe,Switzerland,스위스,3304 Skincare/Makeup,5346.0
+2019,Europe,Sweden,스웨덴,3304 Skincare/Makeup,5052.0
+2019,Europe,Italy,이탈리아,3304 Skincare/Makeup,4871.0
+2019,Asia,Taiwan,대만,3306 Oral care,4451.0
+2019,CIS,Russia,러시아,3306 Oral care,4369.0
+2019,Asia,Philippines,필리핀,3307 Shaving/Deo·Other,4349.0
+2019,Asia,Macau,마카오,3304 Skincare/Makeup,4136.0
+2019,Oceania,Australia,호주,3307 Shaving/Deo·Other,4018.0
+2019,Asia,Indonesia,인도네시아,3307 Shaving/Deo·Other,3928.0
+2019,Asia,Vietnam,베트남,3306 Oral care,3918.0
+2019,Latin America,Brazil,브라질,3304 Skincare/Makeup,3811.0
+2019,Asia,Malaysia,말레이시아,3306 Oral care,3692.0
+2019,North America,Canada,캐나다,3307 Shaving/Deo·Other,3646.0
+2019,Asia,Thailand,태국,3305 Haircare,3389.0
+2019,Latin America,Chile,칠레,3304 Skincare/Makeup,3308.0
+2019,CIS,Kazakhstan,카자흐스탄,3305 Haircare,3256.0
+2019,Asia,China,중국,3303 Perfume,3196.0
+2019,Asia,Japan,일본,3303 Perfume,3114.0
+2019,Europe,Italy,이탈리아,3307 Shaving/Deo·Other,2991.0
+2019,Middle East,Iraq,이라크,3304 Skincare/Makeup,2859.0
+2019,Europe,Germany,독일,3307 Shaving/Deo·Other,2835.0
+2019,CIS,Kyrgyzstan,키르기스스탄,3305 Haircare,2815.0
+2019,Oceania,New Zealand,뉴질랜드,3304 Skincare/Makeup,2769.0
+2019,Europe,Czechia,체코,3304 Skincare/Makeup,2622.0
+2019,Europe,Poland,폴란드,3307 Shaving/Deo·Other,2616.0
+2019,Europe,Latvia,라트비아,3304 Skincare/Makeup,2523.0
+2019,Asia,Hong Kong,홍콩,3306 Oral care,2511.0
+2019,North America,United States,미국,3306 Oral care,2402.0
+2019,Europe,Denmark,덴마크,3304 Skincare/Makeup,2374.0
+2019,Asia,Mongolia,몽골,3305 Haircare,2341.0
+2019,Europe,Lithuania,리투아니아,3304 Skincare/Makeup,2321.0
+2019,Europe,Finland,핀란드,3304 Skincare/Makeup,2268.0
+2019,North America,Canada,캐나다,3305 Haircare,2150.0
+2019,Europe,Turkiye,튀르키예,3307 Shaving/Deo·Other,2102.0
+2019,Asia,Indonesia,인도네시아,3305 Haircare,2069.0
+2019,Asia,Singapore,싱가포르,3303 Perfume,2053.0
+2019,Middle East,UAE,아랍에미리트,3307 Shaving/Deo·Other,2039.0
+2019,Europe,Belgium,벨기에,3304 Skincare/Makeup,1926.0
+2019,CIS,Moldova,몰도바,3304 Skincare/Makeup,1853.0
+2019,Asia,Bangladesh,방글라데시,3305 Haircare,1825.0
+2020,Asia,China,중국,3304 Skincare/Makeup,3044521.0
+2020,Asia,Hong Kong,홍콩,3304 Skincare/Makeup,614045.0
+2020,Asia,Japan,일본,3304 Skincare/Makeup,547815.0
+2020,North America,United States,미국,3304 Skincare/Makeup,483104.0
+2020,Asia,China,중국,3307 Shaving/Deo·Other,455526.0
+2020,Asia,Vietnam,베트남,3304 Skincare/Makeup,227306.0
+2020,CIS,Russia,러시아,3304 Skincare/Makeup,196073.0
+2020,Asia,China,중국,3305 Haircare,188339.0
+2020,Asia,Taiwan,대만,3304 Skincare/Makeup,125574.0
+2020,Asia,Thailand,태국,3304 Skincare/Makeup,106667.0
+2020,North America,United States,미국,3307 Shaving/Deo·Other,101751.0
+2020,Asia,Singapore,싱가포르,3304 Skincare/Makeup,99404.0
+2020,Asia,Japan,일본,3307 Shaving/Deo·Other,75340.0
+2020,Asia,Hong Kong,홍콩,3307 Shaving/Deo·Other,70736.0
+2020,Asia,Malaysia,말레이시아,3304 Skincare/Makeup,62591.0
+2020,Asia,Indonesia,인도네시아,3304 Skincare/Makeup,53031.0
+2020,Europe,United Kingdom,영국,3304 Skincare/Makeup,44968.0
+2020,Europe,France,프랑스,3304 Skincare/Makeup,39317.0
+2020,Asia,China,중국,3306 Oral care,37348.0
+2020,Oceania,Australia,호주,3304 Skincare/Makeup,31984.0
+2020,Asia,Philippines,필리핀,3304 Skincare/Makeup,31248.0
+2020,North America,United States,미국,3305 Haircare,30697.0
+2020,North America,Canada,캐나다,3304 Skincare/Makeup,30595.0
+2020,CIS,Russia,러시아,3307 Shaving/Deo·Other,27495.0
+2020,Middle East,UAE,아랍에미리트,3304 Skincare/Makeup,26930.0
+2020,CIS,Ukraine,우크라이나,3304 Skincare/Makeup,26526.0
+2020,CIS,Kazakhstan,카자흐스탄,3304 Skincare/Makeup,25238.0
+2020,CIS,Kyrgyzstan,키르기스스탄,3304 Skincare/Makeup,22501.0
+2020,Asia,Japan,일본,3305 Haircare,21347.0
+2020,Europe,Poland,폴란드,3304 Skincare/Makeup,20668.0
+2020,Middle East,Saudi Arabia,사우디아라비아,3304 Skincare/Makeup,18995.0
+2020,Asia,Taiwan,대만,3305 Haircare,17067.0
+2020,Asia,Myanmar,미얀마,3304 Skincare/Makeup,15830.0
+2020,Asia,Vietnam,베트남,3307 Shaving/Deo·Other,15084.0
+2020,Asia,India,인도,3304 Skincare/Makeup,14998.0
+2020,Asia,Cambodia,캄보디아,3304 Skincare/Makeup,14850.0
+2020,Asia,Hong Kong,홍콩,3305 Haircare,14565.0
+2020,CIS,Russia,러시아,3305 Haircare,14507.0
+2020,Europe,Turkiye,튀르키예,3304 Skincare/Makeup,14383.0
+2020,Europe,Germany,독일,3304 Skincare/Makeup,13965.0
+2020,Europe,Netherlands,네덜란드,3307 Shaving/Deo·Other,13776.0
+2020,Asia,Japan,일본,3306 Oral care,12914.0
+2020,Asia,Thailand,태국,3307 Shaving/Deo·Other,12634.0
+2020,Asia,Mongolia,몽골,3304 Skincare/Makeup,11875.0
+2020,Asia,Taiwan,대만,3307 Shaving/Deo·Other,11352.0
+2020,Asia,Malaysia,말레이시아,3305 Haircare,10643.0
+2020,Asia,Singapore,싱가포르,3305 Haircare,10565.0
+2020,Europe,Spain,스페인,3304 Skincare/Makeup,10396.0
+2020,Europe,United Kingdom,영국,3307 Shaving/Deo·Other,10327.0
+2020,Asia,Vietnam,베트남,3305 Haircare,10161.0
+2020,Asia,Malaysia,말레이시아,3307 Shaving/Deo·Other,9112.0
+2020,Europe,Estonia,에스토니아,3304 Skincare/Makeup,8767.0
+2020,Europe,Netherlands,네덜란드,3304 Skincare/Makeup,8129.0
+2020,Europe,France,프랑스,3307 Shaving/Deo·Other,7683.0
+2020,Latin America,Mexico,멕시코,3304 Skincare/Makeup,7548.0
+2020,Asia,Singapore,싱가포르,3307 Shaving/Deo·Other,6833.0
+2020,CIS,Russia,러시아,3306 Oral care,6472.0
+2020,Oceania,Australia,호주,3307 Shaving/Deo·Other,5934.0
+2020,Europe,Sweden,스웨덴,3304 Skincare/Makeup,5883.0
+2020,North America,Canada,캐나다,3307 Shaving/Deo·Other,5850.0
+2020,Middle East,Kuwait,쿠웨이트,3304 Skincare/Makeup,5173.0
+2020,Europe,Romania,루마니아,3304 Skincare/Makeup,5158.0
+2020,Europe,Norway,노르웨이,3304 Skincare/Makeup,4969.0
+2020,Asia,Thailand,태국,3305 Haircare,4739.0
+2020,Latin America,Chile,칠레,3304 Skincare/Makeup,4558.0
+2020,Middle East,Iraq,이라크,3304 Skincare/Makeup,4406.0
+2020,Latin America,Brazil,브라질,3304 Skincare/Makeup,4378.0
+2020,Asia,Taiwan,대만,3306 Oral care,4322.0
+2020,Europe,Italy,이탈리아,3304 Skincare/Makeup,4270.0
+2020,Asia,Philippines,필리핀,3307 Shaving/Deo·Other,3954.0
+2020,Oceania,Australia,호주,3305 Haircare,3882.0
+2020,Asia,Laos,라오스,3304 Skincare/Makeup,3859.0
+2020,North America,United States,미국,3306 Oral care,3793.0
+2020,Oceania,New Zealand,뉴질랜드,3304 Skincare/Makeup,3777.0
+2020,Asia,Indonesia,인도네시아,3307 Shaving/Deo·Other,3762.0
+2020,Asia,Vietnam,베트남,3306 Oral care,3697.0
+2020,Asia,Malaysia,말레이시아,3306 Oral care,3678.0
+2020,Middle East,Saudi Arabia,사우디아라비아,3307 Shaving/Deo·Other,3623.0
+2020,Europe,Belgium,벨기에,3304 Skincare/Makeup,3571.0
+2020,Europe,Poland,폴란드,3307 Shaving/Deo·Other,3439.0
+2020,Europe,Czechia,체코,3304 Skincare/Makeup,3385.0
+2020,Europe,Bulgaria,불가리아,3304 Skincare/Makeup,3269.0
+2020,CIS,Kazakhstan,카자흐스탄,3305 Haircare,3235.0
+2020,CIS,Ukraine,우크라이나,3305 Haircare,3172.0
+2020,CIS,Moldova,몰도바,3304 Skincare/Makeup,3089.0
+2020,Europe,Switzerland,스위스,3304 Skincare/Makeup,3069.0
+2020,Middle East,UAE,아랍에미리트,3307 Shaving/Deo·Other,2995.0
+2020,Europe,Denmark,덴마크,3304 Skincare/Makeup,2966.0
+2020,Asia,Hong Kong,홍콩,3306 Oral care,2774.0
+2020,Asia,Indonesia,인도네시아,3305 Haircare,2735.0
+2020,Middle East,Iran,이란,3304 Skincare/Makeup,2559.0
+2020,Europe,Lithuania,리투아니아,3304 Skincare/Makeup,2489.0
+2020,Africa,South Africa,남아프리카공화국,3304 Skincare/Makeup,2379.0
+2020,CIS,Georgia,조지아,3304 Skincare/Makeup,2290.0
+2020,North America,Canada,캐나다,3305 Haircare,2276.0
+2020,Asia,Mongolia,몽골,3307 Shaving/Deo·Other,2259.0
+2020,Europe,Finland,핀란드,3304 Skincare/Makeup,2199.0
+2020,CIS,Uzbekistan,우즈베키스탄,3304 Skincare/Makeup,2179.0
+2020,Europe,Turkiye,튀르키예,3307 Shaving/Deo·Other,2070.0
+2021,Asia,China,중국,3304 Skincare/Makeup,4131603.0
+2021,Asia,Japan,일본,3304 Skincare/Makeup,665309.0
+2021,North America,United States,미국,3304 Skincare/Makeup,662152.0
+2021,Asia,Hong Kong,홍콩,3304 Skincare/Makeup,489940.0
+2021,Asia,China,중국,3307 Shaving/Deo·Other,421853.0
+2021,Asia,Vietnam,베트남,3304 Skincare/Makeup,263588.0
+2021,CIS,Russia,러시아,3304 Skincare/Makeup,228752.0
+2021,Asia,China,중국,3305 Haircare,177621.0
+2021,Asia,Taiwan,대만,3304 Skincare/Makeup,125970.0
+2021,Asia,Thailand,태국,3304 Skincare/Makeup,112057.0
+2021,North America,United States,미국,3307 Shaving/Deo·Other,94263.0
+2021,Asia,Singapore,싱가포르,3304 Skincare/Makeup,90222.0
+2021,Asia,Japan,일본,3307 Shaving/Deo·Other,81630.0
+2021,Asia,Malaysia,말레이시아,3304 Skincare/Makeup,72962.0
+2021,North America,United States,미국,3305 Haircare,63878.0
+2021,Asia,Indonesia,인도네시아,3304 Skincare/Makeup,60960.0
+2021,Asia,Hong Kong,홍콩,3307 Shaving/Deo·Other,59632.0
+2021,Europe,United Kingdom,영국,3304 Skincare/Makeup,56263.0
+2021,Europe,France,프랑스,3304 Skincare/Makeup,49654.0
+2021,CIS,Ukraine,우크라이나,3304 Skincare/Makeup,40644.0
+2021,Middle East,UAE,아랍에미리트,3304 Skincare/Makeup,38804.0
+2021,Asia,Japan,일본,3305 Haircare,37481.0
+2021,CIS,Kazakhstan,카자흐스탄,3304 Skincare/Makeup,37148.0
+2021,Oceania,Australia,호주,3304 Skincare/Makeup,36893.0
+2021,CIS,Kyrgyzstan,키르기스스탄,3304 Skincare/Makeup,36576.0
+2021,Asia,Philippines,필리핀,3304 Skincare/Makeup,34953.0
+2021,Asia,China,중국,3306 Oral care,34397.0
+2021,CIS,Russia,러시아,3307 Shaving/Deo·Other,33991.0
+2021,North America,Canada,캐나다,3304 Skincare/Makeup,32847.0
+2021,Europe,Poland,폴란드,3304 Skincare/Makeup,27074.0
+2021,Asia,India,인도,3304 Skincare/Makeup,25111.0
+2021,Europe,Germany,독일,3304 Skincare/Makeup,22856.0
+2021,Europe,Turkiye,튀르키예,3304 Skincare/Makeup,22126.0
+2021,CIS,Russia,러시아,3305 Haircare,19378.0
+2021,Asia,Cambodia,캄보디아,3304 Skincare/Makeup,18829.0
+2021,Europe,Netherlands,네덜란드,3307 Shaving/Deo·Other,18699.0
+2021,Asia,Taiwan,대만,3305 Haircare,18454.0
+2021,Middle East,Saudi Arabia,사우디아라비아,3304 Skincare/Makeup,16192.0
+2021,Asia,Mongolia,몽골,3304 Skincare/Makeup,15876.0
+2021,Europe,Netherlands,네덜란드,3304 Skincare/Makeup,15711.0
+2021,Asia,Vietnam,베트남,3307 Shaving/Deo·Other,15653.0
+2021,Europe,Switzerland,스위스,3304 Skincare/Makeup,15464.0
+2021,Asia,Myanmar,미얀마,3304 Skincare/Makeup,15184.0
+2021,Asia,Japan,일본,3306 Oral care,14651.0
+2021,Asia,Malaysia,말레이시아,3305 Haircare,14627.0
+2021,Europe,Spain,스페인,3304 Skincare/Makeup,14246.0
+2021,Asia,Hong Kong,홍콩,3305 Haircare,14028.0
+2021,Asia,Singapore,싱가포르,3305 Haircare,12269.0
+2021,Middle East,Kuwait,쿠웨이트,3304 Skincare/Makeup,11422.0
+2021,Europe,Sweden,스웨덴,3304 Skincare/Makeup,11095.0
+2021,Asia,Thailand,태국,3307 Shaving/Deo·Other,10996.0
+2021,Latin America,Mexico,멕시코,3304 Skincare/Makeup,10812.0
+2021,Asia,Taiwan,대만,3307 Shaving/Deo·Other,10731.0
+2021,Asia,Malaysia,말레이시아,3307 Shaving/Deo·Other,10290.0
+2021,Asia,Vietnam,베트남,3305 Haircare,9847.0
+2021,Latin America,Chile,칠레,3304 Skincare/Makeup,9108.0
+2021,Latin America,Brazil,브라질,3304 Skincare/Makeup,7955.0
+2021,Europe,Norway,노르웨이,3304 Skincare/Makeup,7479.0
+2021,Europe,Estonia,에스토니아,3304 Skincare/Makeup,7472.0
+2021,Europe,United Kingdom,영국,3307 Shaving/Deo·Other,7434.0
+2021,CIS,Russia,러시아,3306 Oral care,7314.0
+2021,Asia,Singapore,싱가포르,3307 Shaving/Deo·Other,6923.0
+2021,Asia,Laos,라오스,3304 Skincare/Makeup,6751.0
+2021,Europe,France,프랑스,3307 Shaving/Deo·Other,6584.0
+2021,Asia,Thailand,태국,3305 Haircare,6554.0
+2021,Europe,Czechia,체코,3304 Skincare/Makeup,6496.0
+2021,Europe,Romania,루마니아,3304 Skincare/Makeup,6302.0
+2021,Europe,Italy,이탈리아,3304 Skincare/Makeup,6052.0
+2021,Middle East,Iraq,이라크,3304 Skincare/Makeup,5756.0
+2021,Asia,Vietnam,베트남,3306 Oral care,5721.0
+2021,Oceania,New Zealand,뉴질랜드,3304 Skincare/Makeup,5466.0
+2021,North America,Canada,캐나다,3307 Shaving/Deo·Other,4840.0
+2021,Asia,Taiwan,대만,3306 Oral care,4820.0
+2021,Europe,Bulgaria,불가리아,3304 Skincare/Makeup,4808.0
+2021,CIS,Ukraine,우크라이나,3305 Haircare,4795.0
+2021,Europe,Belgium,벨기에,3304 Skincare/Makeup,4644.0
+2021,CIS,Kazakhstan,카자흐스탄,3305 Haircare,4506.0
+2021,Europe,Ireland,아일랜드,3304 Skincare/Makeup,3748.0
+2021,Asia,Malaysia,말레이시아,3306 Oral care,3731.0
+2021,Europe,Denmark,덴마크,3304 Skincare/Makeup,3731.0
+2021,Oceania,Australia,호주,3307 Shaving/Deo·Other,3725.0
+2021,Europe,Poland,폴란드,3307 Shaving/Deo·Other,3653.0
+2021,CIS,Uzbekistan,우즈베키스탄,3304 Skincare/Makeup,3555.0
+2021,North America,United States,미국,3303 Perfume,3528.0
+2021,Europe,Germany,독일,3307 Shaving/Deo·Other,3414.0
+2021,Europe,Finland,핀란드,3304 Skincare/Makeup,3299.0
+2021,Europe,Italy,이탈리아,3307 Shaving/Deo·Other,3212.0
+2021,Asia,Indonesia,인도네시아,3307 Shaving/Deo·Other,3070.0
+2021,Middle East,Saudi Arabia,사우디아라비아,3307 Shaving/Deo·Other,3063.0
+2021,Asia,Mongolia,몽골,3307 Shaving/Deo·Other,3026.0
+2021,Asia,Philippines,필리핀,3307 Shaving/Deo·Other,3019.0
+2021,Asia,Indonesia,인도네시아,3305 Haircare,2994.0
+2021,Europe,Latvia,라트비아,3304 Skincare/Makeup,2947.0
+2021,Europe,Turkiye,튀르키예,3307 Shaving/Deo·Other,2911.0
+2021,Asia,Bangladesh,방글라데시,3304 Skincare/Makeup,2807.0
+2021,CIS,Moldova,몰도바,3304 Skincare/Makeup,2800.0
+2021,North America,United States,미국,3306 Oral care,2796.0
+2021,Asia,Mongolia,몽골,3305 Haircare,2718.0
+2021,Africa,South Africa,남아프리카공화국,3304 Skincare/Makeup,2534.0
+2022,Asia,China,중국,3304 Skincare/Makeup,3069048.0
+2022,North America,United States,미국,3304 Skincare/Makeup,698925.0
+2022,Asia,Japan,일본,3304 Skincare/Makeup,622455.0
+2022,Asia,Hong Kong,홍콩,3304 Skincare/Makeup,338857.0
+2022,Asia,Vietnam,베트남,3304 Skincare/Makeup,327024.0
+2022,Asia,China,중국,3307 Shaving/Deo·Other,266181.0
+2022,CIS,Russia,러시아,3304 Skincare/Makeup,221344.0
+2022,Asia,Taiwan,대만,3304 Skincare/Makeup,151192.0
+2022,Asia,Thailand,태국,3304 Skincare/Makeup,130044.0
+2022,Asia,China,중국,3305 Haircare,113268.0
+2022,Asia,Singapore,싱가포르,3304 Skincare/Makeup,90479.0
+2022,North America,United States,미국,3307 Shaving/Deo·Other,84224.0
+2022,Asia,Malaysia,말레이시아,3304 Skincare/Makeup,82051.0
+2022,Asia,Japan,일본,3307 Shaving/Deo·Other,80312.0
+2022,Europe,United Kingdom,영국,3304 Skincare/Makeup,57064.0
+2022,Middle East,UAE,아랍에미리트,3304 Skincare/Makeup,54083.0
+2022,Europe,France,프랑스,3304 Skincare/Makeup,53850.0
+2022,Asia,Philippines,필리핀,3304 Skincare/Makeup,50677.0
+2022,North America,Canada,캐나다,3304 Skincare/Makeup,50126.0
+2022,Asia,Indonesia,인도네시아,3304 Skincare/Makeup,48022.0
+2022,CIS,Kyrgyzstan,키르기스스탄,3304 Skincare/Makeup,47197.0
+2022,CIS,Kazakhstan,카자흐스탄,3304 Skincare/Makeup,42526.0
+2022,Oceania,Australia,호주,3304 Skincare/Makeup,41800.0
+2022,North America,United States,미국,3305 Haircare,38982.0
+2022,Asia,Hong Kong,홍콩,3307 Shaving/Deo·Other,34388.0
+2022,Asia,Myanmar,미얀마,3304 Skincare/Makeup,32173.0
+2022,Asia,India,인도,3304 Skincare/Makeup,31959.0
+2022,Asia,Japan,일본,3305 Haircare,31663.0
+2022,Europe,Poland,폴란드,3304 Skincare/Makeup,30330.0
+2022,CIS,Russia,러시아,3305 Haircare,29582.0
+2022,Europe,Turkiye,튀르키예,3304 Skincare/Makeup,29040.0
+2022,Europe,Germany,독일,3304 Skincare/Makeup,26656.0
+2022,CIS,Russia,러시아,3307 Shaving/Deo·Other,25895.0
+2022,CIS,Ukraine,우크라이나,3304 Skincare/Makeup,25431.0
+2022,Asia,Cambodia,캄보디아,3304 Skincare/Makeup,24322.0
+2022,Asia,Mongolia,몽골,3304 Skincare/Makeup,24088.0
+2022,Asia,China,중국,3306 Oral care,23364.0
+2022,Asia,Taiwan,대만,3305 Haircare,21951.0
+2022,Middle East,Saudi Arabia,사우디아라비아,3304 Skincare/Makeup,21427.0
+2022,Asia,Vietnam,베트남,3307 Shaving/Deo·Other,20505.0
+2022,Europe,Netherlands,네덜란드,3304 Skincare/Makeup,20391.0
+2022,Europe,Spain,스페인,3304 Skincare/Makeup,16082.0
+2022,Asia,Malaysia,말레이시아,3305 Haircare,15616.0
+2022,Asia,Taiwan,대만,3307 Shaving/Deo·Other,15120.0
+2022,Asia,Japan,일본,3306 Oral care,14633.0
+2022,Asia,Vietnam,베트남,3305 Haircare,13671.0
+2022,Europe,Netherlands,네덜란드,3307 Shaving/Deo·Other,13217.0
+2022,Asia,Thailand,태국,3307 Shaving/Deo·Other,13127.0
+2022,Europe,Sweden,스웨덴,3304 Skincare/Makeup,12820.0
+2022,Middle East,Kuwait,쿠웨이트,3304 Skincare/Makeup,12641.0
+2022,Asia,Singapore,싱가포르,3305 Haircare,12559.0
+2022,Latin America,Mexico,멕시코,3304 Skincare/Makeup,12252.0
+2022,Asia,Hong Kong,홍콩,3305 Haircare,11856.0
+2022,Europe,Lithuania,리투아니아,3304 Skincare/Makeup,10656.0
+2022,CIS,Russia,러시아,3306 Oral care,10020.0
+2022,Europe,Czechia,체코,3304 Skincare/Makeup,9955.0
+2022,Asia,Malaysia,말레이시아,3307 Shaving/Deo·Other,9276.0
+2022,Middle East,Iraq,이라크,3304 Skincare/Makeup,8986.0
+2022,Europe,Romania,루마니아,3304 Skincare/Makeup,7825.0
+2022,Asia,Singapore,싱가포르,3307 Shaving/Deo·Other,7727.0
+2022,Europe,Switzerland,스위스,3304 Skincare/Makeup,7726.0
+2022,Europe,Norway,노르웨이,3304 Skincare/Makeup,7654.0
+2022,Latin America,Brazil,브라질,3304 Skincare/Makeup,7482.0
+2022,Europe,Estonia,에스토니아,3304 Skincare/Makeup,7223.0
+2022,Asia,Thailand,태국,3305 Haircare,7018.0
+2022,Latin America,Chile,칠레,3304 Skincare/Makeup,7015.0
+2022,Europe,Italy,이탈리아,3304 Skincare/Makeup,7000.0
+2022,Asia,Vietnam,베트남,3306 Oral care,6836.0
+2022,Europe,United Kingdom,영국,3307 Shaving/Deo·Other,6198.0
+2022,Europe,France,프랑스,3307 Shaving/Deo·Other,5745.0
+2022,CIS,Uzbekistan,우즈베키스탄,3304 Skincare/Makeup,5588.0
+2022,Oceania,New Zealand,뉴질랜드,3304 Skincare/Makeup,5225.0
+2022,Europe,Bulgaria,불가리아,3304 Skincare/Makeup,4989.0
+2022,Oceania,Australia,호주,3307 Shaving/Deo·Other,4893.0
+2022,Asia,Indonesia,인도네시아,3307 Shaving/Deo·Other,4646.0
+2022,CIS,Kazakhstan,카자흐스탄,3305 Haircare,4620.0
+2022,Asia,Taiwan,대만,3306 Oral care,4558.0
+2022,North America,Canada,캐나다,3307 Shaving/Deo·Other,4289.0
+2022,North America,United States,미국,3303 Perfume,4280.0
+2022,CIS,Moldova,몰도바,3304 Skincare/Makeup,4269.0
+2022,CIS,Azerbaijan,아제르바이잔,3304 Skincare/Makeup,4246.0
+2022,Europe,Ireland,아일랜드,3304 Skincare/Makeup,4196.0
+2022,Europe,Denmark,덴마크,3304 Skincare/Makeup,4095.0
+2022,Europe,Poland,폴란드,3307 Shaving/Deo·Other,3938.0
+2022,Asia,Philippines,필리핀,3307 Shaving/Deo·Other,3925.0
+2022,CIS,Georgia,조지아,3304 Skincare/Makeup,3858.0
+2022,Asia,Philippines,필리핀,3305 Haircare,3765.0
+2022,Asia,Bangladesh,방글라데시,3304 Skincare/Makeup,3755.0
+2022,Europe,Latvia,라트비아,3304 Skincare/Makeup,3622.0
+2022,Europe,Belgium,벨기에,3304 Skincare/Makeup,3613.0
+2022,Latin America,Colombia,콜롬비아,3304 Skincare/Makeup,3434.0
+2022,CIS,Belarus,벨라루스,3304 Skincare/Makeup,3284.0
+2022,CIS,Ukraine,우크라이나,3305 Haircare,3149.0
+2022,Europe,Greece,그리스,3304 Skincare/Makeup,3134.0
+2022,Africa,Nigeria,나이지리아,3304 Skincare/Makeup,3119.0
+2022,Asia,Malaysia,말레이시아,3306 Oral care,3092.0
+2022,Asia,Mongolia,몽골,3307 Shaving/Deo·Other,3083.0
+2022,Europe,Italy,이탈리아,3307 Shaving/Deo·Other,3033.0
+2022,Asia,Mongolia,몽골,3305 Haircare,3011.0
+2023,Asia,China,중국,3304 Skincare/Makeup,2376888.0
+2023,North America,United States,미국,3304 Skincare/Makeup,1023042.0
+2023,Asia,Japan,일본,3304 Skincare/Makeup,667167.0
+2023,Asia,Vietnam,베트남,3304 Skincare/Makeup,444690.0
+2023,Asia,Hong Kong,홍콩,3304 Skincare/Makeup,438190.0
+2023,CIS,Russia,러시아,3304 Skincare/Makeup,316157.0
+2023,Asia,Taiwan,대만,3304 Skincare/Makeup,166437.0
+2023,Asia,Thailand,태국,3304 Skincare/Makeup,165571.0
+2023,Asia,China,중국,3307 Shaving/Deo·Other,150201.0
+2023,North America,United States,미국,3307 Shaving/Deo·Other,105891.0
+2023,Asia,Singapore,싱가포르,3304 Skincare/Makeup,102221.0
+2023,Asia,Japan,일본,3307 Shaving/Deo·Other,91841.0
+2023,Europe,United Kingdom,영국,3304 Skincare/Makeup,90765.0
+2023,Asia,Malaysia,말레이시아,3304 Skincare/Makeup,88828.0
+2023,Asia,China,중국,3305 Haircare,85792.0
+2023,Middle East,UAE,아랍에미리트,3304 Skincare/Makeup,84567.0
+2023,Asia,Indonesia,인도네시아,3304 Skincare/Makeup,68391.0
+2023,North America,Canada,캐나다,3304 Skincare/Makeup,66768.0
+2023,Europe,France,프랑스,3304 Skincare/Makeup,66429.0
+2023,CIS,Kazakhstan,카자흐스탄,3304 Skincare/Makeup,63026.0
+2023,CIS,Kyrgyzstan,키르기스스탄,3304 Skincare/Makeup,61915.0
+2023,Oceania,Australia,호주,3304 Skincare/Makeup,61381.0
+2023,Asia,Philippines,필리핀,3304 Skincare/Makeup,57452.0
+2023,CIS,Ukraine,우크라이나,3304 Skincare/Makeup,56674.0
+2023,Europe,Netherlands,네덜란드,3304 Skincare/Makeup,55916.0
+2023,Europe,Turkiye,튀르키예,3304 Skincare/Makeup,53882.0
+2023,North America,United States,미국,3305 Haircare,47974.0
+2023,Europe,Poland,폴란드,3304 Skincare/Makeup,44239.0
+2023,Asia,Myanmar,미얀마,3304 Skincare/Makeup,40995.0
+2023,Europe,Germany,독일,3304 Skincare/Makeup,40343.0
+2023,Asia,Cambodia,캄보디아,3304 Skincare/Makeup,40328.0
+2023,CIS,Russia,러시아,3305 Haircare,40079.0
+2023,Asia,India,인도,3304 Skincare/Makeup,40043.0
+2023,Asia,Hong Kong,홍콩,3307 Shaving/Deo·Other,32501.0
+2023,CIS,Russia,러시아,3307 Shaving/Deo·Other,32332.0
+2023,Asia,Japan,일본,3305 Haircare,32280.0
+2023,Asia,Mongolia,몽골,3304 Skincare/Makeup,31137.0
+2023,Middle East,Saudi Arabia,사우디아라비아,3304 Skincare/Makeup,26896.0
+2023,Asia,Taiwan,대만,3305 Haircare,26274.0
+2023,Europe,Spain,스페인,3304 Skincare/Makeup,21935.0
+2023,Asia,China,중국,3306 Oral care,19953.0
+2023,Asia,Vietnam,베트남,3307 Shaving/Deo·Other,18893.0
+2023,Asia,Taiwan,대만,3307 Shaving/Deo·Other,18853.0
+2023,Asia,Hong Kong,홍콩,3305 Haircare,17396.0
+2023,Latin America,Brazil,브라질,3304 Skincare/Makeup,16617.0
+2023,Asia,Thailand,태국,3307 Shaving/Deo·Other,16030.0
+2023,Europe,Lithuania,리투아니아,3304 Skincare/Makeup,15100.0
+2023,Europe,Sweden,스웨덴,3304 Skincare/Makeup,14536.0
+2023,CIS,Uzbekistan,우즈베키스탄,3304 Skincare/Makeup,14321.0
+2023,Europe,Czechia,체코,3304 Skincare/Makeup,13969.0
+2023,Latin America,Mexico,멕시코,3304 Skincare/Makeup,13586.0
+2023,Asia,Malaysia,말레이시아,3305 Haircare,13412.0
+2023,Middle East,Kuwait,쿠웨이트,3304 Skincare/Makeup,13026.0
+2023,Asia,Vietnam,베트남,3305 Haircare,13026.0
+2023,CIS,Russia,러시아,3306 Oral care,12814.0
+2023,Europe,Netherlands,네덜란드,3307 Shaving/Deo·Other,12780.0
+2023,Europe,Romania,루마니아,3304 Skincare/Makeup,12512.0
+2023,Middle East,Iraq,이라크,3304 Skincare/Makeup,12476.0
+2023,Asia,Japan,일본,3306 Oral care,11741.0
+2023,Europe,Estonia,에스토니아,3304 Skincare/Makeup,11488.0
+2023,Europe,Norway,노르웨이,3304 Skincare/Makeup,11430.0
+2023,Asia,Singapore,싱가포르,3305 Haircare,11416.0
+2023,Europe,Italy,이탈리아,3304 Skincare/Makeup,10255.0
+2023,Asia,Malaysia,말레이시아,3307 Shaving/Deo·Other,10192.0
+2023,Europe,Belgium,벨기에,3304 Skincare/Makeup,10060.0
+2023,North America,United States,미국,3303 Perfume,8409.0
+2023,Europe,Denmark,덴마크,3304 Skincare/Makeup,8019.0
+2023,Asia,Singapore,싱가포르,3307 Shaving/Deo·Other,7605.0
+2023,Africa,Nigeria,나이지리아,3304 Skincare/Makeup,7599.0
+2023,Latin America,Chile,칠레,3304 Skincare/Makeup,7291.0
+2023,Europe,Finland,핀란드,3304 Skincare/Makeup,6929.0
+2023,Asia,Vietnam,베트남,3306 Oral care,6810.0
+2023,Europe,Bulgaria,불가리아,3304 Skincare/Makeup,6673.0
+2023,Oceania,New Zealand,뉴질랜드,3304 Skincare/Makeup,6631.0
+2023,Europe,United Kingdom,영국,3307 Shaving/Deo·Other,6368.0
+2023,CIS,Ukraine,우크라이나,3305 Haircare,6192.0
+2023,CIS,Azerbaijan,아제르바이잔,3304 Skincare/Makeup,6091.0
+2023,CIS,Kazakhstan,카자흐스탄,3305 Haircare,6057.0
+2023,Europe,Ireland,아일랜드,3304 Skincare/Makeup,5926.0
+2023,Asia,Thailand,태국,3305 Haircare,5780.0
+2023,North America,Canada,캐나다,3307 Shaving/Deo·Other,5439.0
+2023,Europe,Switzerland,스위스,3304 Skincare/Makeup,5266.0
+2023,Asia,Philippines,필리핀,3305 Haircare,4894.0
+2023,Asia,China,중국,3303 Perfume,4881.0
+2023,CIS,Moldova,몰도바,3304 Skincare/Makeup,4799.0
+2023,Oceania,Australia,호주,3307 Shaving/Deo·Other,4620.0
+2023,CIS,Georgia,조지아,3304 Skincare/Makeup,4620.0
+2023,Asia,Taiwan,대만,3306 Oral care,4472.0
+2023,Asia,Bangladesh,방글라데시,3304 Skincare/Makeup,4377.0
+2023,Europe,Greece,그리스,3304 Skincare/Makeup,4244.0
+2023,Europe,Albania,알바니아,3304 Skincare/Makeup,4236.0
+2023,Asia,Indonesia,인도네시아,3307 Shaving/Deo·Other,4014.0
+2023,Asia,Indonesia,인도네시아,3305 Haircare,3872.0
+2023,Europe,France,프랑스,3307 Shaving/Deo·Other,3861.0
+2023,Asia,Hong Kong,홍콩,3303 Perfume,3689.0
+2023,Asia,Mongolia,몽골,3305 Haircare,3570.0
+2023,Europe,Slovakia,슬로바키아,3304 Skincare/Makeup,3476.0
+2023,CIS,Uzbekistan,우즈베키스탄,3305 Haircare,3419.0
+2023,Asia,Laos,라오스,3304 Skincare/Makeup,3349.0
+2024,Asia,China,중국,3304 Skincare/Makeup,2156317.0
+2024,North America,United States,미국,3304 Skincare/Makeup,1547590.0
+2024,Asia,Japan,일본,3304 Skincare/Makeup,840375.0
+2024,Asia,Hong Kong,홍콩,3304 Skincare/Makeup,511135.0
+2024,Asia,Vietnam,베트남,3304 Skincare/Makeup,466055.0
+2024,CIS,Russia,러시아,3304 Skincare/Makeup,322347.0
+2024,Asia,Taiwan,대만,3304 Skincare/Makeup,218823.0
+2024,North America,United States,미국,3307 Shaving/Deo·Other,186899.0
+2024,Asia,Thailand,태국,3304 Skincare/Makeup,186352.0
+2024,Middle East,UAE,아랍에미리트,3304 Skincare/Makeup,158318.0
+2024,Asia,Japan,일본,3307 Shaving/Deo·Other,135618.0
+2024,Europe,United Kingdom,영국,3304 Skincare/Makeup,132983.0
+2024,Asia,China,중국,3307 Shaving/Deo·Other,126641.0
+2024,Asia,Indonesia,인도네시아,3304 Skincare/Makeup,118882.0
+2024,Asia,Singapore,싱가포르,3304 Skincare/Makeup,117194.0
+2024,Europe,Poland,폴란드,3304 Skincare/Makeup,112448.0
+2024,Asia,Malaysia,말레이시아,3304 Skincare/Makeup,112110.0
+2024,North America,Canada,캐나다,3304 Skincare/Makeup,103398.0
+2024,Oceania,Australia,호주,3304 Skincare/Makeup,95993.0
+2024,CIS,Kazakhstan,카자흐스탄,3304 Skincare/Makeup,83652.0
+2024,North America,United States,미국,3305 Haircare,82958.0
+2024,Asia,Philippines,필리핀,3304 Skincare/Makeup,76678.0
+2024,Asia,China,중국,3305 Haircare,74965.0
+2024,Europe,Netherlands,네덜란드,3304 Skincare/Makeup,74620.0
+2024,CIS,Kyrgyzstan,키르기스스탄,3304 Skincare/Makeup,73863.0
+2024,Europe,France,프랑스,3304 Skincare/Makeup,67615.0
+2024,Asia,India,인도,3304 Skincare/Makeup,65624.0
+2024,Europe,Turkiye,튀르키예,3304 Skincare/Makeup,65313.0
+2024,Asia,Cambodia,캄보디아,3304 Skincare/Makeup,63596.0
+2024,Europe,Germany,독일,3304 Skincare/Makeup,58853.0
+2024,CIS,Ukraine,우크라이나,3304 Skincare/Makeup,54700.0
+2024,Middle East,Saudi Arabia,사우디아라비아,3304 Skincare/Makeup,54430.0
+2024,Asia,Myanmar,미얀마,3304 Skincare/Makeup,48453.0
+2024,Asia,Mongolia,몽골,3304 Skincare/Makeup,36944.0
+2024,Asia,Hong Kong,홍콩,3307 Shaving/Deo·Other,36107.0
+2024,Asia,Japan,일본,3305 Haircare,35095.0
+2024,CIS,Russia,러시아,3305 Haircare,34881.0
+2024,Asia,Taiwan,대만,3305 Haircare,34475.0
+2024,Europe,Spain,스페인,3304 Skincare/Makeup,30667.0
+2024,Latin America,Brazil,브라질,3304 Skincare/Makeup,28765.0
+2024,Middle East,Iraq,이라크,3304 Skincare/Makeup,27679.0
+2024,Europe,Lithuania,리투아니아,3304 Skincare/Makeup,27598.0
+2024,Asia,Vietnam,베트남,3307 Shaving/Deo·Other,27179.0
+2024,CIS,Russia,러시아,3307 Shaving/Deo·Other,25911.0
+2024,Asia,Thailand,태국,3307 Shaving/Deo·Other,25869.0
+2024,Europe,Czechia,체코,3304 Skincare/Makeup,24225.0
+2024,Europe,Estonia,에스토니아,3304 Skincare/Makeup,23598.0
+2024,Asia,Taiwan,대만,3307 Shaving/Deo·Other,23397.0
+2024,Europe,Sweden,스웨덴,3304 Skincare/Makeup,21400.0
+2024,Latin America,Mexico,멕시코,3304 Skincare/Makeup,20479.0
+2024,Europe,Italy,이탈리아,3304 Skincare/Makeup,19006.0
+2024,Asia,China,중국,3306 Oral care,18356.0
+2024,Asia,Hong Kong,홍콩,3305 Haircare,17803.0
+2024,Europe,Denmark,덴마크,3304 Skincare/Makeup,17470.0
+2024,CIS,Uzbekistan,우즈베키스탄,3304 Skincare/Makeup,16031.0
+2024,Latin America,Chile,칠레,3304 Skincare/Makeup,15732.0
+2024,Europe,Romania,루마니아,3304 Skincare/Makeup,15717.0
+2024,Asia,Malaysia,말레이시아,3305 Haircare,15285.0
+2024,Europe,Netherlands,네덜란드,3307 Shaving/Deo·Other,14787.0
+2024,Europe,Belgium,벨기에,3304 Skincare/Makeup,13879.0
+2024,Asia,Vietnam,베트남,3305 Haircare,13844.0
+2024,Middle East,Kuwait,쿠웨이트,3304 Skincare/Makeup,13821.0
+2024,Asia,Singapore,싱가포르,3305 Haircare,13195.0
+2024,Asia,Japan,일본,3306 Oral care,12359.0
+2024,Europe,Norway,노르웨이,3304 Skincare/Makeup,12138.0
+2024,Asia,Malaysia,말레이시아,3307 Shaving/Deo·Other,11977.0
+2024,Africa,Nigeria,나이지리아,3304 Skincare/Makeup,11938.0
+2024,Europe,Finland,핀란드,3304 Skincare/Makeup,11637.0
+2024,Oceania,New Zealand,뉴질랜드,3304 Skincare/Makeup,10500.0
+2024,Asia,Bangladesh,방글라데시,3304 Skincare/Makeup,9945.0
+2024,Europe,Bulgaria,불가리아,3304 Skincare/Makeup,9861.0
+2024,Europe,United Kingdom,영국,3307 Shaving/Deo·Other,9064.0
+2024,Asia,Singapore,싱가포르,3303 Perfume,9031.0
+2024,Asia,Singapore,싱가포르,3307 Shaving/Deo·Other,8862.0
+2024,North America,Canada,캐나다,3307 Shaving/Deo·Other,8783.0
+2024,Middle East,Israel,이스라엘,3304 Skincare/Makeup,8778.0
+2024,Europe,France,프랑스,3307 Shaving/Deo·Other,8289.0
+2024,Europe,Ireland,아일랜드,3304 Skincare/Makeup,8219.0
+2024,Middle East,Qatar,카타르,3304 Skincare/Makeup,7323.0
+2024,CIS,Russia,러시아,3306 Oral care,7130.0
+2024,Europe,Slovakia,슬로바키아,3304 Skincare/Makeup,6893.0
+2024,North America,United States,미국,3306 Oral care,6801.0
+2024,Oceania,Australia,호주,3307 Shaving/Deo·Other,6719.0
+2024,Europe,Greece,그리스,3304 Skincare/Makeup,6677.0
+2024,CIS,Georgia,조지아,3304 Skincare/Makeup,6573.0
+2024,CIS,Moldova,몰도바,3304 Skincare/Makeup,6447.0
+2024,CIS,Kazakhstan,카자흐스탄,3305 Haircare,6406.0
+2024,CIS,Ukraine,우크라이나,3305 Haircare,6208.0
+2024,Asia,Thailand,태국,3305 Haircare,6067.0
+2024,Asia,Vietnam,베트남,3306 Oral care,6043.0
+2024,Europe,Poland,폴란드,3307 Shaving/Deo·Other,5916.0
+2024,Europe,Albania,알바니아,3304 Skincare/Makeup,5497.0
+2024,Latin America,Colombia,콜롬비아,3304 Skincare/Makeup,5475.0
+2024,Asia,Indonesia,인도네시아,3307 Shaving/Deo·Other,5452.0
+2024,North America,United States,미국,3303 Perfume,5347.0
+2024,Asia,China,중국,3303 Perfume,5234.0
+2024,CIS,Azerbaijan,아제르바이잔,3304 Skincare/Makeup,5220.0
+2024,Latin America,Peru,페루,3304 Skincare/Makeup,5199.0
+2024,Europe,United Kingdom,영국,3306 Oral care,5130.0
+2025,North America,United States,미국,3304 Skincare/Makeup,1748808.0
+2025,Asia,China,중국,3304 Skincare/Makeup,1652087.0
+2025,Asia,Japan,일본,3304 Skincare/Makeup,880101.0
+2025,Asia,Hong Kong,홍콩,3304 Skincare/Makeup,595333.0
+2025,Asia,Vietnam,베트남,3304 Skincare/Makeup,407974.0
+2025,CIS,Russia,러시아,3304 Skincare/Makeup,361229.0
+2025,Asia,Taiwan,대만,3304 Skincare/Makeup,265792.0
+2025,Middle East,UAE,아랍에미리트,3304 Skincare/Makeup,261709.0
+2025,Europe,Poland,폴란드,3304 Skincare/Makeup,245781.0
+2025,North America,United States,미국,3307 Shaving/Deo·Other,210307.0
+2025,Asia,Thailand,태국,3304 Skincare/Makeup,207563.0
+2025,Europe,United Kingdom,영국,3304 Skincare/Makeup,187344.0
+2025,North America,Canada,캐나다,3304 Skincare/Makeup,151555.0
+2025,Asia,Indonesia,인도네시아,3304 Skincare/Makeup,146272.0
+2025,Asia,China,중국,3307 Shaving/Deo·Other,145112.0
+2025,Asia,Japan,일본,3307 Shaving/Deo·Other,141601.0
+2025,Oceania,Australia,호주,3304 Skincare/Makeup,140250.0
+2025,Asia,Malaysia,말레이시아,3304 Skincare/Makeup,118061.0
+2025,Europe,France,프랑스,3304 Skincare/Makeup,115247.0
+2025,Asia,Singapore,싱가포르,3304 Skincare/Makeup,108484.0
+2025,CIS,Kazakhstan,카자흐스탄,3304 Skincare/Makeup,107538.0
+2025,North America,United States,미국,3305 Haircare,105448.0
+2025,Europe,Netherlands,네덜란드,3304 Skincare/Makeup,103755.0
+2025,Asia,Philippines,필리핀,3304 Skincare/Makeup,95674.0
+2025,Europe,Turkiye,튀르키예,3304 Skincare/Makeup,83528.0
+2025,CIS,Kyrgyzstan,키르기스스탄,3304 Skincare/Makeup,82135.0
+2025,Asia,Cambodia,캄보디아,3304 Skincare/Makeup,78907.0
+2025,Asia,India,인도,3304 Skincare/Makeup,78425.0
+2025,Europe,Germany,독일,3304 Skincare/Makeup,76626.0
+2025,Asia,China,중국,3305 Haircare,72053.0
+2025,Middle East,Saudi Arabia,사우디아라비아,3304 Skincare/Makeup,69444.0
+2025,CIS,Ukraine,우크라이나,3304 Skincare/Makeup,67981.0
+2025,Asia,Hong Kong,홍콩,3307 Shaving/Deo·Other,53524.0
+2025,Asia,Myanmar,미얀마,3304 Skincare/Makeup,52610.0
+2025,Latin America,Mexico,멕시코,3304 Skincare/Makeup,50674.0
+2025,Europe,Estonia,에스토니아,3304 Skincare/Makeup,50505.0
+2025,Europe,Czechia,체코,3304 Skincare/Makeup,48781.0
+2025,Latin America,Brazil,브라질,3304 Skincare/Makeup,45211.0
+2025,Asia,Mongolia,몽골,3304 Skincare/Makeup,44933.0
+2025,Europe,Lithuania,리투아니아,3304 Skincare/Makeup,44041.0
+2025,Europe,Spain,스페인,3304 Skincare/Makeup,40440.0
+2025,Asia,Japan,일본,3305 Haircare,36638.0
+2025,CIS,Uzbekistan,우즈베키스탄,3304 Skincare/Makeup,36129.0
+2025,Asia,Taiwan,대만,3305 Haircare,36079.0
+2025,CIS,Russia,러시아,3305 Haircare,33436.0
+2025,Asia,Thailand,태국,3307 Shaving/Deo·Other,32107.0
+2025,Asia,Taiwan,대만,3307 Shaving/Deo·Other,31538.0
+2025,Europe,Sweden,스웨덴,3304 Skincare/Makeup,31018.0
+2025,Europe,Denmark,덴마크,3304 Skincare/Makeup,30612.0
+2025,Middle East,Iraq,이라크,3304 Skincare/Makeup,29306.0
+2025,CIS,Russia,러시아,3307 Shaving/Deo·Other,27753.0
+2025,Europe,Italy,이탈리아,3304 Skincare/Makeup,27471.0
+2025,Europe,United Kingdom,영국,3307 Shaving/Deo·Other,27404.0
+2025,Asia,Vietnam,베트남,3307 Shaving/Deo·Other,26512.0
+2025,Europe,Romania,루마니아,3304 Skincare/Makeup,26144.0
+2025,Middle East,Israel,이스라엘,3304 Skincare/Makeup,24540.0
+2025,Europe,Belgium,벨기에,3304 Skincare/Makeup,24352.0
+2025,Asia,Hong Kong,홍콩,3305 Haircare,23962.0
+2025,Asia,China,중국,3306 Oral care,23732.0
+2025,Europe,Netherlands,네덜란드,3307 Shaving/Deo·Other,22926.0
+2025,Latin America,Chile,칠레,3304 Skincare/Makeup,21007.0
+2025,North America,Canada,캐나다,3307 Shaving/Deo·Other,20009.0
+2025,Middle East,Kuwait,쿠웨이트,3304 Skincare/Makeup,19730.0
+2025,Asia,Bangladesh,방글라데시,3304 Skincare/Makeup,17346.0
+2025,Europe,Finland,핀란드,3304 Skincare/Makeup,16967.0
+2025,Asia,Malaysia,말레이시아,3305 Haircare,15916.0
+2025,Asia,Singapore,싱가포르,3305 Haircare,15595.0
+2025,Asia,Malaysia,말레이시아,3307 Shaving/Deo·Other,15402.0
+2025,Europe,Slovakia,슬로바키아,3304 Skincare/Makeup,15263.0
+2025,Europe,Bulgaria,불가리아,3304 Skincare/Makeup,15164.0
+2025,Asia,Pakistan,파키스탄,3304 Skincare/Makeup,15147.0
+2025,Europe,Norway,노르웨이,3304 Skincare/Makeup,14798.0
+2025,Africa,Nigeria,나이지리아,3304 Skincare/Makeup,14637.0
+2025,Asia,Vietnam,베트남,3305 Haircare,13983.0
+2025,Asia,Japan,일본,3306 Oral care,13777.0
+2025,Europe,France,프랑스,3307 Shaving/Deo·Other,13656.0
+2025,Oceania,New Zealand,뉴질랜드,3304 Skincare/Makeup,12625.0
+2025,Europe,Poland,폴란드,3307 Shaving/Deo·Other,11576.0
+2025,Oceania,Australia,호주,3307 Shaving/Deo·Other,11437.0
+2025,Europe,Estonia,에스토니아,3307 Shaving/Deo·Other,11073.0
+2025,Latin America,Peru,페루,3304 Skincare/Makeup,10769.0
+2025,Latin America,Argentina,아르헨티나,3304 Skincare/Makeup,10460.0
+2025,Europe,Ireland,아일랜드,3304 Skincare/Makeup,10388.0
+2025,Asia,Singapore,싱가포르,3307 Shaving/Deo·Other,9795.0
+2025,North America,United States,미국,3306 Oral care,9583.0
+2025,Europe,Germany,독일,3307 Shaving/Deo·Other,9520.0
+2025,Asia,China,중국,3303 Perfume,9460.0
+2025,Europe,Greece,그리스,3304 Skincare/Makeup,9288.0
+2025,Middle East,Qatar,카타르,3304 Skincare/Makeup,9141.0
+2025,Latin America,Colombia,콜롬비아,3304 Skincare/Makeup,8936.0
+2025,Latin America,Brazil,브라질,3305 Haircare,8644.0
+2025,Asia,Japan,일본,3303 Perfume,8447.0
+2025,Asia,Singapore,싱가포르,3303 Perfume,8390.0
+2025,North America,United States,미국,3303 Perfume,7984.0
+2025,Africa,South Africa,남아프리카공화국,3304 Skincare/Makeup,7930.0
+2025,Europe,Turkiye,튀르키예,3307 Shaving/Deo·Other,7860.0
+2025,CIS,Russia,러시아,3306 Oral care,7564.0
+2025,Europe,United Kingdom,영국,3306 Oral care,7499.0
+2025,Asia,Indonesia,인도네시아,3307 Shaving/Deo·Other,7347.0
+2026,North America,United States,미국,3304 Skincare/Makeup,901981.0
+2026,Asia,China,중국,3304 Skincare/Makeup,699766.0
+2026,Asia,Japan,일본,3304 Skincare/Makeup,395491.0
+2026,Asia,Hong Kong,홍콩,3304 Skincare/Makeup,279795.0
+2026,Asia,Vietnam,베트남,3304 Skincare/Makeup,180494.0
+2026,Europe,Poland,폴란드,3304 Skincare/Makeup,177119.0
+2026,CIS,Russia,러시아,3304 Skincare/Makeup,163648.0
+2026,Europe,United Kingdom,영국,3304 Skincare/Makeup,155672.0
+2026,North America,United States,미국,3307 Shaving/Deo·Other,127578.0
+2026,Asia,Taiwan,대만,3304 Skincare/Makeup,119311.0
+2026,Europe,Netherlands,네덜란드,3304 Skincare/Makeup,102140.0
+2026,Asia,Thailand,태국,3304 Skincare/Makeup,86114.0
+2026,Middle East,UAE,아랍에미리트,3304 Skincare/Makeup,85644.0
+2026,North America,Canada,캐나다,3304 Skincare/Makeup,78843.0
+2026,North America,United States,미국,3305 Haircare,62518.0
+2026,Asia,Japan,일본,3307 Shaving/Deo·Other,61901.0
+2026,Asia,Indonesia,인도네시아,3304 Skincare/Makeup,61852.0
+2026,Oceania,Australia,호주,3304 Skincare/Makeup,61309.0
+2026,CIS,Kazakhstan,카자흐스탄,3304 Skincare/Makeup,54629.0
+2026,Europe,Turkiye,튀르키예,3304 Skincare/Makeup,54232.0
+2026,Asia,Malaysia,말레이시아,3304 Skincare/Makeup,53812.0
+2026,Asia,Singapore,싱가포르,3304 Skincare/Makeup,51362.0
+2026,Asia,China,중국,3307 Shaving/Deo·Other,50246.0
+2026,CIS,Kyrgyzstan,키르기스스탄,3304 Skincare/Makeup,47850.0
+2026,Europe,France,프랑스,3304 Skincare/Makeup,47444.0
+2026,Europe,Germany,독일,3304 Skincare/Makeup,46450.0
+2026,Asia,Cambodia,캄보디아,3304 Skincare/Makeup,42995.0
+2026,Europe,Estonia,에스토니아,3304 Skincare/Makeup,42437.0
+2026,Asia,Philippines,필리핀,3304 Skincare/Makeup,40638.0
+2026,Asia,India,인도,3304 Skincare/Makeup,39249.0
+2026,Europe,United Kingdom,영국,3307 Shaving/Deo·Other,34667.0
+2026,Middle East,Saudi Arabia,사우디아라비아,3304 Skincare/Makeup,32007.0
+2026,Asia,China,중국,3305 Haircare,31431.0
+2026,Europe,Czechia,체코,3304 Skincare/Makeup,29839.0
+2026,Europe,Netherlands,네덜란드,3307 Shaving/Deo·Other,29351.0
+2026,CIS,Ukraine,우크라이나,3304 Skincare/Makeup,29231.0
+2026,Latin America,Brazil,브라질,3304 Skincare/Makeup,29039.0
+2026,Latin America,Mexico,멕시코,3304 Skincare/Makeup,28307.0
+2026,Asia,Myanmar,미얀마,3304 Skincare/Makeup,27861.0
+2026,CIS,Uzbekistan,우즈베키스탄,3304 Skincare/Makeup,27185.0
+2026,Europe,Spain,스페인,3304 Skincare/Makeup,25984.0
+2026,Europe,Denmark,덴마크,3304 Skincare/Makeup,23144.0
+2026,Asia,Mongolia,몽골,3304 Skincare/Makeup,21841.0
+2026,Europe,Lithuania,리투아니아,3304 Skincare/Makeup,19308.0
+2026,Asia,Hong Kong,홍콩,3307 Shaving/Deo·Other,17758.0
+2026,CIS,Russia,러시아,3305 Haircare,17253.0
+2026,Asia,Taiwan,대만,3305 Haircare,16570.0
+2026,Europe,Romania,루마니아,3304 Skincare/Makeup,16555.0
+2026,Europe,Italy,이탈리아,3304 Skincare/Makeup,15227.0
+2026,Asia,Japan,일본,3305 Haircare,14693.0
+2026,Europe,Estonia,에스토니아,3307 Shaving/Deo·Other,14269.0
+2026,Asia,Thailand,태국,3307 Shaving/Deo·Other,14239.0
+2026,North America,Canada,캐나다,3307 Shaving/Deo·Other,13697.0
+2026,Middle East,Israel,이스라엘,3304 Skincare/Makeup,13315.0
+2026,Europe,Belgium,벨기에,3304 Skincare/Makeup,13267.0
+2026,Asia,Taiwan,대만,3307 Shaving/Deo·Other,12250.0
+2026,Latin America,Chile,칠레,3304 Skincare/Makeup,12069.0
+2026,Europe,Sweden,스웨덴,3304 Skincare/Makeup,11016.0
+2026,Europe,Slovakia,슬로바키아,3304 Skincare/Makeup,10222.0
+2026,Asia,Vietnam,베트남,3307 Shaving/Deo·Other,9848.0
+2026,North America,United States,미국,3303 Perfume,9785.0
+2026,Africa,Nigeria,나이지리아,3304 Skincare/Makeup,9262.0
+2026,Asia,China,중국,3306 Oral care,9258.0
+2026,Asia,Hong Kong,홍콩,3305 Haircare,9221.0
+2026,Latin America,Paraguay,파라과이,3304 Skincare/Makeup,8794.0
+2026,Europe,Germany,독일,3307 Shaving/Deo·Other,8478.0
+2026,Asia,Malaysia,말레이시아,3307 Shaving/Deo·Other,8457.0
+2026,Latin America,Argentina,아르헨티나,3304 Skincare/Makeup,8273.0
+2026,CIS,Russia,러시아,3307 Shaving/Deo·Other,8264.0
+2026,Middle East,Iraq,이라크,3304 Skincare/Makeup,8133.0
+2026,Europe,Finland,핀란드,3304 Skincare/Makeup,7699.0
+2026,Oceania,New Zealand,뉴질랜드,3304 Skincare/Makeup,7641.0
+2026,Asia,Bangladesh,방글라데시,3304 Skincare/Makeup,7556.0
+2026,Europe,Norway,노르웨이,3304 Skincare/Makeup,7500.0
+2026,Oceania,Australia,호주,3307 Shaving/Deo·Other,7378.0
+2026,Middle East,Kuwait,쿠웨이트,3304 Skincare/Makeup,7090.0
+2026,Asia,Malaysia,말레이시아,3305 Haircare,6923.0
+2026,Latin America,Peru,페루,3304 Skincare/Makeup,6341.0
+2026,Europe,Poland,폴란드,3307 Shaving/Deo·Other,6255.0
+2026,Europe,Greece,그리스,3304 Skincare/Makeup,6249.0
+2026,Europe,Poland,폴란드,3305 Haircare,6041.0
+2026,Europe,Bulgaria,불가리아,3304 Skincare/Makeup,6010.0
+2026,Asia,Pakistan,파키스탄,3304 Skincare/Makeup,5932.0
+2026,Asia,Vietnam,베트남,3305 Haircare,5705.0
+2026,Latin America,Colombia,콜롬비아,3304 Skincare/Makeup,5673.0
+2026,Asia,Singapore,싱가포르,3305 Haircare,5629.0
+2026,Asia,Japan,일본,3306 Oral care,5617.0
+2026,Europe,Turkiye,튀르키예,3307 Shaving/Deo·Other,4853.0
+2026,Asia,Japan,일본,3303 Perfume,4662.0
+2026,Latin America,Brazil,브라질,3305 Haircare,4518.0
+2026,Asia,Singapore,싱가포르,3307 Shaving/Deo·Other,4453.0
+2026,Asia,China,중국,3303 Perfume,4363.0
+2026,Asia,Indonesia,인도네시아,3307 Shaving/Deo·Other,4279.0
+2026,Europe,Albania,알바니아,3304 Skincare/Makeup,4168.0
+2026,CIS,Uzbekistan,우즈베키스탄,3305 Haircare,4166.0
+2026,CIS,Georgia,조지아,3304 Skincare/Makeup,4056.0
+2026,Africa,South Africa,남아프리카공화국,3304 Skincare/Makeup,3858.0
+2026,CIS,Belarus,벨라루스,3304 Skincare/Makeup,3796.0
+2026,Europe,Ireland,아일랜드,3304 Skincare/Makeup,3502.0
