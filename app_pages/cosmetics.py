@@ -198,6 +198,97 @@ with g4:
                    + " — 검색량 기준 상대 점유(절대 판매량 아님). 센텔리안 몫이 "
                      "커지는지가 관전 포인트.")
 
+# --------------------------------------------- 브랜드 수명주기 (t=0 정렬)
+_LGEO = {"미국": "US", "일본": "JP", "한국": "KR", "영국": "GB", "전세계": ""}
+_avail = {k: v for k, v in _LGEO.items()
+          if (DATA / f"gtrends_life_{v}.csv").exists()}
+if _avail:
+    sub("K뷰티 브랜드 수명주기 — 붐 시작(t=0) 정렬",
+        "브랜드별 단독 5년 검색 · 자기 피크=100 · x축 = 붐 시작 후 개월 수")
+    lc1, lc2 = st.columns([1, 3.2])
+    geo_l = lc1.selectbox("국가", list(_avail), key="life_geo")
+    lf = load(f"gtrends_life_{_avail[geo_l]}.csv",
+              _stamp(f"gtrends_life_{_avail[geo_l]}.csv"))
+    if lf is not None and len(lf):
+        d = lf.copy()
+        d["date"] = pd.to_datetime(d["date"])
+        d["month"] = d["date"].dt.to_period("M")
+        mm = d.groupby(["brand", "month"], as_index=False)["value"].mean()
+        rows = []
+        for b, g in mm.groupby("brand"):
+            g = g.sort_values("month").copy()
+            peak = g["value"].max()
+            if peak <= 0:
+                continue
+            g["norm"] = g["value"] / peak * 100
+            br = g[g["norm"] >= 10]                 # 붐 시작 = 자기 피크의 10%
+            if not len(br):
+                continue
+            b0 = br["month"].iloc[0]
+            g = g[g["month"] >= b0]
+            g["m_since"] = [(p.year - b0.year) * 12 + (p.month - b0.month)
+                            for p in g["month"]]
+            g["breakout"] = b0.strftime("%Y-%m")
+            rows.append(g)
+        if rows:
+            life = pd.concat(rows)
+            _all = sorted(life["brand"].unique())
+            _def = [b for b in ("madeca cream", "reedle shot", "medicube",
+                                "anua", "cosrx", "tirtir", "beauty of joseon")
+                    if b in _all]
+            sel = lc2.multiselect("브랜드 (추가/제거 가능)", _all, default=_def,
+                                  key="life_sel")
+            v = life[life["brand"].isin(sel)].copy()
+            if len(v):
+                _bsel = sorted(v["brand"].unique())
+                _pal2 = ["#2a78d6", "#8ec9ff", "#4fb8c9", "#eb6834", "#b06fc9",
+                         "#4fb862", "#e8425a", "#b5b5b5", "#2fa89a", "#d98cb3",
+                         "#7a8ff0", "#c9a34f", "#5f7089", "#9fd65f", "#ef9f4f",
+                         "#66d0e0", "#ff7ab0"]
+                _cols = []
+                _pi = 0
+                for b in _bsel:
+                    if b == "madeca cream":
+                        _cols.append(C_GOLD)
+                    else:
+                        _cols.append(_pal2[_pi % len(_pal2)])
+                        _pi += 1
+                ch = alt.Chart(v).mark_line(interpolate="monotone").encode(
+                    x=alt.X("m_since:Q",
+                            title="붐 시작 후 개월 (t=0 = 자기 피크의 10% 첫 도달)"),
+                    y=alt.Y("norm:Q", title="검색 관심도 (자기 피크=100)"),
+                    color=alt.Color("brand:N", title=None,
+                                    scale=alt.Scale(domain=_bsel, range=_cols),
+                                    legend=alt.Legend(orient="top", columns=6,
+                                                      labelLimit=160)),
+                    size=alt.condition(alt.datum.brand == "madeca cream",
+                                       alt.value(4.5), alt.value(1.7)),
+                    tooltip=["brand", "breakout",
+                             alt.Tooltip("m_since:Q", title="개월"),
+                             alt.Tooltip("norm:Q", format=".0f")])
+                st.altair_chart(ch.properties(height=430),
+                                use_container_width=True)
+                ages = (v.groupby("brand")
+                        .agg(b0=("breakout", "first"), age=("m_since", "max"))
+                        .sort_values("age"))
+                parts = [f"{b}: {r['b0']} 시작·{r['age']:.0f}개월차"
+                         for b, r in ages.iterrows()]
+                st.caption("**붐 시작 시점**: " + " · ".join(parts))
+                _jp_note = (" 일본 주의: 구글+야후재팬(구글 엔진)이 검색의 약 "
+                            "90%라 방향은 유효하지만, 일본 소비자는 @cosme·"
+                            "Qoo10·LIPS 앱에서 화장품을 찾는 비중이 커서 보조 "
+                            "지표로 쓸 것. 검색어는 가타카나 매핑 사용."
+                            if geo_l == "일본" else "")
+                st.caption("**읽는법**: 모든 브랜드를 각자의 붐 시작 시점(t=0)에 "
+                           "맞춰 겹친 차트 — 굵은 금색 = madeca cream. 같은 "
+                           "개월수에서 벤치마크 곡선이 앞으로 어떻게 갔는지가 "
+                           "madeca의 시나리오. 각 선은 자기 피크=100의 상대값이라 "
+                           "**모양(단계) 비교용**이며 브랜드끼리 크기 비교는 아님."
+                           + _jp_note)
+    else:
+        st.info("수명주기 데이터 수집 중 — cosmetics_lifecycle_update.py 실행 후 "
+                "표시됩니다.")
+
 # --------------------------------------------- 구글 트렌드 직접 검색
 sub("구글 트렌드 직접 검색", "원하는 브랜드 최대 5개 — 관심도·Mindshare·YoY 한 번에")
 _GEO = {"미국": "US", "전세계": "", "한국": "KR"}
