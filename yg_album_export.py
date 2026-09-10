@@ -38,7 +38,20 @@ def open_workbook(path: Path):
         import shutil
         import tempfile
         tmp = Path(tempfile.gettempdir()) / "yg_album_copy.xlsx"
-        shutil.copy(path, tmp)
+        try:
+            shutil.copy(path, tmp)
+        except PermissionError:
+            # 엑셀이 독점 잠금 중 — 라이브 엑셀에 사본 저장을 부탁한다
+            import win32com.client as win32
+            xl = win32.GetActiveObject("Excel.Application")
+            done = False
+            for w in xl.Workbooks:
+                if w.Name == path.name:
+                    w.SaveCopyAs(str(tmp))
+                    done = True
+                    break
+            if not done:
+                raise
         print(f"워크북이 잠겨 있어 사본으로 읽음: {tmp}")
         return openpyxl.load_workbook(tmp, read_only=True, data_only=True)
 
@@ -184,7 +197,7 @@ def main():
     wb = open_workbook(path)
     export_album(wb)
     export_consensus(wb)
-    print("완료 — git add data/yg && commit && push")
+    print("완료: git add data/yg && commit && push")
 
 
 if __name__ == "__main__":

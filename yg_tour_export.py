@@ -150,7 +150,7 @@ def main():
     export_tours(wb)
     export_quarterly(wb)
     export_drivers(wb)
-    print("완료 — git add data/yg && commit && push")
+    print("완료: git add data/yg && commit && push")
 
 
 if __name__ == "__main__":
