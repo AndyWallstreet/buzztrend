@@ -283,7 +283,14 @@ if _avail:
                 _yf, _yt = (("value", "월 검색수 (구글 애즈, 절대량)")
                             if mode_abs
                             else ("norm", "검색 관심도 (자기 피크=100)"))
-                ch = alt.Chart(v).mark_line(interpolate="monotone").encode(
+                _tips = ["brand",
+                         alt.Tooltip("breakout:N", title="붐 시작"),
+                         alt.Tooltip("m_since:Q", title="붐 후 개월"),
+                         alt.Tooltip(f"{_yf}:Q", format=",.0f",
+                                     title="월 검색수" if mode_abs else "관심도")]
+                ch = alt.Chart(v).mark_line(
+                    interpolate="monotone",
+                    point=alt.OverlayMarkDef(size=22)).encode(
                     x=alt.X("m_since:Q",
                             title="붐 시작 후 개월 (t=0 = 자기 피크의 10% 첫 도달)"),
                     y=alt.Y(f"{_yf}:Q", title=_yt),
@@ -293,10 +300,15 @@ if _avail:
                                                       labelLimit=160)),
                     size=alt.condition(alt.datum.brand == "madeca cream",
                                        alt.value(4.5), alt.value(1.7)),
-                    tooltip=["brand", "breakout",
-                             alt.Tooltip("m_since:Q", title="개월"),
-                             alt.Tooltip(f"{_yf}:Q", format=",.0f")])
-                st.altair_chart(ch.properties(height=430),
+                    tooltip=_tips)
+                # 마우스를 정확히 안 맞춰도 툴팁이 뜨게 — 투명한 큰 히트영역
+                hov = alt.Chart(v).mark_circle(size=250, opacity=0).encode(
+                    x="m_since:Q", y=f"{_yf}:Q",
+                    color=alt.Color("brand:N", scale=alt.Scale(domain=_bsel,
+                                                               range=_cols),
+                                    legend=None),
+                    tooltip=_tips)
+                st.altair_chart((ch + hov).properties(height=430),
                                 use_container_width=True)
                 ages = (v.groupby("brand")
                         .agg(b0=("breakout", "first"), age=("m_since", "max"))
