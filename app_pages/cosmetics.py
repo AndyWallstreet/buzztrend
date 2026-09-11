@@ -226,6 +226,9 @@ if _avail:
             if geo_l != "미국":
                 st.caption("절대량 데이터는 현재 미국 기준만 수집합니다.")
             a = av.copy()
+            # tirtir: 구글 애즈가 동철자 외국어 검색과 묶어 절대량이 오염됨
+            # (2024-06 월 2,490만 회 같은 비정상값) — 절대량 모드에서만 제외
+            a = a[a["brand"] != "tirtir"]
             a["month"] = pd.PeriodIndex(a["month"], freq="M")
             mm = a.groupby(["brand", "month"], as_index=False)["searches"] \
                 .mean().rename(columns={"searches": "value"})
@@ -311,7 +314,9 @@ if _avail:
                                "검색수)이라 **브랜드끼리 크기 비교가 됨** — "
                                "선이 높은 브랜드가 실제로 더 많이 검색됨. "
                                "구글 애즈 수치는 반올림된 구간값이라 트렌드보다 "
-                               "계단식으로 움직임. 출처 DataForSEO · 주 1회 갱신.")
+                               "계단식으로 움직임. tirtir는 동철자 외국어 검색과 "
+                               "묶여 절대량이 오염돼 이 모드에서 제외(모양 "
+                               "모드에는 있음). 출처 DataForSEO · 주 1회 갱신.")
                 else:
                     st.caption("**읽는법**: 모든 브랜드를 각자의 붐 시작 "
                                "시점(t=0)에 맞춰 겹친 차트 — 굵은 금색 = madeca "

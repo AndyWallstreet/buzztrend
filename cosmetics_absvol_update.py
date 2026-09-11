@@ -16,9 +16,10 @@ Usage:
     absvol_meta.json
     ../..//kbeauty/data/raw 아님 — 원시 응답은 absvol_raw.json (디버그용, gitignore 대상 아님/작음)
 
-- 엔드포인트: POST /v3/keywords_data/google_ads/search_volume/live
-  (구글 애즈 기준 월 검색수 + monthly_searches 이력, 미국 location_code 2840)
-- 비용: 요청 1건 약 $0.1 안팎 (키워드 1,000개까지 동일) — 주 1회면 월 $0.5 수준
+- 엔드포인트: POST /v3/dataforseo_labs/google/historical_search_volume/live
+  (구글 애즈 기준 월 검색수, 2018년까지 이력 약 8년치, 미국 location_code 2840)
+  ※ keywords_data/google_ads/search_volume은 12개월치만 줘서 안 씀
+- 비용: 요청 1건 약 $0.01~0.02 — 주 1회면 월 $0.1 미만
 - 주 1회 가드: 최근 6일 내 수집본 있으면 스킵 (--force 로 무시)
 - 브랜드 목록은 cosmetics_lifecycle_update.BRANDS 재사용 (미국 키워드)
 """
@@ -43,7 +44,8 @@ from cosmetics_lifecycle_update import BRANDS
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data" / "cosmetics"
 OUT = DATA / "absvol_monthly.csv"
-API = "https://api.dataforseo.com/v3/keywords_data/google_ads/search_volume/live"
+API = ("https://api.dataforseo.com/v3/dataforseo_labs/google/"
+       "historical_search_volume/live")
 LOCATION_US = 2840
 
 
@@ -93,10 +95,12 @@ def main():
         return
 
     rows = []
-    for it in task.get("result") or []:
+    res = (task.get("result") or [{}])[0]
+    for it in res.get("items") or []:
         kw = it.get("keyword", "")
         brand = kw2brand.get(kw, kw)
-        for m in it.get("monthly_searches") or []:
+        hist = ((it.get("keyword_info") or {}).get("monthly_searches")) or []
+        for m in hist:
             rows.append({"month": f"{m['year']}-{m['month']:02d}",
                          "brand": brand, "keyword": kw,
                          "searches": m.get("search_volume") or 0})
