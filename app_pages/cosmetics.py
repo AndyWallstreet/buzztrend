@@ -288,14 +288,18 @@ if _avail:
                          alt.Tooltip("m_since:Q", title="붐 후 개월"),
                          alt.Tooltip(f"{_yf}:Q", format=",.0f",
                                      title="월 검색수" if mode_abs else "관심도")]
+                # 아래 미니 차트에서 드래그로 구간을 고르면 본 차트가 줌
+                brush = alt.selection_interval(encodings=["x"])
+                _cscale = alt.Scale(domain=_bsel, range=_cols)
+                _xzoom = alt.X(
+                    "m_since:Q", scale=alt.Scale(domain=brush),
+                    title="붐 시작 후 개월 (t=0 = 자기 피크의 10% 첫 도달)")
                 ch = alt.Chart(v).mark_line(
                     interpolate="monotone",
                     point=alt.OverlayMarkDef(size=22)).encode(
-                    x=alt.X("m_since:Q",
-                            title="붐 시작 후 개월 (t=0 = 자기 피크의 10% 첫 도달)"),
+                    x=_xzoom,
                     y=alt.Y(f"{_yf}:Q", title=_yt),
-                    color=alt.Color("brand:N", title=None,
-                                    scale=alt.Scale(domain=_bsel, range=_cols),
+                    color=alt.Color("brand:N", title=None, scale=_cscale,
                                     legend=alt.Legend(orient="top", columns=6,
                                                       labelLimit=160)),
                     size=alt.condition(alt.datum.brand == "madeca cream",
@@ -303,13 +307,29 @@ if _avail:
                     tooltip=_tips)
                 # 마우스를 정확히 안 맞춰도 툴팁이 뜨게 — 투명한 큰 히트영역
                 hov = alt.Chart(v).mark_circle(size=250, opacity=0).encode(
-                    x="m_since:Q", y=f"{_yf}:Q",
-                    color=alt.Color("brand:N", scale=alt.Scale(domain=_bsel,
-                                                               range=_cols),
-                                    legend=None),
+                    x=_xzoom, y=f"{_yf}:Q",
+                    color=alt.Color("brand:N", scale=_cscale, legend=None),
                     tooltip=_tips)
-                st.altair_chart((ch + hov).properties(height=430),
-                                use_container_width=True)
+                overview = alt.Chart(v).mark_line(size=1).encode(
+                    x=alt.X("m_since:Q", title="↕ 여기서 드래그 = 구간 선택 · "
+                                               "빈 곳 클릭 = 전체로"),
+                    y=alt.Y(f"{_yf}:Q", axis=None),
+                    color=alt.Color("brand:N", scale=_cscale, legend=None),
+                ).add_params(brush).properties(height=55)
+                st.altair_chart(
+                    alt.vconcat((ch + hov).properties(height=430), overview)
+                    .resolve_scale(color="shared"),
+                    use_container_width=True)
+                with st.expander("📋 숫자 표 — 브랜드 × 붐 후 개월"):
+                    pv = v.pivot_table(index="brand", columns="m_since",
+                                       values=_yf, aggfunc="first")
+                    pv = pv.reindex(sorted(pv.columns), axis=1)
+                    pv.columns = [f"{int(c)}개월" for c in pv.columns]
+                    pv = pv.map(lambda x: f"{x:,.0f}" if pd.notna(x) else "")
+                    st.dataframe(pv, use_container_width=True)
+                    st.caption("값 = " + ("월 검색수(구글 애즈)" if mode_abs
+                                          else "자기 피크=100 상대값")
+                               + " · 열 = 붐 시작 후 경과 개월")
                 ages = (v.groupby("brand")
                         .agg(b0=("breakout", "first"), age=("m_since", "max"))
                         .sort_values("age"))
