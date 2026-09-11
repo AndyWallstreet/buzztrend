@@ -205,15 +205,39 @@ _avail = {k: v for k, v in _LGEO.items()
 if _avail:
     sub("K뷰티 브랜드 수명주기 — 붐 시작(t=0) 정렬",
         "브랜드별 단독 5년 검색 · 자기 피크=100 · x축 = 붐 시작 후 개월 수")
-    lc1, lc2 = st.columns([1, 3.2])
+    lc1, lc2, lc3 = st.columns([0.9, 2.4, 1.1])
     geo_l = lc1.selectbox("국가", list(_avail), key="life_geo")
-    lf = load(f"gtrends_life_{_avail[geo_l]}.csv",
-              _stamp(f"gtrends_life_{_avail[geo_l]}.csv"))
-    if lf is not None and len(lf):
-        d = lf.copy()
-        d["date"] = pd.to_datetime(d["date"])
-        d["month"] = d["date"].dt.to_period("M")
-        mm = d.groupby(["brand", "month"], as_index=False)["value"].mean()
+    mode_abs = lc3.radio("표시", ["모양 (자기 피크=100)", "절대량 (월 검색수)"],
+                         key="life_mode",
+                         help="절대량 = DataForSEO(구글 애즈) 월 검색수 — "
+                              "브랜드끼리 크기 비교 가능. 미국 기준.") \
+        .startswith("절대량")
+    mm = None
+    if mode_abs:
+        av = load("absvol_monthly.csv", _stamp("absvol_monthly.csv"))
+        if av is None or not len(av):
+            st.info("절대 검색량 데이터가 아직 없습니다. 설정 방법: ① "
+                    "dataforseo.com 가입 + $50 충전 (결제는 PM님이 직접) ② "
+                    "대시보드의 API 비밀번호 확인 ③ buzztrend/.streamlit/"
+                    "secrets.toml에 [dataforseo] login/password 추가 (저장소에 "
+                    "커밋되지 않음) ④ 'python cosmetics_absvol_update.py' 실행 "
+                    "— 이후는 주 1회 자동. 그때까지는 '모양' 모드를 쓰세요.")
+        else:
+            if geo_l != "미국":
+                st.caption("절대량 데이터는 현재 미국 기준만 수집합니다.")
+            a = av.copy()
+            a["month"] = pd.PeriodIndex(a["month"], freq="M")
+            mm = a.groupby(["brand", "month"], as_index=False)["searches"] \
+                .mean().rename(columns={"searches": "value"})
+    else:
+        lf = load(f"gtrends_life_{_avail[geo_l]}.csv",
+                  _stamp(f"gtrends_life_{_avail[geo_l]}.csv"))
+        if lf is not None and len(lf):
+            d = lf.copy()
+            d["date"] = pd.to_datetime(d["date"])
+            d["month"] = d["date"].dt.to_period("M")
+            mm = d.groupby(["brand", "month"], as_index=False)["value"].mean()
+    if mm is not None and len(mm):
         rows = []
         for b, g in mm.groupby("brand"):
             g = g.sort_values("month").copy()
@@ -253,10 +277,13 @@ if _avail:
                     else:
                         _cols.append(_pal2[_pi % len(_pal2)])
                         _pi += 1
+                _yf, _yt = (("value", "월 검색수 (구글 애즈, 절대량)")
+                            if mode_abs
+                            else ("norm", "검색 관심도 (자기 피크=100)"))
                 ch = alt.Chart(v).mark_line(interpolate="monotone").encode(
                     x=alt.X("m_since:Q",
                             title="붐 시작 후 개월 (t=0 = 자기 피크의 10% 첫 도달)"),
-                    y=alt.Y("norm:Q", title="검색 관심도 (자기 피크=100)"),
+                    y=alt.Y(f"{_yf}:Q", title=_yt),
                     color=alt.Color("brand:N", title=None,
                                     scale=alt.Scale(domain=_bsel, range=_cols),
                                     legend=alt.Legend(orient="top", columns=6,
@@ -265,7 +292,7 @@ if _avail:
                                        alt.value(4.5), alt.value(1.7)),
                     tooltip=["brand", "breakout",
                              alt.Tooltip("m_since:Q", title="개월"),
-                             alt.Tooltip("norm:Q", format=".0f")])
+                             alt.Tooltip(f"{_yf}:Q", format=",.0f")])
                 st.altair_chart(ch.properties(height=430),
                                 use_container_width=True)
                 ages = (v.groupby("brand")
@@ -279,13 +306,21 @@ if _avail:
                             "Qoo10·LIPS 앱에서 화장품을 찾는 비중이 커서 보조 "
                             "지표로 쓸 것. 검색어는 가타카나 매핑 사용."
                             if geo_l == "일본" else "")
-                st.caption("**읽는법**: 모든 브랜드를 각자의 붐 시작 시점(t=0)에 "
-                           "맞춰 겹친 차트 — 굵은 금색 = madeca cream. 같은 "
-                           "개월수에서 벤치마크 곡선이 앞으로 어떻게 갔는지가 "
-                           "madeca의 시나리오. 각 선은 자기 피크=100의 상대값이라 "
-                           "**모양(단계) 비교용**이며 브랜드끼리 크기 비교는 아님."
-                           + _jp_note)
-    else:
+                if mode_abs:
+                    st.caption("**읽는법**: 절대 검색량(구글 애즈 기준 월 "
+                               "검색수)이라 **브랜드끼리 크기 비교가 됨** — "
+                               "선이 높은 브랜드가 실제로 더 많이 검색됨. "
+                               "구글 애즈 수치는 반올림된 구간값이라 트렌드보다 "
+                               "계단식으로 움직임. 출처 DataForSEO · 주 1회 갱신.")
+                else:
+                    st.caption("**읽는법**: 모든 브랜드를 각자의 붐 시작 "
+                               "시점(t=0)에 맞춰 겹친 차트 — 굵은 금색 = madeca "
+                               "cream. 같은 개월수에서 벤치마크 곡선이 앞으로 "
+                               "어떻게 갔는지가 madeca의 시나리오. 각 선은 자기 "
+                               "피크=100의 상대값이라 **모양(단계) 비교용**이며 "
+                               "브랜드끼리 크기 비교는 아님 — 크기는 '절대량' "
+                               "모드에서." + _jp_note)
+    elif not mode_abs:
         st.info("수명주기 데이터 수집 중 — cosmetics_lifecycle_update.py 실행 후 "
                 "표시됩니다.")
 
