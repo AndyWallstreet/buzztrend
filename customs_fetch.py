@@ -133,7 +133,7 @@ def main():
     ly, lm = latest_available(s)
     print(f"최신 공표월: {ly}.{lm:02d} | 수집 시작: {y0}.{m0:02d}")
     if (y0, m0) > (ly, lm):
-        print("이미 최신 — 수집할 새 월 없음")
+        print("이미 최신: 수집할 새 월 없음")
         return
 
     # 연 단위 청크로 요청 (한 번에 12개월)
