@@ -58,14 +58,18 @@ st.caption(f"월 × 국가 × HS(3303~3307) · US$ · 2016.01 ~ {_lm.replace('-'
 
 cx = load("customs_exports.csv", _stamp("customs_exports.csv"))
 mo = load("customs_monthly.csv.gz", _stamp("customs_monthly.csv.gz"))
+im = load("customs_interim.csv", _stamp("customs_interim.csv"))
 if cx is None or not len(cx):
     st.info("데이터가 없습니다 — python customs_fetch.py 실행 후 커밋.")
     st.stop()
+# 확정통계가 이미 커버한 잠정월은 자동 제외 (확정으로 대체)
+if im is not None and len(im) and _lm:
+    im = im[im["month"] > _lm]
 
 _ytot = cx.groupby("year")["usd_k"].sum() / 1e6          # US$bn (usd_k=US$000)
 _y_full = int(cx["year"].max()) - 1                      # 마지막 완성 연도
 _y_cur = int(cx["year"].max())
-k1, k2, k3 = st.columns(3)
+k1, k2, k3, k4 = st.columns(4)
 k1.metric(f"{_y_full}년 수출 총액", f"${_ytot[_y_full]:,.2f}bn",
           f"{(_ytot[_y_full] / _ytot[_y_full - 1] - 1) * 100:+.1f}% YoY",
           delta_color="normal")
@@ -86,6 +90,16 @@ if mo is not None and _lm:
 else:
     k3.metric(f"{_y_cur}년 누계", f"${_ytot[_y_cur]:,.2f}bn",
               "연간 아님 — 잠정 누계", delta_color="off")
+if im is not None and len(im):
+    _ir = im.iloc[-1]
+    k4.metric(f"{int(_ir['month'][5:7])}월 잠정*",
+              f"${_ir['usd_mn'] / 1000:,.2f}bn",
+              f"+{_ir['yoy_pct']:.1f}% YoY (산업부 발표)",
+              delta_color="normal")
+    st.caption(f"*{int(_ir['month'][5:7])}월은 확정 전 — [산업부 수출입동향]"
+               f"({_ir['source']}) {_ir['published']} 발표, {_ir['basis']} 기준. "
+               "MTI 분류라 HS 확정치와 소폭 다를 수 있음 — 확정통계가 나오면 "
+               "자동으로 대체됨.")
 
 # ---- 월별 추이
 if mo is not None and len(mo):
@@ -95,22 +109,37 @@ if mo is not None and len(mo):
     ms = ms.sort_values("month")
     ms["yoy"] = (ms["usd_mn"] / ms["usd_mn"].shift(12) - 1) * 100
     ms36 = ms.tail(36).copy()
+    ms36["kind"] = "확정"
+    if im is not None and len(im):
+        _imd = im.rename(columns={})[["month", "usd_mn"]].copy()
+        _imd["kind"] = "잠정*"
+        ms36 = pd.concat([ms36, _imd], ignore_index=True)
     ms36["date"] = pd.to_datetime(ms36["month"] + "-01")
-    bar_m = alt.Chart(ms36).mark_bar(color="#2a78d6").encode(
+    bar_m = alt.Chart(ms36).mark_bar().encode(
         x=alt.X("date:T", title=None,
                 axis=alt.Axis(format="%y %b", labelAngle=0)),
         y=alt.Y("usd_mn:Q", title="월 수출 (US$mn)"),
-        tooltip=[alt.Tooltip("date:T", format="%Y-%m"),
+        color=alt.Color("kind:N", title=None,
+                        scale=alt.Scale(domain=["확정", "잠정*"],
+                                        range=["#2a78d6", "#e8c15a"]),
+                        legend=alt.Legend(orient="top")),
+        tooltip=[alt.Tooltip("date:T", format="%Y-%m"), "kind",
                  alt.Tooltip("usd_mn:Q", format=",.0f"),
                  alt.Tooltip("yoy:Q", format="+.1f")])
-    line_y = alt.Chart(ms36).mark_line(color="#eb6834", size=2.5,
-                                       point=True).encode(
+    txt_i = alt.Chart(ms36[ms36["kind"] == "잠정*"]).mark_text(
+        dy=-10, fontSize=11, color="#e8c15a").encode(
+        x=alt.X("date:T"), y=alt.Y("usd_mn:Q"),
+        text=alt.Text("usd_mn:Q", format=",.0f"))
+    line_y = alt.Chart(ms36[ms36["kind"] == "확정"]).mark_line(
+        color="#eb6834", size=2.5, point=True).encode(
         x=alt.X("date:T"), y=alt.Y("yoy:Q", title="YoY (%)"))
-    st.altair_chart(alt.layer(bar_m, line_y).resolve_scale(y="independent")
+    st.altair_chart(alt.layer(bar_m + txt_i, line_y)
+                    .resolve_scale(y="independent")
                     .properties(height=340), use_container_width=True)
-    st.caption("**읽는법**: 파란 막대 = 그 달 수출 절대액, 주황 선 = 전년 같은 달 "
-               "대비 증가율. 선이 0% 위에 있으면 수출이 계속 크는 중. 확정통계는 "
-               "약 5주 시차로 공표됨 (7월분 → 9월 초).")
+    st.caption("**읽는법**: 파란 막대 = 확정 월 수출, 금색 막대 = 산업부 발표 "
+               "잠정치(MTI 기준 — 뉴스에 먼저 나오는 숫자), 주황 선 = 확정치의 "
+               "전년 같은 달 대비 %. 확정통계는 약 5주 시차로 공표됨 "
+               "(7월분 → 9월 초).")
 
 x1, x2 = st.columns(2, gap="large")
 _regc = {"Asia": "#2a78d6", "North America": "#eb6834", "Europe": "#4fb862",
@@ -140,10 +169,13 @@ with x1:
 with x2:
     _cl = (cx.groupby("country_en")["usd_k"].sum()
            .sort_values(ascending=False).index.tolist())
-    c_sel = st.selectbox("국가 선택", _cl,
-                         index=_cl.index("United States")
-                         if "United States" in _cl else 0, key="cx_c")
+    # 제목 바가 왼쪽 차트 제목과 같은 줄에 오도록 콤보박스보다 먼저 그린다
+    c_sel = st.session_state.get("cx_c", "United States")
+    if c_sel not in _cl:
+        c_sel = _cl[0]
     sub(f"{c_sel} — 연도별 수출 (HS 구성)", "US$mn")
+    c_sel = st.selectbox("국가 선택", _cl,
+                         index=_cl.index(c_sel), key="cx_c")
     cc = cx[cx["country_en"] == c_sel].groupby(
         ["year", "hs"], as_index=False)["usd_k"].sum()
     cc["usd_mn"] = cc["usd_k"] / 1000

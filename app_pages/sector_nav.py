@@ -28,6 +28,9 @@ SECTORS = [
             ("beauty", "💄 센텔리안24 미국 수요"),
             ("/종목상세?ticker=A086450", "📋 동국제약 Stock Picker"),
         ]),
+        ("섹터 데이터", [
+            ("cosexp", "🚢 한국 화장품 수출 (관세청)"),
+        ]),
     ]),
     ("ent", "Entertainment / Contents", [
         ("SAMG 엔터 (419530)", [

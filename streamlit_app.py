@@ -104,6 +104,8 @@ h1, h2, h3 { letter-spacing: -0.01em; }
           <span class="lk-co">동국제약 (086450)</span>
           <a href="/cosmetics-beauty" target="_self">센텔리안24 미국 수요</a>
           <a href="/종목상세?ticker=A086450" target="_self">동국제약 Stock Picker</a>
+          <span class="lk-co">섹터 데이터</span>
+          <a href="/cosmetics-exports" target="_self">한국 화장품 수출 (관세청)</a>
         </div>
       </div>
       <div class="lk-item">
@@ -156,6 +158,8 @@ pg_bio = st.Page(_placeholder("Bio / Healthcare", "제약·바이오·의료기�
                  title="Bio/Healthcare", url_path="bio-healthcare")
 pg_beauty = st.Page("app_pages/cosmetics.py",
                     title="Cosmetics/Beauty", url_path="cosmetics-beauty")
+pg_cosexp = st.Page("app_pages/cosmetics_exports.py",
+                    title="└ 한국 화장품 수출", url_path="cosmetics-exports")
 pg_trailer = st.Page("app_pages/hatchuping_trailer.py", title="└ 하츄핑2 예고편",
                      url_path="하츄핑2_예고편")
 pg_boxoffice = st.Page("app_pages/hatchuping_boxoffice.py", title="└ 하츄핑2 개봉 후",
@@ -196,6 +200,7 @@ from app_pages import cover  # noqa: E402  (st.page_link 에 Page 객체가 필�
 
 # 좌측 섹터 메뉴가 st.page_link(SPA 전환, 새로고침 없음)를 쓸 수 있게 Page 등록
 sector_nav.register({"batt": pg_batt, "bio": pg_bio, "beauty": pg_beauty,
+                     "cosexp": pg_cosexp,
                      "ent": pg_ent, "consumer": pg_consumer, "logi": pg_logi,
                      "steel": pg_steel, "trailer": pg_trailer,
                      "boxoffice": pg_boxoffice, "yg": pg_yg})
@@ -217,7 +222,8 @@ pg_cover = st.Page(_cover, title="LK Asset Terminal", url_path="home", default=T
 nav = st.navigation({
     "": [pg_cover],
     "Screener": [pg_buzz, pg_value, pg_stock, pg_watch],
-    "Sector Watch": [pg_batt, pg_bio, pg_beauty, pg_ent, pg_trailer, pg_boxoffice,
+    "Sector Watch": [pg_batt, pg_bio, pg_beauty, pg_cosexp, pg_ent, pg_trailer,
+                     pg_boxoffice,
                      pg_yg, pg_bigbang, pg_babymon,
                      pg_consumer, pg_logi, pg_steel],
 }, position="hidden")
