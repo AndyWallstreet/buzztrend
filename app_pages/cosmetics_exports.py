@@ -78,14 +78,15 @@ _top_c = (cx[cx["year"] == _y_full].groupby("country_en")["usd_k"].sum()
 k2.metric(f"{_y_full}년 1위 시장: {_top_c.index[0]}",
           f"${_top_c.iloc[0] / 1e6:,.2f}bn",
           f"점유 {_top_c.iloc[0] / _top_c.sum() * 100:.0f}%", delta_color="off")
-if mo is not None and _lm:
-    _mmax = int(_lm[5:7])
+_mmax = int(_lm[5:7]) if _lm else None
+if mo is not None and _mmax:
     _ycur_sum = mo[mo["month"].str[:4] == str(_y_cur)]["exp_usd_k"].sum() / 1e6
     _yprv_sum = mo[(mo["month"].str[:4] == str(_y_cur - 1))
                    & (mo["month"].str[5:7].astype(int) <= _mmax)][
         "exp_usd_k"].sum() / 1e6
     k3.metric(f"{_y_cur}년 1~{_mmax}월 누계", f"${_ycur_sum:,.2f}bn",
-              f"{(_ycur_sum / _yprv_sum - 1) * 100:+.1f}% vs 전년 같은 기간",
+              f"{(_ycur_sum / _yprv_sum - 1) * 100:+.1f}% vs 전년 같은 기간 · "
+              f"연환산 ${_ycur_sum / _mmax * 12:,.1f}bn",
               delta_color="normal")
 else:
     k3.metric(f"{_y_cur}년 누계", f"${_ytot[_y_cur]:,.2f}bn",
@@ -145,27 +146,41 @@ x1, x2 = st.columns(2, gap="large")
 _regc = {"Asia": "#2a78d6", "North America": "#eb6834", "Europe": "#4fb862",
          "CIS": "#b06fc9", "Middle East": "#e8c15a", "Oceania": "#4fb8c9",
          "Latin America": "#e8425a", "Africa": "#b5b5b5"}
+def _annualize(df):
+    """올해 값을 12/_mmax 배로 연환산하고 연 라벨을 '2026E*'로 바꾼다."""
+    df = df.copy()
+    df["yr"] = df["year"].astype(str)
+    if _mmax:
+        df.loc[df["year"] == _y_cur, "usd_mn"] *= 12 / _mmax
+        df.loc[df["year"] == _y_cur, "yr"] = f"{_y_cur}E*"
+    return df
+
+
 with x1:
-    sub("연도별 수출 — 권역 구성", "US$mn · 막대 위 = 연 합계")
+    sub("연도별 수출 — 권역 구성",
+        f"US$mn · 막대 위 = 연 합계 · {_y_cur}E* = 1~{_mmax}월 연환산")
     rg = cx.groupby(["year", "region"], as_index=False)["usd_k"].sum()
     rg["usd_mn"] = rg["usd_k"] / 1000
+    rg = _annualize(rg)
     bars = alt.Chart(rg).mark_bar().encode(
-        x=alt.X("year:O", title=None, axis=alt.Axis(labelAngle=0)),
+        x=alt.X("yr:O", title=None, axis=alt.Axis(labelAngle=0)),
         y=alt.Y("usd_mn:Q", title="수출 (US$mn)"),
         color=alt.Color("region:N", title=None,
                         scale=alt.Scale(domain=list(_regc),
                                         range=list(_regc.values())),
                         legend=alt.Legend(orient="top", columns=4)),
-        tooltip=["year:O", "region", alt.Tooltip("usd_mn:Q", format=",.0f")])
-    tot = rg.groupby("year", as_index=False)["usd_mn"].sum()
+        tooltip=["yr:O", "region", alt.Tooltip("usd_mn:Q", format=",.0f")])
+    tot = rg.groupby("yr", as_index=False)["usd_mn"].sum()
     txt = alt.Chart(tot).mark_text(dy=-8, fontSize=11, color="#c6d0de").encode(
-        x=alt.X("year:O"), y=alt.Y("usd_mn:Q"),
+        x=alt.X("yr:O"), y=alt.Y("usd_mn:Q"),
         text=alt.Text("usd_mn:Q", format=",.0f"))
     st.altair_chart((bars + txt).properties(height=380),
                     use_container_width=True)
-    st.caption("**읽는법**: 2022년 꺾임 = 중국(파랑 축소), 그 뒤 회복 = "
+    st.caption(f"**읽는법**: 2022년 꺾임 = 중국(파랑 축소), 그 뒤 회복 = "
                "미국·유럽·CIS가 끌고 감 — 시장 다변화가 이번 사이클의 핵심. "
-               "마지막 막대는 1~5월 누계라 짧은 게 정상.")
+               f"**{_y_cur}E***는 1~{_mmax}월 확정 누계 ÷{_mmax}×12 연환산 "
+               "(run-rate) — 계절성 미반영이라 4분기가 강하면 실제는 더 클 수 "
+               "있음, 확정치 아님.")
 with x2:
     _cl = (cx.groupby("country_en")["usd_k"].sum()
            .sort_values(ascending=False).index.tolist())
@@ -173,29 +188,31 @@ with x2:
     c_sel = st.session_state.get("cx_c", "United States")
     if c_sel not in _cl:
         c_sel = _cl[0]
-    sub(f"{c_sel} — 연도별 수출 (HS 구성)", "US$mn")
+    sub(f"{c_sel} — 연도별 수출 (HS 구성)",
+        f"US$mn · {_y_cur}E* = 연환산")
     c_sel = st.selectbox("국가 선택", _cl,
                          index=_cl.index(c_sel), key="cx_c")
     cc = cx[cx["country_en"] == c_sel].groupby(
         ["year", "hs"], as_index=False)["usd_k"].sum()
     cc["usd_mn"] = cc["usd_k"] / 1000
+    cc = _annualize(cc)
     bars2 = alt.Chart(cc).mark_bar().encode(
-        x=alt.X("year:O", title=None, axis=alt.Axis(labelAngle=0)),
+        x=alt.X("yr:O", title=None, axis=alt.Axis(labelAngle=0)),
         y=alt.Y("usd_mn:Q", title="수출 (US$mn)"),
         color=alt.Color("hs:N", title=None,
                         legend=alt.Legend(orient="top", columns=2,
                                           labelLimit=220)),
-        tooltip=["year:O", "hs", alt.Tooltip("usd_mn:Q", format=",.0f")])
-    tot2 = cc.groupby("year", as_index=False)["usd_mn"].sum()
+        tooltip=["yr:O", "hs", alt.Tooltip("usd_mn:Q", format=",.0f")])
+    tot2 = cc.groupby("yr", as_index=False)["usd_mn"].sum()
     txt2 = alt.Chart(tot2).mark_text(dy=-8, fontSize=11,
                                      color="#c6d0de").encode(
-        x=alt.X("year:O"), y=alt.Y("usd_mn:Q"),
+        x=alt.X("yr:O"), y=alt.Y("usd_mn:Q"),
         text=alt.Text("usd_mn:Q", format=",.0f"))
     st.altair_chart((bars2 + txt2).properties(height=380),
                     use_container_width=True)
     st.caption("**읽는법**: 거의 모든 나라에서 3304(기초·색조)가 대부분. "
                "선케어는 HS상 분리 불가(3304 안에 포함), 마스크팩은 3307에 "
-               "섞임 — 관세청 분류의 한계.")
+               f"섞임 — 관세청 분류의 한계. {_y_cur}E*는 연환산 추정.")
 
 # ---- 톱 10 국가 표
 sub(f"Top 10 시장 — {_y_full}년", "YoY · 점유율")
