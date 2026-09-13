@@ -30,8 +30,10 @@ TIMEFRAME = "today 5-y"
 
 # brand -> geo별 검색어 ("*"=기본). 일본은 가타카나 우세.
 BRANDS = {
-    "madeca cream": {"*": "madeca cream", "JP": "マデカクリーム"},
-    "reedle shot": {"*": "reedle shot", "JP": "リードルショット"},
+    # JP: 구글애즈는 'リードル ショット'(띄어쓰기)로 정규화 — 붙여 쓰면 0이 나옴.
+    # 센텔리안은 일본에서 브랜드명(センテリアン24) 검색이 제품명보다 큼.
+    "madeca cream": {"*": "madeca cream", "JP": "センテリアン24"},
+    "reedle shot": {"*": "reedle shot", "JP": "リードル ショット"},
     "medicube": {"*": "medicube", "JP": "メディキューブ"},
     "anua": {"*": "anua", "JP": "アヌア"},
     "cosrx": {"*": "cosrx", "JP": "コスアールエックス"},

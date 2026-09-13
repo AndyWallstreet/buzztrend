@@ -1,10 +1,13 @@
 {
- "fetched": "2026-09-11T16:14:54",
- "location": "US(2840)",
- "source": "DataForSEO google_ads search_volume",
- "cost_usd": 0.01416,
+ "fetched": "2026-09-14T08:33:19",
+ "geos": {
+  "US": "loc 2840/en",
+  "JP": "loc 2392/ja"
+ },
+ "source": "DataForSEO labs historical_search_volume",
+ "cost_usd": 0.028200000000000003,
  "months": [
   "2018-02",
-  "2026-07"
+  "2026-08"
  ]
 }

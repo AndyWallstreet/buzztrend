@@ -28,6 +28,7 @@ import datetime as dt
 import json
 import os
 import sys
+import time
 from pathlib import Path
 
 import pandas as pd
@@ -79,50 +80,74 @@ def main():
             print(f"최근 수집본 있음 ({meta['fetched'][:10]}) - 주 1회 가드로 스킵")
             return
 
-    kw2brand = {v.get("US", v["*"]): b for b, v in BRANDS.items()}
     auth = base64.b64encode(f"{login}:{pw}".encode()).decode()
-    body = [{"keywords": list(kw2brand), "location_code": LOCATION_US,
-             "language_code": "en"}]
-    r = requests.post(API, json=body,
-                      headers={"Authorization": "Basic " + auth}, timeout=90)
-    r.raise_for_status()
-    js = r.json()
-    (DATA / "absvol_raw.json").write_text(
-        json.dumps(js, ensure_ascii=False)[:400000], encoding="utf-8")
-    task = (js.get("tasks") or [{}])[0]
-    if task.get("status_code") != 20000:
-        print("API 오류:", task.get("status_code"), task.get("status_message"))
-        return
-
-    rows = []
-    res = (task.get("result") or [{}])[0]
-    for it in res.get("items") or []:
-        kw = it.get("keyword", "")
-        brand = kw2brand.get(kw, kw)
-        hist = ((it.get("keyword_info") or {}).get("monthly_searches")) or []
-        for m in hist:
-            rows.append({"month": f"{m['year']}-{m['month']:02d}",
-                         "brand": brand, "keyword": kw,
-                         "searches": m.get("search_volume") or 0})
+    # 나라별 수집: 일본은 가타카나 키워드 (BRANDS의 "JP" 매핑, 없으면 로마자).
+    # 주의: 구글 애즈 검색수는 '구글에서의' 검색만 — 야후재팬 프론트(점유 ~6~9%)
+    # 는 미포함이라 일본 절대량은 일관되게 약간 과소. 브랜드 간 비교엔 문제 없음.
+    GEOS = {"US": (2840, "en"), "JP": (2392, "ja")}
+    rows, total_cost = [], 0.0
+    for geo, (loc, lang) in GEOS.items():
+        kw2brand = {v.get(geo, v["*"]): b for b, v in BRANDS.items()}
+        body = [{"keywords": list(kw2brand), "location_code": loc,
+                 "language_code": lang}]
+        js = None
+        for attempt in range(3):           # 간헐적 403 스로틀 → 재시도
+            try:
+                r = requests.post(API, json=body,
+                                  headers={"Authorization": "Basic " + auth},
+                                  timeout=90)
+                r.raise_for_status()
+                js = r.json()
+                break
+            except Exception as e:
+                print(f"  {geo}: {type(e).__name__} 재시도 {attempt + 1}/3")
+                time.sleep(20)
+        if js is None:
+            print(f"  {geo}: 수집 실패 - 기존 데이터 유지")
+            continue
+        (DATA / f"absvol_raw_{geo}.json").write_text(
+            json.dumps(js, ensure_ascii=False)[:400000], encoding="utf-8")
+        task = (js.get("tasks") or [{}])[0]
+        if task.get("status_code") != 20000:
+            print(f"  {geo} API 오류:", task.get("status_code"),
+                  task.get("status_message"))
+            continue
+        res = (task.get("result") or [{}])[0]
+        n0 = len(rows)
+        for it in res.get("items") or []:
+            kw = it.get("keyword", "")
+            brand = kw2brand.get(kw, kw)
+            hist = ((it.get("keyword_info") or {}).get("monthly_searches")) or []
+            for m in hist:
+                rows.append({"geo": geo,
+                             "month": f"{m['year']}-{m['month']:02d}",
+                             "brand": brand, "keyword": kw,
+                             "searches": m.get("search_volume") or 0})
+        total_cost += js.get("cost") or 0
+        print(f"  {geo}: {len(rows) - n0}행 | 비용 ${js.get('cost')}")
+        time.sleep(5)
     if not rows:
-        print("결과 비어 있음 - absvol_raw.json 확인 필요")
+        print("결과 비어 있음 - absvol_raw_*.json 확인 필요")
         return
     new = pd.DataFrame(rows)
     if OUT.exists():                       # 이력 보존: 과거 월은 유지, 겹치면 최신값
         old = pd.read_csv(OUT)
+        if "geo" not in old.columns:       # 구버전 파일은 미국 수집분
+            old["geo"] = "US"
         new = (pd.concat([old, new])
-               .drop_duplicates(subset=["month", "brand"], keep="last"))
-    new = new.sort_values(["brand", "month"])
+               .drop_duplicates(subset=["geo", "month", "brand"], keep="last"))
+    new = new.sort_values(["geo", "brand", "month"])
     new.to_csv(OUT, index=False, encoding="utf-8")
-    cost = js.get("cost")
     meta_p.write_text(json.dumps(
         {"fetched": dt.datetime.now().isoformat(timespec="seconds"),
-         "location": "US(2840)", "source": "DataForSEO google_ads "
-         "search_volume", "cost_usd": cost,
+         "geos": {g: f"loc {v[0]}/{v[1]}" for g, v in GEOS.items()},
+         "source": "DataForSEO labs historical_search_volume",
+         "cost_usd": total_cost,
          "months": [new["month"].min(), new["month"].max()]},
         ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"absvol_monthly.csv: {new['brand'].nunique()}개 브랜드, "
-          f"{new['month'].min()}~{new['month'].max()} | 이번 요청 비용 ${cost}")
+    print(f"absvol_monthly.csv: {new['brand'].nunique()}개 브랜드 × "
+          f"{new['geo'].nunique()}개국, {new['month'].min()}~"
+          f"{new['month'].max()} | 총비용 ${total_cost}")
 
 
 if __name__ == "__main__":

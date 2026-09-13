@@ -223,12 +223,19 @@ if _avail:
                     "커밋되지 않음) ④ 'python cosmetics_absvol_update.py' 실행 "
                     "— 이후는 주 1회 자동. 그때까지는 '모양' 모드를 쓰세요.")
         else:
-            if geo_l != "미국":
-                st.caption("절대량 데이터는 현재 미국 기준만 수집합니다.")
             a = av.copy()
-            # tirtir: 구글 애즈가 동철자 외국어 검색과 묶어 절대량이 오염됨
-            # (2024-06 월 2,490만 회 같은 비정상값) — 절대량 모드에서만 제외
-            a = a[a["brand"] != "tirtir"]
+            if "geo" not in a.columns:
+                a["geo"] = "US"
+            _g = _avail.get(geo_l) or "US"
+            if _g not in set(a["geo"]):
+                st.caption(f"절대량 데이터는 아직 미국·일본만 — {geo_l} 대신 "
+                           "미국을 표시합니다.")
+                _g = "US"
+            a = a[a["geo"] == _g]
+            if _g == "US":
+                # tirtir(미국): 동철자 외국어 검색과 묶여 절대량 오염
+                # (2024-06 월 2,490만 회) — 일본(ティルティル)은 깨끗함
+                a = a[a["brand"] != "tirtir"]
             a["month"] = pd.PeriodIndex(a["month"], freq="M")
             mm = a.groupby(["brand", "month"], as_index=False)["searches"] \
                 .mean().rename(columns={"searches": "value"})
