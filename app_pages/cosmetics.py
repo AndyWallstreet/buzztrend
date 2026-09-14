@@ -215,6 +215,7 @@ if _avail:
     _geo_opts = list(_ABSGEO if mode_abs else _avail)
     geo_l = lc1.selectbox("국가", _geo_opts, key="life_geo")
     mm = None
+    _kwmap = {}          # brand -> 실제 사용 검색어 (선택 국가 기준)
     if mode_abs:
         av = load("absvol_monthly.csv", _stamp("absvol_monthly.csv"))
         if av is None or not len(av):
@@ -236,6 +237,9 @@ if _avail:
                 # tirtir(미국): 동철자 외국어 검색과 묶여 절대량 오염
                 # (2024-06 월 2,490만 회) — 일본(ティルティル)은 깨끗함
                 a = a[a["brand"] != "tirtir"]
+            if "keyword" in a.columns:
+                _kwmap = a.drop_duplicates("brand").set_index("brand")[
+                    "keyword"].to_dict()
             a["month"] = pd.PeriodIndex(a["month"], freq="M")
             mm = a.groupby(["brand", "month"], as_index=False)["searches"] \
                 .mean().rename(columns={"searches": "value"})
@@ -244,6 +248,9 @@ if _avail:
                   _stamp(f"gtrends_life_{_avail[geo_l]}.csv"))
         if lf is not None and len(lf):
             d = lf.copy()
+            if "keyword" in d.columns:
+                _kwmap = d.drop_duplicates("brand").set_index("brand")[
+                    "keyword"].to_dict()
             d["date"] = pd.to_datetime(d["date"])
             d["month"] = d["date"].dt.to_period("M")
             mm = d.groupby(["brand", "month"], as_index=False)["value"].mean()
@@ -272,6 +279,15 @@ if _avail:
                     if b in _all]
             sel = lc2.multiselect("브랜드 (추가/제거 가능)", _all, default=_def,
                                   key="life_sel")
+            if _kwmap and sel:
+                _en = ("en_US" if geo_l == "미국" else "ja_JP" if geo_l == "일본"
+                       else "en_GB" if geo_l == "영국" else "en_AU"
+                       if geo_l == "호주" else "")
+                _parts = [f"**{b}** = `{_kwmap.get(b, '?')}`"
+                          for b in sel if b in _kwmap]
+                st.caption(f"🔎 {geo_l} 실제 검색어 ({_en}): " + " · ".join(_parts)
+                           + " — 나라마다 사람들이 실제로 치는 말로 조회함(일본은 "
+                             "가타카나, 브랜드명 우선). 검색어가 이상하면 알려주세요.")
             v = life[life["brand"].isin(sel)].copy()
             if len(v):
                 _bsel = sorted(v["brand"].unique())
