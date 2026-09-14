@@ -209,10 +209,13 @@ if _avail:
     mode_abs = lc3.radio("표시", ["모양 (자기 피크=100)", "절대량 (월 검색수)"],
                          key="life_mode",
                          help="절대량 = DataForSEO(구글 애즈) 월 검색수 — "
-                              "브랜드끼리 크기 비교 가능. 미국·일본·영국·호주.") \
+                              "브랜드끼리 크기 비교 가능. 16개국 수집.") \
         .startswith("절대량")
-    _ABSGEO = {"미국": "US", "일본": "JP", "영국": "GB", "호주": "AU",
-               "주요4개국 합계": "SUM4"}
+    _ABSGEO = {"16개국 합계": "SUMALL", "미국": "US", "일본": "JP", "영국": "GB",
+               "호주": "AU", "캐나다": "CA", "독일": "DE", "프랑스": "FR",
+               "네덜란드": "NL", "멕시코": "MX", "브라질": "BR",
+               "싱가포르": "SG", "필리핀": "PH", "말레이시아": "MY",
+               "인도네시아": "ID", "베트남": "VN", "인도": "IN"}
     _geo_opts = list(_ABSGEO if mode_abs else _avail)
     geo_l = lc1.selectbox("국가", _geo_opts, key="life_geo")
     mm = None
@@ -233,24 +236,21 @@ if _avail:
             _g = _ABSGEO.get(geo_l, "US")
             # tirtir: 미국 절대량 오염(동철자 외국어) — 어느 뷰든 제외
             a = a[a["brand"] != "tirtir"]
-            if _g == "SUM4":
-                # 4개국(US·JP·GB·AU) 각 나라 네이티브 키워드로 8년 이력을 월별 합산
-                # → 진짜 worldwide는 아니지만 장기 이력 + 정확한 키워드 = 신뢰 가능
-                a = a[a["geo"].isin(["US", "JP", "GB", "AU"])]
+            if _g == "SUMALL":
+                # 수집된 모든 나라(현재 16개국)를 각 나라 네이티브 키워드로 월별
+                # 합산. 진짜 worldwide는 아니지만 8년 이력 + 정확한 키워드.
+                a = a[a["geo"] != "WW"]        # WW는 12개월뿐이라 제외
                 if "keyword" in a.columns:
-                    # 합계는 나라별 키워드가 다름(일본=가타카나) → 전부 표기
-                    _ord = {"US": 0, "GB": 1, "AU": 2, "JP": 3}
+                    # 나라별 키워드가 다름(일본=가타카나) → 전부 표기
                     _kwmap = {}
                     for b, g in a.groupby("brand"):
                         k2g = {}
                         for kw, gg in g.groupby("keyword"):
-                            k2g.setdefault(kw, []).extend(
-                                sorted(set(gg["geo"]), key=lambda x: _ord.get(x, 9)))
+                            k2g.setdefault(kw, set()).update(gg["geo"])
                         _kwmap[b] = " + ".join(
-                            f"{kw} [{'·'.join(gs)}]"
-                            for kw, gs in sorted(
-                                k2g.items(),
-                                key=lambda kv: _ord.get(kv[1][0], 9)))
+                            f"{kw} [{'·'.join(sorted(gs)) if len(gs) <= 4 else str(len(gs)) + '개국'}]"
+                            for kw, gs in sorted(k2g.items(),
+                                                 key=lambda kv: -len(kv[1])))
                 a["month"] = pd.PeriodIndex(a["month"], freq="M")
                 # 마지막 달은 나라마다 반영 시점이 달라(미국만 먼저 들어옴)
                 # 합계가 뚝 떨어져 보인다 → 브랜드별로 '모든 나라가 가진
@@ -307,10 +307,9 @@ if _avail:
             sel = lc2.multiselect("브랜드 (추가/제거 가능)", _all, default=_def,
                                   key="life_sel")
             if _kwmap and sel:
-                _en = ("en_US" if geo_l == "미국" else "ja_JP" if geo_l == "일본"
-                       else "en_GB" if geo_l == "영국" else "en_AU"
-                       if geo_l == "호주" else "US·JP·GB·AU 합산"
-                       if geo_l == "주요4개국 합계" else "")
+                _en = ("16개국 합산" if geo_l == "16개국 합계"
+                       else _ABSGEO.get(geo_l, "") if mode_abs
+                       else "ja_JP" if geo_l == "일본" else "en")
                 _parts = [f"**{b}** = `{_kwmap.get(b, '?')}`"
                           for b in sel if b in _kwmap]
                 st.caption(f"🔎 {geo_l} 실제 검색어 ({_en}): " + " · ".join(_parts)
@@ -392,12 +391,14 @@ if _avail:
                             "Qoo10·LIPS 앱에서 화장품을 찾는 비중이 커서 보조 "
                             "지표로 쓸 것. 검색어는 가타카나 매핑 사용."
                             if geo_l == "일본" else
-                            " 주요4개국 합계 = 미국+일본+영국+호주 월별 검색 합산"
+                            " 16개국 합계 = 미국·일본·영국·호주·캐나다·독일·"
+                            "프랑스·네덜란드·멕시코·브라질·싱가포르·필리핀·"
+                            "말레이시아·인도네시아·베트남·인도 월별 검색 합산"
                             "(각 나라 네이티브 키워드·8년 이력). 진짜 '전세계'는 "
-                            "아니지만(한국·동남아·중남미 제외) K뷰티 서구+일본 "
-                            "수요의 장기 추세를 담음. 전세계 절대치(최신월)는 "
-                            "구글애즈로 별도 확인 가능."
-                            if geo_l == "주요4개국 합계" else "")
+                            "아님 — 중국(구글 차단)·러시아(얀덱스)·한국(네이버 "
+                            "비중) 빠짐. 나라별 반영 시점이 달라 모든 나라가 "
+                            "가진 마지막 달까지만 합산."
+                            if geo_l == "16개국 합계" else "")
                 if mode_abs:
                     st.caption("**읽는법**: 절대 검색량(구글 애즈 기준 월 "
                                "검색수)이라 **브랜드끼리 크기 비교가 됨** — "
@@ -569,6 +570,123 @@ if _res:
         st.caption("YoY 증가율 — 전년 같은 달 대비 %. 0% 금색 점선 위 = 성장.")
     else:
         st.caption("YoY 증가율을 보려면 기간을 '5년'으로 선택하세요.")
+
+# --------------------------------------- 절대 검색량 직접 조회 (DataForSEO)
+sub("절대 검색량 직접 조회 (DataForSEO)",
+    "키워드 · 나라 지정 → 월 검색수(절대량) 8년치 · 1회 약 $0.014")
+_DFSLOC = {"미국": (2840, "en"), "일본": (2392, "ja"), "한국": (2410, "ko"),
+           "영국": (2826, "en"), "호주": (2036, "en"), "캐나다": (2124, "en"),
+           "독일": (2276, "de"), "프랑스": (2250, "fr"), "멕시코": (2484, "es"),
+           "브라질": (2076, "pt"), "싱가포르": (2702, "en"),
+           "필리핀": (2608, "en"), "인도네시아": (2360, "id"),
+           "베트남": (2704, "vi"), "태국": (2764, "th"),
+           "전세계 (최근 12개월만)": (0, "")}
+d1, d2, d3 = st.columns([3.4, 1.3, 0.8])
+dk_in = d1.text_input("키워드 (쉼표로 구분, 최대 20개)",
+                      value="madeca cream, centellian 24", key="dfs_kw",
+                      help="나라별로 실제 쓰는 말로 넣으세요. 일본은 가타카나 "
+                           "(예: センテリアン24). 띄어쓰기도 결과가 달라집니다.")
+dk_geo = d2.selectbox("나라", list(_DFSLOC), key="dfs_geo")
+d3.write("")
+dk_go = d3.button("조회", type="primary", use_container_width=True,
+                  key="dfs_go")
+
+
+def _dfs_creds():
+    try:
+        d = st.secrets["dataforseo"]
+        return d["login"], d["password"]
+    except Exception:
+        pass
+    import os
+    return os.environ.get("DFS_LOGIN"), os.environ.get("DFS_PASSWORD")
+
+
+@st.cache_data(ttl=86400, show_spinner="DataForSEO 조회 중…")
+def _dfs_fetch(kws, loc, lang):
+    import base64
+    import requests
+    try:                       # 사내 프록시 인증서 (로컬 실행용)
+        import truststore
+        truststore.inject_into_ssl()
+    except Exception:
+        pass
+    lg, pw = _dfs_creds()
+    if not lg:
+        return None, "키 없음"
+    auth = base64.b64encode(f"{lg}:{pw}".encode()).decode()
+    if loc:                       # 나라별 = 8년 이력
+        url = ("https://api.dataforseo.com/v3/dataforseo_labs/google/"
+               "historical_search_volume/live")
+        body = [{"keywords": list(kws), "location_code": loc,
+                 "language_code": lang}]
+    else:                         # 전세계 = 12개월만
+        url = ("https://api.dataforseo.com/v3/keywords_data/google_ads/"
+               "search_volume/live")
+        body = [{"keywords": list(kws)}]
+    r = requests.post(url, json=body,
+                      headers={"Authorization": "Basic " + auth}, timeout=90)
+    r.raise_for_status()
+    js = r.json()
+    task = (js.get("tasks") or [{}])[0]
+    if task.get("status_code") != 20000:
+        return None, str(task.get("status_message"))
+    items = ((task.get("result") or [{}])[0].get("items")
+             if loc else task.get("result")) or []
+    rows = []
+    for it in items:
+        kw = it.get("keyword", "")
+        hist = (((it.get("keyword_info") or {}).get("monthly_searches"))
+                if loc else it.get("monthly_searches")) or []
+        for m in hist:
+            rows.append({"keyword": kw,
+                         "month": f"{m['year']}-{m['month']:02d}",
+                         "searches": m.get("search_volume") or 0})
+    return pd.DataFrame(rows), f"비용 ${js.get('cost')}"
+
+
+if dk_go:
+    _kws = [k.strip() for k in dk_in.split(",") if k.strip()][:20]
+    if not _kws:
+        st.warning("키워드를 1개 이상 넣어주세요.")
+    else:
+        _loc, _lang = _DFSLOC[dk_geo]
+        try:
+            _df, _msg = _dfs_fetch(tuple(_kws), _loc, _lang)
+        except Exception as e:
+            _df, _msg = None, f"{type(e).__name__}"
+        if _df is None:
+            st.error(f"조회 실패: {_msg} — 로컬에서는 buzztrend/.streamlit/"
+                     "secrets.toml의 [dataforseo] 키를 쓰고, 클라우드에서는 "
+                     "Streamlit 앱 설정 Secrets에 같은 키를 넣어야 합니다.")
+        elif not len(_df):
+            st.warning("결과 없음 — 검색량이 너무 적거나 철자/띄어쓰기가 다를 수 "
+                       "있습니다. (일본은 가타카나로 넣어보세요)")
+        else:
+            _df["month"] = pd.to_datetime(_df["month"] + "-01")
+            ch = alt.Chart(_df).mark_line(size=2).encode(
+                x=alt.X("month:T", title=None,
+                        axis=alt.Axis(format="%y %b", labelAngle=0)),
+                y=alt.Y("searches:Q", title="월 검색수",
+                        axis=alt.Axis(format=",.0f")),
+                color=alt.Color("keyword:N", title=None,
+                                legend=alt.Legend(orient="top")),
+                tooltip=["keyword", alt.Tooltip("month:T"),
+                         alt.Tooltip("searches:Q", format=",.0f")])
+            st.altair_chart(ch.properties(height=300),
+                            use_container_width=True)
+            _last = (_df.sort_values("month").groupby("keyword")
+                     .tail(12).groupby("keyword")["searches"]
+                     .mean().sort_values(ascending=False))
+            st.caption(f"**최근 12개월 월평균**: " + " · ".join(
+                f"{k} {v:,.0f}회" for k, v in _last.items())
+                + f" — {dk_geo} 기준 · {_msg}")
+            with st.expander("월별 숫자 보기"):
+                st.dataframe(
+                    _df.pivot_table(index="month", columns="keyword",
+                                    values="searches").sort_index(
+                        ascending=False),
+                    use_container_width=True)
 
 # ---------------------------------------------------------------- 아마존
 sub("아마존 스냅샷 — 센텔리안24 (수동 확인)",

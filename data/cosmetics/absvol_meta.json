@@ -1,13 +1,25 @@
 {
- "fetched": "2026-09-14T11:05:16",
+ "fetched": "2026-09-14T13:56:51",
  "geos": {
   "US": "loc 2840/en",
   "JP": "loc 2392/ja",
   "GB": "loc 2826/en",
-  "AU": "loc 2036/en"
+  "AU": "loc 2036/en",
+  "CA": "loc 2124/en",
+  "DE": "loc 2276/de",
+  "FR": "loc 2250/fr",
+  "NL": "loc 2528/nl",
+  "MX": "loc 2484/es",
+  "BR": "loc 2076/pt",
+  "SG": "loc 2702/en",
+  "PH": "loc 2608/en",
+  "MY": "loc 2458/en",
+  "ID": "loc 2360/id",
+  "VN": "loc 2704/vi",
+  "IN": "loc 2356/en"
  },
  "source": "DataForSEO labs historical_search_volume",
- "cost_usd": 0.14616,
+ "cost_usd": 0.30935999999999997,
  "months": [
   "2018-02",
   "2026-08"
