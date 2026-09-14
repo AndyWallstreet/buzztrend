@@ -265,11 +265,16 @@ if _avail:
                     _g = "US"
                 a = a[a["geo"] == _g]
                 if "keyword" in a.columns:
-                    _kwmap = a.drop_duplicates("brand").set_index("brand")[
-                        "keyword"].to_dict()
+                    # 브랜드당 검색어 여러 개(브랜드명+제품명, 가타카나+로마자) → 합산
+                    _kwmap = {b: " + ".join(sorted(set(g["keyword"])))
+                              for b, g in a.groupby("brand")}
                 a["month"] = pd.PeriodIndex(a["month"], freq="M")
+                # 검색어마다 최신월 반영 시점이 달라 마지막 달 합이 반토막 나는 것 방지
+                _cut = (a.groupby(["brand", "keyword"])["month"].max()
+                        .groupby("brand").min())
+                a = a[a["month"] <= a["brand"].map(_cut)]
                 mm = a.groupby(["brand", "month"], as_index=False)[
-                    "searches"].mean().rename(columns={"searches": "value"})
+                    "searches"].sum().rename(columns={"searches": "value"})
     else:
         lf = load(f"gtrends_life_{_avail[geo_l]}.csv",
                   _stamp(f"gtrends_life_{_avail[geo_l]}.csv"))
@@ -436,6 +441,9 @@ if _avail:
         if "geo" not in a2.columns:
             a2["geo"] = "US"
         a2 = a2[a2["geo"].isin(["US", "JP"])]
+        # 나라·검색어별 최신월이 다르면 마지막 달만 잘라 합산 (부분 합계 방지)
+        _c2 = a2.groupby(["geo", "keyword"])["month"].max().min()
+        a2 = a2[a2["month"] <= _c2]
         a2 = a2.groupby("month", as_index=False)["searches"].sum()  # US+JP
         a2["date"] = pd.to_datetime(a2["month"] + "-01")
         rv = _rev[_rev["brand"] == bsel1].copy()

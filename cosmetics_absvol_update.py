@@ -42,6 +42,43 @@ except Exception:
 
 from cosmetics_lifecycle_update import BRANDS
 
+# 절대량 전용 키워드: 브랜드당 여러 검색어를 합산한다(구글애즈는 로마자↔가타카나를
+# 묶지 않아 별개 검색어로 잡힘). 2026-09-14 확인: 일본에서 cosrx·skin1004·beauty of
+# joseon은 로마자 검색이 가타카나보다 크고, 센텔리안24는 브랜드명+제품명이 갈린다.
+# "*" = 기본(모든 나라), "JP" = 일본. 없으면 BRANDS 매핑을 쓴다.
+ABS_KEYWORDS = {
+    "madeca cream": {"*": ["madeca cream", "centellian 24"],
+                     "JP": ["センテリアン24", "マデカクリーム", "madeca cream"]},
+    "reedle shot": {"JP": ["リードル ショット", "reedle shot"]},
+    "medicube": {"JP": ["メディキューブ", "medicube"]},
+    "anua": {"JP": ["アヌア", "anua"]},
+    "cosrx": {"JP": ["コスアールエックス", "cosrx"]},
+    "tirtir": {"JP": ["ティルティル", "tirtir"]},
+    "beauty of joseon": {"JP": ["beauty of joseon"]},
+    "torriden": {"JP": ["トリデン", "torriden"]},
+    "skin1004": {"JP": ["スキン1004", "skin1004"]},
+    "round lab": {"JP": ["ラウンドラボ", "round lab"]},
+    "biodance": {"JP": ["バイオダンス", "biodance"]},
+    "d'alba": {"JP": ["ダルバ", "d'alba"]},
+    "manyo": {"JP": ["魔女工場", "manyo"]},
+    "mixsoon": {"JP": ["ミクスーン", "mixsoon"]},
+    "numbuzin": {"JP": ["ナンバーズイン", "numbuzin"]},
+    "abib": {"JP": ["アビブ", "abib"]},
+    "isntree": {"JP": ["イズントゥリー", "isntree"]},
+    "laneige": {"JP": ["ラネージュ", "laneige"]},
+}
+
+
+def keywords_for(brand, geo):
+    """브랜드·나라별 검색어 목록 (합산 대상)."""
+    a = ABS_KEYWORDS.get(brand, {})
+    if geo in a:
+        return list(a[geo])
+    if "*" in a:
+        return list(a["*"])
+    v = BRANDS[brand]
+    return [v.get(geo, v["*"])]
+
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data" / "cosmetics"
 OUT = DATA / "absvol_monthly.csv"
@@ -93,7 +130,7 @@ def main():
             "ID": (2360, "id"), "VN": (2704, "vi"), "IN": (2356, "en")}
     rows, total_cost = [], 0.0
     for geo, (loc, lang) in GEOS.items():
-        kw2brand = {v.get(geo, v["*"]): b for b, v in BRANDS.items()}
+        kw2brand = {kw: b for b in BRANDS for kw in keywords_for(b, geo)}
         body = [{"keywords": list(kw2brand), "location_code": loc,
                  "language_code": lang}]
         js = None
@@ -138,7 +175,7 @@ def main():
     # 이력만 주고, 로마자 키워드 1개라 일본어표기 브랜드(리들샷 등)는 과소집계.
     WW_API = ("https://api.dataforseo.com/v3/keywords_data/google_ads/"
               "search_volume/live")
-    ww_k2b = {v["*"]: b for b, v in BRANDS.items()}
+    ww_k2b = {kw: b for b in BRANDS for kw in keywords_for(b, "WW")}
     js = None
     for attempt in range(3):
         try:
@@ -178,9 +215,14 @@ def main():
         old = pd.read_csv(OUT)
         if "geo" not in old.columns:       # 구버전 파일은 미국 수집분
             old["geo"] = "US"
+        # 이번에 새로 받은 (나라, 브랜드)는 통째로 교체 — 검색어 목록이 바뀌어도
+        # 옛 검색어 행이 남아 이중 합산되는 일을 막는다. 실패한 나라는 기존값 유지.
+        got = set(zip(new["geo"], new["brand"]))
+        old = old[[(g, b) not in got for g, b in zip(old["geo"], old["brand"])]]
         new = (pd.concat([old, new])
-               .drop_duplicates(subset=["geo", "month", "brand"], keep="last"))
-    new = new.sort_values(["geo", "brand", "month"])
+               .drop_duplicates(subset=["geo", "month", "brand", "keyword"],
+                                keep="last"))
+    new = new.sort_values(["geo", "brand", "keyword", "month"])
     new.to_csv(OUT, index=False, encoding="utf-8")
     meta_p.write_text(json.dumps(
         {"fetched": dt.datetime.now().isoformat(timespec="seconds"),
