@@ -211,7 +211,8 @@ if _avail:
                          help="절대량 = DataForSEO(구글 애즈) 월 검색수 — "
                               "브랜드끼리 크기 비교 가능. 미국·일본·영국·호주.") \
         .startswith("절대량")
-    _ABSGEO = {"미국": "US", "일본": "JP", "영국": "GB", "호주": "AU"}
+    _ABSGEO = {"미국": "US", "일본": "JP", "영국": "GB", "호주": "AU",
+               "전세계": "WW"}
     _geo_opts = list(_ABSGEO if mode_abs else _avail)
     geo_l = lc1.selectbox("국가", _geo_opts, key="life_geo")
     mm = None
@@ -282,7 +283,8 @@ if _avail:
             if _kwmap and sel:
                 _en = ("en_US" if geo_l == "미국" else "ja_JP" if geo_l == "일본"
                        else "en_GB" if geo_l == "영국" else "en_AU"
-                       if geo_l == "호주" else "")
+                       if geo_l == "호주" else "worldwide·로마자"
+                       if geo_l == "전세계" else "")
                 _parts = [f"**{b}** = `{_kwmap.get(b, '?')}`"
                           for b in sel if b in _kwmap]
                 st.caption(f"🔎 {geo_l} 실제 검색어 ({_en}): " + " · ".join(_parts)
@@ -363,7 +365,11 @@ if _avail:
                             "90%라 방향은 유효하지만, 일본 소비자는 @cosme·"
                             "Qoo10·LIPS 앱에서 화장품을 찾는 비중이 커서 보조 "
                             "지표로 쓸 것. 검색어는 가타카나 매핑 사용."
-                            if geo_l == "일본" else "")
+                            if geo_l == "일본" else
+                            " 전세계 주의: 로마자 키워드 1개로 조회해 일본어표기 "
+                            "브랜드(리들샷=リードルショット)는 과소집계됨. 또 "
+                            "전세계는 12개월 이력만 제공(국가별은 8년)."
+                            if geo_l == "전세계" else "")
                 if mode_abs:
                     st.caption("**읽는법**: 절대 검색량(구글 애즈 기준 월 "
                                "검색수)이라 **브랜드끼리 크기 비교가 됨** — "

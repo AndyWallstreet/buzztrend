@@ -127,6 +127,44 @@ def main():
         total_cost += js.get("cost") or 0
         print(f"  {geo}: {len(rows) - n0}행 | 비용 ${js.get('cost')}")
         time.sleep(5)
+
+    # ---- 전세계(WW): google_ads search_volume, location 생략 = worldwide.
+    # labs historical은 국가별만 지원 → worldwide는 이 엔드포인트로만. 단 12개월
+    # 이력만 주고, 로마자 키워드 1개라 일본어표기 브랜드(리들샷 등)는 과소집계.
+    WW_API = ("https://api.dataforseo.com/v3/keywords_data/google_ads/"
+              "search_volume/live")
+    ww_k2b = {v["*"]: b for b, v in BRANDS.items()}
+    js = None
+    for attempt in range(3):
+        try:
+            r = requests.post(WW_API, json=[{"keywords": list(ww_k2b)}],
+                              headers={"Authorization": "Basic " + auth},
+                              timeout=90)
+            r.raise_for_status()
+            js = r.json()
+            break
+        except Exception as e:
+            print(f"  WW: {type(e).__name__} 재시도 {attempt + 1}/3")
+            time.sleep(20)
+    if js is not None:
+        task = (js.get("tasks") or [{}])[0]
+        if task.get("status_code") == 20000:
+            n0 = len(rows)
+            for it in task.get("result") or []:
+                kw = it.get("keyword", "")
+                brand = ww_k2b.get(kw, kw)
+                for m in it.get("monthly_searches") or []:
+                    rows.append({"geo": "WW",
+                                 "month": f"{m['year']}-{m['month']:02d}",
+                                 "brand": brand, "keyword": kw,
+                                 "searches": m.get("search_volume") or 0})
+            total_cost += js.get("cost") or 0
+            print(f"  WW(전세계): {len(rows) - n0}행 | 비용 ${js.get('cost')}")
+        else:
+            print("  WW API 오류:", task.get("status_message"))
+    else:
+        print("  WW: 수집 실패 - 기존 데이터 유지")
+
     if not rows:
         print("결과 비어 있음 - absvol_raw_*.json 확인 필요")
         return

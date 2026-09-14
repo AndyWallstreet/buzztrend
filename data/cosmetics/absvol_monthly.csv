@@ -1301,6 +1301,7 @@ month,brand,keyword,searches,geo
 2026-05,round lab,round lab,1600,AU
 2026-06,round lab,round lab,1600,AU
 2026-07,round lab,round lab,1600,AU
+2026-08,round lab,round lab,1900,AU
 2018-10,skin1004,skin1004,10,AU
 2018-11,skin1004,skin1004,10,AU
 2018-12,skin1004,skin1004,20,AU
@@ -1928,6 +1929,7 @@ month,brand,keyword,searches,geo
 2026-05,cosrx,cosrx,14800,GB
 2026-06,cosrx,cosrx,12100,GB
 2026-07,cosrx,cosrx,9900,GB
+2026-08,cosrx,cosrx,12100,GB
 2018-11,d'alba,d'alba,50,GB
 2018-12,d'alba,d'alba,30,GB
 2019-01,d'alba,d'alba,50,GB
@@ -2567,6 +2569,7 @@ month,brand,keyword,searches,geo
 2026-05,numbuzin,numbuzin,4400,GB
 2026-06,numbuzin,numbuzin,4400,GB
 2026-07,numbuzin,numbuzin,4400,GB
+2026-08,numbuzin,numbuzin,4400,GB
 2021-09,reedle shot,reedle shot,0,GB
 2021-10,reedle shot,reedle shot,0,GB
 2021-11,reedle shot,reedle shot,10,GB
@@ -3680,6 +3683,7 @@ month,brand,keyword,searches,geo
 2026-05,manyo,魔女工場,3600,JP
 2026-06,manyo,魔女工場,2900,JP
 2026-07,manyo,魔女工場,2900,JP
+2026-08,manyo,魔女工場,2900,JP
 2018-11,medicube,メディキューブ,1900,JP
 2018-12,medicube,メディキューブ,1600,JP
 2019-01,medicube,メディキューブ,1600,JP
@@ -6082,3 +6086,219 @@ month,brand,keyword,searches,geo
 2026-05,torriden,torriden,22200,US
 2026-06,torriden,torriden,22200,US
 2026-07,torriden,torriden,22200,US
+2025-09,abib,abib,49500,WW
+2025-10,abib,abib,60500,WW
+2025-11,abib,abib,49500,WW
+2025-12,abib,abib,49500,WW
+2026-01,abib,abib,60500,WW
+2026-02,abib,abib,49500,WW
+2026-03,abib,abib,60500,WW
+2026-04,abib,abib,60500,WW
+2026-05,abib,abib,60500,WW
+2026-06,abib,abib,60500,WW
+2026-07,abib,abib,60500,WW
+2026-08,abib,abib,60500,WW
+2025-09,anua,anua,301000,WW
+2025-10,anua,anua,301000,WW
+2025-11,anua,anua,368000,WW
+2025-12,anua,anua,368000,WW
+2026-01,anua,anua,368000,WW
+2026-02,anua,anua,301000,WW
+2026-03,anua,anua,368000,WW
+2026-04,anua,anua,368000,WW
+2026-05,anua,anua,368000,WW
+2026-06,anua,anua,368000,WW
+2026-07,anua,anua,368000,WW
+2026-08,anua,anua,450000,WW
+2025-09,beauty of joseon,beauty of joseon,550000,WW
+2025-10,beauty of joseon,beauty of joseon,550000,WW
+2025-11,beauty of joseon,beauty of joseon,823000,WW
+2025-12,beauty of joseon,beauty of joseon,673000,WW
+2026-01,beauty of joseon,beauty of joseon,823000,WW
+2026-02,beauty of joseon,beauty of joseon,673000,WW
+2026-03,beauty of joseon,beauty of joseon,823000,WW
+2026-04,beauty of joseon,beauty of joseon,823000,WW
+2026-05,beauty of joseon,beauty of joseon,823000,WW
+2026-06,beauty of joseon,beauty of joseon,823000,WW
+2026-07,beauty of joseon,beauty of joseon,673000,WW
+2026-08,beauty of joseon,beauty of joseon,673000,WW
+2025-09,biodance,biodance,90500,WW
+2025-10,biodance,biodance,110000,WW
+2025-11,biodance,biodance,135000,WW
+2025-12,biodance,biodance,165000,WW
+2026-01,biodance,biodance,165000,WW
+2026-02,biodance,biodance,135000,WW
+2026-03,biodance,biodance,165000,WW
+2026-04,biodance,biodance,165000,WW
+2026-05,biodance,biodance,165000,WW
+2026-06,biodance,biodance,201000,WW
+2026-07,biodance,biodance,165000,WW
+2026-08,biodance,biodance,201000,WW
+2025-09,cosrx,cosrx,301000,WW
+2025-10,cosrx,cosrx,301000,WW
+2025-11,cosrx,cosrx,368000,WW
+2025-12,cosrx,cosrx,368000,WW
+2026-01,cosrx,cosrx,368000,WW
+2026-02,cosrx,cosrx,301000,WW
+2026-03,cosrx,cosrx,368000,WW
+2026-04,cosrx,cosrx,368000,WW
+2026-05,cosrx,cosrx,368000,WW
+2026-06,cosrx,cosrx,301000,WW
+2026-07,cosrx,cosrx,301000,WW
+2026-08,cosrx,cosrx,301000,WW
+2025-09,d'alba,d'alba,135000,WW
+2025-10,d'alba,d'alba,135000,WW
+2025-11,d'alba,d'alba,165000,WW
+2025-12,d'alba,d'alba,165000,WW
+2026-01,d'alba,d'alba,165000,WW
+2026-02,d'alba,d'alba,165000,WW
+2026-03,d'alba,d'alba,201000,WW
+2026-04,d'alba,d'alba,165000,WW
+2026-05,d'alba,d'alba,165000,WW
+2026-06,d'alba,d'alba,165000,WW
+2026-07,d'alba,d'alba,135000,WW
+2026-08,d'alba,d'alba,135000,WW
+2025-09,isntree,isntree,33100,WW
+2025-10,isntree,isntree,33100,WW
+2025-11,isntree,isntree,33100,WW
+2025-12,isntree,isntree,33100,WW
+2026-01,isntree,isntree,33100,WW
+2026-02,isntree,isntree,33100,WW
+2026-03,isntree,isntree,40500,WW
+2026-04,isntree,isntree,40500,WW
+2026-05,isntree,isntree,40500,WW
+2026-06,isntree,isntree,33100,WW
+2026-07,isntree,isntree,33100,WW
+2026-08,isntree,isntree,33100,WW
+2025-09,laneige,laneige,550000,WW
+2025-10,laneige,laneige,550000,WW
+2025-11,laneige,laneige,823000,WW
+2025-12,laneige,laneige,823000,WW
+2026-01,laneige,laneige,673000,WW
+2026-02,laneige,laneige,550000,WW
+2026-03,laneige,laneige,550000,WW
+2026-04,laneige,laneige,450000,WW
+2026-05,laneige,laneige,450000,WW
+2026-06,laneige,laneige,368000,WW
+2026-07,laneige,laneige,450000,WW
+2026-08,laneige,laneige,450000,WW
+2025-09,madeca cream,madeca cream,110000,WW
+2025-10,madeca cream,madeca cream,74000,WW
+2025-11,madeca cream,madeca cream,90500,WW
+2025-12,madeca cream,madeca cream,110000,WW
+2026-01,madeca cream,madeca cream,135000,WW
+2026-02,madeca cream,madeca cream,110000,WW
+2026-03,madeca cream,madeca cream,165000,WW
+2026-04,madeca cream,madeca cream,135000,WW
+2026-05,madeca cream,madeca cream,135000,WW
+2026-06,madeca cream,madeca cream,165000,WW
+2026-07,madeca cream,madeca cream,201000,WW
+2026-08,madeca cream,madeca cream,246000,WW
+2025-09,manyo,manyo,40500,WW
+2025-10,manyo,manyo,33100,WW
+2025-11,manyo,manyo,40500,WW
+2025-12,manyo,manyo,33100,WW
+2026-01,manyo,manyo,40500,WW
+2026-02,manyo,manyo,33100,WW
+2026-03,manyo,manyo,33100,WW
+2026-04,manyo,manyo,33100,WW
+2026-05,manyo,manyo,40500,WW
+2026-06,manyo,manyo,33100,WW
+2026-07,manyo,manyo,40500,WW
+2026-08,manyo,manyo,33100,WW
+2025-09,medicube,medicube,823000,WW
+2025-10,medicube,medicube,1000000,WW
+2025-11,medicube,medicube,1220000,WW
+2025-12,medicube,medicube,1220000,WW
+2026-01,medicube,medicube,1500000,WW
+2026-02,medicube,medicube,1500000,WW
+2026-03,medicube,medicube,1500000,WW
+2026-04,medicube,medicube,1500000,WW
+2026-05,medicube,medicube,1500000,WW
+2026-06,medicube,medicube,1500000,WW
+2026-07,medicube,medicube,1830000,WW
+2026-08,medicube,medicube,2240000,WW
+2025-09,mixsoon,mixsoon,110000,WW
+2025-10,mixsoon,mixsoon,110000,WW
+2025-11,mixsoon,mixsoon,135000,WW
+2025-12,mixsoon,mixsoon,135000,WW
+2026-01,mixsoon,mixsoon,165000,WW
+2026-02,mixsoon,mixsoon,110000,WW
+2026-03,mixsoon,mixsoon,110000,WW
+2026-04,mixsoon,mixsoon,110000,WW
+2026-05,mixsoon,mixsoon,90500,WW
+2026-06,mixsoon,mixsoon,90500,WW
+2026-07,mixsoon,mixsoon,90500,WW
+2026-08,mixsoon,mixsoon,90500,WW
+2025-09,numbuzin,numbuzin,60500,WW
+2025-10,numbuzin,numbuzin,60500,WW
+2025-11,numbuzin,numbuzin,110000,WW
+2025-12,numbuzin,numbuzin,110000,WW
+2026-01,numbuzin,numbuzin,135000,WW
+2026-02,numbuzin,numbuzin,110000,WW
+2026-03,numbuzin,numbuzin,110000,WW
+2026-04,numbuzin,numbuzin,135000,WW
+2026-05,numbuzin,numbuzin,135000,WW
+2026-06,numbuzin,numbuzin,135000,WW
+2026-07,numbuzin,numbuzin,165000,WW
+2026-08,numbuzin,numbuzin,165000,WW
+2025-09,reedle shot,reedle shot,40500,WW
+2025-10,reedle shot,reedle shot,49500,WW
+2025-11,reedle shot,reedle shot,60500,WW
+2025-12,reedle shot,reedle shot,60500,WW
+2026-01,reedle shot,reedle shot,60500,WW
+2026-02,reedle shot,reedle shot,49500,WW
+2026-03,reedle shot,reedle shot,49500,WW
+2026-04,reedle shot,reedle shot,60500,WW
+2026-05,reedle shot,reedle shot,60500,WW
+2026-06,reedle shot,reedle shot,49500,WW
+2026-07,reedle shot,reedle shot,40500,WW
+2026-08,reedle shot,reedle shot,40500,WW
+2025-09,round lab,round lab,74000,WW
+2025-10,round lab,round lab,74000,WW
+2025-11,round lab,round lab,90500,WW
+2025-12,round lab,round lab,90500,WW
+2026-01,round lab,round lab,90500,WW
+2026-02,round lab,round lab,90500,WW
+2026-03,round lab,round lab,110000,WW
+2026-04,round lab,round lab,110000,WW
+2026-05,round lab,round lab,110000,WW
+2026-06,round lab,round lab,110000,WW
+2026-07,round lab,round lab,110000,WW
+2026-08,round lab,round lab,110000,WW
+2025-09,skin1004,skin1004,246000,WW
+2025-10,skin1004,skin1004,201000,WW
+2025-11,skin1004,skin1004,301000,WW
+2025-12,skin1004,skin1004,246000,WW
+2026-01,skin1004,skin1004,246000,WW
+2026-02,skin1004,skin1004,201000,WW
+2026-03,skin1004,skin1004,246000,WW
+2026-04,skin1004,skin1004,246000,WW
+2026-05,skin1004,skin1004,246000,WW
+2026-06,skin1004,skin1004,246000,WW
+2026-07,skin1004,skin1004,201000,WW
+2026-08,skin1004,skin1004,246000,WW
+2025-09,tirtir,tirtir,201000,WW
+2025-10,tirtir,tirtir,246000,WW
+2025-11,tirtir,tirtir,368000,WW
+2025-12,tirtir,tirtir,246000,WW
+2026-01,tirtir,tirtir,246000,WW
+2026-02,tirtir,tirtir,201000,WW
+2026-03,tirtir,tirtir,201000,WW
+2026-04,tirtir,tirtir,201000,WW
+2026-05,tirtir,tirtir,201000,WW
+2026-06,tirtir,tirtir,201000,WW
+2026-07,tirtir,tirtir,165000,WW
+2026-08,tirtir,tirtir,165000,WW
+2025-09,torriden,torriden,135000,WW
+2025-10,torriden,torriden,135000,WW
+2025-11,torriden,torriden,165000,WW
+2025-12,torriden,torriden,165000,WW
+2026-01,torriden,torriden,165000,WW
+2026-02,torriden,torriden,165000,WW
+2026-03,torriden,torriden,246000,WW
+2026-04,torriden,torriden,201000,WW
+2026-05,torriden,torriden,201000,WW
+2026-06,torriden,torriden,201000,WW
+2026-07,torriden,torriden,201000,WW
+2026-08,torriden,torriden,201000,WW
