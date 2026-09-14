@@ -238,10 +238,19 @@ if _avail:
                 # → 진짜 worldwide는 아니지만 장기 이력 + 정확한 키워드 = 신뢰 가능
                 a = a[a["geo"].isin(["US", "JP", "GB", "AU"])]
                 if "keyword" in a.columns:
-                    _kwmap = {b: "US:" + g[g.geo == "US"]["keyword"].iloc[0]
-                              if (g.geo == "US").any() else
-                              g["keyword"].iloc[0]
-                              for b, g in a.groupby("brand")}
+                    # 합계는 나라별 키워드가 다름(일본=가타카나) → 전부 표기
+                    _ord = {"US": 0, "GB": 1, "AU": 2, "JP": 3}
+                    _kwmap = {}
+                    for b, g in a.groupby("brand"):
+                        k2g = {}
+                        for kw, gg in g.groupby("keyword"):
+                            k2g.setdefault(kw, []).extend(
+                                sorted(set(gg["geo"]), key=lambda x: _ord.get(x, 9)))
+                        _kwmap[b] = " + ".join(
+                            f"{kw} [{'·'.join(gs)}]"
+                            for kw, gs in sorted(
+                                k2g.items(),
+                                key=lambda kv: _ord.get(kv[1][0], 9)))
                 a["month"] = pd.PeriodIndex(a["month"], freq="M")
                 # 마지막 달은 나라마다 반영 시점이 달라(미국만 먼저 들어옴)
                 # 합계가 뚝 떨어져 보인다 → 브랜드별로 '모든 나라가 가진
