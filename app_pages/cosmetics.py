@@ -243,10 +243,14 @@ if _avail:
                               g["keyword"].iloc[0]
                               for b, g in a.groupby("brand")}
                 a["month"] = pd.PeriodIndex(a["month"], freq="M")
-                # 월별 국가 합계 → 그 다음 연/월 평균처럼 쓰기 위해 먼저 월합
-                a = a.groupby(["brand", "month"], as_index=False)[
-                    "searches"].sum()
-                mm = a.rename(columns={"searches": "value"})
+                # 마지막 달은 나라마다 반영 시점이 달라(미국만 먼저 들어옴)
+                # 합계가 뚝 떨어져 보인다 → 브랜드별로 '모든 나라가 가진
+                # 마지막 달'까지만 잘라서 합산.
+                _cut = (a.groupby(["brand", "geo"])["month"].max()
+                        .groupby("brand").min())
+                a = a[a["month"] <= a["brand"].map(_cut)]
+                mm = a.groupby(["brand", "month"], as_index=False)[
+                    "searches"].sum().rename(columns={"searches": "value"})
             else:
                 if _g not in set(a["geo"]):
                     _g = "US"
