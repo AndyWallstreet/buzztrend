@@ -25,3 +25,4 @@ data/findb/update.log
 data/cosmetics/absvol_raw.json
 data/cosmetics/absvol_raw_US.json
 data/cosmetics/absvol_raw_JP.json
+data/cosmetics/absvol_raw_*.json
