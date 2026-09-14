@@ -347,7 +347,7 @@ if _avail:
                 brush = alt.selection_interval(encodings=["x"])
                 _cscale = alt.Scale(domain=_bsel, range=_cols)
                 _xzoom = alt.X(
-                    "m_since:Q", scale=alt.Scale(domain=brush),
+                    "m_since:Q", scale=alt.Scale(domain=brush, nice=False),
                     title="붐 시작 후 개월 (t=0 = 자기 피크의 10% 첫 도달)")
                 ch = alt.Chart(v).mark_line(
                     interpolate="monotone",
@@ -366,13 +366,17 @@ if _avail:
                     color=alt.Color("brand:N", scale=_cscale, legend=None),
                     tooltip=_tips)
                 overview = alt.Chart(v).mark_line(size=1).encode(
-                    x=alt.X("m_since:Q", title="↕ 여기서 드래그 = 구간 선택 · "
-                                               "빈 곳 클릭 = 전체로"),
+                    x=alt.X("m_since:Q", scale=alt.Scale(nice=False),
+                            title="↕ 여기서 드래그 = 구간 선택 · "
+                                  "빈 곳 클릭 = 전체로"),
                     y=alt.Y(f"{_yf}:Q", axis=None),
                     color=alt.Color("brand:N", scale=_cscale, legend=None),
-                ).add_params(brush).properties(height=55)
+                ).add_params(brush).properties(height=55, width="container")
+                # vconcat은 use_container_width가 안 먹음 → 각 차트에 container 폭
                 st.altair_chart(
-                    alt.vconcat((ch + hov).properties(height=430), overview)
+                    alt.vconcat((ch + hov).properties(height=430,
+                                                      width="container"),
+                                overview)
                     .resolve_scale(color="shared"),
                     use_container_width=True)
                 with st.expander("📋 숫자 표 — 브랜드 × 붐 후 개월"):
