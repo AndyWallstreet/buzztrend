@@ -1,11 +1,13 @@
 {
- "fetched": "2026-09-14T08:33:19",
+ "fetched": "2026-09-14T09:29:42",
  "geos": {
   "US": "loc 2840/en",
-  "JP": "loc 2392/ja"
+  "JP": "loc 2392/ja",
+  "GB": "loc 2826/en",
+  "AU": "loc 2036/en"
  },
  "source": "DataForSEO labs historical_search_volume",
- "cost_usd": 0.028200000000000003,
+ "cost_usd": 0.05616,
  "months": [
   "2018-02",
   "2026-08"

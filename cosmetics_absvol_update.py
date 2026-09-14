@@ -84,7 +84,8 @@ def main():
     # 나라별 수집: 일본은 가타카나 키워드 (BRANDS의 "JP" 매핑, 없으면 로마자).
     # 주의: 구글 애즈 검색수는 '구글에서의' 검색만 — 야후재팬 프론트(점유 ~6~9%)
     # 는 미포함이라 일본 절대량은 일관되게 약간 과소. 브랜드 간 비교엔 문제 없음.
-    GEOS = {"US": (2840, "en"), "JP": (2392, "ja")}
+    GEOS = {"US": (2840, "en"), "JP": (2392, "ja"),
+            "GB": (2826, "en"), "AU": (2036, "en")}
     rows, total_cost = [], 0.0
     for geo, (loc, lang) in GEOS.items():
         kw2brand = {v.get(geo, v["*"]): b for b, v in BRANDS.items()}

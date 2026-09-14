@@ -206,12 +206,14 @@ if _avail:
     sub("K뷰티 브랜드 수명주기 — 붐 시작(t=0) 정렬",
         "브랜드별 단독 5년 검색 · 자기 피크=100 · x축 = 붐 시작 후 개월 수")
     lc1, lc2, lc3 = st.columns([0.9, 2.4, 1.1])
-    geo_l = lc1.selectbox("국가", list(_avail), key="life_geo")
     mode_abs = lc3.radio("표시", ["모양 (자기 피크=100)", "절대량 (월 검색수)"],
                          key="life_mode",
                          help="절대량 = DataForSEO(구글 애즈) 월 검색수 — "
-                              "브랜드끼리 크기 비교 가능. 미국 기준.") \
+                              "브랜드끼리 크기 비교 가능. 미국·일본·영국·호주.") \
         .startswith("절대량")
+    _ABSGEO = {"미국": "US", "일본": "JP", "영국": "GB", "호주": "AU"}
+    _geo_opts = list(_ABSGEO if mode_abs else _avail)
+    geo_l = lc1.selectbox("국가", _geo_opts, key="life_geo")
     mm = None
     if mode_abs:
         av = load("absvol_monthly.csv", _stamp("absvol_monthly.csv"))
@@ -226,10 +228,8 @@ if _avail:
             a = av.copy()
             if "geo" not in a.columns:
                 a["geo"] = "US"
-            _g = _avail.get(geo_l) or "US"
+            _g = _ABSGEO.get(geo_l, "US")
             if _g not in set(a["geo"]):
-                st.caption(f"절대량 데이터는 아직 미국·일본만 — {geo_l} 대신 "
-                           "미국을 표시합니다.")
                 _g = "US"
             a = a[a["geo"] == _g]
             if _g == "US":

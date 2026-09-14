@@ -23,3 +23,5 @@ data/screener/_evfcf_temp.xlsx
 data/findb/corpcode.xml
 data/findb/update.log
 data/cosmetics/absvol_raw.json
+data/cosmetics/absvol_raw_US.json
+data/cosmetics/absvol_raw_JP.json
