@@ -1,37 +1,37 @@
 {
-  "ts": "2026-09-02 07:37",
-  "date": "2026-09-02",
-  "rank": 25,
-  "rate": 0.1,
-  "tickets": 864,
-  "cum": 840869,
-  "total_tickets": 581082,
-  "share": 0.00149,
+  "ts": "2026-09-15 08:22",
+  "date": "2026-09-15",
+  "rank": 111,
+  "rate": 0.0,
+  "tickets": 82,
+  "cum": 868014,
+  "total_tickets": 468851,
+  "share": 0.00017,
   "rivals": [
     {
       "title": "오디세이",
-      "rate": 54.1,
-      "tickets": 314296
+      "rate": 26.3,
+      "tickets": 123076
     },
     {
       "title": "암살자(들)",
-      "rate": 7.3,
-      "tickets": 42698
+      "rate": 15.9,
+      "tickets": 74769
     },
     {
       "title": "인턴",
-      "rate": 6.8,
-      "tickets": 39658
+      "rate": 15.0,
+      "tickets": 70292
     },
     {
-      "title": "스파이더맨: 브랜드 뉴 데이",
-      "rate": 5.4,
-      "tickets": 31332
+      "title": "타짜: 벨제붑의 노래",
+      "rate": 10.9,
+      "tickets": 50884
     },
     {
-      "title": "비광",
-      "rate": 5.0,
-      "tickets": 29054
+      "title": "부활남: 더 레드",
+      "rate": 4.1,
+      "tickets": 19164
     }
   ],
   "note": "KOBIS 실시간 예매율은 과거를 보관하지 않아 1편(2024) 개봉 후 예매는 존재하지 않음"
