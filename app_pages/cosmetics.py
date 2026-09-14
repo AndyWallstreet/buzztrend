@@ -384,6 +384,53 @@ if _avail:
         st.info("수명주기 데이터 수집 중 — cosmetics_lifecycle_update.py 실행 후 "
                 "표시됩니다.")
 
+    # ---- 브랜드별: 검색(월) vs 매출(연) 절대 시계열 오버레이
+    _rev = load("brand_revenue.csv", _stamp("brand_revenue.csv"))
+    _av2 = load("absvol_monthly.csv", _stamp("absvol_monthly.csv"))
+    if _rev is not None and _av2 is not None and len(_av2):
+        sub("브랜드별: 검색량(월) vs 매출(연) — 실제 날짜축",
+            "검색이 매출을 얼마나 앞서는지 브랜드 하나씩 확인 · 좌축=월검색(US+JP) "
+            "우축=연매출(억원)")
+        _rev_brands = sorted(set(_rev["brand"]) & set(_av2["brand"]))
+        _order = [b for b in ("reedle shot", "cosrx", "anua", "medicube",
+                              "madeca cream") if b in _rev_brands] + \
+            [b for b in _rev_brands if b not in
+             ("reedle shot", "cosrx", "anua", "medicube", "madeca cream")]
+        bsel1 = st.selectbox("브랜드 선택", _order, key="ov_brand")
+        a2 = _av2[_av2["brand"] == bsel1].copy()
+        if "geo" not in a2.columns:
+            a2["geo"] = "US"
+        a2 = a2[a2["geo"].isin(["US", "JP"])]
+        a2 = a2.groupby("month", as_index=False)["searches"].sum()  # US+JP
+        a2["date"] = pd.to_datetime(a2["month"] + "-01")
+        rv = _rev[_rev["brand"] == bsel1].copy()
+        rv["date"] = pd.to_datetime(rv["year"].astype(str) + "-07-01")  # 연중
+        _line = alt.Chart(a2).mark_area(
+            color="#2a78d6", opacity=0.35, line={"color": "#2a78d6"}).encode(
+            x=alt.X("date:T", title=None,
+                    axis=alt.Axis(format="%Y", tickCount="year")),
+            y=alt.Y("searches:Q", title="월 검색수 US+JP (구글애즈)"),
+            tooltip=[alt.Tooltip("date:T", format="%Y-%m"),
+                     alt.Tooltip("searches:Q", format=",.0f", title="월검색")])
+        _bar = alt.Chart(rv).mark_circle(size=140, color="#eb6834").encode(
+            x=alt.X("date:T"),
+            y=alt.Y("rev_eok:Q", title="연매출 (억원)"),
+            tooltip=[alt.Tooltip("year:O", title="연도"),
+                     alt.Tooltip("rev_eok:Q", format=",.0f", title="매출(억)")])
+        _rl = alt.Chart(rv).mark_line(color="#eb6834", size=2,
+                                      strokeDash=[4, 3]).encode(
+            x="date:T", y="rev_eok:Q")
+        st.altair_chart(
+            alt.layer(_line, _bar + _rl).resolve_scale(y="independent")
+            .properties(height=340), use_container_width=True)
+        _note = (rv["rev_note"].dropna().iloc[0] if rv["rev_note"].notna().any()
+                 else "")
+        st.caption(f"**읽는법**: 파란 영역 = 월별 검색량(US+일본 합), 주황 점·선 = "
+                   "연매출(억원, 우축). 검색이 먼저 오르고 매출이 뒤따르는지 "
+                   "브랜드별로 눈으로 확인. 검색은 월, 매출은 연 데이터라 축을 "
+                   f"분리(달력 날짜 정렬, 매출은 각 연도 중앙에 표시). {_note}. "
+                   "센텔리안 매출은 화장품 수출(별도)이라 변동 큼.")
+
 # --------------------------------------------- 구글 트렌드 직접 검색
 sub("구글 트렌드 직접 검색", "원하는 브랜드 최대 5개 — 관심도·Mindshare·YoY 한 번에")
 _GEO = {"미국": "US", "전세계": "", "한국": "KR"}
