@@ -212,7 +212,7 @@ if _avail:
                               "브랜드끼리 크기 비교 가능. 미국·일본·영국·호주.") \
         .startswith("절대량")
     _ABSGEO = {"미국": "US", "일본": "JP", "영국": "GB", "호주": "AU",
-               "전세계": "WW"}
+               "주요4개국 합계": "SUM4"}
     _geo_opts = list(_ABSGEO if mode_abs else _avail)
     geo_l = lc1.selectbox("국가", _geo_opts, key="life_geo")
     mm = None
@@ -231,19 +231,32 @@ if _avail:
             if "geo" not in a.columns:
                 a["geo"] = "US"
             _g = _ABSGEO.get(geo_l, "US")
-            if _g not in set(a["geo"]):
-                _g = "US"
-            a = a[a["geo"] == _g]
-            if _g == "US":
-                # tirtir(미국): 동철자 외국어 검색과 묶여 절대량 오염
-                # (2024-06 월 2,490만 회) — 일본(ティルティル)은 깨끗함
-                a = a[a["brand"] != "tirtir"]
-            if "keyword" in a.columns:
-                _kwmap = a.drop_duplicates("brand").set_index("brand")[
-                    "keyword"].to_dict()
-            a["month"] = pd.PeriodIndex(a["month"], freq="M")
-            mm = a.groupby(["brand", "month"], as_index=False)["searches"] \
-                .mean().rename(columns={"searches": "value"})
+            # tirtir: 미국 절대량 오염(동철자 외국어) — 어느 뷰든 제외
+            a = a[a["brand"] != "tirtir"]
+            if _g == "SUM4":
+                # 4개국(US·JP·GB·AU) 각 나라 네이티브 키워드로 8년 이력을 월별 합산
+                # → 진짜 worldwide는 아니지만 장기 이력 + 정확한 키워드 = 신뢰 가능
+                a = a[a["geo"].isin(["US", "JP", "GB", "AU"])]
+                if "keyword" in a.columns:
+                    _kwmap = {b: "US:" + g[g.geo == "US"]["keyword"].iloc[0]
+                              if (g.geo == "US").any() else
+                              g["keyword"].iloc[0]
+                              for b, g in a.groupby("brand")}
+                a["month"] = pd.PeriodIndex(a["month"], freq="M")
+                # 월별 국가 합계 → 그 다음 연/월 평균처럼 쓰기 위해 먼저 월합
+                a = a.groupby(["brand", "month"], as_index=False)[
+                    "searches"].sum()
+                mm = a.rename(columns={"searches": "value"})
+            else:
+                if _g not in set(a["geo"]):
+                    _g = "US"
+                a = a[a["geo"] == _g]
+                if "keyword" in a.columns:
+                    _kwmap = a.drop_duplicates("brand").set_index("brand")[
+                        "keyword"].to_dict()
+                a["month"] = pd.PeriodIndex(a["month"], freq="M")
+                mm = a.groupby(["brand", "month"], as_index=False)[
+                    "searches"].mean().rename(columns={"searches": "value"})
     else:
         lf = load(f"gtrends_life_{_avail[geo_l]}.csv",
                   _stamp(f"gtrends_life_{_avail[geo_l]}.csv"))
@@ -283,8 +296,8 @@ if _avail:
             if _kwmap and sel:
                 _en = ("en_US" if geo_l == "미국" else "ja_JP" if geo_l == "일본"
                        else "en_GB" if geo_l == "영국" else "en_AU"
-                       if geo_l == "호주" else "worldwide·로마자"
-                       if geo_l == "전세계" else "")
+                       if geo_l == "호주" else "US·JP·GB·AU 합산"
+                       if geo_l == "주요4개국 합계" else "")
                 _parts = [f"**{b}** = `{_kwmap.get(b, '?')}`"
                           for b in sel if b in _kwmap]
                 st.caption(f"🔎 {geo_l} 실제 검색어 ({_en}): " + " · ".join(_parts)
@@ -366,10 +379,12 @@ if _avail:
                             "Qoo10·LIPS 앱에서 화장품을 찾는 비중이 커서 보조 "
                             "지표로 쓸 것. 검색어는 가타카나 매핑 사용."
                             if geo_l == "일본" else
-                            " 전세계 주의: 로마자 키워드 1개로 조회해 일본어표기 "
-                            "브랜드(리들샷=リードルショット)는 과소집계됨. 또 "
-                            "전세계는 12개월 이력만 제공(국가별은 8년)."
-                            if geo_l == "전세계" else "")
+                            " 주요4개국 합계 = 미국+일본+영국+호주 월별 검색 합산"
+                            "(각 나라 네이티브 키워드·8년 이력). 진짜 '전세계'는 "
+                            "아니지만(한국·동남아·중남미 제외) K뷰티 서구+일본 "
+                            "수요의 장기 추세를 담음. 전세계 절대치(최신월)는 "
+                            "구글애즈로 별도 확인 가능."
+                            if geo_l == "주요4개국 합계" else "")
                 if mode_abs:
                     st.caption("**읽는법**: 절대 검색량(구글 애즈 기준 월 "
                                "검색수)이라 **브랜드끼리 크기 비교가 됨** — "
