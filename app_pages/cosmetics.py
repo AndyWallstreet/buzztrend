@@ -593,13 +593,23 @@ dk_go = d3.button("조회", type="primary", use_container_width=True,
 
 
 def _dfs_creds():
-    try:
+    try:                      # 클라우드: 앱 설정 Secrets
         d = st.secrets["dataforseo"]
         return d["login"], d["password"]
     except Exception:
         pass
     import os
-    return os.environ.get("DFS_LOGIN"), os.environ.get("DFS_PASSWORD")
+    if os.environ.get("DFS_LOGIN"):
+        return os.environ["DFS_LOGIN"], os.environ.get("DFS_PASSWORD")
+    # 로컬: 실행 위치와 상관없이 저장소 안의 secrets.toml을 직접 읽음
+    _sec = Path(__file__).resolve().parent.parent / ".streamlit" / "secrets.toml"
+    if _sec.exists():
+        import tomllib
+        d = tomllib.loads(_sec.read_text(encoding="utf-8")).get(
+            "dataforseo", {})
+        if d.get("login"):
+            return d["login"], d.get("password")
+    return None, None
 
 
 @st.cache_data(ttl=86400, show_spinner="DataForSEO 조회 중…")
