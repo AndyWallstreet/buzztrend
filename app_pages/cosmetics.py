@@ -373,7 +373,9 @@ if _avail:
                     color=alt.Color("brand:N", scale=_cscale, legend=None),
                 ).add_params(brush).properties(height=55, width="container")
                 # vconcat은 use_container_width가 안 먹음 → 각 차트에 container 폭
-                st.altair_chart(
+                # vconcat은 화면 폭을 살짝 넘겨 오른쪽이 잘림 → 여백 컬럼을 둔다
+                _chL, _chR = st.columns([1, 0.06])
+                _chL.altair_chart(
                     alt.vconcat((ch + hov).properties(height=430,
                                                       width="container"),
                                 overview)
