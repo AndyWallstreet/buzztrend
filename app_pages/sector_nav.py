@@ -22,7 +22,11 @@ def register(pages: dict):
 # (섹터 키, 표시 이름, [(회사 캡션, [(페이지 키 or '/URL', 라벨)])])
 SECTORS = [
     ("batt", "Batteries / EV / ESS", []),
-    ("bio", "Bio / Healthcare", []),
+    ("bio", "Bio / Healthcare", [
+        ("섹터 스크리너", [
+            ("pshort", "💊 제약 숏 스크리너"),
+        ]),
+    ]),
     ("beauty", "Cosmetics / Beauty", [
         ("동국제약 (086450)", [
             ("beauty", "💄 센텔리안24 미국 수요"),

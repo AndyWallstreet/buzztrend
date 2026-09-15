@@ -1,0 +1,17 @@
+{
+ "as_of": "2026-09-16",
+ "n_companies": 42,
+ "sector_avg_rnd": 9.05,
+ "rnd_threshold": 5.0,
+ "gov_threshold": 40,
+ "val_threshold": 0.7,
+ "rnd_source": "DART 사업보고서 FY2025 연구개발비용 표 (보고비율)",
+ "avg_source": "의학신문(bosa) 2026-04-06, 상장 제약사 65개사 집계",
+ "val_source": "Capital IQ 비교기업 워크북 (2026E 컨센서스, 없으면 LTM)",
+ "weights": {
+  "mix": 0.25,
+  "rnd": 0.2,
+  "gov": 0.25,
+  "val": 0.3
+ }
+}

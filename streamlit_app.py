@@ -96,7 +96,14 @@ h1, h2, h3 { letter-spacing: -0.01em; }
   <div class="lk-menu"><a href="/entertainment" target="_self">Sector Watch ▾</a>
     <div class="lk-drop">
       <a href="/batteries" target="_self">Batteries / EV / ESS</a>
-      <a href="/bio-healthcare" target="_self">Bio / Healthcare</a>
+      <div class="lk-item">
+        <a href="/bio-healthcare" target="_self">Bio / Healthcare
+          <span class="lk-arrow">▸</span></a>
+        <div class="lk-fly">
+          <span class="lk-co">섹터 스크리너</span>
+          <a href="/제약_숏_스크리너" target="_self">제약 숏 스크리너 (제네릭 리스크)</a>
+        </div>
+      </div>
       <div class="lk-item">
         <a href="/cosmetics-beauty" target="_self">Cosmetics / Beauty
           <span class="lk-arrow">▸</span></a>
@@ -154,8 +161,21 @@ pg_watch = st.Page("app_pages/watchlist.py", title="Watchlist",
 # ---- Sector Watch
 pg_batt = st.Page("app_pages/batteries.py", title="Batteries/EV/ESS",
                   url_path="batteries")
-pg_bio = st.Page(_placeholder("Bio / Healthcare", "제약·바이오·의료기기 섹터 추적", "bio"),
-                 title="Bio/Healthcare", url_path="bio-healthcare")
+pg_pshort = st.Page("app_pages/pharma_short.py", title="└ 제약 숏 스크리너",
+                    url_path="제약_숏_스크리너")
+
+
+def _bio():
+    sector_nav.sidebar("bio")
+    st.title("Bio / Healthcare")
+    st.caption("제약·바이오·의료기기 섹터 — 진행 중인 추적")
+    st.subheader("섹터 스크리너", divider="orange")
+    st.page_link(pg_pshort, label="💊 제약 숏 스크리너 — 전통 제네릭 리스크 4조건 스크린")
+    st.caption("상장 제약사 42개사: 사업 믹스 · R&D/매출 · 지배구조 · 밸류에이션 "
+               "(DART + Capital IQ + 리서치)")
+
+
+pg_bio = st.Page(_bio, title="Bio/Healthcare", url_path="bio-healthcare")
 pg_beauty = st.Page("app_pages/cosmetics.py",
                     title="Cosmetics/Beauty", url_path="cosmetics-beauty")
 pg_cosexp = st.Page("app_pages/cosmetics_exports.py",
@@ -199,8 +219,8 @@ pg_steel = st.Page(_placeholder("Steel & Non-Ferrous Metals", "철강·비철금
 from app_pages import cover  # noqa: E402  (st.page_link 에 Page 객체가 필요해 여기서 조립)
 
 # 좌측 섹터 메뉴가 st.page_link(SPA 전환, 새로고침 없음)를 쓸 수 있게 Page 등록
-sector_nav.register({"batt": pg_batt, "bio": pg_bio, "beauty": pg_beauty,
-                     "cosexp": pg_cosexp,
+sector_nav.register({"batt": pg_batt, "bio": pg_bio, "pshort": pg_pshort,
+                     "beauty": pg_beauty, "cosexp": pg_cosexp,
                      "ent": pg_ent, "consumer": pg_consumer, "logi": pg_logi,
                      "steel": pg_steel, "trailer": pg_trailer,
                      "boxoffice": pg_boxoffice, "yg": pg_yg})
@@ -222,7 +242,7 @@ pg_cover = st.Page(_cover, title="LK Asset Terminal", url_path="home", default=T
 nav = st.navigation({
     "": [pg_cover],
     "Screener": [pg_buzz, pg_value, pg_stock, pg_watch],
-    "Sector Watch": [pg_batt, pg_bio, pg_beauty, pg_cosexp, pg_ent, pg_trailer,
+    "Sector Watch": [pg_batt, pg_bio, pg_pshort, pg_beauty, pg_cosexp, pg_ent, pg_trailer,
                      pg_boxoffice,
                      pg_yg, pg_bigbang, pg_babymon,
                      pg_consumer, pg_logi, pg_steel],
