@@ -1,37 +1,37 @@
 {
-  "ts": "2026-09-15 08:22",
+  "ts": "2026-09-15 09:52",
   "date": "2026-09-15",
-  "rank": 111,
+  "rank": 104,
   "rate": 0.0,
-  "tickets": 82,
+  "tickets": 89,
   "cum": 868014,
-  "total_tickets": 468851,
-  "share": 0.00017,
+  "total_tickets": 469107,
+  "share": 0.00019,
   "rivals": [
     {
       "title": "오디세이",
-      "rate": 26.3,
-      "tickets": 123076
+      "rate": 26.0,
+      "tickets": 121965
     },
     {
       "title": "암살자(들)",
-      "rate": 15.9,
-      "tickets": 74769
+      "rate": 16.0,
+      "tickets": 75169
     },
     {
       "title": "인턴",
-      "rate": 15.0,
-      "tickets": 70292
+      "rate": 15.1,
+      "tickets": 70917
     },
     {
       "title": "타짜: 벨제붑의 노래",
       "rate": 10.9,
-      "tickets": 50884
+      "tickets": 51100
     },
     {
       "title": "부활남: 더 레드",
       "rate": 4.1,
-      "tickets": 19164
+      "tickets": 19179
     }
   ],
   "note": "KOBIS 실시간 예매율은 과거를 보관하지 않아 1편(2024) 개봉 후 예매는 존재하지 않음"
