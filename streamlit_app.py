@@ -52,12 +52,18 @@ h1, h2, h3 { letter-spacing: -0.01em; }
     color: #fff; background: #121b2b;
     box-shadow: inset 0 -2px 0 #2e7de9;
 }
+/* 메뉴가 바로 사라지면 마우스가 도착하기 전에 닫혀 클릭이 안 된다 →
+   visibility + 0.35초 지연으로 '놓치는 문제'를 없앤다 (2026-09-16) */
 .lk-drop {
-    display: none; position: absolute; top: 46px; left: 0; min-width: 235px;
+    visibility: hidden; opacity: 0;
+    transition: visibility 0s linear 0.35s, opacity 0.12s linear;
+    position: absolute; top: 46px; left: 0; min-width: 235px;
     background: #0e1626; border: 1px solid #1c2a3f; border-top: none;
     padding: 7px 0; box-shadow: 0 14px 34px rgba(0,0,0,0.55);
 }
-.lk-menu:hover .lk-drop { display: block; }
+.lk-menu:hover .lk-drop, .lk-drop:hover {
+    visibility: visible; opacity: 1; transition-delay: 0s;
+}
 .lk-drop a {
     display: block; padding: 9px 18px; color: #c6d0de;
     text-decoration: none; font-size: 0.88rem;
@@ -76,11 +82,22 @@ h1, h2, h3 { letter-spacing: -0.01em; }
 .lk-item > a:hover { background: #16223a; color: #7cb3ff; }
 .lk-arrow { color: #5f7089; font-size: 0.72rem; margin-left: 12px; }
 .lk-fly {
-    display: none; position: absolute; left: 100%; top: -8px; min-width: 220px;
+    visibility: hidden; opacity: 0;
+    transition: visibility 0s linear 0.35s, opacity 0.12s linear;
+    position: absolute; left: 100%; top: -8px; min-width: 220px;
     background: #0e1626; border: 1px solid #1c2a3f; padding: 7px 0;
     box-shadow: 0 14px 34px rgba(0,0,0,0.55);
 }
-.lk-item:hover .lk-fly { display: block; }
+/* 왼쪽에 보이지 않는 다리 — 본메뉴에서 옆으로 건너갈 때 hover가 끊기지 않게 */
+.lk-fly::before {
+    content: ""; position: absolute; left: -14px; top: 0;
+    width: 14px; height: 100%;
+}
+.lk-item:hover .lk-fly, .lk-fly:hover {
+    visibility: visible; opacity: 1; transition-delay: 0s;
+}
+/* 마우스가 올라간 줄을 확실히 표시 */
+.lk-item:hover > a { background: #16223a; color: #7cb3ff; }
 </style>
 <div class="lk-topbar">
   <span class="lk-logo">LK<span class="lk-chip">Terminal</span></span>
