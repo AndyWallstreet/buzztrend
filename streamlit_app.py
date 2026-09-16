@@ -105,51 +105,51 @@ h1, h2, h3 { letter-spacing: -0.01em; }
 </style>
 <div class="lk-topbar">
   <span class="lk-logo">LK<span class="lk-chip">Terminal</span></span>
-  <div class="lk-menu"><a href="/home" target="_self">Home</a></div>
-  <div class="lk-menu"><a href="/밸류_스크리너" target="_self">Screener ▾</a>
+  <div class="lk-menu"><a href="/home" target="_top">Home</a></div>
+  <div class="lk-menu"><a href="/밸류_스크리너" target="_top">Screener ▾</a>
     <div class="lk-drop">
-      <a href="/buzz" target="_self">Buzz Trend</a>
-      <a href="/밸류_스크리너" target="_self">Value Screener</a>
-      <a href="/종목상세" target="_self">Stock Picker</a>
-      <a href="/watchlist" target="_self">Watchlist</a>
+      <a href="/buzz" target="_top">Buzz Trend</a>
+      <a href="/밸류_스크리너" target="_top">Value Screener</a>
+      <a href="/종목상세" target="_top">Stock Picker</a>
+      <a href="/watchlist" target="_top">Watchlist</a>
     </div>
   </div>
-  <div class="lk-menu"><a href="/entertainment" target="_self">Sector Watch ▾</a>
+  <div class="lk-menu"><a href="/entertainment" target="_top">Sector Watch ▾</a>
     <div class="lk-drop">
-      <a href="/batteries" target="_self">Batteries / EV / ESS</a>
+      <a href="/batteries" target="_top">Batteries / EV / ESS</a>
       <div class="lk-item">
-        <a href="/bio-healthcare" target="_self">Bio / Healthcare
+        <a href="/bio-healthcare" target="_top">Bio / Healthcare
           <span class="lk-arrow">▸</span></a>
         <div class="lk-fly">
           <span class="lk-co">섹터 스크리너</span>
-          <a href="/제약_숏_스크리너" target="_self">제약 숏 스크리너 (제네릭 리스크)</a>
+          <a href="/제약_숏_스크리너" target="_top">제약 숏 스크리너 (제네릭 리스크)</a>
         </div>
       </div>
       <div class="lk-item">
-        <a href="/cosmetics-beauty" target="_self">Cosmetics / Beauty
+        <a href="/cosmetics-beauty" target="_top">Cosmetics / Beauty
           <span class="lk-arrow">▸</span></a>
         <div class="lk-fly">
           <span class="lk-co">동국제약 (086450)</span>
-          <a href="/cosmetics-beauty" target="_self">센텔리안24 미국 수요</a>
-          <a href="/종목상세?ticker=A086450" target="_self">동국제약 Stock Picker</a>
+          <a href="/cosmetics-beauty" target="_top">센텔리안24 미국 수요</a>
+          <a href="/종목상세?ticker=A086450" target="_top">동국제약 Stock Picker</a>
           <span class="lk-co">섹터 데이터</span>
-          <a href="/cosmetics-exports" target="_self">한국 화장품 수출 (관세청)</a>
+          <a href="/cosmetics-exports" target="_top">한국 화장품 수출 (관세청)</a>
         </div>
       </div>
       <div class="lk-item">
-        <a href="/entertainment" target="_self">Entertainment / Contents
+        <a href="/entertainment" target="_top">Entertainment / Contents
           <span class="lk-arrow">▸</span></a>
         <div class="lk-fly">
           <span class="lk-co">SAMG Entertainment (419530)</span>
-          <a href="/하츄핑2_예고편" target="_self">하츄핑2 예고편</a>
-          <a href="/하츄핑2_개봉후" target="_self">하츄핑2 개봉 후</a>
+          <a href="/하츄핑2_예고편" target="_top">하츄핑2 예고편</a>
+          <a href="/하츄핑2_개봉후" target="_top">하츄핑2 개봉 후</a>
           <span class="lk-co">YG Entertainment (122870)</span>
-          <a href="/yg" target="_self">YG 트래커 (앨범·콘서트·컨센서스)</a>
+          <a href="/yg" target="_top">YG 트래커 (앨범·콘서트·컨센서스)</a>
         </div>
       </div>
-      <a href="/consumer" target="_self">Consumer</a>
-      <a href="/logistics-commerce" target="_self">Logistics / Commerce</a>
-      <a href="/steel-metals" target="_self">Steel &amp; Non-Ferrous Metals</a>
+      <a href="/consumer" target="_top">Consumer</a>
+      <a href="/logistics-commerce" target="_top">Logistics / Commerce</a>
+      <a href="/steel-metals" target="_top">Steel &amp; Non-Ferrous Metals</a>
     </div>
   </div>
 </div>

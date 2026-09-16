@@ -106,7 +106,7 @@ def sidebar(current: str):
                     for ref, plabel in pages:
                         if ref.startswith("/"):
                             st.markdown(
-                                f'<a href="{ref}" target="_self" style="display:'
+                                f'<a href="{ref}" target="_top" style="display:'
                                 'block;padding:2px 0 2px 26px;color:#c6d0de;'
                                 'text-decoration:none;font-size:0.88rem">'
                                 f'ㄴ {plabel}</a>', unsafe_allow_html=True)
