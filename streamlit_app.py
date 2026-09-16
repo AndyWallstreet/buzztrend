@@ -55,14 +55,15 @@ h1, h2, h3 { letter-spacing: -0.01em; }
 /* 메뉴가 바로 사라지면 마우스가 도착하기 전에 닫혀 클릭이 안 된다 →
    visibility + 0.35초 지연으로 '놓치는 문제'를 없앤다 (2026-09-16) */
 .lk-drop {
-    visibility: hidden; opacity: 0;
+    visibility: hidden; opacity: 0; pointer-events: none; z-index: 1;
     transition: visibility 0s linear 0.35s, opacity 0.12s linear;
     position: absolute; top: 46px; left: 0; min-width: 235px;
     background: #0e1626; border: 1px solid #1c2a3f; border-top: none;
     padding: 7px 0; box-shadow: 0 14px 34px rgba(0,0,0,0.55);
 }
-.lk-menu:hover .lk-drop, .lk-drop:hover {
+.lk-menu:hover .lk-drop {
     visibility: visible; opacity: 1; transition-delay: 0s;
+    pointer-events: auto; z-index: 5;
 }
 .lk-drop a {
     display: block; padding: 9px 18px; color: #c6d0de;
@@ -81,8 +82,10 @@ h1, h2, h3 { letter-spacing: -0.01em; }
 }
 .lk-item > a:hover { background: #16223a; color: #7cb3ff; }
 .lk-arrow { color: #5f7089; font-size: 0.72rem; margin-left: 12px; }
+/* 플라이아웃끼리 화면에서 겹친다 — 닫히는 중인(흐려지는) 패널이 위에 남아
+   클릭을 가로채던 문제를 z-index + pointer-events로 막는다 (2026-09-16) */
 .lk-fly {
-    visibility: hidden; opacity: 0;
+    visibility: hidden; opacity: 0; pointer-events: none; z-index: 1;
     transition: visibility 0s linear 0.35s, opacity 0.12s linear;
     position: absolute; left: 100%; top: -8px; min-width: 220px;
     background: #0e1626; border: 1px solid #1c2a3f; padding: 7px 0;
@@ -93,8 +96,9 @@ h1, h2, h3 { letter-spacing: -0.01em; }
     content: ""; position: absolute; left: -14px; top: 0;
     width: 14px; height: 100%;
 }
-.lk-item:hover .lk-fly, .lk-fly:hover {
+.lk-item:hover .lk-fly {
     visibility: visible; opacity: 1; transition-delay: 0s;
+    pointer-events: auto; z-index: 5;
 }
 /* 마우스가 올라간 줄을 확실히 표시 */
 .lk-item:hover > a { background: #16223a; color: #7cb3ff; }

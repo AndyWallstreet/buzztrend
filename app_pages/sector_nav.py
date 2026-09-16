@@ -68,8 +68,11 @@ section[data-testid="stSidebar"] [class*="st-key-secnav_"]
   { padding-left: 2px; }
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]
   [data-testid="stCaptionContainer"] { padding-left: 2px; }
-/* 하위 페이지는 항상 펼쳐둔다 — hover로 펼치면 아래 항목이 밀려 내려가서
-   마우스로 조준한 메뉴가 도망가 클릭이 안 된다 (2026-09-16 수정) */
+/* 평소엔 접어두고 마우스를 올리면 펼친다 */
+section[data-testid="stSidebar"] [class*="st-key-secnav_"]
+  > div:not(:first-child) { display: none; }
+section[data-testid="stSidebar"] [class*="st-key-secnav_"]:hover
+  > div:not(:first-child) { display: block; }
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]:hover
   { background: #0e1626; border-radius: 6px; }
 /* ---- 지금 보고 있는 섹터: 노란색 + 조금 큰 글씨 + 왼쪽 막대 ---- */
@@ -79,6 +82,9 @@ section[data-testid="stSidebar"] [class*="st-key-secnav_cur_"]
   > div:first-child p
   { color: #f2c744 !important; font-weight: 700 !important;
     font-size: 1.02rem !important; }
+/* 보고 있는 섹터는 hover 없이도 하위 페이지가 펼쳐져 있게 */
+section[data-testid="stSidebar"] [class*="st-key-secnav_cur_"]
+  > div:not(:first-child) { display: block; }
 </style>"""
 
 
