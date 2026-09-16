@@ -54,7 +54,7 @@ SECTORS = [
 # 나머지는 그 묶음에 마우스를 올렸을 때만 보이게 한다.
 _CSS = """<style>
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]
-  { gap: 0.2rem; }
+  { gap: 0.2rem; border-left: 3px solid transparent; padding-left: 5px; }
 /* 회사 이름(캡션) 위에 숨 쉴 공간 */
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]
   [data-testid="stCaptionContainer"] { margin-top: 0.55rem; }
@@ -74,6 +74,16 @@ section[data-testid="stSidebar"] [class*="st-key-secnav_"]:hover
   > div:not(:first-child) { display: block; }
 section[data-testid="stSidebar"] [class*="st-key-secnav_"]:hover
   { background: #0e1626; border-radius: 6px; }
+/* ---- 지금 보고 있는 섹터: 노란색 + 조금 큰 글씨 + 왼쪽 막대 ---- */
+section[data-testid="stSidebar"] [class*="st-key-secnav_cur_"]
+  { border-left: 3px solid #f2c744; background: #131c2e; border-radius: 6px; }
+section[data-testid="stSidebar"] [class*="st-key-secnav_cur_"]
+  > div:first-child p
+  { color: #f2c744 !important; font-weight: 700 !important;
+    font-size: 1.02rem !important; }
+/* 보고 있는 섹터는 hover 없이도 하위 페이지가 펼쳐져 있게 */
+section[data-testid="stSidebar"] [class*="st-key-secnav_cur_"]
+  > div:not(:first-child) { display: block; }
 </style>"""
 
 
@@ -82,9 +92,10 @@ def sidebar(current: str):
         st.markdown(_CSS, unsafe_allow_html=True)
         st.markdown("**📊 SECTOR WATCH**")
         for key, label, comps in SECTORS:
-            with st.container(key=f"secnav_{key}"):
+            ckey = f"secnav_cur_{key}" if key == current else f"secnav_{key}"
+            with st.container(key=ckey):
                 pg = _PAGES.get(key)
-                lbl = f"🔹 {label}" if key == current else label
+                lbl = label
                 if pg is not None:
                     st.page_link(pg, label=lbl)
                 else:
