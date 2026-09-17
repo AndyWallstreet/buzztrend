@@ -1,37 +1,37 @@
 {
-  "ts": "2026-09-17 07:34",
-  "date": "2026-09-17",
-  "rank": 51,
+  "ts": "2026-09-18 07:38",
+  "date": "2026-09-18",
+  "rank": 39,
   "rate": 0.1,
-  "tickets": 328,
-  "cum": 868193,
-  "total_tickets": 543905,
-  "share": 0.0006,
+  "tickets": 539,
+  "cum": 868264,
+  "total_tickets": 584666,
+  "share": 0.00092,
   "rivals": [
     {
       "title": "오디세이",
-      "rate": 22.7,
-      "tickets": 123229
+      "rate": 22.6,
+      "tickets": 131941
     },
     {
       "title": "암살자(들)",
-      "rate": 17.5,
-      "tickets": 95239
+      "rate": 16.9,
+      "tickets": 98916
     },
     {
       "title": "인턴",
-      "rate": 13.0,
-      "tickets": 70920
+      "rate": 14.2,
+      "tickets": 82856
     },
     {
       "title": "타짜: 벨제붑의 노래",
-      "rate": 9.7,
-      "tickets": 52880
+      "rate": 9.9,
+      "tickets": 58047
     },
     {
-      "title": "레지던트 이블: 0번째 밤",
-      "rate": 4.5,
-      "tickets": 24460
+      "title": "옵세션",
+      "rate": 5.1,
+      "tickets": 29897
     }
   ],
   "note": "KOBIS 실시간 예매율은 과거를 보관하지 않아 1편(2024) 개봉 후 예매는 존재하지 않음"

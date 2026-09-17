@@ -1,4 +1,4 @@
-date,day,adm,cum,screens,shows,rank,seat_rate,total_screens,total_shows,screen_share,show_share,seats,seat_sale,seat_share
+﻿date,day,adm,cum,screens,shows,rank,seat_rate,total_screens,total_shows,screen_share,show_share,seats,seat_sale,seat_share
 2026-08-05,0,73165,100575,824,1751,3,0.2612,5942,14858,0.1387,0.1178,189443,0.386,0.099
 2026-08-06,1,43744,144319,801,1698,3,0.161,5928,14679,0.1351,0.1157,183722,0.238,0.097
 2026-08-07,2,41712,186055,822,1798,3,0.145,5848,15153,0.1406,0.1187,194095,0.215,0.099
