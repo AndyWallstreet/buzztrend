@@ -83,6 +83,7 @@ month,brand,keyword,searches,geo
 2026-05,abib,abib,1600,AU
 2026-06,abib,abib,1600,AU
 2026-07,abib,abib,1300,AU
+2026-08,abib,abib,1300,AU
 2019-08,anua,anua,50,AU
 2019-09,anua,anua,40,AU
 2019-10,anua,anua,40,AU
@@ -168,6 +169,286 @@ month,brand,keyword,searches,geo
 2026-06,anua,anua,12100,AU
 2026-07,anua,anua,12100,AU
 2026-08,anua,anua,12100,AU
+2019-03,atopalm,atopalm,90,AU
+2019-04,atopalm,atopalm,70,AU
+2019-05,atopalm,atopalm,50,AU
+2019-06,atopalm,atopalm,30,AU
+2019-07,atopalm,atopalm,90,AU
+2019-08,atopalm,atopalm,70,AU
+2019-09,atopalm,atopalm,70,AU
+2019-10,atopalm,atopalm,50,AU
+2019-11,atopalm,atopalm,70,AU
+2019-12,atopalm,atopalm,50,AU
+2020-01,atopalm,atopalm,40,AU
+2020-02,atopalm,atopalm,40,AU
+2020-03,atopalm,atopalm,50,AU
+2020-04,atopalm,atopalm,90,AU
+2020-05,atopalm,atopalm,90,AU
+2020-06,atopalm,atopalm,90,AU
+2020-07,atopalm,atopalm,90,AU
+2020-08,atopalm,atopalm,110,AU
+2020-09,atopalm,atopalm,70,AU
+2020-10,atopalm,atopalm,50,AU
+2020-11,atopalm,atopalm,70,AU
+2020-12,atopalm,atopalm,50,AU
+2021-01,atopalm,atopalm,50,AU
+2021-02,atopalm,atopalm,40,AU
+2021-03,atopalm,atopalm,70,AU
+2021-04,atopalm,atopalm,50,AU
+2021-05,atopalm,atopalm,70,AU
+2021-06,atopalm,atopalm,50,AU
+2021-07,atopalm,atopalm,90,AU
+2021-08,atopalm,atopalm,70,AU
+2021-09,atopalm,atopalm,90,AU
+2021-10,atopalm,atopalm,50,AU
+2021-11,atopalm,atopalm,50,AU
+2021-12,atopalm,atopalm,50,AU
+2022-01,atopalm,atopalm,70,AU
+2022-02,atopalm,atopalm,70,AU
+2022-03,atopalm,atopalm,70,AU
+2022-04,atopalm,atopalm,70,AU
+2022-05,atopalm,atopalm,90,AU
+2022-06,atopalm,atopalm,70,AU
+2022-07,atopalm,atopalm,70,AU
+2022-08,atopalm,atopalm,110,AU
+2022-09,atopalm,atopalm,70,AU
+2022-10,atopalm,atopalm,90,AU
+2022-11,atopalm,atopalm,90,AU
+2022-12,atopalm,atopalm,90,AU
+2023-01,atopalm,atopalm,110,AU
+2023-02,atopalm,atopalm,70,AU
+2023-03,atopalm,atopalm,140,AU
+2023-04,atopalm,atopalm,140,AU
+2023-05,atopalm,atopalm,170,AU
+2023-06,atopalm,atopalm,140,AU
+2023-07,atopalm,atopalm,170,AU
+2023-08,atopalm,atopalm,170,AU
+2023-09,atopalm,atopalm,210,AU
+2023-10,atopalm,atopalm,170,AU
+2023-11,atopalm,atopalm,170,AU
+2023-12,atopalm,atopalm,140,AU
+2024-01,atopalm,atopalm,140,AU
+2024-02,atopalm,atopalm,170,AU
+2024-03,atopalm,atopalm,210,AU
+2024-04,atopalm,atopalm,210,AU
+2024-05,atopalm,atopalm,170,AU
+2024-06,atopalm,atopalm,170,AU
+2024-07,atopalm,atopalm,170,AU
+2024-08,atopalm,atopalm,210,AU
+2024-09,atopalm,atopalm,210,AU
+2024-10,atopalm,atopalm,210,AU
+2024-11,atopalm,atopalm,140,AU
+2024-12,atopalm,atopalm,140,AU
+2025-01,atopalm,atopalm,210,AU
+2025-02,atopalm,atopalm,170,AU
+2025-03,atopalm,atopalm,170,AU
+2025-04,atopalm,atopalm,170,AU
+2025-05,atopalm,atopalm,390,AU
+2025-06,atopalm,atopalm,260,AU
+2025-07,atopalm,atopalm,390,AU
+2025-08,atopalm,atopalm,260,AU
+2025-09,atopalm,atopalm,320,AU
+2025-10,atopalm,atopalm,590,AU
+2025-11,atopalm,atopalm,590,AU
+2025-12,atopalm,atopalm,480,AU
+2026-01,atopalm,atopalm,480,AU
+2026-02,atopalm,atopalm,320,AU
+2026-03,atopalm,atopalm,260,AU
+2026-04,atopalm,atopalm,320,AU
+2026-05,atopalm,atopalm,320,AU
+2026-06,atopalm,atopalm,480,AU
+2026-07,atopalm,atopalm,390,AU
+2026-08,atopalm,atopalm,480,AU
+2018-10,atopalm,atopalm cream,10,AU
+2018-11,atopalm,atopalm cream,10,AU
+2018-12,atopalm,atopalm cream,10,AU
+2019-01,atopalm,atopalm cream,10,AU
+2019-02,atopalm,atopalm cream,10,AU
+2019-03,atopalm,atopalm cream,0,AU
+2019-04,atopalm,atopalm cream,10,AU
+2019-05,atopalm,atopalm cream,0,AU
+2019-06,atopalm,atopalm cream,10,AU
+2019-07,atopalm,atopalm cream,10,AU
+2019-08,atopalm,atopalm cream,10,AU
+2019-09,atopalm,atopalm cream,10,AU
+2019-10,atopalm,atopalm cream,10,AU
+2019-11,atopalm,atopalm cream,10,AU
+2019-12,atopalm,atopalm cream,10,AU
+2020-01,atopalm,atopalm cream,10,AU
+2020-02,atopalm,atopalm cream,10,AU
+2020-03,atopalm,atopalm cream,10,AU
+2020-04,atopalm,atopalm cream,10,AU
+2020-05,atopalm,atopalm cream,10,AU
+2020-06,atopalm,atopalm cream,10,AU
+2020-07,atopalm,atopalm cream,10,AU
+2020-08,atopalm,atopalm cream,10,AU
+2020-09,atopalm,atopalm cream,10,AU
+2020-10,atopalm,atopalm cream,20,AU
+2020-11,atopalm,atopalm cream,10,AU
+2020-12,atopalm,atopalm cream,10,AU
+2021-01,atopalm,atopalm cream,10,AU
+2021-02,atopalm,atopalm cream,10,AU
+2021-03,atopalm,atopalm cream,10,AU
+2021-04,atopalm,atopalm cream,10,AU
+2021-05,atopalm,atopalm cream,10,AU
+2021-06,atopalm,atopalm cream,10,AU
+2021-07,atopalm,atopalm cream,10,AU
+2021-08,atopalm,atopalm cream,10,AU
+2021-09,atopalm,atopalm cream,10,AU
+2021-10,atopalm,atopalm cream,10,AU
+2021-11,atopalm,atopalm cream,10,AU
+2021-12,atopalm,atopalm cream,10,AU
+2022-01,atopalm,atopalm cream,10,AU
+2022-02,atopalm,atopalm cream,10,AU
+2022-03,atopalm,atopalm cream,10,AU
+2022-04,atopalm,atopalm cream,10,AU
+2022-05,atopalm,atopalm cream,20,AU
+2022-06,atopalm,atopalm cream,10,AU
+2022-07,atopalm,atopalm cream,10,AU
+2022-08,atopalm,atopalm cream,20,AU
+2022-09,atopalm,atopalm cream,10,AU
+2022-10,atopalm,atopalm cream,10,AU
+2022-11,atopalm,atopalm cream,10,AU
+2022-12,atopalm,atopalm cream,20,AU
+2023-01,atopalm,atopalm cream,10,AU
+2023-02,atopalm,atopalm cream,10,AU
+2023-03,atopalm,atopalm cream,10,AU
+2023-04,atopalm,atopalm cream,10,AU
+2023-05,atopalm,atopalm cream,20,AU
+2023-06,atopalm,atopalm cream,10,AU
+2023-07,atopalm,atopalm cream,10,AU
+2023-08,atopalm,atopalm cream,20,AU
+2023-09,atopalm,atopalm cream,20,AU
+2023-10,atopalm,atopalm cream,20,AU
+2023-11,atopalm,atopalm cream,30,AU
+2023-12,atopalm,atopalm cream,10,AU
+2024-01,atopalm,atopalm cream,20,AU
+2024-02,atopalm,atopalm cream,20,AU
+2024-03,atopalm,atopalm cream,20,AU
+2024-04,atopalm,atopalm cream,10,AU
+2024-05,atopalm,atopalm cream,20,AU
+2024-06,atopalm,atopalm cream,10,AU
+2024-07,atopalm,atopalm cream,20,AU
+2024-08,atopalm,atopalm cream,20,AU
+2024-09,atopalm,atopalm cream,10,AU
+2024-10,atopalm,atopalm cream,10,AU
+2024-11,atopalm,atopalm cream,10,AU
+2024-12,atopalm,atopalm cream,20,AU
+2025-01,atopalm,atopalm cream,20,AU
+2025-02,atopalm,atopalm cream,30,AU
+2025-03,atopalm,atopalm cream,30,AU
+2025-04,atopalm,atopalm cream,20,AU
+2025-05,atopalm,atopalm cream,110,AU
+2025-06,atopalm,atopalm cream,110,AU
+2025-07,atopalm,atopalm cream,90,AU
+2025-08,atopalm,atopalm cream,40,AU
+2025-09,atopalm,atopalm cream,50,AU
+2025-10,atopalm,atopalm cream,170,AU
+2025-11,atopalm,atopalm cream,210,AU
+2025-12,atopalm,atopalm cream,140,AU
+2026-01,atopalm,atopalm cream,70,AU
+2026-02,atopalm,atopalm cream,70,AU
+2026-03,atopalm,atopalm cream,70,AU
+2026-04,atopalm,atopalm cream,50,AU
+2026-05,atopalm,atopalm cream,90,AU
+2026-06,atopalm,atopalm cream,90,AU
+2026-07,atopalm,atopalm cream,90,AU
+2026-08,atopalm,atopalm cream,90,AU
+2018-10,atopalm,atopalm mle cream,10,AU
+2018-11,atopalm,atopalm mle cream,10,AU
+2018-12,atopalm,atopalm mle cream,10,AU
+2019-01,atopalm,atopalm mle cream,10,AU
+2019-02,atopalm,atopalm mle cream,10,AU
+2019-03,atopalm,atopalm mle cream,20,AU
+2019-04,atopalm,atopalm mle cream,10,AU
+2019-05,atopalm,atopalm mle cream,10,AU
+2019-06,atopalm,atopalm mle cream,10,AU
+2019-07,atopalm,atopalm mle cream,30,AU
+2019-08,atopalm,atopalm mle cream,10,AU
+2019-09,atopalm,atopalm mle cream,10,AU
+2019-10,atopalm,atopalm mle cream,10,AU
+2019-11,atopalm,atopalm mle cream,10,AU
+2019-12,atopalm,atopalm mle cream,40,AU
+2020-01,atopalm,atopalm mle cream,10,AU
+2020-02,atopalm,atopalm mle cream,10,AU
+2020-03,atopalm,atopalm mle cream,10,AU
+2020-04,atopalm,atopalm mle cream,20,AU
+2020-05,atopalm,atopalm mle cream,40,AU
+2020-06,atopalm,atopalm mle cream,10,AU
+2020-07,atopalm,atopalm mle cream,20,AU
+2020-08,atopalm,atopalm mle cream,10,AU
+2020-09,atopalm,atopalm mle cream,20,AU
+2020-10,atopalm,atopalm mle cream,10,AU
+2020-11,atopalm,atopalm mle cream,10,AU
+2020-12,atopalm,atopalm mle cream,10,AU
+2021-01,atopalm,atopalm mle cream,20,AU
+2021-02,atopalm,atopalm mle cream,20,AU
+2021-03,atopalm,atopalm mle cream,40,AU
+2021-04,atopalm,atopalm mle cream,40,AU
+2021-05,atopalm,atopalm mle cream,50,AU
+2021-06,atopalm,atopalm mle cream,50,AU
+2021-07,atopalm,atopalm mle cream,40,AU
+2021-08,atopalm,atopalm mle cream,40,AU
+2021-09,atopalm,atopalm mle cream,30,AU
+2021-10,atopalm,atopalm mle cream,30,AU
+2021-11,atopalm,atopalm mle cream,50,AU
+2021-12,atopalm,atopalm mle cream,30,AU
+2022-01,atopalm,atopalm mle cream,50,AU
+2022-02,atopalm,atopalm mle cream,70,AU
+2022-03,atopalm,atopalm mle cream,30,AU
+2022-04,atopalm,atopalm mle cream,30,AU
+2022-05,atopalm,atopalm mle cream,30,AU
+2022-06,atopalm,atopalm mle cream,40,AU
+2022-07,atopalm,atopalm mle cream,50,AU
+2022-08,atopalm,atopalm mle cream,70,AU
+2022-09,atopalm,atopalm mle cream,40,AU
+2022-10,atopalm,atopalm mle cream,50,AU
+2022-11,atopalm,atopalm mle cream,40,AU
+2022-12,atopalm,atopalm mle cream,40,AU
+2023-01,atopalm,atopalm mle cream,50,AU
+2023-02,atopalm,atopalm mle cream,50,AU
+2023-03,atopalm,atopalm mle cream,40,AU
+2023-04,atopalm,atopalm mle cream,50,AU
+2023-05,atopalm,atopalm mle cream,70,AU
+2023-06,atopalm,atopalm mle cream,90,AU
+2023-07,atopalm,atopalm mle cream,70,AU
+2023-08,atopalm,atopalm mle cream,70,AU
+2023-09,atopalm,atopalm mle cream,90,AU
+2023-10,atopalm,atopalm mle cream,140,AU
+2023-11,atopalm,atopalm mle cream,140,AU
+2023-12,atopalm,atopalm mle cream,90,AU
+2024-01,atopalm,atopalm mle cream,90,AU
+2024-02,atopalm,atopalm mle cream,110,AU
+2024-03,atopalm,atopalm mle cream,90,AU
+2024-04,atopalm,atopalm mle cream,70,AU
+2024-05,atopalm,atopalm mle cream,90,AU
+2024-06,atopalm,atopalm mle cream,90,AU
+2024-07,atopalm,atopalm mle cream,70,AU
+2024-08,atopalm,atopalm mle cream,70,AU
+2024-09,atopalm,atopalm mle cream,70,AU
+2024-10,atopalm,atopalm mle cream,70,AU
+2024-11,atopalm,atopalm mle cream,70,AU
+2024-12,atopalm,atopalm mle cream,90,AU
+2025-01,atopalm,atopalm mle cream,70,AU
+2025-02,atopalm,atopalm mle cream,70,AU
+2025-03,atopalm,atopalm mle cream,70,AU
+2025-04,atopalm,atopalm mle cream,90,AU
+2025-05,atopalm,atopalm mle cream,390,AU
+2025-06,atopalm,atopalm mle cream,320,AU
+2025-07,atopalm,atopalm mle cream,590,AU
+2025-08,atopalm,atopalm mle cream,260,AU
+2025-09,atopalm,atopalm mle cream,210,AU
+2025-10,atopalm,atopalm mle cream,720,AU
+2025-11,atopalm,atopalm mle cream,720,AU
+2025-12,atopalm,atopalm mle cream,480,AU
+2026-01,atopalm,atopalm mle cream,320,AU
+2026-02,atopalm,atopalm mle cream,210,AU
+2026-03,atopalm,atopalm mle cream,210,AU
+2026-04,atopalm,atopalm mle cream,260,AU
+2026-05,atopalm,atopalm mle cream,390,AU
+2026-06,atopalm,atopalm mle cream,480,AU
+2026-07,atopalm,atopalm mle cream,390,AU
+2026-08,atopalm,atopalm mle cream,480,AU
 2018-04,beauty of joseon,beauty of joseon,20,AU
 2018-05,beauty of joseon,beauty of joseon,20,AU
 2018-06,beauty of joseon,beauty of joseon,20,AU
@@ -350,6 +631,7 @@ month,brand,keyword,searches,geo
 2026-05,biodance,biodance,5400,AU
 2026-06,biodance,biodance,5400,AU
 2026-07,biodance,biodance,5400,AU
+2026-08,biodance,biodance,5400,AU
 2018-10,cosrx,cosrx,2400,AU
 2018-11,cosrx,cosrx,1900,AU
 2018-12,cosrx,cosrx,2400,AU
@@ -625,6 +907,7 @@ month,brand,keyword,searches,geo
 2026-05,isntree,isntree,590,AU
 2026-06,isntree,isntree,480,AU
 2026-07,isntree,isntree,480,AU
+2026-08,isntree,isntree,480,AU
 2018-11,laneige,laneige,3600,AU
 2018-12,laneige,laneige,2900,AU
 2019-01,laneige,laneige,2900,AU
@@ -718,6 +1001,7 @@ month,brand,keyword,searches,geo
 2026-05,laneige,laneige,14800,AU
 2026-06,laneige,laneige,14800,AU
 2026-07,laneige,laneige,14800,AU
+2026-08,laneige,laneige,14800,AU
 2022-05,madeca cream,madeca cream,20,AU
 2022-06,madeca cream,madeca cream,40,AU
 2022-07,madeca cream,madeca cream,20,AU
@@ -957,6 +1241,7 @@ month,brand,keyword,searches,geo
 2026-05,medicube,medicube,60500,AU
 2026-06,medicube,medicube,60500,AU
 2026-07,medicube,medicube,74000,AU
+2026-08,medicube,medicube,74000,AU
 2018-08,mixsoon,mixsoon,0,AU
 2018-09,mixsoon,mixsoon,0,AU
 2018-10,mixsoon,mixsoon,0,AU
@@ -1217,6 +1502,7 @@ month,brand,keyword,searches,geo
 2026-05,reedle shot,reedle shot,2900,AU
 2026-06,reedle shot,reedle shot,2400,AU
 2026-07,reedle shot,reedle shot,1900,AU
+2026-08,reedle shot,reedle shot,1900,AU
 2019-08,round lab,round lab,20,AU
 2019-09,round lab,round lab,20,AU
 2019-10,round lab,round lab,40,AU
@@ -1477,6 +1763,7 @@ month,brand,keyword,searches,geo
 2026-05,tirtir,tirtir,4400,AU
 2026-06,tirtir,tirtir,4400,AU
 2026-07,tirtir,tirtir,4400,AU
+2026-08,tirtir,tirtir,4400,AU
 2018-11,abib,abib,480,BR
 2018-12,abib,abib,390,BR
 2019-01,abib,abib,390,BR
@@ -1640,6 +1927,7 @@ month,brand,keyword,searches,geo
 2026-05,anua,anua,6600,BR
 2026-06,anua,anua,6600,BR
 2026-07,anua,anua,8100,BR
+2026-08,anua,anua,9900,BR
 2018-04,beauty of joseon,beauty of joseon,10,BR
 2018-05,beauty of joseon,beauty of joseon,10,BR
 2018-06,beauty of joseon,beauty of joseon,10,BR
@@ -1740,6 +2028,7 @@ month,brand,keyword,searches,geo
 2026-05,beauty of joseon,beauty of joseon,6600,BR
 2026-06,beauty of joseon,beauty of joseon,8100,BR
 2026-07,beauty of joseon,beauty of joseon,9900,BR
+2026-08,beauty of joseon,beauty of joseon,9900,BR
 2018-11,cosrx,cosrx,590,BR
 2018-12,cosrx,cosrx,480,BR
 2019-01,cosrx,cosrx,590,BR
@@ -1933,6 +2222,7 @@ month,brand,keyword,searches,geo
 2026-05,isntree,isntree,210,BR
 2026-06,isntree,isntree,170,BR
 2026-07,isntree,isntree,210,BR
+2026-08,isntree,isntree,260,BR
 2018-11,laneige,laneige,1300,BR
 2018-12,laneige,laneige,720,BR
 2019-01,laneige,laneige,880,BR
@@ -2221,6 +2511,7 @@ month,brand,keyword,searches,geo
 2026-05,manyo,manyo,320,BR
 2026-06,manyo,manyo,170,BR
 2026-07,manyo,manyo,210,BR
+2026-08,manyo,manyo,260,BR
 2020-01,medicube,medicube,10,BR
 2020-02,medicube,medicube,20,BR
 2020-03,medicube,medicube,30,BR
@@ -2468,6 +2759,7 @@ month,brand,keyword,searches,geo
 2026-05,numbuzin,numbuzin,12100,BR
 2026-06,numbuzin,numbuzin,14800,BR
 2026-07,numbuzin,numbuzin,22200,BR
+2026-08,numbuzin,numbuzin,27100,BR
 2020-05,reedle shot,reedle shot,0,BR
 2020-06,reedle shot,reedle shot,0,BR
 2020-07,reedle shot,reedle shot,0,BR
@@ -2543,6 +2835,7 @@ month,brand,keyword,searches,geo
 2026-05,reedle shot,reedle shot,1900,BR
 2026-06,reedle shot,reedle shot,1900,BR
 2026-07,reedle shot,reedle shot,2400,BR
+2026-08,reedle shot,reedle shot,1900,BR
 2018-11,round lab,round lab,0,BR
 2018-12,round lab,round lab,10,BR
 2019-01,round lab,round lab,10,BR
@@ -2636,6 +2929,7 @@ month,brand,keyword,searches,geo
 2026-05,round lab,round lab,720,BR
 2026-06,round lab,round lab,590,BR
 2026-07,round lab,round lab,880,BR
+2026-08,round lab,round lab,880,BR
 2019-08,skin1004,skin1004,10,BR
 2019-09,skin1004,skin1004,0,BR
 2019-10,skin1004,skin1004,10,BR
@@ -2720,6 +3014,7 @@ month,brand,keyword,searches,geo
 2026-05,skin1004,skin1004,5400,BR
 2026-06,skin1004,skin1004,4400,BR
 2026-07,skin1004,skin1004,5400,BR
+2026-08,skin1004,skin1004,5400,BR
 2020-05,tirtir,tirtir,140,BR
 2020-06,tirtir,tirtir,50,BR
 2020-07,tirtir,tirtir,90,BR
@@ -2795,6 +3090,7 @@ month,brand,keyword,searches,geo
 2026-05,tirtir,tirtir,5400,BR
 2026-06,tirtir,tirtir,6600,BR
 2026-07,tirtir,tirtir,6600,BR
+2026-08,tirtir,tirtir,8100,BR
 2018-11,abib,abib,90,CA
 2018-12,abib,abib,140,CA
 2019-01,abib,abib,140,CA
@@ -2966,6 +3262,289 @@ month,brand,keyword,searches,geo
 2026-06,anua,anua,12100,CA
 2026-07,anua,anua,12100,CA
 2026-08,anua,anua,12100,CA
+2019-03,atopalm,atopalm,90,CA
+2019-04,atopalm,atopalm,50,CA
+2019-05,atopalm,atopalm,70,CA
+2019-06,atopalm,atopalm,40,CA
+2019-07,atopalm,atopalm,50,CA
+2019-08,atopalm,atopalm,40,CA
+2019-09,atopalm,atopalm,50,CA
+2019-10,atopalm,atopalm,70,CA
+2019-11,atopalm,atopalm,90,CA
+2019-12,atopalm,atopalm,140,CA
+2020-01,atopalm,atopalm,90,CA
+2020-02,atopalm,atopalm,70,CA
+2020-03,atopalm,atopalm,50,CA
+2020-04,atopalm,atopalm,90,CA
+2020-05,atopalm,atopalm,70,CA
+2020-06,atopalm,atopalm,90,CA
+2020-07,atopalm,atopalm,70,CA
+2020-08,atopalm,atopalm,90,CA
+2020-09,atopalm,atopalm,90,CA
+2020-10,atopalm,atopalm,90,CA
+2020-11,atopalm,atopalm,90,CA
+2020-12,atopalm,atopalm,70,CA
+2021-01,atopalm,atopalm,50,CA
+2021-02,atopalm,atopalm,50,CA
+2021-03,atopalm,atopalm,70,CA
+2021-04,atopalm,atopalm,70,CA
+2021-05,atopalm,atopalm,70,CA
+2021-06,atopalm,atopalm,70,CA
+2021-07,atopalm,atopalm,70,CA
+2021-08,atopalm,atopalm,40,CA
+2021-09,atopalm,atopalm,40,CA
+2021-10,atopalm,atopalm,70,CA
+2021-11,atopalm,atopalm,90,CA
+2021-12,atopalm,atopalm,90,CA
+2022-01,atopalm,atopalm,90,CA
+2022-02,atopalm,atopalm,90,CA
+2022-03,atopalm,atopalm,90,CA
+2022-04,atopalm,atopalm,90,CA
+2022-05,atopalm,atopalm,50,CA
+2022-06,atopalm,atopalm,50,CA
+2022-07,atopalm,atopalm,70,CA
+2022-08,atopalm,atopalm,70,CA
+2022-09,atopalm,atopalm,110,CA
+2022-10,atopalm,atopalm,90,CA
+2022-11,atopalm,atopalm,90,CA
+2022-12,atopalm,atopalm,90,CA
+2023-01,atopalm,atopalm,90,CA
+2023-02,atopalm,atopalm,70,CA
+2023-03,atopalm,atopalm,260,CA
+2023-04,atopalm,atopalm,140,CA
+2023-05,atopalm,atopalm,110,CA
+2023-06,atopalm,atopalm,110,CA
+2023-07,atopalm,atopalm,110,CA
+2023-08,atopalm,atopalm,90,CA
+2023-09,atopalm,atopalm,110,CA
+2023-10,atopalm,atopalm,140,CA
+2023-11,atopalm,atopalm,210,CA
+2023-12,atopalm,atopalm,170,CA
+2024-01,atopalm,atopalm,210,CA
+2024-02,atopalm,atopalm,210,CA
+2024-03,atopalm,atopalm,170,CA
+2024-04,atopalm,atopalm,210,CA
+2024-05,atopalm,atopalm,170,CA
+2024-06,atopalm,atopalm,170,CA
+2024-07,atopalm,atopalm,140,CA
+2024-08,atopalm,atopalm,140,CA
+2024-09,atopalm,atopalm,210,CA
+2024-10,atopalm,atopalm,170,CA
+2024-11,atopalm,atopalm,210,CA
+2024-12,atopalm,atopalm,140,CA
+2025-01,atopalm,atopalm,260,CA
+2025-02,atopalm,atopalm,260,CA
+2025-03,atopalm,atopalm,260,CA
+2025-04,atopalm,atopalm,210,CA
+2025-05,atopalm,atopalm,320,CA
+2025-06,atopalm,atopalm,260,CA
+2025-07,atopalm,atopalm,590,CA
+2025-08,atopalm,atopalm,210,CA
+2025-09,atopalm,atopalm,210,CA
+2025-10,atopalm,atopalm,590,CA
+2025-11,atopalm,atopalm,880,CA
+2025-12,atopalm,atopalm,590,CA
+2026-01,atopalm,atopalm,480,CA
+2026-02,atopalm,atopalm,320,CA
+2026-03,atopalm,atopalm,320,CA
+2026-04,atopalm,atopalm,320,CA
+2026-05,atopalm,atopalm,480,CA
+2026-06,atopalm,atopalm,590,CA
+2026-07,atopalm,atopalm,480,CA
+2026-08,atopalm,atopalm,480,CA
+2018-02,atopalm,atopalm cream,10,CA
+2018-03,atopalm,atopalm cream,0,CA
+2018-04,atopalm,atopalm cream,10,CA
+2018-05,atopalm,atopalm cream,10,CA
+2018-06,atopalm,atopalm cream,10,CA
+2018-07,atopalm,atopalm cream,10,CA
+2018-08,atopalm,atopalm cream,0,CA
+2018-09,atopalm,atopalm cream,10,CA
+2018-10,atopalm,atopalm cream,10,CA
+2018-11,atopalm,atopalm cream,10,CA
+2018-12,atopalm,atopalm cream,10,CA
+2019-01,atopalm,atopalm cream,10,CA
+2019-02,atopalm,atopalm cream,10,CA
+2019-03,atopalm,atopalm cream,10,CA
+2019-04,atopalm,atopalm cream,10,CA
+2019-05,atopalm,atopalm cream,10,CA
+2019-06,atopalm,atopalm cream,0,CA
+2019-07,atopalm,atopalm cream,0,CA
+2019-08,atopalm,atopalm cream,0,CA
+2019-09,atopalm,atopalm cream,20,CA
+2019-10,atopalm,atopalm cream,10,CA
+2019-11,atopalm,atopalm cream,10,CA
+2019-12,atopalm,atopalm cream,10,CA
+2020-01,atopalm,atopalm cream,10,CA
+2020-02,atopalm,atopalm cream,10,CA
+2020-03,atopalm,atopalm cream,10,CA
+2020-04,atopalm,atopalm cream,10,CA
+2020-05,atopalm,atopalm cream,20,CA
+2020-06,atopalm,atopalm cream,10,CA
+2020-07,atopalm,atopalm cream,10,CA
+2020-08,atopalm,atopalm cream,10,CA
+2020-09,atopalm,atopalm cream,10,CA
+2020-10,atopalm,atopalm cream,10,CA
+2020-11,atopalm,atopalm cream,10,CA
+2020-12,atopalm,atopalm cream,10,CA
+2021-01,atopalm,atopalm cream,10,CA
+2021-02,atopalm,atopalm cream,10,CA
+2021-03,atopalm,atopalm cream,10,CA
+2021-04,atopalm,atopalm cream,10,CA
+2021-05,atopalm,atopalm cream,10,CA
+2021-06,atopalm,atopalm cream,20,CA
+2021-07,atopalm,atopalm cream,10,CA
+2021-08,atopalm,atopalm cream,10,CA
+2021-09,atopalm,atopalm cream,10,CA
+2021-10,atopalm,atopalm cream,10,CA
+2021-11,atopalm,atopalm cream,10,CA
+2021-12,atopalm,atopalm cream,10,CA
+2022-01,atopalm,atopalm cream,20,CA
+2022-02,atopalm,atopalm cream,10,CA
+2022-03,atopalm,atopalm cream,10,CA
+2022-04,atopalm,atopalm cream,10,CA
+2022-05,atopalm,atopalm cream,10,CA
+2022-06,atopalm,atopalm cream,10,CA
+2022-07,atopalm,atopalm cream,10,CA
+2022-08,atopalm,atopalm cream,10,CA
+2022-09,atopalm,atopalm cream,10,CA
+2022-10,atopalm,atopalm cream,10,CA
+2022-11,atopalm,atopalm cream,10,CA
+2022-12,atopalm,atopalm cream,10,CA
+2023-01,atopalm,atopalm cream,10,CA
+2023-02,atopalm,atopalm cream,10,CA
+2023-03,atopalm,atopalm cream,20,CA
+2023-04,atopalm,atopalm cream,10,CA
+2023-05,atopalm,atopalm cream,10,CA
+2023-06,atopalm,atopalm cream,10,CA
+2023-07,atopalm,atopalm cream,10,CA
+2023-08,atopalm,atopalm cream,30,CA
+2023-09,atopalm,atopalm cream,10,CA
+2023-10,atopalm,atopalm cream,10,CA
+2023-11,atopalm,atopalm cream,30,CA
+2023-12,atopalm,atopalm cream,50,CA
+2024-01,atopalm,atopalm cream,40,CA
+2024-02,atopalm,atopalm cream,20,CA
+2024-03,atopalm,atopalm cream,40,CA
+2024-04,atopalm,atopalm cream,20,CA
+2024-05,atopalm,atopalm cream,10,CA
+2024-06,atopalm,atopalm cream,10,CA
+2024-07,atopalm,atopalm cream,10,CA
+2024-08,atopalm,atopalm cream,20,CA
+2024-09,atopalm,atopalm cream,30,CA
+2024-10,atopalm,atopalm cream,10,CA
+2024-11,atopalm,atopalm cream,20,CA
+2024-12,atopalm,atopalm cream,30,CA
+2025-01,atopalm,atopalm cream,40,CA
+2025-02,atopalm,atopalm cream,30,CA
+2025-03,atopalm,atopalm cream,20,CA
+2025-04,atopalm,atopalm cream,10,CA
+2025-05,atopalm,atopalm cream,70,CA
+2025-06,atopalm,atopalm cream,30,CA
+2025-07,atopalm,atopalm cream,70,CA
+2025-08,atopalm,atopalm cream,30,CA
+2025-09,atopalm,atopalm cream,40,CA
+2025-10,atopalm,atopalm cream,90,CA
+2025-11,atopalm,atopalm cream,90,CA
+2025-12,atopalm,atopalm cream,70,CA
+2026-01,atopalm,atopalm cream,50,CA
+2026-02,atopalm,atopalm cream,40,CA
+2026-03,atopalm,atopalm cream,40,CA
+2026-04,atopalm,atopalm cream,20,CA
+2026-05,atopalm,atopalm cream,50,CA
+2026-06,atopalm,atopalm cream,70,CA
+2026-07,atopalm,atopalm cream,70,CA
+2026-08,atopalm,atopalm cream,50,CA
+2019-03,atopalm,atopalm mle cream,10,CA
+2019-04,atopalm,atopalm mle cream,10,CA
+2019-05,atopalm,atopalm mle cream,10,CA
+2019-06,atopalm,atopalm mle cream,20,CA
+2019-07,atopalm,atopalm mle cream,10,CA
+2019-08,atopalm,atopalm mle cream,10,CA
+2019-09,atopalm,atopalm mle cream,10,CA
+2019-10,atopalm,atopalm mle cream,10,CA
+2019-11,atopalm,atopalm mle cream,10,CA
+2019-12,atopalm,atopalm mle cream,10,CA
+2020-01,atopalm,atopalm mle cream,10,CA
+2020-02,atopalm,atopalm mle cream,10,CA
+2020-03,atopalm,atopalm mle cream,10,CA
+2020-04,atopalm,atopalm mle cream,10,CA
+2020-05,atopalm,atopalm mle cream,20,CA
+2020-06,atopalm,atopalm mle cream,10,CA
+2020-07,atopalm,atopalm mle cream,10,CA
+2020-08,atopalm,atopalm mle cream,20,CA
+2020-09,atopalm,atopalm mle cream,10,CA
+2020-10,atopalm,atopalm mle cream,20,CA
+2020-11,atopalm,atopalm mle cream,10,CA
+2020-12,atopalm,atopalm mle cream,40,CA
+2021-01,atopalm,atopalm mle cream,50,CA
+2021-02,atopalm,atopalm mle cream,30,CA
+2021-03,atopalm,atopalm mle cream,30,CA
+2021-04,atopalm,atopalm mle cream,40,CA
+2021-05,atopalm,atopalm mle cream,40,CA
+2021-06,atopalm,atopalm mle cream,30,CA
+2021-07,atopalm,atopalm mle cream,30,CA
+2021-08,atopalm,atopalm mle cream,30,CA
+2021-09,atopalm,atopalm mle cream,30,CA
+2021-10,atopalm,atopalm mle cream,40,CA
+2021-11,atopalm,atopalm mle cream,70,CA
+2021-12,atopalm,atopalm mle cream,30,CA
+2022-01,atopalm,atopalm mle cream,70,CA
+2022-02,atopalm,atopalm mle cream,70,CA
+2022-03,atopalm,atopalm mle cream,110,CA
+2022-04,atopalm,atopalm mle cream,50,CA
+2022-05,atopalm,atopalm mle cream,40,CA
+2022-06,atopalm,atopalm mle cream,20,CA
+2022-07,atopalm,atopalm mle cream,30,CA
+2022-08,atopalm,atopalm mle cream,30,CA
+2022-09,atopalm,atopalm mle cream,30,CA
+2022-10,atopalm,atopalm mle cream,70,CA
+2022-11,atopalm,atopalm mle cream,70,CA
+2022-12,atopalm,atopalm mle cream,50,CA
+2023-01,atopalm,atopalm mle cream,50,CA
+2023-02,atopalm,atopalm mle cream,50,CA
+2023-03,atopalm,atopalm mle cream,110,CA
+2023-04,atopalm,atopalm mle cream,70,CA
+2023-05,atopalm,atopalm mle cream,70,CA
+2023-06,atopalm,atopalm mle cream,40,CA
+2023-07,atopalm,atopalm mle cream,50,CA
+2023-08,atopalm,atopalm mle cream,70,CA
+2023-09,atopalm,atopalm mle cream,90,CA
+2023-10,atopalm,atopalm mle cream,110,CA
+2023-11,atopalm,atopalm mle cream,170,CA
+2023-12,atopalm,atopalm mle cream,140,CA
+2024-01,atopalm,atopalm mle cream,210,CA
+2024-02,atopalm,atopalm mle cream,170,CA
+2024-03,atopalm,atopalm mle cream,170,CA
+2024-04,atopalm,atopalm mle cream,110,CA
+2024-05,atopalm,atopalm mle cream,110,CA
+2024-06,atopalm,atopalm mle cream,90,CA
+2024-07,atopalm,atopalm mle cream,70,CA
+2024-08,atopalm,atopalm mle cream,110,CA
+2024-09,atopalm,atopalm mle cream,110,CA
+2024-10,atopalm,atopalm mle cream,90,CA
+2024-11,atopalm,atopalm mle cream,140,CA
+2024-12,atopalm,atopalm mle cream,140,CA
+2025-01,atopalm,atopalm mle cream,140,CA
+2025-02,atopalm,atopalm mle cream,170,CA
+2025-03,atopalm,atopalm mle cream,170,CA
+2025-04,atopalm,atopalm mle cream,140,CA
+2025-05,atopalm,atopalm mle cream,390,CA
+2025-06,atopalm,atopalm mle cream,260,CA
+2025-07,atopalm,atopalm mle cream,1000,CA
+2025-08,atopalm,atopalm mle cream,320,CA
+2025-09,atopalm,atopalm mle cream,260,CA
+2025-10,atopalm,atopalm mle cream,880,CA
+2025-11,atopalm,atopalm mle cream,1300,CA
+2025-12,atopalm,atopalm mle cream,880,CA
+2026-01,atopalm,atopalm mle cream,590,CA
+2026-02,atopalm,atopalm mle cream,480,CA
+2026-03,atopalm,atopalm mle cream,390,CA
+2026-04,atopalm,atopalm mle cream,320,CA
+2026-05,atopalm,atopalm mle cream,590,CA
+2026-06,atopalm,atopalm mle cream,720,CA
+2026-07,atopalm,atopalm mle cream,590,CA
+2026-08,atopalm,atopalm mle cream,590,CA
 2019-03,beauty of joseon,beauty of joseon,20,CA
 2019-04,beauty of joseon,beauty of joseon,20,CA
 2019-05,beauty of joseon,beauty of joseon,30,CA
@@ -3739,6 +4318,7 @@ month,brand,keyword,searches,geo
 2026-05,reedle shot,reedle shot,2900,CA
 2026-06,reedle shot,reedle shot,1900,CA
 2026-07,reedle shot,reedle shot,1900,CA
+2026-08,reedle shot,reedle shot,1600,CA
 2018-11,round lab,round lab,10,CA
 2018-12,round lab,round lab,10,CA
 2019-01,round lab,round lab,90,CA
@@ -4100,6 +4680,7 @@ month,brand,keyword,searches,geo
 2026-05,abib,abib,2400,DE
 2026-06,abib,abib,2400,DE
 2026-07,abib,abib,1900,DE
+2026-08,abib,abib,1600,DE
 2019-10,anua,anua,110,DE
 2019-11,anua,anua,140,DE
 2019-12,anua,anua,110,DE
@@ -4183,6 +4764,192 @@ month,brand,keyword,searches,geo
 2026-06,anua,anua,12100,DE
 2026-07,anua,anua,14800,DE
 2026-08,anua,anua,18100,DE
+2018-11,atopalm,atopalm,10,DE
+2018-12,atopalm,atopalm,10,DE
+2019-01,atopalm,atopalm,10,DE
+2019-02,atopalm,atopalm,20,DE
+2019-03,atopalm,atopalm,30,DE
+2019-04,atopalm,atopalm,50,DE
+2019-05,atopalm,atopalm,30,DE
+2019-06,atopalm,atopalm,10,DE
+2019-07,atopalm,atopalm,40,DE
+2019-08,atopalm,atopalm,20,DE
+2019-09,atopalm,atopalm,40,DE
+2019-10,atopalm,atopalm,20,DE
+2019-11,atopalm,atopalm,20,DE
+2019-12,atopalm,atopalm,20,DE
+2020-01,atopalm,atopalm,30,DE
+2020-02,atopalm,atopalm,40,DE
+2020-03,atopalm,atopalm,40,DE
+2020-04,atopalm,atopalm,110,DE
+2020-05,atopalm,atopalm,90,DE
+2020-06,atopalm,atopalm,70,DE
+2020-07,atopalm,atopalm,40,DE
+2020-08,atopalm,atopalm,30,DE
+2020-09,atopalm,atopalm,40,DE
+2020-10,atopalm,atopalm,50,DE
+2020-11,atopalm,atopalm,40,DE
+2020-12,atopalm,atopalm,70,DE
+2021-01,atopalm,atopalm,70,DE
+2021-02,atopalm,atopalm,40,DE
+2021-03,atopalm,atopalm,70,DE
+2021-04,atopalm,atopalm,50,DE
+2021-05,atopalm,atopalm,110,DE
+2021-06,atopalm,atopalm,50,DE
+2021-07,atopalm,atopalm,40,DE
+2021-08,atopalm,atopalm,50,DE
+2021-09,atopalm,atopalm,70,DE
+2021-10,atopalm,atopalm,70,DE
+2021-11,atopalm,atopalm,70,DE
+2021-12,atopalm,atopalm,110,DE
+2022-01,atopalm,atopalm,70,DE
+2022-02,atopalm,atopalm,70,DE
+2022-03,atopalm,atopalm,90,DE
+2022-04,atopalm,atopalm,90,DE
+2022-05,atopalm,atopalm,110,DE
+2022-06,atopalm,atopalm,90,DE
+2022-07,atopalm,atopalm,70,DE
+2022-08,atopalm,atopalm,70,DE
+2022-09,atopalm,atopalm,50,DE
+2022-10,atopalm,atopalm,90,DE
+2022-11,atopalm,atopalm,140,DE
+2022-12,atopalm,atopalm,110,DE
+2023-01,atopalm,atopalm,110,DE
+2023-02,atopalm,atopalm,140,DE
+2023-03,atopalm,atopalm,260,DE
+2023-04,atopalm,atopalm,140,DE
+2023-05,atopalm,atopalm,210,DE
+2023-06,atopalm,atopalm,140,DE
+2023-07,atopalm,atopalm,140,DE
+2023-08,atopalm,atopalm,140,DE
+2023-09,atopalm,atopalm,170,DE
+2023-10,atopalm,atopalm,210,DE
+2023-11,atopalm,atopalm,210,DE
+2023-12,atopalm,atopalm,210,DE
+2024-01,atopalm,atopalm,260,DE
+2024-02,atopalm,atopalm,170,DE
+2024-03,atopalm,atopalm,210,DE
+2024-04,atopalm,atopalm,210,DE
+2024-05,atopalm,atopalm,140,DE
+2024-06,atopalm,atopalm,140,DE
+2024-07,atopalm,atopalm,140,DE
+2024-08,atopalm,atopalm,140,DE
+2024-09,atopalm,atopalm,170,DE
+2024-10,atopalm,atopalm,140,DE
+2024-11,atopalm,atopalm,170,DE
+2024-12,atopalm,atopalm,170,DE
+2025-01,atopalm,atopalm,260,DE
+2025-02,atopalm,atopalm,260,DE
+2025-03,atopalm,atopalm,260,DE
+2025-04,atopalm,atopalm,170,DE
+2025-05,atopalm,atopalm,260,DE
+2025-06,atopalm,atopalm,140,DE
+2025-07,atopalm,atopalm,170,DE
+2025-08,atopalm,atopalm,170,DE
+2025-09,atopalm,atopalm,140,DE
+2025-10,atopalm,atopalm,210,DE
+2025-11,atopalm,atopalm,210,DE
+2025-12,atopalm,atopalm,170,DE
+2026-01,atopalm,atopalm,170,DE
+2026-02,atopalm,atopalm,170,DE
+2026-03,atopalm,atopalm,170,DE
+2026-04,atopalm,atopalm,170,DE
+2026-05,atopalm,atopalm,140,DE
+2026-06,atopalm,atopalm,140,DE
+2026-07,atopalm,atopalm,140,DE
+2018-11,atopalm,atopalm mle cream,10,DE
+2018-12,atopalm,atopalm mle cream,10,DE
+2019-01,atopalm,atopalm mle cream,10,DE
+2019-02,atopalm,atopalm mle cream,10,DE
+2019-03,atopalm,atopalm mle cream,10,DE
+2019-04,atopalm,atopalm mle cream,0,DE
+2019-05,atopalm,atopalm mle cream,10,DE
+2019-06,atopalm,atopalm mle cream,10,DE
+2019-07,atopalm,atopalm mle cream,10,DE
+2019-08,atopalm,atopalm mle cream,10,DE
+2019-09,atopalm,atopalm mle cream,10,DE
+2019-10,atopalm,atopalm mle cream,10,DE
+2019-11,atopalm,atopalm mle cream,10,DE
+2019-12,atopalm,atopalm mle cream,10,DE
+2020-01,atopalm,atopalm mle cream,10,DE
+2020-02,atopalm,atopalm mle cream,10,DE
+2020-03,atopalm,atopalm mle cream,20,DE
+2020-04,atopalm,atopalm mle cream,70,DE
+2020-05,atopalm,atopalm mle cream,70,DE
+2020-06,atopalm,atopalm mle cream,50,DE
+2020-07,atopalm,atopalm mle cream,10,DE
+2020-08,atopalm,atopalm mle cream,20,DE
+2020-09,atopalm,atopalm mle cream,30,DE
+2020-10,atopalm,atopalm mle cream,10,DE
+2020-11,atopalm,atopalm mle cream,30,DE
+2020-12,atopalm,atopalm mle cream,20,DE
+2021-01,atopalm,atopalm mle cream,50,DE
+2021-02,atopalm,atopalm mle cream,70,DE
+2021-03,atopalm,atopalm mle cream,90,DE
+2021-04,atopalm,atopalm mle cream,70,DE
+2021-05,atopalm,atopalm mle cream,110,DE
+2021-06,atopalm,atopalm mle cream,90,DE
+2021-07,atopalm,atopalm mle cream,70,DE
+2021-08,atopalm,atopalm mle cream,70,DE
+2021-09,atopalm,atopalm mle cream,90,DE
+2021-10,atopalm,atopalm mle cream,110,DE
+2021-11,atopalm,atopalm mle cream,110,DE
+2021-12,atopalm,atopalm mle cream,90,DE
+2022-01,atopalm,atopalm mle cream,140,DE
+2022-02,atopalm,atopalm mle cream,110,DE
+2022-03,atopalm,atopalm mle cream,110,DE
+2022-04,atopalm,atopalm mle cream,90,DE
+2022-05,atopalm,atopalm mle cream,70,DE
+2022-06,atopalm,atopalm mle cream,70,DE
+2022-07,atopalm,atopalm mle cream,70,DE
+2022-08,atopalm,atopalm mle cream,90,DE
+2022-09,atopalm,atopalm mle cream,90,DE
+2022-10,atopalm,atopalm mle cream,110,DE
+2022-11,atopalm,atopalm mle cream,170,DE
+2022-12,atopalm,atopalm mle cream,90,DE
+2023-01,atopalm,atopalm mle cream,110,DE
+2023-02,atopalm,atopalm mle cream,170,DE
+2023-03,atopalm,atopalm mle cream,260,DE
+2023-04,atopalm,atopalm mle cream,170,DE
+2023-05,atopalm,atopalm mle cream,170,DE
+2023-06,atopalm,atopalm mle cream,90,DE
+2023-07,atopalm,atopalm mle cream,90,DE
+2023-08,atopalm,atopalm mle cream,90,DE
+2023-09,atopalm,atopalm mle cream,210,DE
+2023-10,atopalm,atopalm mle cream,210,DE
+2023-11,atopalm,atopalm mle cream,320,DE
+2023-12,atopalm,atopalm mle cream,210,DE
+2024-01,atopalm,atopalm mle cream,320,DE
+2024-02,atopalm,atopalm mle cream,320,DE
+2024-03,atopalm,atopalm mle cream,320,DE
+2024-04,atopalm,atopalm mle cream,210,DE
+2024-05,atopalm,atopalm mle cream,170,DE
+2024-06,atopalm,atopalm mle cream,140,DE
+2024-07,atopalm,atopalm mle cream,90,DE
+2024-08,atopalm,atopalm mle cream,110,DE
+2024-09,atopalm,atopalm mle cream,140,DE
+2024-10,atopalm,atopalm mle cream,170,DE
+2024-11,atopalm,atopalm mle cream,210,DE
+2024-12,atopalm,atopalm mle cream,170,DE
+2025-01,atopalm,atopalm mle cream,210,DE
+2025-02,atopalm,atopalm mle cream,210,DE
+2025-03,atopalm,atopalm mle cream,210,DE
+2025-04,atopalm,atopalm mle cream,210,DE
+2025-05,atopalm,atopalm mle cream,260,DE
+2025-06,atopalm,atopalm mle cream,170,DE
+2025-07,atopalm,atopalm mle cream,210,DE
+2025-08,atopalm,atopalm mle cream,140,DE
+2025-09,atopalm,atopalm mle cream,140,DE
+2025-10,atopalm,atopalm mle cream,320,DE
+2025-11,atopalm,atopalm mle cream,260,DE
+2025-12,atopalm,atopalm mle cream,210,DE
+2026-01,atopalm,atopalm mle cream,320,DE
+2026-02,atopalm,atopalm mle cream,210,DE
+2026-03,atopalm,atopalm mle cream,170,DE
+2026-04,atopalm,atopalm mle cream,210,DE
+2026-05,atopalm,atopalm mle cream,170,DE
+2026-06,atopalm,atopalm mle cream,110,DE
+2026-07,atopalm,atopalm mle cream,140,DE
 2018-04,beauty of joseon,beauty of joseon,20,DE
 2018-05,beauty of joseon,beauty of joseon,10,DE
 2018-06,beauty of joseon,beauty of joseon,10,DE
@@ -4283,6 +5050,7 @@ month,brand,keyword,searches,geo
 2026-05,beauty of joseon,beauty of joseon,49500,DE
 2026-06,beauty of joseon,beauty of joseon,40500,DE
 2026-07,beauty of joseon,beauty of joseon,40500,DE
+2026-08,beauty of joseon,beauty of joseon,40500,DE
 2018-10,cosrx,cosrx,1600,DE
 2018-11,cosrx,cosrx,1600,DE
 2018-12,cosrx,cosrx,1600,DE
@@ -4472,6 +5240,7 @@ month,brand,keyword,searches,geo
 2026-05,d'alba,d'alba,9900,DE
 2026-06,d'alba,d'alba,8100,DE
 2026-07,d'alba,d'alba,6600,DE
+2026-08,d'alba,d'alba,6600,DE
 2018-02,isntree,isntree,40,DE
 2018-03,isntree,isntree,50,DE
 2018-04,isntree,isntree,70,DE
@@ -4763,6 +5532,7 @@ month,brand,keyword,searches,geo
 2026-05,madeca cream,centellian 24,1300,DE
 2026-06,madeca cream,centellian 24,1300,DE
 2026-07,madeca cream,centellian 24,1300,DE
+2026-08,madeca cream,centellian 24,1600,DE
 2022-03,madeca cream,madeca cream,10,DE
 2022-04,madeca cream,madeca cream,10,DE
 2022-05,madeca cream,madeca cream,10,DE
@@ -5194,6 +5964,7 @@ month,brand,keyword,searches,geo
 2026-05,numbuzin,numbuzin,3600,DE
 2026-06,numbuzin,numbuzin,3600,DE
 2026-07,numbuzin,numbuzin,2900,DE
+2026-08,numbuzin,numbuzin,2900,DE
 2018-11,round lab,round lab,10,DE
 2018-12,round lab,round lab,10,DE
 2019-01,round lab,round lab,10,DE
@@ -5382,6 +6153,7 @@ month,brand,keyword,searches,geo
 2026-05,skin1004,skin1004,5400,DE
 2026-06,skin1004,skin1004,4400,DE
 2026-07,skin1004,skin1004,3600,DE
+2026-08,skin1004,skin1004,4400,DE
 2018-11,tirtir,tirtir,40,DE
 2018-12,tirtir,tirtir,90,DE
 2019-01,tirtir,tirtir,70,DE
@@ -5552,6 +6324,7 @@ month,brand,keyword,searches,geo
 2026-05,torriden,torriden,5400,DE
 2026-06,torriden,torriden,4400,DE
 2026-07,torriden,torriden,4400,DE
+2026-08,torriden,torriden,6600,DE
 2019-03,abib,abib,260,FR
 2019-04,abib,abib,170,FR
 2019-05,abib,abib,210,FR
@@ -5726,6 +6499,199 @@ month,brand,keyword,searches,geo
 2026-05,anua,anua,9900,FR
 2026-06,anua,anua,9900,FR
 2026-07,anua,anua,9900,FR
+2018-05,atopalm,atopalm,10,FR
+2018-06,atopalm,atopalm,10,FR
+2018-07,atopalm,atopalm,10,FR
+2018-08,atopalm,atopalm,10,FR
+2018-09,atopalm,atopalm,10,FR
+2018-10,atopalm,atopalm,10,FR
+2018-11,atopalm,atopalm,10,FR
+2018-12,atopalm,atopalm,10,FR
+2019-01,atopalm,atopalm,10,FR
+2019-02,atopalm,atopalm,20,FR
+2019-03,atopalm,atopalm,20,FR
+2019-04,atopalm,atopalm,10,FR
+2019-05,atopalm,atopalm,20,FR
+2019-06,atopalm,atopalm,10,FR
+2019-07,atopalm,atopalm,10,FR
+2019-08,atopalm,atopalm,20,FR
+2019-09,atopalm,atopalm,10,FR
+2019-10,atopalm,atopalm,10,FR
+2019-11,atopalm,atopalm,10,FR
+2019-12,atopalm,atopalm,20,FR
+2020-01,atopalm,atopalm,10,FR
+2020-02,atopalm,atopalm,10,FR
+2020-03,atopalm,atopalm,20,FR
+2020-04,atopalm,atopalm,40,FR
+2020-05,atopalm,atopalm,30,FR
+2020-06,atopalm,atopalm,30,FR
+2020-07,atopalm,atopalm,10,FR
+2020-08,atopalm,atopalm,30,FR
+2020-09,atopalm,atopalm,30,FR
+2020-10,atopalm,atopalm,20,FR
+2020-11,atopalm,atopalm,10,FR
+2020-12,atopalm,atopalm,40,FR
+2021-01,atopalm,atopalm,90,FR
+2021-02,atopalm,atopalm,50,FR
+2021-03,atopalm,atopalm,40,FR
+2021-04,atopalm,atopalm,30,FR
+2021-05,atopalm,atopalm,30,FR
+2021-06,atopalm,atopalm,20,FR
+2021-07,atopalm,atopalm,10,FR
+2021-08,atopalm,atopalm,30,FR
+2021-09,atopalm,atopalm,20,FR
+2021-10,atopalm,atopalm,20,FR
+2021-11,atopalm,atopalm,20,FR
+2021-12,atopalm,atopalm,20,FR
+2022-01,atopalm,atopalm,30,FR
+2022-02,atopalm,atopalm,20,FR
+2022-03,atopalm,atopalm,20,FR
+2022-04,atopalm,atopalm,20,FR
+2022-05,atopalm,atopalm,20,FR
+2022-06,atopalm,atopalm,20,FR
+2022-07,atopalm,atopalm,20,FR
+2022-08,atopalm,atopalm,40,FR
+2022-09,atopalm,atopalm,20,FR
+2022-10,atopalm,atopalm,30,FR
+2022-11,atopalm,atopalm,50,FR
+2022-12,atopalm,atopalm,30,FR
+2023-01,atopalm,atopalm,40,FR
+2023-02,atopalm,atopalm,40,FR
+2023-03,atopalm,atopalm,70,FR
+2023-04,atopalm,atopalm,40,FR
+2023-05,atopalm,atopalm,50,FR
+2023-06,atopalm,atopalm,40,FR
+2023-07,atopalm,atopalm,50,FR
+2023-08,atopalm,atopalm,40,FR
+2023-09,atopalm,atopalm,40,FR
+2023-10,atopalm,atopalm,50,FR
+2023-11,atopalm,atopalm,50,FR
+2023-12,atopalm,atopalm,70,FR
+2024-01,atopalm,atopalm,70,FR
+2024-02,atopalm,atopalm,90,FR
+2024-03,atopalm,atopalm,70,FR
+2024-04,atopalm,atopalm,70,FR
+2024-05,atopalm,atopalm,50,FR
+2024-06,atopalm,atopalm,50,FR
+2024-07,atopalm,atopalm,40,FR
+2024-08,atopalm,atopalm,40,FR
+2024-09,atopalm,atopalm,90,FR
+2024-10,atopalm,atopalm,50,FR
+2024-11,atopalm,atopalm,70,FR
+2024-12,atopalm,atopalm,70,FR
+2025-01,atopalm,atopalm,90,FR
+2025-02,atopalm,atopalm,70,FR
+2025-03,atopalm,atopalm,90,FR
+2025-04,atopalm,atopalm,50,FR
+2025-05,atopalm,atopalm,90,FR
+2025-06,atopalm,atopalm,50,FR
+2025-07,atopalm,atopalm,90,FR
+2025-08,atopalm,atopalm,70,FR
+2025-09,atopalm,atopalm,70,FR
+2025-10,atopalm,atopalm,90,FR
+2025-11,atopalm,atopalm,90,FR
+2025-12,atopalm,atopalm,90,FR
+2026-01,atopalm,atopalm,90,FR
+2026-02,atopalm,atopalm,70,FR
+2026-03,atopalm,atopalm,70,FR
+2026-04,atopalm,atopalm,70,FR
+2026-05,atopalm,atopalm,110,FR
+2026-06,atopalm,atopalm,70,FR
+2026-07,atopalm,atopalm,70,FR
+2026-08,atopalm,atopalm,90,FR
+2018-12,atopalm,atopalm mle cream,0,FR
+2019-01,atopalm,atopalm mle cream,10,FR
+2019-02,atopalm,atopalm mle cream,10,FR
+2019-03,atopalm,atopalm mle cream,10,FR
+2019-04,atopalm,atopalm mle cream,0,FR
+2019-05,atopalm,atopalm mle cream,10,FR
+2019-06,atopalm,atopalm mle cream,0,FR
+2019-07,atopalm,atopalm mle cream,0,FR
+2019-08,atopalm,atopalm mle cream,10,FR
+2019-09,atopalm,atopalm mle cream,10,FR
+2019-10,atopalm,atopalm mle cream,10,FR
+2019-11,atopalm,atopalm mle cream,10,FR
+2019-12,atopalm,atopalm mle cream,10,FR
+2020-01,atopalm,atopalm mle cream,0,FR
+2020-02,atopalm,atopalm mle cream,0,FR
+2020-03,atopalm,atopalm mle cream,10,FR
+2020-04,atopalm,atopalm mle cream,20,FR
+2020-05,atopalm,atopalm mle cream,10,FR
+2020-06,atopalm,atopalm mle cream,10,FR
+2020-07,atopalm,atopalm mle cream,10,FR
+2020-08,atopalm,atopalm mle cream,10,FR
+2020-09,atopalm,atopalm mle cream,10,FR
+2020-10,atopalm,atopalm mle cream,10,FR
+2020-11,atopalm,atopalm mle cream,10,FR
+2020-12,atopalm,atopalm mle cream,10,FR
+2021-01,atopalm,atopalm mle cream,10,FR
+2021-02,atopalm,atopalm mle cream,20,FR
+2021-03,atopalm,atopalm mle cream,20,FR
+2021-04,atopalm,atopalm mle cream,10,FR
+2021-05,atopalm,atopalm mle cream,20,FR
+2021-06,atopalm,atopalm mle cream,20,FR
+2021-07,atopalm,atopalm mle cream,10,FR
+2021-08,atopalm,atopalm mle cream,10,FR
+2021-09,atopalm,atopalm mle cream,30,FR
+2021-10,atopalm,atopalm mle cream,20,FR
+2021-11,atopalm,atopalm mle cream,50,FR
+2021-12,atopalm,atopalm mle cream,20,FR
+2022-01,atopalm,atopalm mle cream,20,FR
+2022-02,atopalm,atopalm mle cream,40,FR
+2022-03,atopalm,atopalm mle cream,30,FR
+2022-04,atopalm,atopalm mle cream,30,FR
+2022-05,atopalm,atopalm mle cream,10,FR
+2022-06,atopalm,atopalm mle cream,20,FR
+2022-07,atopalm,atopalm mle cream,10,FR
+2022-08,atopalm,atopalm mle cream,20,FR
+2022-09,atopalm,atopalm mle cream,10,FR
+2022-10,atopalm,atopalm mle cream,20,FR
+2022-11,atopalm,atopalm mle cream,20,FR
+2022-12,atopalm,atopalm mle cream,10,FR
+2023-01,atopalm,atopalm mle cream,10,FR
+2023-02,atopalm,atopalm mle cream,20,FR
+2023-03,atopalm,atopalm mle cream,30,FR
+2023-04,atopalm,atopalm mle cream,40,FR
+2023-05,atopalm,atopalm mle cream,40,FR
+2023-06,atopalm,atopalm mle cream,10,FR
+2023-07,atopalm,atopalm mle cream,20,FR
+2023-08,atopalm,atopalm mle cream,20,FR
+2023-09,atopalm,atopalm mle cream,30,FR
+2023-10,atopalm,atopalm mle cream,50,FR
+2023-11,atopalm,atopalm mle cream,50,FR
+2023-12,atopalm,atopalm mle cream,30,FR
+2024-01,atopalm,atopalm mle cream,50,FR
+2024-02,atopalm,atopalm mle cream,40,FR
+2024-03,atopalm,atopalm mle cream,50,FR
+2024-04,atopalm,atopalm mle cream,50,FR
+2024-05,atopalm,atopalm mle cream,30,FR
+2024-06,atopalm,atopalm mle cream,20,FR
+2024-07,atopalm,atopalm mle cream,10,FR
+2024-08,atopalm,atopalm mle cream,30,FR
+2024-09,atopalm,atopalm mle cream,50,FR
+2024-10,atopalm,atopalm mle cream,30,FR
+2024-11,atopalm,atopalm mle cream,40,FR
+2024-12,atopalm,atopalm mle cream,20,FR
+2025-01,atopalm,atopalm mle cream,40,FR
+2025-02,atopalm,atopalm mle cream,30,FR
+2025-03,atopalm,atopalm mle cream,40,FR
+2025-04,atopalm,atopalm mle cream,40,FR
+2025-05,atopalm,atopalm mle cream,70,FR
+2025-06,atopalm,atopalm mle cream,40,FR
+2025-07,atopalm,atopalm mle cream,70,FR
+2025-08,atopalm,atopalm mle cream,30,FR
+2025-09,atopalm,atopalm mle cream,40,FR
+2025-10,atopalm,atopalm mle cream,70,FR
+2025-11,atopalm,atopalm mle cream,50,FR
+2025-12,atopalm,atopalm mle cream,50,FR
+2026-01,atopalm,atopalm mle cream,70,FR
+2026-02,atopalm,atopalm mle cream,30,FR
+2026-03,atopalm,atopalm mle cream,40,FR
+2026-04,atopalm,atopalm mle cream,40,FR
+2026-05,atopalm,atopalm mle cream,20,FR
+2026-06,atopalm,atopalm mle cream,40,FR
+2026-07,atopalm,atopalm mle cream,50,FR
+2026-08,atopalm,atopalm mle cream,40,FR
 2018-11,beauty of joseon,beauty of joseon,10,FR
 2018-12,beauty of joseon,beauty of joseon,10,FR
 2019-01,beauty of joseon,beauty of joseon,10,FR
@@ -5894,6 +6860,7 @@ month,brand,keyword,searches,geo
 2026-05,biodance,biodance,14800,FR
 2026-06,biodance,biodance,14800,FR
 2026-07,biodance,biodance,14800,FR
+2026-08,biodance,biodance,18100,FR
 2018-11,cosrx,cosrx,720,FR
 2018-12,cosrx,cosrx,880,FR
 2019-01,cosrx,cosrx,880,FR
@@ -6080,6 +7047,7 @@ month,brand,keyword,searches,geo
 2026-05,d'alba,d'alba,1300,FR
 2026-06,d'alba,d'alba,1000,FR
 2026-07,d'alba,d'alba,1000,FR
+2026-08,d'alba,d'alba,1000,FR
 2018-04,isntree,isntree,10,FR
 2018-05,isntree,isntree,20,FR
 2018-06,isntree,isntree,10,FR
@@ -6368,6 +7336,7 @@ month,brand,keyword,searches,geo
 2026-05,madeca cream,centellian 24,590,FR
 2026-06,madeca cream,centellian 24,880,FR
 2026-07,madeca cream,centellian 24,1000,FR
+2026-08,madeca cream,centellian 24,1000,FR
 2022-04,madeca cream,madeca cream,10,FR
 2022-05,madeca cream,madeca cream,10,FR
 2022-06,madeca cream,madeca cream,10,FR
@@ -6420,6 +7389,7 @@ month,brand,keyword,searches,geo
 2026-05,madeca cream,madeca cream,1300,FR
 2026-06,madeca cream,madeca cream,2900,FR
 2026-07,madeca cream,madeca cream,2900,FR
+2026-08,madeca cream,madeca cream,4400,FR
 2020-08,manyo,manyo,90,FR
 2020-09,manyo,manyo,90,FR
 2020-10,manyo,manyo,140,FR
@@ -6681,6 +7651,7 @@ month,brand,keyword,searches,geo
 2026-05,mixsoon,mixsoon,2400,FR
 2026-06,mixsoon,mixsoon,1600,FR
 2026-07,mixsoon,mixsoon,1900,FR
+2026-08,mixsoon,mixsoon,1900,FR
 2018-11,numbuzin,numbuzin,0,FR
 2018-12,numbuzin,numbuzin,0,FR
 2019-01,numbuzin,numbuzin,0,FR
@@ -6774,6 +7745,7 @@ month,brand,keyword,searches,geo
 2026-05,numbuzin,numbuzin,2400,FR
 2026-06,numbuzin,numbuzin,2400,FR
 2026-07,numbuzin,numbuzin,1900,FR
+2026-08,numbuzin,numbuzin,2400,FR
 2021-04,reedle shot,reedle shot,0,FR
 2021-05,reedle shot,reedle shot,0,FR
 2021-06,reedle shot,reedle shot,0,FR
@@ -7342,6 +8314,289 @@ month,brand,keyword,searches,geo
 2026-05,anua,anua,22200,GB
 2026-06,anua,anua,22200,GB
 2026-07,anua,anua,18100,GB
+2026-08,anua,anua,18100,GB
+2018-11,atopalm,atopalm,50,GB
+2018-12,atopalm,atopalm,40,GB
+2019-01,atopalm,atopalm,70,GB
+2019-02,atopalm,atopalm,50,GB
+2019-03,atopalm,atopalm,70,GB
+2019-04,atopalm,atopalm,70,GB
+2019-05,atopalm,atopalm,50,GB
+2019-06,atopalm,atopalm,50,GB
+2019-07,atopalm,atopalm,40,GB
+2019-08,atopalm,atopalm,50,GB
+2019-09,atopalm,atopalm,70,GB
+2019-10,atopalm,atopalm,50,GB
+2019-11,atopalm,atopalm,50,GB
+2019-12,atopalm,atopalm,50,GB
+2020-01,atopalm,atopalm,40,GB
+2020-02,atopalm,atopalm,30,GB
+2020-03,atopalm,atopalm,50,GB
+2020-04,atopalm,atopalm,90,GB
+2020-05,atopalm,atopalm,90,GB
+2020-06,atopalm,atopalm,70,GB
+2020-07,atopalm,atopalm,70,GB
+2020-08,atopalm,atopalm,50,GB
+2020-09,atopalm,atopalm,90,GB
+2020-10,atopalm,atopalm,210,GB
+2020-11,atopalm,atopalm,70,GB
+2020-12,atopalm,atopalm,70,GB
+2021-01,atopalm,atopalm,110,GB
+2021-02,atopalm,atopalm,50,GB
+2021-03,atopalm,atopalm,70,GB
+2021-04,atopalm,atopalm,50,GB
+2021-05,atopalm,atopalm,70,GB
+2021-06,atopalm,atopalm,40,GB
+2021-07,atopalm,atopalm,70,GB
+2021-08,atopalm,atopalm,50,GB
+2021-09,atopalm,atopalm,40,GB
+2021-10,atopalm,atopalm,70,GB
+2021-11,atopalm,atopalm,70,GB
+2021-12,atopalm,atopalm,140,GB
+2022-01,atopalm,atopalm,170,GB
+2022-02,atopalm,atopalm,90,GB
+2022-03,atopalm,atopalm,140,GB
+2022-04,atopalm,atopalm,90,GB
+2022-05,atopalm,atopalm,110,GB
+2022-06,atopalm,atopalm,70,GB
+2022-07,atopalm,atopalm,70,GB
+2022-08,atopalm,atopalm,90,GB
+2022-09,atopalm,atopalm,70,GB
+2022-10,atopalm,atopalm,90,GB
+2022-11,atopalm,atopalm,110,GB
+2022-12,atopalm,atopalm,90,GB
+2023-01,atopalm,atopalm,110,GB
+2023-02,atopalm,atopalm,90,GB
+2023-03,atopalm,atopalm,260,GB
+2023-04,atopalm,atopalm,140,GB
+2023-05,atopalm,atopalm,140,GB
+2023-06,atopalm,atopalm,110,GB
+2023-07,atopalm,atopalm,90,GB
+2023-08,atopalm,atopalm,140,GB
+2023-09,atopalm,atopalm,170,GB
+2023-10,atopalm,atopalm,140,GB
+2023-11,atopalm,atopalm,210,GB
+2023-12,atopalm,atopalm,140,GB
+2024-01,atopalm,atopalm,260,GB
+2024-02,atopalm,atopalm,210,GB
+2024-03,atopalm,atopalm,170,GB
+2024-04,atopalm,atopalm,170,GB
+2024-05,atopalm,atopalm,140,GB
+2024-06,atopalm,atopalm,140,GB
+2024-07,atopalm,atopalm,90,GB
+2024-08,atopalm,atopalm,140,GB
+2024-09,atopalm,atopalm,210,GB
+2024-10,atopalm,atopalm,210,GB
+2024-11,atopalm,atopalm,210,GB
+2024-12,atopalm,atopalm,210,GB
+2025-01,atopalm,atopalm,210,GB
+2025-02,atopalm,atopalm,260,GB
+2025-03,atopalm,atopalm,260,GB
+2025-04,atopalm,atopalm,210,GB
+2025-05,atopalm,atopalm,590,GB
+2025-06,atopalm,atopalm,480,GB
+2025-07,atopalm,atopalm,590,GB
+2025-08,atopalm,atopalm,320,GB
+2025-09,atopalm,atopalm,210,GB
+2025-10,atopalm,atopalm,590,GB
+2025-11,atopalm,atopalm,480,GB
+2025-12,atopalm,atopalm,480,GB
+2026-01,atopalm,atopalm,480,GB
+2026-02,atopalm,atopalm,260,GB
+2026-03,atopalm,atopalm,260,GB
+2026-04,atopalm,atopalm,260,GB
+2026-05,atopalm,atopalm,320,GB
+2026-06,atopalm,atopalm,320,GB
+2026-07,atopalm,atopalm,260,GB
+2026-08,atopalm,atopalm,260,GB
+2018-11,atopalm,atopalm cream,10,GB
+2018-12,atopalm,atopalm cream,10,GB
+2019-01,atopalm,atopalm cream,20,GB
+2019-02,atopalm,atopalm cream,10,GB
+2019-03,atopalm,atopalm cream,10,GB
+2019-04,atopalm,atopalm cream,10,GB
+2019-05,atopalm,atopalm cream,10,GB
+2019-06,atopalm,atopalm cream,10,GB
+2019-07,atopalm,atopalm cream,10,GB
+2019-08,atopalm,atopalm cream,10,GB
+2019-09,atopalm,atopalm cream,30,GB
+2019-10,atopalm,atopalm cream,20,GB
+2019-11,atopalm,atopalm cream,20,GB
+2019-12,atopalm,atopalm cream,20,GB
+2020-01,atopalm,atopalm cream,20,GB
+2020-02,atopalm,atopalm cream,10,GB
+2020-03,atopalm,atopalm cream,20,GB
+2020-04,atopalm,atopalm cream,20,GB
+2020-05,atopalm,atopalm cream,40,GB
+2020-06,atopalm,atopalm cream,10,GB
+2020-07,atopalm,atopalm cream,20,GB
+2020-08,atopalm,atopalm cream,20,GB
+2020-09,atopalm,atopalm cream,20,GB
+2020-10,atopalm,atopalm cream,70,GB
+2020-11,atopalm,atopalm cream,20,GB
+2020-12,atopalm,atopalm cream,20,GB
+2021-01,atopalm,atopalm cream,20,GB
+2021-02,atopalm,atopalm cream,20,GB
+2021-03,atopalm,atopalm cream,10,GB
+2021-04,atopalm,atopalm cream,30,GB
+2021-05,atopalm,atopalm cream,10,GB
+2021-06,atopalm,atopalm cream,10,GB
+2021-07,atopalm,atopalm cream,10,GB
+2021-08,atopalm,atopalm cream,20,GB
+2021-09,atopalm,atopalm cream,10,GB
+2021-10,atopalm,atopalm cream,10,GB
+2021-11,atopalm,atopalm cream,20,GB
+2021-12,atopalm,atopalm cream,30,GB
+2022-01,atopalm,atopalm cream,10,GB
+2022-02,atopalm,atopalm cream,20,GB
+2022-03,atopalm,atopalm cream,20,GB
+2022-04,atopalm,atopalm cream,20,GB
+2022-05,atopalm,atopalm cream,10,GB
+2022-06,atopalm,atopalm cream,10,GB
+2022-07,atopalm,atopalm cream,10,GB
+2022-08,atopalm,atopalm cream,10,GB
+2022-09,atopalm,atopalm cream,10,GB
+2022-10,atopalm,atopalm cream,10,GB
+2022-11,atopalm,atopalm cream,20,GB
+2022-12,atopalm,atopalm cream,20,GB
+2023-01,atopalm,atopalm cream,10,GB
+2023-02,atopalm,atopalm cream,20,GB
+2023-03,atopalm,atopalm cream,30,GB
+2023-04,atopalm,atopalm cream,20,GB
+2023-05,atopalm,atopalm cream,40,GB
+2023-06,atopalm,atopalm cream,10,GB
+2023-07,atopalm,atopalm cream,10,GB
+2023-08,atopalm,atopalm cream,10,GB
+2023-09,atopalm,atopalm cream,20,GB
+2023-10,atopalm,atopalm cream,20,GB
+2023-11,atopalm,atopalm cream,30,GB
+2023-12,atopalm,atopalm cream,20,GB
+2024-01,atopalm,atopalm cream,30,GB
+2024-02,atopalm,atopalm cream,30,GB
+2024-03,atopalm,atopalm cream,40,GB
+2024-04,atopalm,atopalm cream,20,GB
+2024-05,atopalm,atopalm cream,20,GB
+2024-06,atopalm,atopalm cream,20,GB
+2024-07,atopalm,atopalm cream,10,GB
+2024-08,atopalm,atopalm cream,20,GB
+2024-09,atopalm,atopalm cream,10,GB
+2024-10,atopalm,atopalm cream,30,GB
+2024-11,atopalm,atopalm cream,40,GB
+2024-12,atopalm,atopalm cream,20,GB
+2025-01,atopalm,atopalm cream,30,GB
+2025-02,atopalm,atopalm cream,50,GB
+2025-03,atopalm,atopalm cream,40,GB
+2025-04,atopalm,atopalm cream,40,GB
+2025-05,atopalm,atopalm cream,140,GB
+2025-06,atopalm,atopalm cream,110,GB
+2025-07,atopalm,atopalm cream,90,GB
+2025-08,atopalm,atopalm cream,90,GB
+2025-09,atopalm,atopalm cream,40,GB
+2025-10,atopalm,atopalm cream,170,GB
+2025-11,atopalm,atopalm cream,170,GB
+2025-12,atopalm,atopalm cream,140,GB
+2026-01,atopalm,atopalm cream,110,GB
+2026-02,atopalm,atopalm cream,90,GB
+2026-03,atopalm,atopalm cream,140,GB
+2026-04,atopalm,atopalm cream,70,GB
+2026-05,atopalm,atopalm cream,70,GB
+2026-06,atopalm,atopalm cream,90,GB
+2026-07,atopalm,atopalm cream,70,GB
+2026-08,atopalm,atopalm cream,90,GB
+2018-11,atopalm,atopalm mle cream,20,GB
+2018-12,atopalm,atopalm mle cream,50,GB
+2019-01,atopalm,atopalm mle cream,10,GB
+2019-02,atopalm,atopalm mle cream,10,GB
+2019-03,atopalm,atopalm mle cream,10,GB
+2019-04,atopalm,atopalm mle cream,10,GB
+2019-05,atopalm,atopalm mle cream,10,GB
+2019-06,atopalm,atopalm mle cream,10,GB
+2019-07,atopalm,atopalm mle cream,10,GB
+2019-08,atopalm,atopalm mle cream,10,GB
+2019-09,atopalm,atopalm mle cream,10,GB
+2019-10,atopalm,atopalm mle cream,20,GB
+2019-11,atopalm,atopalm mle cream,10,GB
+2019-12,atopalm,atopalm mle cream,10,GB
+2020-01,atopalm,atopalm mle cream,10,GB
+2020-02,atopalm,atopalm mle cream,10,GB
+2020-03,atopalm,atopalm mle cream,10,GB
+2020-04,atopalm,atopalm mle cream,10,GB
+2020-05,atopalm,atopalm mle cream,30,GB
+2020-06,atopalm,atopalm mle cream,20,GB
+2020-07,atopalm,atopalm mle cream,20,GB
+2020-08,atopalm,atopalm mle cream,10,GB
+2020-09,atopalm,atopalm mle cream,20,GB
+2020-10,atopalm,atopalm mle cream,20,GB
+2020-11,atopalm,atopalm mle cream,10,GB
+2020-12,atopalm,atopalm mle cream,30,GB
+2021-01,atopalm,atopalm mle cream,50,GB
+2021-02,atopalm,atopalm mle cream,30,GB
+2021-03,atopalm,atopalm mle cream,40,GB
+2021-04,atopalm,atopalm mle cream,50,GB
+2021-05,atopalm,atopalm mle cream,40,GB
+2021-06,atopalm,atopalm mle cream,50,GB
+2021-07,atopalm,atopalm mle cream,20,GB
+2021-08,atopalm,atopalm mle cream,20,GB
+2021-09,atopalm,atopalm mle cream,30,GB
+2021-10,atopalm,atopalm mle cream,50,GB
+2021-11,atopalm,atopalm mle cream,70,GB
+2021-12,atopalm,atopalm mle cream,50,GB
+2022-01,atopalm,atopalm mle cream,90,GB
+2022-02,atopalm,atopalm mle cream,110,GB
+2022-03,atopalm,atopalm mle cream,110,GB
+2022-04,atopalm,atopalm mle cream,90,GB
+2022-05,atopalm,atopalm mle cream,50,GB
+2022-06,atopalm,atopalm mle cream,70,GB
+2022-07,atopalm,atopalm mle cream,50,GB
+2022-08,atopalm,atopalm mle cream,70,GB
+2022-09,atopalm,atopalm mle cream,70,GB
+2022-10,atopalm,atopalm mle cream,70,GB
+2022-11,atopalm,atopalm mle cream,70,GB
+2022-12,atopalm,atopalm mle cream,90,GB
+2023-01,atopalm,atopalm mle cream,70,GB
+2023-02,atopalm,atopalm mle cream,90,GB
+2023-03,atopalm,atopalm mle cream,110,GB
+2023-04,atopalm,atopalm mle cream,110,GB
+2023-05,atopalm,atopalm mle cream,110,GB
+2023-06,atopalm,atopalm mle cream,70,GB
+2023-07,atopalm,atopalm mle cream,50,GB
+2023-08,atopalm,atopalm mle cream,90,GB
+2023-09,atopalm,atopalm mle cream,70,GB
+2023-10,atopalm,atopalm mle cream,90,GB
+2023-11,atopalm,atopalm mle cream,210,GB
+2023-12,atopalm,atopalm mle cream,140,GB
+2024-01,atopalm,atopalm mle cream,170,GB
+2024-02,atopalm,atopalm mle cream,210,GB
+2024-03,atopalm,atopalm mle cream,140,GB
+2024-04,atopalm,atopalm mle cream,140,GB
+2024-05,atopalm,atopalm mle cream,70,GB
+2024-06,atopalm,atopalm mle cream,70,GB
+2024-07,atopalm,atopalm mle cream,110,GB
+2024-08,atopalm,atopalm mle cream,90,GB
+2024-09,atopalm,atopalm mle cream,90,GB
+2024-10,atopalm,atopalm mle cream,210,GB
+2024-11,atopalm,atopalm mle cream,140,GB
+2024-12,atopalm,atopalm mle cream,140,GB
+2025-01,atopalm,atopalm mle cream,170,GB
+2025-02,atopalm,atopalm mle cream,170,GB
+2025-03,atopalm,atopalm mle cream,170,GB
+2025-04,atopalm,atopalm mle cream,140,GB
+2025-05,atopalm,atopalm mle cream,720,GB
+2025-06,atopalm,atopalm mle cream,480,GB
+2025-07,atopalm,atopalm mle cream,720,GB
+2025-08,atopalm,atopalm mle cream,590,GB
+2025-09,atopalm,atopalm mle cream,320,GB
+2025-10,atopalm,atopalm mle cream,720,GB
+2025-11,atopalm,atopalm mle cream,590,GB
+2025-12,atopalm,atopalm mle cream,480,GB
+2026-01,atopalm,atopalm mle cream,480,GB
+2026-02,atopalm,atopalm mle cream,390,GB
+2026-03,atopalm,atopalm mle cream,390,GB
+2026-04,atopalm,atopalm mle cream,390,GB
+2026-05,atopalm,atopalm mle cream,390,GB
+2026-06,atopalm,atopalm mle cream,390,GB
+2026-07,atopalm,atopalm mle cream,320,GB
+2026-08,atopalm,atopalm mle cream,320,GB
 2018-11,beauty of joseon,beauty of joseon,10,GB
 2018-12,beauty of joseon,beauty of joseon,20,GB
 2019-01,beauty of joseon,beauty of joseon,30,GB
@@ -7435,6 +8690,7 @@ month,brand,keyword,searches,geo
 2026-05,beauty of joseon,beauty of joseon,74000,GB
 2026-06,beauty of joseon,beauty of joseon,74000,GB
 2026-07,beauty of joseon,beauty of joseon,74000,GB
+2026-08,beauty of joseon,beauty of joseon,74000,GB
 2018-11,biodance,biodance,50,GB
 2018-12,biodance,biodance,50,GB
 2019-01,biodance,biodance,50,GB
@@ -7528,6 +8784,7 @@ month,brand,keyword,searches,geo
 2026-05,biodance,biodance,9900,GB
 2026-06,biodance,biodance,12100,GB
 2026-07,biodance,biodance,9900,GB
+2026-08,biodance,biodance,12100,GB
 2018-11,cosrx,cosrx,2900,GB
 2018-12,cosrx,cosrx,2400,GB
 2019-01,cosrx,cosrx,3600,GB
@@ -7809,6 +9066,7 @@ month,brand,keyword,searches,geo
 2026-05,isntree,isntree,880,GB
 2026-06,isntree,isntree,880,GB
 2026-07,isntree,isntree,880,GB
+2026-08,isntree,isntree,880,GB
 2018-10,laneige,laneige,2400,GB
 2018-11,laneige,laneige,2900,GB
 2018-12,laneige,laneige,2900,GB
@@ -7903,6 +9161,7 @@ month,brand,keyword,searches,geo
 2026-05,laneige,laneige,27100,GB
 2026-06,laneige,laneige,22200,GB
 2026-07,laneige,laneige,22200,GB
+2026-08,laneige,laneige,22200,GB
 2021-10,madeca cream,centellian 24,10,GB
 2021-11,madeca cream,centellian 24,20,GB
 2021-12,madeca cream,centellian 24,20,GB
@@ -7961,6 +9220,7 @@ month,brand,keyword,searches,geo
 2026-05,madeca cream,centellian 24,1300,GB
 2026-06,madeca cream,centellian 24,1600,GB
 2026-07,madeca cream,centellian 24,1900,GB
+2026-08,madeca cream,centellian 24,2400,GB
 2018-10,madeca cream,madeca cream,40,GB
 2018-11,madeca cream,madeca cream,20,GB
 2018-12,madeca cream,madeca cream,30,GB
@@ -8379,6 +9639,7 @@ month,brand,keyword,searches,geo
 2026-05,reedle shot,reedle shot,9900,GB
 2026-06,reedle shot,reedle shot,4400,GB
 2026-07,reedle shot,reedle shot,3600,GB
+2026-08,reedle shot,reedle shot,4400,GB
 2019-03,round lab,round lab,10,GB
 2019-04,round lab,round lab,10,GB
 2019-05,round lab,round lab,10,GB
@@ -8563,6 +9824,7 @@ month,brand,keyword,searches,geo
 2026-05,skin1004,skin1004,5400,GB
 2026-06,skin1004,skin1004,4400,GB
 2026-07,skin1004,skin1004,4400,GB
+2026-08,skin1004,skin1004,5400,GB
 2019-12,tirtir,tirtir,20,GB
 2020-01,tirtir,tirtir,10,GB
 2020-02,tirtir,tirtir,20,GB
@@ -8643,6 +9905,7 @@ month,brand,keyword,searches,geo
 2026-05,tirtir,tirtir,8100,GB
 2026-06,tirtir,tirtir,6600,GB
 2026-07,tirtir,tirtir,5400,GB
+2026-08,tirtir,tirtir,6600,GB
 2018-10,abib,abib,260,ID
 2018-11,abib,abib,210,ID
 2018-12,abib,abib,260,ID
@@ -8737,6 +10000,7 @@ month,brand,keyword,searches,geo
 2026-05,abib,abib,880,ID
 2026-06,abib,abib,880,ID
 2026-07,abib,abib,1000,ID
+2026-08,abib,abib,880,ID
 2019-08,anua,anua,70,ID
 2019-09,anua,anua,90,ID
 2019-10,anua,anua,70,ID
@@ -8921,6 +10185,7 @@ month,brand,keyword,searches,geo
 2026-05,beauty of joseon,beauty of joseon,6600,ID
 2026-06,beauty of joseon,beauty of joseon,5400,ID
 2026-07,beauty of joseon,beauty of joseon,6600,ID
+2026-08,beauty of joseon,beauty of joseon,5400,ID
 2018-09,biodance,biodance,0,ID
 2018-10,biodance,biodance,10,ID
 2018-11,biodance,biodance,10,ID
@@ -9016,6 +10281,7 @@ month,brand,keyword,searches,geo
 2026-05,biodance,biodance,1000,ID
 2026-06,biodance,biodance,1000,ID
 2026-07,biodance,biodance,1000,ID
+2026-08,biodance,biodance,1000,ID
 2018-10,cosrx,cosrx,8100,ID
 2018-11,cosrx,cosrx,8100,ID
 2018-12,cosrx,cosrx,9900,ID
@@ -9297,6 +10563,7 @@ month,brand,keyword,searches,geo
 2026-05,isntree,isntree,390,ID
 2026-06,isntree,isntree,390,ID
 2026-07,isntree,isntree,390,ID
+2026-08,isntree,isntree,390,ID
 2018-11,laneige,laneige,27100,ID
 2018-12,laneige,laneige,27100,ID
 2019-01,laneige,laneige,27100,ID
@@ -10180,6 +11447,7 @@ month,brand,keyword,searches,geo
 2026-05,beauty of joseon,beauty of joseon,49500,IN
 2026-06,beauty of joseon,beauty of joseon,49500,IN
 2026-07,beauty of joseon,beauty of joseon,49500,IN
+2026-08,beauty of joseon,beauty of joseon,60500,IN
 2021-07,biodance,biodance,90,IN
 2021-08,biodance,biodance,90,IN
 2021-09,biodance,biodance,70,IN
@@ -10335,6 +11603,7 @@ month,brand,keyword,searches,geo
 2026-05,cosrx,cosrx,40500,IN
 2026-06,cosrx,cosrx,27100,IN
 2026-07,cosrx,cosrx,22200,IN
+2026-08,cosrx,cosrx,27100,IN
 2018-11,d'alba,d'alba,110,IN
 2018-12,d'alba,d'alba,90,IN
 2019-01,d'alba,d'alba,90,IN
@@ -10428,6 +11697,7 @@ month,brand,keyword,searches,geo
 2026-05,d'alba,d'alba,8100,IN
 2026-06,d'alba,d'alba,5400,IN
 2026-07,d'alba,d'alba,9900,IN
+2026-08,d'alba,d'alba,8100,IN
 2019-08,isntree,isntree,90,IN
 2019-09,isntree,isntree,320,IN
 2019-10,isntree,isntree,70,IN
@@ -10512,6 +11782,7 @@ month,brand,keyword,searches,geo
 2026-05,isntree,isntree,2400,IN
 2026-06,isntree,isntree,2900,IN
 2026-07,isntree,isntree,3600,IN
+2026-08,isntree,isntree,2900,IN
 2018-11,laneige,laneige,3600,IN
 2018-12,laneige,laneige,2400,IN
 2019-01,laneige,laneige,4400,IN
@@ -10936,6 +12207,7 @@ month,brand,keyword,searches,geo
 2026-05,numbuzin,numbuzin,4400,IN
 2026-06,numbuzin,numbuzin,14800,IN
 2026-07,numbuzin,numbuzin,9900,IN
+2026-08,numbuzin,numbuzin,8100,IN
 2020-06,reedle shot,reedle shot,0,IN
 2020-07,reedle shot,reedle shot,0,IN
 2020-08,reedle shot,reedle shot,0,IN
@@ -11010,6 +12282,7 @@ month,brand,keyword,searches,geo
 2026-05,reedle shot,reedle shot,880,IN
 2026-06,reedle shot,reedle shot,880,IN
 2026-07,reedle shot,reedle shot,880,IN
+2026-08,reedle shot,reedle shot,720,IN
 2019-12,round lab,round lab,30,IN
 2020-01,round lab,round lab,10,IN
 2020-02,round lab,round lab,10,IN
@@ -11185,6 +12458,7 @@ month,brand,keyword,searches,geo
 2026-05,skin1004,skin1004,5400,IN
 2026-06,skin1004,skin1004,5400,IN
 2026-07,skin1004,skin1004,6600,IN
+2026-08,skin1004,skin1004,8100,IN
 2021-04,tirtir,tirtir,7480000,IN
 2021-05,tirtir,tirtir,9140000,IN
 2021-06,tirtir,tirtir,7480000,IN
@@ -11343,6 +12617,7 @@ month,brand,keyword,searches,geo
 2026-05,abib,abib,6600,JP
 2026-06,abib,abib,6600,JP
 2026-07,abib,abib,5400,JP
+2026-08,abib,abib,6600,JP
 2018-11,abib,アビブ,390,JP
 2018-12,abib,アビブ,480,JP
 2019-01,abib,アビブ,590,JP
@@ -11624,6 +12899,194 @@ month,brand,keyword,searches,geo
 2026-05,anua,アヌア,90500,JP
 2026-06,anua,アヌア,90500,JP
 2026-07,anua,アヌア,74000,JP
+2026-08,anua,アヌア,90500,JP
+2018-11,atopalm,atopalm,70,JP
+2018-12,atopalm,atopalm,90,JP
+2019-01,atopalm,atopalm,140,JP
+2019-02,atopalm,atopalm,70,JP
+2019-03,atopalm,atopalm,110,JP
+2019-04,atopalm,atopalm,50,JP
+2019-05,atopalm,atopalm,70,JP
+2019-06,atopalm,atopalm,70,JP
+2019-07,atopalm,atopalm,70,JP
+2019-08,atopalm,atopalm,50,JP
+2019-09,atopalm,atopalm,90,JP
+2019-10,atopalm,atopalm,50,JP
+2019-11,atopalm,atopalm,70,JP
+2019-12,atopalm,atopalm,70,JP
+2020-01,atopalm,atopalm,110,JP
+2020-02,atopalm,atopalm,70,JP
+2020-03,atopalm,atopalm,90,JP
+2020-04,atopalm,atopalm,70,JP
+2020-05,atopalm,atopalm,90,JP
+2020-06,atopalm,atopalm,70,JP
+2020-07,atopalm,atopalm,70,JP
+2020-08,atopalm,atopalm,70,JP
+2020-09,atopalm,atopalm,70,JP
+2020-10,atopalm,atopalm,70,JP
+2020-11,atopalm,atopalm,70,JP
+2020-12,atopalm,atopalm,90,JP
+2021-01,atopalm,atopalm,110,JP
+2021-02,atopalm,atopalm,90,JP
+2021-03,atopalm,atopalm,140,JP
+2021-04,atopalm,atopalm,50,JP
+2021-05,atopalm,atopalm,70,JP
+2021-06,atopalm,atopalm,90,JP
+2021-07,atopalm,atopalm,90,JP
+2021-08,atopalm,atopalm,390,JP
+2021-09,atopalm,atopalm,110,JP
+2021-10,atopalm,atopalm,90,JP
+2021-11,atopalm,atopalm,170,JP
+2021-12,atopalm,atopalm,140,JP
+2022-01,atopalm,atopalm,50,JP
+2022-02,atopalm,atopalm,110,JP
+2022-03,atopalm,atopalm,140,JP
+2022-04,atopalm,atopalm,70,JP
+2022-05,atopalm,atopalm,70,JP
+2022-06,atopalm,atopalm,70,JP
+2022-07,atopalm,atopalm,50,JP
+2022-08,atopalm,atopalm,50,JP
+2022-09,atopalm,atopalm,140,JP
+2022-10,atopalm,atopalm,140,JP
+2022-11,atopalm,atopalm,110,JP
+2022-12,atopalm,atopalm,90,JP
+2023-01,atopalm,atopalm,140,JP
+2023-02,atopalm,atopalm,90,JP
+2023-03,atopalm,atopalm,140,JP
+2023-04,atopalm,atopalm,880,JP
+2023-05,atopalm,atopalm,260,JP
+2023-06,atopalm,atopalm,110,JP
+2023-07,atopalm,atopalm,110,JP
+2023-08,atopalm,atopalm,110,JP
+2023-09,atopalm,atopalm,170,JP
+2023-10,atopalm,atopalm,140,JP
+2023-11,atopalm,atopalm,590,JP
+2023-12,atopalm,atopalm,260,JP
+2024-01,atopalm,atopalm,170,JP
+2024-02,atopalm,atopalm,140,JP
+2024-03,atopalm,atopalm,210,JP
+2024-04,atopalm,atopalm,170,JP
+2024-05,atopalm,atopalm,170,JP
+2024-06,atopalm,atopalm,170,JP
+2024-07,atopalm,atopalm,110,JP
+2024-08,atopalm,atopalm,110,JP
+2024-09,atopalm,atopalm,170,JP
+2024-10,atopalm,atopalm,170,JP
+2024-11,atopalm,atopalm,170,JP
+2024-12,atopalm,atopalm,170,JP
+2025-01,atopalm,atopalm,140,JP
+2025-02,atopalm,atopalm,110,JP
+2025-03,atopalm,atopalm,110,JP
+2025-04,atopalm,atopalm,90,JP
+2025-05,atopalm,atopalm,110,JP
+2025-06,atopalm,atopalm,110,JP
+2025-07,atopalm,atopalm,70,JP
+2025-08,atopalm,atopalm,90,JP
+2025-09,atopalm,atopalm,90,JP
+2025-10,atopalm,atopalm,110,JP
+2025-11,atopalm,atopalm,390,JP
+2025-12,atopalm,atopalm,140,JP
+2026-01,atopalm,atopalm,260,JP
+2026-02,atopalm,atopalm,140,JP
+2026-03,atopalm,atopalm,140,JP
+2026-04,atopalm,atopalm,140,JP
+2026-05,atopalm,atopalm,140,JP
+2026-06,atopalm,atopalm,140,JP
+2026-07,atopalm,atopalm,140,JP
+2018-11,atopalm,アトパーム,260,JP
+2018-12,atopalm,アトパーム,140,JP
+2019-01,atopalm,アトパーム,260,JP
+2019-02,atopalm,アトパーム,210,JP
+2019-03,atopalm,アトパーム,210,JP
+2019-04,atopalm,アトパーム,210,JP
+2019-05,atopalm,アトパーム,210,JP
+2019-06,atopalm,アトパーム,210,JP
+2019-07,atopalm,アトパーム,140,JP
+2019-08,atopalm,アトパーム,170,JP
+2019-09,atopalm,アトパーム,140,JP
+2019-10,atopalm,アトパーム,170,JP
+2019-11,atopalm,アトパーム,170,JP
+2019-12,atopalm,アトパーム,170,JP
+2020-01,atopalm,アトパーム,210,JP
+2020-02,atopalm,アトパーム,140,JP
+2020-03,atopalm,アトパーム,260,JP
+2020-04,atopalm,アトパーム,140,JP
+2020-05,atopalm,アトパーム,260,JP
+2020-06,atopalm,アトパーム,140,JP
+2020-07,atopalm,アトパーム,90,JP
+2020-08,atopalm,アトパーム,90,JP
+2020-09,atopalm,アトパーム,90,JP
+2020-10,atopalm,アトパーム,90,JP
+2020-11,atopalm,アトパーム,110,JP
+2020-12,atopalm,アトパーム,140,JP
+2021-01,atopalm,アトパーム,210,JP
+2021-02,atopalm,アトパーム,210,JP
+2021-03,atopalm,アトパーム,210,JP
+2021-04,atopalm,アトパーム,110,JP
+2021-05,atopalm,アトパーム,90,JP
+2021-06,atopalm,アトパーム,90,JP
+2021-07,atopalm,アトパーム,260,JP
+2021-08,atopalm,アトパーム,1600,JP
+2021-09,atopalm,アトパーム,590,JP
+2021-10,atopalm,アトパーム,320,JP
+2021-11,atopalm,アトパーム,260,JP
+2021-12,atopalm,アトパーム,260,JP
+2022-01,atopalm,アトパーム,210,JP
+2022-02,atopalm,アトパーム,390,JP
+2022-03,atopalm,アトパーム,260,JP
+2022-04,atopalm,アトパーム,320,JP
+2022-05,atopalm,アトパーム,390,JP
+2022-06,atopalm,アトパーム,210,JP
+2022-07,atopalm,アトパーム,210,JP
+2022-08,atopalm,アトパーム,260,JP
+2022-09,atopalm,アトパーム,590,JP
+2022-10,atopalm,アトパーム,480,JP
+2022-11,atopalm,アトパーム,390,JP
+2022-12,atopalm,アトパーム,1000,JP
+2023-01,atopalm,アトパーム,720,JP
+2023-02,atopalm,アトパーム,480,JP
+2023-03,atopalm,アトパーム,590,JP
+2023-04,atopalm,アトパーム,320,JP
+2023-05,atopalm,アトパーム,390,JP
+2023-06,atopalm,アトパーム,320,JP
+2023-07,atopalm,アトパーム,320,JP
+2023-08,atopalm,アトパーム,320,JP
+2023-09,atopalm,アトパーム,480,JP
+2023-10,atopalm,アトパーム,880,JP
+2023-11,atopalm,アトパーム,1000,JP
+2023-12,atopalm,アトパーム,1600,JP
+2024-01,atopalm,アトパーム,390,JP
+2024-02,atopalm,アトパーム,480,JP
+2024-03,atopalm,アトパーム,720,JP
+2024-04,atopalm,アトパーム,390,JP
+2024-05,atopalm,アトパーム,390,JP
+2024-06,atopalm,アトパーム,390,JP
+2024-07,atopalm,アトパーム,260,JP
+2024-08,atopalm,アトパーム,390,JP
+2024-09,atopalm,アトパーム,320,JP
+2024-10,atopalm,アトパーム,260,JP
+2024-11,atopalm,アトパーム,390,JP
+2024-12,atopalm,アトパーム,390,JP
+2025-01,atopalm,アトパーム,320,JP
+2025-02,atopalm,アトパーム,260,JP
+2025-03,atopalm,アトパーム,260,JP
+2025-04,atopalm,アトパーム,210,JP
+2025-05,atopalm,アトパーム,260,JP
+2025-06,atopalm,アトパーム,260,JP
+2025-07,atopalm,アトパーム,210,JP
+2025-08,atopalm,アトパーム,170,JP
+2025-09,atopalm,アトパーム,140,JP
+2025-10,atopalm,アトパーム,170,JP
+2025-11,atopalm,アトパーム,260,JP
+2025-12,atopalm,アトパーム,210,JP
+2026-01,atopalm,アトパーム,260,JP
+2026-02,atopalm,アトパーム,260,JP
+2026-03,atopalm,アトパーム,320,JP
+2026-04,atopalm,アトパーム,260,JP
+2026-05,atopalm,アトパーム,320,JP
+2026-06,atopalm,アトパーム,320,JP
+2026-07,atopalm,アトパーム,260,JP
+2026-08,atopalm,アトパーム,260,JP
 2019-01,beauty of joseon,beauty of joseon,0,JP
 2019-02,beauty of joseon,beauty of joseon,10,JP
 2019-03,beauty of joseon,beauty of joseon,10,JP
@@ -11715,6 +13178,7 @@ month,brand,keyword,searches,geo
 2026-05,beauty of joseon,beauty of joseon,5400,JP
 2026-06,beauty of joseon,beauty of joseon,4400,JP
 2026-07,beauty of joseon,beauty of joseon,3600,JP
+2026-08,beauty of joseon,beauty of joseon,4400,JP
 2021-04,biodance,バイオダンス,10,JP
 2021-05,biodance,バイオダンス,10,JP
 2021-06,biodance,バイオダンス,10,JP
@@ -11779,6 +13243,7 @@ month,brand,keyword,searches,geo
 2026-05,biodance,バイオダンス,8100,JP
 2026-06,biodance,バイオダンス,8100,JP
 2026-07,biodance,バイオダンス,8100,JP
+2026-08,biodance,バイオダンス,9900,JP
 2018-11,cosrx,cosrx,3600,JP
 2018-12,cosrx,cosrx,3600,JP
 2019-01,cosrx,cosrx,5400,JP
@@ -11872,6 +13337,7 @@ month,brand,keyword,searches,geo
 2026-05,cosrx,cosrx,14800,JP
 2026-06,cosrx,cosrx,18100,JP
 2026-07,cosrx,cosrx,12100,JP
+2026-08,cosrx,cosrx,18100,JP
 2020-03,cosrx,コスアールエックス,390,JP
 2020-04,cosrx,コスアールエックス,480,JP
 2020-05,cosrx,コスアールエックス,590,JP
@@ -11949,6 +13415,7 @@ month,brand,keyword,searches,geo
 2026-05,cosrx,コスアールエックス,1900,JP
 2026-06,cosrx,コスアールエックス,2400,JP
 2026-07,cosrx,コスアールエックス,1900,JP
+2026-08,cosrx,コスアールエックス,2900,JP
 2018-11,d'alba,d'alba,40,JP
 2018-12,d'alba,d'alba,50,JP
 2019-01,d'alba,d'alba,70,JP
@@ -12413,6 +13880,7 @@ month,brand,keyword,searches,geo
 2026-05,laneige,ラネージュ,40500,JP
 2026-06,laneige,ラネージュ,40500,JP
 2026-07,laneige,ラネージュ,40500,JP
+2026-08,laneige,ラネージュ,49500,JP
 2018-10,madeca cream,madeca cream,90,JP
 2018-11,madeca cream,madeca cream,90,JP
 2018-12,madeca cream,madeca cream,40,JP
@@ -12600,6 +14068,7 @@ month,brand,keyword,searches,geo
 2026-05,madeca cream,センテリアン24,6600,JP
 2026-06,madeca cream,センテリアン24,5400,JP
 2026-07,madeca cream,センテリアン24,4400,JP
+2026-08,madeca cream,センテリアン24,5400,JP
 2020-05,madeca cream,マデカクリーム,2900,JP
 2020-06,madeca cream,マデカクリーム,1900,JP
 2020-07,madeca cream,マデカクリーム,1300,JP
@@ -12675,6 +14144,7 @@ month,brand,keyword,searches,geo
 2026-05,madeca cream,マデカクリーム,4400,JP
 2026-06,madeca cream,マデカクリーム,3600,JP
 2026-07,madeca cream,マデカクリーム,2400,JP
+2026-08,madeca cream,マデカクリーム,2900,JP
 2018-11,manyo,manyo,390,JP
 2018-12,manyo,manyo,390,JP
 2019-01,manyo,manyo,390,JP
@@ -12768,6 +14238,7 @@ month,brand,keyword,searches,geo
 2026-05,manyo,manyo,5400,JP
 2026-06,manyo,manyo,6600,JP
 2026-07,manyo,manyo,4400,JP
+2026-08,manyo,manyo,5400,JP
 2018-11,manyo,魔女工場,1000,JP
 2018-12,manyo,魔女工場,1300,JP
 2019-01,manyo,魔女工場,1600,JP
@@ -13048,6 +14519,7 @@ month,brand,keyword,searches,geo
 2026-05,medicube,メディキューブ,135000,JP
 2026-06,medicube,メディキューブ,135000,JP
 2026-07,medicube,メディキューブ,135000,JP
+2026-08,medicube,メディキューブ,246000,JP
 2018-04,mixsoon,mixsoon,0,JP
 2018-05,mixsoon,mixsoon,0,JP
 2018-06,mixsoon,mixsoon,0,JP
@@ -13148,6 +14620,7 @@ month,brand,keyword,searches,geo
 2026-05,mixsoon,mixsoon,3600,JP
 2026-06,mixsoon,mixsoon,1900,JP
 2026-07,mixsoon,mixsoon,2900,JP
+2026-08,mixsoon,mixsoon,2900,JP
 2018-04,numbuzin,ナンバーズイン,0,JP
 2018-05,numbuzin,ナンバーズイン,0,JP
 2018-06,numbuzin,ナンバーズイン,0,JP
@@ -13323,6 +14796,7 @@ month,brand,keyword,searches,geo
 2026-05,reedle shot,リードル ショット,40500,JP
 2026-06,reedle shot,リードル ショット,60500,JP
 2026-07,reedle shot,リードル ショット,33100,JP
+2026-08,reedle shot,リードル ショット,90500,JP
 2018-11,round lab,round lab,40,JP
 2018-12,round lab,round lab,40,JP
 2019-01,round lab,round lab,50,JP
@@ -13519,6 +14993,7 @@ month,brand,keyword,searches,geo
 2026-05,round lab,ラウンドラボ,1600,JP
 2026-06,round lab,ラウンドラボ,1000,JP
 2026-07,round lab,ラウンドラボ,880,JP
+2026-08,round lab,ラウンドラボ,1300,JP
 2018-02,skin1004,skin1004,20,JP
 2018-03,skin1004,skin1004,20,JP
 2018-04,skin1004,skin1004,20,JP
@@ -13808,6 +15283,7 @@ month,brand,keyword,searches,geo
 2026-05,tirtir,tirtir,18100,JP
 2026-06,tirtir,tirtir,18100,JP
 2026-07,tirtir,tirtir,14800,JP
+2026-08,tirtir,tirtir,22200,JP
 2019-03,tirtir,ティルティル,70,JP
 2019-04,tirtir,ティルティル,50,JP
 2019-05,tirtir,ティルティル,40,JP
@@ -13990,6 +15466,7 @@ month,brand,keyword,searches,geo
 2026-05,torriden,torriden,9900,JP
 2026-06,torriden,torriden,9900,JP
 2026-07,torriden,torriden,8100,JP
+2026-08,torriden,torriden,9900,JP
 2018-11,torriden,トリデン,90,JP
 2018-12,torriden,トリデン,50,JP
 2019-01,torriden,トリデン,70,JP
@@ -14083,6 +15560,7 @@ month,brand,keyword,searches,geo
 2026-05,torriden,トリデン,27100,JP
 2026-06,torriden,トリデン,27100,JP
 2026-07,torriden,トリデン,22200,JP
+2026-08,torriden,トリデン,33100,JP
 2018-11,abib,abib,170,MX
 2018-12,abib,abib,140,MX
 2019-01,abib,abib,170,MX
@@ -14176,6 +15654,7 @@ month,brand,keyword,searches,geo
 2026-05,abib,abib,3600,MX
 2026-06,abib,abib,3600,MX
 2026-07,abib,abib,2900,MX
+2026-08,abib,abib,4400,MX
 2021-03,anua,anua,140,MX
 2021-04,anua,anua,110,MX
 2021-05,anua,anua,170,MX
@@ -14521,6 +16000,7 @@ month,brand,keyword,searches,geo
 2026-05,cosrx,cosrx,5400,MX
 2026-06,cosrx,cosrx,4400,MX
 2026-07,cosrx,cosrx,4400,MX
+2026-08,cosrx,cosrx,4400,MX
 2020-06,d'alba,d'alba,40,MX
 2020-07,d'alba,d'alba,20,MX
 2020-08,d'alba,d'alba,50,MX
@@ -14595,6 +16075,7 @@ month,brand,keyword,searches,geo
 2026-05,d'alba,d'alba,1000,MX
 2026-06,d'alba,d'alba,1000,MX
 2026-07,d'alba,d'alba,880,MX
+2026-08,d'alba,d'alba,1000,MX
 2019-03,laneige,laneige,590,MX
 2019-04,laneige,laneige,590,MX
 2019-05,laneige,laneige,880,MX
@@ -14739,6 +16220,7 @@ month,brand,keyword,searches,geo
 2026-05,madeca cream,madeca cream,6600,MX
 2026-06,madeca cream,madeca cream,9900,MX
 2026-07,madeca cream,madeca cream,6600,MX
+2026-08,madeca cream,madeca cream,12100,MX
 2021-05,medicube,medicube,40,MX
 2021-06,medicube,medicube,30,MX
 2021-07,medicube,medicube,50,MX
@@ -14802,6 +16284,7 @@ month,brand,keyword,searches,geo
 2026-05,medicube,medicube,33100,MX
 2026-06,medicube,medicube,33100,MX
 2026-07,medicube,medicube,40500,MX
+2026-08,medicube,medicube,60500,MX
 2021-11,mixsoon,mixsoon,10,MX
 2021-12,mixsoon,mixsoon,10,MX
 2022-01,mixsoon,mixsoon,10,MX
@@ -14859,6 +16342,7 @@ month,brand,keyword,searches,geo
 2026-05,mixsoon,mixsoon,9900,MX
 2026-06,mixsoon,mixsoon,9900,MX
 2026-07,mixsoon,mixsoon,9900,MX
+2026-08,mixsoon,mixsoon,9900,MX
 2020-07,numbuzin,numbuzin,0,MX
 2020-08,numbuzin,numbuzin,0,MX
 2020-09,numbuzin,numbuzin,10,MX
@@ -15170,6 +16654,7 @@ month,brand,keyword,searches,geo
 2026-05,tirtir,tirtir,4400,MX
 2026-06,tirtir,tirtir,5400,MX
 2026-07,tirtir,tirtir,4400,MX
+2026-08,tirtir,tirtir,4400,MX
 2018-11,beauty of joseon,beauty of joseon,10,MY
 2018-12,beauty of joseon,beauty of joseon,10,MY
 2019-01,beauty of joseon,beauty of joseon,20,MY
@@ -15263,6 +16748,7 @@ month,brand,keyword,searches,geo
 2026-05,beauty of joseon,beauty of joseon,5400,MY
 2026-06,beauty of joseon,beauty of joseon,4400,MY
 2026-07,beauty of joseon,beauty of joseon,4400,MY
+2026-08,beauty of joseon,beauty of joseon,5400,MY
 2018-11,cosrx,cosrx,3600,MY
 2018-12,cosrx,cosrx,3600,MY
 2019-01,cosrx,cosrx,3600,MY
@@ -15356,6 +16842,7 @@ month,brand,keyword,searches,geo
 2026-05,cosrx,cosrx,6600,MY
 2026-06,cosrx,cosrx,6600,MY
 2026-07,cosrx,cosrx,6600,MY
+2026-08,cosrx,cosrx,6600,MY
 2018-11,manyo,manyo,20,MY
 2018-12,manyo,manyo,40,MY
 2019-01,manyo,manyo,20,MY
@@ -15619,6 +17106,7 @@ month,brand,keyword,searches,geo
 2026-05,reedle shot,reedle shot,880,MY
 2026-06,reedle shot,reedle shot,880,MY
 2026-07,reedle shot,reedle shot,880,MY
+2026-08,reedle shot,reedle shot,880,MY
 2018-11,round lab,round lab,10,MY
 2018-12,round lab,round lab,10,MY
 2019-01,round lab,round lab,10,MY
@@ -15712,6 +17200,7 @@ month,brand,keyword,searches,geo
 2026-05,round lab,round lab,1300,MY
 2026-06,round lab,round lab,1300,MY
 2026-07,round lab,round lab,1300,MY
+2026-08,round lab,round lab,1300,MY
 2018-10,skin1004,skin1004,140,MY
 2018-11,skin1004,skin1004,210,MY
 2018-12,skin1004,skin1004,170,MY
@@ -15806,6 +17295,7 @@ month,brand,keyword,searches,geo
 2026-05,skin1004,skin1004,4400,MY
 2026-06,skin1004,skin1004,4400,MY
 2026-07,skin1004,skin1004,4400,MY
+2026-08,skin1004,skin1004,4400,MY
 2020-08,torriden,torriden,50,MY
 2020-09,torriden,torriden,30,MY
 2020-10,torriden,torriden,70,MY
@@ -15878,6 +17368,7 @@ month,brand,keyword,searches,geo
 2026-05,torriden,torriden,6600,MY
 2026-06,torriden,torriden,6600,MY
 2026-07,torriden,torriden,6600,MY
+2026-08,torriden,torriden,6600,MY
 2020-02,anua,anua,30,NL
 2020-03,anua,anua,20,NL
 2020-04,anua,anua,20,NL
@@ -16151,6 +17642,7 @@ month,brand,keyword,searches,geo
 2026-05,cosrx,cosrx,2900,NL
 2026-06,cosrx,cosrx,1900,NL
 2026-07,cosrx,cosrx,1900,NL
+2026-08,cosrx,cosrx,2400,NL
 2022-02,d'alba,d'alba,110,NL
 2022-03,d'alba,d'alba,140,NL
 2022-04,d'alba,d'alba,170,NL
@@ -16400,6 +17892,7 @@ month,brand,keyword,searches,geo
 2026-05,laneige,laneige,8100,NL
 2026-06,laneige,laneige,5400,NL
 2026-07,laneige,laneige,5400,NL
+2026-08,laneige,laneige,6600,NL
 2022-06,madeca cream,madeca cream,0,NL
 2022-07,madeca cream,madeca cream,0,NL
 2022-08,madeca cream,madeca cream,0,NL
@@ -16514,6 +18007,7 @@ month,brand,keyword,searches,geo
 2026-05,manyo,manyo,260,NL
 2026-06,manyo,manyo,210,NL
 2026-07,manyo,manyo,210,NL
+2026-08,manyo,manyo,170,NL
 2020-04,medicube,medicube,10,NL
 2020-05,medicube,medicube,20,NL
 2020-06,medicube,medicube,40,NL
@@ -16667,6 +18161,7 @@ month,brand,keyword,searches,geo
 2026-05,mixsoon,mixsoon,720,NL
 2026-06,mixsoon,mixsoon,480,NL
 2026-07,mixsoon,mixsoon,590,NL
+2026-08,mixsoon,mixsoon,590,NL
 2019-04,numbuzin,numbuzin,0,NL
 2019-05,numbuzin,numbuzin,0,NL
 2019-06,numbuzin,numbuzin,0,NL
@@ -16841,6 +18336,7 @@ month,brand,keyword,searches,geo
 2026-05,round lab,round lab,880,NL
 2026-06,round lab,round lab,880,NL
 2026-07,round lab,round lab,720,NL
+2026-08,round lab,round lab,720,NL
 2018-11,skin1004,skin1004,10,NL
 2018-12,skin1004,skin1004,0,NL
 2019-01,skin1004,skin1004,0,NL
@@ -16983,6 +18479,7 @@ month,brand,keyword,searches,geo
 2026-05,tirtir,tirtir,1900,NL
 2026-06,tirtir,tirtir,1600,NL
 2026-07,tirtir,tirtir,1300,NL
+2026-08,tirtir,tirtir,1300,NL
 2021-02,torriden,torriden,10,NL
 2021-03,torriden,torriden,10,NL
 2021-04,torriden,torriden,10,NL
@@ -17049,6 +18546,7 @@ month,brand,keyword,searches,geo
 2026-05,torriden,torriden,2400,NL
 2026-06,torriden,torriden,1900,NL
 2026-07,torriden,torriden,1600,NL
+2026-08,torriden,torriden,1900,NL
 2018-10,beauty of joseon,beauty of joseon,20,PH
 2018-11,beauty of joseon,beauty of joseon,10,PH
 2018-12,beauty of joseon,beauty of joseon,10,PH
@@ -17614,6 +19112,7 @@ month,brand,keyword,searches,geo
 2026-05,medicube,medicube,4400,PH
 2026-06,medicube,medicube,4400,PH
 2026-07,medicube,medicube,4400,PH
+2026-08,medicube,medicube,5400,PH
 2019-10,numbuzin,numbuzin,0,PH
 2019-11,numbuzin,numbuzin,10,PH
 2019-12,numbuzin,numbuzin,10,PH
@@ -17864,6 +19363,287 @@ month,brand,keyword,searches,geo
 2026-06,abib,abib,590,SG
 2026-07,abib,abib,480,SG
 2026-08,abib,abib,720,SG
+2018-11,atopalm,atopalm,50,SG
+2018-12,atopalm,atopalm,50,SG
+2019-01,atopalm,atopalm,70,SG
+2019-02,atopalm,atopalm,70,SG
+2019-03,atopalm,atopalm,90,SG
+2019-04,atopalm,atopalm,70,SG
+2019-05,atopalm,atopalm,90,SG
+2019-06,atopalm,atopalm,70,SG
+2019-07,atopalm,atopalm,90,SG
+2019-08,atopalm,atopalm,110,SG
+2019-09,atopalm,atopalm,110,SG
+2019-10,atopalm,atopalm,90,SG
+2019-11,atopalm,atopalm,90,SG
+2019-12,atopalm,atopalm,140,SG
+2020-01,atopalm,atopalm,90,SG
+2020-02,atopalm,atopalm,90,SG
+2020-03,atopalm,atopalm,70,SG
+2020-04,atopalm,atopalm,90,SG
+2020-05,atopalm,atopalm,140,SG
+2020-06,atopalm,atopalm,110,SG
+2020-07,atopalm,atopalm,260,SG
+2020-08,atopalm,atopalm,110,SG
+2020-09,atopalm,atopalm,90,SG
+2020-10,atopalm,atopalm,110,SG
+2020-11,atopalm,atopalm,140,SG
+2020-12,atopalm,atopalm,110,SG
+2021-01,atopalm,atopalm,140,SG
+2021-02,atopalm,atopalm,170,SG
+2021-03,atopalm,atopalm,210,SG
+2021-04,atopalm,atopalm,170,SG
+2021-05,atopalm,atopalm,170,SG
+2021-06,atopalm,atopalm,140,SG
+2021-07,atopalm,atopalm,110,SG
+2021-08,atopalm,atopalm,90,SG
+2021-09,atopalm,atopalm,110,SG
+2021-10,atopalm,atopalm,110,SG
+2021-11,atopalm,atopalm,140,SG
+2021-12,atopalm,atopalm,110,SG
+2022-01,atopalm,atopalm,110,SG
+2022-02,atopalm,atopalm,140,SG
+2022-03,atopalm,atopalm,140,SG
+2022-04,atopalm,atopalm,110,SG
+2022-05,atopalm,atopalm,110,SG
+2022-06,atopalm,atopalm,170,SG
+2022-07,atopalm,atopalm,170,SG
+2022-08,atopalm,atopalm,170,SG
+2022-09,atopalm,atopalm,140,SG
+2022-10,atopalm,atopalm,210,SG
+2022-11,atopalm,atopalm,210,SG
+2022-12,atopalm,atopalm,320,SG
+2023-01,atopalm,atopalm,210,SG
+2023-02,atopalm,atopalm,210,SG
+2023-03,atopalm,atopalm,260,SG
+2023-04,atopalm,atopalm,260,SG
+2023-05,atopalm,atopalm,390,SG
+2023-06,atopalm,atopalm,320,SG
+2023-07,atopalm,atopalm,390,SG
+2023-08,atopalm,atopalm,320,SG
+2023-09,atopalm,atopalm,260,SG
+2023-10,atopalm,atopalm,320,SG
+2023-11,atopalm,atopalm,260,SG
+2023-12,atopalm,atopalm,210,SG
+2024-01,atopalm,atopalm,260,SG
+2024-02,atopalm,atopalm,260,SG
+2024-03,atopalm,atopalm,320,SG
+2024-04,atopalm,atopalm,390,SG
+2024-05,atopalm,atopalm,320,SG
+2024-06,atopalm,atopalm,320,SG
+2024-07,atopalm,atopalm,320,SG
+2024-08,atopalm,atopalm,320,SG
+2024-09,atopalm,atopalm,320,SG
+2024-10,atopalm,atopalm,480,SG
+2024-11,atopalm,atopalm,590,SG
+2024-12,atopalm,atopalm,480,SG
+2025-01,atopalm,atopalm,480,SG
+2025-02,atopalm,atopalm,480,SG
+2025-03,atopalm,atopalm,480,SG
+2025-04,atopalm,atopalm,480,SG
+2025-05,atopalm,atopalm,480,SG
+2025-06,atopalm,atopalm,390,SG
+2025-07,atopalm,atopalm,480,SG
+2025-08,atopalm,atopalm,390,SG
+2025-09,atopalm,atopalm,480,SG
+2025-10,atopalm,atopalm,590,SG
+2025-11,atopalm,atopalm,590,SG
+2025-12,atopalm,atopalm,590,SG
+2026-01,atopalm,atopalm,480,SG
+2026-02,atopalm,atopalm,390,SG
+2026-03,atopalm,atopalm,480,SG
+2026-04,atopalm,atopalm,480,SG
+2026-05,atopalm,atopalm,480,SG
+2026-06,atopalm,atopalm,590,SG
+2026-07,atopalm,atopalm,480,SG
+2026-08,atopalm,atopalm,720,SG
+2018-11,atopalm,atopalm cream,10,SG
+2018-12,atopalm,atopalm cream,0,SG
+2019-01,atopalm,atopalm cream,10,SG
+2019-02,atopalm,atopalm cream,10,SG
+2019-03,atopalm,atopalm cream,10,SG
+2019-04,atopalm,atopalm cream,10,SG
+2019-05,atopalm,atopalm cream,0,SG
+2019-06,atopalm,atopalm cream,10,SG
+2019-07,atopalm,atopalm cream,10,SG
+2019-08,atopalm,atopalm cream,10,SG
+2019-09,atopalm,atopalm cream,10,SG
+2019-10,atopalm,atopalm cream,10,SG
+2019-11,atopalm,atopalm cream,10,SG
+2019-12,atopalm,atopalm cream,10,SG
+2020-01,atopalm,atopalm cream,10,SG
+2020-02,atopalm,atopalm cream,10,SG
+2020-03,atopalm,atopalm cream,10,SG
+2020-04,atopalm,atopalm cream,10,SG
+2020-05,atopalm,atopalm cream,10,SG
+2020-06,atopalm,atopalm cream,10,SG
+2020-07,atopalm,atopalm cream,10,SG
+2020-08,atopalm,atopalm cream,10,SG
+2020-09,atopalm,atopalm cream,10,SG
+2020-10,atopalm,atopalm cream,10,SG
+2020-11,atopalm,atopalm cream,20,SG
+2020-12,atopalm,atopalm cream,10,SG
+2021-01,atopalm,atopalm cream,10,SG
+2021-02,atopalm,atopalm cream,10,SG
+2021-03,atopalm,atopalm cream,10,SG
+2021-04,atopalm,atopalm cream,10,SG
+2021-05,atopalm,atopalm cream,10,SG
+2021-06,atopalm,atopalm cream,10,SG
+2021-07,atopalm,atopalm cream,10,SG
+2021-08,atopalm,atopalm cream,10,SG
+2021-09,atopalm,atopalm cream,10,SG
+2021-10,atopalm,atopalm cream,10,SG
+2021-11,atopalm,atopalm cream,10,SG
+2021-12,atopalm,atopalm cream,10,SG
+2022-01,atopalm,atopalm cream,10,SG
+2022-02,atopalm,atopalm cream,10,SG
+2022-03,atopalm,atopalm cream,20,SG
+2022-04,atopalm,atopalm cream,10,SG
+2022-05,atopalm,atopalm cream,10,SG
+2022-06,atopalm,atopalm cream,10,SG
+2022-07,atopalm,atopalm cream,10,SG
+2022-08,atopalm,atopalm cream,10,SG
+2022-09,atopalm,atopalm cream,10,SG
+2022-10,atopalm,atopalm cream,10,SG
+2022-11,atopalm,atopalm cream,10,SG
+2022-12,atopalm,atopalm cream,10,SG
+2023-01,atopalm,atopalm cream,10,SG
+2023-02,atopalm,atopalm cream,10,SG
+2023-03,atopalm,atopalm cream,10,SG
+2023-04,atopalm,atopalm cream,20,SG
+2023-05,atopalm,atopalm cream,10,SG
+2023-06,atopalm,atopalm cream,10,SG
+2023-07,atopalm,atopalm cream,10,SG
+2023-08,atopalm,atopalm cream,10,SG
+2023-09,atopalm,atopalm cream,10,SG
+2023-10,atopalm,atopalm cream,10,SG
+2023-11,atopalm,atopalm cream,20,SG
+2023-12,atopalm,atopalm cream,20,SG
+2024-01,atopalm,atopalm cream,10,SG
+2024-02,atopalm,atopalm cream,20,SG
+2024-03,atopalm,atopalm cream,20,SG
+2024-04,atopalm,atopalm cream,10,SG
+2024-05,atopalm,atopalm cream,10,SG
+2024-06,atopalm,atopalm cream,10,SG
+2024-07,atopalm,atopalm cream,10,SG
+2024-08,atopalm,atopalm cream,10,SG
+2024-09,atopalm,atopalm cream,10,SG
+2024-10,atopalm,atopalm cream,20,SG
+2024-11,atopalm,atopalm cream,20,SG
+2024-12,atopalm,atopalm cream,20,SG
+2025-01,atopalm,atopalm cream,10,SG
+2025-02,atopalm,atopalm cream,30,SG
+2025-03,atopalm,atopalm cream,20,SG
+2025-04,atopalm,atopalm cream,20,SG
+2025-05,atopalm,atopalm cream,20,SG
+2025-06,atopalm,atopalm cream,30,SG
+2025-07,atopalm,atopalm cream,20,SG
+2025-08,atopalm,atopalm cream,10,SG
+2025-09,atopalm,atopalm cream,10,SG
+2025-10,atopalm,atopalm cream,20,SG
+2025-11,atopalm,atopalm cream,40,SG
+2025-12,atopalm,atopalm cream,40,SG
+2026-01,atopalm,atopalm cream,20,SG
+2026-02,atopalm,atopalm cream,20,SG
+2026-03,atopalm,atopalm cream,30,SG
+2026-04,atopalm,atopalm cream,40,SG
+2026-05,atopalm,atopalm cream,20,SG
+2026-06,atopalm,atopalm cream,20,SG
+2026-07,atopalm,atopalm cream,20,SG
+2026-08,atopalm,atopalm cream,40,SG
+2018-11,atopalm,atopalm mle cream,10,SG
+2018-12,atopalm,atopalm mle cream,0,SG
+2019-01,atopalm,atopalm mle cream,10,SG
+2019-02,atopalm,atopalm mle cream,10,SG
+2019-03,atopalm,atopalm mle cream,10,SG
+2019-04,atopalm,atopalm mle cream,10,SG
+2019-05,atopalm,atopalm mle cream,10,SG
+2019-06,atopalm,atopalm mle cream,10,SG
+2019-07,atopalm,atopalm mle cream,20,SG
+2019-08,atopalm,atopalm mle cream,10,SG
+2019-09,atopalm,atopalm mle cream,10,SG
+2019-10,atopalm,atopalm mle cream,20,SG
+2019-11,atopalm,atopalm mle cream,20,SG
+2019-12,atopalm,atopalm mle cream,20,SG
+2020-01,atopalm,atopalm mle cream,20,SG
+2020-02,atopalm,atopalm mle cream,20,SG
+2020-03,atopalm,atopalm mle cream,10,SG
+2020-04,atopalm,atopalm mle cream,20,SG
+2020-05,atopalm,atopalm mle cream,20,SG
+2020-06,atopalm,atopalm mle cream,40,SG
+2020-07,atopalm,atopalm mle cream,30,SG
+2020-08,atopalm,atopalm mle cream,20,SG
+2020-09,atopalm,atopalm mle cream,40,SG
+2020-10,atopalm,atopalm mle cream,40,SG
+2020-11,atopalm,atopalm mle cream,40,SG
+2020-12,atopalm,atopalm mle cream,40,SG
+2021-01,atopalm,atopalm mle cream,40,SG
+2021-02,atopalm,atopalm mle cream,40,SG
+2021-03,atopalm,atopalm mle cream,70,SG
+2021-04,atopalm,atopalm mle cream,50,SG
+2021-05,atopalm,atopalm mle cream,30,SG
+2021-06,atopalm,atopalm mle cream,50,SG
+2021-07,atopalm,atopalm mle cream,40,SG
+2021-08,atopalm,atopalm mle cream,50,SG
+2021-09,atopalm,atopalm mle cream,50,SG
+2021-10,atopalm,atopalm mle cream,50,SG
+2021-11,atopalm,atopalm mle cream,50,SG
+2021-12,atopalm,atopalm mle cream,50,SG
+2022-01,atopalm,atopalm mle cream,30,SG
+2022-02,atopalm,atopalm mle cream,50,SG
+2022-03,atopalm,atopalm mle cream,70,SG
+2022-04,atopalm,atopalm mle cream,50,SG
+2022-05,atopalm,atopalm mle cream,70,SG
+2022-06,atopalm,atopalm mle cream,70,SG
+2022-07,atopalm,atopalm mle cream,50,SG
+2022-08,atopalm,atopalm mle cream,40,SG
+2022-09,atopalm,atopalm mle cream,40,SG
+2022-10,atopalm,atopalm mle cream,90,SG
+2022-11,atopalm,atopalm mle cream,70,SG
+2022-12,atopalm,atopalm mle cream,70,SG
+2023-01,atopalm,atopalm mle cream,50,SG
+2023-02,atopalm,atopalm mle cream,40,SG
+2023-03,atopalm,atopalm mle cream,70,SG
+2023-04,atopalm,atopalm mle cream,90,SG
+2023-05,atopalm,atopalm mle cream,140,SG
+2023-06,atopalm,atopalm mle cream,70,SG
+2023-07,atopalm,atopalm mle cream,70,SG
+2023-08,atopalm,atopalm mle cream,110,SG
+2023-09,atopalm,atopalm mle cream,70,SG
+2023-10,atopalm,atopalm mle cream,90,SG
+2023-11,atopalm,atopalm mle cream,90,SG
+2023-12,atopalm,atopalm mle cream,110,SG
+2024-01,atopalm,atopalm mle cream,90,SG
+2024-02,atopalm,atopalm mle cream,70,SG
+2024-03,atopalm,atopalm mle cream,70,SG
+2024-04,atopalm,atopalm mle cream,90,SG
+2024-05,atopalm,atopalm mle cream,70,SG
+2024-06,atopalm,atopalm mle cream,90,SG
+2024-07,atopalm,atopalm mle cream,110,SG
+2024-08,atopalm,atopalm mle cream,70,SG
+2024-09,atopalm,atopalm mle cream,90,SG
+2024-10,atopalm,atopalm mle cream,110,SG
+2024-11,atopalm,atopalm mle cream,140,SG
+2024-12,atopalm,atopalm mle cream,110,SG
+2025-01,atopalm,atopalm mle cream,90,SG
+2025-02,atopalm,atopalm mle cream,90,SG
+2025-03,atopalm,atopalm mle cream,90,SG
+2025-04,atopalm,atopalm mle cream,110,SG
+2025-05,atopalm,atopalm mle cream,90,SG
+2025-06,atopalm,atopalm mle cream,90,SG
+2025-07,atopalm,atopalm mle cream,170,SG
+2025-08,atopalm,atopalm mle cream,140,SG
+2025-09,atopalm,atopalm mle cream,110,SG
+2025-10,atopalm,atopalm mle cream,210,SG
+2025-11,atopalm,atopalm mle cream,260,SG
+2025-12,atopalm,atopalm mle cream,260,SG
+2026-01,atopalm,atopalm mle cream,170,SG
+2026-02,atopalm,atopalm mle cream,140,SG
+2026-03,atopalm,atopalm mle cream,170,SG
+2026-04,atopalm,atopalm mle cream,140,SG
+2026-05,atopalm,atopalm mle cream,260,SG
+2026-06,atopalm,atopalm mle cream,210,SG
+2026-07,atopalm,atopalm mle cream,210,SG
 2018-11,beauty of joseon,beauty of joseon,10,SG
 2018-12,beauty of joseon,beauty of joseon,10,SG
 2019-01,beauty of joseon,beauty of joseon,20,SG
@@ -17957,6 +19737,7 @@ month,brand,keyword,searches,geo
 2026-05,beauty of joseon,beauty of joseon,3600,SG
 2026-06,beauty of joseon,beauty of joseon,2900,SG
 2026-07,beauty of joseon,beauty of joseon,2900,SG
+2026-08,beauty of joseon,beauty of joseon,2900,SG
 2018-11,cosrx,cosrx,2900,SG
 2018-12,cosrx,cosrx,2900,SG
 2019-01,cosrx,cosrx,2400,SG
@@ -18050,6 +19831,7 @@ month,brand,keyword,searches,geo
 2026-05,cosrx,cosrx,2400,SG
 2026-06,cosrx,cosrx,2400,SG
 2026-07,cosrx,cosrx,2400,SG
+2026-08,cosrx,cosrx,2400,SG
 2018-11,d'alba,d'alba,40,SG
 2018-12,d'alba,d'alba,70,SG
 2019-01,d'alba,d'alba,20,SG
@@ -18143,6 +19925,7 @@ month,brand,keyword,searches,geo
 2026-05,d'alba,d'alba,1900,SG
 2026-06,d'alba,d'alba,1600,SG
 2026-07,d'alba,d'alba,1600,SG
+2026-08,d'alba,d'alba,1600,SG
 2019-03,isntree,isntree,90,SG
 2019-04,isntree,isntree,70,SG
 2019-05,isntree,isntree,110,SG
@@ -18323,9 +20106,10 @@ month,brand,keyword,searches,geo
 2026-02,laneige,laneige,5400,SG
 2026-03,laneige,laneige,6600,SG
 2026-04,laneige,laneige,6600,SG
-2026-05,laneige,laneige,6600,SG
+2026-05,laneige,laneige,5400,SG
 2026-06,laneige,laneige,4400,SG
 2026-07,laneige,laneige,5400,SG
+2026-08,laneige,laneige,5400,SG
 2018-11,medicube,medicube,3600,SG
 2018-12,medicube,medicube,3600,SG
 2019-01,medicube,medicube,3600,SG
@@ -18419,6 +20203,7 @@ month,brand,keyword,searches,geo
 2026-05,medicube,medicube,6600,SG
 2026-06,medicube,medicube,5400,SG
 2026-07,medicube,medicube,6600,SG
+2026-08,medicube,medicube,9900,SG
 2020-07,mixsoon,mixsoon,0,SG
 2020-08,mixsoon,mixsoon,0,SG
 2020-09,mixsoon,mixsoon,0,SG
@@ -18593,6 +20378,7 @@ month,brand,keyword,searches,geo
 2026-05,numbuzin,numbuzin,1000,SG
 2026-06,numbuzin,numbuzin,1300,SG
 2026-07,numbuzin,numbuzin,1000,SG
+2026-08,numbuzin,numbuzin,1000,SG
 2018-04,round lab,round lab,10,SG
 2018-05,round lab,round lab,10,SG
 2018-06,round lab,round lab,10,SG
@@ -18693,6 +20479,7 @@ month,brand,keyword,searches,geo
 2026-05,round lab,round lab,880,SG
 2026-06,round lab,round lab,880,SG
 2026-07,round lab,round lab,880,SG
+2026-08,round lab,round lab,1000,SG
 2018-10,skin1004,skin1004,20,SG
 2018-11,skin1004,skin1004,20,SG
 2018-12,skin1004,skin1004,20,SG
@@ -18880,6 +20667,7 @@ month,brand,keyword,searches,geo
 2026-05,abib,abib,9900,US
 2026-06,abib,abib,8100,US
 2026-07,abib,abib,8100,US
+2026-08,abib,abib,8100,US
 2019-08,anua,anua,390,US
 2019-09,anua,anua,480,US
 2019-10,anua,anua,390,US
@@ -18965,6 +20753,288 @@ month,brand,keyword,searches,geo
 2026-06,anua,anua,74000,US
 2026-07,anua,anua,60500,US
 2026-08,anua,anua,74000,US
+2018-10,atopalm,atopalm,880,US
+2018-11,atopalm,atopalm,1000,US
+2018-12,atopalm,atopalm,880,US
+2019-01,atopalm,atopalm,880,US
+2019-02,atopalm,atopalm,880,US
+2019-03,atopalm,atopalm,1600,US
+2019-04,atopalm,atopalm,1300,US
+2019-05,atopalm,atopalm,1300,US
+2019-06,atopalm,atopalm,720,US
+2019-07,atopalm,atopalm,880,US
+2019-08,atopalm,atopalm,880,US
+2019-09,atopalm,atopalm,880,US
+2019-10,atopalm,atopalm,1000,US
+2019-11,atopalm,atopalm,1000,US
+2019-12,atopalm,atopalm,880,US
+2020-01,atopalm,atopalm,880,US
+2020-02,atopalm,atopalm,880,US
+2020-03,atopalm,atopalm,880,US
+2020-04,atopalm,atopalm,880,US
+2020-05,atopalm,atopalm,1000,US
+2020-06,atopalm,atopalm,880,US
+2020-07,atopalm,atopalm,880,US
+2020-08,atopalm,atopalm,880,US
+2020-09,atopalm,atopalm,880,US
+2020-10,atopalm,atopalm,880,US
+2020-11,atopalm,atopalm,1300,US
+2020-12,atopalm,atopalm,1000,US
+2021-01,atopalm,atopalm,880,US
+2021-02,atopalm,atopalm,720,US
+2021-03,atopalm,atopalm,720,US
+2021-04,atopalm,atopalm,720,US
+2021-05,atopalm,atopalm,880,US
+2021-06,atopalm,atopalm,720,US
+2021-07,atopalm,atopalm,720,US
+2021-08,atopalm,atopalm,590,US
+2021-09,atopalm,atopalm,1300,US
+2021-10,atopalm,atopalm,1300,US
+2021-11,atopalm,atopalm,1000,US
+2021-12,atopalm,atopalm,720,US
+2022-01,atopalm,atopalm,880,US
+2022-02,atopalm,atopalm,880,US
+2022-03,atopalm,atopalm,1000,US
+2022-04,atopalm,atopalm,720,US
+2022-05,atopalm,atopalm,880,US
+2022-06,atopalm,atopalm,880,US
+2022-07,atopalm,atopalm,720,US
+2022-08,atopalm,atopalm,720,US
+2022-09,atopalm,atopalm,720,US
+2022-10,atopalm,atopalm,880,US
+2022-11,atopalm,atopalm,1000,US
+2022-12,atopalm,atopalm,720,US
+2023-01,atopalm,atopalm,720,US
+2023-02,atopalm,atopalm,720,US
+2023-03,atopalm,atopalm,1000,US
+2023-04,atopalm,atopalm,880,US
+2023-05,atopalm,atopalm,880,US
+2023-06,atopalm,atopalm,720,US
+2023-07,atopalm,atopalm,1000,US
+2023-08,atopalm,atopalm,880,US
+2023-09,atopalm,atopalm,720,US
+2023-10,atopalm,atopalm,880,US
+2023-11,atopalm,atopalm,1000,US
+2023-12,atopalm,atopalm,1000,US
+2024-01,atopalm,atopalm,1000,US
+2024-02,atopalm,atopalm,1000,US
+2024-03,atopalm,atopalm,1000,US
+2024-04,atopalm,atopalm,880,US
+2024-05,atopalm,atopalm,880,US
+2024-06,atopalm,atopalm,720,US
+2024-07,atopalm,atopalm,880,US
+2024-08,atopalm,atopalm,720,US
+2024-09,atopalm,atopalm,1000,US
+2024-10,atopalm,atopalm,880,US
+2024-11,atopalm,atopalm,1000,US
+2024-12,atopalm,atopalm,1000,US
+2025-01,atopalm,atopalm,1300,US
+2025-02,atopalm,atopalm,1300,US
+2025-03,atopalm,atopalm,1000,US
+2025-04,atopalm,atopalm,1300,US
+2025-05,atopalm,atopalm,1600,US
+2025-06,atopalm,atopalm,1300,US
+2025-07,atopalm,atopalm,2400,US
+2025-08,atopalm,atopalm,1600,US
+2025-09,atopalm,atopalm,1000,US
+2025-10,atopalm,atopalm,2400,US
+2025-11,atopalm,atopalm,2400,US
+2025-12,atopalm,atopalm,2400,US
+2026-01,atopalm,atopalm,1900,US
+2026-02,atopalm,atopalm,1300,US
+2026-03,atopalm,atopalm,1300,US
+2026-04,atopalm,atopalm,1300,US
+2026-05,atopalm,atopalm,1900,US
+2026-06,atopalm,atopalm,2900,US
+2026-07,atopalm,atopalm,1600,US
+2018-10,atopalm,atopalm cream,10,US
+2018-11,atopalm,atopalm cream,20,US
+2018-12,atopalm,atopalm cream,30,US
+2019-01,atopalm,atopalm cream,40,US
+2019-02,atopalm,atopalm cream,30,US
+2019-03,atopalm,atopalm cream,70,US
+2019-04,atopalm,atopalm cream,90,US
+2019-05,atopalm,atopalm cream,170,US
+2019-06,atopalm,atopalm cream,50,US
+2019-07,atopalm,atopalm cream,40,US
+2019-08,atopalm,atopalm cream,20,US
+2019-09,atopalm,atopalm cream,320,US
+2019-10,atopalm,atopalm cream,90,US
+2019-11,atopalm,atopalm cream,90,US
+2019-12,atopalm,atopalm cream,70,US
+2020-01,atopalm,atopalm cream,90,US
+2020-02,atopalm,atopalm cream,50,US
+2020-03,atopalm,atopalm cream,50,US
+2020-04,atopalm,atopalm cream,70,US
+2020-05,atopalm,atopalm cream,70,US
+2020-06,atopalm,atopalm cream,70,US
+2020-07,atopalm,atopalm cream,50,US
+2020-08,atopalm,atopalm cream,70,US
+2020-09,atopalm,atopalm cream,50,US
+2020-10,atopalm,atopalm cream,50,US
+2020-11,atopalm,atopalm cream,50,US
+2020-12,atopalm,atopalm cream,90,US
+2021-01,atopalm,atopalm cream,90,US
+2021-02,atopalm,atopalm cream,40,US
+2021-03,atopalm,atopalm cream,40,US
+2021-04,atopalm,atopalm cream,70,US
+2021-05,atopalm,atopalm cream,110,US
+2021-06,atopalm,atopalm cream,70,US
+2021-07,atopalm,atopalm cream,70,US
+2021-08,atopalm,atopalm cream,50,US
+2021-09,atopalm,atopalm cream,260,US
+2021-10,atopalm,atopalm cream,390,US
+2021-11,atopalm,atopalm cream,140,US
+2021-12,atopalm,atopalm cream,90,US
+2022-01,atopalm,atopalm cream,110,US
+2022-02,atopalm,atopalm cream,110,US
+2022-03,atopalm,atopalm cream,110,US
+2022-04,atopalm,atopalm cream,110,US
+2022-05,atopalm,atopalm cream,70,US
+2022-06,atopalm,atopalm cream,70,US
+2022-07,atopalm,atopalm cream,50,US
+2022-08,atopalm,atopalm cream,70,US
+2022-09,atopalm,atopalm cream,50,US
+2022-10,atopalm,atopalm cream,70,US
+2022-11,atopalm,atopalm cream,90,US
+2022-12,atopalm,atopalm cream,70,US
+2023-01,atopalm,atopalm cream,90,US
+2023-02,atopalm,atopalm cream,70,US
+2023-03,atopalm,atopalm cream,110,US
+2023-04,atopalm,atopalm cream,50,US
+2023-05,atopalm,atopalm cream,110,US
+2023-06,atopalm,atopalm cream,50,US
+2023-07,atopalm,atopalm cream,70,US
+2023-08,atopalm,atopalm cream,90,US
+2023-09,atopalm,atopalm cream,50,US
+2023-10,atopalm,atopalm cream,90,US
+2023-11,atopalm,atopalm cream,140,US
+2023-12,atopalm,atopalm cream,110,US
+2024-01,atopalm,atopalm cream,140,US
+2024-02,atopalm,atopalm cream,140,US
+2024-03,atopalm,atopalm cream,140,US
+2024-04,atopalm,atopalm cream,90,US
+2024-05,atopalm,atopalm cream,90,US
+2024-06,atopalm,atopalm cream,90,US
+2024-07,atopalm,atopalm cream,50,US
+2024-08,atopalm,atopalm cream,70,US
+2024-09,atopalm,atopalm cream,140,US
+2024-10,atopalm,atopalm cream,140,US
+2024-11,atopalm,atopalm cream,140,US
+2024-12,atopalm,atopalm cream,140,US
+2025-01,atopalm,atopalm cream,260,US
+2025-02,atopalm,atopalm cream,390,US
+2025-03,atopalm,atopalm cream,260,US
+2025-04,atopalm,atopalm cream,170,US
+2025-05,atopalm,atopalm cream,390,US
+2025-06,atopalm,atopalm cream,390,US
+2025-07,atopalm,atopalm cream,320,US
+2025-08,atopalm,atopalm cream,170,US
+2025-09,atopalm,atopalm cream,170,US
+2025-10,atopalm,atopalm cream,480,US
+2025-11,atopalm,atopalm cream,590,US
+2025-12,atopalm,atopalm cream,480,US
+2026-01,atopalm,atopalm cream,480,US
+2026-02,atopalm,atopalm cream,390,US
+2026-03,atopalm,atopalm cream,260,US
+2026-04,atopalm,atopalm cream,260,US
+2026-05,atopalm,atopalm cream,480,US
+2026-06,atopalm,atopalm cream,720,US
+2026-07,atopalm,atopalm cream,320,US
+2018-11,atopalm,atopalm mle cream,40,US
+2018-12,atopalm,atopalm mle cream,30,US
+2019-01,atopalm,atopalm mle cream,40,US
+2019-02,atopalm,atopalm mle cream,70,US
+2019-03,atopalm,atopalm mle cream,70,US
+2019-04,atopalm,atopalm mle cream,110,US
+2019-05,atopalm,atopalm mle cream,90,US
+2019-06,atopalm,atopalm mle cream,50,US
+2019-07,atopalm,atopalm mle cream,70,US
+2019-08,atopalm,atopalm mle cream,90,US
+2019-09,atopalm,atopalm mle cream,50,US
+2019-10,atopalm,atopalm mle cream,70,US
+2019-11,atopalm,atopalm mle cream,40,US
+2019-12,atopalm,atopalm mle cream,70,US
+2020-01,atopalm,atopalm mle cream,50,US
+2020-02,atopalm,atopalm mle cream,50,US
+2020-03,atopalm,atopalm mle cream,50,US
+2020-04,atopalm,atopalm mle cream,90,US
+2020-05,atopalm,atopalm mle cream,110,US
+2020-06,atopalm,atopalm mle cream,90,US
+2020-07,atopalm,atopalm mle cream,90,US
+2020-08,atopalm,atopalm mle cream,90,US
+2020-09,atopalm,atopalm mle cream,70,US
+2020-10,atopalm,atopalm mle cream,70,US
+2020-11,atopalm,atopalm mle cream,70,US
+2020-12,atopalm,atopalm mle cream,70,US
+2021-01,atopalm,atopalm mle cream,70,US
+2021-02,atopalm,atopalm mle cream,50,US
+2021-03,atopalm,atopalm mle cream,90,US
+2021-04,atopalm,atopalm mle cream,110,US
+2021-05,atopalm,atopalm mle cream,590,US
+2021-06,atopalm,atopalm mle cream,480,US
+2021-07,atopalm,atopalm mle cream,320,US
+2021-08,atopalm,atopalm mle cream,210,US
+2021-09,atopalm,atopalm mle cream,2900,US
+2021-10,atopalm,atopalm mle cream,2400,US
+2021-11,atopalm,atopalm mle cream,1000,US
+2021-12,atopalm,atopalm mle cream,590,US
+2022-01,atopalm,atopalm mle cream,590,US
+2022-02,atopalm,atopalm mle cream,880,US
+2022-03,atopalm,atopalm mle cream,590,US
+2022-04,atopalm,atopalm mle cream,390,US
+2022-05,atopalm,atopalm mle cream,320,US
+2022-06,atopalm,atopalm mle cream,390,US
+2022-07,atopalm,atopalm mle cream,390,US
+2022-08,atopalm,atopalm mle cream,390,US
+2022-09,atopalm,atopalm mle cream,260,US
+2022-10,atopalm,atopalm mle cream,320,US
+2022-11,atopalm,atopalm mle cream,390,US
+2022-12,atopalm,atopalm mle cream,390,US
+2023-01,atopalm,atopalm mle cream,320,US
+2023-02,atopalm,atopalm mle cream,260,US
+2023-03,atopalm,atopalm mle cream,320,US
+2023-04,atopalm,atopalm mle cream,320,US
+2023-05,atopalm,atopalm mle cream,880,US
+2023-06,atopalm,atopalm mle cream,320,US
+2023-07,atopalm,atopalm mle cream,480,US
+2023-08,atopalm,atopalm mle cream,390,US
+2023-09,atopalm,atopalm mle cream,390,US
+2023-10,atopalm,atopalm mle cream,590,US
+2023-11,atopalm,atopalm mle cream,880,US
+2023-12,atopalm,atopalm mle cream,720,US
+2024-01,atopalm,atopalm mle cream,880,US
+2024-02,atopalm,atopalm mle cream,590,US
+2024-03,atopalm,atopalm mle cream,590,US
+2024-04,atopalm,atopalm mle cream,480,US
+2024-05,atopalm,atopalm mle cream,390,US
+2024-06,atopalm,atopalm mle cream,390,US
+2024-07,atopalm,atopalm mle cream,390,US
+2024-08,atopalm,atopalm mle cream,320,US
+2024-09,atopalm,atopalm mle cream,480,US
+2024-10,atopalm,atopalm mle cream,590,US
+2024-11,atopalm,atopalm mle cream,590,US
+2024-12,atopalm,atopalm mle cream,480,US
+2025-01,atopalm,atopalm mle cream,720,US
+2025-02,atopalm,atopalm mle cream,590,US
+2025-03,atopalm,atopalm mle cream,720,US
+2025-04,atopalm,atopalm mle cream,720,US
+2025-05,atopalm,atopalm mle cream,1300,US
+2025-06,atopalm,atopalm mle cream,1300,US
+2025-07,atopalm,atopalm mle cream,2900,US
+2025-08,atopalm,atopalm mle cream,1000,US
+2025-09,atopalm,atopalm mle cream,880,US
+2025-10,atopalm,atopalm mle cream,2400,US
+2025-11,atopalm,atopalm mle cream,2400,US
+2025-12,atopalm,atopalm mle cream,1900,US
+2026-01,atopalm,atopalm mle cream,1900,US
+2026-02,atopalm,atopalm mle cream,1300,US
+2026-03,atopalm,atopalm mle cream,1000,US
+2026-04,atopalm,atopalm mle cream,1000,US
+2026-05,atopalm,atopalm mle cream,1900,US
+2026-06,atopalm,atopalm mle cream,2900,US
+2026-07,atopalm,atopalm mle cream,1600,US
+2026-08,atopalm,atopalm mle cream,1900,US
 2018-10,beauty of joseon,beauty of joseon,70,US
 2018-11,beauty of joseon,beauty of joseon,90,US
 2018-12,beauty of joseon,beauty of joseon,90,US
@@ -19059,6 +21129,7 @@ month,brand,keyword,searches,geo
 2026-05,beauty of joseon,beauty of joseon,110000,US
 2026-06,beauty of joseon,beauty of joseon,110000,US
 2026-07,beauty of joseon,beauty of joseon,110000,US
+2026-08,beauty of joseon,beauty of joseon,90500,US
 2018-10,biodance,biodance,210,US
 2018-11,biodance,biodance,170,US
 2018-12,biodance,biodance,140,US
@@ -19631,6 +21702,7 @@ month,brand,keyword,searches,geo
 2026-05,madeca cream,centellian 24,4400,US
 2026-06,madeca cream,centellian 24,5400,US
 2026-07,madeca cream,centellian 24,5400,US
+2026-08,madeca cream,centellian 24,8100,US
 2018-10,madeca cream,madeca cream,210,US
 2018-11,madeca cream,madeca cream,170,US
 2018-12,madeca cream,madeca cream,210,US
@@ -19725,6 +21797,7 @@ month,brand,keyword,searches,geo
 2026-05,madeca cream,madeca cream,22200,US
 2026-06,madeca cream,madeca cream,22200,US
 2026-07,madeca cream,madeca cream,27100,US
+2026-08,madeca cream,madeca cream,33100,US
 2018-10,manyo,manyo,260,US
 2018-11,manyo,manyo,210,US
 2018-12,manyo,manyo,390,US
@@ -19819,6 +21892,7 @@ month,brand,keyword,searches,geo
 2026-05,manyo,manyo,4400,US
 2026-06,manyo,manyo,4400,US
 2026-07,manyo,manyo,5400,US
+2026-08,manyo,manyo,4400,US
 2018-10,medicube,medicube,1600,US
 2018-11,medicube,medicube,1300,US
 2018-12,medicube,medicube,1000,US
@@ -20187,6 +22261,7 @@ month,brand,keyword,searches,geo
 2026-05,reedle shot,reedle shot,9900,US
 2026-06,reedle shot,reedle shot,9900,US
 2026-07,reedle shot,reedle shot,9900,US
+2026-08,reedle shot,reedle shot,9900,US
 2018-11,round lab,round lab,50,US
 2018-12,round lab,round lab,70,US
 2019-01,round lab,round lab,110,US
@@ -20373,6 +22448,7 @@ month,brand,keyword,searches,geo
 2026-05,skin1004,skin1004,22200,US
 2026-06,skin1004,skin1004,33100,US
 2026-07,skin1004,skin1004,33100,US
+2026-08,skin1004,skin1004,33100,US
 2018-11,tirtir,tirtir,30,US
 2018-12,tirtir,tirtir,50,US
 2019-01,tirtir,tirtir,140,US
@@ -20551,6 +22627,7 @@ month,brand,keyword,searches,geo
 2026-05,torriden,torriden,22200,US
 2026-06,torriden,torriden,22200,US
 2026-07,torriden,torriden,22200,US
+2026-08,torriden,torriden,22200,US
 2020-05,anua,anua,10,VN
 2020-06,anua,anua,20,VN
 2020-07,anua,anua,20,VN
@@ -20626,6 +22703,288 @@ month,brand,keyword,searches,geo
 2026-05,anua,anua,1600,VN
 2026-06,anua,anua,1900,VN
 2026-07,anua,anua,1600,VN
+2018-11,atopalm,atopalm,1300,VN
+2018-12,atopalm,atopalm,1600,VN
+2019-01,atopalm,atopalm,1900,VN
+2019-02,atopalm,atopalm,1000,VN
+2019-03,atopalm,atopalm,1600,VN
+2019-04,atopalm,atopalm,1300,VN
+2019-05,atopalm,atopalm,1000,VN
+2019-06,atopalm,atopalm,1300,VN
+2019-07,atopalm,atopalm,1300,VN
+2019-08,atopalm,atopalm,1300,VN
+2019-09,atopalm,atopalm,1600,VN
+2019-10,atopalm,atopalm,1600,VN
+2019-11,atopalm,atopalm,1600,VN
+2019-12,atopalm,atopalm,2400,VN
+2020-01,atopalm,atopalm,1600,VN
+2020-02,atopalm,atopalm,1600,VN
+2020-03,atopalm,atopalm,1600,VN
+2020-04,atopalm,atopalm,1600,VN
+2020-05,atopalm,atopalm,1600,VN
+2020-06,atopalm,atopalm,1600,VN
+2020-07,atopalm,atopalm,1300,VN
+2020-08,atopalm,atopalm,1600,VN
+2020-09,atopalm,atopalm,1600,VN
+2020-10,atopalm,atopalm,1900,VN
+2020-11,atopalm,atopalm,1900,VN
+2020-12,atopalm,atopalm,2900,VN
+2021-01,atopalm,atopalm,2400,VN
+2021-02,atopalm,atopalm,1600,VN
+2021-03,atopalm,atopalm,1900,VN
+2021-04,atopalm,atopalm,1600,VN
+2021-05,atopalm,atopalm,1600,VN
+2021-06,atopalm,atopalm,1600,VN
+2021-07,atopalm,atopalm,1900,VN
+2021-08,atopalm,atopalm,1600,VN
+2021-09,atopalm,atopalm,1600,VN
+2021-10,atopalm,atopalm,1900,VN
+2021-11,atopalm,atopalm,2400,VN
+2021-12,atopalm,atopalm,2900,VN
+2022-01,atopalm,atopalm,1900,VN
+2022-02,atopalm,atopalm,1600,VN
+2022-03,atopalm,atopalm,1600,VN
+2022-04,atopalm,atopalm,1900,VN
+2022-05,atopalm,atopalm,1600,VN
+2022-06,atopalm,atopalm,1600,VN
+2022-07,atopalm,atopalm,1600,VN
+2022-08,atopalm,atopalm,1600,VN
+2022-09,atopalm,atopalm,1600,VN
+2022-10,atopalm,atopalm,2400,VN
+2022-11,atopalm,atopalm,1900,VN
+2022-12,atopalm,atopalm,2900,VN
+2023-01,atopalm,atopalm,2400,VN
+2023-02,atopalm,atopalm,1900,VN
+2023-03,atopalm,atopalm,2400,VN
+2023-04,atopalm,atopalm,1900,VN
+2023-05,atopalm,atopalm,1900,VN
+2023-06,atopalm,atopalm,1600,VN
+2023-07,atopalm,atopalm,1900,VN
+2023-08,atopalm,atopalm,2400,VN
+2023-09,atopalm,atopalm,1900,VN
+2023-10,atopalm,atopalm,2900,VN
+2023-11,atopalm,atopalm,3600,VN
+2023-12,atopalm,atopalm,3600,VN
+2024-01,atopalm,atopalm,3600,VN
+2024-02,atopalm,atopalm,2900,VN
+2024-03,atopalm,atopalm,2900,VN
+2024-04,atopalm,atopalm,2400,VN
+2024-05,atopalm,atopalm,2400,VN
+2024-06,atopalm,atopalm,2400,VN
+2024-07,atopalm,atopalm,2400,VN
+2024-08,atopalm,atopalm,1900,VN
+2024-09,atopalm,atopalm,1900,VN
+2024-10,atopalm,atopalm,2400,VN
+2024-11,atopalm,atopalm,2400,VN
+2024-12,atopalm,atopalm,2900,VN
+2025-01,atopalm,atopalm,2400,VN
+2025-02,atopalm,atopalm,1900,VN
+2025-03,atopalm,atopalm,2400,VN
+2025-04,atopalm,atopalm,1900,VN
+2025-05,atopalm,atopalm,1600,VN
+2025-06,atopalm,atopalm,1600,VN
+2025-07,atopalm,atopalm,1600,VN
+2025-08,atopalm,atopalm,1600,VN
+2025-09,atopalm,atopalm,1600,VN
+2025-10,atopalm,atopalm,1900,VN
+2025-11,atopalm,atopalm,2400,VN
+2025-12,atopalm,atopalm,1900,VN
+2026-01,atopalm,atopalm,2400,VN
+2026-02,atopalm,atopalm,1300,VN
+2026-03,atopalm,atopalm,1600,VN
+2026-04,atopalm,atopalm,1300,VN
+2026-05,atopalm,atopalm,1300,VN
+2026-06,atopalm,atopalm,1600,VN
+2026-07,atopalm,atopalm,1300,VN
+2026-08,atopalm,atopalm,1600,VN
+2018-11,atopalm,atopalm cream,90,VN
+2018-12,atopalm,atopalm cream,20,VN
+2019-01,atopalm,atopalm cream,40,VN
+2019-02,atopalm,atopalm cream,20,VN
+2019-03,atopalm,atopalm cream,30,VN
+2019-04,atopalm,atopalm cream,30,VN
+2019-05,atopalm,atopalm cream,10,VN
+2019-06,atopalm,atopalm cream,10,VN
+2019-07,atopalm,atopalm cream,20,VN
+2019-08,atopalm,atopalm cream,20,VN
+2019-09,atopalm,atopalm cream,110,VN
+2019-10,atopalm,atopalm cream,40,VN
+2019-11,atopalm,atopalm cream,40,VN
+2019-12,atopalm,atopalm cream,40,VN
+2020-01,atopalm,atopalm cream,30,VN
+2020-02,atopalm,atopalm cream,30,VN
+2020-03,atopalm,atopalm cream,40,VN
+2020-04,atopalm,atopalm cream,10,VN
+2020-05,atopalm,atopalm cream,40,VN
+2020-06,atopalm,atopalm cream,30,VN
+2020-07,atopalm,atopalm cream,50,VN
+2020-08,atopalm,atopalm cream,30,VN
+2020-09,atopalm,atopalm cream,20,VN
+2020-10,atopalm,atopalm cream,30,VN
+2020-11,atopalm,atopalm cream,20,VN
+2020-12,atopalm,atopalm cream,20,VN
+2021-01,atopalm,atopalm cream,40,VN
+2021-02,atopalm,atopalm cream,30,VN
+2021-03,atopalm,atopalm cream,20,VN
+2021-04,atopalm,atopalm cream,40,VN
+2021-05,atopalm,atopalm cream,20,VN
+2021-06,atopalm,atopalm cream,20,VN
+2021-07,atopalm,atopalm cream,30,VN
+2021-08,atopalm,atopalm cream,10,VN
+2021-09,atopalm,atopalm cream,10,VN
+2021-10,atopalm,atopalm cream,20,VN
+2021-11,atopalm,atopalm cream,30,VN
+2021-12,atopalm,atopalm cream,50,VN
+2022-01,atopalm,atopalm cream,50,VN
+2022-02,atopalm,atopalm cream,40,VN
+2022-03,atopalm,atopalm cream,30,VN
+2022-04,atopalm,atopalm cream,30,VN
+2022-05,atopalm,atopalm cream,40,VN
+2022-06,atopalm,atopalm cream,30,VN
+2022-07,atopalm,atopalm cream,70,VN
+2022-08,atopalm,atopalm cream,70,VN
+2022-09,atopalm,atopalm cream,40,VN
+2022-10,atopalm,atopalm cream,50,VN
+2022-11,atopalm,atopalm cream,20,VN
+2022-12,atopalm,atopalm cream,70,VN
+2023-01,atopalm,atopalm cream,20,VN
+2023-02,atopalm,atopalm cream,50,VN
+2023-03,atopalm,atopalm cream,90,VN
+2023-04,atopalm,atopalm cream,140,VN
+2023-05,atopalm,atopalm cream,210,VN
+2023-06,atopalm,atopalm cream,260,VN
+2023-07,atopalm,atopalm cream,390,VN
+2023-08,atopalm,atopalm cream,590,VN
+2023-09,atopalm,atopalm cream,480,VN
+2023-10,atopalm,atopalm cream,260,VN
+2023-11,atopalm,atopalm cream,590,VN
+2023-12,atopalm,atopalm cream,590,VN
+2024-01,atopalm,atopalm cream,720,VN
+2024-02,atopalm,atopalm cream,480,VN
+2024-03,atopalm,atopalm cream,390,VN
+2024-04,atopalm,atopalm cream,320,VN
+2024-05,atopalm,atopalm cream,320,VN
+2024-06,atopalm,atopalm cream,390,VN
+2024-07,atopalm,atopalm cream,480,VN
+2024-08,atopalm,atopalm cream,390,VN
+2024-09,atopalm,atopalm cream,320,VN
+2024-10,atopalm,atopalm cream,320,VN
+2024-11,atopalm,atopalm cream,320,VN
+2024-12,atopalm,atopalm cream,390,VN
+2025-01,atopalm,atopalm cream,260,VN
+2025-02,atopalm,atopalm cream,390,VN
+2025-03,atopalm,atopalm cream,390,VN
+2025-04,atopalm,atopalm cream,260,VN
+2025-05,atopalm,atopalm cream,320,VN
+2025-06,atopalm,atopalm cream,260,VN
+2025-07,atopalm,atopalm cream,320,VN
+2025-08,atopalm,atopalm cream,320,VN
+2025-09,atopalm,atopalm cream,320,VN
+2025-10,atopalm,atopalm cream,260,VN
+2025-11,atopalm,atopalm cream,260,VN
+2025-12,atopalm,atopalm cream,320,VN
+2026-01,atopalm,atopalm cream,480,VN
+2026-02,atopalm,atopalm cream,390,VN
+2026-03,atopalm,atopalm cream,390,VN
+2026-04,atopalm,atopalm cream,320,VN
+2026-05,atopalm,atopalm cream,260,VN
+2026-06,atopalm,atopalm cream,320,VN
+2026-07,atopalm,atopalm cream,210,VN
+2026-08,atopalm,atopalm cream,170,VN
+2018-11,atopalm,atopalm mle cream,10,VN
+2018-12,atopalm,atopalm mle cream,30,VN
+2019-01,atopalm,atopalm mle cream,30,VN
+2019-02,atopalm,atopalm mle cream,10,VN
+2019-03,atopalm,atopalm mle cream,10,VN
+2019-04,atopalm,atopalm mle cream,10,VN
+2019-05,atopalm,atopalm mle cream,10,VN
+2019-06,atopalm,atopalm mle cream,10,VN
+2019-07,atopalm,atopalm mle cream,20,VN
+2019-08,atopalm,atopalm mle cream,10,VN
+2019-09,atopalm,atopalm mle cream,20,VN
+2019-10,atopalm,atopalm mle cream,30,VN
+2019-11,atopalm,atopalm mle cream,20,VN
+2019-12,atopalm,atopalm mle cream,50,VN
+2020-01,atopalm,atopalm mle cream,20,VN
+2020-02,atopalm,atopalm mle cream,20,VN
+2020-03,atopalm,atopalm mle cream,10,VN
+2020-04,atopalm,atopalm mle cream,10,VN
+2020-05,atopalm,atopalm mle cream,20,VN
+2020-06,atopalm,atopalm mle cream,10,VN
+2020-07,atopalm,atopalm mle cream,10,VN
+2020-08,atopalm,atopalm mle cream,10,VN
+2020-09,atopalm,atopalm mle cream,10,VN
+2020-10,atopalm,atopalm mle cream,10,VN
+2020-11,atopalm,atopalm mle cream,20,VN
+2020-12,atopalm,atopalm mle cream,30,VN
+2021-01,atopalm,atopalm mle cream,10,VN
+2021-02,atopalm,atopalm mle cream,10,VN
+2021-03,atopalm,atopalm mle cream,10,VN
+2021-04,atopalm,atopalm mle cream,10,VN
+2021-05,atopalm,atopalm mle cream,10,VN
+2021-06,atopalm,atopalm mle cream,10,VN
+2021-07,atopalm,atopalm mle cream,10,VN
+2021-08,atopalm,atopalm mle cream,10,VN
+2021-09,atopalm,atopalm mle cream,10,VN
+2021-10,atopalm,atopalm mle cream,20,VN
+2021-11,atopalm,atopalm mle cream,30,VN
+2021-12,atopalm,atopalm mle cream,50,VN
+2022-01,atopalm,atopalm mle cream,30,VN
+2022-02,atopalm,atopalm mle cream,50,VN
+2022-03,atopalm,atopalm mle cream,40,VN
+2022-04,atopalm,atopalm mle cream,30,VN
+2022-05,atopalm,atopalm mle cream,40,VN
+2022-06,atopalm,atopalm mle cream,20,VN
+2022-07,atopalm,atopalm mle cream,40,VN
+2022-08,atopalm,atopalm mle cream,50,VN
+2022-09,atopalm,atopalm mle cream,40,VN
+2022-10,atopalm,atopalm mle cream,90,VN
+2022-11,atopalm,atopalm mle cream,90,VN
+2022-12,atopalm,atopalm mle cream,110,VN
+2023-01,atopalm,atopalm mle cream,90,VN
+2023-02,atopalm,atopalm mle cream,70,VN
+2023-03,atopalm,atopalm mle cream,70,VN
+2023-04,atopalm,atopalm mle cream,90,VN
+2023-05,atopalm,atopalm mle cream,70,VN
+2023-06,atopalm,atopalm mle cream,40,VN
+2023-07,atopalm,atopalm mle cream,40,VN
+2023-08,atopalm,atopalm mle cream,70,VN
+2023-09,atopalm,atopalm mle cream,40,VN
+2023-10,atopalm,atopalm mle cream,140,VN
+2023-11,atopalm,atopalm mle cream,90,VN
+2023-12,atopalm,atopalm mle cream,170,VN
+2024-01,atopalm,atopalm mle cream,210,VN
+2024-02,atopalm,atopalm mle cream,170,VN
+2024-03,atopalm,atopalm mle cream,140,VN
+2024-04,atopalm,atopalm mle cream,90,VN
+2024-05,atopalm,atopalm mle cream,90,VN
+2024-06,atopalm,atopalm mle cream,70,VN
+2024-07,atopalm,atopalm mle cream,70,VN
+2024-08,atopalm,atopalm mle cream,50,VN
+2024-09,atopalm,atopalm mle cream,70,VN
+2024-10,atopalm,atopalm mle cream,90,VN
+2024-11,atopalm,atopalm mle cream,90,VN
+2024-12,atopalm,atopalm mle cream,140,VN
+2025-01,atopalm,atopalm mle cream,110,VN
+2025-02,atopalm,atopalm mle cream,110,VN
+2025-03,atopalm,atopalm mle cream,140,VN
+2025-04,atopalm,atopalm mle cream,90,VN
+2025-05,atopalm,atopalm mle cream,50,VN
+2025-06,atopalm,atopalm mle cream,70,VN
+2025-07,atopalm,atopalm mle cream,90,VN
+2025-08,atopalm,atopalm mle cream,70,VN
+2025-09,atopalm,atopalm mle cream,70,VN
+2025-10,atopalm,atopalm mle cream,90,VN
+2025-11,atopalm,atopalm mle cream,140,VN
+2025-12,atopalm,atopalm mle cream,90,VN
+2026-01,atopalm,atopalm mle cream,170,VN
+2026-02,atopalm,atopalm mle cream,70,VN
+2026-03,atopalm,atopalm mle cream,110,VN
+2026-04,atopalm,atopalm mle cream,110,VN
+2026-05,atopalm,atopalm mle cream,70,VN
+2026-06,atopalm,atopalm mle cream,90,VN
+2026-07,atopalm,atopalm mle cream,90,VN
+2026-08,atopalm,atopalm mle cream,90,VN
 2018-11,beauty of joseon,beauty of joseon,10,VN
 2018-12,beauty of joseon,beauty of joseon,10,VN
 2019-01,beauty of joseon,beauty of joseon,30,VN
@@ -20719,6 +23078,7 @@ month,brand,keyword,searches,geo
 2026-05,beauty of joseon,beauty of joseon,2400,VN
 2026-06,beauty of joseon,beauty of joseon,1900,VN
 2026-07,beauty of joseon,beauty of joseon,1900,VN
+2026-08,beauty of joseon,beauty of joseon,1900,VN
 2018-11,cosrx,cosrx,1900,VN
 2018-12,cosrx,cosrx,1900,VN
 2019-01,cosrx,cosrx,1900,VN
@@ -20812,6 +23172,7 @@ month,brand,keyword,searches,geo
 2026-05,cosrx,cosrx,2400,VN
 2026-06,cosrx,cosrx,2400,VN
 2026-07,cosrx,cosrx,2400,VN
+2026-08,cosrx,cosrx,2400,VN
 2019-05,d'alba,d'alba,70,VN
 2019-06,d'alba,d'alba,70,VN
 2019-07,d'alba,d'alba,70,VN
@@ -21000,6 +23361,7 @@ month,brand,keyword,searches,geo
 2026-05,isntree,isntree,390,VN
 2026-06,isntree,isntree,320,VN
 2026-07,isntree,isntree,390,VN
+2026-08,isntree,isntree,480,VN
 2018-04,laneige,laneige,27100,VN
 2018-05,laneige,laneige,27100,VN
 2018-06,laneige,laneige,27100,VN
@@ -21572,6 +23934,7 @@ month,brand,keyword,searches,geo
 2026-05,skin1004,skin1004,1900,VN
 2026-06,skin1004,skin1004,2400,VN
 2026-07,skin1004,skin1004,2400,VN
+2026-08,skin1004,skin1004,1900,VN
 2022-01,tirtir,tirtir,1830000,VN
 2022-02,tirtir,tirtir,1830000,VN
 2022-03,tirtir,tirtir,2240000,VN
@@ -21627,6 +23990,7 @@ month,brand,keyword,searches,geo
 2026-05,tirtir,tirtir,2400,VN
 2026-06,tirtir,tirtir,2400,VN
 2026-07,tirtir,tirtir,1600,VN
+2026-08,tirtir,tirtir,1900,VN
 2021-07,torriden,torriden,50,VN
 2021-08,torriden,torriden,50,VN
 2021-09,torriden,torriden,110,VN
@@ -21688,6 +24052,7 @@ month,brand,keyword,searches,geo
 2026-05,torriden,torriden,8100,VN
 2026-06,torriden,torriden,9900,VN
 2026-07,torriden,torriden,9900,VN
+2026-08,torriden,torriden,9900,VN
 2025-09,abib,abib,49500,WW
 2025-10,abib,abib,60500,WW
 2025-11,abib,abib,49500,WW
@@ -21712,6 +24077,42 @@ month,brand,keyword,searches,geo
 2026-06,anua,anua,368000,WW
 2026-07,anua,anua,368000,WW
 2026-08,anua,anua,450000,WW
+2025-09,atopalm,atopalm,12100,WW
+2025-10,atopalm,atopalm,14800,WW
+2025-11,atopalm,atopalm,18100,WW
+2025-12,atopalm,atopalm,14800,WW
+2026-01,atopalm,atopalm,14800,WW
+2026-02,atopalm,atopalm,12100,WW
+2026-03,atopalm,atopalm,12100,WW
+2026-04,atopalm,atopalm,12100,WW
+2026-05,atopalm,atopalm,12100,WW
+2026-06,atopalm,atopalm,12100,WW
+2026-07,atopalm,atopalm,12100,WW
+2026-08,atopalm,atopalm,12100,WW
+2025-09,atopalm,atopalm cream,1000,WW
+2025-10,atopalm,atopalm cream,1900,WW
+2025-11,atopalm,atopalm cream,1900,WW
+2025-12,atopalm,atopalm cream,1900,WW
+2026-01,atopalm,atopalm cream,1900,WW
+2026-02,atopalm,atopalm cream,1600,WW
+2026-03,atopalm,atopalm cream,1600,WW
+2026-04,atopalm,atopalm cream,1300,WW
+2026-05,atopalm,atopalm cream,1600,WW
+2026-06,atopalm,atopalm cream,1900,WW
+2026-07,atopalm,atopalm cream,1300,WW
+2026-08,atopalm,atopalm cream,1300,WW
+2025-09,atopalm,atopalm mle cream,5400,WW
+2025-10,atopalm,atopalm mle cream,9900,WW
+2025-11,atopalm,atopalm mle cream,12100,WW
+2025-12,atopalm,atopalm mle cream,9900,WW
+2026-01,atopalm,atopalm mle cream,9900,WW
+2026-02,atopalm,atopalm mle cream,8100,WW
+2026-03,atopalm,atopalm mle cream,6600,WW
+2026-04,atopalm,atopalm mle cream,6600,WW
+2026-05,atopalm,atopalm mle cream,8100,WW
+2026-06,atopalm,atopalm mle cream,8100,WW
+2026-07,atopalm,atopalm mle cream,6600,WW
+2026-08,atopalm,atopalm mle cream,8100,WW
 2025-09,beauty of joseon,beauty of joseon,550000,WW
 2025-10,beauty of joseon,beauty of joseon,550000,WW
 2025-11,beauty of joseon,beauty of joseon,823000,WW

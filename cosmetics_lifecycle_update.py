@@ -50,6 +50,8 @@ BRANDS = {
     "abib": {"*": "abib", "JP": "アビブ"},
     "isntree": {"*": "isntree", "JP": "イズントゥリー"},
     "laneige": {"*": "laneige", "JP": "ラネージュ"},
+    # 네오팜(092730) 아토팜 — 영유아 보습. 미국은 브랜드명+MLE 크림, 일본 가타카나
+    "atopalm": {"*": "atopalm", "JP": "アトパーム"},
 }
 
 

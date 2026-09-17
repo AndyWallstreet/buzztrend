@@ -66,6 +66,10 @@ ABS_KEYWORDS = {
     "abib": {"JP": ["アビブ", "abib"]},
     "isntree": {"JP": ["イズントゥリー", "isntree"]},
     "laneige": {"JP": ["ラネージュ", "laneige"]},
+    # 2026-09-17 확인(US 월평균): atopalm 1,833 · atopalm mle cream 1,757 · atopalm cream 400
+    # JP: アトパーム 253 · atopalm 160
+    "atopalm": {"*": ["atopalm", "atopalm mle cream", "atopalm cream"],
+                "JP": ["アトパーム", "atopalm"]},
 }
 
 
