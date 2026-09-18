@@ -533,9 +533,20 @@ with tab1:
             st.markdown("피어그룹 수동 설정")
             manual_peer = st_searchbox(
                 _search_groups, key="ti_manual_sb",
-                placeholder="타이핑해서 검색 — 예: cosmetics, personal, health …",
-                clear_on_submit=False) or AUTO_PEER
-            st.caption("비워두면 자동(선택한 종목의 Industry Sector)입니다.")
+                placeholder="타이핑해서 검색 — 예: cosmetics, 화장품, health …",
+                clear_on_submit=False, default_use_searchterm=True) or AUTO_PEER
+            # 목록에서 고르지 않고 Enter만 쳐도 되게: 입력어로 가장 먼저 걸리는 그룹 적용
+            if manual_peer != AUTO_PEER and manual_peer not in opts_all:
+                _typed = manual_peer
+                _hits = _search_groups(_typed)
+                if _hits:
+                    manual_peer = _hits[0]
+                    st.caption(f"'{_typed}' → **{_hits[0]}** 적용 (다른 그룹은 목록에서 선택)")
+                else:
+                    manual_peer = AUTO_PEER
+                    st.warning(f"'{_typed}'에 맞는 분류가 없습니다. 자동 피어그룹을 씁니다.")
+            else:
+                st.caption("비워두면 자동(선택한 종목의 Industry Sector)입니다.")
         else:
             _mcol = CLASS_LEVELS[class_label]
             manual_opts = [AUTO_PEER] + sorted(df[_mcol].dropna().unique())
