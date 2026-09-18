@@ -11,6 +11,7 @@ from pathlib import Path
 import altair as alt
 import pandas as pd
 import streamlit as st
+EXCL_TOTAL = {"잉글우드랩", "티앤엘"}   # 코스메카 연결 포함 · 의료기기 위주 → 합계 제외
 
 DATA = Path(__file__).resolve().parent.parent / "data" / "cosmetics_sd"
 C_BAR, C_LINE, C_GOLD, C_RED, C_GREEN = "#2a78d6", "#eb6834", "#e8c15a", "#e05252", "#3fb27f"
@@ -90,7 +91,7 @@ if oq is not None:
     oq = oq.copy()
     oq["year"] = oq["date"].astype(str).str[:4]
     odm_ann = oq.groupby(["co", "year"])["rev_eok"].sum().reset_index()
-    tot = odm_ann[odm_ann["co"] != "잉글우드랩"].groupby("year")["rev_eok"].sum()   # 코스메카 연결에 포함
+    tot = odm_ann[~odm_ann["co"].isin(EXCL_TOTAL)].groupby("year")["rev_eok"].sum()   # 코스메카 연결에 포함
     odm_tot = pd.DataFrame({"year": tot.index, "rev": tot.values})
     odm_tot["yoy"] = odm_tot["rev"].pct_change()
     h1 = oq[oq["q"].str.endswith(("Q1", "Q2"))].groupby(["co", "year"])["rev_eok"].sum().unstack("year")
@@ -99,7 +100,7 @@ if cx is not None:
     cx = cx.copy()
     cx["year"] = cx["year"].astype(str).str.replace("FY", "", regex=False)
     cx["year"] = cx["year"].where(~cx["year"].str.startswith("1H"), "2026H1")
-    cx_tot = cx[~cx["year"].str.endswith("H1") & (cx["company"] != "잉글우드랩")].groupby("year")["capex_eok"].sum().reset_index()
+    cx_tot = cx[~cx["year"].str.endswith("H1") & ~cx["company"].isin(EXCL_TOTAL)].groupby("year")["capex_eok"].sum().reset_index()
     cx_tot["yoy"] = cx_tot["capex_eok"].pct_change()
 if ea is not None:
     ea = ea.rename(columns={ea.columns[0]: "year"})
@@ -121,12 +122,12 @@ with tab_bal:
             if x["year"] < oq["date"].max()[:4]:
                 rows.append({"year": x["year"], "지표": "수요② ODM 매출 YoY (실현)", "value": x["yoy"]})
         if odm_h1 is not None and "2025" in odm_h1.columns and "2026" in odm_h1.columns:
-            _h = odm_h1.drop(index="잉글우드랩", errors="ignore")
+            _h = odm_h1.drop(index=list(EXCL_TOTAL), errors="ignore")
             v = _h["2026"].sum() / _h["2025"].sum() - 1
             rows.append({"year": "2026", "지표": "수요② ODM 매출 YoY (실현)", "value": v})
     if cx is not None:
         for _, x in cx_tot[cx_tot["year"] >= "2021"].iterrows():
-            rows.append({"year": x["year"], "지표": "공급② Capex YoY (ODM 5사)", "value": x["yoy"]})
+            rows.append({"year": x["year"], "지표": "공급② Capex YoY (상장 ODM 15사)", "value": x["yoy"]})
     if rows:
         b = pd.DataFrame(rows).dropna()
         ch = alt.Chart(b).mark_bar().encode(
@@ -134,7 +135,7 @@ with tab_bal:
             xOffset="지표:N",
             y=alt.Y("value:Q", title="전년 대비 (%)", axis=alt.Axis(format="%")),
             color=alt.Color("지표:N", title=None,
-                            scale=alt.Scale(domain=["수요① 수출 YoY (관세청)", "수요② ODM 매출 YoY (실현)", "공급② Capex YoY (ODM 5사)"],
+                            scale=alt.Scale(domain=["수요① 수출 YoY (관세청)", "수요② ODM 매출 YoY (실현)", "공급② Capex YoY (상장 ODM 15사)"],
                                             range=[C_BAR, "#8ec9ff", C_LINE]),
                             legend=alt.Legend(orient="top")),
             tooltip=["year", "지표", alt.Tooltip("value", format="+.1%")])
@@ -152,18 +153,26 @@ with tab_bal:
         c["util"] = pd.to_numeric(c["util_pct"], errors="coerce").fillna(calc)
         c = c[c["util"].notna()]
         REP = {"코스맥스": "한국", "한국콜마": "화장품 - 한국", "코스메카코리아": "한국",
-               "씨앤씨인터내셔널": "합계", "한국화장품제조": "화장품(음성공장)", "잉글우드랩": "제품"}
+               "씨앤씨인터내셔널": "합계", "한국화장품제조": "화장품(음성공장)", "잉글우드랩": "제품",
+               "엔에프씨": "충진/포장", "제닉": "하이드로겔 마스크류", "뷰티스킨": "기초화장품(제2공장)",
+                 "선진뷰티사이언스": "안산-마이크로비드", "라파스": "마이크로니들패치-코스메틱", "아이큐어": "화장품(완주)",
+                 "코스나인": "화장품(김포)", "나우코스": "세종공장(전사)", "본느": "전사", "씨티케이": "전사", "티앤엘": "전사"}
         rep = c[c.apply(lambda x: str(x["scope"]) == REP.get(x["company"], "전사"), axis=1)]
         rep = rep.sort_values("period").drop_duplicates(["company", "period"])
+        BIG6 = ["코스맥스", "한국콜마", "코스메카코리아", "씨앤씨인터내셔널", "한국화장품제조", "엔에프씨"]
+        allco = sorted(rep["company"].unique())
+        pick = st.multiselect("회사 선택 (기본 = 완제품 ODM 6사)", allco,
+                              default=[c_ for c_ in BIG6 if c_ in allco], key="sd_util_pick")
+        rep = rep[rep["company"].isin(pick)] if pick else rep
         ch = alt.Chart(rep).mark_line(point=True, size=2).encode(
             x=alt.X("period:O", title=None, axis=alt.Axis(labelAngle=0)),
-            y=alt.Y("util:Q", title="가동률 (%)", scale=alt.Scale(zero=False)),
+            y=alt.Y("util:Q", title="가동률 (%)", scale=alt.Scale(domain=[0, 150], clamp=True)),
             color=alt.Color("company:N", title=None, scale=alt.Scale(range=PAL), legend=alt.Legend(orient="top")),
             tooltip=["company", "period", "scope", alt.Tooltip("util", format=".1f"), "unit"])
         rule = alt.Chart(pd.DataFrame({"y": [90]})).mark_rule(color=C_GOLD, strokeDash=[4, 3]).encode(y="y")
         st.altair_chart((ch + rule).properties(height=300), use_container_width=True)
         st.caption("한국 공장 기준. 금색 점선 = 90%. H1 = 상반기 연환산(계산). DART 생산능력은 3교대·이론치(명목)라 "
-                   "실제 가동보다 낮게 나옴 — 회사끼리 높낮이보다 각 회사의 방향(오르는지)을 볼 것. 코스메카는 가동률 미공시라 계산값.")
+                   "실제 가동보다 낮게 나옴 — 회사끼리 높낮이보다 각 회사의 방향(오르는지)을 볼 것. 코스메카는 가동률 미공시라 계산값. 축은 150%에서 자름(티앤엘 2021 등 명목캐파 초과분).")
     if sg is not None and len(sg):
         sub("수급 신호 (정성)", "tight = 수요>공급 · loose = 공급>수요")
         s = sg.sort_values("date", ascending=False).copy()
