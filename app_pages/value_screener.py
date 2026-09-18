@@ -142,6 +142,26 @@ def load():
         if _c not in df.columns:
             df[_c] = np.nan
     meta = json.loads((DATA / "meta.json").read_text(encoding="utf-8"))
+    # CapIQ 내보내기에 EV가 비어 있는 종목(약 400개, 예: NFC)은 histdb
+    # (네이버 주가 + DART 재무로 만든 LTM 멀티플) 최신값으로 채운다.
+    # CapIQ 값이 있으면 절대 덮어쓰지 않는다. 출처는 *_src = "LTM"으로 표시.
+    _hp = DATA.parent / "histdb" / "multiples.csv.gz"
+    if _hp.exists():
+        h = pd.read_csv(_hp, usecols=["ticker", "date", "evs", "eve", "per", "pbr"])
+        h = h.sort_values("date").groupby("ticker").tail(1).set_index("ticker")
+        filled = 0
+        for col, hcol in (("ev_sales", "evs"), ("ev_ebit", "eve"),
+                          ("per", "per"), ("pbr", "pbr")):
+            if col not in df.columns:
+                continue
+            fill = df["ticker"].map(h[hcol])
+            m = df[col].isna() & fill.notna() & (fill > 0)
+            df.loc[m, col] = fill[m]
+            src = f"{col}_src"
+            if src in df.columns:
+                df.loc[m, src] = "LTM"
+            filled += int(m.sum())
+        meta["histdb_filled"] = filled
     df["label"] = df["company"] + " (" + df["ticker"] + ")"
     # 차트에서 점 클릭 → 네이버금융 종목 페이지
     df["naver"] = ("https://finance.naver.com/item/main.naver?code="
@@ -177,7 +197,8 @@ def drop_iqr(d: pd.DataFrame, xc: str, yc: str) -> pd.DataFrame:
                | (d[xc] > q3x + 1.5 * ix) | (d[xc] < q1x - 1.5 * ix))]
 
 
-def best_relationship(df: pd.DataFrame, drop_outliers: bool = False) -> tuple[str, str, float]:
+def best_relationship(df: pd.DataFrame, drop_outliers: bool = False,
+                      must_have: pd.Series | None = None) -> tuple[str, str, float]:
     """'질이 좋을수록 멀티플이 높다'는 방향(양의 상관)이 맞는 조합 중
     상관계수 R가 가장 높은 X·멀티플 조합을 찾는다.
     R²는 방향을 무시해서 우하향(거꾸로) 관계도 높게 나오므로 부호 있는 R를 쓴다."""
@@ -185,6 +206,11 @@ def best_relationship(df: pd.DataFrame, drop_outliers: bool = False) -> tuple[st
     for xl, xc in X_AXES.items():
         for yl, yc in MULTIPLES.items():
             if xc not in df.columns or yc not in df.columns:
+                continue
+            # 분석 대상 회사에 이 X·Y 값이 없으면 차트에 안 나오므로 후보에서 제외
+            if must_have is not None and not (
+                    pd.notna(must_have.get(xc)) and pd.notna(must_have.get(yc))
+                    and must_have.get(yc) > 0):
                 continue
             d = df[df[xc].notna() & df[yc].notna() & (df[yc] > 0)]
             if drop_outliers:
@@ -278,7 +304,7 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         color_enc = alt.Color(
             "기준:N",
             scale=alt.Scale(domain=["2026E 추정", "LTM 대체"], range=[C_MATCH, C_LTM]),
-            legend=alt.Legend(title="멀티플 기준", orient="top-right"))
+            legend=alt.Legend(title="멀티플 기준", orient="bottom-right"))
     else:
         d["기준"] = "2026E 추정" if src in d.columns else "현재값"
         color_enc = alt.value(C_MATCH)
@@ -510,7 +536,7 @@ with tab1:
                 peer_val = f"직접 고른 회사 {len(peers) - 1}개 + 분석 대상"
             else:
                 peers = df[df[class_col] == peer_val]
-            bx, by, br = best_relationship(peers, drop_outliers=out1)
+            bx, by, br = best_relationship(peers, drop_outliers=out1, must_have=row)
             if auto1:
                 if br > 0:
                     x_label1, y_label1 = bx, by
@@ -557,6 +583,10 @@ with tab1:
             mine = pick.iloc[0]
             vx = f"{mine[x_col]:.1%}" if pd.notna(mine[x_col]) else "없음"
             vy = f"{mine[y_col]:.2f}" if pd.notna(mine[y_col]) else "없음"
+            if pd.isna(mine[x_col]) or pd.isna(mine[y_col]) or not mine[y_col] > 0:
+                st.warning(f"⚠️ {row['company']}은(는) {y_label1 if pd.isna(mine[y_col]) or not mine[y_col] > 0 else x_label1} "
+                           "값이 없어(적자·데이터 없음) 차트에 표시되지 않습니다. "
+                           "다른 축을 고르세요.")
             st.caption(f"🔶 {row['company']}: {x_label1} {vx} · {y_label1} {vy}")
 
         # ------------------------- 과거 멀티플 (선택 종목) -------------------------
