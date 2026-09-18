@@ -254,15 +254,20 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
             x_min: float, y_max: float, pick: pd.DataFrame | None = None,
             label_matches: bool = False, rules: bool = True,
             drop_outliers: bool = False, show_all: bool = False,
-            whatif: dict | None = None) -> alt.Chart:
+            whatif: dict | None = None, always: set | None = None) -> alt.Chart:
     """산점도: 조건 통과는 파랑, 나머지는 연한 색, 선택 종목은 주황 별.
     show_all=True(기업 수동 설정): 직접 고른 회사는 조건·극단값과 상관없이 전부 그린다."""
     d = df[df[x_col].notna() & df[y_col].notna() & (df[y_col] > 0)].copy()
+    always = set(always or ())
+    keep = d["ticker"].isin(always)
     # 극단값은 차트를 망가뜨리므로 표시 범위만 잘라낸다 (데이터는 그대로)
+    # — 직접 고른 회사(always)는 예외로 항상 남긴다
     if len(d) > 20 and not show_all:
         x_lo, x_hi = d[x_col].quantile([0.01, 0.99])
         y_hi = d[y_col].quantile(0.99)
-        d = d[(d[x_col] >= x_lo) & (d[x_col] <= x_hi) & (d[y_col] <= max(y_hi, y_max))]
+        d = d[keep | ((d[x_col] >= x_lo) & (d[x_col] <= x_hi)
+                      & (d[y_col] <= max(y_hi, y_max)))]
+        keep = d["ticker"].isin(always)
     # 축 범위를 '조건 값'에 앵커해서 고정한다 — 같은 조건에서는 화면 틀이
     # 절대 안 움직이고 점만 나타났다 사라진다 (드래그/줌은 그대로 가능).
     # X 왼쪽 = 조건값(또는 데이터 최소), Y 위쪽 = 조건값(또는 데이터 최대) 약간 위.
@@ -289,6 +294,12 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         if whatif is not None:
             x_dom[0] = min(x_dom[0], whatif["x"] - span_x * 0.05)
             x_dom[1] = max(x_dom[1], whatif["x"] + span_x * 0.05)
+        # 직접 고른 회사가 조건·화면 밖이어도 보이도록 축을 넓힌다
+        if keep.any():
+            a = d[keep]
+            x_dom[0] = min(x_dom[0], float(a[x_col].min()) - span_x * 0.03)
+            x_dom[1] = max(x_dom[1], float(a[x_col].max()) + span_x * 0.03)
+            y_dom[1] = max(y_dom[1], float(a[y_col].max()) * 1.07)
     else:
         x_dom = y_dom = None
 
@@ -296,6 +307,7 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
     d["통과"] = (d[x_col] > x_min) & (d[y_col] < y_max)
     if show_all:
         d["통과"] = True
+    d.loc[d["ticker"].isin(always), "통과"] = True
     d = d[d["통과"]]
     if x_dom is not None:
         d = d[(d[x_col] >= x_dom[0]) & (d[x_col] <= x_dom[1])]
@@ -379,10 +391,20 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
         if pick is not None and not pick.empty:
             # 선택한 종목은 주황색 라벨이 따로 붙으므로 파란 라벨은 생략
             hits = hits[hits["ticker"] != pick.iloc[0]["ticker"]]
-        layers.append(alt.Chart(hits).mark_text(
+        mine_add = hits["ticker"].isin(always) & (not show_all)
+        layers.append(alt.Chart(hits[~mine_add]).mark_text(
             dy=-10, fontSize=12, fontWeight="bold",
             color="#9ecbff" if dark else "#1a5cad",
         ).encode(x=x_col, y=y_col, text="company"))
+        if mine_add.any():
+            # 피어그룹 + 직접 고른 회사를 같이 볼 때, 직접 고른 회사는 노란 링·라벨
+            add = hits[mine_add]
+            layers.append(alt.Chart(add).mark_point(
+                size=170, filled=False, color="#f2c744", strokeWidth=2).encode(
+                x=x_col, y=y_col))
+            layers.append(alt.Chart(add).mark_text(
+                dy=-12, fontSize=12, fontWeight="bold", color="#f2c744",
+            ).encode(x=x_col, y=y_col, text="company"))
 
     if pick is not None and not pick.empty:
         p = pick[pick[x_col].notna() & pick[y_col].notna()]
@@ -561,7 +583,8 @@ with tab1:
         manual_cos = st.multiselect(
             "기업 수동 설정 (비교할 회사 직접 선택)", _stock_labels, key="ti_manual_cos",
             placeholder="회사 이름 타이핑 — 예: Cosmax, Kolmar Korea, Cosmecca …",
-            help="여기에 회사를 넣으면 위의 피어그룹(분류) 대신 이 회사들과만 비교합니다. "
+            help="피어그룹 수동 설정이 비어 있으면: 이 회사들과만 비교. "
+                 "피어그룹도 골랐으면: 그 그룹 + 이 회사들을 같이 표시(직접 고른 회사는 노란 링). "
                  "개수 제한 없음 — 고른 회사는 PBR·ROIC 조건 밖이어도 차트에 전부 표시됩니다. "
                  "비우면 원래대로 분류 기준 피어그룹을 씁니다.")
         st.markdown("##### 📌 주요변수 선택")
@@ -596,9 +619,18 @@ with tab1:
             else:
                 class_col = CLASS_LEVELS[class_label]
                 peer_val = row[class_col] if manual_peer == AUTO_PEER else manual_peer
-            if manual_cos:
+            both = bool(manual_cos) and manual_peer != AUTO_PEER
+            if manual_cos and not both:
+                # 피어그룹은 자동 + 회사만 직접 → 고른 회사끼리만 비교
                 peers = df[df["label"].isin(set(manual_cos) | {pick_label})]
                 peer_val = f"직접 고른 회사 {len(peers) - 1}개 + 분석 대상"
+            elif both:
+                # 피어그룹도 직접 + 회사도 직접 → 둘 다 같이 (합집합)
+                grp = df[df[class_col] == peer_val]
+                picked = df[df["label"].isin(set(manual_cos) | {pick_label})]
+                peers = pd.concat([grp, picked]).drop_duplicates("ticker")
+                peer_val = (f"{peer_val} {len(grp)}개사 + 직접 고른 {len(manual_cos)}개"
+                            " (노란색, 조건 밖이어도 항상 표시)")
             else:
                 peers = df[df[class_col] == peer_val]
             bx, by, br = best_relationship(peers, drop_outliers=out1, must_have=row)
@@ -667,7 +699,8 @@ with tab1:
 
         with c1:
             st.markdown(f"**{row['company']}**")
-            _tag = (" · 기업 수동 설정" if manual_cos
+            _tag = (" · 피어그룹 + 기업 수동 설정" if (manual_cos and manual_peer != AUTO_PEER)
+                    else " · 기업 수동 설정" if manual_cos
                     else "" if manual_peer == AUTO_PEER else " · 수동 설정")
             st.markdown(f"- 섹터: {row['sector']}\n- 산업: {row['industry']}\n"
                         f"- 피어그룹: {peer_val} ({len(peers)}개사){_tag}")
@@ -682,8 +715,11 @@ with tab1:
         with c2:
             st.altair_chart(scatter(peers, x_col, y_col, x_label1, y_label1,
                                     x_min1, y_max1, pick=pick, label_matches=True,
-                                    drop_outliers=out1, show_all=bool(manual_cos),
-                                    whatif=whatif1),
+                                    drop_outliers=out1,
+                                    show_all=bool(manual_cos) and manual_peer == AUTO_PEER,
+                                    whatif=whatif1,
+                                    always=set(df.loc[df["label"].isin(manual_cos),
+                                                      "ticker"])),
                             use_container_width=True)
             mine = pick.iloc[0]
             vx = f"{mine[x_col]:.1%}" if pd.notna(mine[x_col]) else "없음"
