@@ -169,6 +169,35 @@ def load():
     return df, meta
 
 
+@st.cache_data(ttl=3600, show_spinner=False)
+def ttm_parts() -> pd.DataFrame:
+    """DART 분기 재무(findb)로 종목별 최근 4분기(TTM) 매출성장률·ROE 계산.
+    What-if 조정의 기본값으로만 쓴다 (CapIQ ROIC+SG를 덮어쓰지 않음)."""
+    fp = DATA.parent / "findb" / "financials.csv.gz"
+    if not fp.exists():
+        return pd.DataFrame()
+    f = pd.read_csv(fp)
+    # 가장 최근까지 이어지는 재무제표를 쓴다 (NFC처럼 자회사 정리 후 연결을 안
+    # 내는 회사는 별도가 최신). 같은 시점이면 연결(CFS) 우선.
+    last = f.groupby(["ticker", "fs"])["date"].max().reset_index()
+    last["_o"] = (last["fs"] != "CFS").astype(int)
+    last = last.sort_values(["ticker", "date", "_o"], ascending=[True, False, True])
+    keep = last.groupby("ticker").head(1)[["ticker", "fs"]]
+    f = f.merge(keep, on=["ticker", "fs"])
+    out = {}
+    for t, g in f.groupby("ticker"):
+        g = g.sort_values("date")
+        if len(g) < 8:
+            continue
+        rev_now, rev_prev = g["rev"].iloc[-4:].sum(), g["rev"].iloc[-8:-4].sum()
+        ni = g["ni"].iloc[-4:].sum()
+        eq = (g["eq"].iloc[-1] + g["eq"].iloc[-5]) / 2
+        out[t] = {"sg_ttm": rev_now / rev_prev - 1 if rev_prev > 0 else np.nan,
+                  "roe_ttm": ni / eq if eq > 0 else np.nan,
+                  "ttm_q": g["q"].iloc[-1], "fs": g["fs"].iloc[-1]}
+    return pd.DataFrame.from_dict(out, orient="index")
+
+
 def r_square(x: pd.Series, y: pd.Series) -> float:
     """두 값의 상관관계 R² (0~1). 데이터가 부족하면 nan."""
     m = x.notna() & y.notna()
@@ -224,7 +253,8 @@ def best_relationship(df: pd.DataFrame, drop_outliers: bool = False,
 def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str,
             x_min: float, y_max: float, pick: pd.DataFrame | None = None,
             label_matches: bool = False, rules: bool = True,
-            drop_outliers: bool = False, show_all: bool = False) -> alt.Chart:
+            drop_outliers: bool = False, show_all: bool = False,
+            whatif: dict | None = None) -> alt.Chart:
     """산점도: 조건 통과는 파랑, 나머지는 연한 색, 선택 종목은 주황 별.
     show_all=True(기업 수동 설정): 직접 고른 회사는 조건·극단값과 상관없이 전부 그린다."""
     d = df[df[x_col].notna() & df[y_col].notna() & (df[y_col] > 0)].copy()
@@ -256,6 +286,9 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
                 x_dom[1] = max(x_dom[1], float(pv[x_col]) + span_x * 0.03)
             if pd.notna(pv[y_col]) and pv[y_col] > 0:
                 y_dom[1] = max(y_dom[1], float(pv[y_col]) * 1.07)
+        if whatif is not None:
+            x_dom[0] = min(x_dom[0], whatif["x"] - span_x * 0.05)
+            x_dom[1] = max(x_dom[1], whatif["x"] + span_x * 0.05)
     else:
         x_dom = y_dom = None
 
@@ -366,6 +399,27 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
             layers.append(alt.Chart(p).mark_text(
                 dy=-16, fontSize=13, fontWeight="bold", color=C_PICK,
             ).encode(x=x_col, y=y_col, text="company"))
+
+    if whatif is not None and pick is not None and not pick.empty:
+        pv = pick.iloc[0]
+        if pd.notna(pv[y_col]) and pv[y_col] > 0:
+            x0 = float(pv[x_col]) if pd.notna(pv[x_col]) else whatif["x"]
+            seg = pd.DataFrame({x_col: [x0, whatif["x"]], y_col: [pv[y_col]] * 2})
+            layers.append(alt.Chart(seg).mark_line(
+                color=C_PICK, strokeDash=[3, 3], size=1.5, opacity=0.8).encode(
+                x=alt.X(x_col, scale=x_scale), y=alt.Y(y_col, scale=y_scale)))
+            wp = pd.DataFrame({x_col: [whatif["x"]], y_col: [pv[y_col]],
+                               "lbl": [whatif["label"]]})
+            layers.append(alt.Chart(wp).mark_point(
+                shape="diamond", size=320, filled=False, color=C_PICK,
+                strokeWidth=2.5).encode(
+                x=x_col, y=y_col,
+                tooltip=[alt.Tooltip("lbl", title="가정"),
+                         alt.Tooltip(x_col, title=x_label, format=".1%"),
+                         alt.Tooltip(y_col, title=y_label, format=".2f")]))
+            layers.append(alt.Chart(wp).mark_text(
+                dy=18, fontSize=12, fontWeight="bold", color=C_PICK,
+            ).encode(x=x_col, y=y_col, text="lbl"))
 
     chart = alt.layer(*layers).properties(height=700).interactive()
     # 점 클릭(네이버금융 링크)이 현재 페이지를 덮지 않고 새 탭으로 열리게
@@ -553,6 +607,45 @@ with tab1:
                                      step=0.5, key=f"ti_ymax_{MULTIPLES[y_label1]}")
             x_min1 = st.number_input(f"{x_label1} 이상 (%)", value=0.0, step=5.0,
                                      key="ti_xmin") / 100
+        whatif1 = None
+        if pick_label is not None:
+            st.markdown("##### 🎚️ What-if — 분석 대상 가정 조정")
+            wi_on = st.toggle("수익성·성장률 직접 입력", value=False, key="ti_wi_on",
+                              help="분석 대상 회사의 X축(수익성+매출성장률)을 내 가정으로 "
+                                   "바꿔서, 차트에서 점이 어디로 움직이는지 봅니다. "
+                                   "Y축(멀티플)은 그대로 둡니다. 기본값은 DART 최근 4분기(TTM).")
+            if wi_on:
+                _tp = ttm_parts()
+                _t = _tp.loc[row["ticker"]] if row["ticker"] in _tp.index else None
+                _is_roe = X_AXES[x_label1] == "roe_sg"
+                _prof = "ROE" if _is_roe else "ROIC"
+                _cur_x = row[X_AXES[x_label1]]
+                _sg0 = float(_t["sg_ttm"]) if _t is not None and pd.notna(_t["sg_ttm"]) else 0.0
+                _roe0 = float(_t["roe_ttm"]) if _t is not None and pd.notna(_t["roe_ttm"]) else np.nan
+                # ROIC는 DART 분기 데이터로 계산이 안 된다(순차입금 없음) → ROE로 대신 채움
+                _p0 = _roe0 if pd.notna(_roe0) else (
+                    (_cur_x - _sg0) if pd.notna(_cur_x) else 0.0)
+                wc1, wc2 = st.columns(2)
+                p_in = wc1.number_input(f"{_prof} (%)", value=round(_p0 * 100, 1),
+                                        step=1.0, key=f"ti_wi_p_{row['ticker']}") / 100
+                g_in = wc2.number_input("매출성장률 (%)", value=round(_sg0 * 100, 1),
+                                        step=5.0, key=f"ti_wi_g_{row['ticker']}") / 100
+                whatif1 = {"x": p_in + g_in,
+                           "label": f"가정 {x_label1} {(p_in + g_in):.0%}"}
+                _src = (f"DART {_t['ttm_q']} 기준 최근 4분기({_t['fs']})"
+                        if _t is not None else "DART 데이터 없음 — 직접 입력")
+                _note = ("" if _is_roe else
+                         " · ROIC는 DART로 계산이 안 돼 ROE로 채웠습니다 — 필요하면 고치세요")
+                _curtxt = (f"차트 현재값(CapIQ) {x_label1} = {_cur_x:.1%}"
+                           if pd.notna(_cur_x) else "차트 현재값(CapIQ) 없음")
+                st.caption(f"기본값: {_src}{_note}. {_curtxt}")
+                if (pd.notna(_cur_x) and _t is not None and pd.notna(_roe0)
+                        and abs((_roe0 + _sg0) - _cur_x) > 0.15):
+                    st.warning(f"⚠️ CapIQ 값({_cur_x:.1%})과 DART 최근 4분기 "
+                               f"({_prof if _is_roe else 'ROE'} {_roe0:.1%} + 성장률 {_sg0:.1%}"
+                               f" = {(_roe0 + _sg0):.1%})가 크게 다릅니다. CapIQ가 "
+                               "다른 기간(예: 과거 적자 시기)이나 다른 정의를 쓰고 있을 수 "
+                               "있습니다. 기준을 확인하고 필요하면 위 값을 고쳐 쓰세요.")
 
     if pick_label is None:
         with c2:
@@ -578,7 +671,8 @@ with tab1:
         with c2:
             st.altair_chart(scatter(peers, x_col, y_col, x_label1, y_label1,
                                     x_min1, y_max1, pick=pick, label_matches=True,
-                                    drop_outliers=out1, show_all=bool(manual_cos)),
+                                    drop_outliers=out1, show_all=bool(manual_cos),
+                                    whatif=whatif1),
                             use_container_width=True)
             mine = pick.iloc[0]
             vx = f"{mine[x_col]:.1%}" if pd.notna(mine[x_col]) else "없음"
