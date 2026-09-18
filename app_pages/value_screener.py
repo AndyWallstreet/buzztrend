@@ -198,11 +198,12 @@ def best_relationship(df: pd.DataFrame, drop_outliers: bool = False) -> tuple[st
 def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str,
             x_min: float, y_max: float, pick: pd.DataFrame | None = None,
             label_matches: bool = False, rules: bool = True,
-            drop_outliers: bool = False) -> alt.Chart:
-    """산점도: 조건 통과는 파랑, 나머지는 연한 색, 선택 종목은 주황 별."""
+            drop_outliers: bool = False, show_all: bool = False) -> alt.Chart:
+    """산점도: 조건 통과는 파랑, 나머지는 연한 색, 선택 종목은 주황 별.
+    show_all=True(기업 수동 설정): 직접 고른 회사는 조건·극단값과 상관없이 전부 그린다."""
     d = df[df[x_col].notna() & df[y_col].notna() & (df[y_col] > 0)].copy()
     # 극단값은 차트를 망가뜨리므로 표시 범위만 잘라낸다 (데이터는 그대로)
-    if len(d) > 20:
+    if len(d) > 20 and not show_all:
         x_lo, x_hi = d[x_col].quantile([0.01, 0.99])
         y_hi = d[y_col].quantile(0.99)
         d = d[(d[x_col] >= x_lo) & (d[x_col] <= x_hi) & (d[y_col] <= max(y_hi, y_max))]
@@ -212,11 +213,14 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
     if len(d):
         # 오른쪽 끝은 최댓값 대신 97.5% 지점까지만 — 극단값 하나가 화면을
         # 옆으로 길게 늘리는 것 방지 (그 밖의 점은 표시에서 제외)
-        x_right = float(d[x_col].quantile(0.975))
-        x_left = max(x_min, float(d[x_col].min()))
+        if show_all:
+            x_right, x_left = float(d[x_col].max()), float(d[x_col].min())
+        else:
+            x_right = float(d[x_col].quantile(0.975))
+            x_left = max(x_min, float(d[x_col].min()))
         span_x = (x_right - x_left) or 0.01
-        x_dom = [x_left - span_x * 0.03, x_right + span_x * 0.03]
-        y_top = min(y_max, float(d[y_col].max()))
+        x_dom = [x_left - span_x * 0.08, x_right + span_x * 0.08]
+        y_top = float(d[y_col].max()) if show_all else min(y_max, float(d[y_col].max()))
         y_dom = [0.0, y_top * 1.07]
         # 선택한 종목(주황 다이아몬드)이 조건 밖이어도 화면에는 항상 보이게
         if pick is not None and len(pick):
@@ -231,6 +235,8 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
 
     # 조건을 통과한 종목만 차트에 그린다 (고정 화면 밖 극단값도 제외)
     d["통과"] = (d[x_col] > x_min) & (d[y_col] < y_max)
+    if show_all:
+        d["통과"] = True
     d = d[d["통과"]]
     if x_dom is not None:
         d = d[(d[x_col] >= x_dom[0]) & (d[x_col] <= x_dom[1])]
@@ -431,9 +437,18 @@ with tab1:
                         for lvl, col in CLASS_LEVELS.items()
                         for v in sorted(df[col].dropna().unique())]
 
+            # CapIQ 분류명에 없는 흔한 단어를 실제 분류명으로 이어준다
+            _ALIAS = {"cosmetic": "personal care", "화장품": "personal care",
+                      "beauty": "personal care", "odm": "personal care",
+                      "제약": "pharmaceutical", "바이오": "biotech",
+                      "반도체": "semiconductor", "게임": "entertainment",
+                      "엔터": "entertainment"}
+
             def _search_groups(q: str):
                 ql = q.strip().lower()
-                return [o for o in opts_all if ql in o.lower()][:60]
+                keys = {ql} | {v for k, v in _ALIAS.items() if k in ql}
+                return [o for o in opts_all
+                        if any(k in o.lower() for k in keys)][:60]
 
             st.markdown("피어그룹 수동 설정")
             manual_peer = st_searchbox(
@@ -449,6 +464,15 @@ with tab1:
                 help="기본은 자동(선택한 종목의 분류). 화장품 사업도 하는 제약사를 "
                      "화장품 피어들과 비교하고 싶을 때처럼 다른 그룹을 직접 지정할 수 "
                      "있습니다. 분류 단계를 (전체)로 두면 5개 단계 전체에서 검색됩니다.")
+        # 기업 수동 설정 — 분류와 상관없이 비교할 회사를 이름으로 직접 고른다.
+        # (예: NFC는 CapIQ 분류가 Specialty Chemicals라 코스맥스·콜마 같은 화장품
+        #  ODM(Personal Care Products)이 자동 피어에 안 잡힌다)
+        manual_cos = st.multiselect(
+            "기업 수동 설정 (비교할 회사 직접 선택)", _stock_labels, key="ti_manual_cos",
+            placeholder="회사 이름 타이핑 — 예: Cosmax, Kolmar Korea, Cosmecca …",
+            help="여기에 회사를 넣으면 위의 피어그룹(분류) 대신 이 회사들과만 비교합니다. "
+                 "개수 제한 없음 — 고른 회사는 PBR·ROIC 조건 밖이어도 차트에 전부 표시됩니다. "
+                 "비우면 원래대로 분류 기준 피어그룹을 씁니다.")
         st.markdown("##### 📌 주요변수 선택")
         auto1 = st.toggle("추천 변수 (상관 높은 조합 자동)", value=True, key="ti_auto",
                           help="켜져 있으면 피어그룹에서 우상향(질↑=멀티플↑) 상관이 "
@@ -481,7 +505,11 @@ with tab1:
             else:
                 class_col = CLASS_LEVELS[class_label]
                 peer_val = row[class_col] if manual_peer == AUTO_PEER else manual_peer
-            peers = df[df[class_col] == peer_val]
+            if manual_cos:
+                peers = df[df["label"].isin(set(manual_cos) | {pick_label})]
+                peer_val = f"직접 고른 회사 {len(peers) - 1}개 + 분석 대상"
+            else:
+                peers = df[df[class_col] == peer_val]
             bx, by, br = best_relationship(peers, drop_outliers=out1)
             if auto1:
                 if br > 0:
@@ -509,7 +537,8 @@ with tab1:
 
         with c1:
             st.markdown(f"**{row['company']}**")
-            _tag = "" if manual_peer == AUTO_PEER else " · 수동 설정"
+            _tag = (" · 기업 수동 설정" if manual_cos
+                    else "" if manual_peer == AUTO_PEER else " · 수동 설정")
             st.markdown(f"- 섹터: {row['sector']}\n- 산업: {row['industry']}\n"
                         f"- 피어그룹: {peer_val} ({len(peers)}개사){_tag}")
             rr = signed_r(good[x_col], good[y_col])
@@ -523,7 +552,7 @@ with tab1:
         with c2:
             st.altair_chart(scatter(peers, x_col, y_col, x_label1, y_label1,
                                     x_min1, y_max1, pick=pick, label_matches=True,
-                                    drop_outliers=out1),
+                                    drop_outliers=out1, show_all=bool(manual_cos)),
                             use_container_width=True)
             mine = pick.iloc[0]
             vx = f"{mine[x_col]:.1%}" if pd.notna(mine[x_col]) else "없음"
