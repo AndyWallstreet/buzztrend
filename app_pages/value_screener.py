@@ -89,6 +89,14 @@ div[data-testid="stNumberInput"] button svg { fill: #444 !important; }
 </style>""", unsafe_allow_html=True)
 
 
+def zoomable(ch):
+    """드래그 = 이동, Shift+휠 = 확대/축소, 더블클릭 = 원래 화면.
+    .interactive()는 그냥 휠로 확대돼서, 페이지를 스크롤하다 차트 위를 지나가면
+    차트가 멋대로 축소·이동해 축이 음수로 가고 점이 사라졌다."""
+    return ch.add_params(alt.selection_interval(
+        bind="scales", zoom="wheel![event.shiftKey]"))
+
+
 def subt(title: str, tip: str = ""):
     """옅은 소제목 바. tip은 마우스를 올리면 보이는 설명(ⓘ)."""
     t = f'<span title="{tip}">ⓘ</span>' if tip else ""
@@ -460,7 +468,7 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
                 dy=18, fontSize=12, fontWeight="bold", color=C_PICK,
             ).encode(x=x_col, y=y_col, text="lbl"))
 
-    chart = alt.layer(*layers).properties(height=700).interactive()
+    chart = zoomable(alt.layer(*layers).properties(height=700))
     # 점 클릭(네이버금융 링크)이 현재 페이지를 덮지 않고 새 탭으로 열리게
     chart.usermeta = {"embedOptions": {"loader": {"target": "_blank"}}}
     return chart
@@ -861,8 +869,8 @@ with tab1:
                         layers.append(alt.Chart(pd.DataFrame({"v": [fwd]})).mark_rule(
                             strokeDash=[2, 3], color=C_PICK, size=2).encode(y="v"))
                     with c4:
-                        st.altair_chart(alt.layer(*layers).properties(height=380)
-                                        .interactive(), use_container_width=True)
+                        st.altair_chart(zoomable(alt.layer(*layers).properties(height=380)),
+                                        use_container_width=True)
                     with c3:
                         st.markdown(f"- 최근 히스토리: **{last:.2f}배**\n"
                                     f"- 기간 평균: **{avg:.2f}배**"
@@ -1139,7 +1147,7 @@ with tab3:
             # key가 설정 값에 따라 바뀌게 해서, 변수/조건을 바꾸면 확대·이동 상태가
             # 초기화돼 항상 잘 보이는 화면으로 시작한다 (같은 설정에서는 드래그 유지)
             chart_key = f"sv_chart_{lvl_col3}_{x_col}_{y_col}_{x_min3}_{y_max3}_{min_n}"
-            ev3 = st.altair_chart(alt.layer(*layers3).properties(height=620).interactive(),
+            ev3 = st.altair_chart(zoomable(alt.layer(*layers3).properties(height=620)),
                                   use_container_width=True,
                                   on_select="rerun", key=chart_key)
             try:
