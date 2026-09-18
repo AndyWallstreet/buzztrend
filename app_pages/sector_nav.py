@@ -34,6 +34,7 @@ SECTORS = [
         ]),
         ("섹터 데이터", [
             ("cosexp", "🚢 한국 화장품 수출 (관세청)"),
+            ("cossd", "⚖️ 화장품 ODM 수급 (공급 vs 수요)"),
         ]),
     ]),
     ("ent", "Entertainment / Contents", [

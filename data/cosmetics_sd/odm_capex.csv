@@ -1,0 +1,37 @@
+﻿ticker,company,year,capex_eok,note,rcept_no,source
+241710,코스메카코리아,FY2021,89.8,연결(CFS); capexdb 분기합계와 일치,20220317000475,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2022,115.8,연결(CFS); capexdb 분기합계와 일치,20230316001060,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2023,185.7,연결(CFS); capexdb 분기합계와 일치,20240321001991,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2024,486.7,연결(CFS); capexdb 분기합계와 일치,20250321000012,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2025,613.8,연결(CFS); capexdb 분기합계와 일치,20260330001688,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,1H26,204.4,연결(CFS); capexdb 분기합계와 일치,20260814003595,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+003350,한국화장품제조,FY2021,4.0,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20220318000130,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+003350,한국화장품제조,FY2022,8.2,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20230316001365,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+003350,한국화장품제조,FY2023,2.2,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20240320001586,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+003350,한국화장품제조,FY2024,20.9,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20260813000484,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+003350,한국화장품제조,FY2025,22.6,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20260813000488,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+003350,한국화장품제조,1H26,75.1,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20260813000496,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2021,401.2,연결(CFS); capexdb 분기합계와 일치,20220317001031,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2022,377.8,연결(CFS); capexdb 분기합계와 일치,20230322001251,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2023,1068.3,연결(CFS); capexdb 분기합계와 일치,20240321001772,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2024,2471.7,연결(CFS); capexdb 분기합계와 일치,20250318001173,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2025,1639.5,연결(CFS); capexdb 분기합계와 일치,20260318001196,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,1H26,360.4,연결(CFS); capexdb 분기합계와 일치,20260814002721,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+950140,잉글우드랩,FY2021,22.8,DART 원문 USD 2.0mn (CFS); 억원은 capexdb KRW 환산값 사용,20220316001223,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
+950140,잉글우드랩,FY2022,41.8,DART 원문 USD 3.23mn (CFS); 억원은 capexdb KRW 환산값 사용,20230315001347,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
+950140,잉글우드랩,FY2023,26.1,DART 원문 USD 2.0mn (CFS); 억원은 capexdb KRW 환산값 사용,20240321001486,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
+950140,잉글우드랩,FY2024,49.8,DART 원문 USD 3.65mn (CFS); 억원은 capexdb KRW 환산값 사용,20250320001724,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
+950140,잉글우드랩,FY2025,66.4,DART 원문 USD 4.68mn (CFS); 억원은 capexdb KRW 환산값 사용,20260316001080,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
+950140,잉글우드랩,1H26,20.4,DART 원문 USD 1.46mn (CFS); 억원은 capexdb KRW 환산값 사용,20260811000551,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
+192820,코스맥스,FY2021,407.5,연결(CFS); capexdb 분기합계와 일치,20220816001048,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+192820,코스맥스,FY2022,841.7,연결(CFS); capexdb 분기합계와 일치,20230322001169,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+192820,코스맥스,FY2023,862.8,연결(CFS); capexdb 분기합계와 일치,20240320001628,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+192820,코스맥스,FY2024,1649.2,연결(CFS); capexdb 분기합계와 일치,20250416000526,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+192820,코스맥스,FY2025,1869.6,연결(CFS); capexdb 분기합계와 일치,20260318000694,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+192820,코스맥스,1H26,1222.8,연결(CFS); capexdb 분기합계와 일치,20260813001436,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+352480,씨앤씨인터내셔널,FY2021,97.8,연결(CFS); capexdb 분기합계와 일치,20220712000324,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+352480,씨앤씨인터내셔널,FY2022,43.7,연결(CFS); capexdb 분기합계와 일치,20230323001531,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+352480,씨앤씨인터내셔널,FY2023,191.9,연결(CFS); capexdb 분기합계와 일치,20240321001899,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+352480,씨앤씨인터내셔널,FY2024,342.9,연결(CFS); capexdb 분기합계와 일치,20250321001159,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+352480,씨앤씨인터내셔널,FY2025,152.0,연결(CFS); capexdb 분기합계와 일치,20260323001238,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+352480,씨앤씨인터내셔널,1H26,204.5,연결(CFS); capexdb 분기합계와 일치,20260814002473,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
