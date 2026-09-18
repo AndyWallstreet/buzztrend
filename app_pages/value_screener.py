@@ -65,6 +65,17 @@ div[data-testid="stNumberInput"] button svg { fill: #444 !important; }
     padding: 6px 12px;
     margin-top: 0.8rem;
 }
+/* 옅은 소제목 바 — 피어그룹 기준 / 피어그룹 수동 설정 / 기업 수동 설정 */
+.lk-sub {
+    font-size: 0.875rem;
+    font-weight: 600;
+    background: rgba(46,125,233,0.12);
+    border-left: 3px solid #6fa8f5;
+    border-radius: 4px;
+    padding: 4px 10px;
+    margin: 0.7rem 0 0.35rem 0;
+}
+.lk-sub span { font-weight: 400; opacity: 0.65; margin-left: 6px; cursor: help; }
 /* 큰 섹션 헤더 — 어디서 새 섹션이 시작되는지 한눈에 보이게 */
 .lk-sec {
     font-size: 1.3rem;
@@ -76,6 +87,12 @@ div[data-testid="stNumberInput"] button svg { fill: #444 !important; }
     background: linear-gradient(90deg, rgba(217,160,33,0.18), rgba(217,160,33,0.02));
 }
 </style>""", unsafe_allow_html=True)
+
+
+def subt(title: str, tip: str = ""):
+    """옅은 소제목 바. tip은 마우스를 올리면 보이는 설명(ⓘ)."""
+    t = f'<span title="{tip}">ⓘ</span>' if tip else ""
+    st.markdown(f'<div class="lk-sub">{title}{t}</div>', unsafe_allow_html=True)
 
 
 def sec(title: str):
@@ -523,12 +540,12 @@ with tab1:
                                   placeholder="예: SILICON2 또는 A257720",
                                   clear_on_submit=False)
         ALL_LVL = "(전체)"
+        subt("피어그룹 기준 (분류 단계)",
+             "선택한 회사와 같은 분류에 속한 회사들을 비교 대상으로 잡습니다. 아래로 갈수록 "
+             "더 좁고 비슷한 그룹입니다. (전체)를 고르면 아래 수동 설정에서 5개 분류 단계를 "
+             "한꺼번에 검색할 수 있습니다.")
         class_label = st.selectbox("피어그룹 기준 (분류 단계)", [ALL_LVL] + list(CLASS_LEVELS),
-                                   index=1,
-                                   help="선택한 회사와 같은 분류에 속한 회사들을 비교 대상으로 잡습니다. "
-                                        "아래로 갈수록 더 좁고 비슷한 그룹입니다. "
-                                        "(전체)를 고르면 아래 수동 설정에서 5개 분류 단계를 "
-                                        "한꺼번에 검색할 수 있습니다.")
+                                   index=1, label_visibility="collapsed")
         # 피어그룹 수동 설정 — 여러 사업을 하는 회사(예: 동국제약 = 제약+화장품)를
         # 원하는 다른 산업의 피어들과 비교하고 싶을 때 직접 고른다
         AUTO_PEER = "(자동 — 선택한 종목과 같은 분류)"
@@ -552,7 +569,7 @@ with tab1:
                 return [o for o in opts_all
                         if any(k in o.lower() for k in keys)][:60]
 
-            st.markdown("피어그룹 수동 설정")
+            subt("피어그룹 수동 설정", "타이핑 후 Enter — 5개 분류 단계 전체에서 검색합니다.")
             manual_peer = st_searchbox(
                 _search_groups, key="ti_manual_sb",
                 placeholder="타이핑해서 검색 — 예: cosmetics, 화장품, health …",
@@ -572,16 +589,22 @@ with tab1:
         else:
             _mcol = CLASS_LEVELS[class_label]
             manual_opts = [AUTO_PEER] + sorted(df[_mcol].dropna().unique())
+            subt("피어그룹 수동 설정",
+                 "기본은 자동(선택한 종목의 분류). 화장품 사업도 하는 제약사를 화장품 피어들과 "
+                 "비교하고 싶을 때처럼 다른 그룹을 직접 지정합니다. 분류 단계를 (전체)로 두면 "
+                 "5개 단계 전체에서 검색됩니다.")
             manual_peer = st.selectbox(
                 "피어그룹 수동 설정", manual_opts, index=0, key=f"ti_manual_{_mcol}",
-                help="기본은 자동(선택한 종목의 분류). 화장품 사업도 하는 제약사를 "
-                     "화장품 피어들과 비교하고 싶을 때처럼 다른 그룹을 직접 지정할 수 "
-                     "있습니다. 분류 단계를 (전체)로 두면 5개 단계 전체에서 검색됩니다.")
+                label_visibility="collapsed")
         # 기업 수동 설정 — 분류와 상관없이 비교할 회사를 이름으로 직접 고른다.
         # (예: NFC는 CapIQ 분류가 Specialty Chemicals라 코스맥스·콜마 같은 화장품
         #  ODM(Personal Care Products)이 자동 피어에 안 잡힌다)
+        subt("기업 수동 설정 (비교할 회사 직접 선택)",
+             "피어그룹 수동 설정이 비어 있으면 이 회사들과만 비교. 피어그룹도 골랐으면 그 그룹 + "
+             "이 회사들을 같이 표시(노란 링). 개수 제한 없음 — 조건 밖이어도 항상 표시됩니다.")
         manual_cos = st.multiselect(
             "기업 수동 설정 (비교할 회사 직접 선택)", _stock_labels, key="ti_manual_cos",
+            label_visibility="collapsed",
             placeholder="회사 이름 타이핑 — 예: Cosmax, Kolmar Korea, Cosmecca …",
             help="피어그룹 수동 설정이 비어 있으면: 이 회사들과만 비교. "
                  "피어그룹도 골랐으면: 그 그룹 + 이 회사들을 같이 표시(직접 고른 회사는 노란 링). "
