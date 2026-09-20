@@ -1,103 +1,160 @@
 ﻿ticker,company,year,capex_eok,note,rcept_no,source
-241710,코스메카코리아,FY2021,89.8,연결(CFS); capexdb 분기합계와 일치,20220317000475,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-241710,코스메카코리아,FY2022,115.8,연결(CFS); capexdb 분기합계와 일치,20230316001060,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-241710,코스메카코리아,FY2023,185.7,연결(CFS); capexdb 분기합계와 일치,20240321001991,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-241710,코스메카코리아,FY2024,486.7,연결(CFS); capexdb 분기합계와 일치,20250321000012,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-241710,코스메카코리아,FY2025,613.8,연결(CFS); capexdb 분기합계와 일치,20260330001688,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-241710,코스메카코리아,1H26,204.4,연결(CFS); capexdb 분기합계와 일치,20260814003595,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-003350,한국화장품제조,FY2021,4.0,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20220318000130,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-003350,한국화장품제조,FY2022,8.2,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20230316001365,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-003350,한국화장품제조,FY2023,2.2,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20240320001586,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-003350,한국화장품제조,FY2024,20.9,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20260813000484,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-003350,한국화장품제조,FY2025,22.6,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20260813000488,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-003350,한국화장품제조,1H26,75.1,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20260813000496,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-161890,한국콜마,FY2021,401.2,연결(CFS); capexdb 분기합계와 일치,20220317001031,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-161890,한국콜마,FY2022,377.8,연결(CFS); capexdb 분기합계와 일치,20230322001251,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-161890,한국콜마,FY2023,1068.3,연결(CFS); capexdb 분기합계와 일치,20240321001772,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-161890,한국콜마,FY2024,2471.7,연결(CFS); capexdb 분기합계와 일치,20250318001173,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-161890,한국콜마,FY2025,1639.5,연결(CFS); capexdb 분기합계와 일치,20260318001196,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-161890,한국콜마,1H26,360.4,연결(CFS); capexdb 분기합계와 일치,20260814002721,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-950140,잉글우드랩,FY2021,22.8,DART 원문 USD 2.0mn (CFS); 억원은 capexdb KRW 환산값 사용,20220316001223,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
-950140,잉글우드랩,FY2022,41.8,DART 원문 USD 3.23mn (CFS); 억원은 capexdb KRW 환산값 사용,20230315001347,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
-950140,잉글우드랩,FY2023,26.1,DART 원문 USD 2.0mn (CFS); 억원은 capexdb KRW 환산값 사용,20240321001486,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
-950140,잉글우드랩,FY2024,49.8,DART 원문 USD 3.65mn (CFS); 억원은 capexdb KRW 환산값 사용,20250320001724,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
-950140,잉글우드랩,FY2025,66.4,DART 원문 USD 4.68mn (CFS); 억원은 capexdb KRW 환산값 사용,20260316001080,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
-950140,잉글우드랩,1H26,20.4,DART 원문 USD 1.46mn (CFS); 억원은 capexdb KRW 환산값 사용,20260811000551,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
-192820,코스맥스,FY2021,407.5,연결(CFS); capexdb 분기합계와 일치,20220816001048,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-192820,코스맥스,FY2022,841.7,연결(CFS); capexdb 분기합계와 일치,20230322001169,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-192820,코스맥스,FY2023,862.8,연결(CFS); capexdb 분기합계와 일치,20240320001628,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-192820,코스맥스,FY2024,1649.2,연결(CFS); capexdb 분기합계와 일치,20250416000526,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-192820,코스맥스,FY2025,1869.6,연결(CFS); capexdb 분기합계와 일치,20260318000694,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-192820,코스맥스,1H26,1222.8,연결(CFS); capexdb 분기합계와 일치,20260813001436,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-352480,씨앤씨인터내셔널,FY2021,97.8,연결(CFS); capexdb 분기합계와 일치,20220712000324,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-352480,씨앤씨인터내셔널,FY2022,43.7,연결(CFS); capexdb 분기합계와 일치,20230323001531,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-352480,씨앤씨인터내셔널,FY2023,191.9,연결(CFS); capexdb 분기합계와 일치,20240321001899,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-352480,씨앤씨인터내셔널,FY2024,342.9,연결(CFS); capexdb 분기합계와 일치,20250321001159,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-352480,씨앤씨인터내셔널,FY2025,152.0,연결(CFS); capexdb 분기합계와 일치,20260323001238,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-352480,씨앤씨인터내셔널,1H26,204.5,연결(CFS); capexdb 분기합계와 일치,20260814002473,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-082660,코스나인,FY2021,17.6,연결(CFS),20221006000347,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-082660,코스나인,FY2022,2.1,연결(CFS),20230711000378,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-082660,코스나인,FY2023,4.4,연결(CFS),20240321002052,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-082660,코스나인,FY2024,1.8,연결(CFS); API 빈값 → 사업보고서 현금흐름표 직접 파싱,20250409002838,DART 사업보고서 연결현금흐름표 유형자산의 취득
-082660,코스나인,FY2025,,연결(CFS); FY2025 사업보고서 현금흐름표 당기(제25기) 컬럼 공란 → 값 없음 (FY2024 전기 컬럼은 1.8억으로 일치),20260324000091,DART 사업보고서 연결현금흐름표 유형자산의 취득
-082660,코스나인,1H26,,2026 반기보고서 없음(DART 미조회),,
-086710,선진뷰티사이언스,FY2021,182.9,연결(CFS),20220323001247,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-086710,선진뷰티사이언스,FY2022,170.7,연결(CFS),20230316000777,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-086710,선진뷰티사이언스,FY2023,125.4,연결(CFS),20240321000816,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-086710,선진뷰티사이언스,FY2024,239.9,연결(CFS),20250320000733,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-086710,선진뷰티사이언스,FY2025,184.6,연결(CFS),20260318001120,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-086710,선진뷰티사이언스,1H26,19.5,연결(CFS),20260827000087,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-123330,제닉,FY2021,6.5,연결(CFS),20220318001044,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-123330,제닉,FY2022,14.2,연결(CFS),20230407001195,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-123330,제닉,FY2023,8.4,연결(CFS),20240320001822,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-123330,제닉,FY2024,16.5,연결(CFS),20250318000829,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-123330,제닉,FY2025,26.7,연결(CFS),20260316001140,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-123330,제닉,1H26,53.0,연결(CFS),20260813001174,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-175250,아이큐어,FY2021,57.0,연결(CFS),20220729000488,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-175250,아이큐어,FY2022,42.0,연결(CFS),20230323001019,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-175250,아이큐어,FY2023,22.3,연결(CFS),20240320001826,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-175250,아이큐어,FY2024,20.2,연결(CFS),20250814004422,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-175250,아이큐어,FY2025,51.1,연결(CFS),20260507000634,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-175250,아이큐어,1H26,12.2,연결(CFS),20260918000313,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-214260,라파스,FY2021,15.5,연결(CFS),20220321000297,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-214260,라파스,FY2022,74.9,연결(CFS),20230316001227,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-214260,라파스,FY2023,38.0,연결(CFS),20240315000710,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-214260,라파스,FY2024,14.5,연결(CFS),20250318001447,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-214260,라파스,FY2025,6.0,연결(CFS),20260320001360,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-214260,라파스,1H26,5.1,연결(CFS),20260814002390,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-226340,본느,FY2021,244.1,연결(CFS),20220322000967,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-226340,본느,FY2022,1.4,연결(CFS),20250305000334,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-226340,본느,FY2023,1.5,연결(CFS),20250305000472,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-226340,본느,FY2024,8.2,연결(CFS),20250523000500,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-226340,본느,FY2025,3.1,연결(CFS),20260323000741,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2021,89.8,연결(CFS); capexdb 분기합계와 일치,20220317000475.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2022,115.8,연결(CFS); capexdb 분기합계와 일치,20230316001060.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2023,185.7,연결(CFS); capexdb 분기합계와 일치,20240321001991.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2024,486.7,연결(CFS); capexdb 분기합계와 일치,20250321000012.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2025,613.8,연결(CFS); capexdb 분기합계와 일치,20260330001688.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,1H26,204.4,연결(CFS); capexdb 분기합계와 일치,20260814003595.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+3350,한국화장품제조,FY2021,4.0,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20220318000130.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+3350,한국화장품제조,FY2022,8.2,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20230316001365.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+3350,한국화장품제조,FY2023,2.2,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20240320001586.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+3350,한국화장품제조,FY2024,20.9,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20260813000484.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+3350,한국화장품제조,FY2025,22.6,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20260813000488.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+3350,한국화장품제조,1H26,75.1,"별도(OFS) 기준, 연결 미제공; capexdb 분기합계와 일치",20260813000496.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2021,401.2,연결(CFS); capexdb 분기합계와 일치,20220317001031.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2022,377.8,연결(CFS); capexdb 분기합계와 일치,20230322001251.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2023,1068.3,연결(CFS); capexdb 분기합계와 일치,20240321001772.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2024,2471.7,연결(CFS); capexdb 분기합계와 일치,20250318001173.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2025,1639.5,연결(CFS); capexdb 분기합계와 일치,20260318001196.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,1H26,360.4,연결(CFS); capexdb 분기합계와 일치,20260814002721.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+950140,잉글우드랩,FY2021,22.8,DART 원문 USD 2.0mn (CFS); 억원은 capexdb KRW 환산값 사용,20220316001223.0,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
+950140,잉글우드랩,FY2022,41.8,DART 원문 USD 3.23mn (CFS); 억원은 capexdb KRW 환산값 사용,20230315001347.0,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
+950140,잉글우드랩,FY2023,26.1,DART 원문 USD 2.0mn (CFS); 억원은 capexdb KRW 환산값 사용,20240321001486.0,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
+950140,잉글우드랩,FY2024,49.8,DART 원문 USD 3.65mn (CFS); 억원은 capexdb KRW 환산값 사용,20250320001724.0,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
+950140,잉글우드랩,FY2025,66.4,DART 원문 USD 4.68mn (CFS); 억원은 capexdb KRW 환산값 사용,20260316001080.0,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
+950140,잉글우드랩,1H26,20.4,DART 원문 USD 1.46mn (CFS); 억원은 capexdb KRW 환산값 사용,20260811000551.0,DART fnlttSinglAcntAll CF 유형자산의 취득 + buzztrend capexdb
+192820,코스맥스,FY2021,407.5,연결(CFS); capexdb 분기합계와 일치,20220816001048.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+192820,코스맥스,FY2022,841.7,연결(CFS); capexdb 분기합계와 일치,20230322001169.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+192820,코스맥스,FY2023,862.8,연결(CFS); capexdb 분기합계와 일치,20240320001628.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+192820,코스맥스,FY2024,1649.2,연결(CFS); capexdb 분기합계와 일치,20250416000526.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+192820,코스맥스,FY2025,1869.6,연결(CFS); capexdb 분기합계와 일치,20260318000694.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+192820,코스맥스,1H26,1222.8,연결(CFS); capexdb 분기합계와 일치,20260813001436.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+352480,씨앤씨인터내셔널,FY2021,97.8,연결(CFS); capexdb 분기합계와 일치,20220712000324.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+352480,씨앤씨인터내셔널,FY2022,43.7,연결(CFS); capexdb 분기합계와 일치,20230323001531.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+352480,씨앤씨인터내셔널,FY2023,191.9,연결(CFS); capexdb 분기합계와 일치,20240321001899.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+352480,씨앤씨인터내셔널,FY2024,342.9,연결(CFS); capexdb 분기합계와 일치,20250321001159.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+352480,씨앤씨인터내셔널,FY2025,152.0,연결(CFS); capexdb 분기합계와 일치,20260323001238.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+352480,씨앤씨인터내셔널,1H26,204.5,연결(CFS); capexdb 분기합계와 일치,20260814002473.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+82660,코스나인,FY2021,17.6,연결(CFS),20221006000347.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+82660,코스나인,FY2022,2.1,연결(CFS),20230711000378.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+82660,코스나인,FY2023,4.4,연결(CFS),20240321002052.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+82660,코스나인,FY2024,1.8,연결(CFS); API 빈값 → 사업보고서 현금흐름표 직접 파싱,20250409002838.0,DART 사업보고서 연결현금흐름표 유형자산의 취득
+82660,코스나인,FY2025,,연결(CFS); FY2025 사업보고서 현금흐름표 당기(제25기) 컬럼 공란 → 값 없음 (FY2024 전기 컬럼은 1.8억으로 일치),20260324000091.0,DART 사업보고서 연결현금흐름표 유형자산의 취득
+82660,코스나인,1H26,,2026 반기보고서 없음(DART 미조회),,
+86710,선진뷰티사이언스,FY2021,182.9,연결(CFS),20220323001247.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+86710,선진뷰티사이언스,FY2022,170.7,연결(CFS),20230316000777.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+86710,선진뷰티사이언스,FY2023,125.4,연결(CFS),20240321000816.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+86710,선진뷰티사이언스,FY2024,239.9,연결(CFS),20250320000733.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+86710,선진뷰티사이언스,FY2025,184.6,연결(CFS),20260318001120.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+86710,선진뷰티사이언스,1H26,19.5,연결(CFS),20260827000087.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+123330,제닉,FY2021,6.5,연결(CFS),20220318001044.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+123330,제닉,FY2022,14.2,연결(CFS),20230407001195.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+123330,제닉,FY2023,8.4,연결(CFS),20240320001822.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+123330,제닉,FY2024,16.5,연결(CFS),20250318000829.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+123330,제닉,FY2025,26.7,연결(CFS),20260316001140.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+123330,제닉,1H26,53.0,연결(CFS),20260813001174.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+175250,아이큐어,FY2021,57.0,연결(CFS),20220729000488.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+175250,아이큐어,FY2022,42.0,연결(CFS),20230323001019.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+175250,아이큐어,FY2023,22.3,연결(CFS),20240320001826.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+175250,아이큐어,FY2024,20.2,연결(CFS),20250814004422.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+175250,아이큐어,FY2025,51.1,연결(CFS),20260507000634.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+175250,아이큐어,1H26,12.2,연결(CFS),20260918000313.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+214260,라파스,FY2021,15.5,연결(CFS),20220321000297.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+214260,라파스,FY2022,74.9,연결(CFS),20230316001227.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+214260,라파스,FY2023,38.0,연결(CFS),20240315000710.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+214260,라파스,FY2024,14.5,연결(CFS),20250318001447.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+214260,라파스,FY2025,6.0,연결(CFS),20260320001360.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+214260,라파스,1H26,5.1,연결(CFS),20260814002390.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+226340,본느,FY2021,244.1,연결(CFS),20220322000967.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+226340,본느,FY2022,1.4,연결(CFS),20250305000334.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+226340,본느,FY2023,1.5,연결(CFS),20250305000472.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+226340,본느,FY2024,8.2,연결(CFS),20250523000500.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+226340,본느,FY2025,3.1,연결(CFS),20260323000741.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
 226340,본느,1H26,,2026 반기보고서 미제출(제출지연 공시 2026-08-14),,
-257990,나우코스,FY2021,2.7,연결(CFS),20220323000687,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-257990,나우코스,FY2022,26.5,연결(CFS),20230323000937,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-257990,나우코스,FY2023,7.1,연결(CFS),20240321001203,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-257990,나우코스,FY2024,16.0,연결(CFS),20250318000176,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-257990,나우코스,FY2025,10.1,연결(CFS),20260320001002,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+257990,나우코스,FY2021,2.7,연결(CFS),20220323000687.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+257990,나우코스,FY2022,26.5,연결(CFS),20230323000937.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+257990,나우코스,FY2023,7.1,연결(CFS),20240321001203.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+257990,나우코스,FY2024,16.0,연결(CFS),20250318000176.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+257990,나우코스,FY2025,10.1,연결(CFS),20260320001002.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
 257990,나우코스,1H26,,코넥스 상장사 — 반기보고서 미제출 대상,,
-260930,씨티케이,FY2021,25.9,연결(CFS),20220328000058,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-260930,씨티케이,FY2022,54.6,연결(CFS),20230322000709,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-260930,씨티케이,FY2023,46.1,연결(CFS),20240321001888,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-260930,씨티케이,FY2024,17.4,연결(CFS),20250530001936,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-260930,씨티케이,FY2025,252.2,연결(CFS),20260320001391,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-260930,씨티케이,1H26,31.9,연결(CFS),20260814003568,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-265740,엔에프씨,FY2021,24.7,연결(CFS),20220322000059,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-265740,엔에프씨,FY2022,9.9,연결(CFS),20230320000325,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-265740,엔에프씨,FY2023,7.9,"별도(OFS) 기준, 연결 미제공",20240315000393,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-265740,엔에프씨,FY2024,2.1,"별도(OFS) 기준, 연결 미제공",20250314000633,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-265740,엔에프씨,FY2025,55.5,"별도(OFS) 기준, 연결 미제공",20260313000481,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-265740,엔에프씨,1H26,4.5,"별도(OFS) 기준, 연결 미제공",20260812000135,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-340570,티앤엘,FY2021,156.3,연결(CFS),20220322000655,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-340570,티앤엘,FY2022,159.9,연결(CFS),20230321001557,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-340570,티앤엘,FY2023,134.5,연결(CFS),20240318000516,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-340570,티앤엘,FY2024,158.3,연결(CFS),20250317000486,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-340570,티앤엘,FY2025,175.9,연결(CFS),20260318001498,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-340570,티앤엘,1H26,72.5,연결(CFS),20260821000408,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-406820,뷰티스킨,FY2021,0.7,"연결(CFS); 2023.7 상장 → FY2023 보고서 전전기(bfefrmtrm) 값 67,030,601원",20240321001582,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-406820,뷰티스킨,FY2022,1.3,"연결(CFS); 2023.7 상장 → FY2023 보고서 전기(frmtrm) 값 131,004,350원",20240321001582,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-406820,뷰티스킨,FY2023,3.3,연결(CFS),20240321001582,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-406820,뷰티스킨,FY2024,6.4,연결(CFS),20250320001431,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-406820,뷰티스킨,FY2025,2.5,연결(CFS),20260319001377,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
-406820,뷰티스킨,1H26,0.1,연결(CFS),20260814003755,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+260930,씨티케이,FY2021,25.9,연결(CFS),20220328000058.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+260930,씨티케이,FY2022,54.6,연결(CFS),20230322000709.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+260930,씨티케이,FY2023,46.1,연결(CFS),20240321001888.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+260930,씨티케이,FY2024,17.4,연결(CFS),20250530001936.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+260930,씨티케이,FY2025,252.2,연결(CFS),20260320001391.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+260930,씨티케이,1H26,31.9,연결(CFS),20260814003568.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+265740,엔에프씨,FY2021,24.7,연결(CFS),20220322000059.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+265740,엔에프씨,FY2022,9.9,연결(CFS),20230320000325.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+265740,엔에프씨,FY2023,7.9,"별도(OFS) 기준, 연결 미제공",20240315000393.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+265740,엔에프씨,FY2024,2.1,"별도(OFS) 기준, 연결 미제공",20250314000633.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+265740,엔에프씨,FY2025,55.5,"별도(OFS) 기준, 연결 미제공",20260313000481.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+265740,엔에프씨,1H26,4.5,"별도(OFS) 기준, 연결 미제공",20260812000135.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+340570,티앤엘,FY2021,156.3,연결(CFS),20220322000655.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+340570,티앤엘,FY2022,159.9,연결(CFS),20230321001557.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+340570,티앤엘,FY2023,134.5,연결(CFS),20240318000516.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+340570,티앤엘,FY2024,158.3,연결(CFS),20250317000486.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+340570,티앤엘,FY2025,175.9,연결(CFS),20260318001498.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+340570,티앤엘,1H26,72.5,연결(CFS),20260821000408.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+406820,뷰티스킨,FY2021,0.7,"연결(CFS); 2023.7 상장 → FY2023 보고서 전전기(bfefrmtrm) 값 67,030,601원",20240321001582.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+406820,뷰티스킨,FY2022,1.3,"연결(CFS); 2023.7 상장 → FY2023 보고서 전기(frmtrm) 값 131,004,350원",20240321001582.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+406820,뷰티스킨,FY2023,3.3,연결(CFS),20240321001582.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+406820,뷰티스킨,FY2024,6.4,연결(CFS),20250320001431.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+406820,뷰티스킨,FY2025,2.5,연결(CFS),20260319001377.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+406820,뷰티스킨,1H26,0.1,연결(CFS),20260814003755.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+214260,라파스,FY2019,64.0,연결(CFS); 2015~2020 보강,20210409002282.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+214260,라파스,FY2020,21.7,연결(CFS); 2015~2020 보강,20210607000264.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2016,125.3,연결(CFS); 2015~2020 보강,20170331005554.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2017,211.5,연결(CFS); 2015~2020 보강,20180608000564.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2018,429.2,연결(CFS); 2015~2020 보강,20190329002833.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2019,307.2,연결(CFS); 2015~2020 보강,20200330004199.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+241710,코스메카코리아,FY2020,142.2,연결(CFS); 2015~2020 보강,20210318001090.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+3350,한국화장품제조,FY2015,8.4,별도(OFS); 2015~2020 보강,20160330003365.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+3350,한국화장품제조,FY2016,37.7,별도(OFS); 2015~2020 보강,20170331003604.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+3350,한국화장품제조,FY2017,25.8,별도(OFS); 2015~2020 보강,20180330000630.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+3350,한국화장품제조,FY2018,20.2,별도(OFS); 2015~2020 보강,20190401002068.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+3350,한국화장품제조,FY2019,20.0,별도(OFS); 2015~2020 보강,20200330003688.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+3350,한국화장품제조,FY2020,8.3,별도(OFS); 2015~2020 보강,20210318000787.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2015,334.5,연결(CFS); 2015~2020 보강,20160329001045.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2016,448.2,연결(CFS); 2015~2020 보강,20170331004224.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2017,686.4,연결(CFS); 2015~2020 보강,20180330001710.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2018,792.0,연결(CFS); 2015~2020 보강,20190329003108.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2019,736.8,연결(CFS); 2015~2020 보강,20200330004678.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+161890,한국콜마,FY2020,1191.8,연결(CFS); 2015~2020 보강,20210318001200.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+950140,잉글우드랩,FY2016,0.1,연결(CFS); 2015~2020 보강,20170428000634.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+950140,잉글우드랩,FY2017,0.1,연결(CFS); 2015~2020 보강,20180430001776.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+950140,잉글우드랩,FY2018,0.1,연결(CFS); 2015~2020 보강,20190329003235.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+950140,잉글우드랩,FY2019,0.0,연결(CFS); 2015~2020 보강,20200330002322.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+950140,잉글우드랩,FY2020,0.0,연결(CFS); 2015~2020 보강,20210317001183.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+260930,씨티케이,FY2017,114.0,연결(CFS); 2015~2020 보강,20180402005148.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+260930,씨티케이,FY2018,120.3,연결(CFS); 2015~2020 보강,20190401000698.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+260930,씨티케이,FY2019,127.1,연결(CFS); 2015~2020 보강,20200330001370.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+260930,씨티케이,FY2020,51.1,연결(CFS); 2015~2020 보강,20210322000774.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+265740,엔에프씨,FY2020,79.5,연결(CFS); 2015~2020 보강,20210331000565.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+86710,선진뷰티사이언스,FY2020,75.0,연결(CFS); 2015~2020 보강,20210324000697.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+340570,티앤엘,FY2020,29.8,연결(CFS); 2015~2020 보강,20210317000997.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+192820,코스맥스,FY2020,589.6,연결(CFS); 2015~2020 보강,20210318000961.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+123330,제닉,FY2015,110.6,연결(CFS); 2015~2020 보강,20160513005044.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+123330,제닉,FY2016,84.1,연결(CFS); 2015~2020 보강,20170405002143.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+123330,제닉,FY2017,87.3,연결(CFS); 2015~2020 보강,20180402003714.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+123330,제닉,FY2018,30.6,연결(CFS); 2015~2020 보강,20190401004011.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+123330,제닉,FY2019,8.3,연결(CFS); 2015~2020 보강,20200330002124.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+123330,제닉,FY2020,7.7,연결(CFS); 2015~2020 보강,20210319001365.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+175250,아이큐어,FY2018,115.6,연결(CFS); 2015~2020 보강,20190404002399.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+175250,아이큐어,FY2019,622.5,연결(CFS); 2015~2020 보강,20201203000338.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+175250,아이큐어,FY2020,230.0,연결(CFS); 2015~2020 보강,20210813001352.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+82660,코스나인,FY2015,58.3,연결(CFS); 2015~2020 보강,20160325000152.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+82660,코스나인,FY2016,34.9,연결(CFS); 2015~2020 보강,20170324000170.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+82660,코스나인,FY2017,17.5,연결(CFS); 2015~2020 보강,20180321000335.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+82660,코스나인,FY2018,2.3,연결(CFS); 2015~2020 보강,20190401001789.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+82660,코스나인,FY2019,10.4,별도(OFS); 2015~2020 보강,20200811000158.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+82660,코스나인,FY2020,224.8,연결(CFS); 2015~2020 보강,20220405002815.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+257990,나우코스,FY2019,0.1,별도(OFS); 2015~2020 보강,20201230000184.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+257990,나우코스,FY2020,29.4,연결(CFS); 2015~2020 보강,20210318000980.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+226340,본느,FY2018,71.7,연결(CFS); 2015~2020 보강,20190402000114.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+226340,본느,FY2019,0.8,연결(CFS); 2015~2020 보강,20200330001350.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+226340,본느,FY2020,4.6,연결(CFS); 2015~2020 보강,20210420000299.0,DART fnlttSinglAcntAll 현금흐름표 유형자산의 취득
+192820,코스맥스,FY2015,434.8,연결(CFS); 자산별 취득(토지~건설중인자산) 합산 — 회사가 '유형자산의 취득' 한 줄로 공시 안 함,20160330002819,DART 사업보고서 연결현금흐름표 (직접 합산)
+192820,코스맥스,FY2016,896.2,연결(CFS); 자산별 취득(토지~건설중인자산) 합산 — 회사가 '유형자산의 취득' 한 줄로 공시 안 함,20180402004405,DART 사업보고서 연결현금흐름표 (직접 합산)
+192820,코스맥스,FY2017,812.2,연결(CFS); 자산별 취득(토지~건설중인자산) 합산 — 회사가 '유형자산의 취득' 한 줄로 공시 안 함,20180402004405,DART 사업보고서 연결현금흐름표 (직접 합산)
+192820,코스맥스,FY2018,490.2,연결(CFS); 자산별 취득(토지~건설중인자산) 합산 — 회사가 '유형자산의 취득' 한 줄로 공시 안 함,20200330003755,DART 사업보고서 연결현금흐름표 (직접 합산)
+192820,코스맥스,FY2019,1048.2,연결(CFS); 자산별 취득(토지~건설중인자산) 합산 — 회사가 '유형자산의 취득' 한 줄로 공시 안 함,20200330003755,DART 사업보고서 연결현금흐름표 (직접 합산)
