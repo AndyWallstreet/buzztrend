@@ -415,10 +415,8 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
             # 선택한 종목은 주황색 라벨이 따로 붙으므로 파란 라벨은 생략
             hits = hits[hits["ticker"] != pick.iloc[0]["ticker"]]
         mine_add = hits["ticker"].isin(always) & (not show_all)
-        _lab = hits[~mine_add]
-        if len(_lab) > 80:          # 수백 개면 글자가 뭉쳐 못 읽음 → 툴팁으로만
-            _lab = _lab.iloc[0:0]
-        layers.append(alt.Chart(_lab).mark_text(
+        # 회사 이름은 항상 표시 (PM 2026-09-21: 많아도 숨기지 말 것 — 휠로 확대해서 읽음)
+        layers.append(alt.Chart(hits[~mine_add]).mark_text(
             dy=-10, fontSize=12, fontWeight="bold",
             color="#9ecbff" if dark else "#1a5cad",
         ).encode(x=x_col, y=y_col, text="company"))
