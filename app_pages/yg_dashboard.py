@@ -236,7 +236,9 @@ with tab_prod:
             wk = cw.copy()
             wk["sales"] = wk["sales"].astype(float)
             wk["start"] = pd.to_datetime(wk["start"])
-            wk["_m"] = wk["start"].dt.month       # 주 시작일 기준 귀속 월(근사)
+            # 귀속 월 = 주 중간일(수요일) 기준 — 시작일 기준이면 8/30~9/5 주가 8월로 가서
+            # (8월은 월간 확정이라) 통째로 빠짐. 2026-09-21 수정.
+            wk["_m"] = (wk["start"] + pd.Timedelta(days=3)).dt.month
         pend = (wk[wk["_m"] > last_pub_m] if wk is not None else None)
 
         # ---- 요약 지표: 반기 → 연간 계단
