@@ -193,6 +193,27 @@ def load():
 
 
 @st.cache_data(ttl=3600, show_spinner=False)
+def load_global(stamp: float):
+    """글로벌 피어 (MSCI ACWI 구성종목, Cap IQ) — global_peers_update.py 산출. 없으면 None."""
+    gp = DATA / "global_data.csv"
+    if not gp.exists():
+        return None, {}
+    g = pd.read_csv(gp)
+    for _c in MULTIPLES.values():
+        if _c not in g.columns:
+            g[_c] = np.nan
+    g["region"] = "Global"
+    g["company"] = g["company"].astype(str) + " [" + g["country"].fillna("").astype(str) + "]"
+    g["label"] = g["company"] + " (" + g["ticker"] + ")"
+    g["naver"] = "https://www.google.com/finance/quote/" + g["ticker"].str.split(":").str[::-1].str.join(":")
+    gm = {}
+    mp = DATA / "global_meta.json"
+    if mp.exists():
+        gm = json.loads(mp.read_text(encoding="utf-8"))
+    return g, gm
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
 def ttm_parts() -> pd.DataFrame:
     """DART 분기 재무(findb)로 종목별 최근 4분기(TTM) 매출성장률·ROE 계산.
     What-if 조정의 기본값으로만 쓴다 (CapIQ ROIC+SG를 덮어쓰지 않음)."""
@@ -534,9 +555,19 @@ st.caption(f"한국 상장사 {meta['n_companies']:,}개 · 기준일 {meta['as_
 tab1, tab2, tab3 = st.tabs(["🔍 티커 조회", "🧮 조건 검색", "🏭 섹터별 보기"])
 
 # ================================================= 1) Ticker Input
+_gp = DATA / "global_data.csv"
+gdf, gmeta = load_global(_gp.stat().st_mtime if _gp.exists() else 0.0)
+df_kr = df
 with tab1:
     c1, c2 = st.columns([1, 3.2], gap="large")
     with c1:
+        if gdf is not None and len(gdf):
+            use_global = st.toggle(f"🌍 글로벌 피어 포함 ({len(gdf):,}개사)", value=False, key="ti_global",
+                                   help="켜면 피어그룹에 글로벌 상장사(MSCI ACWI 구성종목 + 직접 고른 피어, 한국 제외)가 같이 들어옵니다. 같은 Cap IQ 분류·같은 수식"
+                                        "(ROIC+SG, 2026E 멀티플·없으면 LTM)이라 한국 종목과 바로 비교됩니다. 회사명 뒤 [국가]. "
+                                        f"기준일 {gmeta.get('as_of', '—')}. 종목 검색·기업 수동 설정에서도 글로벌 회사를 고를 수 있습니다.")
+            if use_global:
+                df = pd.concat([df_kr.assign(region="KR"), gdf], ignore_index=True)
         # 종목 검색 — 입력한 단어가 '포함된' 종목만 (기본 셀렉트박스는 퍼지 매칭이라
         # cosmax를 쳐도 엉뚱한 SPAC이 섞여 나온다)
         _stock_labels = df["label"].sort_values().tolist()
@@ -910,6 +941,7 @@ with tab1:
                    "차트의 점을 클릭하면 네이버금융 종목 페이지가 열립니다.")
         match_table(good, x_col, y_col, x_label1, y_label1, key="dl_ticker", score=True)
 
+df = df_kr      # 글로벌 토글은 티커 조회 탭에만 적용
 # ================================================= 2) Screen Panel
 with tab2:
     c1, c2 = st.columns([1, 3.2], gap="large")

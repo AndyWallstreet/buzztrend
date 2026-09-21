@@ -1,0 +1,46 @@
+ciq_id,name,country,note
+BIT:ICOS,Intercos,Italy,cosmetics ODM
+TSE:4922,Kose,Japan,cosmetics brand
+TSE:4927,Pola Orbis,Japan,cosmetics brand
+TSE:4928,Noevir,Japan,cosmetics brand
+TSE:4920,Nippon Shikizai,Japan,cosmetics ODM
+NYSE:ELF,e.l.f. Beauty,United States,cosmetics brand
+NYSE:COTY,Coty,United States,cosmetics brand
+ODD,Oddity Tech,United States,cosmetics brand
+NasdaqGS:IPAR,Interparfums,United States,fragrance
+ENXTPA:ITP,Interparfums SA,France,fragrance
+BME:PUIG,Puig Brands,Spain,cosmetics brand
+SHSE:603605,Proya,China,cosmetics brand
+SZSE:300957,Botanee,China,cosmetics brand
+SHSE:688363,Bloomage Biotech,China,cosmetics ingredients
+SEHK:2367,Giant Biogene,China,cosmetics brand
+SEHK:2145,Chicmax,China,cosmetics brand
+SZSE:300856,Cosmos Chemical,China,sunscreen ingredients
+LSE:CRDA,Croda,United Kingdom,cosmetics ingredients
+NYSE:ATR,AptarGroup,United States,cosmetics packaging
+NasdaqGS:WMG,Warner Music,United States,music
+ENXTAM:UMG,Universal Music,Netherlands,music
+TSE:7860,Avex,Japan,music
+TSE:4301,Amuse,Japan,music
+TSE:4816,Toei Animation,Japan,kids IP
+TSE:8136,Sanrio,Japan,kids IP
+TSE:7867,Tomy,Japan,toys
+SEHK:9992,Pop Mart,China,toys IP
+NasdaqGS:MAT,Mattel,United States,toys
+NasdaqGS:HAS,Hasbro,United States,toys
+XTRA:EVD,CTS Eventim,Germany,live music
+NYSE:PRGO,Perrigo,United States,OTC pharma
+LSE:HIK,Hikma,United Kingdom,generic pharma
+TSE:4581,Taisho Pharma,Japan,OTC pharma
+TSE:4527,Rohto,Japan,OTC pharma
+TSE:4530,Hisamitsu,Japan,OTC pharma
+TSE:4967,Kobayashi Pharma,Japan,OTC pharma
+TSE:4887,Sawai Group,Japan,generic pharma
+TSE:4553,Towa Pharma,Japan,generic pharma
+SWX:GALD,Galderma,Switzerland,dermatology
+TSE:6674,GS Yuasa,Japan,batteries
+NYSE:ENS,EnerSys,United States,batteries
+NasdaqGS:FLNC,Fluence Energy,United States,ESS
+NSEI:EXIDEIND,Exide Industries,India,lead-acid batteries
+SEHK:3931,CALB,China,batteries
+SZSE:002074,Gotion,China,batteries
