@@ -30,7 +30,7 @@ G = ROOT / "data" / "screener" / "global"
 OUT = ROOT / "data" / "screener" / "global_data.csv"
 
 # Bloomberg 거래소 코드(국가 합성) → Cap IQ 거래소 접두어
-EX = {"JP": "TSE", "HK": "SEHK", "TT": "TWSE", "LN": "LSE", "FP": "ENXTPA", "GY": "XTRA", "GR": "XTRA",
+EX = {"TPEX": "TPEX", "BS": "BOVESPA", "CT": "TSX", "JP": "TSE", "HK": "SEHK", "TT": "TWSE", "LN": "LSE", "FP": "ENXTPA", "GY": "XTRA", "GR": "XTRA",
       "CN": "TSX", "AU": "ASX", "BZ": "BOVESPA", "SW": "SWX", "NA": "ENXTAM", "SS": "OM", "DC": "CPSE",
       "SM": "BME", "IM": "BIT", "AB": "SASE", "SJ": "JSE", "MM": "BMV", "IJ": "IDX", "TB": "SET",
       "MK": "KLSE", "SP": "SGX", "BB": "ENXTBR", "FH": "HLSE", "NO": "OB", "ID": "ISE", "IT": "TASE",

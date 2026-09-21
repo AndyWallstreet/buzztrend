@@ -1,5 +1,8 @@
 {
  "as_of": "2026-09-21",
- "universe": "직접 고른 글로벌 피어 (MSCI ACWI 전체는 수집 중)",
- "n_companies": 42
+ "universe": "MSCI ACWI (SPDR MSCI ACWI UCITS ETF 보유종목 기준, 한국 제외)",
+ "n_companies": 2047,
+ "n_fwd": 1637,
+ "n_input": 2168,
+ "n_resolved": 2047
 }
