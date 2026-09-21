@@ -90,11 +90,9 @@ div[data-testid="stNumberInput"] button svg { fill: #444 !important; }
 
 
 def zoomable(ch):
-    """드래그 = 이동, Shift+휠 = 확대/축소, 더블클릭 = 원래 화면.
-    .interactive()는 그냥 휠로 확대돼서, 페이지를 스크롤하다 차트 위를 지나가면
-    차트가 멋대로 축소·이동해 축이 음수로 가고 점이 사라졌다."""
-    return ch.add_params(alt.selection_interval(
-        bind="scales", zoom="wheel![event.shiftKey]"))
+    """드래그 = 이동, 마우스 휠 = 확대/축소, 더블클릭 = 원래 화면.
+    (2026-09: Shift+휠로 바꿨다가 PM 요청으로 그냥 휠로 되돌림 — 화면이 이상해지면 더블클릭)"""
+    return ch.add_params(alt.selection_interval(bind="scales", zoom="wheel!"))
 
 
 def subt(title: str, tip: str = ""):
@@ -417,7 +415,10 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
             # 선택한 종목은 주황색 라벨이 따로 붙으므로 파란 라벨은 생략
             hits = hits[hits["ticker"] != pick.iloc[0]["ticker"]]
         mine_add = hits["ticker"].isin(always) & (not show_all)
-        layers.append(alt.Chart(hits[~mine_add]).mark_text(
+        _lab = hits[~mine_add]
+        if len(_lab) > 80:          # 수백 개면 글자가 뭉쳐 못 읽음 → 툴팁으로만
+            _lab = _lab.iloc[0:0]
+        layers.append(alt.Chart(_lab).mark_text(
             dy=-10, fontSize=12, fontWeight="bold",
             color="#9ecbff" if dark else "#1a5cad",
         ).encode(x=x_col, y=y_col, text="company"))
@@ -432,7 +433,11 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
             ).encode(x=x_col, y=y_col, text="company"))
 
     if pick is not None and not pick.empty:
-        p = pick[pick[x_col].notna() & pick[y_col].notna()]
+        p = pick[pick[x_col].notna() & pick[y_col].notna()].copy()
+        _sc = f"{y_col}_src"
+        _b = p[_sc].iloc[0] if (len(p) and _sc in p.columns) else None
+        p["_basis"] = "2026E 추정 (포워드)" if _b == "2026E" else "LTM"
+        p["_lbl"] = p["company"] + ("  [2026E]" if _b == "2026E" else "  [LTM]")
         if not p.empty:
             layers.append(alt.Chart(p).mark_point(
                 shape="diamond", size=320, filled=True, color=C_PICK,
@@ -442,10 +447,11 @@ def scatter(df: pd.DataFrame, x_col: str, y_col: str, x_label: str, y_label: str
                            else alt.Undefined),
                      tooltip=[alt.Tooltip("company", title="회사"),
                               alt.Tooltip(x_col, title=x_label, format=".1%"),
-                              alt.Tooltip(y_col, title=y_label, format=".2f")]))
+                              alt.Tooltip(y_col, title=y_label, format=".2f"),
+                              alt.Tooltip("_basis", title="멀티플 기준")]))
             layers.append(alt.Chart(p).mark_text(
                 dy=-16, fontSize=13, fontWeight="bold", color=C_PICK,
-            ).encode(x=x_col, y=y_col, text="company"))
+            ).encode(x=x_col, y=y_col, text="_lbl"))
 
     if whatif is not None and pick is not None and not pick.empty:
         pv = pick.iloc[0]
@@ -608,16 +614,15 @@ with tab1:
         # (예: NFC는 CapIQ 분류가 Specialty Chemicals라 코스맥스·콜마 같은 화장품
         #  ODM(Personal Care Products)이 자동 피어에 안 잡힌다)
         subt("기업 수동 설정 (비교할 회사 직접 선택)",
-             "피어그룹 수동 설정이 비어 있으면 이 회사들과만 비교. 피어그룹도 골랐으면 그 그룹 + "
-             "이 회사들을 같이 표시(노란 링). 개수 제한 없음 — 조건 밖이어도 항상 표시됩니다.")
+             "위의 피어그룹 기준·수동 설정과 **같이** 쓸 수 있습니다(전부 합쳐서 표시, 직접 고른 회사는 노란 링). "
+             "이 회사들하고만 비교하려면 피어그룹 기준을 '(전체)'로 두고 수동 설정을 비우세요. 개수 제한 없음.")
         manual_cos = st.multiselect(
             "기업 수동 설정 (비교할 회사 직접 선택)", _stock_labels, key="ti_manual_cos",
             label_visibility="collapsed",
             placeholder="회사 이름 타이핑 — 예: Cosmax, Kolmar Korea, Cosmecca …",
-            help="피어그룹 수동 설정이 비어 있으면: 이 회사들과만 비교. "
-                 "피어그룹도 골랐으면: 그 그룹 + 이 회사들을 같이 표시(직접 고른 회사는 노란 링). "
-                 "개수 제한 없음 — 고른 회사는 PBR·ROIC 조건 밖이어도 차트에 전부 표시됩니다. "
-                 "비우면 원래대로 분류 기준 피어그룹을 씁니다.")
+            help="세 설정(피어그룹 기준 · 피어그룹 수동 설정 · 기업 수동 설정)은 하나만 써도, 둘·셋을 같이 써도 됩니다 — "
+                 "고른 것을 전부 합쳐서 한 차트에 표시합니다. 직접 고른 회사는 노란 링으로, 조건 밖이어도 항상 표시. "
+                 "이 회사들하고만 비교: 피어그룹 기준 = (전체), 수동 설정 = 비움.")
         st.markdown("##### 📌 주요변수 선택")
         auto1 = st.toggle("추천 변수 (상관 높은 조합 자동)", value=True, key="ti_auto",
                           help="켜져 있으면 피어그룹에서 우상향(질↑=멀티플↑) 상관이 "
@@ -650,20 +655,30 @@ with tab1:
             else:
                 class_col = CLASS_LEVELS[class_label]
                 peer_val = row[class_col] if manual_peer == AUTO_PEER else manual_peer
-            both = bool(manual_cos) and manual_peer != AUTO_PEER
-            if manual_cos and not both:
-                # 피어그룹은 자동 + 회사만 직접 → 고른 회사끼리만 비교
-                peers = df[df["label"].isin(set(manual_cos) | {pick_label})]
-                peer_val = f"직접 고른 회사 {len(peers) - 1}개 + 분석 대상"
-            elif both:
-                # 피어그룹도 직접 + 회사도 직접 → 둘 다 같이 (합집합)
-                grp = df[df[class_col] == peer_val]
-                picked = df[df["label"].isin(set(manual_cos) | {pick_label})]
-                peers = pd.concat([grp, picked]).drop_duplicates("ticker")
-                peer_val = (f"{peer_val} {len(grp)}개사 + 직접 고른 {len(manual_cos)}개"
-                            " (노란색, 조건 밖이어도 항상 표시)")
-            else:
-                peers = df[df[class_col] == peer_val]
+            # 세 설정은 전부 합집합으로 같이 쓴다 (2026-09-21 PM):
+            #   ① 피어그룹 기준 = 선택 종목이 속한 그룹 (기준이 '(전체)'면 없음)
+            #   ② 피어그룹 수동 설정 = 직접 고른 그룹   ③ 기업 수동 설정 = 직접 고른 회사
+            # 하나만 골라도, 둘·셋을 같이 골라도 된다. 아무것도 없으면 Industry Sector 자동.
+            parts, names = [], []
+            if class_label != ALL_LVL:
+                _own = row[class_col]
+                parts.append(df[df[class_col] == _own])
+                names.append(f"① {_own} {len(parts[-1])}개사")
+            if manual_peer != AUTO_PEER:
+                _g = df[df[class_col] == peer_val]
+                if not (class_label != ALL_LVL and peer_val == row[class_col]):
+                    parts.append(_g)
+                    names.append(f"② {peer_val} {len(_g)}개사")
+            if manual_cos:
+                parts.append(df[df["label"].isin(set(manual_cos))])
+                names.append(f"③ 직접 고른 {len(manual_cos)}개 (노란색, 조건 밖이어도 표시)")
+            if not parts:        # (전체) + 아무것도 안 고름 → 가장 넓은 자동 그룹
+                parts.append(df[df[class_col] == peer_val])
+                names.append(f"{peer_val} {len(parts[-1])}개사 (자동)")
+            only_cos = bool(manual_cos) and len(parts) == 1
+            both = bool(manual_cos) and not only_cos
+            peers = pd.concat(parts + [pick]).drop_duplicates("ticker")
+            peer_val = " + ".join(names)
             bx, by, br = best_relationship(peers, drop_outliers=out1, must_have=row)
             if auto1:
                 if br > 0:
@@ -730,9 +745,7 @@ with tab1:
 
         with c1:
             st.markdown(f"**{row['company']}**")
-            _tag = (" · 피어그룹 + 기업 수동 설정" if (manual_cos and manual_peer != AUTO_PEER)
-                    else " · 기업 수동 설정" if manual_cos
-                    else "" if manual_peer == AUTO_PEER else " · 수동 설정")
+            _tag = ""
             st.markdown(f"- 섹터: {row['sector']}\n- 산업: {row['industry']}\n"
                         f"- 피어그룹: {peer_val} ({len(peers)}개사){_tag}")
             rr = signed_r(good[x_col], good[y_col])
@@ -747,7 +760,7 @@ with tab1:
             st.altair_chart(scatter(peers, x_col, y_col, x_label1, y_label1,
                                     x_min1, y_max1, pick=pick, label_matches=True,
                                     drop_outliers=out1,
-                                    show_all=bool(manual_cos) and manual_peer == AUTO_PEER,
+                                    show_all=only_cos,
                                     whatif=whatif1,
                                     always=set(df.loc[df["label"].isin(manual_cos),
                                                       "ticker"])),
@@ -755,6 +768,10 @@ with tab1:
             mine = pick.iloc[0]
             vx = f"{mine[x_col]:.1%}" if pd.notna(mine[x_col]) else "없음"
             vy = f"{mine[y_col]:.2f}" if pd.notna(mine[y_col]) else "없음"
+            _src = mine.get(f"{y_col}_src")
+            if pd.notna(mine[y_col]):
+                vy += (" (2026E 추정 · 포워드)" if _src == "2026E"
+                       else " (LTM · 추정치 없음)" if _src == "LTM" else " (LTM)")
             if pd.isna(mine[x_col]) or pd.isna(mine[y_col]) or not mine[y_col] > 0:
                 st.warning(f"⚠️ {row['company']}은(는) {y_label1 if pd.isna(mine[y_col]) or not mine[y_col] > 0 else x_label1} "
                            "값이 없어(적자·데이터 없음) 차트에 표시되지 않습니다. "
