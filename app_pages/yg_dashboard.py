@@ -132,6 +132,68 @@ tab_prod, tab_tour, tab_cons = st.tabs(
 
 # ------------------------------------------------------------------ 제품 매출
 with tab_prod:
+    # ---------------- 앨범 발매 캘린더 (수기: data/yg/album_schedule.csv) ----------------
+    sch = load_circle("album_schedule.csv", _stamp("album_schedule.csv"))
+    if sch is not None and len(sch):
+        sub("앨범 발매 캘린더", "언제 · 누가 · 어떤 앨범 → 어느 분기 추정에 넣을지 · 점 = 발매 완료, 막대 = 예정 구간(날짜 미정)")
+        sc = sch.copy()
+        sc["start"] = pd.to_datetime(sc["start"])
+        sc["end"] = pd.to_datetime(sc["end"])
+        sc["done"] = sc["status"].eq("발매완료")
+        sc["표시"] = sc["title"] + " (" + sc["type"] + ")"
+        _today = pd.Timestamp.today().normalize()
+        _cm = load_circle("yg_albums_monthly.csv", _stamp("yg_albums_monthly.csv"))
+
+        def _first_month(key):
+            """Circle 월간 기준 첫 달 판매·누적 (만장)."""
+            if _cm is None or not isinstance(key, str) or not key:
+                return None, None
+            x = _cm[_cm["album"].astype(str).str.contains(key, regex=False)]
+            if not len(x):
+                return None, None
+            bym = x.groupby("period")["sales"].sum().sort_index()
+            return bym.iloc[0] / 1e4, bym.sum() / 1e4
+
+        _fm = sc["circle_key"].map(_first_month)
+        sc["첫 달 (만장)"] = [v[0] for v in _fm]
+        sc["누적 (만장)"] = [v[1] for v in _fm]
+        _grp_order = list(dict.fromkeys(sc.sort_values("start")["group"]))
+        _x = alt.X("start:T", title=None, axis=alt.Axis(format="%y-%m", tickCount=14),
+                   scale=alt.Scale(domain=[pd.Timestamp("2026-01-01"), pd.Timestamp("2027-06-30")], clamp=True))
+        _tt = ["group", "title", "type", "date_label", "status", "apply_q", "note"]
+        _stat_scale = alt.Scale(domain=["발매완료", "예정 · 날짜 미정", "미확정"],
+                                range=["#3fb27f", "#f2c744", "#8a97aa"])
+        pts = alt.Chart(sc[sc["done"]]).mark_point(filled=True, size=190, opacity=1).encode(
+            x=_x, y=alt.Y("group:N", sort=_grp_order, title=None),
+            color=alt.Color("status:N", title=None, scale=_stat_scale, legend=alt.Legend(orient="top")),
+            shape=alt.Shape("physical:N", title="피지컬 앨범", scale=alt.Scale(domain=["Y", "N"], range=["circle", "diamond"]),
+                            legend=alt.Legend(orient="top")),
+            tooltip=_tt)
+        win = alt.Chart(sc[~sc["done"]]).mark_bar(height=14, opacity=0.75, cornerRadius=3).encode(
+            x=_x, x2="end:T", y=alt.Y("group:N", sort=_grp_order, title=None),
+            color=alt.Color("status:N", title=None, scale=_stat_scale), tooltip=_tt)
+        lab = alt.Chart(sc).mark_text(dy=-15, fontSize=10, color="#dde5f0", align="left").encode(
+            x=_x, y=alt.Y("group:N", sort=_grp_order), text="title:N")
+        now = alt.Chart(pd.DataFrame({"d": [_today]})).mark_rule(color="#e05252", strokeDash=[4, 3]).encode(x="d:T")
+        st.altair_chart(alt.layer(win, pts, lab, now).properties(height=60 + 52 * len(_grp_order)),
+                        use_container_width=True)
+        show = sc.sort_values("start")[["date_label", "group", "title", "type", "physical", "status", "apply_q",
+                                        "첫 달 (만장)", "누적 (만장)", "note", "source", "url"]].rename(columns={
+            "date_label": "발매일", "group": "그룹", "title": "앨범", "type": "종류", "physical": "피지컬",
+            "status": "상태", "apply_q": "추정 반영 분기", "note": "메모", "source": "출처", "url": "링크"})
+        st.dataframe(show, hide_index=True, use_container_width=True,
+                     column_config={"첫 달 (만장)": st.column_config.NumberColumn(format="%.1f"),
+                                    "누적 (만장)": st.column_config.NumberColumn(format="%.1f"),
+                                    "링크": st.column_config.LinkColumn(display_text="열기")})
+        _d = sc[sc["done"] & sc["첫 달 (만장)"].notna() & (sc["누적 (만장)"] > 10)]
+        _share = (_d["첫 달 (만장)"].sum() / _d["누적 (만장)"].sum()) if len(_d) else None
+        st.caption("**추정에 넣는 법**: Circle은 출하 기준이라 선주문 물량이 **발매 달에 한꺼번에** 잡힘"
+                   + (f" — 2026년 주요 3개 앨범은 누적의 {_share:.0%}가 첫 달." if _share else ".")
+                   + " → 앨범 판매는 **발매일이 속한 분기**에 넣을 것. 월말 발매면 일부가 다음 달로 넘어감. "
+                     "디지털 싱글(◆)은 판매량 없음. 빨간 점선 = 오늘. 노랑·회색 막대는 공식 날짜가 없어 구간으로 표시 — "
+                   f"확정 공지가 나오면 album_schedule.csv 를 고칠 것 (마지막 확인 {sc['checked'].max()}).")
+        st.divider()
+
     alb = load_album(_stamp("album_sales.csv"))
     if alb is None or not len(alb):
         st.info("앨범 데이터가 없습니다 — `python yg_album_export.py` 를 먼저 실행하세요.")
@@ -215,68 +277,6 @@ with tab_prod:
         st.caption("실물 앨범 판매량은 Circle Chart(구 가온) 집계 기준이며, 워크북 "
                    "Album 시트에서 가져옵니다. 매출 추정은 단순히 판매량 × ASP라 "
                    "실제 제품 매출(음원·MD 포함)과는 다릅니다.")
-
-    # ---------------- 앨범 발매 캘린더 (수기: data/yg/album_schedule.csv) ----------------
-    sch = load_circle("album_schedule.csv", _stamp("album_schedule.csv"))
-    if sch is not None and len(sch):
-        st.divider()
-        sub("앨범 발매 캘린더", "언제 · 누가 · 어떤 앨범 → 어느 분기 추정에 넣을지 · 점 = 발매 완료, 막대 = 예정 구간(날짜 미정)")
-        sc = sch.copy()
-        sc["start"] = pd.to_datetime(sc["start"])
-        sc["end"] = pd.to_datetime(sc["end"])
-        sc["done"] = sc["status"].eq("발매완료")
-        sc["표시"] = sc["title"] + " (" + sc["type"] + ")"
-        _today = pd.Timestamp.today().normalize()
-        _cm = load_circle("yg_albums_monthly.csv", _stamp("yg_albums_monthly.csv"))
-
-        def _first_month(key):
-            """Circle 월간 기준 첫 달 판매·누적 (만장)."""
-            if _cm is None or not isinstance(key, str) or not key:
-                return None, None
-            x = _cm[_cm["album"].astype(str).str.contains(key, regex=False)]
-            if not len(x):
-                return None, None
-            bym = x.groupby("period")["sales"].sum().sort_index()
-            return bym.iloc[0] / 1e4, bym.sum() / 1e4
-
-        _fm = sc["circle_key"].map(_first_month)
-        sc["첫 달 (만장)"] = [v[0] for v in _fm]
-        sc["누적 (만장)"] = [v[1] for v in _fm]
-        _grp_order = list(dict.fromkeys(sc.sort_values("start")["group"]))
-        _x = alt.X("start:T", title=None, axis=alt.Axis(format="%y-%m", tickCount=14),
-                   scale=alt.Scale(domain=[pd.Timestamp("2026-01-01"), pd.Timestamp("2027-06-30")], clamp=True))
-        _tt = ["group", "title", "type", "date_label", "status", "apply_q", "note"]
-        _stat_scale = alt.Scale(domain=["발매완료", "예정 · 날짜 미정", "미확정"],
-                                range=["#3fb27f", "#f2c744", "#8a97aa"])
-        pts = alt.Chart(sc[sc["done"]]).mark_point(filled=True, size=190, opacity=1).encode(
-            x=_x, y=alt.Y("group:N", sort=_grp_order, title=None),
-            color=alt.Color("status:N", title=None, scale=_stat_scale, legend=alt.Legend(orient="top")),
-            shape=alt.Shape("physical:N", title="피지컬 앨범", scale=alt.Scale(domain=["Y", "N"], range=["circle", "diamond"]),
-                            legend=alt.Legend(orient="top")),
-            tooltip=_tt)
-        win = alt.Chart(sc[~sc["done"]]).mark_bar(height=14, opacity=0.75, cornerRadius=3).encode(
-            x=_x, x2="end:T", y=alt.Y("group:N", sort=_grp_order, title=None),
-            color=alt.Color("status:N", title=None, scale=_stat_scale), tooltip=_tt)
-        lab = alt.Chart(sc).mark_text(dy=-15, fontSize=10, color="#dde5f0", align="left").encode(
-            x=_x, y=alt.Y("group:N", sort=_grp_order), text="title:N")
-        now = alt.Chart(pd.DataFrame({"d": [_today]})).mark_rule(color="#e05252", strokeDash=[4, 3]).encode(x="d:T")
-        st.altair_chart(alt.layer(win, pts, lab, now).properties(height=60 + 52 * len(_grp_order)),
-                        use_container_width=True)
-        show = sc.sort_values("start")[["date_label", "group", "title", "type", "physical", "status", "apply_q",
-                                        "첫 달 (만장)", "누적 (만장)", "note", "source", "url"]].rename(columns={
-            "date_label": "발매일", "group": "그룹", "title": "앨범", "type": "종류", "physical": "피지컬",
-            "status": "상태", "apply_q": "추정 반영 분기", "note": "메모", "source": "출처", "url": "링크"})
-        st.dataframe(show, hide_index=True, use_container_width=True,
-                     column_config={"첫 달 (만장)": st.column_config.NumberColumn(format="%.1f"),
-                                    "누적 (만장)": st.column_config.NumberColumn(format="%.1f"),
-                                    "링크": st.column_config.LinkColumn(display_text="열기")})
-        _d = sc[sc["done"] & sc["첫 달 (만장)"].notna() & (sc["누적 (만장)"] > 10)]
-        _share = (_d["첫 달 (만장)"].sum() / _d["누적 (만장)"].sum()) if len(_d) else None
-        st.caption("**추정에 넣는 법**: Circle은 출하 기준이라 선주문 물량이 **발매 달에 한꺼번에** 잡힘"
-                   + (f" — 2026년 주요 3개 앨범은 누적의 {_share:.0%}가 첫 달." if _share else ".")
-                   + " → 앨범 판매는 **발매일이 속한 분기**에 넣을 것. 월말 발매면 일부가 다음 달로 넘어감. "
-                     "디지털 싱글(◆)은 판매량 없음. 빨간 점선 = 오늘. 노랑·회색 막대는 공식 날짜가 없어 구간으로 표시 — "
-                   f"확정 공지가 나오면 album_schedule.csv 를 고칠 것 (마지막 확인 {sc['checked'].max()}).")
 
     # ---------------- 앨범별 상세 (Circle Chart 자동 수집) ----------------
     st.divider()
