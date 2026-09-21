@@ -295,15 +295,26 @@ with tab_prod:
             qq = cm.copy()
             qq["분기"] = "Q" + ((qq["_m"] - 1) // 3 + 1).astype(str)
             qg = qq.groupby(["분기", "group"], as_index=False)["sales"].sum()
+            qg["구분"] = "확정(월간)"
+            if pend is not None and len(pend):      # 월간 미발표 달 = 주간 잠정치를 옅게 얹음
+                pq = pend.copy()
+                pq["분기"] = "Q" + ((pq["_m"] - 1) // 3 + 1).astype(str)
+                pq = pq.groupby(["분기", "group"], as_index=False)["sales"].sum()
+                pq["구분"] = "잠정(주간)"
+                qg = pd.concat([qg, pq], ignore_index=True)
             qg["만장"] = qg["sales"] / 1e4
-            bars = alt.Chart(qg).mark_bar(opacity=0.9).encode(
+            bars = alt.Chart(qg).mark_bar().encode(
+                opacity=alt.Opacity("구분:N", title=None,
+                                    scale=alt.Scale(domain=["확정(월간)", "잠정(주간)"], range=[0.92, 0.45]),
+                                    legend=alt.Legend(orient="top")),
+                order=alt.Order("구분:N"),
                 x=alt.X("분기:N", title=None,
                         scale=alt.Scale(domain=["Q1", "Q2", "Q3", "Q4"])),
                 y=alt.Y("만장:Q", title="분기 판매 (만장)", stack=True),
                 color=alt.Color("group:N", title=None,
                                 scale=artist_scale(sorted(qg["group"].unique())),
                                 legend=alt.Legend(orient="top")),
-                tooltip=["분기", "group", alt.Tooltip("만장", format=",.1f")])
+                tooltip=["분기", "구분", "group", alt.Tooltip("만장", format=",.1f")])
             _qt = qg.groupby("분기", as_index=False)["만장"].sum()
             lab = alt.Chart(_qt).mark_text(dy=-8, color="#dde5f0",
                                            fontSize=11).encode(
@@ -312,9 +323,9 @@ with tab_prod:
                 y="만장:Q", text=alt.Text("만장:Q", format=",.1f"))
             st.altair_chart(alt.layer(bars, lab).properties(height=300),
                             use_container_width=True)
-            st.caption(f"**읽는법**: 확정 월간({last_pub_m}월까지)만 합산한 분기 "
-                       "롤업 — 진행 중 분기는 미완성. 분기 3개월이 다 발표되면 "
-                       "막대가 완성됨(월간→분기 계단). 반기·연간은 위 지표 카드.")
+            st.caption(f"**읽는법**: 진한 색 = 확정 월간({last_pub_m}월까지), 옅은 색 = 월간 미발표 달의 "
+                       "주간 차트 잠정 합산. 진행 중 분기는 미완성 — 월간이 발표되면 옅은 부분이 확정치로 바뀜. "
+                       "Circle은 톱100만 공개라 순위 밖 구작 판매는 빠짐(월 100위 컷 약 0.5만장) → 실제보다 조금 낮음.")
 
         # ---- 주간 상세 (최근 펄스) — 그룹 라벨 + 상위 5개만
         if wk is not None and len(wk):
