@@ -205,7 +205,26 @@ def load_global(stamp: float):
     g["region"] = "Global"
     g["company"] = g["company"].astype(str) + " [" + g["country"].fillna("").astype(str) + "]"
     g["label"] = g["company"] + " (" + g["ticker"] + ")"
-    g["naver"] = "https://www.google.com/finance/quote/" + g["ticker"].str.split(":").str[::-1].str.join(":")
+    # 점 클릭 → 구글 파이낸스. Cap IQ 거래소 코드와 구글 코드가 달라서 변환한다
+    # (2145:SEHK 는 없는 페이지 → 2145:HKG). 모르는 거래소는 구글 검색으로.
+    _GF = {"NYSE": "NYSE", "NASDAQGS": "NASDAQ", "NASDAQGM": "NASDAQ", "NASDAQCM": "NASDAQ", "NYSEAM": "NYSEAMERICAN",
+           "SEHK": "HKG", "TSE": "TYO", "SHSE": "SHA", "SZSE": "SHE", "TWSE": "TPE", "TPEX": "TPE", "NSEI": "NSE",
+           "BSE": "BOM", "LSE": "LON", "ENXTPA": "EPA", "XTRA": "ETR", "ENXTAM": "AMS", "SWX": "SWX", "BME": "BME",
+           "BIT": "BIT", "OM": "STO", "CPSE": "CPH", "HLSE": "HEL", "OB": "OSL", "ENXTBR": "EBR", "ASX": "ASX",
+           "TSX": "TSE", "BOVESPA": "BVMF", "BMV": "BMV", "SGX": "SGX", "SET": "BKK", "IDX": "IDX", "KLSE": "KLSE",
+           "JSE": "JSE", "SASE": "TADAWUL", "TASE": "TLV", "WSE": "WSE", "IBSE": "IST", "NZSE": "NZE", "WBAG": "VIE",
+           "ENXTLS": "ELI", "ATSE": "ATH"}
+
+    def _gf(t):
+        ex, _, tk = str(t).partition(":")
+        code = _GF.get(ex.upper())
+        if not code or not tk:
+            return "https://www.google.com/search?q=" + str(t).replace(":", "+") + "+stock"
+        if code == "HKG":
+            tk = tk.zfill(4)
+        return f"https://www.google.com/finance/quote/{tk}:{code}"
+
+    g["naver"] = g["ticker"].map(_gf)
     gm = {}
     mp = DATA / "global_meta.json"
     if mp.exists():
