@@ -182,13 +182,90 @@ with tab2:
                                 "평균 단가 (원/장)": st.column_config.NumberColumn(format="%,.0f")})
 
 with tab3:
-    sub("YG PLUS 가 유통한 앨범 — 누적 상위", "써클 월간 톱100 누적 합 · 2011-01~")
-    n = st.slider("몇 개까지", 10, 100, 30, 10, key="yp_top")
-    t = top.head(n).copy()
-    t["표시"] = t["artist"].str.slice(0, 18) + " · " + t["album"].str.slice(0, 30)
-    ch = alt.Chart(t).mark_bar(color=C_BAR).encode(
-        y=alt.Y("표시:N", sort="-x", title=None), x=alt.X("units:Q", title="누적 물량 (장)"),
-        tooltip=["artist", "album", alt.Tooltip("units", title="장", format=",.0f"), "first", "last"])
-    st.altair_chart(ch.properties(height=28 * n + 40), use_container_width=True)
-    st.caption("하이브 소속 아티스트도 많습니다 — YG PLUS 는 남의 음악도 유통하기 때문입니다. "
+    am = get("albums_month.csv")
+    aw = get("albums_week.csv")
+    uw = get("units_week.csv")
+
+    UNITS = ["누적 (전체 기간)", "연간", "반기", "분기", "월간", "주간"]
+    opts = [u for u in UNITS if u != "주간" or (aw is not None and len(aw))]
+    unit = st.radio("기간 단위", opts, index=0, horizontal=True, key="yp_gran",
+                    help="누적 = 2011년부터 전부 합친 순위. 나머지는 그 기간 안에서만 집계합니다. "
+                         "주간은 써클 주간차트(일~토) 기준이라 매주 목요일 발표 후 갱신됩니다.")
+
+    def periods(df, kind):
+        """월별 표 → 선택한 단위의 기간 라벨 컬럼을 붙인다."""
+        d = df.copy()
+        y = d["month"].str[:4]
+        mm = d["month"].str[5:7].astype(int)
+        if kind == "연간":
+            d["기간"] = y
+        elif kind == "반기":
+            d["기간"] = y + " " + np.where(mm <= 6, "상반기", "하반기")
+        elif kind == "분기":
+            d["기간"] = y + "Q" + ((mm - 1) // 3 + 1).astype(str)
+        else:
+            d["기간"] = d["month"]
+        return d
+
+    if unit == "주간":
+        src = aw.rename(columns={"start": "기간"}).copy()
+        src["라벨"] = src["기간"] + " ~ " + src["end"] + "  (" + src["year"].astype(str) + "-W" + src["week"].astype(str).str.zfill(2) + ")"
+        lab = dict(zip(src["기간"], src["라벨"]))
+        ts = uw.rename(columns={"start": "기간", "ygplus_units": "units", "market_units": "market"}).copy()
+    elif unit == "누적 (전체 기간)":
+        src = am.copy()
+        src["기간"] = "전체"
+        lab = {"전체": f"전체 누적 ({am['month'].min()} ~ {am['month'].max()})"}
+        ts = None
+    else:
+        src = periods(am, unit)
+        lab = {k: k for k in src["기간"].unique()}
+        mu = m.rename(columns={"ygplus_units": "units", "market_units": "market"})
+        ts = periods(mu, unit).groupby("기간", as_index=False).agg(units=("units", "sum"), market=("market", "sum"))
+        ts["share"] = ts["units"] / ts["market"]
+
+    # ---- 기간별 물량 추이 (누적 모드에서는 생략)
+    if ts is not None and len(ts):
+        sub(f"{unit} 유통 물량 추이", "YG PLUS 가 유통한 앨범 출하량 · 막대 = 물량, 선 = 써클 톱100 안 점유율")
+        tt = ts.copy()
+        tt["만장"] = tt["units"] / 1e4
+        nlast = st.slider("최근 몇 개 기간", 6, min(len(tt), 200), min(len(tt), 24 if unit != "주간" else 60),
+                          key="yp_nlast")
+        tt = tt.sort_values("기간").tail(nlast)
+        xenc = alt.X("기간:O", title=None, axis=alt.Axis(labelAngle=-45,
+                                                        labelOverlap="greedy" if unit == "주간" else False))
+        bars = alt.Chart(tt).mark_bar(color=C_BAR, opacity=0.85).encode(
+            x=xenc, y=alt.Y("만장:Q", title="유통 물량 (만장)"),
+            tooltip=["기간", alt.Tooltip("만장", format=",.1f"), alt.Tooltip("share", title="점유율", format=".1%")])
+        line = alt.Chart(tt).mark_line(color=C_GOLD, size=2, point=True).encode(
+            x=xenc, y=alt.Y("share:Q", title="점유율", axis=alt.Axis(format="%")),
+            tooltip=["기간", alt.Tooltip("share", format=".1%")])
+        st.altair_chart(alt.layer(bars, line).resolve_scale(y="independent").properties(height=340),
+                        use_container_width=True)
+
+    # ---- 그 기간의 앨범 순위
+    keys = sorted(src["기간"].unique(), reverse=True)
+    if unit == "누적 (전체 기간)":
+        sel = keys[0]
+        sub("YG PLUS 가 유통한 앨범 — 누적 상위", f"써클 월간 톱100 누적 합 · {am['month'].min()} ~ {am['month'].max()}")
+    else:
+        c1_, c2_ = st.columns([2, 1])
+        with c1_:
+            sel = st.selectbox(f"{unit} 선택", keys, index=0, format_func=lambda k: lab.get(k, k), key="yp_period")
+        sub(f"{lab.get(sel, sel)} — 유통 앨범 순위", "그 기간에 잡힌 출하량 기준")
+    cur = src[src["기간"] == sel].groupby(["artist", "album"], as_index=False)["units"].sum()
+    cur = cur.sort_values("units", ascending=False)
+    n = st.slider("몇 개까지", 5, 100, min(30, max(5, len(cur))), 5, key="yp_top")
+    t2 = cur.head(n).copy()
+    t2["표시"] = t2["artist"].str.slice(0, 18) + " · " + t2["album"].str.slice(0, 30)
+    st.altair_chart(alt.Chart(t2).mark_bar(color=C_BAR).encode(
+        y=alt.Y("표시:N", sort="-x", title=None), x=alt.X("units:Q", title="물량 (장)"),
+        tooltip=["artist", "album", alt.Tooltip("units", title="장", format=",.0f")]
+    ).properties(height=26 * len(t2) + 40), use_container_width=True)
+    st.caption(f"{lab.get(sel, sel)} 합계 {cur['units'].sum():,.0f}장 · 앨범 {len(cur)}종. "
+               "하이브 소속 아티스트도 많습니다 — YG PLUS 는 남의 음악도 유통하기 때문입니다. "
                "2025-09 하이브 지분 매각 이후 이 물량이 빠지는지가 관전 포인트입니다.")
+    with st.expander("표로 보기 · 내려받기"):
+        st.dataframe(cur.rename(columns={"artist": "아티스트", "album": "앨범", "units": "물량(장)"}),
+                     hide_index=True, use_container_width=True,
+                     column_config={"물량(장)": st.column_config.NumberColumn(format="%,.0f")})

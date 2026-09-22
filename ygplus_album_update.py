@@ -10,6 +10,9 @@ Usage:  python ygplus_album_update.py
         quarterly.csv       분기별 물량·매출·장당 단가
         annual.csv          연도별 같은 표
         top_albums.csv      YG PLUS 유통 앨범 상위 (누적)
+        albums_month.csv    month,artist,album,units        (YG PLUS 유통분만)
+        albums_week.csv     start,end,year,week,artist,album,units
+        units_week.csv      start,end,ygplus_units,market_units,share
         meta.json
 
 용어: '장당 단가' = 그 분기 매출 ÷ 그 분기 YG PLUS 유통 출하량(장).
@@ -125,6 +128,22 @@ def main():
                                                last=("month", "max"), months=("month", "nunique"))
            .sort_values("units", ascending=False).reset_index())
     top.head(300).to_csv(OUT / "top_albums.csv", index=False, encoding="utf-8-sig")
+    (yg.groupby(["month", "artist", "album"], as_index=False)["sales"].sum()
+       .rename(columns={"sales": "units"})).to_csv(OUT / "albums_month.csv", index=False, encoding="utf-8-sig")
+
+    wp = ROOT / "data" / "yg" / "circle_weekly_all.csv"
+    if wp.exists():                                    # 주간 (전 유통사) → YG PLUS 분만 추림
+        w = pd.read_csv(wp)
+        w["dist"] = w["dist"].astype(str).str.strip()
+        wy = w[w["dist"].str.upper().str.replace(" ", "") == DIST.replace(" ", "")]
+        (wy.groupby(["start", "end", "year", "week", "artist", "album"], as_index=False)["sales"].sum()
+           .rename(columns={"sales": "units"})).to_csv(OUT / "albums_week.csv", index=False, encoding="utf-8-sig")
+        uw = pd.DataFrame({"ygplus_units": wy.groupby("start")["sales"].sum(),
+                           "market_units": w.groupby("start")["sales"].sum()})
+        uw["share"] = uw["ygplus_units"] / uw["market_units"]
+        uw.index.name = "start"
+        uw.reset_index().to_csv(OUT / "units_week.csv", index=False, encoding="utf-8-sig")
+        print(f"주간: {wy['start'].min()}~{wy['end'].max()}, YG PLUS {len(wy):,}행")
 
     (OUT / "meta.json").write_text(json.dumps({
         "as_of": time.strftime("%Y-%m-%d"),
