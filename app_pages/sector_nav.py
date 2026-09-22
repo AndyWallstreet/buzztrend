@@ -45,6 +45,9 @@ SECTORS = [
         ("YG 엔터 (122870)", [
             ("yg", "🎵 YG 트래커"),
         ]),
+        ("YG PLUS (037270)", [
+            ("ygplus", "💿 앨범유통 물량 vs 매출"),
+        ]),
     ]),
     ("consumer", "Consumer", []),
     ("logi", "Logistics / Commerce", []),

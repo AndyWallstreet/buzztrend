@@ -146,6 +146,8 @@ h1, h2, h3 { letter-spacing: -0.01em; }
           <a href="하츄핑2_개봉후" target="_self">하츄핑2 개봉 후</a>
           <span class="lk-co">YG Entertainment (122870)</span>
           <a href="yg" target="_self">YG 트래커 (앨범·콘서트·컨센서스)</a>
+          <span class="lk-co">YG PLUS (037270)</span>
+          <a href="ygplus-album" target="_self">앨범유통 물량 vs 매출</a>
         </div>
       </div>
       <a href="consumer" target="_self">Consumer</a>
@@ -211,6 +213,8 @@ pg_boxoffice = st.Page("app_pages/hatchuping_boxoffice.py", title="└ 하츄핑
 pg_yg = st.Page("app_pages/yg_dashboard.py", title="└ YG 트래커",
                 url_path="yg")
 # 예전 북마크가 살아 있도록 개별 투어 페이지 URL은 그대로 둔다
+pg_ygplus = st.Page("app_pages/ygplus_album.py", title="└ YG플러스 앨범유통",
+                    url_path="ygplus-album")
 pg_bigbang = st.Page("app_pages/yg_bigbang.py", title="└ BIGBANG Tour 2026",
                      url_path="bigbang_tour")
 pg_babymon = st.Page("app_pages/yg_babymonster.py", title="└ BABYMONSTER 2026",
@@ -227,6 +231,8 @@ def _entertainment():
     st.caption("사랑의 하츄핑 2: 고래보석의 전설 (2026-08-05 개봉)")
     st.subheader("YG Entertainment (122870)", divider="orange")
     st.page_link(pg_yg, label="YG 트래커 — 📀 제품(앨범) · 🎤 콘서트 · 🎯 컨센서스 비트")
+    st.subheader("YG PLUS (037270)", divider="orange")
+    st.page_link(pg_ygplus, label="앨범유통 물량 vs 매출 — 💿 써클 유통 물량 · 장당 단가")
     st.caption("앨범 판매량(Circle Chart), 투어 좌석·가격 가정, 일별 컨센서스: "
                "YG 분석 워크북")
 
@@ -247,11 +253,11 @@ sector_nav.register({"batt": pg_batt, "bio": pg_bio, "pshort": pg_pshort,
                      "beauty": pg_beauty, "cosexp": pg_cosexp, "cossd": pg_cossd,
                      "ent": pg_ent, "consumer": pg_consumer, "logi": pg_logi,
                      "steel": pg_steel, "trailer": pg_trailer,
-                     "boxoffice": pg_boxoffice, "yg": pg_yg})
+                     "boxoffice": pg_boxoffice, "yg": pg_yg, "ygplus": pg_ygplus})
 
 _PAGES = {"buzz": pg_buzz, "value": pg_value, "bio": pg_bio, "beauty": pg_beauty,
           "ent": pg_ent, "trailer": pg_trailer, "boxoffice": pg_boxoffice,
-          "yg": pg_yg, "bigbang": pg_bigbang, "babymon": pg_babymon,
+          "yg": pg_yg, "ygplus": pg_ygplus, "bigbang": pg_bigbang, "babymon": pg_babymon,
           "consumer": pg_consumer, "logi": pg_logi, "steel": pg_steel}
 
 
@@ -268,7 +274,7 @@ nav = st.navigation({
     "Screener": [pg_buzz, pg_value, pg_stock, pg_watch],
     "Sector Watch": [pg_batt, pg_bio, pg_pshort, pg_beauty, pg_cosexp, pg_cossd, pg_ent, pg_trailer,
                      pg_boxoffice,
-                     pg_yg, pg_bigbang, pg_babymon,
+                     pg_yg, pg_ygplus, pg_bigbang, pg_babymon,
                      pg_consumer, pg_logi, pg_steel],
 }, position="hidden")
 nav.run()
