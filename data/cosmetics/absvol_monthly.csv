@@ -726,6 +726,7 @@ month,brand,keyword,searches,geo
 2026-05,cosrx,cosrx,8100,AU
 2026-06,cosrx,cosrx,6600,AU
 2026-07,cosrx,cosrx,6600,AU
+2026-08,cosrx,cosrx,8100,AU
 2019-06,d'alba,d'alba,70,AU
 2019-07,d'alba,d'alba,70,AU
 2019-08,d'alba,d'alba,70,AU
@@ -1147,6 +1148,7 @@ month,brand,keyword,searches,geo
 2026-05,manyo,manyo,390,AU
 2026-06,manyo,manyo,390,AU
 2026-07,manyo,manyo,480,AU
+2026-08,manyo,manyo,480,AU
 2018-10,medicube,medicube,1300,AU
 2018-11,medicube,medicube,880,AU
 2018-12,medicube,medicube,880,AU
@@ -1682,6 +1684,7 @@ month,brand,keyword,searches,geo
 2026-05,skin1004,skin1004,4400,AU
 2026-06,skin1004,skin1004,4400,AU
 2026-07,skin1004,skin1004,5400,AU
+2026-08,skin1004,skin1004,5400,AU
 2019-11,tirtir,tirtir,20,AU
 2019-12,tirtir,tirtir,30,AU
 2020-01,tirtir,tirtir,30,AU
@@ -2122,6 +2125,7 @@ month,brand,keyword,searches,geo
 2026-05,cosrx,cosrx,3600,BR
 2026-06,cosrx,cosrx,3600,BR
 2026-07,cosrx,cosrx,3600,BR
+2026-08,cosrx,cosrx,4400,BR
 2018-04,isntree,isntree,10,BR
 2018-05,isntree,isntree,10,BR
 2018-06,isntree,isntree,10,BR
@@ -4857,6 +4861,7 @@ month,brand,keyword,searches,geo
 2026-05,atopalm,atopalm,140,DE
 2026-06,atopalm,atopalm,140,DE
 2026-07,atopalm,atopalm,140,DE
+2026-08,atopalm,atopalm,110,DE
 2018-11,atopalm,atopalm mle cream,10,DE
 2018-12,atopalm,atopalm mle cream,10,DE
 2019-01,atopalm,atopalm mle cream,10,DE
@@ -4950,6 +4955,7 @@ month,brand,keyword,searches,geo
 2026-05,atopalm,atopalm mle cream,170,DE
 2026-06,atopalm,atopalm mle cream,110,DE
 2026-07,atopalm,atopalm mle cream,140,DE
+2026-08,atopalm,atopalm mle cream,140,DE
 2018-04,beauty of joseon,beauty of joseon,20,DE
 2018-05,beauty of joseon,beauty of joseon,10,DE
 2018-06,beauty of joseon,beauty of joseon,10,DE
@@ -5586,6 +5592,7 @@ month,brand,keyword,searches,geo
 2026-05,madeca cream,madeca cream,3600,DE
 2026-06,madeca cream,madeca cream,3600,DE
 2026-07,madeca cream,madeca cream,5400,DE
+2026-08,madeca cream,madeca cream,6600,DE
 2018-12,manyo,manyo,390,DE
 2019-01,manyo,manyo,390,DE
 2019-02,manyo,manyo,320,DE
@@ -5773,6 +5780,7 @@ month,brand,keyword,searches,geo
 2026-05,medicube,medicube,40500,DE
 2026-06,medicube,medicube,40500,DE
 2026-07,medicube,medicube,49500,DE
+2026-08,medicube,medicube,60500,DE
 2018-08,mixsoon,mixsoon,0,DE
 2018-09,mixsoon,mixsoon,0,DE
 2018-10,mixsoon,mixsoon,0,DE
@@ -6247,6 +6255,7 @@ month,brand,keyword,searches,geo
 2026-05,tirtir,tirtir,4400,DE
 2026-06,tirtir,tirtir,4400,DE
 2026-07,tirtir,tirtir,3600,DE
+2026-08,tirtir,tirtir,3600,DE
 2020-03,torriden,torriden,10,DE
 2020-04,torriden,torriden,10,DE
 2020-05,torriden,torriden,10,DE
@@ -6499,6 +6508,7 @@ month,brand,keyword,searches,geo
 2026-05,anua,anua,9900,FR
 2026-06,anua,anua,9900,FR
 2026-07,anua,anua,9900,FR
+2026-08,anua,anua,9900,FR
 2018-05,atopalm,atopalm,10,FR
 2018-06,atopalm,atopalm,10,FR
 2018-07,atopalm,atopalm,10,FR
@@ -6785,6 +6795,7 @@ month,brand,keyword,searches,geo
 2026-05,beauty of joseon,beauty of joseon,27100,FR
 2026-06,beauty of joseon,beauty of joseon,27100,FR
 2026-07,beauty of joseon,beauty of joseon,27100,FR
+2026-08,beauty of joseon,beauty of joseon,27100,FR
 2020-05,biodance,biodance,50,FR
 2020-06,biodance,biodance,70,FR
 2020-07,biodance,biodance,90,FR
@@ -6953,7 +6964,8 @@ month,brand,keyword,searches,geo
 2026-04,cosrx,cosrx,8100,FR
 2026-05,cosrx,cosrx,8100,FR
 2026-06,cosrx,cosrx,6600,FR
-2026-07,cosrx,cosrx,5400,FR
+2026-07,cosrx,cosrx,6600,FR
+2026-08,cosrx,cosrx,6600,FR
 2018-11,d'alba,d'alba,50,FR
 2018-12,d'alba,d'alba,50,FR
 2019-01,d'alba,d'alba,40,FR
@@ -7243,6 +7255,7 @@ month,brand,keyword,searches,geo
 2026-05,laneige,laneige,14800,FR
 2026-06,laneige,laneige,12100,FR
 2026-07,laneige,laneige,14800,FR
+2026-08,laneige,laneige,14800,FR
 2018-11,madeca cream,centellian 24,10,FR
 2018-12,madeca cream,centellian 24,20,FR
 2019-01,madeca cream,centellian 24,10,FR
@@ -7462,6 +7475,7 @@ month,brand,keyword,searches,geo
 2026-05,manyo,manyo,480,FR
 2026-06,manyo,manyo,320,FR
 2026-07,manyo,manyo,390,FR
+2026-08,manyo,manyo,390,FR
 2018-10,medicube,medicube,40,FR
 2018-11,medicube,medicube,20,FR
 2018-12,medicube,medicube,40,FR
@@ -7905,6 +7919,7 @@ month,brand,keyword,searches,geo
 2026-05,round lab,round lab,1900,FR
 2026-06,round lab,round lab,1600,FR
 2026-07,round lab,round lab,1600,FR
+2026-08,round lab,round lab,1900,FR
 2019-08,skin1004,skin1004,10,FR
 2019-09,skin1004,skin1004,20,FR
 2019-10,skin1004,skin1004,20,FR
@@ -8062,6 +8077,7 @@ month,brand,keyword,searches,geo
 2026-05,tirtir,tirtir,3600,FR
 2026-06,tirtir,tirtir,3600,FR
 2026-07,tirtir,tirtir,2400,FR
+2026-08,tirtir,tirtir,2900,FR
 2020-02,torriden,torriden,10,FR
 2020-03,torriden,torriden,20,FR
 2020-04,torriden,torriden,10,FR
@@ -8234,6 +8250,7 @@ month,brand,keyword,searches,geo
 2026-05,abib,abib,1900,GB
 2026-06,abib,abib,1600,GB
 2026-07,abib,abib,1600,GB
+2026-08,abib,abib,1600,GB
 2019-12,anua,anua,90,GB
 2020-01,anua,anua,110,GB
 2020-02,anua,anua,110,GB
@@ -8972,6 +8989,7 @@ month,brand,keyword,searches,geo
 2026-05,d'alba,d'alba,5400,GB
 2026-06,d'alba,d'alba,4400,GB
 2026-07,d'alba,d'alba,3600,GB
+2026-08,d'alba,d'alba,3600,GB
 2018-10,isntree,isntree,40,GB
 2018-11,isntree,isntree,70,GB
 2018-12,isntree,isntree,40,GB
@@ -9410,6 +9428,7 @@ month,brand,keyword,searches,geo
 2026-05,medicube,medicube,165000,GB
 2026-06,medicube,medicube,165000,GB
 2026-07,medicube,medicube,165000,GB
+2026-08,medicube,medicube,201000,GB
 2018-10,mixsoon,mixsoon,0,GB
 2018-11,mixsoon,mixsoon,0,GB
 2018-12,mixsoon,mixsoon,0,GB
@@ -9504,6 +9523,7 @@ month,brand,keyword,searches,geo
 2026-05,mixsoon,mixsoon,2900,GB
 2026-06,mixsoon,mixsoon,2400,GB
 2026-07,mixsoon,mixsoon,1900,GB
+2026-08,mixsoon,mixsoon,1900,GB
 2020-05,numbuzin,numbuzin,20,GB
 2020-06,numbuzin,numbuzin,10,GB
 2020-07,numbuzin,numbuzin,10,GB
@@ -10085,6 +10105,7 @@ month,brand,keyword,searches,geo
 2026-05,anua,anua,3600,ID
 2026-06,anua,anua,4400,ID
 2026-07,anua,anua,3600,ID
+2026-08,anua,anua,3600,ID
 2018-04,beauty of joseon,beauty of joseon,40,ID
 2018-05,beauty of joseon,beauty of joseon,40,ID
 2018-06,beauty of joseon,beauty of joseon,40,ID
@@ -10470,6 +10491,7 @@ month,brand,keyword,searches,geo
 2026-05,d'alba,d'alba,9900,ID
 2026-06,d'alba,d'alba,8100,ID
 2026-07,d'alba,d'alba,8100,ID
+2026-08,d'alba,d'alba,8100,ID
 2018-11,isntree,isntree,140,ID
 2018-12,isntree,isntree,110,ID
 2019-01,isntree,isntree,110,ID
@@ -10914,6 +10936,7 @@ month,brand,keyword,searches,geo
 2026-05,numbuzin,numbuzin,1600,ID
 2026-06,numbuzin,numbuzin,1900,ID
 2026-07,numbuzin,numbuzin,1900,ID
+2026-08,numbuzin,numbuzin,1600,ID
 2019-05,round lab,round lab,40,ID
 2019-06,round lab,round lab,90,ID
 2019-07,round lab,round lab,70,ID
@@ -11001,6 +11024,7 @@ month,brand,keyword,searches,geo
 2026-05,round lab,round lab,1900,ID
 2026-06,round lab,round lab,1900,ID
 2026-07,round lab,round lab,1900,ID
+2026-08,round lab,round lab,2400,ID
 2018-10,skin1004,skin1004,390,ID
 2018-11,skin1004,skin1004,320,ID
 2018-12,skin1004,skin1004,480,ID
@@ -11290,6 +11314,7 @@ month,brand,keyword,searches,geo
 2026-05,abib,abib,1900,IN
 2026-06,abib,abib,1900,IN
 2026-07,abib,abib,1900,IN
+2026-08,abib,abib,1900,IN
 2021-05,anua,anua,590,IN
 2021-06,anua,anua,480,IN
 2021-07,anua,anua,590,IN
@@ -12107,6 +12132,7 @@ month,brand,keyword,searches,geo
 2026-05,mixsoon,mixsoon,1600,IN
 2026-06,mixsoon,mixsoon,1900,IN
 2026-07,mixsoon,mixsoon,1900,IN
+2026-08,mixsoon,mixsoon,1900,IN
 2018-04,numbuzin,numbuzin,0,IN
 2018-05,numbuzin,numbuzin,0,IN
 2018-06,numbuzin,numbuzin,0,IN
@@ -12711,6 +12737,7 @@ month,brand,keyword,searches,geo
 2026-05,abib,アビブ,3600,JP
 2026-06,abib,アビブ,3600,JP
 2026-07,abib,アビブ,2400,JP
+2026-08,abib,アビブ,3600,JP
 2018-10,anua,anua,10,JP
 2018-11,anua,anua,10,JP
 2018-12,anua,anua,10,JP
@@ -12993,6 +13020,7 @@ month,brand,keyword,searches,geo
 2026-05,atopalm,atopalm,140,JP
 2026-06,atopalm,atopalm,140,JP
 2026-07,atopalm,atopalm,140,JP
+2026-08,atopalm,atopalm,140,JP
 2018-11,atopalm,アトパーム,260,JP
 2018-12,atopalm,アトパーム,140,JP
 2019-01,atopalm,アトパーム,260,JP
@@ -13781,12 +13809,13 @@ month,brand,keyword,searches,geo
 2025-11,laneige,laneige,12100,JP
 2025-12,laneige,laneige,12100,JP
 2026-01,laneige,laneige,12100,JP
-2026-02,laneige,laneige,9900,JP
+2026-02,laneige,laneige,8100,JP
 2026-03,laneige,laneige,12100,JP
 2026-04,laneige,laneige,9900,JP
 2026-05,laneige,laneige,9900,JP
 2026-06,laneige,laneige,9900,JP
 2026-07,laneige,laneige,12100,JP
+2026-08,laneige,laneige,12100,JP
 2018-11,laneige,ラネージュ,6600,JP
 2018-12,laneige,ラネージュ,6600,JP
 2019-01,laneige,ラネージュ,6600,JP
@@ -14426,6 +14455,7 @@ month,brand,keyword,searches,geo
 2026-05,medicube,medicube,27100,JP
 2026-06,medicube,medicube,22200,JP
 2026-07,medicube,medicube,22200,JP
+2026-08,medicube,medicube,27100,JP
 2018-11,medicube,メディキューブ,1900,JP
 2018-12,medicube,メディキューブ,1600,JP
 2019-01,medicube,メディキューブ,1600,JP
@@ -14721,6 +14751,7 @@ month,brand,keyword,searches,geo
 2026-05,numbuzin,ナンバーズイン,49500,JP
 2026-06,numbuzin,ナンバーズイン,40500,JP
 2026-07,numbuzin,ナンバーズイン,33100,JP
+2026-08,numbuzin,ナンバーズイン,49500,JP
 2020-05,reedle shot,リードル ショット,0,JP
 2020-06,reedle shot,リードル ショット,0,JP
 2020-07,reedle shot,リードル ショット,0,JP
@@ -15190,6 +15221,7 @@ month,brand,keyword,searches,geo
 2026-05,skin1004,スキン1004,3600,JP
 2026-06,skin1004,スキン1004,3600,JP
 2026-07,skin1004,スキン1004,2400,JP
+2026-08,skin1004,スキン1004,3600,JP
 2018-11,tirtir,tirtir,20,JP
 2018-12,tirtir,tirtir,10,JP
 2019-01,tirtir,tirtir,30,JP
@@ -15814,6 +15846,7 @@ month,brand,keyword,searches,geo
 2026-05,beauty of joseon,beauty of joseon,9900,MX
 2026-06,beauty of joseon,beauty of joseon,8100,MX
 2026-07,beauty of joseon,beauty of joseon,9900,MX
+2026-08,beauty of joseon,beauty of joseon,8100,MX
 2018-11,biodance,biodance,10,MX
 2018-12,biodance,biodance,10,MX
 2019-01,biodance,biodance,10,MX
@@ -15907,6 +15940,7 @@ month,brand,keyword,searches,geo
 2026-05,biodance,biodance,2400,MX
 2026-06,biodance,biodance,4400,MX
 2026-07,biodance,biodance,4400,MX
+2026-08,biodance,biodance,5400,MX
 2018-11,cosrx,cosrx,720,MX
 2018-12,cosrx,cosrx,590,MX
 2019-01,cosrx,cosrx,880,MX
@@ -16416,6 +16450,7 @@ month,brand,keyword,searches,geo
 2026-05,numbuzin,numbuzin,1900,MX
 2026-06,numbuzin,numbuzin,3600,MX
 2026-07,numbuzin,numbuzin,4400,MX
+2026-08,numbuzin,numbuzin,5400,MX
 2018-11,round lab,round lab,10,MX
 2018-12,round lab,round lab,10,MX
 2019-01,round lab,round lab,10,MX
@@ -16936,6 +16971,7 @@ month,brand,keyword,searches,geo
 2026-05,manyo,manyo,210,MY
 2026-06,manyo,manyo,170,MY
 2026-07,manyo,manyo,170,MY
+2026-08,manyo,manyo,260,MY
 2018-10,medicube,medicube,720,MY
 2018-11,medicube,medicube,720,MY
 2018-12,medicube,medicube,590,MY
@@ -17447,6 +17483,7 @@ month,brand,keyword,searches,geo
 2026-05,anua,anua,6600,NL
 2026-06,anua,anua,5400,NL
 2026-07,anua,anua,4400,NL
+2026-08,anua,anua,5400,NL
 2018-04,beauty of joseon,beauty of joseon,10,NL
 2018-05,beauty of joseon,beauty of joseon,10,NL
 2018-06,beauty of joseon,beauty of joseon,10,NL
@@ -17798,6 +17835,7 @@ month,brand,keyword,searches,geo
 2026-05,isntree,isntree,390,NL
 2026-06,isntree,isntree,390,NL
 2026-07,isntree,isntree,320,NL
+2026-08,isntree,isntree,260,NL
 2018-10,laneige,laneige,480,NL
 2018-11,laneige,laneige,480,NL
 2018-12,laneige,laneige,480,NL
@@ -18084,6 +18122,7 @@ month,brand,keyword,searches,geo
 2026-05,medicube,medicube,22200,NL
 2026-06,medicube,medicube,18100,NL
 2026-07,medicube,medicube,18100,NL
+2026-08,medicube,medicube,18100,NL
 2020-03,mixsoon,mixsoon,10,NL
 2020-04,mixsoon,mixsoon,0,NL
 2020-05,mixsoon,mixsoon,10,NL
@@ -18826,10 +18865,11 @@ month,brand,keyword,searches,geo
 2026-01,laneige,laneige,5400,PH
 2026-02,laneige,laneige,4400,PH
 2026-03,laneige,laneige,4400,PH
-2026-04,laneige,laneige,4400,PH
+2026-04,laneige,laneige,3600,PH
 2026-05,laneige,laneige,3600,PH
 2026-06,laneige,laneige,3600,PH
 2026-07,laneige,laneige,3600,PH
+2026-08,laneige,laneige,2900,PH
 2018-10,madeca cream,madeca cream,2400,PH
 2018-11,madeca cream,madeca cream,1900,PH
 2018-12,madeca cream,madeca cream,1600,PH
@@ -19018,6 +19058,7 @@ month,brand,keyword,searches,geo
 2026-05,manyo,manyo,210,PH
 2026-06,manyo,manyo,170,PH
 2026-07,manyo,manyo,210,PH
+2026-08,manyo,manyo,260,PH
 2018-10,medicube,medicube,70,PH
 2018-11,medicube,medicube,50,PH
 2018-12,medicube,medicube,70,PH
@@ -19195,6 +19236,7 @@ month,brand,keyword,searches,geo
 2026-05,numbuzin,numbuzin,1000,PH
 2026-06,numbuzin,numbuzin,1300,PH
 2026-07,numbuzin,numbuzin,1000,PH
+2026-08,numbuzin,numbuzin,1000,PH
 2020-07,skin1004,skin1004,320,PH
 2020-08,skin1004,skin1004,320,PH
 2020-09,skin1004,skin1004,390,PH
@@ -19644,6 +19686,7 @@ month,brand,keyword,searches,geo
 2026-05,atopalm,atopalm mle cream,260,SG
 2026-06,atopalm,atopalm mle cream,210,SG
 2026-07,atopalm,atopalm mle cream,210,SG
+2026-08,atopalm,atopalm mle cream,320,SG
 2018-11,beauty of joseon,beauty of joseon,10,SG
 2018-12,beauty of joseon,beauty of joseon,10,SG
 2019-01,beauty of joseon,beauty of joseon,20,SG
@@ -20574,6 +20617,7 @@ month,brand,keyword,searches,geo
 2026-05,skin1004,skin1004,1600,SG
 2026-06,skin1004,skin1004,1600,SG
 2026-07,skin1004,skin1004,1600,SG
+2026-08,skin1004,skin1004,1900,SG
 2018-11,abib,abib,1600,US
 2018-12,abib,abib,2400,US
 2019-01,abib,abib,4400,US
@@ -20847,6 +20891,7 @@ month,brand,keyword,searches,geo
 2026-05,atopalm,atopalm,1900,US
 2026-06,atopalm,atopalm,2900,US
 2026-07,atopalm,atopalm,1600,US
+2026-08,atopalm,atopalm,1900,US
 2018-10,atopalm,atopalm cream,10,US
 2018-11,atopalm,atopalm cream,20,US
 2018-12,atopalm,atopalm cream,30,US
@@ -20941,6 +20986,7 @@ month,brand,keyword,searches,geo
 2026-05,atopalm,atopalm cream,480,US
 2026-06,atopalm,atopalm cream,720,US
 2026-07,atopalm,atopalm cream,320,US
+2026-08,atopalm,atopalm cream,320,US
 2018-11,atopalm,atopalm mle cream,40,US
 2018-12,atopalm,atopalm mle cream,30,US
 2019-01,atopalm,atopalm mle cream,40,US
@@ -22355,6 +22401,7 @@ month,brand,keyword,searches,geo
 2026-05,round lab,round lab,14800,US
 2026-06,round lab,round lab,14800,US
 2026-07,round lab,round lab,14800,US
+2026-08,round lab,round lab,14800,US
 2018-11,skin1004,skin1004,50,US
 2018-12,skin1004,skin1004,50,US
 2019-01,skin1004,skin1004,110,US
@@ -22703,6 +22750,7 @@ month,brand,keyword,searches,geo
 2026-05,anua,anua,1600,VN
 2026-06,anua,anua,1900,VN
 2026-07,anua,anua,1600,VN
+2026-08,anua,anua,1600,VN
 2018-11,atopalm,atopalm,1300,VN
 2018-12,atopalm,atopalm,1600,VN
 2019-01,atopalm,atopalm,1900,VN
@@ -23737,6 +23785,7 @@ month,brand,keyword,searches,geo
 2026-05,mixsoon,mixsoon,480,VN
 2026-06,mixsoon,mixsoon,480,VN
 2026-07,mixsoon,mixsoon,590,VN
+2026-08,mixsoon,mixsoon,720,VN
 2018-02,round lab,round lab,10,VN
 2018-03,round lab,round lab,10,VN
 2018-04,round lab,round lab,10,VN
