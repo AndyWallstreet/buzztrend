@@ -114,6 +114,12 @@ h1, h2, h3 { letter-spacing: -0.01em; }
       <a href="watchlist" target="_self">Watchlist</a>
     </div>
   </div>
+  <div class="lk-menu"><a href="coverage" target="_self">My Coverage ▾</a>
+    <div class="lk-drop">
+      <a href="coverage" target="_self">커버리지 목록 · 이벤트 캘린더</a>
+      <a href="watchlist" target="_self">Watchlist</a>
+    </div>
+  </div>
   <div class="lk-menu"><a href="entertainment" target="_self">Sector Watch ▾</a>
     <div class="lk-drop">
       <a href="batteries" target="_self">Batteries / EV / ESS</a>
@@ -215,6 +221,7 @@ pg_yg = st.Page("app_pages/yg_dashboard.py", title="└ YG 트래커",
 # 예전 북마크가 살아 있도록 개별 투어 페이지 URL은 그대로 둔다
 pg_ygplus = st.Page("app_pages/ygplus_album.py", title="└ YG플러스 앨범유통",
                     url_path="ygplus-album")
+pg_cov = st.Page("app_pages/coverage.py", title="내 커버리지", url_path="coverage")
 pg_bigbang = st.Page("app_pages/yg_bigbang.py", title="└ BIGBANG Tour 2026",
                      url_path="bigbang_tour")
 pg_babymon = st.Page("app_pages/yg_babymonster.py", title="└ BABYMONSTER 2026",
@@ -255,7 +262,7 @@ sector_nav.register({"batt": pg_batt, "bio": pg_bio, "pshort": pg_pshort,
                      "steel": pg_steel, "trailer": pg_trailer,
                      "boxoffice": pg_boxoffice, "yg": pg_yg, "ygplus": pg_ygplus})
 
-_PAGES = {"buzz": pg_buzz, "value": pg_value, "bio": pg_bio, "beauty": pg_beauty,
+_PAGES = {"buzz": pg_buzz, "value": pg_value, "coverage": pg_cov, "bio": pg_bio, "beauty": pg_beauty,
           "ent": pg_ent, "trailer": pg_trailer, "boxoffice": pg_boxoffice,
           "yg": pg_yg, "ygplus": pg_ygplus, "bigbang": pg_bigbang, "babymon": pg_babymon,
           "consumer": pg_consumer, "logi": pg_logi, "steel": pg_steel}
@@ -272,6 +279,7 @@ pg_cover = st.Page(_cover, title="LK Asset Terminal", url_path="home", default=T
 nav = st.navigation({
     "": [pg_cover],
     "Screener": [pg_buzz, pg_value, pg_stock, pg_watch],
+    "My Coverage": [pg_cov],
     "Sector Watch": [pg_batt, pg_bio, pg_pshort, pg_beauty, pg_cosexp, pg_cossd, pg_ent, pg_trailer,
                      pg_boxoffice,
                      pg_yg, pg_ygplus, pg_bigbang, pg_babymon,
