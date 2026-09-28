@@ -86,7 +86,7 @@ if prc is not None and len(prc):
     c3.metric("1주 최고", f"{up['name']}", f"{up['chg_1w']:+.1%}", delta_color="off")
     c4.metric("1주 최저", f"{dn['name']}", f"{dn['chg_1w']:+.1%}", delta_color="off")
 
-tabs = st.tabs(["📌 커버리지 목록", "🗓️ 이벤트·촉매 캘린더", "📰 공시 · 뉴스 (휴가용)"])
+tabs = st.tabs(["📌 커버리지 목록", "🗓️ 이벤트·촉매 캘린더", "📰 공시 · 뉴스"])
 
 # ================================================================ 1) 목록
 with tabs[0]:
@@ -149,8 +149,16 @@ with tabs[1]:
         if not len(cc):
             st.caption("해당 조건에 잡히는 이벤트가 없습니다.")
         else:
+            _yax = alt.Y("name:N", title=None, sort=alt.SortField("date"),
+                         axis=alt.Axis(grid=True, gridColor="#2a3852", gridDash=[2, 3], gridOpacity=0.9,
+                                       domain=False, ticks=False, labelPadding=8))
+            # 종목마다 옅은 가로선 — 점이 어느 회사 줄인지 따라가기 쉽게 (PM 요청 2026-09-28)
+            rule_y = alt.Chart(cc).mark_rule(color="#2a3852", strokeWidth=1, opacity=0.8).encode(
+                y=_yax, x=alt.X("min(date):T"), x2="max(date):T")
+            band = alt.Chart(cc).mark_tick(color="#1d2942", thickness=22, size=22, opacity=0.55).encode(
+                y=_yax, x=alt.X("date:T"))
             ch = alt.Chart(cc).mark_circle(size=190, opacity=0.95).encode(
-                x=alt.X("date:T", title=None), y=alt.Y("name:N", title=None, sort=alt.SortField("date")),
+                x=alt.X("date:T", title=None), y=_yax,
                 color=alt.Color("impact:N", title="영향",
                                 scale=alt.Scale(domain=["positive", "neutral", "negative"],
                                                 range=[C_GREEN, C_GREY, C_RED]), legend=alt.Legend(orient="top")),
@@ -158,7 +166,9 @@ with tabs[1]:
                                 legend=alt.Legend(orient="top")),
                 tooltip=["date", "name", "type", "title", "detail", "date_kind", "source"])
             now = alt.Chart(pd.DataFrame({"d": [today]})).mark_rule(color=C_GOLD, strokeDash=[4, 3]).encode(x="d:T")
-            st.altair_chart((ch + now).properties(height=40 + 30 * cc["name"].nunique()), use_container_width=True)
+            st.altair_chart(alt.layer(rule_y, now, ch).properties(
+                height=40 + 30 * cc["name"].nunique()).configure_view(strokeOpacity=0),
+                use_container_width=True)
 
             for _, x in cc.iterrows():
                 col = {"positive": C_GREEN, "negative": C_RED}.get(str(x["impact"]), C_GREY)
@@ -180,7 +190,7 @@ with tabs[1]:
 
 # ================================================================ 3) 공시·뉴스
 with tabs[2]:
-    sub("휴가 중 체크리스트", "중요 공시부터 · 아래로 갈수록 덜 급함")
+    sub("체크리스트", "중요 공시부터 · 아래로 갈수록 덜 급함")
     c1_, c2_ = st.columns([1, 1])
     with c1_:
         back = st.selectbox("최근", ["3일", "7일", "14일", "30일", "전체"], index=1, key="cv_back")
