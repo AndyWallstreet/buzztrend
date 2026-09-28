@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""내 커버리지 — 종목 리스트 + DART 공시 + 뉴스 + 이벤트·촉매 캘린더.
+"""커버리지 — 종목 리스트 + DART 공시 + 뉴스 + 이벤트·촉매 캘린더.
 
 데이터 갱신 (로컬에서만 — Streamlit Cloud 는 DART 접속 차단):
     python coverage_update.py --days 45     # 공시·뉴스·주가
@@ -21,7 +21,7 @@ STAGE_ORDER = ["In-depth", "Monitor", "Tracker", "Spread", "Revisit", "Raw Idea"
 STAGE_COLOR = {"In-depth": "#f2c744", "Monitor": "#3fb27f", "Tracker": "#4fb8c9", "Spread": "#b06fc9",
                "Revisit": "#8ec9ff", "Raw Idea": "#8a97aa", "EXIT": "#eb6834", "Closed": "#5f7089"}
 
-st.set_page_config(page_title="내 커버리지", page_icon="📋", layout="wide")
+st.set_page_config(page_title="커버리지", page_icon="📋", layout="wide")
 
 st.markdown("""<style>
 .block-container { padding-top: 4rem !important; }
@@ -66,7 +66,7 @@ cat = get("catalysts.csv")
 meta = json.loads((DATA / "meta.json").read_text(encoding="utf-8")) if (DATA / "meta.json").exists() else {}
 today = dt.date.today()
 
-st.title("📋 내 커버리지")
+st.title("📋 커버리지")
 st.caption(f"종목 {len(cov)}개 · 공시·뉴스 갱신 {meta.get('as_of', '—')} · "
            "목록 원본 = 구글시트 '한국LK_MP' (여기 반영본은 data/coverage/coverage.csv) · "
            "공시 = DART, 뉴스 = 구글뉴스, 주가 = 네이버")

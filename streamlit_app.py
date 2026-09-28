@@ -221,7 +221,7 @@ pg_yg = st.Page("app_pages/yg_dashboard.py", title="└ YG 트래커",
 # 예전 북마크가 살아 있도록 개별 투어 페이지 URL은 그대로 둔다
 pg_ygplus = st.Page("app_pages/ygplus_album.py", title="└ YG플러스 앨범유통",
                     url_path="ygplus-album")
-pg_cov = st.Page("app_pages/coverage.py", title="내 커버리지", url_path="coverage")
+pg_cov = st.Page("app_pages/coverage.py", title="커버리지", url_path="coverage")
 pg_bigbang = st.Page("app_pages/yg_bigbang.py", title="└ BIGBANG Tour 2026",
                      url_path="bigbang_tour")
 pg_babymon = st.Page("app_pages/yg_babymonster.py", title="└ BABYMONSTER 2026",
