@@ -20,7 +20,9 @@ Usage:
   (구글 애즈 기준 월 검색수, 2018년까지 이력 약 8년치, 미국 location_code 2840)
   ※ keywords_data/google_ads/search_volume은 12개월치만 줘서 안 씀
 - 비용: 요청 1건 약 $0.01~0.02 — 주 1회면 월 $0.1 미만
-- 주 1회 가드: 최근 6일 내 수집본 있으면 스킵 (--force 로 무시)
+- 월 1회 가드 (2026-10-07~): 매월 15일 이후에만, 그리고 '지난달'이 아직 없을 때만 돌린다.
+  구글 애즈가 전월 검색수를 중순에 올리기 때문 — 그 전에 돌리면 비용($0.31)만 나가고 새 달이 안 들어옴.
+  --force 로 무시 가능.
 - 브랜드 목록은 cosmetics_lifecycle_update.BRANDS 재사용 (미국 키워드)
 """
 import base64
@@ -113,12 +115,25 @@ def main():
         print("DataForSEO 키 없음: .streamlit/secrets.toml [dataforseo] 또는 "
               "DFS_LOGIN/DFS_PASSWORD 설정 후 다시 실행. (이번 회차 스킵)")
         return
+    # 월 1회 · 매월 15일 이후에만 (PM 2026-10-07).
+    # 구글 애즈는 전월 검색수를 그 달 중순에야 올림 → 그 전에 돌리면 돈만 쓰고 새 달이 안 들어온다.
+    # 2026-10-07 에 돌렸더니 24,367행 중 바뀐 값 0건, 비용 $0.31 날림.
     meta_p = DATA / "absvol_meta.json"
     if OUT.exists() and meta_p.exists() and not force:
         meta = json.loads(meta_p.read_text(encoding="utf-8"))
-        last = dt.datetime.fromisoformat(meta["fetched"])
-        if (dt.datetime.now() - last).days < 6:
-            print(f"최근 수집본 있음 ({meta['fetched'][:10]}) - 주 1회 가드로 스킵")
+        today = dt.date.today()
+        have_last = str(meta.get("months", ["", ""])[1])          # 이미 받은 마지막 달 'YYYY-MM'
+        prev = (today.replace(day=1) - dt.timedelta(days=1)).strftime("%Y-%m")   # 지난달
+        if today.day < 15:
+            print(f"{today} — 15일 전이라 스킵 (구글이 전월 데이터를 중순에 올림). "
+                  f"보유: ~{have_last}. 지금 꼭 받으려면 --force")
+            return
+        if have_last >= prev:
+            print(f"이미 지난달({prev})까지 보유 — 스킵. 다음 달 15일 이후에 다시 돌릴 것")
+            return
+        fetched = dt.datetime.fromisoformat(meta["fetched"]).date()
+        if fetched >= today.replace(day=15):                      # 이번 달 15일 이후 이미 시도함
+            print(f"이번 달에 이미 수집 시도함 ({fetched}) — 스킵. 재시도는 --force")
             return
 
     auth = base64.b64encode(f"{login}:{pw}".encode()).decode()
