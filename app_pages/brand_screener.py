@@ -280,35 +280,23 @@ with tab3:
                 y=yenc, color=cenc, size=senc, tooltip=tips)
             st.altair_chart(ch.properties(height=470), use_container_width=True)
         else:
-            # 2단 가로축을 직접 그림 — 위 줄 = 월(01·02…), 아래 줄 = 연도 (PM 2026-10-08).
-            # Vega 의 축 2개 겹치기는 라벨이 안 뜨는 경우가 있어, 축 띠를 별도 차트로 만들어 붙인다.
-            months = sorted(m["month"].unique())
-            ax = pd.DataFrame({"month": months})
-            ax["dt"] = pd.to_datetime(ax["month"] + "-01")
-            ax["mm"] = ax["dt"].dt.strftime("%m")
-            ax["yy"] = ax["dt"].dt.year
-            step = 1 if len(months) <= 30 else (2 if len(months) <= 60 else 3)
-            ax["show_m"] = [i % step == 0 for i in range(len(ax))]
-            yr = (ax.groupby("yy", as_index=False)
-                    .agg(mid=("dt", lambda s_: s_.iloc[len(s_) // 2]), n=("dt", "size")))
-            yr = yr[yr["n"] >= 2]                      # 한두 달짜리 해는 라벨 생략
-            xsc = alt.Scale(domain=[ax["dt"].min().isoformat(), ax["dt"].max().isoformat()])
-            xq = alt.X("dt:T", title=None, axis=None, scale=xsc)
-            line = alt.Chart(m).mark_line().encode(x=xq, y=yenc, color=cenc, size=senc, tooltip=tips)
-            vline = alt.Chart(yr.assign(jan=pd.to_datetime(yr["yy"].astype(str) + "-01-01"))).mark_rule(
-                color="#33415c", strokeDash=[2, 3]).encode(x=alt.X("jan:T", axis=None, scale=xsc))
-            strip_m = alt.Chart(ax[ax["show_m"]]).mark_text(
-                fontSize=9, color="#9fb0c8", dy=0).encode(x=xq, text="mm:N")
-            strip_y = alt.Chart(yr).mark_text(
-                fontSize=13, fontWeight="bold", color="#dde5f0", dy=18).encode(
-                x=alt.X("mid:T", axis=None, scale=xsc), text="yy:N")
-            strip = alt.layer(strip_m, strip_y).properties(height=34)
-            st.altair_chart(
-                alt.vconcat(alt.layer(vline, line).properties(height=440), strip, spacing=0)
-                  .configure_view(strokeOpacity=0),
-                use_container_width=True)
-            st.caption(f"가로축 2단 — 위 작은 숫자 = 월(01~12){'  ·  ' + str(step) + '개월마다 표시' if step > 1 else ''}, "
-                       "아래 굵은 숫자 = 연도. 세로 점선 = 1월(해가 바뀌는 지점).")
+            # 2단 가로축: 한 축에 2줄 라벨 (위=월, 아래=연도). vconcat 축 띠는 폭이 안 맞아 차트가
+            # 화면 밖으로 삐져나가서 버림 (PM 2026-10-08). labelExpr 가 배열을 주면 Vega 가 2줄로 그림.
+            nmon_shown = m["month"].nunique()
+            step = 1 if nmon_shown <= 30 else (2 if nmon_shown <= 60 else 3)
+            # tickCount 가 이미 간격을 솎아 주므로 라벨은 단순하게: 윗줄 = 월, 아랫줄 = 1월일 때만 연도
+            lbl = ("[timeFormat(datum.value, '%m'), "
+                   "timeFormat(datum.value, '%m') == '01' ? timeFormat(datum.value, '%Y') : '']")
+            x_ax = alt.Axis(tickCount={"interval": "month", "step": step}, labelAngle=0, title=None,
+                            labelExpr=lbl, labelFontSize=10, labelColor="#c6d2e3",
+                            labelLineHeight=14, labelPadding=4, grid=False)
+            jan = pd.DataFrame({"jan": pd.date_range(m["dt"].min(), m["dt"].max(), freq="YS")})
+            line = alt.Chart(m).mark_line().encode(
+                x=alt.X("dt:T", title=None, axis=x_ax), y=yenc, color=cenc, size=senc, tooltip=tips)
+            vline = alt.Chart(jan).mark_rule(color="#33415c", strokeDash=[2, 3]).encode(x="jan:T")
+            st.altair_chart(alt.layer(vline, line).properties(height=470), use_container_width=True)
+            st.caption("가로축 2단 — 윗줄 = 월(01~12), 아랫줄 = 연도(1월 자리에 표시). 세로 점선 = 해가 바뀌는 지점."
+                       + (f"  ·  라벨이 겹치지 않게 {step}개월마다 표시합니다." if step > 1 else ""))
 
         st.caption(("**상대**: 브랜드마다 자기 최고치를 100으로 맞춘 '모양' 비교 — 크기가 달라도 흐름을 겹쳐 볼 수 있음."
                     if rel else
