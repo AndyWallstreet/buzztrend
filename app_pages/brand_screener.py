@@ -37,6 +37,9 @@ st.markdown("""<style>
 .lk-h { font-size: 1.18rem; font-weight: 600; background: #2a4a73; border-left: 4px solid #2e7de9;
         border-radius: 4px; padding: 6px 12px; margin: 0.9rem 0 0.5rem 0; }
 .lk-h span { font-weight: 400; font-size: 0.8rem; opacity: 0.8; margin-left: 7px; }
+/* 멀티셀렉트 칩: 이름이 잘리지 않게 줄바꿈시키고 글자 폭 제한을 푼다 */
+div[data-baseweb="select"] > div { flex-wrap: wrap !important; height: auto !important; min-height: 38px; }
+div[data-baseweb="select"] span[title] { max-width: none !important; text-overflow: clip !important; }
 </style>""", unsafe_allow_html=True)
 
 
@@ -180,19 +183,23 @@ with tab2:
 
 with tab3:
     sub("브랜드 상세", "국가 여러 개 · 상대/절대 전환 · 센텔리안24(madeca cream)는 굵은 금색")
-    d1, d2, d3 = st.columns([1.6, 1.6, 1.2])
+    # 브랜드는 칩이 많아 좁은 칸에서 이름이 잘림 → 한 줄 통째로 씀 (PM 2026-10-08)
+    d1, d2 = st.columns([2.2, 1.2])
     with d1:
         gsel = st.multiselect("국가 (여러 개 가능)", geos["geo_kr"].tolist(), default=[gk], key="bs_geos",
-                              help="여러 나라를 고르면 선은 '브랜드 · 국가' 로 나뉩니다. 합쳐 보려면 아래 '국가 합산'을 켜세요.")
+                              help="여러 나라를 고르면 선은 '브랜드 · 국가' 로 나뉩니다. 합쳐 보려면 '국가 합산'을 켜세요.")
     with d2:
-        pick = st.multiselect("브랜드", sorted(t["brand"].unique()),
-                              default=g["brand"].head(4).tolist(), key="bs_pick")
-    with d3:
         mode = st.radio("표시", ["절대량 (월 검색수)", "상대 (자기 피크=100)"], index=0, key="bs_mode",
+                        horizontal=True,
                         help="상대 = 브랜드마다 자기 최고치를 100으로 맞춤 — 크기가 다른 브랜드의 '모양'을 비교할 때. "
                              "절대량 = 실제 월 검색수 — 누가 큰지 볼 때.")
+    pick = st.multiselect("브랜드 (여러 개 가능)", sorted(t["brand"].unique()),
+                          default=g["brand"].head(4).tolist(), key="bs_pick",
+                          help="브랜드 이름이 길어 한 줄을 다 씁니다. 많이 고르면 칩이 여러 줄로 쌓입니다.")
     gcodes = geos[geos["geo_kr"].isin(gsel)]["geo"].tolist()
-    merge_geo = st.toggle("국가 합산 (고른 나라를 더해서 한 선으로)", value=len(gcodes) > 1, key="bs_merge")
+    o1, o2 = st.columns(2)
+    with o1:
+        merge_geo = st.toggle("국가 합산 (고른 나라를 더해서 한 선으로)", value=len(gcodes) > 1, key="bs_merge")
 
     if pick and gcodes and mv is not None:
         m = mv[mv["geo"].isin(gcodes) & mv["brand"].isin(pick)].copy()
@@ -209,7 +216,8 @@ with tab3:
         else:
             m["값"] = m["searches"]
             ytitle = "월 검색수 (구글 애즈, 절대량)"
-        logy = st.toggle("로그 축 (크기 차이가 클 때)", value=False, key="bs_log")
+        with o2:
+            logy = st.toggle("로그 축 (크기 차이가 클 때)", value=False, key="bs_log")
 
         # 센텔리안24(madeca cream)는 굵은 금색, 나머지는 팔레트 — 원래 수명주기 차트와 같은 규칙
         keys = sorted(m["키"].unique())
