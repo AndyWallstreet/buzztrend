@@ -179,25 +179,80 @@ with tab2:
     st.caption("원 크기 = 월 검색수(브랜드의 절대 크기). 큰 원이 오른쪽 위에 있으면 가장 강한 브랜드임.")
 
 with tab3:
-    sub("브랜드 상세", "월 검색수 추이 · 같은 국가 안에서")
-    pick = st.multiselect("브랜드", g["brand"].tolist(), default=g["brand"].head(4).tolist(), key="bs_pick")
-    if pick and mv is not None:
-        m = mv[(mv["geo"] == geo) & (mv["brand"].isin(pick))].groupby(["brand", "month"], as_index=False)["searches"].sum()
+    sub("브랜드 상세", "국가 여러 개 · 상대/절대 전환 · 센텔리안24(madeca cream)는 굵은 금색")
+    d1, d2, d3 = st.columns([1.6, 1.6, 1.2])
+    with d1:
+        gsel = st.multiselect("국가 (여러 개 가능)", geos["geo_kr"].tolist(), default=[gk], key="bs_geos",
+                              help="여러 나라를 고르면 선은 '브랜드 · 국가' 로 나뉩니다. 합쳐 보려면 아래 '국가 합산'을 켜세요.")
+    with d2:
+        pick = st.multiselect("브랜드", sorted(t["brand"].unique()),
+                              default=g["brand"].head(4).tolist(), key="bs_pick")
+    with d3:
+        mode = st.radio("표시", ["절대량 (월 검색수)", "상대 (자기 피크=100)"], index=0, key="bs_mode",
+                        help="상대 = 브랜드마다 자기 최고치를 100으로 맞춤 — 크기가 다른 브랜드의 '모양'을 비교할 때. "
+                             "절대량 = 실제 월 검색수 — 누가 큰지 볼 때.")
+    gcodes = geos[geos["geo_kr"].isin(gsel)]["geo"].tolist()
+    merge_geo = st.toggle("국가 합산 (고른 나라를 더해서 한 선으로)", value=len(gcodes) > 1, key="bs_merge")
+
+    if pick and gcodes and mv is not None:
+        m = mv[mv["geo"].isin(gcodes) & mv["brand"].isin(pick)].copy()
+        if merge_geo:
+            m = m.groupby(["brand", "month"], as_index=False)["searches"].sum()
+            m["키"] = m["brand"]
+        else:
+            m = m.groupby(["geo", "brand", "month"], as_index=False)["searches"].sum()
+            m["키"] = m["brand"] + " · " + m["geo"]
+        rel = mode.startswith("상대")
+        if rel:
+            m["값"] = m.groupby("키")["searches"].transform(lambda x: x / x.max() * 100 if x.max() > 0 else 0)
+            ytitle = "검색 관심도 (자기 피크=100)"
+        else:
+            m["값"] = m["searches"]
+            ytitle = "월 검색수 (구글 애즈, 절대량)"
         logy = st.toggle("로그 축 (크기 차이가 클 때)", value=False, key="bs_log")
-        ch = alt.Chart(m).mark_line(size=2.2, point=False).encode(
+
+        # 센텔리안24(madeca cream)는 굵은 금색, 나머지는 팔레트 — 원래 수명주기 차트와 같은 규칙
+        keys = sorted(m["키"].unique())
+        PAL = ["#2a78d6", "#8ec9ff", "#4fb8c9", "#eb6834", "#b06fc9", "#4fb862", "#e8425a",
+               "#b5b5b5", "#2fa89a", "#d98cb3", "#7a8ff0", "#c9a34f", "#5f7089", "#9fd65f"]
+        cols, pi = [], 0
+        for k in keys:
+            if k.startswith("madeca cream"):
+                cols.append(C_GOLD)
+            else:
+                cols.append(PAL[pi % len(PAL)])
+                pi += 1
+        m["굵기"] = np.where(m["키"].str.startswith("madeca cream"), 4.0, 1.9)
+        ch = alt.Chart(m).mark_line(point=False).encode(
             x=alt.X("month:T", title=None),
-            y=alt.Y("searches:Q", title="월 검색수",
-                    scale=alt.Scale(type="log" if logy else "linear", zero=not logy)),
-            color=alt.Color("brand:N", title=None, legend=alt.Legend(orient="top")),
-            tooltip=["brand", "month", alt.Tooltip("searches", title="검색수", format=",.0f")])
-        st.altair_chart(ch.properties(height=420), use_container_width=True)
-        st.dataframe(g[g["brand"].isin(pick)][["brand", "상장사", "stage", "now", "m3", "m12", "vs_peak", "peak_month"]]
-                     .rename(columns={"brand": "브랜드", "stage": "단계", "now": "월 검색수", "m3": "3개월",
-                                      "m12": "12개월", "vs_peak": "피크 대비", "peak_month": "피크 시점"}),
+            y=alt.Y("값:Q", title=ytitle,
+                    scale=alt.Scale(type="log" if logy and not rel else "linear", zero=not logy)),
+            color=alt.Color("키:N", title=None, scale=alt.Scale(domain=keys, range=cols),
+                            legend=alt.Legend(orient="top", columns=4)),
+            size=alt.Size("굵기:Q", scale=alt.Scale(domain=[1.9, 4.0], range=[1.9, 4.0]), legend=None),
+            tooltip=["키", alt.Tooltip("month:T", title="연월", format="%Y-%m"),
+                     alt.Tooltip("searches:Q", title="월 검색수", format=",.0f")]
+                    + ([alt.Tooltip("값:Q", title="피크 대비", format=".0f")] if rel else []))
+        st.altair_chart(ch.properties(height=460), use_container_width=True)
+        st.caption(("**상대**: 브랜드마다 자기 최고치를 100으로 맞춘 '모양' 비교 — 크기가 달라도 흐름을 겹쳐 볼 수 있음."
+                    if rel else
+                    "**절대량**: 실제 월 검색수 — 누가 더 큰 브랜드인지 보임.")
+                   + " 금색 굵은 선 = 센텔리안24(madeca cream, 동국제약).")
+
+        tb = t[t["brand"].isin(pick) & t["geo"].isin(gcodes)].copy()
+        tb["상장사"] = tb["brand"].map(LISTED).fillna("")
+        st.dataframe(tb[["geo_kr", "brand", "상장사", "stage", "now", "m3", "m12", "vs_peak", "peak_month"]]
+                     .sort_values(["geo_kr", "brand"])
+                     .rename(columns={"geo_kr": "국가", "brand": "브랜드", "stage": "단계", "now": "월 검색수",
+                                      "m3": "3개월", "m12": "12개월", "vs_peak": "피크 대비",
+                                      "peak_month": "피크 시점"}),
                      hide_index=True, use_container_width=True,
                      column_config={"월 검색수": st.column_config.NumberColumn(format="%,.0f"),
                                     "3개월": st.column_config.NumberColumn(format="%+.0f%%"),
                                     "12개월": st.column_config.NumberColumn(format="%+.0f%%"),
                                     "피크 대비": st.column_config.NumberColumn(format="%.2f")})
+    else:
+        st.caption("국가와 브랜드를 하나 이상 고르세요.")
+
 st.caption("한계: 구글 애즈 검색수는 값이 계단식(1,300 → 1,600 → 2,400)이라 1개월 변화는 노이즈가 큼 — "
            "3·12개월을 볼 것. 중국·한국 내수는 구글 점유율이 낮아 빠져 있음. 일본은 야후재팬이 빠져 과소집계임.")
