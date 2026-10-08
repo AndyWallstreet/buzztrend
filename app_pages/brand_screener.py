@@ -210,8 +210,28 @@ with tab3:
     with x3:
         logy = st.toggle("로그 축", value=False, key="bs_log", help="브랜드 간 크기 차이가 아주 클 때")
     _allm = sorted(mv["month"].unique()) if mv is not None else []
-    nmon = st.slider("기간 (최근 몇 개월)", 12, max(24, len(_allm)), min(36, len(_allm)), 6, key="bs_months",
-                     help="월·연 2단 축은 기간이 짧을수록 읽기 쉽습니다. 36개월이 기본입니다.")
+    _t0mode = xmode.startswith("붐")
+    _nmax = len(_allm) if _allm else 24
+    if _t0mode:
+        _PRE = {"초기 1년 (0~12)": 12, "초기 2년 (0~24)": 24, "초기 3년 (0~36)": 36,
+                "5년 (0~60)": 60, "전체": 999}
+        _hint = "브랜드마다 수명이 달라 긴 브랜드가 x축을 늘리면 초반이 눌려 보입니다. 구간을 좁히면 뜨는 국면을 크게 봅니다."
+    else:
+        _PRE = {"최근 1년": 12, "최근 2년": 24, "최근 3년": 36, "최근 5년": 60, "전체": _nmax}
+        _hint = "월·연 2단 축은 기간이 짧을수록 읽기 쉽습니다."
+    sp1, sp2 = st.columns([1.6, 2.4])
+    with sp1:
+        _zk = st.radio("구간", list(_PRE), index=1, horizontal=True, key="bs_span", help=_hint)
+    if st.session_state.get("_bs_span_prev") != (_zk, _t0mode):   # 프리셋·모드가 바뀌면 슬라이더도 맞춤
+        st.session_state["_bs_span_prev"] = (_zk, _t0mode)
+        st.session_state.pop("bs_range", None)
+    with sp2:
+        if _t0mode:
+            _lo, _hi = st.slider("직접 범위 (붐 후 개월)", 0, 120, (0, min(_PRE[_zk], 120)), 1, key="bs_range")
+            nmon = _nmax
+        else:
+            nmon = st.slider("직접 범위 (최근 몇 개월)", 12, _nmax, min(_PRE[_zk], _nmax), 1, key="bs_range")
+            _lo, _hi = 0, 999
 
     if pick and gcodes and mv is not None:
         m = mv[mv["geo"].isin(gcodes) & mv["brand"].isin(pick)].copy()
@@ -251,6 +271,7 @@ with tab3:
                 st.caption("붐 시작을 찾지 못했습니다.")
                 st.stop()
             m = pd.concat(keep)
+            m = m[(m["t"] >= _lo) & (m["t"] <= _hi)]
 
         keys = sorted(m["키"].unique())
         PAL = ["#2a78d6", "#8ec9ff", "#4fb8c9", "#eb6834", "#b06fc9", "#4fb862", "#e8425a",
