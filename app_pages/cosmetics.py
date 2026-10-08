@@ -322,6 +322,26 @@ if _avail:
                            + " — 나라마다 사람들이 실제로 치는 말로 조회함(일본은 "
                              "가타카나, 브랜드명 우선). 검색어가 이상하면 알려주세요.")
             v = life[life["brand"].isin(sel)].copy()
+            # 구간 토글 — 수명주기 어느 구간을 볼지 (PM 2026-10-08).
+            # 긴 브랜드(cosrx 92개월) 때문에 초반 1~2년이 눌려 보이는 걸 막는다.
+            if len(v):
+                _maxm = int(v["m_since"].max())
+                _PRE = {"초기 1년 (0~12)": 12, "초기 2년 (0~24)": 24, "초기 3년 (0~36)": 36,
+                        "5년 (0~60)": 60, "전체": _maxm}
+                _pre = {k: n for k, n in _PRE.items() if n <= _maxm or k == "전체"}
+                lz1, lz2 = st.columns([1.6, 2.4])
+                with lz1:
+                    _zk = st.radio("구간", list(_pre), index=min(1, len(_pre) - 1),
+                                   horizontal=True, key="life_span",
+                                   help="브랜드마다 수명이 달라 긴 브랜드가 x축을 늘리면 초반이 눌려 보입니다. "
+                                        "구간을 좁히면 뜨는 국면(0~24개월)을 크게 볼 수 있습니다.")
+                if st.session_state.get("_life_span_prev") != _zk:      # 라디오를 바꾸면 슬라이더도 맞춤
+                    st.session_state["_life_span_prev"] = _zk
+                    st.session_state.pop("life_range", None)
+                with lz2:
+                    _lo, _hi = st.slider("직접 범위 (붐 후 개월)", 0, _maxm,
+                                         (0, min(_pre[_zk], _maxm)), 1, key="life_range")
+                v = v[(v["m_since"] >= _lo) & (v["m_since"] <= _hi)]
             if len(v):
                 _bsel = sorted(v["brand"].unique())
                 _pal2 = ["#2a78d6", "#8ec9ff", "#4fb8c9", "#eb6834", "#b06fc9",
