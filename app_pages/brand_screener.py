@@ -182,14 +182,14 @@ with tab2:
     st.caption("원 크기 = 월 검색수(브랜드의 절대 크기). 큰 원이 오른쪽 위에 있으면 가장 강한 브랜드임.")
 
 with tab3:
-    sub("브랜드 상세", "국가 여러 개 · 상대/절대 전환 · 센텔리안24(madeca cream)는 굵은 금색")
+    sub("브랜드 상세", "x축·표시 방식을 골라서 봄 · 센텔리안24(madeca cream)는 굵은 금색")
     # 브랜드는 칩이 많아 좁은 칸에서 이름이 잘림 → 한 줄 통째로 씀 (PM 2026-10-08)
     d1, d2 = st.columns([2.2, 1.2])
     with d1:
         gsel = st.multiselect("국가 (여러 개 가능)", geos["geo_kr"].tolist(), default=[gk], key="bs_geos",
                               help="여러 나라를 고르면 선은 '브랜드 · 국가' 로 나뉩니다. 합쳐 보려면 '국가 합산'을 켜세요.")
     with d2:
-        mode = st.radio("표시", ["절대량 (월 검색수)", "상대 (자기 피크=100)"], index=0, key="bs_mode",
+        mode = st.radio("세로축", ["절대량 (월 검색수)", "상대 (자기 피크=100)"], index=0, key="bs_mode",
                         horizontal=True,
                         help="상대 = 브랜드마다 자기 최고치를 100으로 맞춤 — 크기가 다른 브랜드의 '모양'을 비교할 때. "
                              "절대량 = 실제 월 검색수 — 누가 큰지 볼 때.")
@@ -197,9 +197,21 @@ with tab3:
                           default=g["brand"].head(4).tolist(), key="bs_pick",
                           help="브랜드 이름이 길어 한 줄을 다 씁니다. 많이 고르면 칩이 여러 줄로 쌓입니다.")
     gcodes = geos[geos["geo_kr"].isin(gsel)]["geo"].tolist()
-    o1, o2 = st.columns(2)
-    with o1:
-        merge_geo = st.toggle("국가 합산 (고른 나라를 더해서 한 선으로)", value=len(gcodes) > 1, key="bs_merge")
+    x1, x2, x3 = st.columns([1.7, 1.1, 1.1])
+    with x1:
+        xmode = st.radio("가로축", ["실제 날짜 (연·월)", "붐 시작 후 개월 (t=0 정렬)"], index=0, key="bs_xmode",
+                         horizontal=True,
+                         help="실제 날짜 = 같은 시점에 무슨 일이 있었는지 볼 때. "
+                              "t=0 정렬 = 브랜드마다 뜨기 시작한 달을 0으로 맞춰 '수명주기 모양'을 겹쳐 볼 때 "
+                              "(t=0 = 자기 피크의 10%에 처음 닿은 달).")
+    with x2:
+        merge_geo = st.toggle("국가 합산", value=len(gcodes) > 1, key="bs_merge",
+                              help="고른 나라를 더해서 브랜드당 한 선으로 봅니다.")
+    with x3:
+        logy = st.toggle("로그 축", value=False, key="bs_log", help="브랜드 간 크기 차이가 아주 클 때")
+    _allm = sorted(mv["month"].unique()) if mv is not None else []
+    nmon = st.slider("기간 (최근 몇 개월)", 12, max(24, len(_allm)), min(36, len(_allm)), 6, key="bs_months",
+                     help="월·연 2단 축은 기간이 짧을수록 읽기 쉽습니다. 36개월이 기본입니다.")
 
     if pick and gcodes and mv is not None:
         m = mv[mv["geo"].isin(gcodes) & mv["brand"].isin(pick)].copy()
@@ -209,6 +221,9 @@ with tab3:
         else:
             m = m.groupby(["geo", "brand", "month"], as_index=False)["searches"].sum()
             m["키"] = m["brand"] + " · " + m["geo"]
+        m["dt"] = pd.to_datetime(m["month"] + "-01")
+        if _allm and nmon < len(_allm):              # 최근 N개월만
+            m = m[m["month"] >= _allm[-nmon]]
         rel = mode.startswith("상대")
         if rel:
             m["값"] = m.groupby("키")["searches"].transform(lambda x: x / x.max() * 100 if x.max() > 0 else 0)
@@ -216,10 +231,27 @@ with tab3:
         else:
             m["값"] = m["searches"]
             ytitle = "월 검색수 (구글 애즈, 절대량)"
-        with o2:
-            logy = st.toggle("로그 축 (크기 차이가 클 때)", value=False, key="bs_log")
 
-        # 센텔리안24(madeca cream)는 굵은 금색, 나머지는 팔레트 — 원래 수명주기 차트와 같은 규칙
+        t0 = xmode.startswith("붐")
+        if t0:                       # 붐 시작(자기 피크의 10% 첫 도달) 기준으로 각 선을 0에 맞춤
+            keep = []
+            for k, gg in m.sort_values("dt").groupby("키"):
+                pk = gg["searches"].max()
+                if pk <= 0:
+                    continue
+                br = gg[gg["searches"] >= pk * 0.10]
+                if not len(br):
+                    continue
+                b0 = br["dt"].iloc[0]
+                gg = gg[gg["dt"] >= b0].copy()
+                gg["t"] = ((gg["dt"].dt.year - b0.year) * 12 + (gg["dt"].dt.month - b0.month))
+                gg["붐시작"] = b0.strftime("%Y-%m")
+                keep.append(gg)
+            if not keep:
+                st.caption("붐 시작을 찾지 못했습니다.")
+                st.stop()
+            m = pd.concat(keep)
+
         keys = sorted(m["키"].unique())
         PAL = ["#2a78d6", "#8ec9ff", "#4fb8c9", "#eb6834", "#b06fc9", "#4fb862", "#e8425a",
                "#b5b5b5", "#2fa89a", "#d98cb3", "#7a8ff0", "#c9a34f", "#5f7089", "#9fd65f"]
@@ -231,20 +263,58 @@ with tab3:
                 cols.append(PAL[pi % len(PAL)])
                 pi += 1
         m["굵기"] = np.where(m["키"].str.startswith("madeca cream"), 4.0, 1.9)
-        ch = alt.Chart(m).mark_line(point=False).encode(
-            x=alt.X("month:T", title=None),
-            y=alt.Y("값:Q", title=ytitle,
-                    scale=alt.Scale(type="log" if logy and not rel else "linear", zero=not logy)),
-            color=alt.Color("키:N", title=None, scale=alt.Scale(domain=keys, range=cols),
-                            legend=alt.Legend(orient="top", columns=4)),
-            size=alt.Size("굵기:Q", scale=alt.Scale(domain=[1.9, 4.0], range=[1.9, 4.0]), legend=None),
-            tooltip=["키", alt.Tooltip("month:T", title="연월", format="%Y-%m"),
-                     alt.Tooltip("searches:Q", title="월 검색수", format=",.0f")]
-                    + ([alt.Tooltip("값:Q", title="피크 대비", format=".0f")] if rel else []))
-        st.altair_chart(ch.properties(height=460), use_container_width=True)
+        yenc = alt.Y("값:Q", title=ytitle,
+                     scale=alt.Scale(type="log" if logy and not rel else "linear", zero=not logy))
+        cenc = alt.Color("키:N", title=None, scale=alt.Scale(domain=keys, range=cols),
+                         legend=alt.Legend(orient="top", columns=4))
+        senc = alt.Size("굵기:Q", scale=alt.Scale(domain=[1.9, 4.0], range=[1.9, 4.0]), legend=None)
+        tips = ["키", alt.Tooltip("month:N", title="연월"),
+                alt.Tooltip("searches:Q", title="월 검색수", format=",.0f")] \
+            + ([alt.Tooltip("값:Q", title="피크 대비", format=".0f")] if rel else []) \
+            + ([alt.Tooltip("t:Q", title="붐 후 개월"), alt.Tooltip("붐시작:N", title="붐 시작")] if t0 else [])
+
+        if t0:
+            ch = alt.Chart(m).mark_line().encode(
+                x=alt.X("t:Q", title="붐 시작 후 개월 (t=0 = 자기 피크의 10% 첫 도달)",
+                        axis=alt.Axis(tickMinStep=2, labelAngle=0)),
+                y=yenc, color=cenc, size=senc, tooltip=tips)
+            st.altair_chart(ch.properties(height=470), use_container_width=True)
+        else:
+            # 2단 가로축을 직접 그림 — 위 줄 = 월(01·02…), 아래 줄 = 연도 (PM 2026-10-08).
+            # Vega 의 축 2개 겹치기는 라벨이 안 뜨는 경우가 있어, 축 띠를 별도 차트로 만들어 붙인다.
+            months = sorted(m["month"].unique())
+            ax = pd.DataFrame({"month": months})
+            ax["dt"] = pd.to_datetime(ax["month"] + "-01")
+            ax["mm"] = ax["dt"].dt.strftime("%m")
+            ax["yy"] = ax["dt"].dt.year
+            step = 1 if len(months) <= 30 else (2 if len(months) <= 60 else 3)
+            ax["show_m"] = [i % step == 0 for i in range(len(ax))]
+            yr = (ax.groupby("yy", as_index=False)
+                    .agg(mid=("dt", lambda s_: s_.iloc[len(s_) // 2]), n=("dt", "size")))
+            yr = yr[yr["n"] >= 2]                      # 한두 달짜리 해는 라벨 생략
+            xsc = alt.Scale(domain=[ax["dt"].min().isoformat(), ax["dt"].max().isoformat()])
+            xq = alt.X("dt:T", title=None, axis=None, scale=xsc)
+            line = alt.Chart(m).mark_line().encode(x=xq, y=yenc, color=cenc, size=senc, tooltip=tips)
+            vline = alt.Chart(yr.assign(jan=pd.to_datetime(yr["yy"].astype(str) + "-01-01"))).mark_rule(
+                color="#33415c", strokeDash=[2, 3]).encode(x=alt.X("jan:T", axis=None, scale=xsc))
+            strip_m = alt.Chart(ax[ax["show_m"]]).mark_text(
+                fontSize=9, color="#9fb0c8", dy=0).encode(x=xq, text="mm:N")
+            strip_y = alt.Chart(yr).mark_text(
+                fontSize=13, fontWeight="bold", color="#dde5f0", dy=18).encode(
+                x=alt.X("mid:T", axis=None, scale=xsc), text="yy:N")
+            strip = alt.layer(strip_m, strip_y).properties(height=34)
+            st.altair_chart(
+                alt.vconcat(alt.layer(vline, line).properties(height=440), strip, spacing=0)
+                  .configure_view(strokeOpacity=0),
+                use_container_width=True)
+            st.caption(f"가로축 2단 — 위 작은 숫자 = 월(01~12){'  ·  ' + str(step) + '개월마다 표시' if step > 1 else ''}, "
+                       "아래 굵은 숫자 = 연도. 세로 점선 = 1월(해가 바뀌는 지점).")
+
         st.caption(("**상대**: 브랜드마다 자기 최고치를 100으로 맞춘 '모양' 비교 — 크기가 달라도 흐름을 겹쳐 볼 수 있음."
                     if rel else
                     "**절대량**: 실제 월 검색수 — 누가 더 큰 브랜드인지 보임.")
+                   + ("  **t=0 정렬**: 브랜드마다 뜬 시점을 0으로 맞춰 수명주기 모양을 비교합니다." if t0
+                      else "  **실제 날짜**: 같은 시점에 무슨 일이 있었는지 봅니다.")
                    + " 금색 굵은 선 = 센텔리안24(madeca cream, 동국제약).")
 
         tb = t[t["brand"].isin(pick) & t["geo"].isin(gcodes)].copy()
