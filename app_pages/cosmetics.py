@@ -302,6 +302,7 @@ if _avail:
             g["m_since"] = [(p.year - b0.year) * 12 + (p.month - b0.month)
                             for p in g["month"]]
             g["breakout"] = b0.strftime("%Y-%m")
+            g["ym"] = [p.strftime("%Y-%m") for p in g["month"]]   # 실제 연월 (툴팁용, PM 2026-10-08)
             rows.append(g)
         if rows:
             life = pd.concat(rows)
@@ -339,6 +340,7 @@ if _avail:
                             if mode_abs
                             else ("norm", "검색 관심도 (자기 피크=100)"))
                 _tips = ["brand",
+                         alt.Tooltip("ym:N", title="실제 연월"),
                          alt.Tooltip("breakout:N", title="붐 시작"),
                          alt.Tooltip("m_since:Q", title="붐 후 개월"),
                          alt.Tooltip(f"{_yf}:Q", format=",.0f",
