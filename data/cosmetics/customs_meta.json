@@ -1,5 +1,5 @@
 {
- "fetched": "2026-09-15T07:21:24",
- "latest_month": "2026-08",
+ "fetched": "2026-10-15T07:21:21",
+ "latest_month": "2026-09",
  "source": "tradedata.go.kr retrieveTrade.do (월×국가×HS4, 수리일 기준, US$000)"
 }
