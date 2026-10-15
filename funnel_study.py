@@ -84,6 +84,13 @@ def search_panel():
     a = a.groupby(["brand", "month"], as_index=False)["searches"].sum()
     a["q"] = a["month"].map(q_of)
     ab = a.groupby(["brand", "q"], as_index=False)["searches"].mean().rename(columns={"searches": "abs_search"})
+    # 미·일만 더한 검색 — BSR 이 미국·일본 아마존뿐이라 ②a(검색→BSR)는 이걸로 짝을 맞춘다 (PM 2026-10-15).
+    # 매출은 전세계라 ②·③은 16개국 합(abs_search)을 그대로 쓴다.
+    a2 = a_geo[a_geo["geo"].isin(["US", "JP"])].groupby(["brand", "month"], as_index=False)["searches"].sum()
+    a2["q"] = a2["month"].map(q_of)
+    ab2 = (a2.groupby(["brand", "q"], as_index=False)["searches"].mean()
+             .rename(columns={"searches": "abs_search_usjp"}))
+    ab = ab.merge(ab2, on=["brand", "q"], how="outer")
 
     # BSR: 미국(amazon.com) + 일본(amazon.co.jp). 순위는 마켓플레이스 안에서만
     # 의미가 있어 그냥 평균내면 안 된다. 그 브랜드가 각 나라에서 실제로 얼마나
@@ -220,7 +227,7 @@ def main():
     p = p[p["brand"].isin(MAP)].copy()
     p["회사"] = p["brand"].map(lambda b: MAP[b][0])
     p["단일브랜드"] = p["brand"].map(lambda b: MAP[b][2])
-    p = yoy(yoy(p, "abs_search"), "rel_search")
+    p = yoy(yoy(yoy(p, "abs_search"), "rel_search"), "abs_search_usjp")
     if "bsr" in p.columns:
         p = yoy(p, "bsr", log=True)      # 이미 로그값 — 뺄셈
     p = p.sort_values(["brand", "q"])
@@ -232,7 +239,8 @@ def main():
              ("abs_search_yoy", "rev_yoy", "② 절대검색 → 매출"),
              ("rel_search_yoy", "rev_yoy", "③ 상대검색 → 매출 (전체 건너뛰기)")]
     if "bsr_yoy" in p.columns:                  # BSR 이 들어오면 칸을 쪼갠다
-        links += [("abs_search_yoy", "bsr_yoy", "②a 절대검색 → BSR"),
+        links += [("abs_search_usjp_yoy", "bsr_yoy", "②a 절대검색(미·일) → BSR"),
+                  ("abs_search_yoy", "bsr_yoy", "②a' 절대검색(전세계) → BSR (참고)"),
                   ("bsr_yoy", "rev_yoy", "②b BSR → 매출")]
     for xc, yc, name in links:
         for lag in range(0, 4):
@@ -274,7 +282,7 @@ def main():
                  ("abs_search_yoy", "rev_yoy", "②절대→매출"),
                  ("rel_search_yoy", "rev_yoy", "③상대→매출")]
         if "bsr_yoy" in p.columns:
-            pairs += [("abs_search_yoy", "bsr_yoy", "②a절대→BSR"),
+            pairs += [("abs_search_usjp_yoy", "bsr_yoy", "②a절대→BSR"),
                       ("bsr_yoy", "rev_yoy", "②bBSR→매출")]
         for xc, yc, tag in pairs:
             # 실제 겹치는 점 개수(nmax)는 R이 안 나와도 보고한다 — n=0 으로 보이면

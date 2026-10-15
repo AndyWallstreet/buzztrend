@@ -97,9 +97,29 @@ def fit(domain):
     x = x[~shared]
     x.to_csv(DATA / f"bsr_calib_points{sfx}.csv", index=False, encoding="utf-8")
     lx, ly = np.log10(x["rank_median"]), np.log10(x["sold"])
-    b, a = np.polyfit(lx, ly, 1)                  # log10(판매) = a + b·log10(순위), b 는 음수
-    pred = a + b * lx
+    b, a = np.polyfit(lx, ly, 1)                  # (참고용) 직선 하나: log10(판매) = a + b·log10(순위)
+    pred_lin = a + b * lx
+    # 두 구간 공식 (B, PM 2026-10-15): KNOT 위에서 꺾인다.
+    #   3,000위 안쪽은 순위 차이가 판매 차이로 거의 안 이어지고(기울기 ~0.2),
+    #   바깥은 가파르다(~1.1). 직선 하나(A)는 2배 안 47% → 두 구간 79%.
+    #   log10(판매) = a + b_top·log10(순위) + b_add·max(log10(순위) − log10(KNOT), 0)
+    X = _design(lx)
+    coef = np.linalg.lstsq(X, ly, rcond=None)[0]
+    if coef[1] > 0:          # 안쪽 기울기가 양수 = 순위가 나빠질수록 더 판다는 뜻 → 말이 안 되므로 평평(0)하게 고정
+        c2 = np.linalg.lstsq(X[:, [0, 2]], ly, rcond=None)[0]
+        coef = np.array([c2[0], 0.0, c2[1]])
+    pred = X @ coef
     r2 = 1 - ((ly - pred) ** 2).sum() / ((ly - ly.mean()) ** 2).sum()
+    # C: 브랜드 하나를 빼고 맞춘 뒤 그 브랜드에 적용 — 처음 보는 브랜드에도 맞는지
+    lbo = pd.Series(index=x.index, dtype=float)
+    for bnd in x["brand"].unique():
+        tr = (x["brand"] != bnd).values
+        c_ = np.linalg.lstsq(X[tr], ly.values[tr], rcond=None)[0]
+        if c_[1] > 0:
+            cc = np.linalg.lstsq(X[tr][:, [0, 2]], ly.values[tr], rcond=None)[0]
+            c_ = np.array([cc[0], 0.0, cc[1]])
+        lbo[~tr] = X[~tr] @ c_
+    lbo_ratio = 10 ** np.abs(ly - lbo.values)
     # 부트스트랩 95% 구간 (상품 단위로 다시 뽑기 — 같은 상품의 달끼리는 서로 닮아서)
     rng = np.random.default_rng(0)
     asins = x["asin"].unique()
@@ -117,20 +137,36 @@ def fit(domain):
     bw = -np.polyfit(xw["lx"], xw["ly"], 1)[0] if len(xw) > 20 else float("nan")
     # 오차: 예측 ÷ 실제 (로그 차이). 몇 배 안에 몇 % 가 들어오나
     ratio = 10 ** np.abs(ly - pred)
+    ratio_lin = 10 ** np.abs(ly - pred_lin)
+    sold_at = lambda r: round(float(10 ** (_design([np.log10(r)]) @ coef)[0]))
     return {
+        "model": "piecewise", "knot_rank": KNOT,
+        "a": round(float(coef[0]), 4), "b_top": round(float(coef[1]), 4), "b_add": round(float(coef[2]), 4),
+        "slope_top": round(float(-coef[1]), 3), "slope_tail": round(float(-(coef[1] + coef[2])), 3),
         "within_2x": round(float((ratio <= 2).mean()), 3),
         "within_3x": round(float((ratio <= 3).mean()), 3),
         "median_err_x": round(float(np.median(ratio)), 2),
+        "lbo_within_2x": round(float((lbo_ratio <= 2).mean()), 3),     # C: 브랜드 빼고 검증
+        "lbo_median_err_x": round(float(np.median(lbo_ratio)), 2),
+        "linear_within_2x": round(float((ratio_lin <= 2).mean()), 3),  # A: 참고
+        "linear_median_err_x": round(float(np.median(ratio_lin)), 2),
         "market": MK[domain], "n_points": int(len(x)), "n_asin": int(x["asin"].nunique()),
-        "exponent": round(-b, 3), "ci95": [round(float(np.percentile(bs, 2.5)), 3),
-                                           round(float(np.percentile(bs, 97.5)), 3)],
+        "exponent_linear": round(-b, 3), "ci95_linear": [round(float(np.percentile(bs, 2.5)), 3),
+                                                         round(float(np.percentile(bs, 97.5)), 3)],
         "exponent_within_asin": round(float(bw), 3), "r2": round(float(r2), 3),
-        "sold_at_rank_1000": round(float(10 ** (a + b * 3))),
-        "sold_at_rank_100": round(float(10 ** (a + b * 2))),
-        "sold_at_rank_10": round(float(10 ** (a + b * 1))),
+        "sold_at_rank_1000": sold_at(1000), "sold_at_rank_100": sold_at(100), "sold_at_rank_10": sold_at(10),
         "months": [x["month"].min(), x["month"].max()],
         "brand_mismatch_dropped": int((~bc["brand_ok"]).sum()),
     }
+
+
+KNOT = 3000
+
+
+def _design(lx):
+    """두 구간 공식의 설명변수: [1, log10(순위), max(log10(순위) − log10(KNOT), 0)]."""
+    lx = np.asarray(lx, dtype=float)
+    return np.c_[np.ones(len(lx)), lx, np.maximum(lx - np.log10(KNOT), 0.0)]
 
 
 def main():

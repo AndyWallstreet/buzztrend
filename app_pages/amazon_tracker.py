@@ -149,11 +149,15 @@ panel = get(f"funnel_panel{SFX}.csv")
 if METHOD == "sales":
     _cal = meta("bsr_calib.json")
     _cu, _cj = _cal.get("US") or {}, _cal.get("JP") or {}
-    st.caption(f"① 추정 판매량 = (1,000 ÷ 순위)^지수 를 상품별로 구해 더한 값. **1,000위 상품 1개가 파는 양 = 1** "
-               f"인 상대 지수입니다. 지수는 아마존 '지난달 X개 이상 구매' 표시와 순위를 비교해 **직접 맞춘 값**: "
-               f"미국 {_cu.get('exponent', '–')} · 일본 {_cj.get('exponent', '–')} (처음 가정 0.85 는 책 연구값이라 "
-               f"너무 가팔랐음). 실제 판매 표시와 비교하면 절반 정도가 2배 안에 들어옵니다 — **오르내림(추세)은 믿어도 "
-               f"되고, 개수는 믿으면 안 됩니다.** 용량·색상 묶음처럼 순위를 공유하는 상품은 한 번만 셉니다.")
+    _k = _cu.get("knot_rank", 3000)
+    st.caption(f"① 추정 판매량 = 순위를 판매 개수로 바꿔 상품별로 더한 값. **1,000위 상품 1개가 파는 양 = 1** 인 "
+               f"상대 지수입니다. 공식은 아마존 '지난달 X개 이상 구매' 표시와 순위를 비교해 **직접 맞춘 두 구간 "
+               f"공식**: {_k:,}위 안쪽은 순위 차이가 판매 차이로 거의 안 이어지고(기울기 미국 "
+               f"{_cu.get('slope_top', '–')} · 일본 {_cj.get('slope_top', '–')}), 바깥은 가파릅니다"
+               f"({_cu.get('slope_tail', '–')} · {_cj.get('slope_tail', '–')}). 처음 보는 브랜드로 검증해도 실제 표시의 "
+               f"2배 안에 미국 {_cu.get('lbo_within_2x', 0):.0%} · 일본 {_cj.get('lbo_within_2x', 0):.0%} 가 들어옵니다 "
+               f"(직선 하나였을 때 {_cu.get('linear_within_2x', 0):.0%}). **추세는 믿어도 되고, 브랜드끼리 개수 비교는 "
+               f"아마존 표시값으로 하세요.** 용량·색상 묶음처럼 순위를 공유하는 상품은 한 번만 셉니다.")
 else:
     st.caption("② 그 달 추적 상품 중 가장 순위가 좋은 상품의 월 중앙 순위. 단순하고 왜곡이 적지만, 주력 상품 "
                "하나만 봅니다 — 여러 상품이 같이 크는 브랜드(예: 센텔리안24)는 덜 보입니다.")
@@ -168,7 +172,7 @@ with tab1:
         st.info("`python funnel_study.py` 를 먼저 돌려주세요.")
     else:
         main = res[~res["단계"].str.contains("단일브랜드")].copy()
-        order = ["① 상대검색 → 절대검색", "②a 절대검색 → BSR", "②b BSR → 매출",
+        order = ["① 상대검색 → 절대검색", "②a 절대검색(미·일) → BSR", "②b BSR → 매출",
                  "② 절대검색 → 매출", "③ 상대검색 → 매출 (전체 건너뛰기)"]
         best = (main.loc[main.groupby("단계")["R(순위)"].apply(lambda s: s.abs().idxmax())]
                 .set_index("단계").reindex([o for o in order if o in set(main["단계"])])
@@ -182,7 +186,7 @@ with tab1:
                      delta_color="normal" if ok else "off")
         # 최적 시차는 데이터에서 읽는다 — 고정 문장이 결과와 어긋나지 않게
         _lag = dict(zip(best["단계"], best["시차(분기)"].astype(int)))
-        _l_ab = _lag.get("②a 절대검색 → BSR", 0)
+        _l_ab = _lag.get("②a 절대검색(미·일) → BSR", 0)
         _l_br = _lag.get("②b BSR → 매출", 0)
         st.markdown(
             f"- **퍼널 순서가 맞습니다.** 검색이 오르면 BSR 이 약 {_l_ab}분기 뒤에 가장 크게 좋아지고, "
@@ -202,7 +206,8 @@ with tab1:
     if byb is not None:
         t = byb.copy()
         t["브랜드"] = t["brand"].map(lab)
-        keep = {"②a절대→BSR": "검색→BSR", "②bBSR→매출": "BSR→매출", "②절대→매출": "검색→매출"}
+        # 검색→BSR 은 미·일 검색 (BSR 이 미·일 아마존뿐이라 지역을 맞춤), 검색→매출은 전세계 검색 (PM 2026-10-15)
+        keep = {"②a절대→BSR": "검색(미·일)→BSR", "②bBSR→매출": "BSR→매출", "②절대→매출": "검색(전세계)→매출"}
         out = t[["브랜드", "매출주기", "매출관측수"]].copy()
         for k, nm in keep.items():
             if f"{k}_R" in t:
@@ -212,7 +217,7 @@ with tab1:
                     t[f"{k}_n"].fillna(0) < 6, "표본부족",
                     np.where(t[f"{k}_p"] < 0.05, np.where(t[f"{k}_R"] > 0, "✅ 양(+)", "⚠️ 음(−)"),
                              "유의X"))
-        out = out.sort_values("검색→BSR R", ascending=False, na_position="last")
+        out = out.sort_values("검색(미·일)→BSR R", ascending=False, na_position="last")
         st.dataframe(out, hide_index=True, use_container_width=True, height=560)
         st.caption("✅ 양(+) = 같이 오름 (퍼널대로) · ⚠️ 음(−) = 반대로 움직임 · "
                    "표본부족 = 겹치는 분기가 6개 미만 · 매출 단위 KRWmn")
@@ -437,7 +442,7 @@ with tab2:
         g = panel[panel["brand"] == pb].sort_values("q").copy()
         g = g[g["q"] >= "2019Q1"]
         lines = []
-        for col, nm in (("abs_search", "절대검색 (전세계)"), ("bsr", "BSR 지표 (미·일)"),
+        for col, nm in (("abs_search_usjp", "절대검색 (미·일)"), ("bsr", "BSR 지표 (미·일)"),
                         ("rev", "매출 (KRWmn)")):
             if col in g and g[col].notna().sum() >= 2:
                 s = g[["q", col]].dropna().copy()
@@ -449,7 +454,7 @@ with tab2:
         if lines:
             L = pd.concat(lines)
             L["dt"] = pd.PeriodIndex(L["q"], freq="Q").to_timestamp(how="end").normalize()
-            colors = alt.Scale(domain=["절대검색 (전세계)", "BSR 지표 (미·일)", "매출 (KRWmn)"],
+            colors = alt.Scale(domain=["절대검색 (미·일)", "BSR 지표 (미·일)", "매출 (KRWmn)"],
                                range=[C_SEARCH, C_BSR, C_REV])
             base = alt.Chart(L).encode(
                 x=alt.X("dt:T", title=None, axis=alt.Axis(format="%Y", tickCount="year", labelAngle=0)),
@@ -470,8 +475,8 @@ with tab2:
                         return f"표본부족 (n={int(rr.get(f'{k}_n') or 0)})"
                     return (f"R {rr[f'{k}_R']:+.2f} · p {rr[f'{k}_p']:.2f} · "
                             f"{int(rr[f'{k}_시차'])}분기 뒤 · n={int(rr[f'{k}_n'])}")
-                st.markdown(f"**{lab(pb)}** — 검색→BSR: {_fmt('②a절대→BSR')}  \n"
-                            f"BSR→매출: {_fmt('②bBSR→매출')}  \n검색→매출: {_fmt('②절대→매출')}")
+                st.markdown(f"**{lab(pb)}** — 검색(미·일)→BSR: {_fmt('②a절대→BSR')}  \n"
+                            f"BSR→매출: {_fmt('②bBSR→매출')}  \n검색(전세계)→매출: {_fmt('②절대→매출')}")
 
 # ================================================================ ③ 상품 목록
 with tab3:

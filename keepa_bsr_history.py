@@ -38,6 +38,7 @@ import sys
 import time
 from pathlib import Path
 
+import numpy as np
 import requests
 
 try:
@@ -179,16 +180,29 @@ SALES_REF = 1000
 
 
 def sales_params(domain):
-    """시장별 지수와 '1,000위 상품의 월 판매 개수'. keepa_sales_calib.py 가 아마존 '지난달 X개
-    이상 구매' 표시로 직접 맞춘 값을 쓴다 (2026-10-15: 미국 0.66 · 일본 0.57 — 처음 가정 0.85 는
-    책 카테고리 연구값이라 뷰티에는 너무 가팔랐다). 파일이 없으면 예전 가정으로."""
+    """시장별 공식(bsr_calib.json)과 '1,000위 상품의 월 판매 개수'.
+
+    keepa_sales_calib.py 가 아마존 '지난달 X개 이상 구매' 표시로 직접 맞춘 두 구간 공식(B)을 쓴다
+    (PM 2026-10-15). 3,000위 안쪽은 순위 차이가 판매 차이로 거의 안 이어지고(기울기 ~0.2), 바깥은
+    가파르다(~1.1). 직선 하나(A, 지수 0.85 → 0.66)는 실제 표시의 2배 안에 47%뿐이라 버렸다.
+    파일이 없으면 예전 직선 가정으로 돌아간다.
+    반환: (label, units_fn, u1000) — units_fn(순위 Series) = 추정 월 판매 개수."""
     p = DATA / "bsr_calib.json"
     mk = DOMAINS.get(domain, "us").upper()
-    if p.exists():
-        c = json.loads(p.read_text(encoding="utf-8")).get(mk)
-        if c:
-            return float(c["exponent"]), float(c["sold_at_rank_1000"])
-    return SALES_EXP, float("nan")
+    c = json.loads(p.read_text(encoding="utf-8")).get(mk) if p.exists() else None
+    if c and c.get("model") == "piecewise":
+        a, bt, ba, knot = c["a"], c["b_top"], c["b_add"], np.log10(c["knot_rank"])
+
+        def fn(rank):
+            lx = np.log10(rank)
+            return 10 ** (a + bt * lx + ba * np.maximum(lx - knot, 0.0))
+        return (f"두 구간 (꺾임 {c['knot_rank']:,}위 · 기울기 {c['slope_top']}/{c['slope_tail']})",
+                fn, float(c["sold_at_rank_1000"]))
+    if c:                                                   # 예전 직선 공식 파일
+        e, u = float(c.get("exponent", SALES_EXP)), float(c["sold_at_rank_1000"])
+        return f"직선 (지수 {e})", (lambda rank: u * (SALES_REF / rank) ** e), u
+    return (f"직선 (가정 지수 {SALES_EXP})",
+            (lambda rank: (SALES_REF / rank) ** SALES_EXP), float("nan"))
 
 
 def aggregate(domain):
@@ -225,8 +239,9 @@ def aggregate(domain):
     day = pd.concat(filled, ignore_index=True)
     day["date"] = day["date"].dt.strftime("%Y-%m-%d")
     day["month"] = day["date"].str[:7]
-    exp_, u1000 = sales_params(domain)
-    day["units"] = (SALES_REF / day["bsr"]) ** exp_
+    label_, units_fn, u1000 = sales_params(domain)
+    # units = 지수 (1,000위 상품 1개 = 1). est_units = 개수. 공식 파일이 없으면 둘이 같다.
+    day["units"] = units_fn(day["bsr"].astype(float)) / (u1000 if u1000 == u1000 else 1.0)
     am = (day.groupby(["brand", "asin", "month"], as_index=False)
           .agg(rank_median=("bsr", "median"), units=("units", "mean"), days=("date", "nunique")))
 
@@ -280,7 +295,7 @@ def aggregate(domain):
     m["bsr_strength"] = m["str_median"]            # 예전 열 이름 — 호환용
     m["est_units"] = (m["sales_idx"] * u1000).round()
     m.to_csv(monthly, index=False, encoding="utf-8")
-    print(f"{monthly.name}: {len(m)}행 (지표 3종) · 지수 {exp_} · 1,000위 = 월 {u1000:,.0f}개 · "
+    print(f"{monthly.name}: {len(m)}행 (지표 3종) · {label_} · 1,000위 = 월 {u1000:,.0f}개 · "
           f"{asin_monthly.name}: {len(am)}행")
     return m.to_dict("records")
 
