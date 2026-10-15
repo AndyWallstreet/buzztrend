@@ -163,7 +163,8 @@ else:
                "하나만 봅니다 — 여러 상품이 같이 크는 브랜드(예: 센텔리안24)는 덜 보입니다.")
 
 # 열자마자 기본 4개 브랜드 차트가 보이게 BSR 추이 탭을 맨 앞에 둔다 (PM 2026-10-15)
-tab2, tab1, tab3 = st.tabs(["① 브랜드별 BSR 추이", "② 퍼널 검증 (검색 → BSR → 매출)", "③ 추적 상품 목록"])
+tab2, tab1, tab3, tab4 = st.tabs(["① 브랜드별 BSR 추이", "② 퍼널 검증 (검색 → BSR → 매출)", "③ 추적 상품 목록",
+                                  "④ 판매식 검증 (왜 두 구간 · 왜 3,000위)"])
 
 # ================================================================ ① 퍼널 검증
 with tab1:
@@ -506,3 +507,13 @@ with tab3:
                        "캡슐세럼도 포함합니다.")
         st.dataframe(tl, hide_index=True, use_container_width=True, height=620,
                      column_config={"BSR 기록 수": st.column_config.NumberColumn(format="%d")})
+
+# ================================================================ ④ 판매식 검증
+# PM 2026-10-15: "3,000 의 기준은 뭐야?" — 본문은 amazon_validation.py (쉘로 긴 블록을 붙이다 깨져서 모듈로 분리)
+with tab4:
+    from app_pages import amazon_validation
+    _cal4 = meta("bsr_calib.json")
+    vmk = st.radio("마켓", ["미국", "일본"], horizontal=True, key="az_val_mkt")
+    amazon_validation.render(_cal4.get("US" if vmk == "미국" else "JP") or {},
+                             get("bsr_calib_points.csv" if vmk == "미국" else "bsr_calib_points_jp.csv"),
+                             vmk, sub, lab)

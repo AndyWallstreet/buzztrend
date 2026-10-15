@@ -138,6 +138,35 @@ def fit(domain):
     # 오차: 예측 ÷ 실제 (로그 차이). 몇 배 안에 몇 % 가 들어오나
     ratio = 10 ** np.abs(ly - pred)
     ratio_lin = 10 ** np.abs(ly - pred_lin)
+
+    # ---- 화면 '④ 판매식 검증' 탭용 (PM 2026-10-15): 왜 두 구간인지, 왜 3,000위인지 보여주는 재료
+    # (1) 순위 구간별 기울기 — 직선 하나로는 안 되는 이유
+    bands = []
+    for lo, hi in ((1, 300), (300, 3000), (3000, 30000), (30000, 10 ** 7)):
+        mk_ = (x["rank_median"] >= lo) & (x["rank_median"] < hi)
+        if mk_.sum() >= 20:
+            bb = -np.polyfit(lx[mk_], ly[mk_], 1)[0]
+            bands.append({"lo": lo, "hi": hi, "n": int(mk_.sum()), "slope": round(float(bb), 2),
+                          "sold_median": int(x.loc[mk_, "sold"].median())})
+    # (2) 꺾임 위치 스캔 — 브랜드 빼고 검증(C)으로 점수. 3,000 은 처음엔 눈으로 골랐고, 이걸로 확인했다.
+    scan = []
+    for knot in (300, 500, 1000, 2000, 3000, 5000, 8000, 12000, 20000):
+        Xk = np.c_[np.ones(len(lx)), lx, np.maximum(lx - np.log10(knot), 0.0)]
+        pk = np.empty(len(x))
+        for bnd in x["brand"].unique():
+            tr = (x["brand"] != bnd).values
+            ck = np.linalg.lstsq(Xk[tr], ly.values[tr], rcond=None)[0]
+            if ck[1] > 0:
+                cc = np.linalg.lstsq(Xk[tr][:, [0, 2]], ly.values[tr], rcond=None)[0]
+                ck = np.array([cc[0], 0.0, cc[1]])
+            pk[~tr] = Xk[~tr] @ ck
+        rk = 10 ** np.abs(ly.values - pk)
+        scan.append({"knot": knot, "within_2x": round(float((rk <= 2).mean()), 3),
+                     "median_err_x": round(float(np.median(rk)), 2)})
+    # (3) 브랜드별 치우침 (모델 ÷ 실제 의 중앙값, 1 = 정확)
+    bias = (10 ** (pred - ly)).groupby(x["brand"].values).median().round(2)
+    brand_bias = [{"brand": b_, "ratio": float(v), "n": int((x["brand"] == b_).sum())}
+                  for b_, v in bias.sort_values().items()]
     sold_at = lambda r: round(float(10 ** (_design([np.log10(r)]) @ coef)[0]))
     return {
         "model": "piecewise", "knot_rank": KNOT,
@@ -157,6 +186,8 @@ def fit(domain):
         "sold_at_rank_1000": sold_at(1000), "sold_at_rank_100": sold_at(100), "sold_at_rank_10": sold_at(10),
         "months": [x["month"].min(), x["month"].max()],
         "brand_mismatch_dropped": int((~bc["brand_ok"]).sum()),
+        "n_brands": int(x["brand"].nunique()),
+        "bands": bands, "knot_scan": scan, "brand_bias": brand_bias,
     }
 
 

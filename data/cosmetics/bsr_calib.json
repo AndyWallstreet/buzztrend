@@ -31,7 +31,172 @@
    "2023-08",
    "2026-08"
   ],
-  "brand_mismatch_dropped": 0
+  "brand_mismatch_dropped": 0,
+  "n_brands": 17,
+  "bands": [
+   {
+    "lo": 1,
+    "hi": 300,
+    "n": 43,
+    "slope": 0.23,
+    "sold_median": 20000
+   },
+   {
+    "lo": 300,
+    "hi": 3000,
+    "n": 101,
+    "slope": 0.3,
+    "sold_median": 8000
+   },
+   {
+    "lo": 3000,
+    "hi": 30000,
+    "n": 261,
+    "slope": 1.08,
+    "sold_median": 1500
+   },
+   {
+    "lo": 30000,
+    "hi": 10000000,
+    "n": 213,
+    "slope": 1.23,
+    "sold_median": 200
+   }
+  ],
+  "knot_scan": [
+   {
+    "knot": 300,
+    "within_2x": 0.604,
+    "median_err_x": 1.74
+   },
+   {
+    "knot": 500,
+    "within_2x": 0.652,
+    "median_err_x": 1.67
+   },
+   {
+    "knot": 1000,
+    "within_2x": 0.704,
+    "median_err_x": 1.55
+   },
+   {
+    "knot": 2000,
+    "within_2x": 0.748,
+    "median_err_x": 1.44
+   },
+   {
+    "knot": 3000,
+    "within_2x": 0.782,
+    "median_err_x": 1.44
+   },
+   {
+    "knot": 5000,
+    "within_2x": 0.77,
+    "median_err_x": 1.45
+   },
+   {
+    "knot": 8000,
+    "within_2x": 0.73,
+    "median_err_x": 1.46
+   },
+   {
+    "knot": 12000,
+    "within_2x": 0.697,
+    "median_err_x": 1.54
+   },
+   {
+    "knot": 20000,
+    "within_2x": 0.628,
+    "median_err_x": 1.63
+   }
+  ],
+  "brand_bias": [
+   {
+    "brand": "anua",
+    "ratio": 0.23,
+    "n": 7
+   },
+   {
+    "brand": "d'alba",
+    "ratio": 0.4,
+    "n": 8
+   },
+   {
+    "brand": "cosrx",
+    "ratio": 0.65,
+    "n": 34
+   },
+   {
+    "brand": "abib",
+    "ratio": 0.72,
+    "n": 23
+   },
+   {
+    "brand": "numbuzin",
+    "ratio": 0.72,
+    "n": 102
+   },
+   {
+    "brand": "mixsoon",
+    "ratio": 0.75,
+    "n": 67
+   },
+   {
+    "brand": "beauty of joseon",
+    "ratio": 0.82,
+    "n": 34
+   },
+   {
+    "brand": "biodance",
+    "ratio": 0.83,
+    "n": 7
+   },
+   {
+    "brand": "skin1004",
+    "ratio": 0.88,
+    "n": 61
+   },
+   {
+    "brand": "manyo",
+    "ratio": 1.05,
+    "n": 66
+   },
+   {
+    "brand": "round lab",
+    "ratio": 1.07,
+    "n": 85
+   },
+   {
+    "brand": "medicube",
+    "ratio": 1.11,
+    "n": 31
+   },
+   {
+    "brand": "reedle shot",
+    "ratio": 1.11,
+    "n": 7
+   },
+   {
+    "brand": "tirtir",
+    "ratio": 1.12,
+    "n": 24
+   },
+   {
+    "brand": "madeca cream",
+    "ratio": 2.03,
+    "n": 4
+   },
+   {
+    "brand": "laneige",
+    "ratio": 2.03,
+    "n": 12
+   },
+   {
+    "brand": "atopalm",
+    "ratio": 4.01,
+    "n": 46
+   }
+  ]
  },
  "JP": {
   "model": "piecewise",
@@ -65,6 +230,161 @@
    "2023-08",
    "2026-09"
   ],
-  "brand_mismatch_dropped": 0
+  "brand_mismatch_dropped": 0,
+  "n_brands": 15,
+  "bands": [
+   {
+    "lo": 1,
+    "hi": 300,
+    "n": 45,
+    "slope": -0.01,
+    "sold_median": 400
+   },
+   {
+    "lo": 300,
+    "hi": 3000,
+    "n": 186,
+    "slope": 0.73,
+    "sold_median": 1500
+   },
+   {
+    "lo": 3000,
+    "hi": 30000,
+    "n": 348,
+    "slope": 1.3,
+    "sold_median": 150
+   },
+   {
+    "lo": 30000,
+    "hi": 10000000,
+    "n": 37,
+    "slope": 1.34,
+    "sold_median": 50
+   }
+  ],
+  "knot_scan": [
+   {
+    "knot": 300,
+    "within_2x": 0.657,
+    "median_err_x": 1.69
+   },
+   {
+    "knot": 500,
+    "within_2x": 0.695,
+    "median_err_x": 1.61
+   },
+   {
+    "knot": 1000,
+    "within_2x": 0.771,
+    "median_err_x": 1.51
+   },
+   {
+    "knot": 2000,
+    "within_2x": 0.779,
+    "median_err_x": 1.36
+   },
+   {
+    "knot": 3000,
+    "within_2x": 0.769,
+    "median_err_x": 1.37
+   },
+   {
+    "knot": 5000,
+    "within_2x": 0.703,
+    "median_err_x": 1.45
+   },
+   {
+    "knot": 8000,
+    "within_2x": 0.677,
+    "median_err_x": 1.55
+   },
+   {
+    "knot": 12000,
+    "within_2x": 0.63,
+    "median_err_x": 1.72
+   },
+   {
+    "knot": 20000,
+    "within_2x": 0.524,
+    "median_err_x": 1.95
+   }
+  ],
+  "brand_bias": [
+   {
+    "brand": "reedle shot",
+    "ratio": 0.47,
+    "n": 16
+   },
+   {
+    "brand": "medicube",
+    "ratio": 0.52,
+    "n": 17
+   },
+   {
+    "brand": "anua",
+    "ratio": 0.73,
+    "n": 49
+   },
+   {
+    "brand": "beauty of joseon",
+    "ratio": 0.98,
+    "n": 101
+   },
+   {
+    "brand": "madeca cream",
+    "ratio": 1.0,
+    "n": 81
+   },
+   {
+    "brand": "round lab",
+    "ratio": 1.04,
+    "n": 38
+   },
+   {
+    "brand": "torriden",
+    "ratio": 1.05,
+    "n": 31
+   },
+   {
+    "brand": "numbuzin",
+    "ratio": 1.05,
+    "n": 89
+   },
+   {
+    "brand": "skin1004",
+    "ratio": 1.08,
+    "n": 77
+   },
+   {
+    "brand": "mixsoon",
+    "ratio": 1.09,
+    "n": 22
+   },
+   {
+    "brand": "laneige",
+    "ratio": 1.16,
+    "n": 13
+   },
+   {
+    "brand": "biodance",
+    "ratio": 1.2,
+    "n": 9
+   },
+   {
+    "brand": "d'alba",
+    "ratio": 1.25,
+    "n": 17
+   },
+   {
+    "brand": "abib",
+    "ratio": 1.75,
+    "n": 35
+   },
+   {
+    "brand": "tirtir",
+    "ratio": 3.49,
+    "n": 21
+   }
+  ]
  }
 }
