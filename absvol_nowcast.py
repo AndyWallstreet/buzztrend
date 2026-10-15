@@ -19,16 +19,44 @@ import numpy as np
 import pandas as pd
 
 
-def nowcast(a):
-    """a = absvol_monthly.csv DataFrame. 반환: 브랜드별 속보 표 (없으면 빈 DataFrame)."""
+def nowcast(a, g=None):
+    """a = absvol_monthly.csv DataFrame · g = absvol_gads.csv DataFrame (있으면).
+    반환: 브랜드별 속보 표 (없으면 빈 DataFrame).
+
+    g 가 본 데이터보다 새 달을 16개국 전부 갖고 있으면 그 **실측값**을 쓴다 (trust='실측').
+    없으면 전세계(WW) 비율 추정으로 내려간다. 2026-10-15 확인: 구글애즈 엔드포인트와 본 데이터는
+    같은 달에 미국 19개 브랜드 100% 같은 값 — 같은 출처."""
     cols = ["brand", "month", "ww_prev", "ww_now", "ww_mom", "ratio", "ratio_cv",
             "c16_prev", "c16_est", "c16_mom_est", "n_kw", "trust", "why"]
-    if a is None or "WW" not in set(a["geo"]):
+    if a is None:
         return pd.DataFrame(columns=cols)
     a = a[a["searches"] < 1_000_000]                       # tirtir 키워드 이상치 (funnel 과 같은 처리)
-    w = a[a["geo"] == "WW"]
     c = a[a["geo"] != "WW"]
     c_last = c.groupby(["geo", "keyword"])["month"].max().min()   # 모든 나라·검색어가 가진 마지막 달
+    geos16 = set(c["geo"])
+
+    # ---- 1순위: 구글애즈 나라별 실측 (absvol_gads.csv)
+    if g is not None and len(g):
+        g = g[(g["geo"] != "WW") & (g["searches"] < 1_000_000)]
+        g_last = g["month"].max()
+        if g_last > c_last and geos16 <= set(g[g["month"] == g_last]["geo"]):
+            cur = g[(g["month"] == g_last) & (g["geo"].isin(geos16))].groupby("brand")["searches"].sum()
+            prev = c[c["month"] == c_last].groupby("brand")["searches"].sum()
+            nkw = g[g["geo"] == "US"].groupby("brand")["keyword"].nunique()
+            rows = []
+            for b in cur.index:
+                if b not in prev.index or prev[b] <= 0:
+                    continue
+                rows.append({"brand": b, "month": g_last, "ww_prev": np.nan, "ww_now": np.nan, "ww_mom": np.nan,
+                             "ratio": 1.0, "ratio_cv": 0.0, "c16_prev": prev[b], "c16_est": cur[b],
+                             "c16_mom_est": cur[b] / prev[b] - 1, "n_kw": int(nkw.get(b, 1)),
+                             "trust": "실측", "why": "구글애즈 나라별 실측값 (16개국 합) — 본 데이터와 같은 출처"})
+            return pd.DataFrame(rows, columns=cols)
+
+    # ---- 2순위: 전세계(WW) 비율 추정
+    if "WW" not in set(a["geo"]):
+        return pd.DataFrame(columns=cols)
+    w = a[a["geo"] == "WW"]
     w_last = w["month"].max()
     if w_last <= c_last:
         return pd.DataFrame(columns=cols)

@@ -85,20 +85,26 @@ if solo is not None and len(solo):
 
 # 절대검색 최신 달 속보 (PM 2026-10-15) — 전세계 숫자가 나라별보다 먼저 나온 달에만 한 줄 표시
 @st.cache_data(show_spinner=False)
-def _nowcast(stamp):
+def _nowcast(stamp, stamp_g):
     import sys
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
     from absvol_nowcast import nowcast
-    return nowcast(load("absvol_monthly.csv", stamp))
+    return nowcast(load("absvol_monthly.csv", stamp), load("absvol_gads.csv", stamp_g))
 
 
-_nc = _nowcast(_stamp("absvol_monthly.csv"))
+_nc = _nowcast(_stamp("absvol_monthly.csv"), _stamp("absvol_gads.csv"))
 if len(_nc) and "madeca cream" in set(_nc["brand"]):
     _r = _nc[_nc["brand"] == "madeca cream"].iloc[0]
-    st.info(f"📌 **{_r['month'][:4]}년 {int(_r['month'][5:])}월 속보 (추정)** — 센텔리안24 절대검색: "
-            f"전세계 {_r['ww_now']:,.0f}회 (전월 대비 {_r['ww_mom']:+.0%}) → 16개국 기준 약 "
-            f"**{_r['c16_est']:,.0f}회** (전월 실제 {_r['c16_prev']:,.0f}회, {_r['c16_mom_est']:+.0%}) · "
-            f"믿음 {_r['trust']} · 나라별 정식 숫자가 나오면 바뀝니다. 출처 DataForSEO.")
+    _ym = f"{_r['month'][:4]}년 {int(_r['month'][5:])}월"
+    if _r["trust"] == "실측":
+        st.info(f"📌 **{_ym} (구글애즈 실측)** — 센텔리안24 절대검색 16개국 합 **{_r['c16_est']:,.0f}회** "
+                f"(전월 {_r['c16_prev']:,.0f}회, {_r['c16_mom_est']:+.0%}). 본 데이터(8년치)에는 아직 없는 달을 "
+                f"같은 출처(구글애즈)에서 먼저 받은 값입니다. 출처 DataForSEO.")
+    else:
+        st.info(f"📌 **{_ym} 속보 (추정)** — 센텔리안24 절대검색: "
+                f"전세계 {_r['ww_now']:,.0f}회 (전월 대비 {_r['ww_mom']:+.0%}) → 16개국 기준 약 "
+                f"**{_r['c16_est']:,.0f}회** (전월 실제 {_r['c16_prev']:,.0f}회, {_r['c16_mom_est']:+.0%}) · "
+                f"믿음 {_r['trust']} · 나라별 정식 숫자가 나오면 바뀝니다. 출처 DataForSEO.")
 
 g1, g2 = st.columns(2, gap="large")
 with g1:

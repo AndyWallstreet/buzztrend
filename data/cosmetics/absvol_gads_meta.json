@@ -1,0 +1,27 @@
+{
+ "fetched": "2026-10-15T15:13:31",
+ "geos": [
+  "AU",
+  "BR",
+  "CA",
+  "DE",
+  "FR",
+  "GB",
+  "ID",
+  "IN",
+  "JP",
+  "MX",
+  "MY",
+  "NL",
+  "PH",
+  "SG",
+  "US",
+  "VN"
+ ],
+ "months": [
+  "2025-10",
+  "2026-09"
+ ],
+ "cost_usd_this_run": 1.26,
+ "source": "DataForSEO keywords_data/google_ads/search_volume (12개월, 나라별)"
+}

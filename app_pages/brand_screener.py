@@ -145,19 +145,23 @@ tab1, tab2, tab3 = st.tabs(["🏁 순위표", "📈 모멘텀 지도", "🔎 브
 
 
 @st.cache_data(show_spinner=False)
-def _nowcast(stamp):
+def _nowcast(stamp, stamp_g):
     import sys
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
     from absvol_nowcast import nowcast
-    return nowcast(load("absvol_monthly.csv", stamp))
+    return nowcast(load("absvol_monthly.csv", stamp), load("absvol_gads.csv", stamp_g))
 
 
 with tab1:
-    # 최신 달 속보 (PM 2026-10-15): 전세계 숫자가 나라별보다 먼저 나온 달만 보임. 원본과 섞지 않음.
-    _nc = _nowcast(_stamp("absvol_monthly.csv"))
+    # 최신 달 속보 (PM 2026-10-15): 본 데이터(나라별 8년치)보다 새 달이 있으면 보임. 원본과 섞지 않음.
+    # 1순위 = 구글애즈 나라별 실측(absvol_gads.csv, python absvol_gads_pull.py ALL) · 2순위 = 전세계 비율 추정
+    _nc = _nowcast(_stamp("absvol_monthly.csv"), _stamp("absvol_gads.csv"))
     if len(_nc):
         _m = _nc["month"].iloc[0]
-        sub(f"📌 {_m[:4]}년 {int(_m[5:])}월 속보 (추정)",
+        _real = (_nc["trust"] == "실측").all()
+        sub(f"📌 {_m[:4]}년 {int(_m[5:])}월 {'(구글애즈 실측)' if _real else '속보 (추정)'}",
+            ("본 데이터(8년치)에는 아직 없는 달을 구글애즈 엔드포인트로 먼저 받음 · 같은 출처라 값이 같음 · "
+             "순위표·점수에는 아직 안 들어감") if _real else
             "전세계 숫자가 먼저 나와서, 나라별 숫자가 나오기 전에 방향만 미리 봄 · 순위표·점수에는 안 들어감")
         _nc = _nc.copy()
         _nc["_o"] = _nc["brand"].map(lambda b: 0 if b == "madeca cream" else 1)
