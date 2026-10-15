@@ -194,6 +194,34 @@ def main():
     out = pd.DataFrame(res)
     out.to_csv(DATA / "funnel_result.csv", index=False, encoding="utf-8-sig")
 
+    # ---- 브랜드별 상관 (PM 우선순위). BSR 칸은 Keepa 결제 후 채운다.
+    bres = []
+    for b, g in p.groupby("brand"):
+        g = g.sort_values("q").reset_index(drop=True)
+        rq = g.dropna(subset=["rev"])["q"]
+        row = {"brand": b, "회사": MAP[b][0], "단일브랜드": MAP[b][2],
+               "매출주기": "분기" if rq.str.endswith(("Q1", "Q2", "Q3")).any() else "연간",
+               "매출관측수": int(len(rq))}
+        for xc, yc, tag in [("rel_search_yoy", "abs_search_yoy", "①상대→절대"),
+                            ("abs_search_yoy", "rev_yoy", "②절대→매출"),
+                            ("rel_search_yoy", "rev_yoy", "③상대→매출")]:
+            # 실제 겹치는 점 개수(nmax)는 R이 안 나와도 보고한다 — n=0 으로 보이면
+            # '데이터 없음'으로 오해하게 된다(PM 2026-10-15).
+            best, nmax = (None, None, 0, None), 0
+            for lag in range(0, 4):
+                y = g[yc].shift(-lag) if lag else g[yc]
+                r_, p_, n_ = corr_p(g[xc], y, "spearman")
+                nmax = max(nmax, n_)
+                if pd.notna(r_) and (best[0] is None or abs(r_) > abs(best[0])):
+                    best = (r_, p_, n_, lag)
+            if best[0] is None:
+                best = (None, None, nmax, None)
+            row[tag + "_R"], row[tag + "_p"], row[tag + "_n"], row[tag + "_시차"] = best
+        row["④BSR→매출_R"] = None          # Keepa 미결제 — 비워둠
+        bres.append(row)
+    bb = pd.DataFrame(bres).sort_values("②절대→매출_R", ascending=False)
+    bb.to_csv(DATA / "funnel_by_brand.csv", index=False, encoding="utf-8-sig")
+
     (DATA / "funnel_meta.json").write_text(json.dumps({
         "as_of": time.strftime("%Y-%m-%d"),
         "n_brands": int(p["brand"].nunique()),
