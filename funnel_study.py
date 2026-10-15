@@ -64,10 +64,21 @@ def search_panel():
     a["q"] = a["month"].map(q_of)
     ab = a.groupby(["brand", "q"], as_index=False)["searches"].mean().rename(columns={"searches": "abs_search"})
 
+    b = None
+    f = DATA / "bsr_monthly.csv"
+    if f.exists():                              # Keepa 결제 후 생김
+        b = pd.read_csv(f)
+        b["q"] = b["month"].map(q_of)
+        b = (b.groupby(["brand", "q"], as_index=False)["bsr_strength"]
+               .mean().rename(columns={"bsr_strength": "bsr"}))
+
     g = pd.read_csv(DATA / "gtrends_life_US.csv")
     g["q"] = g["date"].astype(str).str[:7].map(q_of)
     gt = g.groupby(["brand", "q"], as_index=False)["value"].mean().rename(columns={"value": "rel_search"})
-    return ab.merge(gt, on=["brand", "q"], how="outer")
+    out = ab.merge(gt, on=["brand", "q"], how="outer")
+    if b is not None:
+        out = out.merge(b, on=["brand", "q"], how="outer")
+    return out
 
 
 def revenue_panel():
@@ -158,6 +169,8 @@ def main():
     p["회사"] = p["brand"].map(lambda b: MAP[b][0])
     p["단일브랜드"] = p["brand"].map(lambda b: MAP[b][2])
     p = yoy(yoy(p, "abs_search"), "rel_search")
+    if "bsr" in p.columns:
+        p = yoy(p, "bsr")
     p = p.sort_values(["brand", "q"])
     p.to_csv(DATA / "funnel_panel.csv", index=False, encoding="utf-8-sig")
 
@@ -166,6 +179,9 @@ def main():
     links = [("rel_search_yoy", "abs_search_yoy", "① 상대검색 → 절대검색"),
              ("abs_search_yoy", "rev_yoy", "② 절대검색 → 매출"),
              ("rel_search_yoy", "rev_yoy", "③ 상대검색 → 매출 (전체 건너뛰기)")]
+    if "bsr_yoy" in p.columns:                  # BSR 이 들어오면 칸을 쪼갠다
+        links += [("abs_search_yoy", "bsr_yoy", "②a 절대검색 → BSR"),
+                  ("bsr_yoy", "rev_yoy", "②b BSR → 매출")]
     for xc, yc, name in links:
         for lag in range(0, 4):
             xs, ys = [], []
@@ -202,9 +218,13 @@ def main():
         row = {"brand": b, "회사": MAP[b][0], "단일브랜드": MAP[b][2],
                "매출주기": "분기" if rq.str.endswith(("Q1", "Q2", "Q3")).any() else "연간",
                "매출관측수": int(len(rq))}
-        for xc, yc, tag in [("rel_search_yoy", "abs_search_yoy", "①상대→절대"),
-                            ("abs_search_yoy", "rev_yoy", "②절대→매출"),
-                            ("rel_search_yoy", "rev_yoy", "③상대→매출")]:
+        pairs = [("rel_search_yoy", "abs_search_yoy", "①상대→절대"),
+                 ("abs_search_yoy", "rev_yoy", "②절대→매출"),
+                 ("rel_search_yoy", "rev_yoy", "③상대→매출")]
+        if "bsr_yoy" in p.columns:
+            pairs += [("abs_search_yoy", "bsr_yoy", "②a절대→BSR"),
+                      ("bsr_yoy", "rev_yoy", "②bBSR→매출")]
+        for xc, yc, tag in pairs:
             # 실제 겹치는 점 개수(nmax)는 R이 안 나와도 보고한다 — n=0 으로 보이면
             # '데이터 없음'으로 오해하게 된다(PM 2026-10-15).
             best, nmax = (None, None, 0, None), 0
@@ -217,7 +237,6 @@ def main():
             if best[0] is None:
                 best = (None, None, nmax, None)
             row[tag + "_R"], row[tag + "_p"], row[tag + "_n"], row[tag + "_시차"] = best
-        row["④BSR→매출_R"] = None          # Keepa 미결제 — 비워둠
         bres.append(row)
     bb = pd.DataFrame(bres).sort_values("②절대→매출_R", ascending=False)
     bb.to_csv(DATA / "funnel_by_brand.csv", index=False, encoding="utf-8-sig")
