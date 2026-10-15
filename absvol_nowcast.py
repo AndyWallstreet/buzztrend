@@ -1,0 +1,62 @@
+# -*- coding: utf-8 -*-
+"""절대검색량 '최신 달 속보' — 전세계(WW) 숫자가 나라별보다 먼저 나왔을 때 쓰는 추정.
+
+왜 (PM 2026-10-15): DataForSEO 는 전세계 숫자(구글애즈, 12개월)를 나라별(16개국,
+    8년치)보다 먼저 올린다. 나라별 9월치를 기다리는 동안 전세계 9월치로 방향을 미리 본다.
+
+방법: 두 데이터가 겹치는 최근 3개월의 '16개국 합 ÷ 전세계' 비율로 전세계 최신 달을
+    16개국 기준으로 바꾼다. 두 숫자는 출처가 달라 크기가 다르므로 그대로 이어 붙이면 안 된다.
+
+원본(absvol_monthly.csv)에는 절대 섞지 않는다 — 퍼널·스크리너 계산이 오염된다.
+나라별 최신 달이 전세계를 따라잡으면 빈 표를 돌려준다 (속보가 필요 없음).
+
+믿음 정도:
+  낮음 = 비율이 달마다 25% 넘게 흔들리거나, 16개국 합이 전세계보다 큼 (짝이 안 맞음)
+  보통 = 검색어가 1개뿐 (구글이 계단 값으로 반올림 → 0% / ±18% 로만 움직임) 또는 흔들림 15~25%
+  높음 = 그 외
+"""
+import numpy as np
+import pandas as pd
+
+
+def nowcast(a):
+    """a = absvol_monthly.csv DataFrame. 반환: 브랜드별 속보 표 (없으면 빈 DataFrame)."""
+    cols = ["brand", "month", "ww_prev", "ww_now", "ww_mom", "ratio", "ratio_cv",
+            "c16_prev", "c16_est", "c16_mom_est", "n_kw", "trust", "why"]
+    if a is None or "WW" not in set(a["geo"]):
+        return pd.DataFrame(columns=cols)
+    a = a[a["searches"] < 1_000_000]                       # tirtir 키워드 이상치 (funnel 과 같은 처리)
+    w = a[a["geo"] == "WW"]
+    c = a[a["geo"] != "WW"]
+    c_last = c.groupby(["geo", "keyword"])["month"].max().min()   # 모든 나라·검색어가 가진 마지막 달
+    w_last = w["month"].max()
+    if w_last <= c_last:
+        return pd.DataFrame(columns=cols)
+    ww = w.groupby(["brand", "month"])["searches"].sum().unstack()
+    c16 = c[c["month"] <= c_last].groupby(["brand", "month"])["searches"].sum().unstack()
+    nkw = w.groupby("brand")["keyword"].nunique()
+    over = [m for m in ww.columns if m in c16.columns and m <= c_last]
+    prev = c_last
+    rows = []
+    for b in ww.index:
+        if b not in c16.index or prev not in ww.columns:
+            continue
+        r = (c16.loc[b, over] / ww.loc[b, over]).replace([np.inf, -np.inf], np.nan).dropna()
+        if len(r) < 6 or pd.isna(ww.loc[b, w_last]) or pd.isna(ww.loc[b, prev]):
+            continue
+        ratio = float(r.iloc[-3:].mean())
+        cv = float(r.std() / r.mean())
+        est = float(ww.loc[b, w_last]) * ratio
+        n = int(nkw.get(b, 1))
+        if cv > 0.25 or ratio > 1.2:
+            trust, why = "낮음", ("16개국 합 > 전세계 (짝이 안 맞음)" if ratio > 1.2 else f"비율 흔들림 {cv:.0%}")
+        elif n == 1 or cv > 0.15:
+            trust, why = "보통", ("검색어 1개 → 구글 계단 값 (0% · ±18% 로만 움직임)" if n == 1
+                                  else f"비율 흔들림 {cv:.0%}")
+        else:
+            trust, why = "높음", f"검색어 {n}개 합 · 흔들림 {cv:.0%}"
+        rows.append({"brand": b, "month": w_last, "ww_prev": ww.loc[b, prev], "ww_now": ww.loc[b, w_last],
+                     "ww_mom": ww.loc[b, w_last] / ww.loc[b, prev] - 1, "ratio": ratio, "ratio_cv": cv,
+                     "c16_prev": c16.loc[b, prev], "c16_est": est,
+                     "c16_mom_est": est / c16.loc[b, prev] - 1, "n_kw": n, "trust": trust, "why": why})
+    return pd.DataFrame(rows, columns=cols)

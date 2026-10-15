@@ -143,6 +143,39 @@ with c2:
 
 tab1, tab2, tab3 = st.tabs(["🏁 순위표", "📈 모멘텀 지도", "🔎 브랜드 상세"])
 
+
+@st.cache_data(show_spinner=False)
+def _nowcast(stamp):
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from absvol_nowcast import nowcast
+    return nowcast(load("absvol_monthly.csv", stamp))
+
+
+with tab1:
+    # 최신 달 속보 (PM 2026-10-15): 전세계 숫자가 나라별보다 먼저 나온 달만 보임. 원본과 섞지 않음.
+    _nc = _nowcast(_stamp("absvol_monthly.csv"))
+    if len(_nc):
+        _m = _nc["month"].iloc[0]
+        sub(f"📌 {_m[:4]}년 {int(_m[5:])}월 속보 (추정)",
+            "전세계 숫자가 먼저 나와서, 나라별 숫자가 나오기 전에 방향만 미리 봄 · 순위표·점수에는 안 들어감")
+        _nc = _nc.copy()
+        _nc["_o"] = _nc["brand"].map(lambda b: 0 if b == "madeca cream" else 1)
+        _nc = _nc.sort_values(["_o", "trust", "c16_est"], ascending=[True, True, False])
+        _show = pd.DataFrame({
+            "브랜드": _nc["brand"], "믿음": _nc["trust"],
+            "전세계 전월": _nc["ww_prev"].map("{:,.0f}".format),
+            "전세계 이번 달": _nc["ww_now"].map("{:,.0f}".format),
+            "전세계 전월 대비": _nc["ww_mom"].map("{:+.0%}".format),
+            "16개국 전월 (실제)": _nc["c16_prev"].map("{:,.0f}".format),
+            "16개국 이번 달 (추정)": _nc["c16_est"].map("{:,.0f}".format),
+            "이유": _nc["why"]})
+        st.dataframe(_show, hide_index=True, use_container_width=True, height=min(38 * (len(_show) + 1), 420))
+        st.caption("16개국 추정 = 전세계 이번 달 × (겹치는 최근 3개월의 '16개국 합 ÷ 전세계' 평균). "
+                   "두 숫자는 출처가 달라 크기가 다르기 때문에 비율로 맞춤. 믿음 '보통' 인 검색어 1개 브랜드는 "
+                   "구글이 계단 값으로 반올림해서 0% 나 −18% 로만 움직입니다 — 실제 변화가 아닐 수 있음. "
+                   "전년 대비는 나라별 숫자가 나와야 계산됩니다.")
+
 with tab1:
     sub("검색 모멘텀 순위", "종합점수 = 3개월 모멘텀 30% + 12개월 모멘텀 50% + 피크 대비 20% (국가 안 백분위)")
     show = g[["rank", "brand", "상장사", "stage", "now", "m1", "m3", "m12", "vs_peak", "peak_month",

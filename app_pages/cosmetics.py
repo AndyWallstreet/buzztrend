@@ -82,6 +82,24 @@ if solo is not None and len(solo):
               f"{_m4:.0f} vs {_m4p:.0f}",
               f"{(_m4 / _m4p - 1) * 100:+.0f}%" if _m4p else None)
 
+
+# 절대검색 최신 달 속보 (PM 2026-10-15) — 전세계 숫자가 나라별보다 먼저 나온 달에만 한 줄 표시
+@st.cache_data(show_spinner=False)
+def _nowcast(stamp):
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from absvol_nowcast import nowcast
+    return nowcast(load("absvol_monthly.csv", stamp))
+
+
+_nc = _nowcast(_stamp("absvol_monthly.csv"))
+if len(_nc) and "madeca cream" in set(_nc["brand"]):
+    _r = _nc[_nc["brand"] == "madeca cream"].iloc[0]
+    st.info(f"📌 **{_r['month'][:4]}년 {int(_r['month'][5:])}월 속보 (추정)** — 센텔리안24 절대검색: "
+            f"전세계 {_r['ww_now']:,.0f}회 (전월 대비 {_r['ww_mom']:+.0%}) → 16개국 기준 약 "
+            f"**{_r['c16_est']:,.0f}회** (전월 실제 {_r['c16_prev']:,.0f}회, {_r['c16_mom_est']:+.0%}) · "
+            f"믿음 {_r['trust']} · 나라별 정식 숫자가 나오면 바뀝니다. 출처 DataForSEO.")
+
 g1, g2 = st.columns(2, gap="large")
 with g1:
     sub("센텔리안24 미국 검색 추세", "구글 트렌드 · 주간 · 12개월 롤링 (상대값, 최고=100)")
