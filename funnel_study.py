@@ -68,16 +68,36 @@ def search_panel():
     # '일부만 더한 값'으로 푹 꺼지지 않는다.
     cut = a.groupby(["geo", "keyword"])["month"].max().min()
     a = a[a["month"] <= cut]
+    a_geo = a.copy()                      # 나라별 원본 — BSR 가중치에 쓴다
     a = a.groupby(["brand", "month"], as_index=False)["searches"].sum()
     a["q"] = a["month"].map(q_of)
     ab = a.groupby(["brand", "q"], as_index=False)["searches"].mean().rename(columns={"searches": "abs_search"})
 
+    # BSR: 미국(amazon.com) + 일본(amazon.co.jp). 순위는 마켓플레이스 안에서만
+    # 의미가 있어 그냥 평균내면 안 된다. 그 브랜드가 각 나라에서 실제로 얼마나
+    # 검색되는지(= 시장 크기 대리)로 가중평균한다 — 리들샷은 검색의 90%가
+    # 일본이라 일본 BSR 이 거의 전부를 결정해야 맞다.
     b = None
-    f = DATA / "bsr_monthly.csv"
-    if f.exists():                              # Keepa 결제 후 생김
-        b = pd.read_csv(f)
-        b["q"] = b["month"].map(q_of)
-        b = (b.groupby(["brand", "q"], as_index=False)["bsr_strength"]
+    bits = []
+    for fn, geo in (("bsr_monthly.csv", "US"), ("bsr_monthly_jp.csv", "JP")):
+        fp = DATA / fn
+        if fp.exists():
+            x = pd.read_csv(fp)[["brand", "month", "bsr_strength"]].copy()
+            x["geo"] = geo
+            bits.append(x)
+    if bits:
+        bs = pd.concat(bits, ignore_index=True)
+        wt = (a_geo[a_geo["geo"].isin(["US", "JP"])]
+              .groupby(["brand", "month", "geo"], as_index=False)["searches"].sum()
+              .rename(columns={"searches": "w"}))
+        bs = bs.merge(wt, on=["brand", "month", "geo"], how="left")
+        # 검색 데이터가 없는 달은 그 나라를 똑같이 취급 (가중치 1)
+        bs["w"] = bs["w"].fillna(1.0)
+        bs["wx"] = bs["w"] * bs["bsr_strength"]
+        g2 = bs.groupby(["brand", "month"], as_index=False)[["wx", "w"]].sum()
+        g2["bsr_strength"] = g2["wx"] / g2["w"]
+        g2["q"] = g2["month"].map(q_of)
+        b = (g2.groupby(["brand", "q"], as_index=False)["bsr_strength"]
                .mean().rename(columns={"bsr_strength": "bsr"}))
 
     g = pd.read_csv(DATA / "gtrends_life_US.csv")
