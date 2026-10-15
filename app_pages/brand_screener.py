@@ -65,6 +65,20 @@ def get(name):
 
 t = get("brand_screener.csv")
 mv = get("absvol_monthly.csv")
+
+
+@st.cache_data(show_spinner=False)
+def _combined(stamp, stamp_g):
+    """차트용 월별 시리즈 = 본 데이터 + 구글애즈로 먼저 받은 최신 달 (PM 2026-10-15 "9월꺼 왜 없어")."""
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from absvol_nowcast import combined
+    return combined(load("absvol_monthly.csv", stamp), load("absvol_gads.csv", stamp_g))
+
+
+mv = _combined(_stamp("absvol_monthly.csv"), _stamp("absvol_gads.csv"))
+_gads_month = (sorted(mv.loc[mv["source"] == "gads", "month"].unique())
+               if mv is not None and "source" in mv else [])
 meta = json.loads((DATA / "brand_screener_meta.json").read_text(encoding="utf-8")) \
     if (DATA / "brand_screener_meta.json").exists() else {}
 if t is None:
@@ -361,7 +375,9 @@ with tab3:
                     "**절대량**: 실제 월 검색수 — 누가 더 큰 브랜드인지 보임.")
                    + ("  **t=0 정렬**: 브랜드마다 뜬 시점을 0으로 맞춰 수명주기 모양을 비교합니다." if t0
                       else "  **실제 날짜**: 같은 시점에 무슨 일이 있었는지 봅니다.")
-                   + " 금색 굵은 선 = 센텔리안24(madeca cream, 동국제약).")
+                   + " 금색 굵은 선 = 센텔리안24(madeca cream, 동국제약)."
+                   + (f"  **{', '.join(_gads_month)} 은 구글애즈 엔드포인트로 먼저 받은 값**(본 데이터와 같은 출처 · "
+                      "본 데이터에 있는 검색어만 이어 붙임)." if _gads_month else ""))
 
         tb = t[t["brand"].isin(pick) & t["geo"].isin(gcodes)].copy()
         tb["상장사"] = tb["brand"].map(LISTED).fillna("")

@@ -19,6 +19,29 @@ import numpy as np
 import pandas as pd
 
 
+def combined(a, g=None):
+    """본 데이터(a) 뒤에 구글애즈 파일(g)의 '더 새로운 달' 을 이어 붙인 월별 시리즈. 차트용.
+
+    본 데이터에 이미 있는 (나라·브랜드·검색어) 조합만 붙인다 — 본 데이터에 빠진 검색어(인도
+    'madeca cream' 등)를 최신 달에만 끼우면 그 달만 튀는 가짜 점프가 생긴다 (2026-10-15 확인).
+    source 열: 'labs'(본) / 'gads'(구글애즈). 본 데이터가 따라잡으면 붙일 게 없어 그대로 돌려준다."""
+    if a is None:
+        return None
+    a = a.copy()
+    a["source"] = "labs"
+    if g is None or not len(g):
+        return a
+    c = a[a["geo"] != "WW"]
+    c_last = c.groupby(["geo", "keyword"])["month"].max().min()
+    keys = set(zip(c["geo"], c["brand"], c["keyword"]))
+    add = g[(g["month"] > c_last) & (g["geo"] != "WW")]
+    add = add[[k in keys for k in zip(add["geo"], add["brand"], add["keyword"])]].copy()
+    if not len(add):
+        return a
+    add["source"] = "gads"
+    return pd.concat([a, add[a.columns]], ignore_index=True)
+
+
 def nowcast(a, g=None):
     """a = absvol_monthly.csv DataFrame · g = absvol_gads.csv DataFrame (있으면).
     반환: 브랜드별 속보 표 (없으면 빈 DataFrame).
