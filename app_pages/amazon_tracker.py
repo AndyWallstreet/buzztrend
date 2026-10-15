@@ -76,6 +76,30 @@ def lab(b):
     return LABEL.get(b, b)
 
 
+@st.cache_data(show_spinner=False)
+def _search_boom(stamp):
+    """구글 절대검색 붐 달: 16개국 합 월 검색량이 자기 최고치의 10% 에 처음 도달한 달.
+    브랜드 스크리너와 같은 규칙. 'WW' 행은 16개국과 중복이라 빼고, 1,000,000 이상 행은
+    tirtir 키워드 이상치라 뺀다 (funnel_study 와 같은 처리)."""
+    a = load("absvol_monthly.csv", stamp)
+    if a is None:
+        return {}
+    a = a[(a["geo"] != "WW") & (a["searches"] < 1_000_000)]
+    cut = a.groupby(["geo", "keyword"])["month"].max().min()
+    a = a[a["month"] <= cut].groupby(["brand", "month"], as_index=False)["searches"].sum()
+    out = {}
+    for b, g in a.sort_values("month").groupby("brand"):
+        g = g[g["searches"] > 0]
+        if len(g):
+            m0 = g[g["searches"] >= 0.1 * g["searches"].max()]["month"].iloc[0]
+            out[b] = (pd.Timestamp(m0 + "-01"), m0 == g["month"].iloc[0])
+    return out
+
+
+def search_boom():
+    return _search_boom(_stamp("absvol_monthly.csv"))
+
+
 # ------------------------------------------------------------------ 데이터
 parts = []
 for fn, geo in (("bsr_monthly.csv", "US"), ("bsr_monthly_jp.csv", "JP")):
@@ -208,19 +232,96 @@ with tab1:
 with tab2:
     sub("브랜드별 BSR 추이", f"{mlabel.split(' (')[0]} · 월별 · 위로 갈수록 잘 팔림")
     brands = sorted(bm["brand"].unique(), key=lambda b: (b not in FOCUS, FOCUS.index(b) if b in FOCUS else 0, b))
-    c1, c2, c3 = st.columns([2.6, 1.2, 1.6])
+    c1, c2 = st.columns([3.4, 1.2])
     with c1:
         sel = st.multiselect("브랜드", brands, default=[b for b in DEFAULT if b in brands],
                              format_func=lab, key="az_brand")
     with c2:
         mk = st.radio("마켓", ["미국", "일본"], horizontal=True, key="az_mkt")
-    with c3:
-        span = st.radio("구간", ["1년", "2년", "3년", "5년", "전체"], index=2, horizontal=True, key="az_span")
     geo = "US" if mk == "미국" else "JP"
-    d = bm[(bm["geo"] == geo) & (bm["brand"].isin(sel))].copy()
-    if span != "전체" and len(d):
-        yrs = int(span[0])
-        d = d[d["dt"] >= d["dt"].max() - pd.DateOffset(years=yrs)]
+    full = bm[(bm["geo"] == geo) & (bm["brand"].isin(sel))].copy()
+
+    # 가로축 = 무엇을 0 으로 맞출지 (PM 2026-10-15). 브랜드마다 기준 달(t=0)을 맞춰 '같은 시점 대비
+    # 몇 달째에 어땠나' 를 비교한다. 날짜 기준 3개는 데이터로 계산, 2개는 조사한 날짜(brand_milestones.csv).
+    # 'first' 표시 = 기준 달이 데이터 첫 달과 같음 → 그 전에 이미 떴을 수 있어 초반 비교는 조심.
+    t0_sets = {}            # 축 이름 → {brand: (Timestamp, first여부)}
+    sal = {}
+    for b, g in full.sort_values("dt").groupby("brand"):
+        g = g[g["sales_idx"] > 0]
+        if len(g):
+            tb = g[g["sales_idx"] >= 0.1 * g["sales_idx"].max()]["dt"].iloc[0]
+            sal[b] = (tb, tb == g["dt"].iloc[0])
+    t0_sets["boom_amz"] = sal
+    t0_sets["first_amz"] = {b: (g["dt"].min(), True) for b, g in full.groupby("brand")}
+    sv = search_boom()
+    t0_sets["boom_search"] = {b: v for b, v in sv.items() if b in sel}
+    ms = get("brand_milestones.csv")
+    for col, key in (("us_offline_ym", "us_offline"), ("launch_ym", "launch")):
+        t0_sets[key] = ({r["brand"]: (pd.Timestamp(r[col] + "-01"), False)
+                         for _, r in ms.iterrows() if isinstance(r[col], str) and r["brand"] in sel}
+                        if ms is not None else {})
+
+    AXES = {
+        "실제 날짜": None,
+        "아마존 판매 붐": "boom_amz",
+        "구글 검색 붐": "boom_search",
+        "아마존 첫 기록": "first_amz",
+        "미국 오프라인 입점": "us_offline",
+        "브랜드 론칭": "launch",
+    }
+    AX_HELP = {
+        "boom_amz": "아마존 추정 판매량이 자기 최고치의 10% 에 처음 도달한 달",
+        "boom_search": "구글 절대검색량(16개국 합)이 자기 최고치의 10% 에 처음 도달한 달 — 브랜드 스크리너와 같은 규칙",
+        "first_amz": "Keepa 에 첫 판매순위 기록이 있는 달 (아마존 진입 시점에 가까움)",
+        "us_offline": "미국 오프라인 매장(울타·세포라·타깃·코스트코 등)에 처음 들어간 달 — 조사한 날짜",
+        "launch": "브랜드(또는 대표 라인)를 처음 출시한 달 — 조사한 날짜",
+    }
+    x1, x2, x3 = st.columns([1.4, 2.4, 2.0])
+    with x1:
+        xlabel = st.selectbox("가로축 (t=0 기준)", list(AXES), key="az_xaxis",
+                              help="실제 날짜 외에는 브랜드마다 기준 달을 0 으로 맞춥니다. "
+                                   "'기준 시점부터 몇 달째에 누가 더 컸나' 를 비교할 때 씁니다.")
+    akey = AXES[xlabel]
+    t0mode = akey is not None
+    if akey == "us_offline":                         # 입점 전후를 보는 게 핵심 → 음수 구간 기본
+        PRE = {"입점 전후 1년 (-12~12)": (-12, 12), "전후 2년 (-24~24)": (-24, 24),
+               "입점 전 3년~후 1년 (-36~12)": (-36, 12), "전체": (-120, 120)}
+        pre_i, smin, smax = 1, -120, 120
+    elif akey == "launch":                           # 론칭 기준은 몇 년 단위
+        PRE = {"론칭 후 3년": (0, 36), "5년": (0, 60), "10년": (0, 120), "전체": (0, 400)}
+        pre_i, smin, smax = 2, -12, 400
+    elif t0mode:
+        PRE = {"초기 1년 (0~12)": (0, 12), "초기 2년 (0~24)": (0, 24), "초기 3년 (0~36)": (0, 36),
+               "5년 (0~60)": (0, 60), "전체": (0, 140)}
+        pre_i, smin, smax = 1, -24, 140
+    else:
+        PRE = {"최근 1년": 12, "최근 2년": 24, "최근 3년": 36, "최근 5년": 60, "전체": 999}
+        pre_i = 3
+    kk = akey or "date"                              # 축마다 위젯 키를 따로 — 선택지가 달라서
+    with x2:
+        zk = st.radio("구간", list(PRE), index=pre_i, horizontal=True, key=f"az_span_{kk}")
+    if st.session_state.get("_az_span_prev") != (zk, kk):    # 프리셋을 바꾸면 슬라이더도 맞춤
+        st.session_state["_az_span_prev"] = (zk, kk)
+        st.session_state.pop(f"az_range_{kk}", None)
+    nall = (len(pd.period_range(full["dt"].min(), full["dt"].max(), freq="M"))
+            if len(full) else 12)
+    with x3:
+        if t0mode:
+            lo, hi = st.slider("직접 범위 (기준 후 개월)", smin, smax, PRE[zk], 1, key=f"az_range_{kk}",
+                               help="음수 = 기준 달 이전")
+        else:
+            nmon = st.slider("직접 범위 (최근 몇 개월)", 6, max(12, nall), min(PRE[zk], max(12, nall)), 1,
+                             key=f"az_range_{kk}")
+    t0 = {b: v[0] for b, v in (t0_sets.get(akey) or {}).items()} if t0mode else {}
+    t0_first = {b: v[1] for b, v in (t0_sets.get(akey) or {}).items()} if t0mode else {}
+    d = full.copy()
+    if t0mode:
+        d["t0"] = d["brand"].map(t0)
+        d = d.dropna(subset=["t0"])
+        d["t"] = (d["dt"].dt.year - d["t0"].dt.year) * 12 + (d["dt"].dt.month - d["t0"].dt.month)
+        d = d[(d["t"] >= lo) & (d["t"] <= hi)]
+    elif len(d) and nmon < nall:
+        d = d[d["dt"] > d["dt"].max() - pd.DateOffset(months=nmon)]
     if not sel:
         st.info("브랜드를 하나 이상 고르세요.")
     elif d.empty:
@@ -234,8 +335,15 @@ with tab2:
             ycol, ytitle = "best_rank", "주력 상품 순위 (로그 · 위 = 잘 팔림)"
             yscale, yfmt = alt.Scale(type="log", reverse=True), ",.0f"
         d = d[d[ycol] > 0]
+        if t0mode:
+            xenc = alt.X("t:Q", title=f"{xlabel} 기준 개월 (t=0 = {AX_HELP[akey]})",
+                         scale=alt.Scale(domain=[max(lo, int(d["t"].min())) if len(d) else lo,
+                                                 min(hi, int(d["t"].max())) if len(d) else hi], nice=False),
+                         axis=alt.Axis(tickMinStep=1, labelAngle=0, grid=True))
+        else:
+            xenc = alt.X("dt:T", title=None, axis=alt.Axis(format="%Y-%m", labelAngle=0, tickCount=12))
         ch = alt.Chart(d).mark_line(point=alt.OverlayMarkDef(size=18)).encode(
-            x=alt.X("dt:T", title=None, axis=alt.Axis(format="%Y-%m", labelAngle=0, tickCount=12)),
+            x=xenc,
             y=alt.Y(f"{ycol}:Q", title=ytitle, scale=yscale),
             color=alt.Color("브랜드:N", legend=alt.Legend(orient="top", title=None)),
             tooltip=[alt.Tooltip("브랜드:N"), alt.Tooltip("month:N", title="월"),
@@ -243,9 +351,42 @@ with tab2:
                      alt.Tooltip("best_rank:Q", format=",.0f", title="주력 상품 순위"),
                      alt.Tooltip("n_asin:Q", title="추적 상품 수"),
                      alt.Tooltip("n_listing:Q", title="실제 상품 페이지 수")])
+        if t0mode:                                   # t=0 세로선
+            ch = ch + alt.Chart(pd.DataFrame({"t": [0]})).mark_rule(
+                color="#e8c15a", strokeDash=[4, 3], size=1.5).encode(x="t:Q")
         st.altair_chart(ch.properties(height=430), use_container_width=True)
-        st.caption("선이 올라가면 더 잘 팔린 것입니다. '실제 상품 페이지 수' 는 순위를 공유하는 상품(용량·색상 묶음)을 "
-                   "하나로 센 숫자입니다 — 예: 리들샷 50·100·300 은 대부분의 달에 한 페이지입니다.")
+        if t0mode:
+            parts_, missing = [], []
+            for b in sel:
+                if b in t0:
+                    flag = " (데이터 첫 달)" if (t0_first.get(b) and akey in ("boom_amz", "boom_search")) else ""
+                    parts_.append(f"{lab(b)} **{t0[b]:%Y-%m}**{flag}")
+                else:
+                    missing.append(lab(b))
+            st.caption(f"t=0 ({xlabel}) — " + " · ".join(parts_)
+                       + (f". **기준 날짜가 없어 빠진 브랜드: {', '.join(missing)}**" if missing else "")
+                       + ". 노란 점선 = t=0. 선이 올라가면 더 잘 팔린 것입니다."
+                       + (" '(데이터 첫 달)' = 기록이 시작된 달이 곧 t=0 — 그 전에 이미 떠 있었을 수 있어 "
+                          "초반 비교는 조심해서 보세요." if any("데이터 첫 달" in x for x in parts_) else ""))
+            if akey in ("us_offline", "launch") and ms is not None:
+                with st.expander(f"{xlabel} 날짜와 출처 보기"):
+                    pre = "us_offline" if akey == "us_offline" else "launch"
+                    tb_ = ms[ms["brand"].isin(sel)].copy()
+                    tb_["브랜드"] = tb_["brand"].map(lab)
+                    cols_ = {f"{pre}_ym": "기준 달", f"{pre}_prec": "정확도",
+                             f"{pre}_note": "메모", f"{pre}_src": "출처"}
+                    if pre == "us_offline":
+                        cols_ = {"us_offline_ym": "기준 달", "us_offline_prec": "정확도",
+                                 "us_offline_where": "어디에", "us_offline_note": "메모",
+                                 "us_offline_src": "출처"}
+                    st.dataframe(tb_[["브랜드"] + list(cols_)].rename(columns=cols_), hide_index=True,
+                                 use_container_width=True,
+                                 column_config={"출처": st.column_config.LinkColumn("출처", display_text="링크")})
+                    st.caption("정확도: 월 = 기사·보도자료에 달까지 나옴 · 연도 = 연도만 확인 (1월로 둠) · "
+                               "추정 = 다른 사실로 역산. 2026-10-15 조사.")
+        else:
+            st.caption("선이 올라가면 더 잘 팔린 것입니다. '실제 상품 페이지 수' 는 순위를 공유하는 상품(용량·색상 묶음)을 "
+                       "하나로 센 숫자입니다 — 예: 리들샷 50·100·300 은 대부분의 달에 한 페이지입니다.")
 
         # 상품별 선 — 브랜드 선이 갑자기 꺾이면 원인이 '판매' 인지 '추적 상품 구성' 인지 여기서 확인
         if am is not None and st.toggle("상품별 선 같이 보기", value=False, key="az_prod",
@@ -256,7 +397,12 @@ with tab2:
                 info = (m_us if geo == "US" else m_jp).get("asins") or {}
                 pa = am[(am["geo"] == geo) & (am["brand"] == sel[0])].copy()
                 pa["dt"] = pd.to_datetime(pa["month"] + "-01")
-                pa = pa[pa["dt"] >= d["dt"].min()]
+                if t0mode and sel[0] in t0:            # 상품 선도 브랜드와 같은 t=0 으로 맞춤
+                    b0 = t0[sel[0]]
+                    pa["t"] = (pa["dt"].dt.year - b0.year) * 12 + (pa["dt"].dt.month - b0.month)
+                    pa = pa[(pa["t"] >= lo) & (pa["t"] <= hi)]
+                elif len(d):
+                    pa = pa[pa["dt"] >= d["dt"].min()]
                 pa["상품"] = pa["asin"].map(lambda a: f"{a} · {(info.get(a, {}).get('title') or '')[:38]}")
                 pa["순위 공유"] = np.where(pa["dup"], "예 (다른 상품과 같은 페이지)", "아니오")
                 pcol, ptitle, pscale = (("units", "상품별 추정 판매량 지수 (로그)", alt.Scale(type="log"))
@@ -265,7 +411,9 @@ with tab2:
                                          alt.Scale(type="log", reverse=True)))
                 pa = pa[pa[pcol] > 0]
                 pc = alt.Chart(pa).mark_line(point=alt.OverlayMarkDef(size=14)).encode(
-                    x=alt.X("dt:T", title=None, axis=alt.Axis(format="%Y-%m", labelAngle=0, tickCount=12)),
+                    x=(alt.X("t:Q", title="붐 시작 후 개월", axis=alt.Axis(tickMinStep=1, labelAngle=0))
+                       if t0mode and "t" in pa else
+                       alt.X("dt:T", title=None, axis=alt.Axis(format="%Y-%m", labelAngle=0, tickCount=12))),
                     y=alt.Y(f"{pcol}:Q", title=ptitle, scale=pscale),
                     color=alt.Color("상품:N", legend=alt.Legend(orient="bottom", title=None, columns=2,
                                                                labelLimit=420)),
