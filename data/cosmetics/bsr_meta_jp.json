@@ -1,5 +1,5 @@
 {
- "fetched": "2026-10-15T11:34:24",
+ "fetched": "2026-10-15T11:51:36",
  "domain": "jp",
  "asins": {
   "B0D86Z4K5Y": {
@@ -236,9 +236,29 @@
    "brand": "d'alba",
    "points": 1293,
    "title": "ダルバ(d'Alba) ホワイトトリュフアロマティックスプレーセラム 120ml(アロマティック) ミスト化粧水 保湿 ミストスプレー セラ"
+  },
+  "B0BTHKBMHG": {
+   "brand": "madeca cream",
+   "points": 3558,
+   "title": "【Centellian24/センテリアン24】マデカ トーニングエッセンストリートメント 300ml Madeca Toning Essen"
+  },
+  "B081VMTPJ3": {
+   "brand": "madeca cream",
+   "points": 4594,
+   "title": "【Centellian24/センテリアン24】マデカバイタルカプセルセラム 50ml 保湿 乾燥肌 敏感肌 高保湿 スキンケア 低刺激 うる"
+  },
+  "B0C58BMTQH": {
+   "brand": "madeca cream",
+   "points": 5112,
+   "title": "【Centellian24/センテリアン24】マデカパワーアンプル 30ml 保湿 乾燥肌 敏感肌 高保湿 韓国スキンケア 韓国アンプル 美"
+  },
+  "B0DSNLM3T1": {
+   "brand": "madeca cream",
+   "points": 1405,
+   "title": "【Centellian24】360度ショットPDRNアクティブセラム50ml セラム 美容液 コラーゲン ナイアシンアミド 発酵美容液 イン"
   }
  },
- "months": 864,
+ "months": 877,
  "brands": [
   "abib",
   "anua",

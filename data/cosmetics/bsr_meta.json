@@ -1,25 +1,10 @@
 {
- "fetched": "2026-10-15T11:13:54",
+ "fetched": "2026-10-15T11:48:18",
  "domain": "us",
  "asins": {
-  "B0FRS9TGRR": {
-   "brand": "reedle shot",
-   "points": 586,
-   "title": "Wired USB Handset for PC, Plug and Play for MS Teams,Genesys,3CX,Avaya"
-  },
-  "B0CNTCGLNH": {
-   "brand": "reedle shot",
-   "points": 1197,
-   "title": "VT QD to USB Adapter Cable Compatible with 4-Pin Plantronic-Poly QD He"
-  },
-  "B0CNTDR1FC": {
-   "brand": "reedle shot",
-   "points": 492,
-   "title": "VT USB Adapter Cable Compatible With Plantronic-Poly QD Headset - Quic"
-  },
   "B0GYMPHKNF": {
    "brand": "atopalm",
-   "points": 308,
+   "points": 309,
    "title": "ATOPALM MLE Eczema Cream 2-Pack, 2.2 fl oz x 2ea (65ml x 2ea)"
   },
   "B09MQ9JW6V": {
@@ -46,36 +31,6 @@
    "brand": "medicube",
    "points": 5290,
    "title": "medicube Toner Pads Deep Vita C Facial Toner Pad for Uneven Skin Tone "
-  },
-  "B0D5D79NC1": {
-   "brand": "d'alba",
-   "points": 2417,
-   "title": "48 Pack Mini Galaxy & Mermaid Slime Cups | Super Soft & Non-Sticky Par"
-  },
-  "B0BV2CG6KZ": {
-   "brand": "d'alba",
-   "points": 3295,
-   "title": "D'ALBA Slime Kit, 28 Pack Galaxy Slime Bulk, Party Favor for Kids, Non"
-  },
-  "B0BKFZQLSJ": {
-   "brand": "d'alba",
-   "points": 4080,
-   "title": "48 Pack Galaxy Slime, Glow in The Dark Slime Kit Party Favors for Girl"
-  },
-  "B0723CKMMR": {
-   "brand": "manyo",
-   "points": 7,
-   "title": "Manyo 15-606S Aomaru Kazura with Hand, Small"
-  },
-  "B071PBWWNH": {
-   "brand": "manyo",
-   "points": 268,
-   "title": "Manyo Peppermint Toothpicks, 2.6 inches (6.5 cm), Pack of 230, 18-328"
-  },
-  "B071J3YDTY": {
-   "brand": "manyo",
-   "points": 934,
-   "title": "Manyo 19-400 Susu Square Shichimi"
   },
   "B0GT26V4N8": {
    "brand": "laneige",
@@ -149,7 +104,7 @@
   },
   "B0FPFVTL1T": {
    "brand": "beauty of joseon",
-   "points": 1112,
+   "points": 1113,
    "title": "Beauty of Joseon Green Plum Refreshing Gel Cleanser"
   },
   "B0D7B2C2RL": {
@@ -214,7 +169,7 @@
   },
   "B0GMQKFBXY": {
    "brand": "abib",
-   "points": 496,
+   "points": 497,
    "title": "Abib Glutathione Kojic Acid Eye Patches for Radiance Dark Circles & Da"
   },
   "B01CVXSPBO": {
@@ -289,21 +244,66 @@
   },
   "B0BS2T3QYF": {
    "brand": "madeca cream",
-   "points": 5525,
+   "points": 5526,
    "title": "CENTELLIAN 24 Madeca Cream (Season 6, 1.7fl oz) - Centella Moisturizer"
   },
   "B0BTX77JYZ": {
    "brand": "madeca cream",
-   "points": 4813,
+   "points": 4814,
    "title": "CENTELLIAN 24 Madeca Wrinkle Capture Stick - Multi Balm for Fine Lines"
   },
   "B0GXKHWNNH": {
    "brand": "madeca cream",
    "points": 381,
    "title": "CENTELLIAN 24 PDRN Firming Set - Serum, Face Cream & Eye Care, 4 Piece"
+  },
+  "B0CPY3Y418": {
+   "brand": "reedle shot",
+   "points": 4914,
+   "title": "VT COSMETICS CICA Reedle Shot 50 Microneedling Serum"
+  },
+  "B0C2TQ24VY": {
+   "brand": "reedle shot",
+   "points": 8467,
+   "title": "VT COSMETICS CICA Reedle Shot 100 Microneedling Serum"
+  },
+  "B0C2TT4XP6": {
+   "brand": "reedle shot",
+   "points": 7437,
+   "title": "VT COSMETICS CICA Reedle Shot 300, Advanced Night Exosome, Microneedli"
+  },
+  "B0C5T25JJP": {
+   "brand": "d'alba",
+   "points": 4594,
+   "title": "d'alba Piedmont Italian White Truffle First Spray Serum (1.69 fl oz)"
+  },
+  "B0BFQ9RD5B": {
+   "brand": "d'alba",
+   "points": 8742,
+   "title": "d'alba Piedmont Italian White Truffle First Spray Serum (3.38 fl oz)"
+  },
+  "B0FG38CL5H": {
+   "brand": "d'alba",
+   "points": 275,
+   "title": "d'alba Piedmont Italian White Truffle First Spray Serum (6.08 fl oz)"
+  },
+  "B08DTGMCZQ": {
+   "brand": "manyo",
+   "points": 9628,
+   "title": "MA:NYO Galac Niacin 2.0 Essence Korean Facial Serum, Ultra Hydrating, "
+  },
+  "B08H1NZ6NQ": {
+   "brand": "manyo",
+   "points": 7058,
+   "title": "ma:nyo MANYO Bifida Biome Concentrate Eye Cream 1.0fl oz"
+  },
+  "B0DMNF6DB8": {
+   "brand": "manyo",
+   "points": 250,
+   "title": "ma:nyo Pore Plumber Duo Pure Cleansing Oil 6.7fl oz + Galactomy Enzyme"
   }
  },
- "months": 849,
+ "months": 903,
  "brands": [
   "abib",
   "anua",

@@ -68,6 +68,29 @@ BRANDS = {
 }
 TOP_N = 3            # 브랜드당 대표 ASIN 수 (많이 팔리는 순)
 
+# 제목 검사: 상품명에 이 단어 중 하나도 없으면 그 상품은 버린다 (대소문자 무시).
+# 브랜드명 검색이 엉뚱한 상품을 물어온 적이 있다 (2026-10-15):
+#   VT → USB 헤드셋 (미국·일본 둘 다), d'Alba → 슬라임 장난감·주방용품,
+#   Manyo → 일본 이쑤시개. 제품명 검색으로 고쳤고, 이 검사로 재발을 막는다.
+TITLE_OK = {
+    "madeca cream": ["centellian", "センテリアン"], "reedle shot": ["reedle", "リードル"],
+    "atopalm": ["atopalm", "アトパーム"], "medicube": ["medicube", "メディキューブ"],
+    "d'alba": ["d'alba", "dalba", "ダルバ"], "manyo": ["ma:nyo", "manyo factory", "魔女工場"],
+    "laneige": ["laneige", "ラネージュ"], "anua": ["anua", "アヌア"], "cosrx": ["cosrx"],
+    "skin1004": ["skin1004"], "beauty of joseon": ["beauty of joseon", "boj"],
+    "tirtir": ["tirtir"], "torriden": ["torriden", "トリデン"],
+    "numbuzin": ["numbuzin", "ナンバーズイン"], "round lab": ["round lab", "ラウンドラボ"],
+    "abib": ["abib"], "mixsoon": ["mixsoon", "ミクスン"], "biodance": ["biodance", "バイオダンス"],
+}
+
+
+def title_ok(brand, title):
+    words = TITLE_OK.get(brand)
+    if not words:
+        return True
+    t = (title or "").lower()
+    return any(w.lower() in t for w in words)
+
 
 def paths(domain):
     sfx = "" if domain == 1 else "_" + DOMAINS.get(domain, str(domain))
@@ -167,6 +190,9 @@ def history(key, domain, only_brand=None):
             print("    상품 없음")
             continue
         p = prods[0]
+        if not title_ok(b, p.get("title")):
+            print(f"    ⚠ 제목에 브랜드명 없음 — 버림: {(p.get('title') or '')[:50]}")
+            continue
         arr = p.get("csv") or []
         series = arr[I_SALES] if len(arr) > I_SALES else None
         if not series:

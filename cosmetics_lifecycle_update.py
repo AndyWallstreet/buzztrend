@@ -2,7 +2,8 @@
 """K뷰티 브랜드 수명주기 데이터 — 브랜드별 구글 트렌드 5년치 (나라별).
 
 Usage:
-    python cosmetics_lifecycle_update.py [US JP ...]   # 생략 시 US JP
+    python cosmetics_lifecycle_update.py [US JP WW ...]   # 생략 시 US JP
+    WW = 전세계 (구글 트렌드의 geo="")
 
 산출물 (data/cosmetics/):
     gtrends_life_{geo}.csv   date,brand,keyword,value — 브랜드별 '단독' 5년 주간
@@ -56,6 +57,9 @@ BRANDS = {
 
 
 def collect(geo):
+    # 'WW' = 전세계. 구글 트렌드는 전세계를 geo="" 로 받는다. 파일명은 WW 로 둔다
+    # (빈 문자열이면 gtrends_life_.csv 가 돼서 뭔지 알 수 없다).
+    geo_q = "" if geo == "WW" else geo
     out_p = DATA / f"gtrends_life_{geo}.csv"
     old = pd.read_csv(out_p) if out_p.exists() else pd.DataFrame(
         columns=["date", "brand", "keyword", "value"])
@@ -65,7 +69,7 @@ def collect(geo):
         df = None
         for attempt in range(3):
             try:
-                df = fetch_trends([kw], geo=geo, timeframe=TIMEFRAME,
+                df = fetch_trends([kw], geo=geo_q, timeframe=TIMEFRAME,
                                   category=CATEGORY)
                 break
             except Exception as e:
