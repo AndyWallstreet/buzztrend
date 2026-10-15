@@ -170,6 +170,100 @@ def discover(key, domain):
     return rows
 
 
+# 순위 → 판매량 환산: 판매량 ∝ 순위^-SALES_EXP (가정). 업계 추정식은 대체로 0.7~1.0 사이.
+# 1,000위 상품 하나가 파는 양 = 1 이 되도록 맞춘다 (단위 없는 상대 지수).
+SALES_EXP = 0.85
+SALES_REF = 1000
+
+
+def aggregate(domain):
+    """일별 BSR → 월별 브랜드 지표 3종. Keepa 를 다시 부르지 않는다 (토큰 0).
+
+    bsr_median  기존 방식: 상품별 월 중앙값 → 상품끼리 중앙값.
+                약점: 순위 낮은 신상품이 들어오면 브랜드 선이 급락한다
+                (코스알엑스 2023-05: 주력 세럼 8위인데 신규 세트 67만 위 → 브랜드 34만 위).
+    best_rank   ② 주력 상품 순위: 그 달 가장 잘 팔린 상품의 월 중앙 순위.
+    sales_idx   ① 추정 판매량 합계: 일별 순위를 판매량 지수로 바꿔 상품끼리 더한다.
+                신상품은 판매량을 더할 뿐 선을 끌어내리지 않는다.
+                같은 날 같은 순위인 상품은 한 상품 페이지로 묶인 것(순위 공유)이라 한 번만 센다.
+    strength 열은 퍼널용 로그값 — 셋 다 '클수록 잘 팔림' 으로 맞춘다.
+    """
+    import numpy as np
+    import pandas as pd
+    _a, daily, monthly, _m = paths(domain)
+    sfx = monthly.stem.replace("bsr_monthly", "")
+    asin_monthly = DATA / f"bsr_asin_monthly{sfx}.csv"
+    d = pd.read_csv(daily)
+    d["month"] = d["date"].str[:7]
+    # 하루에 여러 번 바뀐 순위 → 그날 중앙값
+    day = d.groupby(["brand", "asin", "date"], as_index=False)["bsr"].median()
+    # Keepa 는 순위가 '바뀐 날' 만 기록한다. 순위는 다음 변화까지 유지되므로 빈 날을 앞 값으로
+    # 채운다 (최대 14일 — 그보다 길게 비면 품절·순위 없음일 수 있어 채우지 않음).
+    # 이렇게 해야 상품끼리 같은 날을 비교할 수 있고, 월 평균도 날짜 가중이 된다.
+    filled = []
+    for (b, a_), g_ in day.groupby(["brand", "asin"]):
+        s_ = g_.set_index(pd.to_datetime(g_["date"]))["bsr"]
+        s_ = s_.reindex(pd.date_range(s_.index.min(), s_.index.max(), freq="D")).ffill(limit=14)
+        f_ = s_.dropna().rename("bsr").reset_index().rename(columns={"index": "date"})
+        f_["brand"], f_["asin"] = b, a_
+        filled.append(f_)
+    day = pd.concat(filled, ignore_index=True)
+    day["date"] = day["date"].dt.strftime("%Y-%m-%d")
+    day["month"] = day["date"].str[:7]
+    day["units"] = (SALES_REF / day["bsr"]) ** SALES_EXP
+    am = (day.groupby(["brand", "asin", "month"], as_index=False)
+          .agg(rank_median=("bsr", "median"), units=("units", "mean"), days=("date", "nunique")))
+
+    # 순위 공유 찾기: 아마존은 용량·색상 묶음(한 상품 페이지)에 순위 하나를 쓴다.
+    # 기록 시각이 달라 '같은 날 같은 값' 으로는 못 잡는다 (코스알엑스 2023-11~2024-04 가
+    # 두 번 더해져 판매량이 2배로 부풀었다). 그래서 한 달 안에서 두 상품의 일별 순위가
+    # 겹치는 날의 80% 이상에서 10% 이내로 붙어 다니면 같은 상품으로 보고 하나만 센다.
+    am["dup"] = False
+    piv_all = day.pivot_table(index=["brand", "month", "date"], columns="asin", values="bsr")
+    for (b, mo), blk in piv_all.groupby(level=[0, 1]):
+        blk = blk.dropna(axis=1, how="all")
+        cols = list(blk.columns)
+        if len(cols) < 2:
+            continue
+        # 기록이 많은 상품을 대표로 남긴다
+        cols.sort(key=lambda c: -blk[c].notna().sum())
+        kept = []
+        for c in cols:
+            same = False
+            for k in kept:
+                both = blk[[c, k]].dropna()
+                if len(both) >= 5:
+                    # 10% 이내 또는 1.5계단 이내 — 최상위권은 1위·2위만 달라도 2배라
+                    # 비율만 보면 같은 상품을 못 잡는다 (코스알엑스 2023-12: 2/2, 3/3, 1/1.5 …)
+                    lo_, hi_ = both.min(axis=1), both.max(axis=1)
+                    close = (hi_ - lo_) <= np.maximum(1.5, 0.10 * lo_)
+                    if close.mean() >= 0.75:
+                        same = True
+                        break
+            if same:
+                am.loc[(am["brand"] == b) & (am["month"] == mo) & (am["asin"] == c), "dup"] = True
+            else:
+                kept.append(c)
+    am["units_counted"] = np.where(am["dup"], 0.0, am["units"])
+    am.to_csv(asin_monthly, index=False, encoding="utf-8")
+
+    g = am.groupby(["brand", "month"])
+    m = pd.DataFrame({
+        "bsr_median": g["rank_median"].median().round(),
+        "best_rank": g["rank_median"].min().round(),
+        "sales_idx": g["units_counted"].sum().round(3),
+        "n_asin": g["asin"].nunique(),
+        "n_listing": g["dup"].apply(lambda s: int((~s).sum())),
+    }).reset_index()
+    m["str_median"] = (-np.log10(m["bsr_median"].clip(lower=1))).round(4)
+    m["str_best"] = (-np.log10(m["best_rank"].clip(lower=1))).round(4)
+    m["str_sales"] = np.log10(m["sales_idx"].clip(lower=1e-6)).round(4)
+    m["bsr_strength"] = m["str_median"]            # 예전 열 이름 — 호환용
+    m.to_csv(monthly, index=False, encoding="utf-8")
+    print(f"{monthly.name}: {len(m)}행 (지표 3종) · {asin_monthly.name}: {len(am)}행")
+    return m.to_dict("records")
+
+
 def history(key, domain, only_brand=None):
     asins_csv, daily, monthly, meta_p = paths(domain)
     if not asins_csv.exists():
@@ -223,24 +317,7 @@ def history(key, domain, only_brand=None):
         w.writeheader()
         w.writerows(out)
 
-    # 월별: ASIN 별 중앙값 → 브랜드 중앙값 (BSR 은 튀는 값이 많아 평균 쓰면 안 된다)
-    byam = {}
-    for r in out:
-        byam.setdefault((r["brand"], r["date"][:7], r["asin"]), []).append(r["bsr"])
-    bybm = {}
-    for (b, m, a), vs in byam.items():
-        bybm.setdefault((b, m), []).append(statistics.median(vs))
-    mrows = []
-    for (b, m), vs in sorted(bybm.items()):
-        med = statistics.median(vs)
-        mrows.append({"brand": b, "month": m, "bsr_median": round(med),
-                      "bsr_strength": round(-math.log10(med), 4),
-                      "n_asin": len(vs)})
-    with monthly.open("w", encoding="utf-8", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=["brand", "month", "bsr_median",
-                                          "bsr_strength", "n_asin"])
-        w.writeheader()
-        w.writerows(mrows)
+    mrows = aggregate(domain)
     with asins_csv.open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["brand", "asin", "title"])
         w.writeheader()
@@ -263,7 +340,12 @@ def main():
     ap.add_argument("--brand")
     ap.add_argument("--domain", type=int, default=1,
                     help="1=미국(기본) 5=일본 3=영국 4=독일")
+    ap.add_argument("--aggregate", action="store_true",
+                    help="Keepa 호출 없이 bsr_daily 로 월별 지표만 다시 계산")
     a = ap.parse_args()
+    if a.aggregate:
+        aggregate(a.domain)
+        return 0
     key = _key()
     if not key:
         print("KEEPA_KEY 없음 — 환경변수 또는 .streamlit/secrets.toml [keepa] key")

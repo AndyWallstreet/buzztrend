@@ -18,6 +18,7 @@ Usage:  python funnel_study.py
 한계: 회사 매출 ≠ 브랜드 매출(아모레=라네즈 등 멀티브랜드는 희석). single_brand 열로 구분함.
 """
 import json
+import sys
 import time
 from pathlib import Path
 
@@ -27,6 +28,17 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data" / "cosmetics"
 SD = ROOT / "data" / "cosmetics_sd"
+
+# BSR 브랜드 지표 (keepa_bsr_history.aggregate 가 만든 열). python funnel_study.py --bsr best
+#   sales  ① 추정 판매량 합계 (기본) — 신상품이 선을 끌어내리지 않음
+#   best   ② 주력 상품 순위 — 그 달 가장 잘 팔린 상품
+#   median 예전 방식 (상품 중앙값) — 비교용
+BSR_COL = {"sales": "str_sales", "best": "str_best", "median": "str_median"}
+METHOD = "sales"
+if "--bsr" in sys.argv:
+    METHOD = sys.argv[sys.argv.index("--bsr") + 1]
+    assert METHOD in BSR_COL, f"--bsr 는 {list(BSR_COL)} 중 하나"
+SFX = "" if METHOD == "sales" else f"_{METHOD}"   # 산출 파일 이름 끝
 
 # 검색 브랜드 → 매출 주체. single=True 면 그 회사 매출의 대부분이 이 브랜드임.
 MAP = {
@@ -82,7 +94,8 @@ def search_panel():
     for fn, geo in (("bsr_monthly.csv", "US"), ("bsr_monthly_jp.csv", "JP")):
         fp = DATA / fn
         if fp.exists():
-            x = pd.read_csv(fp)[["brand", "month", "bsr_strength"]].copy()
+            x = (pd.read_csv(fp)[["brand", "month", BSR_COL[METHOD]]]
+                 .rename(columns={BSR_COL[METHOD]: "bsr_strength"}).copy())
             x["geo"] = geo
             bits.append(x)
     if bits:
@@ -211,7 +224,7 @@ def main():
     if "bsr" in p.columns:
         p = yoy(p, "bsr", log=True)      # 이미 로그값 — 뺄셈
     p = p.sort_values(["brand", "q"])
-    p.to_csv(DATA / "funnel_panel.csv", index=False, encoding="utf-8-sig")
+    p.to_csv(DATA / f"funnel_panel{SFX}.csv", index=False, encoding="utf-8-sig")
 
     # ---- 단계별 상관 (시차 0~3분기)
     res = []
@@ -247,7 +260,7 @@ def main():
                         "R(피어슨)": rp, "n": n,
                         "유의": "✅" if (pd.notna(ps) and ps < 0.05) else ("△" if pd.notna(ps) and ps < 0.10 else "❌")})
     out = pd.DataFrame(res)
-    out.to_csv(DATA / "funnel_result.csv", index=False, encoding="utf-8-sig")
+    out.to_csv(DATA / f"funnel_result{SFX}.csv", index=False, encoding="utf-8-sig")
 
     # ---- 브랜드별 상관 (PM 우선순위). BSR 칸은 Keepa 결제 후 채운다.
     bres = []
@@ -278,9 +291,9 @@ def main():
             row[tag + "_R"], row[tag + "_p"], row[tag + "_n"], row[tag + "_시차"] = best
         bres.append(row)
     bb = pd.DataFrame(bres).sort_values("②절대→매출_R", ascending=False)
-    bb.to_csv(DATA / "funnel_by_brand.csv", index=False, encoding="utf-8-sig")
+    bb.to_csv(DATA / f"funnel_by_brand{SFX}.csv", index=False, encoding="utf-8-sig")
 
-    (DATA / "funnel_meta.json").write_text(json.dumps({
+    (DATA / f"funnel_meta{SFX}.json").write_text(json.dumps({
         "as_of": time.strftime("%Y-%m-%d"),
         "n_brands": int(p["brand"].nunique()),
         "quarters": [str(p["q"].min()), str(p["q"].max())],
