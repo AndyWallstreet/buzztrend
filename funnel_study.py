@@ -30,7 +30,7 @@ SD = ROOT / "data" / "cosmetics_sd"
 
 # 검색 브랜드 → 매출 주체. single=True 면 그 회사 매출의 대부분이 이 브랜드임.
 MAP = {
-    "madeca cream":     ("동국제약",       "dongkook_seg", False),
+    "madeca cream":     ("동국제약",       "dongkook_brand", False),
     "reedle shot":      ("브이티",         "listed",       True),
     "atopalm":          ("네오팜",         "listed",       False),
     "medicube":         ("에이피알",       "listed",       True),
@@ -84,8 +84,22 @@ def revenue_panel():
     # '제품-기타(화장품 포함)' — 센텔리안24가 이 라인의 대부분이다.
     # 연간 합이 v5d 워크북의 제품-기타(내수+수출)와 일치함을 확인했다
     # (2024 265,638 / 2025 275,528 백만원). 단위는 억원으로 변환.
+    # 실제 센텔리안24 브랜드 매출 (v5d Data!r65, 언론·증권 추정). 2019~2021 미공표라 구멍이 있다.
+    # 분기는 공시가 없다 — 분기 추세가 필요하면 dongkook_prod_other_q.csv(제품-기타 프록시)를 쓸 것.
+    fb = SD / "dongkook_centellian_y.csv"
+    if fb.exists():
+        for b, (co, src, _s) in MAP.items():
+            if src == "dongkook_brand":
+                g = pd.read_csv(fb).dropna(subset=["rev_eok"]).sort_values("year").copy()
+                g["rev_yoy"] = [g["rev_eok"].iloc[i] / g["rev_eok"].iloc[i - 1] - 1
+                                if i and g["year"].iloc[i] - g["year"].iloc[i - 1] == 1 else float("nan")
+                                for i in range(len(g))]            # 연도가 안 이어지면 YoY 계산 안 함
+                g["brand"] = b
+                g["q"] = g["year"].astype(int).astype(str) + "Q4"
+                rows.append(g[["q", "rev_eok", "rev_yoy", "brand"]].rename(columns={"rev_eok": "rev"}))
+
     f = SD / "dongkook_prod_other_q.csv"
-    if f.exists():
+    if f.exists() and False:   # 프록시는 기본 비활성 — 실제 브랜드 매출을 쓴다
         for b, (co, src, _s) in MAP.items():
             if src == "dongkook_seg":
                 g = pd.read_csv(f).sort_values("q").copy()
