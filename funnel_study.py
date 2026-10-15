@@ -91,7 +91,10 @@ def search_panel():
 
 def revenue_panel():
     rows = []
+    # brand_revenue_q / _unlisted 는 억원 단위로 저장돼 있다 (ODM 트래커와 공용).
+    # 퍼널 안에서는 KRWmn 으로 통일한다 — 상관 계산엔 영향 없지만 표기가 섞이면 안 된다.
     q = pd.read_csv(SD / "brand_revenue_q.csv")
+    q["rev_eok"] = q["rev_eok"] * 100
     for b, (co, src, _s) in MAP.items():
         if src == "listed":
             g = q[q["co"] == co][["q", "rev_eok"]].copy().sort_values("q")
@@ -109,7 +112,8 @@ def revenue_panel():
     if fb.exists():
         for b, (co, src, _s) in MAP.items():
             if src == "dongkook_brand":
-                g = pd.read_csv(fb).dropna(subset=["rev_eok"]).sort_values("year").copy()
+                g = pd.read_csv(fb).dropna(subset=["rev_krwmn"]).sort_values("year").copy()
+                g["rev_eok"] = g["rev_krwmn"]          # 패널 단위 = KRWmn
                 g["rev_yoy"] = [g["rev_eok"].iloc[i] / g["rev_eok"].iloc[i - 1] - 1
                                 if i and g["year"].iloc[i] - g["year"].iloc[i - 1] == 1 else float("nan")
                                 for i in range(len(g))]            # 연도가 안 이어지면 YoY 계산 안 함
@@ -127,6 +131,7 @@ def revenue_panel():
                 rows.append(g[["q", "rev_eok", "rev_yoy", "brand"]].rename(columns={"rev_eok": "rev"}))
 
     u = pd.read_csv(SD / "brand_revenue_unlisted.csv")
+    u["rev_eok"] = u["rev_eok"] * 100
     for b, (co, src, _s) in MAP.items():
         if src == "unlisted":
             g = u[(u["company"] == co) & (u.get("type", "brand") == "brand")][["year", "rev_eok"]].copy()

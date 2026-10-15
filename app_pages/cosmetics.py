@@ -458,7 +458,7 @@ if _avail:
     if _rev is not None and _av2 is not None and len(_av2):
         sub("브랜드별: 검색량(월) vs 매출(연) — 실제 날짜축",
             "검색이 매출을 얼마나 앞서는지 브랜드 하나씩 확인 · 좌축=월검색(US+JP) "
-            "우축=연매출(억원)")
+            "우축=연매출(KRWmn)")
         _rev_brands = sorted(set(_rev["brand"]) & set(_av2["brand"]))
         _order = [b for b in ("reedle shot", "cosrx", "anua", "medicube",
                               "madeca cream") if b in _rev_brands] + \
@@ -485,22 +485,22 @@ if _avail:
                      alt.Tooltip("searches:Q", format=",.0f", title="월검색")])
         _bar = alt.Chart(rv).mark_circle(size=140, color="#eb6834").encode(
             x=alt.X("date:T"),
-            y=alt.Y("rev_eok:Q", title="연매출 (억원)"),
+            y=alt.Y("rev_krwmn:Q", title="연매출 (KRWmn)"),
             tooltip=[alt.Tooltip("year:O", title="연도"),
-                     alt.Tooltip("rev_eok:Q", format=",.0f", title="매출(억)")])
+                     alt.Tooltip("rev_krwmn:Q", format=",.0f", title="매출(KRWmn)")])
         _rl = alt.Chart(rv).mark_line(color="#eb6834", size=2,
                                       strokeDash=[4, 3]).encode(
-            x="date:T", y="rev_eok:Q")
+            x="date:T", y="rev_krwmn:Q")
         st.altair_chart(
             alt.layer(_line, _bar + _rl).resolve_scale(y="independent")
             .properties(height=340), use_container_width=True)
         _note = (rv["rev_note"].dropna().iloc[0] if rv["rev_note"].notna().any()
                  else "")
         st.caption(f"**읽는법**: 파란 영역 = 월별 검색량(US+일본 합), 주황 점·선 = "
-                   "연매출(억원, 우축). 검색이 먼저 오르고 매출이 뒤따르는지 "
+                   "연매출(KRWmn, 우축). 검색이 먼저 오르고 매출이 뒤따르는지 "
                    "브랜드별로 눈으로 확인. 검색은 월, 매출은 연 데이터라 축을 "
                    f"분리(달력 날짜 정렬, 매출은 각 연도 중앙에 표시). {_note}. "
-                   "센텔리안 매출은 화장품 수출(별도)이라 변동 큼.")
+                   "센텔리안24 는 브랜드 매출(v5d Valuation v2 r8).")
 
 # --------------------------------------------- 구글 트렌드 직접 검색
 sub("구글 트렌드 직접 검색", "원하는 브랜드 최대 5개 — 관심도·Mindshare·YoY 한 번에")
