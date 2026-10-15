@@ -131,11 +131,17 @@ def revenue_panel():
     return pd.concat(rows, ignore_index=True) if rows else pd.DataFrame(columns=["brand", "q", "rev", "rev_yoy"])
 
 
-def yoy(df, col, per=4):
+def yoy(df, col, per=4, log=False):
+    """전년 대비 변화. log=True 면 나눗셈이 아니라 뺄셈을 쓴다.
+
+    왜: bsr_strength = -log10(BSR) 은 음수다. 음수끼리 나누면 개선됐는데도
+    부호가 뒤집힌다 (-2 / -3 - 1 = -0.33). 이미 로그값이므로 차이가 곧
+    변화율이다. 2026-10-15 에 이것 때문에 BSR 상관이 전부 음수로 나왔다."""
     out = []
     for b, g in df.sort_values("q").groupby("brand"):
         g = g.copy()
-        g[col + "_yoy"] = g[col] / g[col].shift(per) - 1
+        g[col + "_yoy"] = (g[col] - g[col].shift(per) if log
+                           else g[col] / g[col].shift(per) - 1)
         out.append(g)
     return pd.concat(out)
 
@@ -170,7 +176,7 @@ def main():
     p["단일브랜드"] = p["brand"].map(lambda b: MAP[b][2])
     p = yoy(yoy(p, "abs_search"), "rel_search")
     if "bsr" in p.columns:
-        p = yoy(p, "bsr")
+        p = yoy(p, "bsr", log=True)      # 이미 로그값 — 뺄셈
     p = p.sort_values(["brand", "q"])
     p.to_csv(DATA / "funnel_panel.csv", index=False, encoding="utf-8-sig")
 

@@ -50,12 +50,15 @@ ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data" / "cosmetics"
 META_URL = "https://api.keepa.com"
 I_SALES = 3                       # csv[3] = SALES rank
-KEEPA_EPOCH_MS = 21564000000      # Keepa 분 → ms 변환 상수
+# Keepa 시간 = (unix_ms / 60000) - 21564000  →  unix_ms = (분 + 21564000) * 60000.
+# 21564000 은 '분' 단위다. ms 로 더하려면 x60000 해야 한다 — 이걸 빠뜨려서
+# 날짜가 1974년으로 나왔다(2026-10-15).
+KEEPA_EPOCH_MS = 21564000 * 60000      # = 1,293,840,000,000 (2011-01-01 UTC)
 DOMAINS = {1: "us", 5: "jp", 3: "uk", 4: "de"}
 
 # funnel_study.MAP 과 같은 브랜드. 값 = 아마존에 등록된 브랜드명.
 BRANDS = {
-    "madeca cream": "Centellian24", "reedle shot": "VT", "atopalm": "Atopalm",
+    "madeca cream": "Centellian 24", "reedle shot": "VT", "atopalm": "Atopalm",
     "medicube": "medicube", "d'alba": "d'Alba", "manyo": "Manyo",
     "laneige": "LANEIGE", "anua": "Anua", "cosrx": "COSRX",
     "skin1004": "SKIN1004", "beauty of joseon": "Beauty of Joseon",
@@ -84,20 +87,30 @@ def _key():
     return None
 
 
-def _get(path, key, **params):
-    """429(토큰 소진)면 Keepa 가 알려주는 만큼 기다렸다 재시도. 밤새 돌려도 되게."""
+def _call(path, key, body=None, **params):
+    """429(토큰 소진)면 Keepa 가 알려주는 만큼 기다렸다 재시도. 밤새 돌려도 되게.
+    body 가 있으면 POST (Product Finder 는 POST 전용).
+
+    주의: 예외 메시지에 요청 URL 을 그대로 넣으면 키가 로그에 남는다.
+    실제로 한 번 유출됐다(2026-10-15) — 반드시 키를 지우고 올린다."""
     for attempt in range(60):
         params["key"] = key
-        r = requests.get(f"{META_URL}/{path}", params=params, timeout=120)
+        if body is None:
+            r = requests.get(f"{META_URL}/{path}", params=params, timeout=120)
+        else:
+            r = requests.post(f"{META_URL}/{path}", params=params, json=body,
+                              timeout=120)
         if r.status_code == 429:
             wait = ((r.json() or {}).get("refillIn") or 60000) / 1000 + 2
             print(f"    토큰 소진 — {wait:.0f}초 대기 ({attempt + 1}회차)")
             time.sleep(wait)
             continue
-        r.raise_for_status()
+        if r.status_code >= 400:
+            raise RuntimeError(f"HTTP {r.status_code} "
+                               + r.text[:200].replace(key, "<KEY>"))
         js = r.json()
         if js.get("error"):
-            raise RuntimeError(js["error"])
+            raise RuntimeError(str(js["error"]).replace(key, "<KEY>"))
         return js
     raise RuntimeError("토큰 대기 60회 초과")
 
@@ -108,10 +121,12 @@ def discover(key, domain):
     rows = []
     for b, brand_name in BRANDS.items():
         print(f"  {b:18s} <- 브랜드 '{brand_name}'")
-        sel = {"brand": [brand_name.lower()], "productType": [0],
-               "sort": [["current_SALES", "asc"]], "perPage": TOP_N, "page": 0}
+        # perPage 는 50 미만이면 400 ("too small") — 50 받아서 앞에서 TOP_N 만 쓴다.
+        # current_SALES_gte=1 은 순위 없는(=안 팔리는) 상품을 뺀다.
+        sel = {"brand": [brand_name.lower()], "current_SALES_gte": 1,
+               "sort": [["current_SALES", "asc"]], "perPage": 50, "page": 0}
         try:
-            js = _get("query", key, domain=domain, selection=json.dumps(sel))
+            js = _call("query", key, body=sel, domain=domain)
         except Exception as e:
             print(f"    실패: {e}")
             continue
@@ -145,7 +160,8 @@ def history(key, domain, only_brand=None):
         if not asin:
             continue
         print(f"  [{i}/{len(todo)}] {b:18s} {asin}")
-        js = _get("product", key, domain=domain, asin=asin, history=1, stats=0)
+        js = _call("product", key, domain=domain, asin=asin, history=1,
+                   stats=0)
         prods = js.get("products") or []
         if not prods:
             print("    상품 없음")
