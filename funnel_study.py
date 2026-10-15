@@ -59,7 +59,15 @@ def q_of(m):
 def search_panel():
     """절대검색(DataForSEO)·상대검색(구글트렌드) → 브랜드 × 분기."""
     a = pd.read_csv(DATA / "absvol_monthly.csv")
-    a = a[(a["geo"] == "US") & (a["searches"] < 1_000_000)]          # tirtir 이상치 제거
+    # 전세계 = 16개국 합. 미국만 보면 지역이 안 맞는 브랜드가 왜곡된다 —
+    # 리들샷은 검색의 90%가 일본인데 매출은 연결 전사라, US 만 쓰면 상관이
+    # 음수로 나왔다(PM 2026-10-15). 'WW' 행은 2025-10 부터뿐이고 16개국과
+    # 중복이라 뺀다.
+    a = a[(a["geo"] != "WW") & (a["searches"] < 1_000_000)]   # tirtir 이상치 제거
+    # 나라·키워드마다 최신월이 달라서, 가장 짧은 쪽에 맞춰 잘라야 마지막 달이
+    # '일부만 더한 값'으로 푹 꺼지지 않는다.
+    cut = a.groupby(["geo", "keyword"])["month"].max().min()
+    a = a[a["month"] <= cut]
     a = a.groupby(["brand", "month"], as_index=False)["searches"].sum()
     a["q"] = a["month"].map(q_of)
     ab = a.groupby(["brand", "q"], as_index=False)["searches"].mean().rename(columns={"searches": "abs_search"})
@@ -251,7 +259,7 @@ def main():
         "as_of": time.strftime("%Y-%m-%d"),
         "n_brands": int(p["brand"].nunique()),
         "quarters": [str(p["q"].min()), str(p["q"].max())],
-        "note": "YoY 기준. 미국 검색. 매출은 회사 단위(멀티브랜드는 희석). BSR 축은 Keepa 결제 후 추가 예정.",
+        "note": "YoY 기준. 전세계(16개국 합) 절대검색·미국 상대검색. 매출은 회사 단위(멀티브랜드는 희석). BSR 축은 Keepa 결제 후 추가 예정.",
     }, ensure_ascii=False, indent=1), encoding="utf-8")
 
     print(f"패널: {p['brand'].nunique()}개 브랜드 · {p['q'].nunique()}개 분기")
