@@ -41,7 +41,10 @@ def nowcast(a, g=None):
         g_last = g["month"].max()
         if g_last > c_last and geos16 <= set(g[g["month"] == g_last]["geo"]):
             cur = g[(g["month"] == g_last) & (g["geo"].isin(geos16))].groupby("brand")["searches"].sum()
-            prev = c[c["month"] == c_last].groupby("brand")["searches"].sum()
+            # 전월도 같은 구글애즈 파일에서 — 본 데이터는 일부 나라에서 검색어 행이 빠져 있어(인도 'madeca cream'
+            # 등) 거기서 전월을 가져오면 범위가 달라 가짜 +41% 가 난다 (2026-10-15 확인).
+            gp = g[(g["month"] == c_last) & (g["geo"].isin(geos16))].groupby("brand")["searches"].sum()
+            prev = gp if len(gp) else c[c["month"] == c_last].groupby("brand")["searches"].sum()
             nkw = g[g["geo"] == "US"].groupby("brand")["keyword"].nunique()
             rows = []
             for b in cur.index:
