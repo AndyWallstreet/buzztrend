@@ -1,0 +1,48 @@
+{
+ "US": {
+  "within_2x": 0.472,
+  "within_3x": 0.77,
+  "median_err_x": 2.1,
+  "market": "US",
+  "n_points": 618,
+  "n_asin": 58,
+  "exponent": 0.664,
+  "ci95": [
+   0.551,
+   0.831
+  ],
+  "exponent_within_asin": 0.516,
+  "r2": 0.671,
+  "sold_at_rank_1000": 4443,
+  "sold_at_rank_100": 20510,
+  "sold_at_rank_10": 94670,
+  "months": [
+   "2023-08",
+   "2026-08"
+  ],
+  "brand_mismatch_dropped": 0
+ },
+ "JP": {
+  "within_2x": 0.541,
+  "within_3x": 0.823,
+  "median_err_x": 1.93,
+  "market": "JP",
+  "n_points": 616,
+  "n_asin": 52,
+  "exponent": 0.573,
+  "ci95": [
+   0.366,
+   0.912
+  ],
+  "exponent_within_asin": 0.69,
+  "r2": 0.501,
+  "sold_at_rank_1000": 730,
+  "sold_at_rank_100": 2731,
+  "sold_at_rank_10": 10214,
+  "months": [
+   "2023-08",
+   "2026-09"
+  ],
+  "brand_mismatch_dropped": 0
+ }
+}

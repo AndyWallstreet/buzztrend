@@ -75,7 +75,9 @@ TOP_N = 3            # 브랜드당 대표 ASIN 수 (많이 팔리는 순)
 TITLE_OK = {
     "madeca cream": ["centellian", "センテリアン"], "reedle shot": ["reedle", "リードル"],
     "atopalm": ["atopalm", "アトパーム"], "medicube": ["medicube", "メディキューブ"],
-    "d'alba": ["d'alba", "dalba", "ダルバ"], "manyo": ["ma:nyo", "manyo factory", "魔女工場"],
+    # d'alba: 'd'alba'·'ダルバ' 만 보면 오페라 음반·이탈리아 와인(Barbera d'Alba)도 통과한다
+    "d'alba": ["truffle", "トリュフ", "d'alba公式", "(d'alba)"],
+    "manyo": ["ma:nyo", "manyo factory", "魔女工場"],
     "laneige": ["laneige", "ラネージュ"], "anua": ["anua", "アヌア"], "cosrx": ["cosrx"],
     "skin1004": ["skin1004"], "beauty of joseon": ["beauty of joseon", "boj"],
     "tirtir": ["tirtir"], "torriden": ["torriden", "トリデン"],
@@ -176,6 +178,19 @@ SALES_EXP = 0.85
 SALES_REF = 1000
 
 
+def sales_params(domain):
+    """시장별 지수와 '1,000위 상품의 월 판매 개수'. keepa_sales_calib.py 가 아마존 '지난달 X개
+    이상 구매' 표시로 직접 맞춘 값을 쓴다 (2026-10-15: 미국 0.66 · 일본 0.57 — 처음 가정 0.85 는
+    책 카테고리 연구값이라 뷰티에는 너무 가팔랐다). 파일이 없으면 예전 가정으로."""
+    p = DATA / "bsr_calib.json"
+    mk = DOMAINS.get(domain, "us").upper()
+    if p.exists():
+        c = json.loads(p.read_text(encoding="utf-8")).get(mk)
+        if c:
+            return float(c["exponent"]), float(c["sold_at_rank_1000"])
+    return SALES_EXP, float("nan")
+
+
 def aggregate(domain):
     """일별 BSR → 월별 브랜드 지표 3종. Keepa 를 다시 부르지 않는다 (토큰 0).
 
@@ -210,7 +225,8 @@ def aggregate(domain):
     day = pd.concat(filled, ignore_index=True)
     day["date"] = day["date"].dt.strftime("%Y-%m-%d")
     day["month"] = day["date"].str[:7]
-    day["units"] = (SALES_REF / day["bsr"]) ** SALES_EXP
+    exp_, u1000 = sales_params(domain)
+    day["units"] = (SALES_REF / day["bsr"]) ** exp_
     am = (day.groupby(["brand", "asin", "month"], as_index=False)
           .agg(rank_median=("bsr", "median"), units=("units", "mean"), days=("date", "nunique")))
 
@@ -245,6 +261,9 @@ def aggregate(domain):
             else:
                 kept.append(c)
     am["units_counted"] = np.where(am["dup"], 0.0, am["units"])
+    # 추정 월 판매 개수 = 지수 × '1,000위 상품의 월 판매 개수'. 아마존 표시가 '○개 이상' 하한이라
+    # 이 숫자도 하한이다. 실제 표시와 비교하면 절반 정도가 2배 안에 들어온다 (bsr_calib.json).
+    am["est_units"] = (am["units"] * u1000).round()
     am.to_csv(asin_monthly, index=False, encoding="utf-8")
 
     g = am.groupby(["brand", "month"])
@@ -259,8 +278,10 @@ def aggregate(domain):
     m["str_best"] = (-np.log10(m["best_rank"].clip(lower=1))).round(4)
     m["str_sales"] = np.log10(m["sales_idx"].clip(lower=1e-6)).round(4)
     m["bsr_strength"] = m["str_median"]            # 예전 열 이름 — 호환용
+    m["est_units"] = (m["sales_idx"] * u1000).round()
     m.to_csv(monthly, index=False, encoding="utf-8")
-    print(f"{monthly.name}: {len(m)}행 (지표 3종) · {asin_monthly.name}: {len(am)}행")
+    print(f"{monthly.name}: {len(m)}행 (지표 3종) · 지수 {exp_} · 1,000위 = 월 {u1000:,.0f}개 · "
+          f"{asin_monthly.name}: {len(am)}행")
     return m.to_dict("records")
 
 
@@ -334,6 +355,89 @@ def history(key, domain, only_brand=None):
     return 0
 
 
+# 가장 오래된 상품 찾기용 검색 조건. 브랜드명 검색이 엉뚱한 상품을 물어오는 브랜드는
+# 제품명(title)으로 찾는다 (VT → 헤드셋, d'alba → 슬라임, manyo → 이쑤시개 — 2026-10-15).
+# 리들샷은 VT 의 다른 라인과 섞지 않는다 (퍼널의 브랜드 단위 = 리들샷 라인).
+OLD_QUERY = {
+    1: {"reedle shot": {"title": "reedle shot"}, "d'alba": {"title": "d'alba truffle"},
+        "manyo": {"title": "ma:nyo"}},
+    5: {"reedle shot": {"title": "リードルショット"}, "d'alba": {"title": "ダルバ"},
+        "atopalm": {"brand": ["アトパーム"]}, "manyo": {"title": "魔女工場"}},
+}
+
+
+def backfill_oldest(key, domain, n_new=3, scan=12, only=None):
+    """브랜드별로 아마존에 가장 먼저 등록된 상품을 n_new 개 추가한다 (PM 2026-10-15).
+
+    왜: 지금 잘 팔리는 상품만 추적하면, 예전에 팔던 상품이 빠져 브랜드 선이 늦게 시작한다
+    (센텔리안24 미국 첫 기록이 2023-03 으로 나왔지만 실제로는 2016-07 선크림부터 있었다).
+    '브랜드 론칭' · '아마존 첫 기록' 축에서 왼쪽(초기)이 비는 문제를 고친다.
+    판매량 합계 방식에서는 옛 상품의 판매도 브랜드 판매이므로 더하는 게 맞다.
+    토큰: 브랜드당 검색 약 10 + 후보 상품 scan 개."""
+    asins_csv, daily, _mo, meta_p = paths(domain)
+    rows = list(csv.DictReader(asins_csv.open(encoding="utf-8-sig")))
+    have = {r["asin"] for r in rows}
+    meta = json.loads(meta_p.read_text(encoding="utf-8")) if meta_p.exists() else {}
+    minfo = meta.get("asins") or {}
+    new_rows, new_pts = [], []
+    for b, brand_name in BRANDS.items():
+        if only and b != only:
+            continue
+        sel = dict(OLD_QUERY.get(domain, {}).get(b) or {"brand": [brand_name.lower()]})
+        sel.update({"sort": [["trackingSince", "asc"]], "perPage": 50, "page": 0})
+        try:
+            js = _call("query", key, body=sel, domain=domain)
+        except Exception as e:
+            print(f"  {b:18s} 검색 실패: {e}")
+            continue
+        cand = [a for a in (js.get("asinList") or []) if a not in have][:scan]
+        if not cand:
+            print(f"  {b:18s} 후보 없음")
+            continue
+        pj = _call("product", key, domain=domain, asin=",".join(cand), history=1, stats=0)
+        good = []
+        for p in pj.get("products") or []:
+            if not title_ok(b, p.get("title")):
+                continue
+            arr = p.get("csv") or []
+            series = arr[I_SALES] if len(arr) > I_SALES else None
+            if not series:
+                continue
+            pts = []
+            for j in range(0, len(series) - 1, 2):
+                t, v = series[j], series[j + 1]
+                if v is None or v < 0:
+                    continue
+                dd = dt.datetime.utcfromtimestamp((t * 60000 + KEEPA_EPOCH_MS) / 1000).date()
+                pts.append({"brand": b, "asin": p["asin"], "date": dd.isoformat(), "bsr": v})
+            if pts:
+                good.append((pts[0]["date"], p, pts))
+        good.sort(key=lambda x: x[0])
+        for first, p, pts in good[:n_new]:
+            title = (p.get("title") or "")[:70]
+            new_rows.append({"brand": b, "asin": p["asin"], "title": title})
+            new_pts += pts
+            minfo[p["asin"]] = {"brand": b, "points": len(pts), "title": title, "oldest_pick": True}
+            have.add(p["asin"])
+        firsts = ", ".join(x[0] for x in good[:n_new])
+        print(f"  {b:18s} +{min(len(good), n_new)}개 (첫 기록 {firsts or '-'})")
+    if not new_rows:
+        print("추가할 상품 없음")
+        return 0
+    with asins_csv.open("w", encoding="utf-8-sig", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["brand", "asin", "title"])
+        w.writeheader()
+        w.writerows(rows + new_rows)
+    with daily.open("a", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["brand", "asin", "date", "bsr"])
+        w.writerows(new_pts)
+    meta["asins"] = minfo
+    meta_p.write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"\n상품 {len(new_rows)}개 · BSR {len(new_pts):,}점 추가 → 월별 다시 계산")
+    aggregate(domain)
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--discover", action="store_true")
@@ -342,10 +446,18 @@ def main():
                     help="1=미국(기본) 5=일본 3=영국 4=독일")
     ap.add_argument("--aggregate", action="store_true",
                     help="Keepa 호출 없이 bsr_daily 로 월별 지표만 다시 계산")
+    ap.add_argument("--backfill-oldest", action="store_true",
+                    help="브랜드별로 아마존에 가장 먼저 등록된 상품 3개를 추가 (초기 이력 채우기)")
     a = ap.parse_args()
     if a.aggregate:
         aggregate(a.domain)
         return 0
+    if a.backfill_oldest:
+        k_ = _key()
+        if not k_:
+            print("KEEPA_KEY 없음")
+            return 1
+        return backfill_oldest(k_, a.domain, only=a.brand)
     key = _key()
     if not key:
         print("KEEPA_KEY 없음 — 환경변수 또는 .streamlit/secrets.toml [keepa] key")
