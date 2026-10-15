@@ -80,6 +80,19 @@ def revenue_panel():
                 g["rev_yoy"] = g["rev_eok"] / g["rev_eok"].shift(4) - 1   # 분기는 4분기 전과 비교
                 g["brand"] = b
                 rows.append(g.rename(columns={"rev_eok": "rev"}))
+    # 동국제약: 센텔리안24 단독 매출은 DART에 없다. 가장 가까운 공시 라인이
+    # '제품-기타(화장품 포함)' — 센텔리안24가 이 라인의 대부분이다.
+    # 연간 합이 v5d 워크북의 제품-기타(내수+수출)와 일치함을 확인했다
+    # (2024 265,638 / 2025 275,528 백만원). 단위는 억원으로 변환.
+    f = SD / "dongkook_prod_other_q.csv"
+    if f.exists():
+        for b, (co, src, _s) in MAP.items():
+            if src == "dongkook_seg":
+                g = pd.read_csv(f).sort_values("q").copy()
+                g["rev_yoy"] = g["rev_eok"] / g["rev_eok"].shift(4) - 1   # 분기 → 4분기 전
+                g["brand"] = b
+                rows.append(g[["q", "rev_eok", "rev_yoy", "brand"]].rename(columns={"rev_eok": "rev"}))
+
     u = pd.read_csv(SD / "brand_revenue_unlisted.csv")
     for b, (co, src, _s) in MAP.items():
         if src == "unlisted":
