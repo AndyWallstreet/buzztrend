@@ -1,4 +1,4 @@
-name,ticker,corp_code,idea_date,ss,priority,owner,stage,plan,var_points,note
+﻿name,ticker,corp_code,idea_date,ss,priority,owner,stage,plan,var_points,note
 SK바이오사이언스,302440,01319899,2026-03-24,3상,,WJ,Revisit,,,
 한올바이오파마,009420,00162586,2026-03-25,대표님,,WJ,Revisit,,,IMVT-1402
 셀비온,308430,01275489,2026-04-10,임상,,WJ,Revisit,,,임상
@@ -25,4 +25,5 @@ SNT에너지,100840,00648721,2026-07-30,고배당 성장주,,WJ,Raw Idea,,,
 엔에프씨,265740,01217829,2026-09-10,화장품 ODM으로 밸류에이션 낮고 높은 FCF,,WJ,Raw Idea,,,
 네오팜,092730,00551920,2026-07-30,아토팜 수혜 / 수출 증가,,WJ,Revisit,,,
 제이투케이바이오,420570,01553129,2026-09-10,2024-2025년 훼손됐던 수익성이 구조적으로 정상화되는 구간,,WJ,Raw Idea,,,
-YG PLUS,037270,00249247,2026-09-22,앨범 유통 물량 vs 매출 · 장당 단가,,WJ,Raw Idea,,음악서비스매출은 고정 기반이 커서 앨범 물량 민감도 낮음(434원/장),
+현대위아,011210,00106623,2026-10-13,자산매각,,JJ,Raw Idea,,,
+휴젤,145020,00888347,,,,WJ,Raw Idea,,,스테이지 미기재(시트 빈칸) → 임시 Raw Idea

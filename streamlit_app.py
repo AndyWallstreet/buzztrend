@@ -117,6 +117,7 @@ h1, h2, h3 { letter-spacing: -0.01em; }
   <div class="lk-menu"><a href="coverage" target="_self">My Coverage ▾</a>
     <div class="lk-drop">
       <a href="coverage" target="_self">커버리지 목록 · 이벤트 캘린더</a>
+      <a href="earnings" target="_self">실적 시즌 3Q26 · 발표 캘린더 · 컨센서스 · 스코어카드</a>
       <a href="watchlist" target="_self">Watchlist</a>
     </div>
   </div>
@@ -228,6 +229,7 @@ pg_yg = st.Page("app_pages/yg_dashboard.py", title="└ YG 트래커",
 pg_ygplus = st.Page("app_pages/ygplus_album.py", title="└ YG플러스 앨범유통",
                     url_path="ygplus-album")
 pg_cov = st.Page("app_pages/coverage.py", title="커버리지", url_path="coverage")
+pg_earn = st.Page("app_pages/earnings.py", title="실적 시즌", url_path="earnings")
 pg_bigbang = st.Page("app_pages/yg_bigbang.py", title="└ BIGBANG Tour 2026",
                      url_path="bigbang_tour")
 pg_babymon = st.Page("app_pages/yg_babymonster.py", title="└ BABYMONSTER 2026",
@@ -285,7 +287,7 @@ pg_cover = st.Page(_cover, title="LK Asset Terminal", url_path="home", default=T
 nav = st.navigation({
     "": [pg_cover],
     "Screener": [pg_buzz, pg_value, pg_stock, pg_watch],
-    "My Coverage": [pg_cov],
+    "My Coverage": [pg_cov, pg_earn],
     "Sector Watch": [pg_batt, pg_bio, pg_pshort, pg_beauty, pg_cosexp, pg_cossd, pg_bscr, pg_amz, pg_ent, pg_trailer,
                      pg_boxoffice,
                      pg_yg, pg_ygplus, pg_bigbang, pg_babymon,
