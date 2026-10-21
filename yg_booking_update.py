@@ -24,7 +24,7 @@ DATA = Path(__file__).resolve().parent / "data" / "yg"
 FILES = {"bigbang": ("bigbang_tour.csv", "bigbang_booking.csv"),
          "babymonster": ("babymonster_tour.csv", "babymonster_booking.csv")}
 COLS = ["asof", "tour_date", "city", "seats_total", "seats_sold", "fill", "status",
-        "speed", "source", "note"]
+        "speed", "short", "source", "note"]
 
 
 def main():
@@ -35,6 +35,9 @@ def main():
     ap.add_argument("--status", default="",
                     help="매진 / 추가판매 / 판매중 / 미오픈 (숫자를 못 구할 때)")
     ap.add_argument("--speed", default="", help="매진까지 걸린 시간 (예: 22분) — '매진 (22분)' 으로 표시")
+    ap.add_argument("--short", default="",
+                    help="공연 뒤 한 줄 코멘트 — '공연완료 (매진 · 22분 · <short>)' 로 표시. "
+                         "매진이 아니면 강도(예: '시야제한석만 잔여')를 적는다")
     ap.add_argument("--total", type=int, help="총좌석 (생략시 투어 CSV 에서 찾음)")
     ap.add_argument("--asof", default=date.today().isoformat())
     ap.add_argument("--source", default="")
@@ -57,13 +60,14 @@ def main():
            "seats_total": total if a.sold is not None else "",
            "seats_sold": a.sold if a.sold is not None else "",
            "fill": round(a.sold / total, 4) if a.sold is not None else "",
-           "status": a.status, "speed": a.speed, "source": a.source, "note": a.note}
+           "status": a.status, "speed": a.speed, "short": a.short, "source": a.source,
+           "note": a.note}
 
     p = DATA / booking_csv
     rows = []
     if p.exists() and p.stat().st_size > 10:
         with p.open(encoding="utf-8-sig") as f:
-            rows = [r for r in csv.DictReader(f)
+            rows = [{k: r.get(k, "") for k in COLS} for r in csv.DictReader(f)
                     if not (r["asof"] == a.asof and r["city"] == stop["city"])]
     rows.append({k: str(v) for k, v in row.items()})
     rows.sort(key=lambda r: (r["asof"], r["city"]))

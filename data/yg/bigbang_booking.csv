@@ -1,22 +1,29 @@
-﻿asof,tour_date,city,seats_total,seats_sold,fill,status,speed,source,note
-2026-06-28,2026-09-11,East Rutherford,50606,49866,0.9854,,,https://x.com/TouringAsiaPop/status/2071417655903560056,TouringAsiaPop 집계(6/28) 판매율 98.56%·잔여 740석·실판매 캐파 50606석(워크북 82500석 대비 무대설치로 축소)
-2026-08-20,2026-08-21,Goyang,,,,매진,22분,https://mhnse.com/news/articleView.html?idxno=1454720,일반예매(6/25) 22분만에 3회차 전석매진·동접 21만·7/13-14 추가좌석도 판매·예매처 쿠팡플레이(국내)/NOL(글로벌)
-2026-08-20,2026-09-26,London,,,,판매중,,https://www.axs.com/events/1489042/bigbang-tickets,AEG 일반판매 6/26 개시·리세일 수요 강함·잔여 미확인
-2026-08-20,2026-09-04,Oakland,,,,매진,30분,https://en.wikipedia.org/wiki/XX:_Cosmos_World_Tour,9/5 원공연 30분 전석매진(6/26 온세일)→수요 몰려 9/4 회차 추가(6/30 발표·잔여 미확인)·예매처 AXS/Ticketmaster
-2026-08-20,2026-09-19,Saint-Denis,,,,판매중,,https://www.stadefrance.com/en/ticket/bigbang,공식 페이지 판매 진행중(€57~255)·리세일 데이터상 잔여 ~1% 수준
-2026-09-02,2026-08-21,Goyang,123933,107638,0.8685,공연완료,22분,https://en.wikipedia.org/wiki/XX:_Cosmos_World_Tour,"빌보드 박스스코어 확정 실적(3회차 합산): 관객 107,638명 · 총매출 $14,577,844 → 실제 객단가 $135.4 (모델 가정 $100)"
-2026-09-10,2026-09-11,East Rutherford,50606,49866,0.9854,,,https://www.metlifestadium.com/events,D-1 점검: MetLife 공식 이벤트페이지 여전히 'Buy Tickets'(SOLD OUT 표시 없음) · 8/24 koreaportal '잔여 얇지만 매진 아님' · 판매율 수치는 6/28 집계(98.56%) 유지
-2026-09-10,2026-09-19,Saint-Denis,,,,판매중,,https://www.stadefrance.com/en/ticket/bigbang,9/10 공식 티켓페이지 확인: 전 6개 등급(€57~255) 판매중 · 매진 아님
-2026-09-10,2026-09-26,London,,,,판매중,,https://www.axs.com/uk/events/1489042/bigbang-tickets,"9/10 확인: AXS·티켓마스터UK 판매중, 매진 보도 없음 (AXS 직접 조회는 봇차단이라 잔여수량 미확인) · 토트넘 홋스퍼 스타디움"
-2026-09-17,2026-09-04,Oakland,,,,매진,30분,https://artist.ygfamily.com/ARTISTS/BIGBANG/concert/worldtour/index.html,9/17 확인: YG 공식 투어페이지 SOLD OUT 표기 · 9/4·9/5 2회 공연완료 · 빌보드 박스스코어 아직 미발표
-2026-09-17,2026-09-11,East Rutherford,,,,매진,,https://www.newspim.com/news/view/20260915000300,"공연완료 · 시야제한석까지 전석 매진(YG 9/15 발표, 뉴스핌·아시아경제) · 관객수/매출 박스스코어 미발표 · 6/28 98.56%에서 완판으로 확정"
-2026-09-17,2026-09-19,Saint-Denis,,,,판매중,,https://www.stadefrance.com/en/ticket/bigbang,9/17 공식 페이지 여전히 Book now(€57~255) · 매진 보도 1건 있으나 원문 확인 불가 → 판매중 유지
-2026-09-17,2026-09-26,London,,,,판매중,,https://www.tottenhamhotspurstadium.com/events/1070339/big-bang,9/17 경기장 공식 페이지 On Sale Now · 매진 보도 없음
-2026-09-17,2026-10-10,Taipei,,,,매진,,https://x.com/gdragonintl/status/2089289255659151794,"10/10·10/11 팬클럽 선예매 매진(팬 계정 출처, 공식 확인 필요) · 10/9 추가 회차 편성 → 3회(모델은 2회) · 10/9 잔여 미확인"
-2026-09-17,2026-10-17,Singapore,,,,매진,2시간,https://www.bandwagon.asia/articles/bigbang-add-2nd-xx-cosmos-concert-in-singapore-this-october,"10/17 2시간 매진·선예매 대기 50만명 → 10/18 추가(9/3 오픈, 잔여 미확인) → 2회(모델 1회)"
-2026-09-17,2026-10-24,Hanoi,,,,매진,90분,https://dtinews.dantri.com.vn/lifestyle/bigbang-sells-out-two-hanoi-shows-20260817154815687.htm,8/17 일반예매 약 90분 만에 2회 전석 매진 · 동시 대기 15만명+
-2026-09-17,2026-10-31,Sydney,,,,판매중,,https://www.frontiertouring.com/bigbang,7/31 일반예매 오픈 · 매진 보도 없음
-2026-09-17,2026-11-07,Bangkok,,,,매진,,https://en.thairath.co.th/entertain/news/2956824,"11/7 빠른 매진 → 11/8 추가(9/6 일반예매, 잔여 미확인) → 2회(모델 1회)"
-2026-09-17,2026-11-13,Hong Kong,,,,판매중,,https://www.dimsumdaily.hk/bigbang-opens-three-kai-tak-nights-with-staggered-ticket-sales/,선예매 9/14~16 → 9/17 12:00 일반예매 오픈 · 회당 약 5만석 x3 · 매진 여부 미확인
-2026-09-17,2026-11-27,Osaka,,,,판매중,,https://avexnet.jp/news/1034518,"일본 돔 4개 도시 10회(오사카3·나고야2·도쿄3·후쿠오카2) 팬클럽 추첨 6~7월 완료 · 일반판매 일정/결과 미확인 · ¥12,800~38,500"
-2026-09-17,2027-01-09,Kuala Lumpur,,,,미오픈,,https://bigbang.bstage.in/contents/6a8e4a58a1b3aa2e013d0b00,9/17 10:00 멤버십 선예매 시작 · 일반예매 미발표
+﻿asof,tour_date,city,seats_total,seats_sold,fill,status,speed,short,source,note
+2026-06-28,2026-09-11,East Rutherford,50606,49866,0.9854,,,,https://x.com/TouringAsiaPop/status/2071417655903560056,TouringAsiaPop 집계(6/28) 판매율 98.56%·잔여 740석·실판매 캐파 50606석(워크북 82500석 대비 무대설치로 축소)
+2026-08-20,2026-08-21,Goyang,,,,매진,22분,,https://mhnse.com/news/articleView.html?idxno=1454720,일반예매(6/25) 22분만에 3회차 전석매진·동접 21만·7/13-14 추가좌석도 판매·예매처 쿠팡플레이(국내)/NOL(글로벌)
+2026-08-20,2026-09-26,London,,,,판매중,,,https://www.axs.com/events/1489042/bigbang-tickets,AEG 일반판매 6/26 개시·리세일 수요 강함·잔여 미확인
+2026-08-20,2026-09-04,Oakland,,,,매진,30분,,https://en.wikipedia.org/wiki/XX:_Cosmos_World_Tour,9/5 원공연 30분 전석매진(6/26 온세일)→수요 몰려 9/4 회차 추가(6/30 발표·잔여 미확인)·예매처 AXS/Ticketmaster
+2026-08-20,2026-09-19,Saint-Denis,,,,판매중,,,https://www.stadefrance.com/en/ticket/bigbang,공식 페이지 판매 진행중(€57~255)·리세일 데이터상 잔여 ~1% 수준
+2026-09-02,2026-08-21,Goyang,123933,107638,0.8685,공연완료,22분,,https://en.wikipedia.org/wiki/XX:_Cosmos_World_Tour,"빌보드 박스스코어 확정 실적(3회차 합산): 관객 107,638명 · 총매출 $14,577,844 → 실제 객단가 $135.4 (모델 가정 $100)"
+2026-09-10,2026-09-11,East Rutherford,50606,49866,0.9854,,,,https://www.metlifestadium.com/events,D-1 점검: MetLife 공식 이벤트페이지 여전히 'Buy Tickets'(SOLD OUT 표시 없음) · 8/24 koreaportal '잔여 얇지만 매진 아님' · 판매율 수치는 6/28 집계(98.56%) 유지
+2026-09-10,2026-09-26,London,,,,판매중,,,https://www.axs.com/uk/events/1489042/bigbang-tickets,"9/10 확인: AXS·티켓마스터UK 판매중, 매진 보도 없음 (AXS 직접 조회는 봇차단이라 잔여수량 미확인) · 토트넘 홋스퍼 스타디움"
+2026-09-10,2026-09-19,Saint-Denis,,,,판매중,,,https://www.stadefrance.com/en/ticket/bigbang,9/10 공식 티켓페이지 확인: 전 6개 등급(€57~255) 판매중 · 매진 아님
+2026-09-17,2026-11-07,Bangkok,,,,매진,,,https://en.thairath.co.th/entertain/news/2956824,"11/7 빠른 매진 → 11/8 추가(9/6 일반예매, 잔여 미확인) → 2회(모델 1회)"
+2026-09-17,2026-09-11,East Rutherford,,,,매진,,,https://www.newspim.com/news/view/20260915000300,"공연완료 · 시야제한석까지 전석 매진(YG 9/15 발표, 뉴스핌·아시아경제) · 관객수/매출 박스스코어 미발표 · 6/28 98.56%에서 완판으로 확정"
+2026-09-17,2026-10-24,Hanoi,,,,매진,90분,,https://dtinews.dantri.com.vn/lifestyle/bigbang-sells-out-two-hanoi-shows-20260817154815687.htm,8/17 일반예매 약 90분 만에 2회 전석 매진 · 동시 대기 15만명+
+2026-09-17,2026-11-13,Hong Kong,,,,판매중,,,https://www.dimsumdaily.hk/bigbang-opens-three-kai-tak-nights-with-staggered-ticket-sales/,선예매 9/14~16 → 9/17 12:00 일반예매 오픈 · 회당 약 5만석 x3 · 매진 여부 미확인
+2026-09-17,2027-01-09,Kuala Lumpur,,,,미오픈,,,https://bigbang.bstage.in/contents/6a8e4a58a1b3aa2e013d0b00,9/17 10:00 멤버십 선예매 시작 · 일반예매 미발표
+2026-09-17,2026-09-26,London,,,,판매중,,,https://www.tottenhamhotspurstadium.com/events/1070339/big-bang,9/17 경기장 공식 페이지 On Sale Now · 매진 보도 없음
+2026-09-17,2026-09-04,Oakland,,,,매진,30분,,https://artist.ygfamily.com/ARTISTS/BIGBANG/concert/worldtour/index.html,9/17 확인: YG 공식 투어페이지 SOLD OUT 표기 · 9/4·9/5 2회 공연완료 · 빌보드 박스스코어 아직 미발표
+2026-09-17,2026-11-27,Osaka,,,,판매중,,,https://avexnet.jp/news/1034518,"일본 돔 4개 도시 10회(오사카3·나고야2·도쿄3·후쿠오카2) 팬클럽 추첨 6~7월 완료 · 일반판매 일정/결과 미확인 · ¥12,800~38,500"
+2026-09-17,2026-09-19,Saint-Denis,,,,판매중,,,https://www.stadefrance.com/en/ticket/bigbang,9/17 공식 페이지 여전히 Book now(€57~255) · 매진 보도 1건 있으나 원문 확인 불가 → 판매중 유지
+2026-09-17,2026-10-17,Singapore,,,,매진,2시간,,https://www.bandwagon.asia/articles/bigbang-add-2nd-xx-cosmos-concert-in-singapore-this-october,"10/17 2시간 매진·선예매 대기 50만명 → 10/18 추가(9/3 오픈, 잔여 미확인) → 2회(모델 1회)"
+2026-09-17,2026-10-31,Sydney,,,,판매중,,,https://www.frontiertouring.com/bigbang,7/31 일반예매 오픈 · 매진 보도 없음
+2026-09-17,2026-10-10,Taipei,,,,매진,,,https://x.com/gdragonintl/status/2089289255659151794,"10/10·10/11 팬클럽 선예매 매진(팬 계정 출처, 공식 확인 필요) · 10/9 추가 회차 편성 → 3회(모델은 2회) · 10/9 잔여 미확인"
+2026-10-22,2026-09-11,East Rutherford,,,,매진,,시야제한석까지 완판,https://www.allkpop.com/article/2026/09/bigbang-sell-out-metlife-stadium-as-their-20th-anniversary-world-tour-sails-on,10/22 확인: YG 공식 페이지 SOLD OUT · allkpop '시야제한석까지 매진' · 박스스코어 미발표
+2026-10-22,2026-08-21,Goyang,,,,매진,22분,"3회 전석 · 빌보드 집계 관객 107,638명",https://en.wikipedia.org/wiki/XX:_Cosmos_World_Tour,"10/22 정리: YG 공식 페이지 SOLD OUT · 빌보드 박스스코어 3회 합산 관객 107,638명·매출 $14.58m"
+2026-10-22,2026-09-26,London,,,,매진,,YG 공식 SOLD OUT · 거의 만석 보도,https://www.starnewskorea.com/en/music/2026/09/28/2026092817203474363,10/22 확인: YG 공식 페이지 SOLD OUT · 스타뉴스 '거의 만석' · BBC 리뷰 · 14년 만의 런던
+2026-10-22,2026-09-04,Oakland,,,,매진,30분,"9/5 원공연 매진 후 9/4 추가, 2회 모두 완판",https://artist.ygfamily.com/ARTISTS/BIGBANG/concert/worldtour/index.html,10/22 확인: YG 공식 페이지 9/4·9/5 둘 다 SOLD OUT · 박스스코어 미발표
+2026-10-22,2026-09-19,Saint-Denis,,,,매진,,YG 공식 SOLD OUT · 관객수 미발표,https://www.starnewskorea.com/en/music/2026/09/28/2026092817203474363,10/22 확인: YG 공식 페이지 SOLD OUT · 스타뉴스 '파리 매진' 보도 · 관객수/매출 미발표
+2026-10-22,2026-10-17,Singapore,,,,매진,2시간,"2회차 추가, 2회 모두 완판",https://artist.ygfamily.com/ARTISTS/BIGBANG/concert/worldtour/index.html,10/22 확인: YG 공식 페이지 10/17·10/18 둘 다 SOLD OUT · 10/8 시점 시야제한석만 잔여였다가 완판 · 모델 1회 → 실제 2회
+2026-10-22,2026-10-10,Taipei,,,,매진,,3회 전석매진(추가좌석 포함) · 약 10만명,https://www.allkpop.com/article/2026/10/bigbang-draw-about-100000-over-three-taipei-dome-nights-as-xx-cosmos-opens-its-asia-leg,10/22 확인: YG 9/29 발표 10/9·10·11 전석매진(추가좌석 포함) · 3일 약 10만명 (모델 2회 8만석 → 실제 3회)

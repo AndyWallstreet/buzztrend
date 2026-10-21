@@ -46,15 +46,41 @@ def _fmt_eok(mn):
     return f"{mn / 100:,.0f}억"
 
 
-def _status_text(row):
-    """스냅샷 한 줄 → 사람이 읽는 예매상태. speed 가 있으면 '매진 (22분)' 식으로."""
+def _is_sold_out(row):
+    """매진으로 볼 조건: status 매진, 또는 공연완료+매진속도 기록(고양), 또는 판매율 95% 이상."""
+    st_ = row.get("status") if isinstance(row.get("status"), str) else ""
+    speed = row.get("speed") if isinstance(row.get("speed"), str) else ""
+    fill = row.get("fill")
+    return st_ == "매진" or (st_ == "공연완료" and bool(speed)) or (pd.notna(fill) and fill >= 0.95)
+
+
+def _status_text(row, done=False, compact=False):
+    """스냅샷 한 줄 → 사람이 읽는 예매상태.
+    공연 전: '🔴 매진 (22분)' / '🟢 판매중' …
+    공연 후(done): '공연완료 (매진 · 22분 · 코멘트)' / '공연완료 (매진 아님 · 코멘트)' /
+                  '공연완료 (매진 여부 미확인)' — 매진 아님은 short 코멘트가 있을 때만 단정한다."""
+    speed = row.get("speed") if isinstance(row.get("speed"), str) else ""
+    short = row.get("short") if isinstance(row.get("short"), str) else ""
+    if compact:  # 차트 막대 옆 라벨용 — 코멘트는 빼고 짧게
+        short = ""
+    fill = row.get("fill")
+    if done:
+        if _is_sold_out(row):
+            parts = ["매진"] + ([speed] if speed else []) + ([short] if short else [])
+        elif short:
+            parts = ["매진 아님", short]
+        elif pd.notna(fill):
+            parts = [f"{fill:.0%} 판매"]
+        else:
+            parts = ["매진 여부 미확인"]
+        return "공연완료 (" + " · ".join(parts) + ")"
     txt = None
     if isinstance(row.get("status"), str) and row["status"]:
         txt = STATUS_BADGE.get(row["status"], row["status"])
-    elif pd.notna(row.get("fill")):
-        txt = f"{row['fill']:.0%} 판매"
-    if txt and isinstance(row.get("speed"), str) and row["speed"]:
-        txt += f" ({row['speed']})"
+    elif pd.notna(fill):
+        txt = f"{fill:.0%} 판매"
+    if txt and speed:
+        txt += f" ({speed})"
     return txt
 
 
@@ -72,8 +98,10 @@ def render(artist, tour_csv, booking_csv, ticker_note):
               if booking is not None else pd.DataFrame())
 
     # ---- 상단 지표
-    done = tour[tour["date"] < today]
-    nxt = tour[tour["date"] >= today].head(1)
+    tour["last_date"] = tour["date"] + pd.to_timedelta(tour["shows"].clip(lower=1) - 1, unit="D")
+    done = tour[tour["last_date"] < today]
+    done_cities = set(done["city"])
+    nxt = tour[tour["last_date"] >= today].head(1)
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("도시 스탑", f"{len(tour)}곳 · {int(tour['shows'].sum())}회")
     c2.metric("총 좌석", f"{int(tour['seats'].sum()):,}석")
@@ -103,18 +131,22 @@ def render(artist, tour_csv, booking_csv, ticker_note):
     cal["status"] = None
     cal["sold_seats"] = 0.0
     cal["badge"] = ""
+    cal["badge_c"] = ""
     for city, row in latest.iterrows():
         m = cal["city"] == city
         if not m.any():
             continue
-        stx = _status_text(row)
+        is_done = city in done_cities
+        stx = _status_text(row, done=is_done)
         cal.loc[m, "badge"] = stx or ""
-        if isinstance(row.get("status"), str) and row["status"] == "매진":
+        cal.loc[m, "badge_c"] = _status_text(row, done=is_done, compact=True) or ""
+        if _is_sold_out(row):
             cal.loc[m, "sold_seats"] = cal.loc[m, "seats"]          # 매진 = 전량
         elif pd.notna(row.get("fill")):
             cal.loc[m, "sold_seats"] = cal.loc[m, "seats"] * row["fill"]
-    cal.loc[cal["date"] < today, "badge"] = cal.loc[cal["date"] < today, "badge"].where(
-        cal.loc[cal["date"] < today, "badge"] != "", "공연 완료")
+    fin = cal["last_date"] < today
+    for c in ("badge", "badge_c"):
+        cal.loc[fin, c] = cal.loc[fin, c].where(cal.loc[fin, c] != "", "공연완료 (매진 여부 미확인)")
     order = cal.sort_values("date")["label"].tolist()
 
     base = alt.Chart(cal).encode(
@@ -137,7 +169,7 @@ def render(artist, tour_csv, booking_csv, ticker_note):
                         range=list(C_REGION.values())), legend=None))
     badge_txt = base.mark_text(align="left", dx=6, fontSize=11.5,
                                color="#e8edf5").encode(
-        x=alt.X("seats:Q"), text="badge:N")
+        x=alt.X("seats:Q"), text="badge_c:N")
     st.altair_chart((total_bar + sold_bar + badge_txt)
                     .properties(height=26 * len(cal) + 40), use_container_width=True)
 
@@ -203,7 +235,7 @@ def render(artist, tour_csv, booking_csv, ticker_note):
     prog = latest.reset_index().merge(tour[["city", "date", "seats"]], on="city")
     cols = st.columns(min(4, max(1, len(prog))))
     for i, (_, r) in enumerate(prog.iterrows()):
-        stx = _status_text(r) or "—"
+        stx = _status_text(r, done=r["city"] in done_cities) or "—"
         sub = (f"{int(r['seats_sold']):,} / {int(r['seats_total']):,}석"
                if pd.notna(r.get("seats_sold")) and pd.notna(r.get("seats_total"))
                else f"전체 {int(r['seats']):,}석")
@@ -230,11 +262,12 @@ def render(artist, tour_csv, booking_csv, ticker_note):
     hist = booking.sort_values("asof", ascending=False).copy()
     hist["asof"] = hist["asof"].dt.strftime("%Y-%m-%d")
     hist["tour_date"] = hist["tour_date"].dt.strftime("%Y-%m-%d")
-    if "speed" not in hist.columns:
-        hist["speed"] = ""
-    hist = hist[["asof", "city", "tour_date", "status", "speed", "seats_sold",
+    for c in ("speed", "short"):
+        if c not in hist.columns:
+            hist[c] = ""
+    hist = hist[["asof", "city", "tour_date", "status", "speed", "short", "seats_sold",
                  "seats_total", "fill", "note", "source"]]
-    hist.columns = ["기록일", "도시", "공연일", "상태", "매진 속도", "판매좌석",
+    hist.columns = ["기록일", "도시", "공연일", "상태", "매진 속도", "짧은 코멘트", "판매좌석",
                     "총좌석", "판매율", "메모", "출처"]
     st.dataframe(hist, use_container_width=True, hide_index=True,
                  column_config={
