@@ -114,13 +114,6 @@ h1, h2, h3 { letter-spacing: -0.01em; }
       <a href="watchlist" target="_self">Watchlist</a>
     </div>
   </div>
-  <div class="lk-menu"><a href="coverage" target="_self">My Coverage ▾</a>
-    <div class="lk-drop">
-      <a href="coverage" target="_self">커버리지 목록 · 이벤트 캘린더</a>
-      <a href="earnings" target="_self">실적 시즌 3Q26 · 발표 캘린더 · 컨센서스 · 스코어카드</a>
-      <a href="watchlist" target="_self">Watchlist</a>
-    </div>
-  </div>
   <div class="lk-menu"><a href="entertainment" target="_self">Sector Watch ▾</a>
     <div class="lk-drop">
       <a href="batteries" target="_self">Batteries / EV / ESS</a>
@@ -162,6 +155,13 @@ h1, h2, h3 { letter-spacing: -0.01em; }
       <a href="consumer" target="_self">Consumer</a>
       <a href="logistics-commerce" target="_self">Logistics / Commerce</a>
       <a href="steel-metals" target="_self">Steel &amp; Non-Ferrous Metals</a>
+    </div>
+  </div>
+  <div class="lk-menu"><a href="coverage" target="_self">My Coverage ▾</a>
+    <div class="lk-drop">
+      <a href="coverage" target="_self">커버리지 목록 · 이벤트 캘린더</a>
+      <a href="earnings" target="_self">실적 시즌 3Q26 · 발표 캘린더 · 컨센서스 · 스코어카드</a>
+      <a href="watchlist" target="_self">Watchlist</a>
     </div>
   </div>
 </div>
@@ -287,10 +287,10 @@ pg_cover = st.Page(_cover, title="LK Asset Terminal", url_path="home", default=T
 nav = st.navigation({
     "": [pg_cover],
     "Screener": [pg_buzz, pg_value, pg_stock, pg_watch],
-    "My Coverage": [pg_cov, pg_earn],
     "Sector Watch": [pg_batt, pg_bio, pg_pshort, pg_beauty, pg_cosexp, pg_cossd, pg_bscr, pg_amz, pg_ent, pg_trailer,
                      pg_boxoffice,
                      pg_yg, pg_ygplus, pg_bigbang, pg_babymon,
                      pg_consumer, pg_logi, pg_steel],
+    "My Coverage": [pg_cov, pg_earn],
 }, position="hidden")
 nav.run()
