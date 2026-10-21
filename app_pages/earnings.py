@@ -94,26 +94,16 @@ tabs = st.tabs(["🗓️ 발표 캘린더", "🎯 컨센서스", "✅ 스코어�
 
 # ================================================================ 1) 캘린더
 with tabs[0]:
-    sub("발표 일정", "동그라미 = 확정(회사 예고 공시) · 마름모 = 추정(과거 3년 제출일 중앙값) · 네모 = 발표됨")
+    sub("발표 일정", "달력 모양 · 초록 = 확정(회사 예고 공시) · 회색 = 추정(과거 3년 제출일 중앙값) · 파랑 = 발표됨")
     c = cal.dropna(subset=["next_date"]).copy()
     c["kind"] = c["date_kind"].where(c["status"] != "발표", "발표")
     if con is not None:
         c = c.merge(con[["ticker", "q_op_now", "prior_op", "has_q_cons"]], on="ticker", how="left")
         c["OP cons (KRWbn)"] = bn(c["q_op_now"]).round(1)
         c["OP 3Q25 (KRWbn)"] = bn(c["prior_op"]).round(1)
-    _yax = alt.Y("name:N", title=None, sort=alt.SortField("next_date"),
-                 axis=alt.Axis(grid=True, gridColor="#2a3852", gridDash=[2, 3], domain=False, ticks=False, labelPadding=8))
-    pts = alt.Chart(c).mark_point(size=170, filled=True, opacity=0.95).encode(
-        x=alt.X("next_date:T", title=None), y=_yax,
-        color=alt.Color("kind:N", title="날짜", scale=alt.Scale(domain=["확정", "추정", "발표"], range=[C_GREEN, C_GREY, C_BLUE]),
-                        legend=alt.Legend(orient="top")),
-        shape=alt.Shape("kind:N", scale=alt.Scale(domain=["확정", "추정", "발표"], range=["circle", "diamond", "square"]), legend=None),
-        tooltip=["next_date", "name", "kind", "status", "prelim_company",
-                 alt.Tooltip("OP cons (KRWbn):Q", format=",.1f"), alt.Tooltip("OP 3Q25 (KRWbn):Q", format=",.1f")])
-    now = alt.Chart(pd.DataFrame({"d": [today]})).mark_rule(color=C_GOLD, strokeDash=[4, 3]).encode(x="d:T")
-    dl = alt.Chart(pd.DataFrame({"d": [dt.date(2026, 11, 16)], "t": ["분기보고서 기한 11/16"]})).mark_rule(color=C_RED, strokeDash=[2, 2]).encode(x="d:T")
-    st.altair_chart(alt.layer(now, dl, pts).properties(height=40 + 26 * c["name"].nunique()).configure_view(strokeOpacity=0),
-                    use_container_width=True)
+    # 진짜 달력 모양 (주 = 행, 요일 = 열). 점 차트는 PM 2026-10-21 요청으로 교체 — earnings_calendar.py
+    from app_pages import earnings_calendar
+    earnings_calendar.render(c, today, dt.date(2026, 11, 16))
 
     sub("일정표", "가까운 순 · 잠정실적 회사 = 분기보고서보다 먼저 숫자를 냄 · 나머지는 분기보고서(11/16 기한)에서 처음 나옴")
     show = c.sort_values(["next_date", "name"])[["next_date", "D-", "name", "ticker", "kind", "status", "prelim_company",
