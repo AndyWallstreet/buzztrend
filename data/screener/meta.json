@@ -1,7 +1,8 @@
 {
- "as_of": "2026-08-21",
- "source": "Capital IQ comparables workbook",
+ "as_of": "2026-10-21",
+ "source": "Cap IQ Pro SPG() 직접 추출 (screener_spg_update.py)",
  "basis": "FY2026E consensus, LTM fallback",
- "n_fwd": 569,
- "n_companies": 2774
+ "n_fwd": 739,
+ "n_companies": 2630,
+ "note": "ROIC = EBIT×(1−유효세율)/(자본+차입−현금) 직접 계산 (Cap IQ Pro 에 ROIC 코드 없음)"
 }

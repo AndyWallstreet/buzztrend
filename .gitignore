@@ -26,3 +26,7 @@ data/cosmetics/absvol_raw.json
 data/cosmetics/absvol_raw_US.json
 data/cosmetics/absvol_raw_JP.json
 data/cosmetics/absvol_raw_*.json
+
+# screener SPG refresh scratch
+data/screener/_spg_cache/
+data/screener/screener_data_test.csv
