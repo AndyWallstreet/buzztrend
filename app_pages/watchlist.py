@@ -34,7 +34,9 @@ def load():
         if _c not in df.columns:
             df[_c] = np.nan
     meta = json.loads((DATA / "meta.json").read_text(encoding="utf-8"))
-    df["label"] = df["company"] + " (" + df["ticker"] + ")"
+    # 검색 라벨에 한글명을 같이 넣는다 — 영어·한글 어느 쪽으로 쳐도 찾아지게 (PM 2026-10-21)
+    from app_pages import krnames
+    df = krnames.add_labels(df)
     return df, meta
 
 
@@ -60,10 +62,19 @@ if WATCH.exists():
                  if t.strip()]
 extra = st.session_state.setdefault("wl_extra", [])
 
+# 회사 이름 언어 — 검색창에 한글을 치면 한글, 영어를 치면 영문 (PM 2026-10-21)
+import importlib  # noqa: E402
+from app_pages import krnames  # noqa: E402
+if not hasattr(krnames, "lang_control"):       # 서버가 예전 모듈을 들고 있으면 다시 읽음 (Streamlit 모듈 캐시)
+    importlib.reload(krnames)
+_lang = krnames.lang_control()
+df = krnames.display_names(df, _lang)
+
 _labels = df["label"].sort_values().tolist()
 
 
 def _search_stocks(q: str):
+    krnames.note_query(q)
     ql = q.strip().lower()
     if not ql:
         return []

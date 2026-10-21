@@ -185,7 +185,9 @@ def load():
                 df.loc[m, src] = "LTM"
             filled += int(m.sum())
         meta["histdb_filled"] = filled
-    df["label"] = df["company"] + " (" + df["ticker"] + ")"
+    # 검색 라벨에 한글명을 같이 넣는다 — 영어·한글 어느 쪽으로 쳐도 찾아지게 (PM 2026-10-21)
+    from app_pages import krnames
+    df = krnames.add_labels(df)
     # 차트에서 점 클릭 → 네이버금융 종목 페이지
     df["naver"] = ("https://finance.naver.com/item/main.naver?code="
                    + df["ticker"].str.lstrip("A"))
@@ -571,6 +573,14 @@ st.caption(f"한국 상장사 {meta['n_companies']:,}개 · 기준일 {meta['as_
            "X축 = 회사의 질(수익성+성장), Y축 = 주가의 비싼 정도(멀티플). "
            "**오른쪽 아래**에 있을수록 '좋은데 싼' 주식입니다.")
 
+# 회사 이름 언어 — 검색창에 한글을 치면 한글, 영어를 치면 영문 (PM 2026-10-21). 그래프·표·제목 전부 적용.
+import importlib
+from app_pages import krnames
+if not hasattr(krnames, "lang_control"):       # 서버가 예전 모듈을 들고 있으면 다시 읽음 (Streamlit 모듈 캐시)
+    importlib.reload(krnames)
+_lang = krnames.lang_control()
+df = krnames.display_names(df, _lang)
+
 tab1, tab2, tab3 = st.tabs(["🔍 티커 조회", "🧮 조건 검색", "🏭 섹터별 보기"])
 
 # ================================================= 1) Ticker Input
@@ -592,6 +602,7 @@ with tab1:
         _stock_labels = df["label"].sort_values().tolist()
 
         def _search_stocks(q: str):
+            krnames.note_query(q)            # 한글로 치면 한글 모드, 영어로 치면 영문 모드
             ql = q.strip().lower()
             if not ql:
                 return []
@@ -833,18 +844,19 @@ with tab1:
         ciq_csv = DATA / "history_ciq" / f"{row['ticker']}.csv"
         use_ciq = ciq_csv.exists()
         hdb_row = None
-        if not use_ciq:
-            _hdb_p = DATA.parent / "histdb" / "multiples.csv.gz"
-            if _hdb_p.exists():
-                @st.cache_data(ttl=3600, show_spinner=False)
-                def _load_hdb():
-                    x = pd.read_csv(_hdb_p)
-                    x["date"] = pd.to_datetime(x["date"]).dt.date
-                    return x
-                _hdb = _load_hdb()
-                hdb_row = _hdb[_hdb["ticker"] == row["ticker"]]
-                if len(hdb_row) < 6:
-                    hdb_row = None
+        _hdb = None
+        _hdb_p = DATA.parent / "histdb" / "multiples.csv.gz"
+        if _hdb_p.exists():
+            @st.cache_data(ttl=3600, show_spinner=False)
+            def _load_hdb(_stamp):
+                x = pd.read_csv(_hdb_p)
+                x["date"] = pd.to_datetime(x["date"]).dt.date
+                return x
+            _hdb = _load_hdb(round(_hdb_p.stat().st_mtime, 3))
+        if not use_ciq and _hdb is not None:
+            hdb_row = _hdb[_hdb["ticker"] == row["ticker"]]
+            if len(hdb_row) < 6:
+                hdb_row = None
         if not use_ciq and hdb_row is None and not dart_key():
             st.info("이 종목은 사전 계산 데이터가 없고, 즉석 계산용 DART 접근도 "
                     "불가한 환경입니다.")
@@ -889,6 +901,15 @@ with tab1:
                 if hcol not in hist.columns:
                     # 예전에 추출한 CSV라 이 지표가 없으면 EV/EBIT로 대체
                     hcol, hname = "eve", f"EV/EBIT (LTM · {sel_hm} 대용)"
+                # CIQ 추출은 애드인이 살아 있을 때만 갱신된다 (2026-10-21: 8/18 에서 멈춤, DLL 충돌).
+                # 그 뒤 달은 전 종목 DB(histdb)로 이어 붙인다. EV/EBITDA·EV/FCF 는 공개 데이터로 못 만들어 빈칸.
+                _ext_from = None
+                if _hdb is not None:
+                    _ext = _hdb[(_hdb["ticker"] == row["ticker"]) & (_hdb["date"] > hist["date"].max())]
+                    if len(_ext):
+                        _ext = _ext[["date", "px"] + [c for c in ("evs", "eve", "per", "pbr") if c in _ext.columns]]
+                        hist = pd.concat([hist, _ext], ignore_index=True).sort_values("date")
+                        _ext_from = _ext["date"].min()
             elif hdb_row is not None:
                 hist = hdb_row     # 전 종목 사전 계산 DB — 즉시 로딩
                 hmeta = None
@@ -944,7 +965,10 @@ with tab1:
                         if use_ciq:
                             st.caption("회색 점선 = 기간 평균. 파란 선 = 월별 LTM 멀티플. "
                                        "**데이터: Capital IQ** (관심종목 — "
-                                       "`history_ciq_update.py`로 갱신, 목록에 종목 추가 가능).")
+                                       "`history_ciq_update.py`로 갱신, 목록에 종목 추가 가능)."
+                                       + (f" **{_ext_from:%Y-%m} 부터는 사전 계산 DB(TTM)로 이어 붙임** — "
+                                          "CapIQ 애드인 문제로 추출이 멈춘 구간. EV/EBITDA·EV/FCF 는 그 구간에 없음."
+                                          if _ext_from else ""))
                         elif hmeta is None:
                             st.caption("회색 점선 = 기간 평균. 파란 선 = 월별 TTM 멀티플. "
                                        "**데이터: 사전 계산 DB** (`histdb_update.py`로 갱신) · "

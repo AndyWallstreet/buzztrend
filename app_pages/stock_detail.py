@@ -121,7 +121,9 @@ def load():
         if _c not in df.columns:
             df[_c] = np.nan
     meta = json.loads((DATA / "meta.json").read_text(encoding="utf-8"))
-    df["label"] = df["company"] + " (" + df["ticker"] + ")"
+    # 검색 라벨에 한글명을 같이 넣는다 — 영어·한글 어느 쪽으로 쳐도 찾아지게 (PM 2026-10-21)
+    from app_pages import krnames
+    df = krnames.add_labels(df)
     return df, meta
 
 
@@ -158,12 +160,21 @@ def load_histdb():
 
 df, meta = load()
 
+# 회사 이름 언어 — 검색창에 한글을 치면 한글, 영어를 치면 영문 (PM 2026-10-21)
+import importlib  # noqa: E402
+from app_pages import krnames  # noqa: E402
+if not hasattr(krnames, "lang_control"):       # 서버가 예전 모듈을 들고 있으면 다시 읽음 (Streamlit 모듈 캐시)
+    importlib.reload(krnames)
+_lang = krnames.lang_control()
+df = krnames.display_names(df, _lang)
+
 # ---------------------------------------------------------------- 종목 선택
 qs_ticker = st.query_params.get("ticker", "")
 _labels = df["label"].sort_values().tolist()
 
 
 def _search_stocks(q: str):
+    krnames.note_query(q)
     ql = q.strip().lower()
     if not ql:
         return []
@@ -1096,6 +1107,14 @@ with _right:
                 hist = pd.read_csv(ciq_csv)
                 hist["date"] = pd.to_datetime(hist["date"]).dt.date
                 src_note = "데이터: Capital IQ (월별, LTM)"
+                # CIQ 추출(history_ciq_update.py)은 애드인이 살아 있을 때만 갱신된다 (2026-10-21: 8/18 에서 멈춤).
+                # 그 뒤 달은 전 종목 DB(histdb)로 이어 붙인다 — EV/EBITDA·EV/FCF 는 공개 데이터로 못 만들어 빈칸.
+                if _hdb is not None:
+                    _ext = _hdb[(_hdb["ticker"] == ticker) & (_hdb["date"] > hist["date"].max())]
+                    if len(_ext):
+                        _ext = _ext[["date"] + [c for c in ("evs", "eve", "per", "pbr") if c in _ext.columns]]
+                        hist = pd.concat([hist, _ext], ignore_index=True).sort_values("date")
+                        src_note += f" · {_ext['date'].min():%Y-%m} 부터는 사전 계산 DB(TTM)로 이어 붙임"
             elif _hd is not None:
                 hist = _hd    # 전 종목 사전 계산 DB — 즉시 로딩
                 src_note = "데이터: 사전 계산 DB (월별, TTM — histdb_update.py로 갱신)"
