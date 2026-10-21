@@ -100,6 +100,28 @@ def build_formula_workbook(tickers, dates):
         xl.Quit()
 
 
+def fill_pbr_from_histdb(df):
+    """SPG 의 IQ_PBV(날짜만) 는 달에 따라 'NA' 가 많다 (SILICON2 2021~26 에서 62달 중 29달만 값, 2026-10-21).
+    빈 달은 전 종목 DB(histdb: 네이버 주가 ÷ DART 장부가, TTM) 의 같은 달 PBR 로 채운다 — 근사치라 pbr_src 열에 표시."""
+    hp = Path(__file__).resolve().parent / "data" / "histdb" / "multiples.csv.gz"
+    df["pbr_src"] = df["pbr"].notna().map({True: "spg", False: None})
+    if not hp.exists():
+        return df
+    h = pd.read_csv(hp)
+    h["ym"] = h["date"].str[:7]
+    hm = h.groupby(["ticker", "ym"])["pbr"].last()
+    df["ym"] = df["date"].str[:7]
+    miss = df["pbr"].isna()
+    fill = pd.Series([hm.get((t, y), float("nan")) for t, y in zip(df.loc[miss, "ticker"], df.loc[miss, "ym"])],
+                     index=df.index[miss], dtype="float64").round(4)
+    df["pbr"] = df["pbr"].astype("float64")
+    df.loc[miss, "pbr"] = fill
+    df.loc[miss & df["pbr"].notna(), "pbr_src"] = "histdb"
+    n = int((df["pbr_src"] == "histdb").sum())
+    print(f"  PBR 빈 달 {int(miss.sum())}개 중 {n}개를 histdb 로 채움")
+    return df.drop(columns=["ym"])
+
+
 def attach_live():
     """자동화 전용 엑셀 인스턴스에 연결 (사용자 작업 인스턴스는 건드리지 않는다)."""
     from evfcf_update import get_work_instance
@@ -212,6 +234,7 @@ def main():
                 rows.append(rec)
                 i += 1
         df = pd.DataFrame(rows)
+        df = fill_pbr_from_histdb(df)
         written = []
         for t in tickers:
             sub = df[df.ticker == t].drop(columns=["ticker"])
