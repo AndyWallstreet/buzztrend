@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-21",
- "tickers": 2382,
- "rows": 222780,
+ "updated": "2026-10-22",
+ "tickers": 2387,
+ "rows": 223389,
  "freq": "monthly",
  "basis": "TTM (Naver+DART, 순부채·주식수 최신값 고정)"
 }
