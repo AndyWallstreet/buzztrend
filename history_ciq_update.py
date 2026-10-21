@@ -34,6 +34,7 @@ MONTHS = 121  # 10년 월별 + 이번 달
 METRICS = [("evs", "IQ_TEV_TOTAL_REV"), ("eve", "IQ_TEV_EBIT"),
            ("ebitda", "IQ_TEV_EBITDA"), ("per", "IQ_PE_EXCL"), ("pbr", "IQ_PBV"),
            ("fcf", "IQ_TEV_UFCF")]
+NO_PERIOD = {"IQ_PE_EXCL", "IQ_PBV"}         # SPG 에서 기간 인자 없이 날짜만 받는 지표
 LAST_COL = chr(ord("C") + len(METRICS) - 1)   # 수식이 들어가는 마지막 열
 TEMP_XLSX = str(OUT / "_hist_temp.xlsx")
 
@@ -79,10 +80,19 @@ def build_formula_workbook(tickers, dates):
                 tick_col.append((t,))
                 date_col.append((d.strftime("%Y-%m-%d"),))
         ws.Range(f"A2:A{n + 1}").Value = tuple(tick_col)
-        ws.Range(f"B2:B{n + 1}").Value = tuple(date_col)
+        # 날짜는 글자(M/D/YYYY)로 — SPG 는 "LTM","8/31/2026" 형식만 받았다 ("IQ_LTM","2026-08-31" 은
+        # #INVALID FUNCTION PARAMETER, 2026-10-21 확인). 열 서식을 텍스트로 먼저 바꿔 엑셀이 날짜로 바꾸지 않게.
+        ws.Range(f"B2:B{n + 1}").NumberFormat = "@"
+        ws.Range(f"B2:B{n + 1}").Value = tuple((f"{d.month}/{d.day}/{d.year}",)
+                                                for t in tickers for d in dates)
         for ci, (name, mn) in enumerate(METRICS):
             col = chr(ord("C") + ci)
-            ws.Range(f"{col}2:{col}{n + 1}").FormulaR1C1 = f'=CIQ(RC1,"{mn}","IQ_LTM",RC2)'
+            # 2026-10-21: 예전 CIQ() 는 9/11 오피스 업데이트 뒤 등록이 안 됨(#NAME?) → Cap IQ Pro 의 SPG() 로.
+            # EV 배수는 "LTM" 기간 + 날짜, PER·PBR 은 기간 인자 없이 날짜만 (LTM 을 주면 #INVALID FUNCTION PARAMETER).
+            if mn in NO_PERIOD:
+                ws.Range(f"{col}2:{col}{n + 1}").FormulaR1C1 = f'=SPG(RC1,"{mn}",RC2)'
+            else:
+                ws.Range(f"{col}2:{col}{n + 1}").FormulaR1C1 = f'=SPG(RC1,"{mn}","LTM",RC2)'
         Path(TEMP_XLSX).unlink(missing_ok=True)
         tmp.SaveAs(TEMP_XLSX, FileFormat=51)
     finally:
@@ -96,16 +106,51 @@ def attach_live():
     return get_work_instance()
 
 
+XLA_PATH = r"C:\Program Files\SNL Financial\SNLxl\SNLXLAddin.xla"
+
+
 def ensure_snl_xla(xl):
-    """CIQ 함수(#NAME? 방지)를 제공하는 SNL XLA가 세션에 없으면 강제 로드."""
+    """CIQ 함수가 실제로 동작하는지 수식으로 검증하고, #NAME?면 XLA를
+    언로드→재로드해서 재등록한다 (IsOpen=True여도 등록이 깨진 경우가 있다)."""
+    NAME_ERR = -2146826259  # #NAME? 오류 코드
+
+    def works():
+        wb = xl.Workbooks.Add()
+        try:
+            ws = wb.Worksheets(1)
+            ws.Range("A1").Formula = '=SPG("A005930","IQ_TEV_TOTAL_REV","LTM")'   # Cap IQ Pro 함수로 검사
+            ws.Range("A1").Calculate()
+            time.sleep(1)
+            v = retry(lambda: ws.Range("A1").Value, tries=10, wait=2, label="test read")
+        finally:
+            wb.Close(SaveChanges=False)
+        # #PEND(문자열)나 숫자면 함수 등록 OK, #NAME?(오류 코드)면 깨진 상태
+        return v != NAME_ERR
+
+    if works():
+        print("CIQ 함수 정상")
+        return
+    print("CIQ 함수 #NAME? — XLA 재등록 시도")
     for a in xl.AddIns:
-        if a.Name == "SNLXLAddin.xla" and a.IsOpen:
-            return
+        if a.Name == "SNLXLAddin.xla":
+            try:
+                a.Installed = False
+            except Exception:
+                pass
+    time.sleep(2)
     try:
-        xl.Workbooks.Open(r"C:\Program Files\SNL Financial\SNLxl\SNLXLAddin.xla")
-        print("SNL XLA 강제 로드")
+        xl.Workbooks.Open(XLA_PATH)
     except Exception as e:
-        print("XLA 로드 실패:", repr(e)[:80])
+        print("XLA 열기 실패:", repr(e)[:80])
+    for a in xl.AddIns:
+        if a.Name == "SNLXLAddin.xla":
+            try:
+                a.Installed = True
+            except Exception:
+                pass
+    if not works():
+        raise RuntimeError("CIQ 함수 등록 실패 — 엑셀을 완전히 종료 후 다시 시도하세요")
+    print("XLA 재등록 성공")
 
 
 def main():
@@ -160,7 +205,9 @@ def main():
         for t in tickers:
             for d in dates:
                 rec = {"ticker": t, "date": d.isoformat()}
-                for (name, _), v in zip(METRICS, vals[i]):
+                for (name, mn), v in zip(METRICS, vals[i]):
+                    if isinstance(v, float) and mn == "IQ_PBV":
+                        v = v / 100.0      # SPG 의 IQ_PBV 는 ×100 (162.2 = PBR 1.62) — 2026-10-21 histdb 와 대조 확인
                     rec[name] = round(v, 4) if isinstance(v, float) else None
                 rows.append(rec)
                 i += 1
@@ -175,7 +222,7 @@ def main():
                 print(f"  {t}: CIQ 데이터 없음 — 건너뜀")
         (OUT / "meta.json").write_text(json.dumps(
             {"as_of": dt.date.today().isoformat(), "tickers": written,
-             "freq": "monthly", "basis": "LTM (CIQ)"}, ensure_ascii=False, indent=1),
+             "freq": "monthly", "basis": "LTM (Cap IQ Pro SPG)"}, ensure_ascii=False, indent=1),
             encoding="utf-8")
         print(f"OK — {len(written)}개 종목 저장: {OUT}")
         print("이제: git add data/screener/history_ciq && git commit -m 'ciq history' && git push")
