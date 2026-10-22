@@ -34,8 +34,12 @@ def combined(a, g=None):
     c = a[a["geo"] != "WW"]
     c_last = c.groupby(["geo", "keyword"])["month"].max().min()
     keys = set(zip(c["geo"], c["brand"], c["keyword"]))
-    add = g[(g["month"] > c_last) & (g["geo"] != "WW")]
-    add = add[[k in keys for k in zip(add["geo"], add["brand"], add["keyword"])]].copy()
+    have = set(zip(c["geo"], c["brand"], c["keyword"], c["month"]))
+    # (1) 본 데이터보다 새 달 전부 + (2) 본 데이터가 '일부 행만' 받은 달의 빈 칸 (DataForSEO 가 9월치를
+    # 나라·검색어별로 띄엄띄엄 올리는 것을 2026-10-22 확인: 294행 중 233행만 9월이 있었음)
+    add = g[(g["month"] >= c_last) & (g["geo"] != "WW")]
+    add = add[[(k[:3] in keys) and (k not in have)
+               for k in zip(add["geo"], add["brand"], add["keyword"], add["month"])]].copy()
     if not len(add):
         return a
     add["source"] = "gads"
@@ -69,6 +73,11 @@ def nowcast(a, g=None):
             gp = g[(g["month"] == c_last) & (g["geo"].isin(geos16))].groupby("brand")["searches"].sum()
             prev = gp if len(gp) else c[c["month"] == c_last].groupby("brand")["searches"].sum()
             nkw = g[g["geo"] == "US"].groupby("brand")["keyword"].nunique()
+            # 본 데이터가 그 달을 '일부 행만' 받은 상태면(DataForSEO 가 띄엄띄엄 올림) 문구를 바꿔 준다
+            partial = c["month"].max() == g_last
+            n_missing = int(len(set(zip(c["geo"], c["keyword"]))) - (c["month"] == g_last).sum()) if partial else 0
+            why = (f"본 데이터 {g_last} 수신 · 아직 빈 {n_missing}행(나라×검색어)만 구글애즈로 보완 — 같은 출처"
+                   if partial else "구글애즈 나라별 실측값 (16개국 합) — 본 데이터와 같은 출처")
             rows = []
             for b in cur.index:
                 if b not in prev.index or prev[b] <= 0:
@@ -76,7 +85,7 @@ def nowcast(a, g=None):
                 rows.append({"brand": b, "month": g_last, "ww_prev": np.nan, "ww_now": np.nan, "ww_mom": np.nan,
                              "ratio": 1.0, "ratio_cv": 0.0, "c16_prev": prev[b], "c16_est": cur[b],
                              "c16_mom_est": cur[b] / prev[b] - 1, "n_kw": int(nkw.get(b, 1)),
-                             "trust": "실측", "why": "구글애즈 나라별 실측값 (16개국 합) — 본 데이터와 같은 출처"})
+                             "trust": "실측", "why": why})
             return pd.DataFrame(rows, columns=cols)
 
     # ---- 2순위: 전세계(WW) 비율 추정

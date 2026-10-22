@@ -173,7 +173,10 @@ with tab1:
     if len(_nc):
         _m = _nc["month"].iloc[0]
         _real = (_nc["trust"] == "실측").all()
-        sub(f"📌 {_m[:4]}년 {int(_m[5:])}월 {'(구글애즈 실측)' if _real else '속보 (추정)'}",
+        _partial = _real and str(_nc["why"].iloc[0]).startswith("본 데이터")
+        sub(f"📌 {_m[:4]}년 {int(_m[5:])}월 "
+            + ("(본 데이터 수신 · 일부 구글애즈 보완)" if _partial else "(구글애즈 실측)" if _real else "속보 (추정)"),
+            (str(_nc["why"].iloc[0]) + " · 순위표·점수에는 본 데이터 행만 들어감") if _partial else
             ("본 데이터(8년치)에는 아직 없는 달을 구글애즈 엔드포인트로 먼저 받음 · 같은 출처라 값이 같음 · "
              "순위표·점수에는 아직 안 들어감") if _real else
             "전세계 숫자가 먼저 나와서, 나라별 숫자가 나오기 전에 방향만 미리 봄 · 순위표·점수에는 안 들어감")
@@ -376,8 +379,8 @@ with tab3:
                    + ("  **t=0 정렬**: 브랜드마다 뜬 시점을 0으로 맞춰 수명주기 모양을 비교합니다." if t0
                       else "  **실제 날짜**: 같은 시점에 무슨 일이 있었는지 봅니다.")
                    + " 금색 굵은 선 = 센텔리안24(madeca cream, 동국제약)."
-                   + (f"  **{', '.join(_gads_month)} 은 구글애즈 엔드포인트로 먼저 받은 값**(본 데이터와 같은 출처 · "
-                      "본 데이터에 있는 검색어만 이어 붙임)." if _gads_month else ""))
+                   + (f"  **{', '.join(_gads_month)} 은 본 데이터에 아직 빈 나라·브랜드만 구글애즈로 보완한 값**"
+                      "(같은 출처 · 본 데이터에 있는 검색어만 이어 붙임)." if _gads_month else ""))
 
         tb = t[t["brand"].isin(pick) & t["geo"].isin(gcodes)].copy()
         tb["상장사"] = tb["brand"].map(LISTED).fillna("")

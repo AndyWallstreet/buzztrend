@@ -97,9 +97,13 @@ if len(_nc) and "madeca cream" in set(_nc["brand"]):
     _r = _nc[_nc["brand"] == "madeca cream"].iloc[0]
     _ym = f"{_r['month'][:4]}년 {int(_r['month'][5:])}월"
     if _r["trust"] == "실측":
-        st.info(f"📌 **{_ym} (구글애즈 실측)** — 센텔리안24 절대검색 16개국 합 **{_r['c16_est']:,.0f}회** "
-                f"(전월 {_r['c16_prev']:,.0f}회, {_r['c16_mom_est']:+.0%}). 본 데이터(8년치)에는 아직 없는 달을 "
-                f"같은 출처(구글애즈)에서 먼저 받은 값입니다. 출처 DataForSEO.")
+        _partial = str(_r["why"]).startswith("본 데이터")
+        st.info(f"📌 **{_ym} ({'본 데이터 수신 · 일부 구글애즈 보완' if _partial else '구글애즈 실측'})** — "
+                f"센텔리안24 절대검색 16개국 합 **{_r['c16_est']:,.0f}회** "
+                f"(전월 {_r['c16_prev']:,.0f}회, {_r['c16_mom_est']:+.0%}). "
+                + (f"{_r['why']}. " if _partial else
+                   "본 데이터(8년치)에는 아직 없는 달을 같은 출처(구글애즈)에서 먼저 받은 값입니다. ")
+                + "출처 DataForSEO.")
     else:
         st.info(f"📌 **{_ym} 속보 (추정)** — 센텔리안24 절대검색: "
                 f"전세계 {_r['ww_now']:,.0f}회 (전월 대비 {_r['ww_mom']:+.0%}) → 16개국 기준 약 "
