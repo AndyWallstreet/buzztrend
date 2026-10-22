@@ -9,6 +9,7 @@ C:\Users\user99i1\AppData\Local\Programs\Python\Python312\python.exe findb_updat
 C:\Users\user99i1\AppData\Local\Programs\Python\Python312\python.exe histdb_update.py >> data\findb\update.log 2>&1
 C:\Users\user99i1\AppData\Local\Programs\Python\Python312\python.exe capexdb_update.py --budget 10000 >> data\findb\update.log 2>&1
 C:\Users\user99i1\AppData\Local\Programs\Python\Python312\python.exe yg_circle_update.py >> data\findb\update.log 2>&1
+C:\Users\user99i1\AppData\Local\Programs\Python\Python312\python.exe yg_consensus_fn.py >> data\findb\update.log 2>&1
 C:\Users\user99i1\AppData\Local\Programs\Python\Python312\python.exe cosmetics_update.py >> data\findb\update.log 2>&1
 C:\Users\user99i1\AppData\Local\Programs\Python\Python312\python.exe customs_fetch.py >> data\findb\update.log 2>&1
 C:\Users\user99i1\AppData\Local\Programs\Python\Python312\python.exe cosmetics_absvol_update.py >> data\findb\update.log 2>&1

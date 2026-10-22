@@ -100,13 +100,34 @@ def load_album(stamp):
     return df[df["artist"] != "Sum"].copy()
 
 
+def _append_fn(df, cols):
+    """Quantiwise 시계열(df) 뒤에 FnGuide 스냅샷(consensus_fn.csv)의 더 새로운 날짜만 이어 붙인다."""
+    p = DATA / "consensus_fn.csv"
+    if df is None or not p.exists():
+        return df
+    fn = pd.read_csv(p, parse_dates=["date"])
+    fn = fn[fn["date"] > df["date"].max()][["date", "src"] + [c for c in cols if c in fn.columns]]
+    if not len(fn):
+        return df
+    df = df.copy()
+    if "src" not in df.columns:
+        df["src"] = "qw"
+    return pd.concat([df, fn], ignore_index=True).sort_values("date").reset_index(drop=True)
+
+
 @st.cache_data(show_spinner=False)
 def load_consensus(stamp):
     p = DATA / "consensus.csv"
     if not p.exists():
         return None
     df = pd.read_csv(p, parse_dates=["date"])
-    return df
+    return _append_fn(df, ["rev_eok", "op_eok"])
+
+
+@st.cache_data(show_spinner=False)
+def load_consensus_seg(stamp):
+    p = DATA / "consensus_seg.csv"
+    return pd.read_csv(p, encoding="utf-8-sig") if p.exists() else None
 
 
 @st.cache_data(show_spinner=False)
@@ -121,6 +142,10 @@ def load_actuals():
 def _stamp(name):
     p = DATA / name
     return round(p.stat().st_mtime, 3) if p.exists() else 0.0
+
+
+def _stamp2(*names):
+    return tuple(_stamp(n) for n in names)
 
 
 st.title("YG 엔터테인먼트 트래커")
@@ -485,7 +510,7 @@ with tab_tour:
 
 # ------------------------------------------------------------------ 컨센서스
 with tab_cons:
-    cons = load_consensus(_stamp("consensus.csv"))
+    cons = load_consensus(_stamp2("consensus.csv", "consensus_fn.csv"))
     act = load_actuals()
     if cons is None or not len(cons):
         st.info("컨센서스 데이터가 없습니다 — `python yg_album_export.py` 를 "
@@ -508,7 +533,8 @@ with tab_cons:
                       delta_color="off")
         else:
             m4.metric("컨센서스 기준일", str(cur["date"])[:10],
-                      "콴티와이즈 일별", delta_color="off")
+                      "FnGuide (매일 수집)" if str(cur.get("src", "qw")).startswith("fn")
+                      else "콴티와이즈 일별", delta_color="off")
 
         sub("컨센서스 추이", "1년간 2026년 연간 추정치가 어떻게 바뀌었나 "
                          "(올라가면 실적이 기대를 넘고 있다는 뜻)")
@@ -532,16 +558,23 @@ with tab_cons:
         st.altair_chart(alt.layer(rev_l, op_l).resolve_scale(y="independent")
                         .properties(height=340).interactive(),
                         use_container_width=True)
+        _qw_last = cons[cons.get("src", pd.Series("qw", index=cons.index)) == "qw"]["date"].max() if "src" in cons.columns else cons["date"].max()
         st.caption("파랑 = 매출(왼쪽 축), 금색 = 영업이익(오른쪽 축). "
-                   "출처: 워크북 Consensus 시트 (Quantiwise 일별 컨센서스).")
+                   f"출처: 워크북 vs CONSENSUS 시트(Quantiwise 일별, ~{str(_qw_last)[:10]}) + "
+                   "그 뒤는 FnGuide 컨센서스를 매일 한 점씩 수집(yg_consensus_fn.py). "
+                   "두 소스는 표본이 달라 이음새에서 값이 살짝 튈 수 있음.")
 
         # ---- 분기 컨센서스 vs 워크북 바텀업 (투어+앨범)
         cq = load_circle("consensus_q.csv", _stamp("consensus_q.csv"))
+        if cq is not None and len(cq):
+            cq = cq.copy(); cq["date"] = pd.to_datetime(cq["date"])
+            cq = _append_fn(cq, ["rev3q_eok", "op3q_eok", "rev4q_eok", "op4q_eok"])
+            cq["date"] = cq["date"].dt.strftime("%Y-%m-%d")
         tq = load_circle("tour_quarterly.csv", _stamp("tour_quarterly.csv"))
         aq = load_circle("album_quarterly.csv", _stamp("album_quarterly.csv"))
         if cq is not None and len(cq) and tq is not None and aq is not None:
             sub("분기 컨센서스 vs 내 베이스 추정 (3Q·4Q)",
-                "컨센서스(콴티와이즈) ↔ 워크북 바텀업: 투어(Tour_Quarterly) + "
+                "컨센서스(콴티와이즈 → 9/7 이후 FnGuide) ↔ 워크북 바텀업: 투어(Tour_Quarterly) + "
                 "앨범(Album_Quarterly), Base 시나리오")
             _cql = cq.iloc[-1]
             rows_c = []
@@ -608,3 +641,74 @@ with tab_cons:
                 st.caption("실적 = DART 분기보고서(연결) 누적, 컨센서스 = 위 차트의 "
                            "최신값. 엔터는 앨범 발매·투어 일정에 따라 분기 편차가 커서 "
                            "단순 진도(분기수÷4)와의 비교는 참고용입니다.")
+
+        # ---- 증권사별 컨센서스 vs 우리 뷰 (워크북 Consensus_Seg 시트와 같은 데이터)
+        seg = load_consensus_seg(_stamp("consensus_seg.csv"))
+        if seg is not None and len(seg):
+            import json as _json
+            _mp = DATA / "model_segments.json"
+            model = _json.loads(_mp.read_text(encoding="utf-8")) if _mp.exists() else {}
+            sub("증권사별 컨센서스 vs 우리 뷰 — 어디서 컨센을 이길 수 있나",
+                f"증권사 {seg['broker'].nunique()}곳 최신 리포트의 부문별 추정 (워크북 Consensus_Seg, "
+                f"{seg['date'].max()} 기준) ↔ 우리 모델 Base")
+            s26 = seg[seg["fy"] == "2026E"].copy()
+            s26["상제품"] = s26[["음반", "음원", "MD"]].sum(axis=1, min_count=3)
+            m26 = model.get("2026E", {})
+            rows_v = []
+            for lab, col, mkey in (("상·제품 (음반+음원+MD)", "상제품", "상제품"), ("  └ MD만", "MD", "MD라이선싱"),
+                                   ("콘서트", "콘서트", "콘서트"), ("음악서비스", "음악서비스", "음악서비스"),
+                                   ("광고", "광고", "광고"), ("로열티", "로열티", "로열티"),
+                                   ("출연료", "출연료", "출연료"), ("기타", "기타", "기타"), ("매출 합계", "rev", "매출")):
+                v = pd.to_numeric(s26[col], errors="coerce").dropna()
+                mv = m26.get(mkey)
+                rows_v.append({"부문": lab, "컨센 평균(십억)": round(v.mean(), 1) if len(v) else None,
+                               "컨센 최저~최고": f"{v.min():.0f}~{v.max():.0f}" if len(v) else "—",
+                               "우리 모델(십억)": mv,
+                               "차이(십억)": round(mv - v.mean(), 1) if (mv is not None and len(v)) else None,
+                               "차이(%)": f"{(mv / v.mean() - 1) * 100:+.0f}%" if (mv is not None and len(v)) else "—"})
+            st.dataframe(pd.DataFrame(rows_v), hide_index=True, use_container_width=True)
+            st.caption("단위 십억원(KRWbn). 우리 모델의 MD는 '라이선싱 포함'이라 증권사 MD보다 정의가 넓음. "
+                       "2027E는 우리 모델이 미완성(투어·앨범 일정 미입력)이라 비교하지 않음.")
+
+            # 3Q26E 프리뷰 비교
+            q = seg[seg["fy"] == "3Q26E"].copy()
+            if len(q):
+                _t = tq[tq["quarter"] == "2026 3Q"] if tq is not None else None
+                _a = aq[aq["quarter"] == "2026 3Q"] if aq is not None else None
+                tour3 = float(_t["total_mn"].iloc[0]) / 1000 if _t is not None and len(_t) else None
+                alb3 = float(_a["yg_rev_mn"].iloc[0]) / 1000 if _a is not None and len(_a) else None
+                fn = None
+                _fp = DATA / "consensus_fn.csv"
+                if _fp.exists():
+                    _f = pd.read_csv(_fp); fn = _f.iloc[-1]
+                c1, c2, c3, c4 = st.columns(4)
+                c1.metric("3Q26E 매출 · 증권사 범위", f"{q['rev'].min():.0f}~{q['rev'].max():.0f}십억",
+                          f"평균 {q['rev'].mean():.1f} (3Q25 실적 173.1)", delta_color="off")
+                c2.metric("3Q26E 영업이익 · 증권사 범위", f"{q['op'].min():.0f}~{q['op'].max():.0f}십억",
+                          f"평균 {q['op'].mean():.1f} (3Q25 실적 31.1)", delta_color="off")
+                if fn is not None:
+                    c3.metric("FnGuide 3Q26 컨센", f"{fn['rev3q_eok'] / 10:.1f} / {fn['op3q_eok'] / 10:.1f}십억",
+                              f"{fn['date']} 매출/영업이익", delta_color="off")
+                if tour3 is not None:
+                    c4.metric("우리 3Q 투어+앨범 (Base)", f"{tour3 + (alb3 or 0):.1f}십억",
+                              f"투어 {tour3:.1f} · 앨범 {(alb3 or 0):.1f} vs 증권사 콘서트 평균 {q['콘서트'].mean():.1f}",
+                              delta_color="off")
+                qv = q[["broker", "date", "rev", "op", "콘서트", "MD", "로열티", "음반", "tp"]].copy()
+                qv.columns = ["증권사", "날짜", "3Q 매출", "3Q 영업이익", "콘서트", "MD", "로열티", "음반", "목표주가"]
+                st.dataframe(qv.sort_values("날짜", ascending=False), hide_index=True, use_container_width=True,
+                             column_config={"목표주가": st.column_config.NumberColumn(format="%,d")})
+                st.caption("3Q26E 부문값은 리포트 분기 추정표에서 추출(십억원). 3Q25 실적: 매출 173.1 · 콘서트 50.8 · MD 28.1 · 로열티 16.3 · 음반 11.8.")
+
+            con = pd.to_numeric(s26["콘서트"], errors="coerce").dropna()
+            roy = pd.to_numeric(s26["로열티"], errors="coerce").dropna()
+            md = pd.to_numeric(s26["MD"], errors="coerce").dropna()
+            rev = pd.to_numeric(s26["rev"], errors="coerce").dropna()
+            st.markdown(f"""
+**우리 뷰가 컨센을 이기는 길 (variant view)**
+
+1. **콘서트가 핵심 차이.** 우리 2026E 콘서트 {m26.get('콘서트', 0):.1f}십억 vs 증권사 평균 {con.mean():.1f} ({(m26.get('콘서트', 0) / con.mean() - 1) * 100:+.0f}%). 유안타(178.9)만 우리와 같고 나머지는 105~128. 근거: 빅뱅 투어 완료 7개 스탑 전부 매진, 추가 회차(타이베이 3회·싱가포르 2회·오클랜드 2회·방콕 2회) — 증권사 대부분이 추가 회차를 숫자에 덜 넣음. 3Q26E 콘서트도 증권사 평균 {q['콘서트'].mean():.1f}십억(28~62)으로 보수적.
+2. **MD는 더 이상 차이가 아님.** 우리 {m26.get('MD라이선싱', 0):.1f} vs 컨센 {md.mean():.1f} — 2Q26 MD 서프라이즈 뒤 증권사가 MD를 올려서 이제 비슷함. 3Q26E MD 27~39십억(3Q25 28.1)으로 디커플링을 증권사도 가정.
+3. **로열티는 우리가 낮음.** 우리 {m26.get('로열티', 0):.1f} vs 컨센 {roy.mean():.1f} ({(m26.get('로열티', 0) / roy.mean() - 1) * 100:+.0f}%). 증권사는 빅뱅·베몬 일본 돔 공연을 로열티로 잡음(다올 82.7·NH 64.0). 이 부분은 우리 모델 상향 여지 = 컨센 대비 추가 업사이드.
+4. **합계로 보면** 우리 {m26.get('매출', 0):.1f} vs 컨센 평균 {rev.mean():.1f} ({(m26.get('매출', 0) / rev.mean() - 1) * 100:+.0f}%). FnGuide 공식 컨센은 1개월 새 633.9 → 624.0으로 내려와 눈높이가 낮아진 상태. 콘서트(+{m26.get('콘서트', 0) - con.mean():.0f})가 로열티(−{roy.mean() - m26.get('로열티', 0):.0f})를 덮고도 남는 구조.
+5. **3Q26 실적(11월 초)이 첫 체크포인트.** 증권사는 YoY 감익(영업이익 11~22십억, 3Q25 31.1)을 깔아 둔 낮은 눈높이. 우리 3Q 투어 바텀업 {tour3 if tour3 is not None else 0:.1f}십억 vs 증권사 3Q 콘서트 평균 {q['콘서트'].mean():.1f}(28~62) — 빅뱅 3Q 회차(고양 3회·오클랜드 2회·메트라이프·파리·런던)가 잡히면 콘서트에서 상단(유안타 62)을 확인할 수 있음.
+""")
