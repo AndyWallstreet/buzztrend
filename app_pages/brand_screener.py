@@ -257,7 +257,7 @@ with tab3:
     gcodes = geos[geos["geo_kr"].isin(gsel)]["geo"].tolist()
     x1, x2, x3 = st.columns([1.7, 1.1, 1.1])
     with x1:
-        xmode = st.radio("가로축", ["실제 날짜 (연·월)", "붐 시작 후 개월 (t=0 정렬)"], index=0, key="bs_xmode",
+        xmode = st.radio("가로축", ["실제 날짜 (연·월)", "성장 시작 후 개월 (t=0 정렬)"], index=1, key="bs_xmode",
                          horizontal=True,
                          help="실제 날짜 = 같은 시점에 무슨 일이 있었는지 볼 때. "
                               "t=0 정렬 = 브랜드마다 뜨기 시작한 달을 0으로 맞춰 '수명주기 모양'을 겹쳐 볼 때 "
@@ -268,7 +268,7 @@ with tab3:
     with x3:
         logy = st.toggle("로그 축", value=False, key="bs_log", help="브랜드 간 크기 차이가 아주 클 때")
     _allm = sorted(mv["month"].unique()) if mv is not None else []
-    _t0mode = xmode.startswith("붐")
+    _t0mode = xmode.startswith("성장")
     _nmax = len(_allm) if _allm else 24
     if _t0mode:
         _PRE = {"초기 1년 (0~12)": 12, "초기 2년 (0~24)": 24, "초기 3년 (0~36)": 36,
@@ -279,13 +279,13 @@ with tab3:
         _hint = "월·연 2단 축은 기간이 짧을수록 읽기 쉽습니다."
     sp1, sp2 = st.columns([1.6, 2.4])
     with sp1:
-        _zk = st.radio("구간", list(_PRE), index=1, horizontal=True, key="bs_span", help=_hint)
+        _zk = st.radio("구간", list(_PRE), index=(len(_PRE) - 1) if _t0mode else 1, horizontal=True, key="bs_span", help=_hint)
     if st.session_state.get("_bs_span_prev") != (_zk, _t0mode):   # 프리셋·모드가 바뀌면 슬라이더도 맞춤
         st.session_state["_bs_span_prev"] = (_zk, _t0mode)
         st.session_state.pop("bs_range", None)
     with sp2:
         if _t0mode:
-            _lo, _hi = st.slider("직접 범위 (붐 후 개월)", 0, 120, (0, min(_PRE[_zk], 120)), 1, key="bs_range")
+            _lo, _hi = st.slider("직접 범위 (성장 시작 후 개월)", 0, 120, (0, min(_PRE[_zk], 120)), 1, key="bs_range")
             nmon = _nmax
         else:
             nmon = st.slider("직접 범위 (최근 몇 개월)", 12, _nmax, min(_PRE[_zk], _nmax), 1, key="bs_range")
@@ -310,8 +310,8 @@ with tab3:
             m["값"] = m["searches"]
             ytitle = "월 검색수 (구글 애즈, 절대량)"
 
-        t0 = xmode.startswith("붐")
-        if t0:                       # 붐 시작(자기 피크의 10% 첫 도달) 기준으로 각 선을 0에 맞춤
+        t0 = xmode.startswith("성장")
+        if t0:                       # 성장 시작(자기 피크의 10% 첫 도달) 기준으로 각 선을 0에 맞춤
             keep = []
             for k, gg in m.sort_values("dt").groupby("키"):
                 pk = gg["searches"].max()
@@ -323,10 +323,10 @@ with tab3:
                 b0 = br["dt"].iloc[0]
                 gg = gg[gg["dt"] >= b0].copy()
                 gg["t"] = ((gg["dt"].dt.year - b0.year) * 12 + (gg["dt"].dt.month - b0.month))
-                gg["붐시작"] = b0.strftime("%Y-%m")
+                gg["성장시작"] = b0.strftime("%Y-%m")
                 keep.append(gg)
             if not keep:
-                st.caption("붐 시작을 찾지 못했습니다.")
+                st.caption("성장 시작 시점을 찾지 못했습니다.")
                 st.stop()
             m = pd.concat(keep)
             m = m[(m["t"] >= _lo) & (m["t"] <= _hi)]
@@ -350,11 +350,11 @@ with tab3:
         tips = ["키", alt.Tooltip("month:N", title="연월"),
                 alt.Tooltip("searches:Q", title="월 검색수", format=",.0f")] \
             + ([alt.Tooltip("값:Q", title="피크 대비", format=".0f")] if rel else []) \
-            + ([alt.Tooltip("t:Q", title="붐 후 개월"), alt.Tooltip("붐시작:N", title="붐 시작")] if t0 else [])
+            + ([alt.Tooltip("t:Q", title="성장 시작 후 개월"), alt.Tooltip("성장시작:N", title="성장 시작 달")] if t0 else [])
 
         if t0:
             ch = alt.Chart(m).mark_line().encode(
-                x=alt.X("t:Q", title="붐 시작 후 개월 (t=0 = 자기 피크의 10% 첫 도달)",
+                x=alt.X("t:Q", title="성장 시작 후 개월 (t=0 = 검색이 자기 최고치의 10%에 처음 닿은 달)",
                         axis=alt.Axis(tickMinStep=2, labelAngle=0)),
                 y=yenc, color=cenc, size=senc, tooltip=tips)
             st.altair_chart(ch.properties(height=470), use_container_width=True)
@@ -380,7 +380,7 @@ with tab3:
         st.caption(("**상대**: 브랜드마다 자기 최고치를 100으로 맞춘 '모양' 비교 — 크기가 달라도 흐름을 겹쳐 볼 수 있음."
                     if rel else
                     "**절대량**: 실제 월 검색수 — 누가 더 큰 브랜드인지 보임.")
-                   + ("  **t=0 정렬**: 브랜드마다 뜬 시점을 0으로 맞춰 수명주기 모양을 비교합니다." if t0
+                   + ("  **t=0 정렬**: 브랜드마다 검색이 뜨기 시작한 달(자기 최고치의 10%)을 0으로 맞춰 수명주기 모양을 비교합니다." if t0
                       else "  **실제 날짜**: 같은 시점에 무슨 일이 있었는지 봅니다.")
                    + " 금색 굵은 선 = 센텔리안24(madeca cream, 동국제약)."
                    + (f"  **{', '.join(_gads_month)} 은 본 데이터에 아직 빈 나라·브랜드만 구글애즈로 보완한 값**"
