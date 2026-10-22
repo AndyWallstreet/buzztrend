@@ -1,0 +1,3 @@
+﻿ticker,name,owner,stage,actual_date,actual_kind,rcept_no,url,sales_act,op_act,np_act,unit_note,parse_ok,doc_prior_sales,doc_prior_op,doc_prior_np,sales_cons,prior_sales,op_cons,prior_op,np_cons,prior_np,verdict,first_seen,alerted
+207940,삼성바이오로직스,WJ,Revisit,2026-10-21,잠정실적(연결),20261021800344,https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261021800344,,,,억원,N,,,,1356854.0,1660221.0,611438.0,728848,467867.0,574460,컨센 없음,2026-10-22 09:21,N
+064850,에프앤가이드,WJ,Revisit,2026-10-21,잠정실적(연결),20261021900161,https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261021900161,,,,백만원,N,,,,15800.0,8408.0,8300.0,2685,6800.0,2580,컨센 없음,2026-10-22 09:21,N
