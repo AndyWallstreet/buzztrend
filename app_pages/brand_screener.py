@@ -401,5 +401,106 @@ with tab3:
     else:
         st.caption("국가와 브랜드를 하나 이상 고르세요.")
 
+    # ================= 일본시장 K-beauty 따로 보기 (PM 2026-10-22) =================
+    # 일본은 구글 점유율이 낮아(야후재팬·빙) 검색량만으로 부족 → 판매·입소문 랭킹을 같이 본다.
+    # 데이터: jp_kbeauty_update.py (매일) → data/cosmetics/jp_cosme_rank.csv, jp_qoo10_rank.csv
+    st.divider()
+    sub("일본시장 K-beauty 따로 보기",
+        "@cosme 주간 TOP100 (입소문) + Qoo10 Japan ビューティ 베스트셀러 TOP200 (판매) 에서 한국 브랜드만 추림 · 매일 수집")
+    _jc = load("jp_cosme_rank.csv", _stamp("jp_cosme_rank.csv"))
+    _jq = load("jp_qoo10_rank.csv", _stamp("jp_qoo10_rank.csv"))
+    _kb = load("jp_kbrands.csv", _stamp("jp_kbrands.csv"))
+    if _jc is None or _jq is None or _kb is None:
+        st.info("아직 일본 랭킹 데이터가 없습니다 — `python jp_kbeauty_update.py` 를 먼저 실행하세요.")
+    else:
+        for _d in (_jc, _jq):
+            _d["kbrand"] = _d["kbrand"].fillna("")
+        _kname = dict(zip(_kb["key"], _kb["name_kr"]))
+        _klist = dict(zip(_kb["key"], _kb["listed"]))
+        _cw = sorted(_jc["period_start"].unique())
+        _qd = sorted(_jq["date"].unique())
+        _c_now = _jc[_jc["period_start"] == _cw[-1]]
+        _c_prev = _jc[_jc["period_start"] == _cw[-2]] if len(_cw) > 1 else None
+        _q_now = _jq[_jq["date"] == _qd[-1]]
+        _q_prev = _jq[_jq["date"] == _qd[-2]] if len(_qd) > 1 else None
+        _kc = _c_now[_c_now["kbrand"] != ""]
+        _kq = _q_now[_q_now["kbrand"] != ""]
+        j1, j2, j3, j4 = st.columns(4)
+        j1.metric("@cosme TOP100 안 한국 제품", f"{len(_kc)}개",
+                  (f"전주 {int((_c_prev['kbrand'] != '').sum())}개" if _c_prev is not None else None), delta_color="off")
+        j2.metric("Qoo10 뷰티 TOP200 안 한국 제품", f"{len(_kq)}개",
+                  (f"전일 {int((_q_prev['kbrand'] != '').sum())}개" if _q_prev is not None else "첫 수집"), delta_color="off")
+        j3.metric("Qoo10 TOP50 안 한국 제품", f"{int((_kq['rank'] <= 50).sum())}개",
+                  f"{_qd[-1]} 기준", delta_color="off")
+        j4.metric("@cosme 집계 주간", f"{_c_now['period_start'].iloc[0][5:]}~{_c_now['period_end'].iloc[0][5:]}",
+                  "매주 금요일 갱신", delta_color="off")
+
+        # 브랜드별 요약: 두 랭킹에서 몇 개·최고 몇 위
+        def _brand_tbl(df, col_prev=None):
+            g = df[df["kbrand"] != ""].groupby("kbrand").agg(n=("rank", "size"), best=("rank", "min")).reset_index()
+            if col_prev is not None and len(col_prev):
+                p = col_prev[col_prev["kbrand"] != ""].groupby("kbrand").agg(n_prev=("rank", "size"), best_prev=("rank", "min")).reset_index()
+                g = g.merge(p, on="kbrand", how="outer")
+            return g
+        _bc = _brand_tbl(_c_now, _c_prev).rename(columns={"n": "@cosme 개수", "best": "@cosme 최고", "n_prev": "@cosme 전주", "best_prev": "@cosme 전주 최고"})
+        _bq = _brand_tbl(_q_now, _q_prev).rename(columns={"n": "Qoo10 개수", "best": "Qoo10 최고", "n_prev": "Qoo10 전일", "best_prev": "Qoo10 전일 최고"})
+        _bb = _bc.merge(_bq, on="kbrand", how="outer").fillna({"@cosme 개수": 0, "Qoo10 개수": 0})
+        _bb["브랜드"] = _bb["kbrand"].map(lambda k: f"{_kname.get(k, k)} ({k})")
+        _bb["상장사"] = _bb["kbrand"].map(_klist).fillna("")
+        _bb["_score"] = _bb["Qoo10 개수"].fillna(0) * 2 + _bb["@cosme 개수"].fillna(0) * 3
+        _cols = ["브랜드", "상장사", "Qoo10 개수", "Qoo10 최고", "@cosme 개수", "@cosme 최고"]
+        for extra in ("Qoo10 전일 최고", "@cosme 전주 최고"):
+            if extra in _bb.columns:
+                _cols.append(extra)
+        st.dataframe(_bb.sort_values(["_score", "Qoo10 최고"], ascending=[False, True])[_cols], hide_index=True,
+                     use_container_width=True,
+                     column_config={c: st.column_config.NumberColumn(format="%.0f") for c in _cols[2:]})
+        st.caption("개수 = 그 랭킹 안에 든 제품 수, 최고 = 가장 높은 순위. Qoo10은 판매(가격·쿠폰 영향 큼), @cosme는 리뷰·관심(입소문). "
+                   "브랜드 판정은 `data/cosmetics/jp_kbrands.csv` 별칭(영문·가타카나) 기준 — 빠진 브랜드가 있으면 거기에 한 줄 추가.")
+
+        _t1, _t2, _t3 = st.tabs(["Qoo10 한국 제품 목록", "@cosme 한국 제품 목록", "추이 (쌓이는 중)"])
+        with _t1:
+            _v = _kq[["rank", "delta", "brand", "title", "price", "rating", "reviews", "kbrand"]].copy()
+            _v["kbrand"] = _v["kbrand"].map(lambda k: _kname.get(k, k))
+            _v["delta"] = _v["delta"].map({"up": "▲", "down": "▼", "same": "–", "new": "NEW"}).fillna("")
+            st.dataframe(_v.rename(columns={"rank": "순위", "delta": "변동", "brand": "셀러/브랜드", "title": "상품", "price": "가격(엔)",
+                                            "rating": "평점", "reviews": "리뷰수", "kbrand": "브랜드(KR)"}),
+                         hide_index=True, use_container_width=True, height=min(38 * (len(_v) + 1), 520),
+                         column_config={"가격(엔)": st.column_config.NumberColumn(format="%,.0f"),
+                                        "리뷰수": st.column_config.NumberColumn(format="%,.0f")})
+            st.caption(f"Qoo10 Japan ビューティ 베스트셀러 TOP200 · {_qd[-1]} 수집 · 전체 {len(_q_now)}개 중 한국 {len(_kq)}개. "
+                       "셀러명이 브랜드가 아닌 경우(대리점)는 상품명에서 브랜드를 찾음.")
+        with _t2:
+            _v = _kc[["rank", "status", "brand", "product", "category", "rating", "votes", "price", "kbrand"]].copy()
+            _v["kbrand"] = _v["kbrand"].map(lambda k: _kname.get(k, k))
+            _v["status"] = _v["status"].map({"up": "▲", "down": "▼", "stay": "–", "new": "NEW"}).fillna("")
+            st.dataframe(_v.rename(columns={"rank": "순위", "status": "변동", "brand": "브랜드", "product": "제품", "category": "카테고리",
+                                            "rating": "평점(7점)", "votes": "리뷰수", "price": "가격", "kbrand": "브랜드(KR)"}),
+                         hide_index=True, use_container_width=True, height=min(38 * (len(_v) + 1), 520))
+            st.caption(f"@cosme コスメ総合ランキング TOP100 · 집계 {_c_now['period_start'].iloc[0]}~{_c_now['period_end'].iloc[0]} · "
+                       f"한국 {len(_kc)}개. 3주치 보관 (사이트가 지난주·지지난주까지만 공개).")
+        with _t3:
+            _hc = _jc.groupby("period_start").apply(lambda d: int((d["kbrand"] != "").sum())).rename("@cosme TOP100 한국 제품 수").reset_index()
+            _hq = _jq.groupby("date").apply(lambda d: int((d["kbrand"] != "").sum())).rename("Qoo10 TOP200 한국 제품 수").reset_index()
+            _h = pd.concat([_hc.rename(columns={"period_start": "date"}).melt("date", var_name="지표", value_name="개수"),
+                            _hq.melt("date", var_name="지표", value_name="개수")])
+            _h["date"] = pd.to_datetime(_h["date"])
+            st.altair_chart(alt.Chart(_h).mark_line(point=True).encode(
+                x=alt.X("date:T", title=None), y=alt.Y("개수:Q", title="한국 제품 수"),
+                color=alt.Color("지표:N", title=None, legend=alt.Legend(orient="top")),
+                tooltip=["date:T", "지표:N", "개수:Q"]).properties(height=260), use_container_width=True)
+            # 브랜드별 Qoo10 최고 순위 추이
+            _bh = _jq[_jq["kbrand"] != ""].groupby(["date", "kbrand"])["rank"].min().reset_index()
+            if _bh["date"].nunique() > 1:
+                _bh["브랜드"] = _bh["kbrand"].map(lambda k: _kname.get(k, k)); _bh["date"] = pd.to_datetime(_bh["date"])
+                st.altair_chart(alt.Chart(_bh).mark_line(point=True).encode(
+                    x=alt.X("date:T", title=None), y=alt.Y("rank:Q", title="Qoo10 최고 순위 (위로 갈수록 좋음)", scale=alt.Scale(reverse=True)),
+                    color=alt.Color("브랜드:N", title=None), tooltip=["date:T", "브랜드:N", "rank:Q"]).properties(height=300),
+                    use_container_width=True)
+            st.caption("Qoo10은 히스토리가 없어 오늘부터 하루 1장씩 쌓입니다. 며칠 지나면 브랜드별 순위 추이가 보입니다. "
+                       "메가와리(분기 1회 대형 세일) 기간엔 순위가 크게 흔들리니 그 주는 따로 볼 것.")
+        st.caption("왜 따로 보나: 일본 검색 점유율은 구글 59% · 빙 31% · 야후재팬 8% (StatCounter 2026-09) 라 구글 검색량이 일본 전체를 다 담지 못함. "
+                   "Qoo10(판매)과 @cosme(입소문)로 보완. 출처 페이지: cosme.net/ranking/products, m.qoo10.jp Bestsellers(ビューティ).")
+
 st.caption("한계: 구글 애즈 검색수는 값이 계단식(1,300 → 1,600 → 2,400)이라 1개월 변화는 노이즈가 큼 — "
-           "3·12개월을 볼 것. 중국·한국 내수는 구글 점유율이 낮아 빠져 있음. 일본은 야후재팬이 빠져 과소집계임.")
+           "3·12개월을 볼 것. 중국·한국 내수는 구글 점유율이 낮아 빠져 있음. 일본은 야후재팬(점유율 약 8%)이 빠져 조금 과소집계임.")

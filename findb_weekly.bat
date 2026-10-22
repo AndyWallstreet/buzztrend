@@ -13,6 +13,7 @@ C:\Users\user99i1\AppData\Local\Programs\Python\Python312\python.exe yg_consensu
 C:\Users\user99i1\AppData\Local\Programs\Python\Python312\python.exe cosmetics_update.py >> data\findb\update.log 2>&1
 C:\Users\user99i1\AppData\Local\Programs\Python\Python312\python.exe customs_fetch.py >> data\findb\update.log 2>&1
 C:\Users\user99i1\AppData\Local\Programs\Python\Python312\python.exe cosmetics_absvol_update.py >> data\findb\update.log 2>&1
+C:\Users\user99i1\AppData\Local\Programs\Python\Python312\python.exe jp_kbeauty_update.py --weeks 1 >> data\findb\update.log 2>&1
 git add data/findb/financials.csv.gz data/findb/meta.json data/histdb data/capexdb data/yg data/cosmetics >> data\findb\update.log 2>&1
 git commit -m "findb weekly update" -m "Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>" >> data\findb\update.log 2>&1
 git push >> data\findb\update.log 2>&1
