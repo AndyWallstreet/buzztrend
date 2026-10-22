@@ -247,8 +247,12 @@ with tab3:
                         horizontal=True,
                         help="상대 = 브랜드마다 자기 최고치를 100으로 맞춤 — 크기가 다른 브랜드의 '모양'을 비교할 때. "
                              "절대량 = 실제 월 검색수 — 누가 큰지 볼 때.")
-    pick = st.multiselect("브랜드 (여러 개 가능)", sorted(t["brand"].unique()),
-                          default=g["brand"].head(4).tolist(), key="bs_pick",
+    # 기본 브랜드 4개 (PM 2026-10-22): 센텔리안24(madeca cream) · 코스알엑스 · 리들샷 · 아누아. 없으면 순위 상위로 채움
+    _DEFAULT_BRANDS = ["madeca cream", "cosrx", "reedle shot", "anua"]
+    _opts = sorted(t["brand"].unique())
+    _default = [b for b in _DEFAULT_BRANDS if b in _opts] or g["brand"].head(4).tolist()
+    pick = st.multiselect("브랜드 (여러 개 가능)", _opts,
+                          default=_default, key="bs_pick",
                           help="브랜드 이름이 길어 한 줄을 다 씁니다. 많이 고르면 칩이 여러 줄로 쌓입니다.")
     gcodes = geos[geos["geo_kr"].isin(gsel)]["geo"].tolist()
     x1, x2, x3 = st.columns([1.7, 1.1, 1.1])
