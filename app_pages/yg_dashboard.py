@@ -160,11 +160,12 @@ with tab_prod:
     # ---------------- 앨범 발매 캘린더 (수기: data/yg/album_schedule.csv) ----------------
     sch = load_circle("album_schedule.csv", _stamp("album_schedule.csv"))
     if sch is not None and len(sch):
-        sub("앨범 발매 캘린더", "언제 · 누가 · 어떤 앨범 → 어느 분기 추정에 넣을지 · 점 = 발매 완료, 막대 = 예정 구간(날짜 미정)")
+        sub("앨범 발매 캘린더", "언제 · 누가 · 어떤 앨범 → 어느 분기 추정에 넣을지 · 점 = 날짜 확정(초록 완료 · 파랑 예정), 막대 = 예정 구간(날짜 미정)")
         sc = sch.copy()
         sc["start"] = pd.to_datetime(sc["start"])
         sc["end"] = pd.to_datetime(sc["end"])
         sc["done"] = sc["status"].eq("발매완료")
+        sc["dated"] = sc["done"] | sc["status"].eq("예정 · 날짜 확정")   # 날짜가 있는 것은 점, 없는 것은 구간 막대
         sc["표시"] = sc["title"] + " (" + sc["type"] + ")"
         _today = pd.Timestamp.today().normalize()
         _cm = load_circle("yg_albums_monthly.csv", _stamp("yg_albums_monthly.csv"))
@@ -186,15 +187,15 @@ with tab_prod:
         _x = alt.X("start:T", title=None, axis=alt.Axis(format="%y-%m", tickCount=14),
                    scale=alt.Scale(domain=[pd.Timestamp("2026-01-01"), pd.Timestamp("2027-06-30")], clamp=True))
         _tt = ["group", "title", "type", "date_label", "status", "apply_q", "note"]
-        _stat_scale = alt.Scale(domain=["발매완료", "예정 · 날짜 미정", "미확정"],
-                                range=["#3fb27f", "#f2c744", "#8a97aa"])
-        pts = alt.Chart(sc[sc["done"]]).mark_point(filled=True, size=190, opacity=1).encode(
+        _stat_scale = alt.Scale(domain=["발매완료", "예정 · 날짜 확정", "예정 · 날짜 미정", "미확정"],
+                                range=["#3fb27f", "#2a78d6", "#f2c744", "#8a97aa"])
+        pts = alt.Chart(sc[sc["dated"]]).mark_point(filled=True, size=190, opacity=1).encode(
             x=_x, y=alt.Y("group:N", sort=_grp_order, title=None),
             color=alt.Color("status:N", title=None, scale=_stat_scale, legend=alt.Legend(orient="top")),
             shape=alt.Shape("physical:N", title="피지컬 앨범", scale=alt.Scale(domain=["Y", "N"], range=["circle", "diamond"]),
                             legend=alt.Legend(orient="top")),
             tooltip=_tt)
-        win = alt.Chart(sc[~sc["done"]]).mark_bar(height=14, opacity=0.75, cornerRadius=3).encode(
+        win = alt.Chart(sc[~sc["dated"]]).mark_bar(height=14, opacity=0.75, cornerRadius=3).encode(
             x=_x, x2="end:T", y=alt.Y("group:N", sort=_grp_order, title=None),
             color=alt.Color("status:N", title=None, scale=_stat_scale), tooltip=_tt)
         lab = alt.Chart(sc).mark_text(dy=-15, fontSize=10, color="#dde5f0", align="left").encode(
