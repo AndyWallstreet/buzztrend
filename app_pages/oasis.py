@@ -135,22 +135,44 @@ if tr is not None and len(tr):
 # ───────────────────────── 3. 앱 순위
 sub("3. 앱스토어 KR 무료 순위", "쇼핑 카테고리 TOP200 · 음식배달은 '음식및음료'. 낮을수록 좋음")
 if ap is not None and len(ap):
+    dates = sorted(ap["date"].unique())
+    latest = ap[ap.date == dates[-1]].copy()
+    if len(dates) > 1:
+        prev = ap[ap.date == dates[-2]].set_index(["genre", "company"])["rank"]
+        latest["전회"] = [prev.get((g, c)) for g, c in zip(latest.genre, latest.company)]
+        latest["변동"] = latest["전회"] - latest["rank"]          # + 면 올라간 것
     colA, colB = st.columns(2)
     for col, genre in ((colA, "쇼핑"), (colB, "음식및음료")):
-        d = ap[ap.genre == genre].copy()
+        d = latest[latest.genre == genre].sort_values("rank")
         if not len(d):
             continue
-        d["date"] = pd.to_datetime(d["date"])
-        ch = alt.Chart(d).mark_line(point=True).encode(
-            x=alt.X("date:T", title=None),
-            y=alt.Y("rank:Q", title="순위", scale=alt.Scale(reverse=True)),
-            color=alt.Color("company:N", title=None),
-            tooltip=["date:T", "company", "rank", "app"]).properties(height=260, title=genre)
-        col.altair_chart(ch, use_container_width=True)
-    latest = ap[ap.date == ap.date.max()].sort_values(["genre", "rank"])
-    st.dataframe(latest[["genre", "company", "rank", "app"]].rename(
+        d = d.assign(label=d["rank"].map(lambda r: f"{int(r)}위"),
+                     color=d["company"].map(lambda c: "#2a78d6" if c == "오아시스" else "#6b7f99"))
+        base = alt.Chart(d).encode(y=alt.Y("company:N", sort=list(d.company), title=None))
+        bars = base.mark_bar().encode(
+            x=alt.X("rank:Q", title="순위 (왼쪽이 좋음)", scale=alt.Scale(domain=[0, 200])),
+            color=alt.Color("color:N", scale=None),
+            tooltip=["company", "rank", "app"] + (["변동"] if "변동" in d.columns else []))
+        txt = base.mark_text(align="left", dx=4, color="#ddd", fontSize=12).encode(x="rank:Q", text="label:N")
+        col.altair_chart((bars + txt).properties(height=40 + 30 * len(d), title=f"{genre} — {dates[-1]}"),
+                         use_container_width=True)
+    if len(dates) > 1:
+        sub("3-1. 순위 추이", "주 1회 점. 위로 갈수록 좋음")
+        colA, colB = st.columns(2)
+        for col, genre in ((colA, "쇼핑"), (colB, "음식및음료")):
+            d = ap[ap.genre == genre].copy()
+            d["date"] = pd.to_datetime(d["date"])
+            ch = alt.Chart(d).mark_line(point=True).encode(
+                x=alt.X("date:T", title=None), y=alt.Y("rank:Q", title="순위", scale=alt.Scale(reverse=True)),
+                color=alt.Color("company:N", title=None), tooltip=["date:T", "company", "rank"]
+            ).properties(height=240, title=genre)
+            col.altair_chart(ch, use_container_width=True)
+    else:
+        st.caption("순위 추이 선은 2주차 데이터부터 나옵니다 (지금은 기준선 1개).")
+    cols = ["genre", "company", "rank"] + (["변동"] if "변동" in latest.columns else []) + ["app"]
+    st.dataframe(latest.sort_values(["genre", "rank"])[cols].rename(
         columns={"genre": "카테고리", "company": "회사", "rank": "순위", "app": "앱"}),
-        hide_index=True, use_container_width=True, height=min(400, 40 + 28 * len(latest)))
+        hide_index=True, use_container_width=True, height=45 + 36 * len(latest))   # 스크롤 없이 전부 보이게
 
 # ───────────────────────── 4. 뉴스
 sub("4. 최근 기사 (구글뉴스, 7일)", "오아시스마켓 · 오아시스 토스쇼핑 · 컬리 새벽배송 · 토스쇼핑")
