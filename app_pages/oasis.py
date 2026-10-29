@@ -18,7 +18,7 @@ import streamlit as st
 DATA = Path(__file__).resolve().parent.parent / "data" / "oasis"
 TOSS_DAY = "2026-09-17"
 PAL = {"오아시스마켓": "#2a78d6", "컬리": "#b06fc9", "쿠팡 로켓프레시": "#eb6834", "토스쇼핑": "#3fb27f",
-       "SSG": "#e8c15a", "배달의민족": "#4fb8c9", "쿠팡이츠": "#eb6834", "요기요": "#e05252",
+       "SSG": "#e8c15a", "쓱닷컴": "#e8c15a", "배달의민족": "#4fb8c9", "쿠팡이츠": "#eb6834", "요기요": "#e05252",
        "오아시스": "#2a78d6", "쿠팡": "#eb6834", "이마트올": "#999", "이마트몰": "#e8c15a", "네이버": "#3fb27f",
        "배민": "#4fb8c9"}
 
@@ -116,7 +116,7 @@ else:
 # ───────────────────────── 2. 검색량
 sub("2. 구글 검색량 (KR, 주간)", "토스 전용관 오픈일에 점선. 0~100 상대값 — 같은 그룹 안에서만 비교")
 if tr is not None and len(tr):
-    tabs = st.tabs(["장보기 (오아시스·컬리·쿠팡·토스쇼핑·SSG)", "음식배달 (배민·쿠팡이츠·요기요 + 오아시스)"])
+    tabs = st.tabs(["장보기 (오아시스·컬리·쿠팡·토스쇼핑·쓱닷컴)", "음식배달 (배민·쿠팡이츠·요기요 + 오아시스)"])
     for tab, grp in zip(tabs, ("장보기", "음식배달")):
         with tab:
             d = tr[tr.group == grp].copy()
@@ -146,15 +146,20 @@ if ap is not None and len(ap):
         d = latest[latest.genre == genre].sort_values("rank")
         if not len(d):
             continue
-        d = d.assign(label=d["rank"].map(lambda r: f"{int(r)}위"),
+        # 막대 길이 = 201 − 순위 → 길수록 상위 (1위가 꽉 찬 막대)
+        d = d.assign(score=201 - d["rank"], label=d["rank"].map(lambda r: f"{int(r)}위"),
                      color=d["company"].map(lambda c: "#2a78d6" if c == "오아시스" else "#6b7f99"))
-        base = alt.Chart(d).encode(y=alt.Y("company:N", sort=list(d.company), title=None))
-        bars = base.mark_bar().encode(
-            x=alt.X("rank:Q", title="순위 (왼쪽이 좋음)", scale=alt.Scale(domain=[0, 200])),
+        base = alt.Chart(d).encode(
+            y=alt.Y("company:N", sort=list(d.company), title=None,
+                    axis=alt.Axis(labelFontSize=12, labelLimit=120)))
+        bars = base.mark_bar(size=22).encode(
+            x=alt.X("score:Q", title="← 하위   ·   상위 → (1위 = 꽉 찬 막대)", scale=alt.Scale(domain=[0, 200]),
+                    axis=alt.Axis(labels=False, ticks=False, grid=False)),
             color=alt.Color("color:N", scale=None),
             tooltip=["company", "rank", "app"] + (["변동"] if "변동" in d.columns else []))
-        txt = base.mark_text(align="left", dx=4, color="#ddd", fontSize=12).encode(x="rank:Q", text="label:N")
-        col.altair_chart((bars + txt).properties(height=40 + 30 * len(d), title=f"{genre} — {dates[-1]}"),
+        txt = base.mark_text(align="left", dx=5, color="#eee", fontSize=12, fontWeight="bold").encode(
+            x="score:Q", text="label:N")
+        col.altair_chart((bars + txt).properties(height=70 + 36 * len(d), title=f"{genre} — {dates[-1]}"),
                          use_container_width=True)
     if len(dates) > 1:
         sub("3-1. 순위 추이", "주 1회 점. 위로 갈수록 좋음")
