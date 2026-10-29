@@ -142,9 +142,12 @@ def apprank():
 def news():
     from email.utils import parsedate_to_datetime
     rows = []
-    for q in ('"오아시스마켓"', '오아시스 토스쇼핑', '"컬리" 새벽배송', '"토스쇼핑"'):
+    # 뒤 3개는 MAU 보도자료용 (와이즈앱·모바일인덱스가 월 1회 배송앱 순위를 뿌림) → 30일 창
+    QUERIES = (('"오아시스마켓"', 7), ('오아시스 토스쇼핑', 7), ('"컬리" 새벽배송', 7), ('"토스쇼핑"', 7),
+               ('오아시스마켓 MAU', 30), ('와이즈앱 배송앱 MAU', 30), ('모바일인덱스 장보기 앱', 30))
+    for q, days in QUERIES:
         r = requests.get("https://news.google.com/rss/search",
-                         params={"q": f"{q} when:7d", "hl": "ko", "gl": "KR", "ceid": "KR:ko"},
+                         params={"q": f"{q} when:{days}d", "hl": "ko", "gl": "KR", "ceid": "KR:ko"},
                          headers=UA, timeout=30)
         try:
             root = ET.fromstring(r.text)

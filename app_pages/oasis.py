@@ -180,7 +180,7 @@ if ap is not None and len(ap):
         hide_index=True, use_container_width=True, height=45 + 36 * len(latest))   # 스크롤 없이 전부 보이게
 
 # ───────────────────────── 4. 뉴스
-sub("4. 최근 기사 (구글뉴스, 7일)", "오아시스마켓 · 오아시스 토스쇼핑 · 컬리 새벽배송 · 토스쇼핑")
+sub("4. 최근 기사 (구글뉴스)", "7일: 오아시스마켓 · 오아시스 토스쇼핑 · 컬리 새벽배송 · 토스쇼핑  |  30일: MAU 보도자료 (와이즈앱·모바일인덱스) — 오아시스는 MAU 비공개라 이게 유일한 공개 숫자")
 if nw is not None and len(nw):
     d = nw[nw.week == nw.week.max()].sort_values("date", ascending=False)
     for q, g in d.groupby("query", sort=False):
