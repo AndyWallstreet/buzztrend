@@ -257,6 +257,7 @@ pg_consumer = st.Page(_placeholder("Consumer", "필수·임의소비재 섹터 �
                       title="Consumer", url_path="consumer")
 pg_logi = st.Page(_placeholder("Logistics / Commerce", "물류·커머스 섹터 추적", "logi"),
                   title="Logistics/Commerce", url_path="logistics-commerce")
+pg_oasis = st.Page("app_pages/oasis.py", title="└ 오아시스 × 토스 트래커", url_path="oasis")
 pg_steel = st.Page(_placeholder("Steel & Non-Ferrous Metals", "철강·비철금속 섹터 추적",
                                 "steel"),
                    title="Steel & Non-Ferrous Metals", url_path="steel-metals")
@@ -267,13 +268,13 @@ from app_pages import cover  # noqa: E402  (st.page_link 에 Page 객체가 필�
 sector_nav.register({"batt": pg_batt, "bio": pg_bio, "pshort": pg_pshort,
                      "beauty": pg_beauty, "cosexp": pg_cosexp, "cossd": pg_cossd, "bscr": pg_bscr,
                      "amz": pg_amz, "ent": pg_ent, "consumer": pg_consumer, "logi": pg_logi,
-                     "steel": pg_steel, "trailer": pg_trailer,
+                     "oasis": pg_oasis, "steel": pg_steel, "trailer": pg_trailer,
                      "boxoffice": pg_boxoffice, "yg": pg_yg, "ygplus": pg_ygplus})
 
 _PAGES = {"buzz": pg_buzz, "value": pg_value, "coverage": pg_cov, "bio": pg_bio, "beauty": pg_beauty,
           "ent": pg_ent, "trailer": pg_trailer, "boxoffice": pg_boxoffice,
           "yg": pg_yg, "ygplus": pg_ygplus, "bigbang": pg_bigbang, "babymon": pg_babymon,
-          "consumer": pg_consumer, "logi": pg_logi, "steel": pg_steel}
+          "consumer": pg_consumer, "logi": pg_logi, "oasis": pg_oasis, "steel": pg_steel}
 
 
 def _cover():
@@ -290,7 +291,7 @@ nav = st.navigation({
     "Sector Watch": [pg_batt, pg_bio, pg_pshort, pg_beauty, pg_cosexp, pg_cossd, pg_bscr, pg_amz, pg_ent, pg_trailer,
                      pg_boxoffice,
                      pg_yg, pg_ygplus, pg_bigbang, pg_babymon,
-                     pg_consumer, pg_logi, pg_steel],
+                     pg_consumer, pg_logi, pg_oasis, pg_steel],
     "My Coverage": [pg_cov, pg_earn],
 }, position="hidden")
 nav.run()

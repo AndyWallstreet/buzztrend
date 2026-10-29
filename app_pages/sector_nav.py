@@ -52,7 +52,12 @@ SECTORS = [
         ]),
     ]),
     ("consumer", "Consumer", []),
-    ("logi", "Logistics / Commerce", []),
+    ("logi", "Logistics / Commerce", [
+        ("지어소프트 (051160) · 오아시스", [
+            ("oasis", "🥬 오아시스 × 토스 트래커"),
+            ("/종목상세?ticker=A051160", "📋 지어소프트 Stock Picker"),
+        ]),
+    ]),
     ("steel", "Steel & Non-Ferrous Metals", []),
 ]
 
