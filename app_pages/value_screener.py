@@ -191,6 +191,17 @@ def load():
     # 차트에서 점 클릭 → 네이버금융 종목 페이지
     df["naver"] = ("https://finance.naver.com/item/main.naver?code="
                    + df["ticker"].str.lstrip("A"))
+    # KRX 저PBR 명단 (매년 5월·11월 공표) — lowpbr_update.py 산출. 없으면 전부 False.
+    _lp = DATA / "lowpbr" / "lowpbr_latest.csv"
+    df["low_pbr"] = False
+    if _lp.exists():
+        lp = pd.read_csv(_lp, encoding="utf-8-sig", dtype=str).set_index("ticker")
+        df["low_pbr"] = df["ticker"].isin(lp.index)
+        df["krx_pbr"] = df["ticker"].map(lp["krx_pbr"].astype(float))
+        df["krx_market"] = df["ticker"].map(lp["market"])
+        df["krx_gics"] = df["ticker"].map(lp["gics_kr"])
+        meta["lowpbr"] = {"n": len(lp), "date": lp["list_date"].iloc[0],
+                          "pbr_date": lp["pbr_date"].iloc[0]}
     return df, meta
 
 
@@ -581,7 +592,8 @@ if not hasattr(krnames, "lang_control"):       # 서버가 예전 모듈을 들�
 _lang = krnames.lang_control()
 df = krnames.display_names(df, _lang)
 
-tab1, tab2, tab3 = st.tabs(["🔍 티커 조회", "🧮 조건 검색", "🏭 섹터별 보기"])
+tab1, tab2, tab3, tab4 = st.tabs(["🔍 티커 조회", "🧮 조건 검색", "🏭 섹터별 보기",
+                                  "📉 KRX 저PBR 명단"])
 
 # ================================================= 1) Ticker Input
 _gp = DATA / "global_data.csv"
@@ -1010,6 +1022,12 @@ with tab2:
                                   help="입력한 단어가 이름에 포함된 그룹만 5개 분류 전체에서 "
                                        "찾아줍니다. 하나 고르면 그 분류로 바로 필터링돼요.")
         filt = df
+        _lpm = meta.get("lowpbr")
+        if _lpm and st.toggle(f"📉 KRX 저PBR 명단만 ({_lpm['n']}개사)", value=False, key="sp_lowpbr",
+                              help=f"한국거래소가 {_lpm['date']}에 공표한 저PBR 기업만 남깁니다. "
+                                   "업종별 PBR 이 최근 3년 하위 25%(KOSPI)·10%(KOSDAQ)인 회사입니다. "
+                                   "자세한 내용은 '📉 KRX 저PBR 명단' 탭."):
+            filt = filt[filt["low_pbr"]]
         if sel_search:
             v, lvl_label = sel_search.rsplit("  [", 1)
             filt = filt[filt[CLASS_LEVELS[lvl_label.rstrip("]")]] == v]
@@ -1349,6 +1367,86 @@ with tab3:
         st.caption("점수 = 그룹 안에서 질(X) 백분위와 멀티플 낮음(Y) 백분위의 평균 (100점 만점). "
                    "높을수록 '질 대비 싸다'는 뜻입니다.")
         match_table(valid3, dx_col, dy_col, dx_label, dy_label, key="dl_sector", score=True)
+
+# ================================================= 4) KRX 저PBR 명단
+with tab4:
+    _lpm = meta.get("lowpbr")
+    if not _lpm:
+        st.info("저PBR 명단 파일이 없습니다 — `python lowpbr_update.py YYYYMMDD` 를 먼저 돌려 주세요.")
+    else:
+        lpd = df[df["low_pbr"]].copy()
+        st.caption(f"한국거래소(KRX)가 **{_lpm['date']}** 공표한 저PBR 기업 {_lpm['n']}개사 "
+                   f"(PBR 기준일 {_lpm['pbr_date']}, 다음 공표 2027-05-04). "
+                   "**PBR 1배 미만 명단이 아닙니다** — 시장·업종(GICS 11개)별 PBR 이 최근 3년 "
+                   "하위 25%(KOSPI) / 하위 10%(KOSDAQ)인 회사이고, 10/22까지 기업가치 제고 계획을 "
+                   "낸 34개사는 빠졌습니다. 출처: [KIND 저PBR기업]"
+                   "(https://kind.krx.co.kr/valueup/lowpbr.do?method=valueupLowpbrMain)")
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("전체", f"{len(lpd)}개사")
+        m2.metric("KOSPI", f"{(lpd['krx_market'] == 'KOSPI').sum()}개사")
+        m3.metric("KOSDAQ", f"{(lpd['krx_market'] == 'KOSDAQ').sum()}개사")
+        m4.metric("평균 PBR (KRX)", f"{lpd['krx_pbr'].mean():.3f}배")
+
+        c1, c2 = st.columns([1, 3.2], gap="large")
+        with c1:
+            st.markdown("##### 🔎 필터")
+            mk4 = st.selectbox("시장", ["(전체)", "KOSPI", "KOSDAQ"], key="lp_mkt")
+            gics_opts = ["(전체)"] + lpd["krx_gics"].value_counts().index.tolist()
+            gi4 = st.selectbox("GICS 업종 (KRX 분류)", gics_opts, key="lp_gics",
+                               format_func=lambda g: g if g == "(전체)"
+                               else f"{g} ({(lpd['krx_gics'] == g).sum()})")
+            x_label4 = st.selectbox("X축 (회사의 질)", list(X_AXES), index=0, key="lp_x")
+            x_min4 = st.number_input(f"{x_label4} 이상 (%)", value=0.0, step=5.0,
+                                     key="lp_xmin") / 100
+            st.caption("PBR 은 현재 장부가 기준 (스크리너 데이터). KRX 표의 PBR 은 10/22 기준이라 "
+                       "조금 다를 수 있습니다.")
+        sub4 = lpd
+        if mk4 != "(전체)":
+            sub4 = sub4[sub4["krx_market"] == mk4]
+        if gi4 != "(전체)":
+            sub4 = sub4[sub4["krx_gics"] == gi4]
+        x_col4 = X_AXES[x_label4]
+        good4 = sub4[sub4[x_col4].notna() & (sub4[x_col4] > x_min4) & (sub4["pbr"] > 0)]
+        with c1:
+            st.markdown(f"**대상 {len(sub4)}개사 · 조건 통과 {len(good4)}개**")
+        with c2:
+            st.altair_chart(scatter(sub4, x_col4, "pbr", x_label4, "PBR", x_min4, 1.0,
+                                    label_matches=True),
+                            use_container_width=True)
+
+        sec(f"📋 저PBR 명단 — 질 좋은 순 ({len(sub4)}개)")
+        st.caption("점수 = 이 명단 안에서 질(X) 백분위와 PBR 낮음 백분위의 평균 (100점 만점). "
+                   "저PBR 이면서 수익성·성장이 좋은 회사가 위로 옵니다. 노란 행 = 조건(X) 미달.")
+        t4 = sub4[["company", "ticker", "krx_market", "krx_gics", "krx_pbr", "pbr",
+                   x_col4, "per", "mcap"]].copy()
+        t4["_score"] = ((t4[x_col4].rank(pct=True) + (1 - t4["pbr"].rank(pct=True)))
+                        / 2 * 100).round(0)
+        t4["_ok"] = t4["ticker"].isin(good4["ticker"])
+        t4 = t4.sort_values(["_ok", "_score"], ascending=[False, False])
+        t4[x_col4] = (t4[x_col4] * 100).round(1)
+        t4["pbr"] = t4["pbr"].round(2)
+        t4["per"] = t4["per"].round(1)
+        t4["mcap"] = (t4["mcap"] / 1000).round(0).astype("Int64")   # KRW mm → KRW bn
+        t4["detail"] = "/종목상세?ticker=" + t4["ticker"]
+        t4["naver"] = ("https://finance.naver.com/item/main.naver?code="
+                       + t4["ticker"].str.lstrip("A"))
+        ok4 = t4.pop("_ok")
+        t4 = t4[["company", "ticker", "krx_market", "krx_gics", "_score", "krx_pbr", "pbr",
+                 x_col4, "per", "mcap", "detail", "naver"]]
+        t4.columns = ["회사", "티커", "시장", "GICS 업종", "점수", "KRX PBR (10/22)", "현재 PBR",
+                      f"{x_label4} (%)", "PER", "시총(십억원)", "상세", "네이버금융"]
+        st.dataframe(t4.style.apply(
+                         lambda r: [("background-color: rgba(217,160,33,0.18)"
+                                     if not ok4.loc[r.name] else "")] * len(r), axis=1),
+                     use_container_width=True, hide_index=True, height=480,
+                     column_config={
+                         "네이버금융": st.column_config.LinkColumn(
+                             "네이버금융", display_text="📈 종목 페이지"),
+                         "상세": st.column_config.LinkColumn("상세", display_text="📋 상세"),
+                         "KRX PBR (10/22)": st.column_config.NumberColumn(format="%.2f"),
+                         "현재 PBR": st.column_config.NumberColumn(format="%.2f")})
+        st.download_button("⬇️ CSV로 받기", t4.to_csv(index=False).encode("utf-8-sig"),
+                           f"krx_lowpbr_{_lpm['date']}.csv", "text/csv", key="dl_lowpbr")
 
 st.divider()
 st.caption("차트에는 **조건을 통과한 종목만** 표시됩니다 (티커 조회에서는 선택한 종목도 함께). · "

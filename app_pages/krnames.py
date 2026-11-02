@@ -21,7 +21,9 @@ def _load(stamp):
     if not _P.exists():
         return {}
     d = pd.read_csv(_P, dtype=str, encoding="utf-8-sig")
-    return dict(zip(d["ticker"], d["name_kr"].fillna("")))
+    # DART XML 에서 뽑을 때 '&' 가 '&amp;' 로 남은 이름이 있음 (신세계I&amp;C 등)
+    import html
+    return dict(zip(d["ticker"], d["name_kr"].fillna("").map(html.unescape)))
 
 
 def kr_map():
