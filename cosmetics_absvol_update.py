@@ -132,8 +132,11 @@ def main():
             print(f"이미 지난달({prev})까지 보유 — 스킵. 다음 달 15일 이후에 다시 돌릴 것")
             return
         fetched = dt.datetime.fromisoformat(meta["fetched"]).date()
-        if fetched >= today.replace(day=15):                      # 이번 달 15일 이후 이미 시도함
-            print(f"이번 달에 이미 수집 시도함 ({fetched}) — 스킵. 재시도는 --force")
+        # 2026-11-04 수정: 예전엔 '이번 달에 한 번 시도했으면 끝' 이라 구글이 15일보다 늦게 올리면
+        # (10월엔 22일에 수동 --force 로 받았음) 다음 달까지 새 달이 안 들어왔다.
+        # 이제는 지난달이 들어올 때까지 3일에 한 번씩 다시 시도한다 (1회 $0.31, 최대 5회).
+        if (today - fetched).days < 3:
+            print(f"최근 시도 {fetched} — 3일 뒤 다시. 지금 꼭 받으려면 --force")
             return
 
     auth = base64.b64encode(f"{login}:{pw}".encode()).decode()
