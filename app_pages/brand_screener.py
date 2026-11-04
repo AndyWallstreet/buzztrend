@@ -352,12 +352,19 @@ with tab3:
             + ([alt.Tooltip("값:Q", title="피크 대비", format=".0f")] if rel else []) \
             + ([alt.Tooltip("t:Q", title="성장 시작 후 개월"), alt.Tooltip("성장시작:N", title="성장 시작 달")] if t0 else [])
 
+        # 선 끝 라벨 (PM 2026-11-04: 범례만으로는 어느 선인지 알기 어려움) — 각 선의 마지막 점 옆에 '브랜드 · 국가'
+        cenc_nolegend = alt.Color("키:N", scale=alt.Scale(domain=keys, range=cols), legend=None)
+        _pad = {"left": 5, "top": 5, "bottom": 5, "right": 120}   # 오른쪽 여백 = 라벨이 잘리지 않게
+
         if t0:
+            last = m.sort_values("t").groupby("키").tail(1)
             ch = alt.Chart(m).mark_line().encode(
                 x=alt.X("t:Q", title="성장 시작 후 개월 (t=0 = 검색이 자기 최고치의 10%에 처음 닿은 달)",
                         axis=alt.Axis(tickMinStep=2, labelAngle=0)),
                 y=yenc, color=cenc, size=senc, tooltip=tips)
-            st.altair_chart(ch.properties(height=470), use_container_width=True)
+            endlab = alt.Chart(last).mark_text(align="left", dx=7, fontSize=11, fontWeight="bold").encode(
+                x=alt.X("t:Q"), y=alt.Y("값:Q"), text="키:N", color=cenc_nolegend)
+            st.altair_chart(alt.layer(ch, endlab).properties(height=470, padding=_pad), use_container_width=True)
         else:
             # 2단 가로축: 한 축에 2줄 라벨 (위=월, 아래=연도). vconcat 축 띠는 폭이 안 맞아 차트가
             # 화면 밖으로 삐져나가서 버림 (PM 2026-10-08). labelExpr 가 배열을 주면 Vega 가 2줄로 그림.
@@ -373,7 +380,10 @@ with tab3:
             line = alt.Chart(m).mark_line().encode(
                 x=alt.X("dt:T", title=None, axis=x_ax), y=yenc, color=cenc, size=senc, tooltip=tips)
             vline = alt.Chart(jan).mark_rule(color="#33415c", strokeDash=[2, 3]).encode(x="jan:T")
-            st.altair_chart(alt.layer(vline, line).properties(height=470), use_container_width=True)
+            last = m.sort_values("dt").groupby("키").tail(1)
+            endlab = alt.Chart(last).mark_text(align="left", dx=7, fontSize=11, fontWeight="bold").encode(
+                x=alt.X("dt:T"), y=alt.Y("값:Q"), text="키:N", color=cenc_nolegend)
+            st.altair_chart(alt.layer(vline, line, endlab).properties(height=470, padding=_pad), use_container_width=True)
             st.caption("가로축 2단 — 윗줄 = 월(01~12), 아랫줄 = 연도(1월 자리에 표시). 세로 점선 = 해가 바뀌는 지점."
                        + (f"  ·  라벨이 겹치지 않게 {step}개월마다 표시합니다." if step > 1 else ""))
 
