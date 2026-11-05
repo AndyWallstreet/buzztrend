@@ -151,7 +151,7 @@ if mo is not None and len(mo):
                  alt.Tooltip("yoy:Q", title="YoY 계산 (잠정÷관세청 작년)", format="+.1f"),
                  alt.Tooltip("yoy_pct:Q", title="YoY 산업부 발표", format="+.1f")])
     lab_i = alt.Chart(_tail[_tail["kind"] == "잠정*"]).mark_text(
-        dx=14, dy=-4, align="left", fontSize=11, fontWeight="bold", color="#eb6834").encode(
+        dx=-6, dy=16, align="right", fontSize=11, fontWeight="bold", color="#eb6834").encode(
         x=alt.X("date:T"), y=alt.Y("yoy:Q"), text=alt.Text("yoy:Q", format="+.0f%"))
     st.altair_chart(alt.layer(bar_m + txt_i, line_y + line_i + pt_i + lab_i)
                     .resolve_scale(y="independent")
