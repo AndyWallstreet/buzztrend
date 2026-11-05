@@ -112,8 +112,13 @@ if mo is not None and len(mo):
     ms36 = ms.tail(36).copy()
     ms36["kind"] = "확정"
     if im is not None and len(im):
-        _imd = im.rename(columns={})[["month", "usd_mn"]].copy()
+        _imd = im.rename(columns={})[["month", "usd_mn", "yoy_pct"]].copy()
         _imd["kind"] = "잠정*"
+        # 잠정월 YoY (PM 2026-11-05): 산업부 잠정치 ÷ 관세청 작년 같은 달 확정치 — 우리 기준으로 직접 계산.
+        # 분류가 다르므로(MTI vs HS) 산업부가 발표한 YoY(yoy_pct) 와 몇 %p 차이가 날 수 있어 툴팁에 둘 다 둔다.
+        _prev = ms.set_index("month")["usd_mn"]
+        _imd["yoy"] = [(_imd.loc[i, "usd_mn"] / _prev.get(f"{int(m[:4]) - 1}-{m[5:7]}", float("nan")) - 1) * 100
+                       for i, m in zip(_imd.index, _imd["month"])]
         ms36 = pd.concat([ms36, _imd], ignore_index=True)
     ms36["date"] = pd.to_datetime(ms36["month"] + "-01")
     bar_m = alt.Chart(ms36).mark_bar().encode(
@@ -134,13 +139,28 @@ if mo is not None and len(mo):
     line_y = alt.Chart(ms36[ms36["kind"] == "확정"]).mark_line(
         color="#eb6834", size=2.5, point=True).encode(
         x=alt.X("date:T"), y=alt.Y("yoy:Q", title="YoY (%)"))
-    st.altair_chart(alt.layer(bar_m + txt_i, line_y)
+    # 잠정월까지 점선으로 잇고, 잠정 점은 금색 테두리 + 숫자 라벨
+    _tail = ms36[ms36["yoy"].notna()].sort_values("date")
+    _tail = pd.concat([_tail[_tail["kind"] == "확정"].tail(1), _tail[_tail["kind"] == "잠정*"]])
+    line_i = alt.Chart(_tail).mark_line(color="#eb6834", size=2.5, strokeDash=[5, 4]).encode(
+        x=alt.X("date:T"), y=alt.Y("yoy:Q"))
+    pt_i = alt.Chart(_tail[_tail["kind"] == "잠정*"]).mark_point(
+        color="#e8c15a", fill="#eb6834", size=90, strokeWidth=2).encode(
+        x=alt.X("date:T"), y=alt.Y("yoy:Q"),
+        tooltip=[alt.Tooltip("date:T", format="%Y-%m"),
+                 alt.Tooltip("yoy:Q", title="YoY 계산 (잠정÷관세청 작년)", format="+.1f"),
+                 alt.Tooltip("yoy_pct:Q", title="YoY 산업부 발표", format="+.1f")])
+    lab_i = alt.Chart(_tail[_tail["kind"] == "잠정*"]).mark_text(
+        dx=14, dy=-4, align="left", fontSize=11, fontWeight="bold", color="#eb6834").encode(
+        x=alt.X("date:T"), y=alt.Y("yoy:Q"), text=alt.Text("yoy:Q", format="+.0f%"))
+    st.altair_chart(alt.layer(bar_m + txt_i, line_y + line_i + pt_i + lab_i)
                     .resolve_scale(y="independent")
                     .properties(height=340), use_container_width=True)
     st.caption("**읽는법**: 파란 막대 = 확정 월 수출, 금색 막대 = 산업부 발표 "
                "잠정치(MTI 기준 — 뉴스에 먼저 나오는 숫자), 주황 선 = 확정치의 "
-               "전년 같은 달 대비 %. 확정통계는 약 5주 시차로 공표됨 "
-               "(7월분 → 9월 초).")
+               "전년 같은 달 대비 %. 점선 끝 점 = 잠정월 YoY (산업부 잠정치 ÷ 관세청 작년 같은 달 확정치, "
+               "분류가 달라 산업부 발표 YoY 보다 몇 %p 높게 나올 수 있음 — 툴팁에 둘 다). "
+               "확정통계는 약 5주 시차로 공표됨 (7월분 → 9월 초).")
 
 x1, x2 = st.columns(2, gap="large")
 _regc = {"Asia": "#2a78d6", "North America": "#eb6834", "Europe": "#4fb862",
@@ -184,14 +204,13 @@ with x1:
 with x2:
     _cl = (cx.groupby("country_en")["usd_k"].sum()
            .sort_values(ascending=False).index.tolist())
-    # 제목 바가 왼쪽 차트 제목과 같은 줄에 오도록 콤보박스보다 먼저 그린다
+    # 좌우 차트 상단을 맞추기 위해 제목 바와 차트를 먼저 그리고
+    # 국가 선택 콤보박스는 차트 아래에 둔다 (값은 session_state에서 먼저 읽음)
     c_sel = st.session_state.get("cx_c", "United States")
     if c_sel not in _cl:
         c_sel = _cl[0]
     sub(f"{c_sel} — 연도별 수출 (HS 구성)",
         f"US$mn · {_y_cur}E* = 연환산")
-    c_sel = st.selectbox("국가 선택", _cl,
-                         index=_cl.index(c_sel), key="cx_c")
     cc = cx[cx["country_en"] == c_sel].groupby(
         ["year", "hs"], as_index=False)["usd_k"].sum()
     cc["usd_mn"] = cc["usd_k"] / 1000
@@ -210,6 +229,7 @@ with x2:
         text=alt.Text("usd_mn:Q", format=",.0f"))
     st.altair_chart((bars2 + txt2).properties(height=380),
                     use_container_width=True)
+    st.selectbox("국가 선택", _cl, index=_cl.index(c_sel), key="cx_c")
     st.caption("**읽는법**: 거의 모든 나라에서 3304(기초·색조)가 대부분. "
                "선케어는 HS상 분리 불가(3304 안에 포함), 마스크팩은 3307에 "
                f"섞임 — 관세청 분류의 한계. {_y_cur}E*는 연환산 추정.")
