@@ -10,6 +10,7 @@ from pathlib import Path
 import altair as alt
 import numpy as np
 import pandas as pd
+# 2026-11-11 재배포 트리거: 10월 구글 트렌드 추정 (잠든 앱에 푸시된 코드가 안 올라와서 한 번 더)
 import streamlit as st
 
 DATA = Path(__file__).resolve().parent.parent / "data" / "cosmetics"
