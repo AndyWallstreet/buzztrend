@@ -19,8 +19,9 @@ import numpy as np
 import pandas as pd
 
 
-def combined(a, g=None):
+def combined(a, g=None, t=None):
     """본 데이터(a) 뒤에 구글애즈 파일(g)의 '더 새로운 달' 을 이어 붙인 월별 시리즈. 차트용.
+    t = absvol_trends_est.csv (구글 트렌드 비율 추정, 3순위): a·g 둘 다 없는 달만 붙인다. source='trends_est'.
 
     본 데이터에 이미 있는 (나라·브랜드·검색어) 조합만 붙인다 — 본 데이터에 빠진 검색어(인도
     'madeca cream' 등)를 최신 달에만 끼우면 그 달만 튀는 가짜 점프가 생긴다 (2026-10-15 확인).
@@ -30,7 +31,7 @@ def combined(a, g=None):
     a = a.copy()
     a["source"] = "labs"
     if g is None or not len(g):
-        return a
+        return _add_trends(a, t)
     c = a[a["geo"] != "WW"]
     c_last = c.groupby(["geo", "keyword"])["month"].max().min()
     keys = set(zip(c["geo"], c["brand"], c["keyword"]))
@@ -40,14 +41,29 @@ def combined(a, g=None):
     add = g[(g["month"] >= c_last) & (g["geo"] != "WW")]
     add = add[[(k[:3] in keys) and (k not in have)
                for k in zip(add["geo"], add["brand"], add["keyword"], add["month"])]].copy()
+    if len(add):
+        add["source"] = "gads"
+        a = pd.concat([a, add[a.columns]], ignore_index=True)
+    return _add_trends(a, t)
+
+
+def _add_trends(a, t):
+    """구글 트렌드 추정(t)을 실측(labs/gads)이 아직 없는 (나라·브랜드·검색어·달) 에만 붙인다."""
+    if t is None or not len(t):
+        return a
+    c = a[a["geo"] != "WW"]
+    keys = set(zip(c["geo"], c["brand"], c["keyword"]))
+    last = c.groupby(["geo", "brand", "keyword"])["month"].max().to_dict()
+    add = t[[(k[:3] in keys) and (k[3] > last.get(k[:3], ""))
+             for k in zip(t["geo"], t["brand"], t["keyword"], t["month"])]].copy()
     if not len(add):
         return a
-    add["source"] = "gads"
+    add["source"] = "trends_est"
     return pd.concat([a, add[a.columns]], ignore_index=True)
 
 
-def nowcast(a, g=None):
-    """a = absvol_monthly.csv DataFrame · g = absvol_gads.csv DataFrame (있으면).
+def nowcast(a, g=None, t=None):
+    """a = absvol_monthly.csv DataFrame · g = absvol_gads.csv DataFrame (있으면) · t = absvol_trends_est.csv (있으면).
     반환: 브랜드별 속보 표 (없으면 빈 DataFrame).
 
     g 가 본 데이터보다 새 달을 16개국 전부 갖고 있으면 그 **실측값**을 쓴다 (trust='실측').
@@ -66,7 +82,8 @@ def nowcast(a, g=None):
     if g is not None and len(g):
         g = g[(g["geo"] != "WW") & (g["searches"] < 1_000_000)]
         g_last = g["month"].max()
-        if g_last > c_last and geos16 <= set(g[g["month"] == g_last]["geo"]):
+        t_newer = t is not None and len(t) and t["month"].max() > g_last   # 트렌드 추정이 더 새 달이면 2순위로
+        if g_last > c_last and geos16 <= set(g[g["month"] == g_last]["geo"]) and not t_newer:
             cur = g[(g["month"] == g_last) & (g["geo"].isin(geos16))].groupby("brand")["searches"].sum()
             # 전월도 같은 구글애즈 파일에서 — 본 데이터는 일부 나라에서 검색어 행이 빠져 있어(인도 'madeca cream'
             # 등) 거기서 전월을 가져오면 범위가 달라 가짜 +41% 가 난다 (2026-10-15 확인).
@@ -88,7 +105,37 @@ def nowcast(a, g=None):
                              "trust": "실측", "why": why})
             return pd.DataFrame(rows, columns=cols)
 
-    # ---- 2순위: 전세계(WW) 비율 추정
+    # ---- 2순위: 구글 트렌드 비율 추정 (absvol_trends_est.csv, python absvol_trends_est.py) — PM 2026-11-11
+    # 구글애즈가 지난달을 아직 안 올렸을 때, 전달 실측 x (트렌드 이번달/전달) 로 나라별 추정. 실측이 오면 1순위가 대신한다.
+    if t is not None and len(t):
+        base = combined(a, g)
+        base = base[(base["geo"] != "WW") & (base["searches"] < 1_000_000)]
+        t_last = t["month"].max()
+        b_last = base["month"].max()
+        if t_last > b_last:
+            tt = t[t["month"] == t_last]
+            cur = tt.groupby("brand")["searches"].sum()
+            prev = base[base["month"] == b_last].groupby("brand")["searches"].sum()
+            cov = tt.groupby("brand")["geo"].nunique()
+            ngeo = base["geo"].nunique()
+            rows = []
+            for b in cur.index:
+                if b not in prev.index or prev[b] <= 0:
+                    continue
+                n = int(cov.get(b, 0))
+                # 추정된 나라만 전월과 비교 (빠진 나라는 양쪽 다 뺌 — 안 그러면 전월이 더 커 보임)
+                pv = base[(base["month"] == b_last) & (base["brand"] == b)
+                          & (base["geo"].isin(set(tt[tt["brand"] == b]["geo"])))]["searches"].sum()
+                trust = "추정·보통" if n >= ngeo - 2 else "추정·낮음"
+                rows.append({"brand": b, "month": t_last, "ww_prev": np.nan, "ww_now": np.nan, "ww_mom": np.nan,
+                             "ratio": np.nan, "ratio_cv": np.nan, "c16_prev": pv, "c16_est": cur[b],
+                             "c16_mom_est": (cur[b] / pv - 1) if pv > 0 else np.nan, "n_kw": 0, "trust": trust,
+                             "why": f"구글 트렌드 {int(t_last[5:])}월/{int(b_last[5:])}월 비율 x {int(b_last[5:])}월 실측 · 나라 {n}/{ngeo}개"
+                                    + ("" if n >= ngeo - 2 else " (트렌드 값이 너무 작은 나라는 뺌)")})
+            if rows:
+                return pd.DataFrame(rows, columns=cols)
+
+    # ---- 3순위: 전세계(WW) 비율 추정
     if "WW" not in set(a["geo"]):
         return pd.DataFrame(columns=cols)
     w = a[a["geo"] == "WW"]

@@ -1,0 +1,25 @@
+{
+ "fetched": "2026-11-11T11:34:57",
+ "target": "2026-10",
+ "base_month": "2026-09",
+ "geos": [
+  "AU",
+  "BR",
+  "CA",
+  "DE",
+  "FR",
+  "GB",
+  "ID",
+  "IN",
+  "JP",
+  "MX",
+  "MY",
+  "NL",
+  "PH",
+  "SG",
+  "US",
+  "VN"
+ ],
+ "failed": [],
+ "source": "Google Trends weekly (category 0) x DataForSEO base month"
+}

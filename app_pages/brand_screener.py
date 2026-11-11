@@ -68,17 +68,21 @@ mv = get("absvol_monthly.csv")
 
 
 @st.cache_data(show_spinner=False)
-def _combined(stamp, stamp_g):
-    """차트용 월별 시리즈 = 본 데이터 + 구글애즈로 먼저 받은 최신 달 (PM 2026-10-15 "9월꺼 왜 없어")."""
+def _combined(stamp, stamp_g, stamp_t):
+    """차트용 월별 시리즈 = 본 데이터 + 구글애즈로 먼저 받은 최신 달 (PM 2026-10-15 "9월꺼 왜 없어")
+    + 둘 다 없는 달은 구글 트렌드 비율 추정 (PM 2026-11-11 "dataforseo 없으면 다른 데이터")."""
     import sys
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
     from absvol_nowcast import combined
-    return combined(load("absvol_monthly.csv", stamp), load("absvol_gads.csv", stamp_g))
+    return combined(load("absvol_monthly.csv", stamp), load("absvol_gads.csv", stamp_g),
+                    load("absvol_trends_est.csv", stamp_t))
 
 
-mv = _combined(_stamp("absvol_monthly.csv"), _stamp("absvol_gads.csv"))
+mv = _combined(_stamp("absvol_monthly.csv"), _stamp("absvol_gads.csv"), _stamp("absvol_trends_est.csv"))
 _gads_month = (sorted(mv.loc[mv["source"] == "gads", "month"].unique())
                if mv is not None and "source" in mv else [])
+_est_month = (sorted(mv.loc[mv["source"] == "trends_est", "month"].unique())
+              if mv is not None and "source" in mv else [])
 meta = json.loads((DATA / "brand_screener_meta.json").read_text(encoding="utf-8")) \
     if (DATA / "brand_screener_meta.json").exists() else {}
 if t is None:
@@ -159,40 +163,53 @@ tab1, tab2, tab3 = st.tabs(["🏁 순위표", "📈 모멘텀 지도", "🔎 브
 
 
 @st.cache_data(show_spinner=False)
-def _nowcast(stamp, stamp_g):
+def _nowcast(stamp, stamp_g, stamp_t):
     import sys
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
     from absvol_nowcast import nowcast
-    return nowcast(load("absvol_monthly.csv", stamp), load("absvol_gads.csv", stamp_g))
+    return nowcast(load("absvol_monthly.csv", stamp), load("absvol_gads.csv", stamp_g),
+                   load("absvol_trends_est.csv", stamp_t))
 
 
 with tab1:
     # 최신 달 속보 (PM 2026-10-15): 본 데이터(나라별 8년치)보다 새 달이 있으면 보임. 원본과 섞지 않음.
     # 1순위 = 구글애즈 나라별 실측(absvol_gads.csv, python absvol_gads_pull.py ALL) · 2순위 = 전세계 비율 추정
-    _nc = _nowcast(_stamp("absvol_monthly.csv"), _stamp("absvol_gads.csv"))
+    _nc = _nowcast(_stamp("absvol_monthly.csv"), _stamp("absvol_gads.csv"), _stamp("absvol_trends_est.csv"))
     if len(_nc):
         _m = _nc["month"].iloc[0]
         _real = (_nc["trust"] == "실측").all()
+        _trend = _nc["trust"].str.startswith("추정").all()
         _partial = _real and str(_nc["why"].iloc[0]).startswith("본 데이터")
         sub(f"📌 {_m[:4]}년 {int(_m[5:])}월 "
-            + ("(본 데이터 수신 · 일부 구글애즈 보완)" if _partial else "(구글애즈 실측)" if _real else "속보 (추정)"),
+            + ("(본 데이터 수신 · 일부 구글애즈 보완)" if _partial else "(구글애즈 실측)" if _real
+               else "속보 (구글 트렌드 추정)" if _trend else "속보 (추정)"),
             (str(_nc["why"].iloc[0]) + " · 순위표·점수에는 본 데이터 행만 들어감") if _partial else
             ("본 데이터(8년치)에는 아직 없는 달을 구글애즈 엔드포인트로 먼저 받음 · 같은 출처라 값이 같음 · "
              "순위표·점수에는 아직 안 들어감") if _real else
+            ("구글애즈 월 검색수가 아직 안 나와서, 지연 없는 구글 트렌드의 '이번 달 ÷ 전달' 비율을 전달 실측에 곱해 "
+             "나라별로 추정 · 실측이 나오면 자동 교체 · 순위표·점수에는 안 들어감") if _trend else
             "전세계 숫자가 먼저 나와서, 나라별 숫자가 나오기 전에 방향만 미리 봄 · 순위표·점수에는 안 들어감")
         _nc = _nc.copy()
         _nc["_o"] = _nc["brand"].map(lambda b: 0 if b == "madeca cream" else 1)
         _nc = _nc.sort_values(["_o", "trust", "c16_est"], ascending=[True, True, False])
+        _f = lambda fmt: (lambda v: "—" if pd.isna(v) else fmt.format(v))
         _show = pd.DataFrame({
             "브랜드": _nc["brand"], "믿음": _nc["trust"],
-            "전세계 전월": _nc["ww_prev"].map("{:,.0f}".format),
-            "전세계 이번 달": _nc["ww_now"].map("{:,.0f}".format),
-            "전세계 전월 대비": _nc["ww_mom"].map("{:+.0%}".format),
-            "16개국 전월 (실제)": _nc["c16_prev"].map("{:,.0f}".format),
-            "16개국 이번 달 (추정)": _nc["c16_est"].map("{:,.0f}".format),
+            "전세계 전월": _nc["ww_prev"].map(_f("{:,.0f}")),
+            "전세계 이번 달": _nc["ww_now"].map(_f("{:,.0f}")),
+            "전세계 전월 대비": _nc["ww_mom"].map(_f("{:+.0%}")),
+            "16개국 전월 (실제)": _nc["c16_prev"].map(_f("{:,.0f}")),
+            "16개국 이번 달 (추정)": _nc["c16_est"].map(_f("{:,.0f}")),
+            "전월 대비 (추정)": _nc["c16_mom_est"].map(_f("{:+.0%}")),
             "이유": _nc["why"]})
+        if _trend:
+            _show = _show.drop(columns=["전세계 전월", "전세계 이번 달", "전세계 전월 대비"])
         st.dataframe(_show, hide_index=True, use_container_width=True, height=min(38 * (len(_show) + 1), 420))
-        st.caption("16개국 추정 = 전세계 이번 달 × (겹치는 최근 3개월의 '16개국 합 ÷ 전세계' 평균). "
+        st.caption("구글 트렌드 추정 = 전달 실측 × (트렌드 이번 달 평균 ÷ 전달 평균), 나라·브랜드별로 따로 계산해 합산. "
+                   "트렌드는 상대지수라 같은 시리즈 안의 비율만 씀. 작은 브랜드는 트렌드 값이 0~1 로 뭉개져 그 나라는 추정에서 뺌 "
+                   "(전월도 같은 나라만 더해 비교). 1개월 추정이라 ±10% 정도는 노이즈로 보세요."
+                   if _trend else
+                   "16개국 추정 = 전세계 이번 달 × (겹치는 최근 3개월의 '16개국 합 ÷ 전세계' 평균). "
                    "두 숫자는 출처가 달라 크기가 다르기 때문에 비율로 맞춤. 믿음 '보통' 인 검색어 1개 브랜드는 "
                    "구글이 계단 값으로 반올림해서 0% 나 −18% 로만 움직입니다 — 실제 변화가 아닐 수 있음. "
                    "전년 대비는 나라별 숫자가 나와야 계산됩니다.")
@@ -293,11 +310,12 @@ with tab3:
 
     if pick and gcodes and mv is not None:
         m = mv[mv["geo"].isin(gcodes) & mv["brand"].isin(pick)].copy()
+        m["추정"] = (m["source"] == "trends_est") if "source" in m else False
         if merge_geo:
-            m = m.groupby(["brand", "month"], as_index=False)["searches"].sum()
+            m = m.groupby(["brand", "month"], as_index=False).agg(searches=("searches", "sum"), 추정=("추정", "any"))
             m["키"] = m["brand"]
         else:
-            m = m.groupby(["geo", "brand", "month"], as_index=False)["searches"].sum()
+            m = m.groupby(["geo", "brand", "month"], as_index=False).agg(searches=("searches", "sum"), 추정=("추정", "any"))
             m["키"] = m["brand"] + " · " + m["geo"]
         m["dt"] = pd.to_datetime(m["month"] + "-01")
         if _allm and nmon < len(_allm):              # 최근 N개월만
@@ -348,7 +366,8 @@ with tab3:
                          legend=alt.Legend(orient="top", columns=4))
         senc = alt.Size("굵기:Q", scale=alt.Scale(domain=[1.9, 4.0], range=[1.9, 4.0]), legend=None)
         tips = ["키", alt.Tooltip("month:N", title="연월"),
-                alt.Tooltip("searches:Q", title="월 검색수", format=",.0f")] \
+                alt.Tooltip("searches:Q", title="월 검색수", format=",.0f"),
+                alt.Tooltip("추정:N", title="구글 트렌드 추정")] \
             + ([alt.Tooltip("값:Q", title="피크 대비", format=".0f")] if rel else []) \
             + ([alt.Tooltip("t:Q", title="성장 시작 후 개월"), alt.Tooltip("성장시작:N", title="성장 시작 달")] if t0 else [])
 
@@ -364,7 +383,9 @@ with tab3:
                 y=yenc, color=cenc, size=senc, tooltip=tips)
             endlab = alt.Chart(last).mark_text(align="left", dx=7, fontSize=11, fontWeight="bold").encode(
                 x=alt.X("t:Q"), y=alt.Y("값:Q"), text="키:N", color=cenc_nolegend)
-            st.altair_chart(alt.layer(ch, endlab).properties(height=470, padding=_pad), use_container_width=True)
+            estpt = alt.Chart(m[m["추정"]]).mark_point(shape="diamond", filled=False, size=90, strokeWidth=2).encode(
+                x=alt.X("t:Q"), y=alt.Y("값:Q"), color=cenc_nolegend, tooltip=tips)
+            st.altair_chart(alt.layer(ch, estpt, endlab).properties(height=470, padding=_pad), use_container_width=True)
         else:
             # 2단 가로축: 한 축에 2줄 라벨 (위=월, 아래=연도). vconcat 축 띠는 폭이 안 맞아 차트가
             # 화면 밖으로 삐져나가서 버림 (PM 2026-10-08). labelExpr 가 배열을 주면 Vega 가 2줄로 그림.
@@ -383,7 +404,9 @@ with tab3:
             last = m.sort_values("dt").groupby("키").tail(1)
             endlab = alt.Chart(last).mark_text(align="left", dx=7, fontSize=11, fontWeight="bold").encode(
                 x=alt.X("dt:T"), y=alt.Y("값:Q"), text="키:N", color=cenc_nolegend)
-            st.altair_chart(alt.layer(vline, line, endlab).properties(height=470, padding=_pad), use_container_width=True)
+            estpt = alt.Chart(m[m["추정"]]).mark_point(shape="diamond", filled=False, size=90, strokeWidth=2).encode(
+                x=alt.X("dt:T"), y=alt.Y("값:Q"), color=cenc_nolegend, tooltip=tips)
+            st.altair_chart(alt.layer(vline, line, estpt, endlab).properties(height=470, padding=_pad), use_container_width=True)
             st.caption("가로축 2단 — 윗줄 = 월(01~12), 아랫줄 = 연도(1월 자리에 표시). 세로 점선 = 해가 바뀌는 지점."
                        + (f"  ·  라벨이 겹치지 않게 {step}개월마다 표시합니다." if step > 1 else ""))
 
@@ -394,7 +417,10 @@ with tab3:
                       else "  **실제 날짜**: 같은 시점에 무슨 일이 있었는지 봅니다.")
                    + " 금색 굵은 선 = 센텔리안24(madeca cream, 동국제약)."
                    + (f"  **{', '.join(_gads_month)} 은 본 데이터에 아직 빈 나라·브랜드만 구글애즈로 보완한 값**"
-                      "(같은 출처 · 본 데이터에 있는 검색어만 이어 붙임)." if _gads_month else ""))
+                      "(같은 출처 · 본 데이터에 있는 검색어만 이어 붙임)." if _gads_month else "")
+                   + (f"  **◇ 마름모 = {', '.join(_est_month)} 구글 트렌드 추정값** (구글애즈 월 검색수가 아직 안 나와서 "
+                      "전달 실측 × 트렌드 비율로 계산 · 실측이 오면 자동 교체 · 트렌드 값이 너무 작은 나라·브랜드는 선이 전달에서 끝남)."
+                      if _est_month else ""))
 
         tb = t[t["brand"].isin(pick) & t["geo"].isin(gcodes)].copy()
         tb["상장사"] = tb["brand"].map(LISTED).fillna("")
