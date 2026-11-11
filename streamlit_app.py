@@ -123,6 +123,9 @@ h1, h2, h3 { letter-spacing: -0.01em; }
         <div class="lk-fly">
           <span class="lk-co">섹터 스크리너</span>
           <a href="제약_숏_스크리너" target="_self">제약 숏 스크리너 (제네릭 리스크)</a>
+          <span class="lk-co">제이브이엠 (054950)</span>
+          <a href="jvm-exports" target="_self">수출 트래커 (관세청 · ATDPS 파우치)</a>
+          <a href="종목상세?ticker=A054950" target="_self">제이브이엠 Stock Picker</a>
         </div>
       </div>
       <div class="lk-item">
@@ -196,6 +199,8 @@ pg_batt = st.Page("app_pages/batteries.py", title="Batteries/EV/ESS",
                   url_path="batteries")
 pg_pshort = st.Page("app_pages/pharma_short.py", title="└ 제약 숏 스크리너",
                     url_path="제약_숏_스크리너")
+pg_jvmexp = st.Page("app_pages/jvm_exports.py", title="└ 제이브이엠 수출 트래커",
+                    url_path="jvm-exports")
 
 
 def _bio():
@@ -206,6 +211,9 @@ def _bio():
     st.page_link(pg_pshort, label="💊 제약 숏 스크리너 — 전통 제네릭 리스크 4조건 스크린")
     st.caption("상장 제약사 42개사: 사업 믹스 · R&D/매출 · 지배구조 · 밸류에이션 "
                "(DART + Capital IQ + 리서치)")
+    st.subheader("제이브이엠 (054950)", divider="orange")
+    st.page_link(pg_jvmexp, label="🚢 수출 트래커 — 관세청 월별 ATDPS 파우치 원단(HS 3920.71) 수출 · DART 교차검증")
+    st.caption("기계(ATDPS·MENITH·COUNTMATE) 대수는 공개 자료로 셀 수 없음 — 소모품 수출이 설치 기반의 대리 지표")
 
 
 pg_bio = st.Page(_bio, title="Bio/Healthcare", url_path="bio-healthcare")
@@ -265,7 +273,7 @@ pg_steel = st.Page(_placeholder("Steel & Non-Ferrous Metals", "철강·비철금
 from app_pages import cover  # noqa: E402  (st.page_link 에 Page 객체가 필요해 여기서 조립)
 
 # 좌측 섹터 메뉴가 st.page_link(SPA 전환, 새로고침 없음)를 쓸 수 있게 Page 등록
-sector_nav.register({"batt": pg_batt, "bio": pg_bio, "pshort": pg_pshort,
+sector_nav.register({"batt": pg_batt, "bio": pg_bio, "pshort": pg_pshort, "jvmexp": pg_jvmexp,
                      "beauty": pg_beauty, "cosexp": pg_cosexp, "cossd": pg_cossd, "bscr": pg_bscr,
                      "amz": pg_amz, "ent": pg_ent, "consumer": pg_consumer, "logi": pg_logi,
                      "oasis": pg_oasis, "steel": pg_steel, "trailer": pg_trailer,
@@ -288,7 +296,7 @@ pg_cover = st.Page(_cover, title="LK Asset Terminal", url_path="home", default=T
 nav = st.navigation({
     "": [pg_cover],
     "Screener": [pg_buzz, pg_value, pg_stock, pg_watch],
-    "Sector Watch": [pg_batt, pg_bio, pg_pshort, pg_beauty, pg_cosexp, pg_cossd, pg_bscr, pg_amz, pg_ent, pg_trailer,
+    "Sector Watch": [pg_batt, pg_bio, pg_pshort, pg_jvmexp, pg_beauty, pg_cosexp, pg_cossd, pg_bscr, pg_amz, pg_ent, pg_trailer,
                      pg_boxoffice,
                      pg_yg, pg_ygplus, pg_bigbang, pg_babymon,
                      pg_consumer, pg_logi, pg_oasis, pg_steel],

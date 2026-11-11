@@ -1,0 +1,2827 @@
+month,cnty_cd,country_kr,exp_usd_k,exp_ton,country_en,region
+2016-01,AT,오스트리아,136.0,3.2,Austria,Europe
+2016-01,AU,호주,432.0,28.5,Australia,Oceania
+2016-01,BE,벨기에,195.0,6.7,Belgium,Europe
+2016-01,CA,캐나다,26.0,1.1,Canada,North America
+2016-01,CH,스위스,43.0,2.3,Switzerland,Europe
+2016-01,CN,중국,120114.0,5319.8,China,Others
+2016-01,CZ,체코공화국,9.0,0.2,Czechia,Europe
+2016-01,DE,독일,1058.0,58.5,Germany,Europe
+2016-01,DK,덴마크,2.0,0.0,Denmark,Europe
+2016-01,ES,스페인,172.0,4.0,Spain,Europe
+2016-01,FI,핀란드,4.0,0.0,Finland,Europe
+2016-01,FR,프랑스,61.0,1.0,France,Europe
+2016-01,GB,영국,161.0,8.2,United Kingdom,Europe
+2016-01,IE,아일랜드,39.0,1.4,Ireland,Europe
+2016-01,IT,이탈리아,46.0,0.9,Italy,Europe
+2016-01,JP,일본,4482.0,185.5,Japan,Others
+2016-01,NL,네덜란드,371.0,34.0,Netherlands,Europe
+2016-01,NO,노르웨이,1.0,0.0,Norway,Europe
+2016-01,NZ,뉴질랜드,22.0,0.2,New Zealand,Oceania
+2016-01,PL,폴란드,430.0,12.1,Poland,Europe
+2016-01,SE,스웨덴,11.0,0.2,Sweden,Europe
+2016-01,US,미국,8433.0,199.2,United States,North America
+2016-02,AT,오스트리아,21.0,0.4,Austria,Europe
+2016-02,AU,호주,1378.0,43.5,Australia,Oceania
+2016-02,BE,벨기에,63.0,1.9,Belgium,Europe
+2016-02,CA,캐나다,8.0,0.2,Canada,North America
+2016-02,CH,스위스,105.0,1.5,Switzerland,Europe
+2016-02,CN,중국,98881.0,2878.6,China,Others
+2016-02,CZ,체코공화국,92.0,7.2,Czechia,Europe
+2016-02,DE,독일,1827.0,49.0,Germany,Europe
+2016-02,DK,덴마크,0.0,0.0,Denmark,Europe
+2016-02,ES,스페인,194.0,3.9,Spain,Europe
+2016-02,FI,핀란드,2.0,0.0,Finland,Europe
+2016-02,FR,프랑스,415.0,7.0,France,Europe
+2016-02,GB,영국,226.0,8.7,United Kingdom,Europe
+2016-02,IE,아일랜드,0.0,0.0,Ireland,Europe
+2016-02,IT,이탈리아,94.0,2.8,Italy,Europe
+2016-02,JP,일본,4984.0,241.0,Japan,Others
+2016-02,NL,네덜란드,245.0,7.1,Netherlands,Europe
+2016-02,NO,노르웨이,10.0,0.3,Norway,Europe
+2016-02,NZ,뉴질랜드,19.0,0.2,New Zealand,Oceania
+2016-02,PL,폴란드,2239.0,43.6,Poland,Europe
+2016-02,SE,스웨덴,9.0,0.1,Sweden,Europe
+2016-02,US,미국,13559.0,274.0,United States,North America
+2016-03,AT,오스트리아,30.0,0.2,Austria,Europe
+2016-03,AU,호주,239.0,19.9,Australia,Oceania
+2016-03,BE,벨기에,2.0,0.0,Belgium,Europe
+2016-03,CA,캐나다,795.0,24.5,Canada,North America
+2016-03,CH,스위스,20.0,0.5,Switzerland,Europe
+2016-03,CN,중국,87116.0,2372.0,China,Others
+2016-03,CZ,체코공화국,708.0,19.7,Czechia,Europe
+2016-03,DE,독일,1147.0,27.8,Germany,Europe
+2016-03,DK,덴마크,1.0,0.0,Denmark,Europe
+2016-03,ES,스페인,54.0,1.0,Spain,Europe
+2016-03,FI,핀란드,37.0,2.0,Finland,Europe
+2016-03,FR,프랑스,68.0,4.7,France,Europe
+2016-03,GB,영국,237.0,9.3,United Kingdom,Europe
+2016-03,IE,아일랜드,18.0,0.4,Ireland,Europe
+2016-03,IT,이탈리아,6207.0,369.3,Italy,Europe
+2016-03,JP,일본,8006.0,333.1,Japan,Others
+2016-03,NL,네덜란드,622.0,31.3,Netherlands,Europe
+2016-03,NO,노르웨이,379.0,3.2,Norway,Europe
+2016-03,NZ,뉴질랜드,170.0,3.5,New Zealand,Oceania
+2016-03,PL,폴란드,249.0,12.0,Poland,Europe
+2016-03,SE,스웨덴,2.0,0.1,Sweden,Europe
+2016-03,US,미국,8240.0,319.0,United States,North America
+2016-04,AT,오스트리아,65.0,0.5,Austria,Europe
+2016-04,AU,호주,403.0,28.5,Australia,Oceania
+2016-04,BE,벨기에,151.0,7.8,Belgium,Europe
+2016-04,CA,캐나다,132.0,3.3,Canada,North America
+2016-04,CH,스위스,26.0,0.6,Switzerland,Europe
+2016-04,CN,중국,57468.0,1758.8,China,Others
+2016-04,CZ,체코공화국,21542.0,468.3,Czechia,Europe
+2016-04,DE,독일,1835.0,30.3,Germany,Europe
+2016-04,DK,덴마크,0.0,0.4,Denmark,Europe
+2016-04,ES,스페인,123.0,14.5,Spain,Europe
+2016-04,FI,핀란드,6.0,0.0,Finland,Europe
+2016-04,FR,프랑스,148.0,3.7,France,Europe
+2016-04,GB,영국,488.0,27.4,United Kingdom,Europe
+2016-04,IE,아일랜드,1.0,0.0,Ireland,Europe
+2016-04,IT,이탈리아,548.0,13.9,Italy,Europe
+2016-04,JP,일본,3939.0,216.3,Japan,Others
+2016-04,NL,네덜란드,854.0,34.8,Netherlands,Europe
+2016-04,NO,노르웨이,19.0,6.1,Norway,Europe
+2016-04,NZ,뉴질랜드,53.0,2.0,New Zealand,Oceania
+2016-04,PL,폴란드,2106.0,37.7,Poland,Europe
+2016-04,SE,스웨덴,45.0,0.7,Sweden,Europe
+2016-04,US,미국,5653.0,192.8,United States,North America
+2016-05,AT,오스트리아,726.0,13.9,Austria,Europe
+2016-05,AU,호주,1100.0,41.2,Australia,Oceania
+2016-05,BE,벨기에,116.0,2.7,Belgium,Europe
+2016-05,CA,캐나다,246.0,9.4,Canada,North America
+2016-05,CH,스위스,20.0,0.2,Switzerland,Europe
+2016-05,CN,중국,134369.0,4271.0,China,Others
+2016-05,CZ,체코공화국,22200.0,434.4,Czechia,Europe
+2016-05,DE,독일,1045.0,35.2,Germany,Europe
+2016-05,DK,덴마크,0.0,0.0,Denmark,Europe
+2016-05,ES,스페인,91.0,5.0,Spain,Europe
+2016-05,FI,핀란드,6.0,0.0,Finland,Europe
+2016-05,FR,프랑스,1334.0,22.3,France,Europe
+2016-05,GB,영국,133.0,6.2,United Kingdom,Europe
+2016-05,IE,아일랜드,0.0,0.0,Ireland,Europe
+2016-05,IT,이탈리아,575.0,14.5,Italy,Europe
+2016-05,JP,일본,7576.0,558.9,Japan,Others
+2016-05,NL,네덜란드,855.0,17.8,Netherlands,Europe
+2016-05,NO,노르웨이,3.0,2.6,Norway,Europe
+2016-05,NZ,뉴질랜드,117.0,8.2,New Zealand,Oceania
+2016-05,PL,폴란드,244.0,21.4,Poland,Europe
+2016-05,SE,스웨덴,16.0,0.0,Sweden,Europe
+2016-05,US,미국,10776.0,410.8,United States,North America
+2016-06,AT,오스트리아,169.0,1.2,Austria,Europe
+2016-06,AU,호주,946.0,43.5,Australia,Oceania
+2016-06,BE,벨기에,213.0,5.1,Belgium,Europe
+2016-06,CA,캐나다,407.0,16.6,Canada,North America
+2016-06,CH,스위스,98.0,0.8,Switzerland,Europe
+2016-06,CN,중국,108017.0,3506.4,China,Others
+2016-06,CZ,체코공화국,2130.0,37.3,Czechia,Europe
+2016-06,DE,독일,3665.0,87.9,Germany,Europe
+2016-06,DK,덴마크,0.0,0.0,Denmark,Europe
+2016-06,ES,스페인,301.0,6.9,Spain,Europe
+2016-06,FI,핀란드,0.0,0.0,Finland,Europe
+2016-06,FR,프랑스,599.0,13.0,France,Europe
+2016-06,GB,영국,312.0,9.1,United Kingdom,Europe
+2016-06,IE,아일랜드,36.0,1.2,Ireland,Europe
+2016-06,IT,이탈리아,459.0,13.0,Italy,Europe
+2016-06,JP,일본,6016.0,402.2,Japan,Others
+2016-06,NL,네덜란드,481.0,18.1,Netherlands,Europe
+2016-06,NO,노르웨이,37.0,3.0,Norway,Europe
+2016-06,NZ,뉴질랜드,33.0,1.5,New Zealand,Oceania
+2016-06,PL,폴란드,3954.0,80.2,Poland,Europe
+2016-06,SE,스웨덴,2.0,4.4,Sweden,Europe
+2016-06,US,미국,10180.0,229.3,United States,North America
+2016-07,AT,오스트리아,31.0,0.2,Austria,Europe
+2016-07,AU,호주,749.0,37.0,Australia,Oceania
+2016-07,BE,벨기에,36.0,1.4,Belgium,Europe
+2016-07,CA,캐나다,699.0,8.3,Canada,North America
+2016-07,CH,스위스,38.0,0.2,Switzerland,Europe
+2016-07,CN,중국,119321.0,4035.9,China,Others
+2016-07,CZ,체코공화국,3282.0,72.3,Czechia,Europe
+2016-07,DE,독일,6301.0,154.6,Germany,Europe
+2016-07,DK,덴마크,15.0,0.6,Denmark,Europe
+2016-07,ES,스페인,250.0,6.0,Spain,Europe
+2016-07,FI,핀란드,0.0,0.0,Finland,Europe
+2016-07,FR,프랑스,252.0,7.1,France,Europe
+2016-07,GB,영국,212.0,19.2,United Kingdom,Europe
+2016-07,IE,아일랜드,20.0,0.0,Ireland,Europe
+2016-07,IT,이탈리아,523.0,11.4,Italy,Europe
+2016-07,JP,일본,5990.0,282.7,Japan,Others
+2016-07,NL,네덜란드,1087.0,31.0,Netherlands,Europe
+2016-07,NO,노르웨이,217.0,6.0,Norway,Europe
+2016-07,NZ,뉴질랜드,109.0,3.0,New Zealand,Oceania
+2016-07,PL,폴란드,1577.0,30.7,Poland,Europe
+2016-07,SE,스웨덴,2.0,0.0,Sweden,Europe
+2016-07,US,미국,4795.0,147.8,United States,North America
+2016-08,AT,오스트리아,247.0,3.1,Austria,Europe
+2016-08,AU,호주,474.0,28.2,Australia,Oceania
+2016-08,BE,벨기에,117.0,1.0,Belgium,Europe
+2016-08,CA,캐나다,41.0,1.5,Canada,North America
+2016-08,CH,스위스,14.0,0.4,Switzerland,Europe
+2016-08,CN,중국,79598.0,2584.1,China,Others
+2016-08,CZ,체코공화국,2312.0,52.4,Czechia,Europe
+2016-08,DE,독일,555.0,17.0,Germany,Europe
+2016-08,DK,덴마크,0.0,0.0,Denmark,Europe
+2016-08,ES,스페인,567.0,5.3,Spain,Europe
+2016-08,FI,핀란드,26.0,1.1,Finland,Europe
+2016-08,FR,프랑스,46.0,0.3,France,Europe
+2016-08,GB,영국,276.0,12.8,United Kingdom,Europe
+2016-08,IE,아일랜드,19.0,0.4,Ireland,Europe
+2016-08,IT,이탈리아,81.0,1.8,Italy,Europe
+2016-08,JP,일본,4957.0,200.5,Japan,Others
+2016-08,NL,네덜란드,514.0,26.0,Netherlands,Europe
+2016-08,NO,노르웨이,11.0,0.2,Norway,Europe
+2016-08,NZ,뉴질랜드,54.0,1.4,New Zealand,Oceania
+2016-08,PL,폴란드,425.0,18.7,Poland,Europe
+2016-08,SE,스웨덴,3.0,0.0,Sweden,Europe
+2016-08,US,미국,2307.0,58.3,United States,North America
+2016-09,AT,오스트리아,121.0,1.8,Austria,Europe
+2016-09,AU,호주,386.0,27.2,Australia,Oceania
+2016-09,BE,벨기에,38.0,1.1,Belgium,Europe
+2016-09,CA,캐나다,350.0,5.7,Canada,North America
+2016-09,CH,스위스,41.0,0.9,Switzerland,Europe
+2016-09,CN,중국,113482.0,4193.3,China,Others
+2016-09,CZ,체코공화국,676.0,10.9,Czechia,Europe
+2016-09,DE,독일,8506.0,459.5,Germany,Europe
+2016-09,DK,덴마크,445.0,10.4,Denmark,Europe
+2016-09,ES,스페인,98.0,2.0,Spain,Europe
+2016-09,FI,핀란드,37.0,2.0,Finland,Europe
+2016-09,FR,프랑스,691.0,8.6,France,Europe
+2016-09,GB,영국,243.0,26.0,United Kingdom,Europe
+2016-09,IE,아일랜드,2.0,0.0,Ireland,Europe
+2016-09,IT,이탈리아,283.0,18.3,Italy,Europe
+2016-09,JP,일본,7282.0,476.7,Japan,Others
+2016-09,NL,네덜란드,621.0,28.6,Netherlands,Europe
+2016-09,NO,노르웨이,1.0,2.9,Norway,Europe
+2016-09,NZ,뉴질랜드,563.0,14.9,New Zealand,Oceania
+2016-09,PL,폴란드,811.0,9.6,Poland,Europe
+2016-09,SE,스웨덴,0.0,0.0,Sweden,Europe
+2016-09,US,미국,9634.0,203.1,United States,North America
+2016-10,AT,오스트리아,9.0,0.1,Austria,Europe
+2016-10,AU,호주,357.0,28.6,Australia,Oceania
+2016-10,BE,벨기에,5088.0,191.9,Belgium,Europe
+2016-10,CA,캐나다,1170.0,19.4,Canada,North America
+2016-10,CH,스위스,54.0,1.0,Switzerland,Europe
+2016-10,CN,중국,116461.0,3468.7,China,Others
+2016-10,CZ,체코공화국,2259.0,66.9,Czechia,Europe
+2016-10,DE,독일,2758.0,77.6,Germany,Europe
+2016-10,DK,덴마크,81.0,0.9,Denmark,Europe
+2016-10,ES,스페인,1300.0,57.0,Spain,Europe
+2016-10,FI,핀란드,0.0,0.0,Finland,Europe
+2016-10,FR,프랑스,465.0,12.8,France,Europe
+2016-10,GB,영국,100.0,3.6,United Kingdom,Europe
+2016-10,IE,아일랜드,206.0,4.2,Ireland,Europe
+2016-10,IT,이탈리아,359.0,6.1,Italy,Europe
+2016-10,JP,일본,5260.0,242.3,Japan,Others
+2016-10,NL,네덜란드,1032.0,38.2,Netherlands,Europe
+2016-10,NO,노르웨이,42.0,0.7,Norway,Europe
+2016-10,NZ,뉴질랜드,17.0,0.4,New Zealand,Oceania
+2016-10,PL,폴란드,2325.0,70.9,Poland,Europe
+2016-10,SE,스웨덴,49.0,0.8,Sweden,Europe
+2016-10,US,미국,5450.0,150.9,United States,North America
+2016-11,AT,오스트리아,61.0,1.3,Austria,Europe
+2016-11,AU,호주,951.0,32.7,Australia,Oceania
+2016-11,BE,벨기에,337.0,8.1,Belgium,Europe
+2016-11,CA,캐나다,229.0,7.2,Canada,North America
+2016-11,CH,스위스,44.0,0.2,Switzerland,Europe
+2016-11,CN,중국,134011.0,2529.1,China,Others
+2016-11,CZ,체코공화국,3416.0,35.6,Czechia,Europe
+2016-11,DE,독일,3678.0,183.3,Germany,Europe
+2016-11,DK,덴마크,4.0,0.8,Denmark,Europe
+2016-11,ES,스페인,659.0,35.5,Spain,Europe
+2016-11,FI,핀란드,30.0,0.2,Finland,Europe
+2016-11,FR,프랑스,845.0,12.3,France,Europe
+2016-11,GB,영국,1217.0,36.5,United Kingdom,Europe
+2016-11,IE,아일랜드,3.0,0.1,Ireland,Europe
+2016-11,IT,이탈리아,137.0,22.2,Italy,Europe
+2016-11,JP,일본,4968.0,168.8,Japan,Others
+2016-11,NL,네덜란드,706.0,30.9,Netherlands,Europe
+2016-11,NO,노르웨이,3.0,0.1,Norway,Europe
+2016-11,NZ,뉴질랜드,25.0,2.5,New Zealand,Oceania
+2016-11,PL,폴란드,7647.0,209.5,Poland,Europe
+2016-11,SE,스웨덴,36.0,0.7,Sweden,Europe
+2016-11,US,미국,16113.0,409.3,United States,North America
+2016-12,AT,오스트리아,8.0,0.2,Austria,Europe
+2016-12,AU,호주,1169.0,33.7,Australia,Oceania
+2016-12,BE,벨기에,66.0,1.7,Belgium,Europe
+2016-12,CA,캐나다,5163.0,270.4,Canada,North America
+2016-12,CH,스위스,113.0,1.6,Switzerland,Europe
+2016-12,CN,중국,112474.0,2971.0,China,Others
+2016-12,CZ,체코공화국,384.0,7.2,Czechia,Europe
+2016-12,DE,독일,855.0,22.8,Germany,Europe
+2016-12,DK,덴마크,1.0,0.0,Denmark,Europe
+2016-12,ES,스페인,311.0,11.3,Spain,Europe
+2016-12,FI,핀란드,0.0,0.0,Finland,Europe
+2016-12,FR,프랑스,3327.0,46.5,France,Europe
+2016-12,GB,영국,252.0,12.2,United Kingdom,Europe
+2016-12,IE,아일랜드,0.0,0.0,Ireland,Europe
+2016-12,IT,이탈리아,184.0,4.9,Italy,Europe
+2016-12,JP,일본,5310.0,247.1,Japan,Others
+2016-12,NL,네덜란드,1035.0,24.1,Netherlands,Europe
+2016-12,NO,노르웨이,41.0,0.3,Norway,Europe
+2016-12,NZ,뉴질랜드,653.0,14.2,New Zealand,Oceania
+2016-12,PL,폴란드,1865.0,24.6,Poland,Europe
+2016-12,SE,스웨덴,58.0,0.7,Sweden,Europe
+2016-12,US,미국,17212.0,715.4,United States,North America
+2017-01,AT,오스트리아,16.0,0.1,Austria,Europe
+2017-01,AU,호주,302.0,17.9,Australia,Oceania
+2017-01,BE,벨기에,33.0,1.1,Belgium,Europe
+2017-01,CA,캐나다,100.0,7.8,Canada,North America
+2017-01,CH,스위스,13.0,0.2,Switzerland,Europe
+2017-01,CN,중국,93620.0,2278.0,China,Others
+2017-01,CZ,체코공화국,115.0,4.9,Czechia,Europe
+2017-01,DE,독일,868.0,31.4,Germany,Europe
+2017-01,DK,덴마크,1.0,0.1,Denmark,Europe
+2017-01,ES,스페인,234.0,19.2,Spain,Europe
+2017-01,FI,핀란드,19.0,1.0,Finland,Europe
+2017-01,FR,프랑스,120.0,2.0,France,Europe
+2017-01,GB,영국,417.0,8.6,United Kingdom,Europe
+2017-01,IE,아일랜드,24.0,1.0,Ireland,Europe
+2017-01,IT,이탈리아,359.0,6.6,Italy,Europe
+2017-01,JP,일본,3567.0,224.4,Japan,Others
+2017-01,NL,네덜란드,727.0,27.3,Netherlands,Europe
+2017-01,NO,노르웨이,2.0,0.0,Norway,Europe
+2017-01,NZ,뉴질랜드,68.0,1.8,New Zealand,Oceania
+2017-01,PL,폴란드,461.0,20.6,Poland,Europe
+2017-01,SE,스웨덴,1.0,0.0,Sweden,Europe
+2017-01,US,미국,15386.0,460.8,United States,North America
+2017-02,AT,오스트리아,25.0,0.6,Austria,Europe
+2017-02,AU,호주,360.0,15.0,Australia,Oceania
+2017-02,BE,벨기에,128.0,4.0,Belgium,Europe
+2017-02,CA,캐나다,68.0,1.9,Canada,North America
+2017-02,CH,스위스,7.0,0.1,Switzerland,Europe
+2017-02,CN,중국,146709.0,3179.5,China,Others
+2017-02,CZ,체코공화국,116.0,1.5,Czechia,Europe
+2017-02,DE,독일,2083.0,75.6,Germany,Europe
+2017-02,DK,덴마크,1.0,0.1,Denmark,Europe
+2017-02,ES,스페인,814.0,18.1,Spain,Europe
+2017-02,FI,핀란드,6.0,0.1,Finland,Europe
+2017-02,FR,프랑스,164.0,4.2,France,Europe
+2017-02,GB,영국,844.0,30.9,United Kingdom,Europe
+2017-02,IE,아일랜드,0.0,0.0,Ireland,Europe
+2017-02,IT,이탈리아,533.0,12.5,Italy,Europe
+2017-02,JP,일본,6988.0,261.0,Japan,Others
+2017-02,NL,네덜란드,1052.0,37.9,Netherlands,Europe
+2017-02,NO,노르웨이,271.0,17.5,Norway,Europe
+2017-02,NZ,뉴질랜드,43.0,1.2,New Zealand,Oceania
+2017-02,PL,폴란드,15258.0,343.5,Poland,Europe
+2017-02,SE,스웨덴,6.0,5.3,Sweden,Europe
+2017-02,US,미국,11878.0,258.6,United States,North America
+2017-03,AT,오스트리아,124.0,0.5,Austria,Europe
+2017-03,AU,호주,141.0,11.3,Australia,Oceania
+2017-03,BE,벨기에,575.0,16.1,Belgium,Europe
+2017-03,CA,캐나다,144.0,2.4,Canada,North America
+2017-03,CH,스위스,52.0,0.4,Switzerland,Europe
+2017-03,CN,중국,145194.0,3548.7,China,Others
+2017-03,CZ,체코공화국,186.0,2.9,Czechia,Europe
+2017-03,DE,독일,13960.0,220.1,Germany,Europe
+2017-03,DK,덴마크,1.0,0.0,Denmark,Europe
+2017-03,ES,스페인,953.0,9.2,Spain,Europe
+2017-03,FI,핀란드,3.0,0.0,Finland,Europe
+2017-03,FR,프랑스,367.0,5.9,France,Europe
+2017-03,GB,영국,501.0,16.5,United Kingdom,Europe
+2017-03,IE,아일랜드,159.0,3.7,Ireland,Europe
+2017-03,IT,이탈리아,581.0,10.7,Italy,Europe
+2017-03,JP,일본,7222.0,281.0,Japan,Others
+2017-03,NL,네덜란드,695.0,27.7,Netherlands,Europe
+2017-03,NO,노르웨이,1.0,0.0,Norway,Europe
+2017-03,NZ,뉴질랜드,114.0,3.1,New Zealand,Oceania
+2017-03,PL,폴란드,17774.0,405.4,Poland,Europe
+2017-03,SE,스웨덴,13.0,0.6,Sweden,Europe
+2017-03,US,미국,23016.0,421.1,United States,North America
+2017-04,AT,오스트리아,115.0,1.1,Austria,Europe
+2017-04,AU,호주,350.0,16.5,Australia,Oceania
+2017-04,BE,벨기에,88.0,2.1,Belgium,Europe
+2017-04,CA,캐나다,2609.0,130.5,Canada,North America
+2017-04,CH,스위스,7.0,0.1,Switzerland,Europe
+2017-04,CN,중국,112577.0,3135.7,China,Others
+2017-04,CZ,체코공화국,3321.0,74.1,Czechia,Europe
+2017-04,DE,독일,1893.0,26.3,Germany,Europe
+2017-04,DK,덴마크,3.0,0.1,Denmark,Europe
+2017-04,ES,스페인,1269.0,52.5,Spain,Europe
+2017-04,FI,핀란드,15.0,0.2,Finland,Europe
+2017-04,FR,프랑스,165.0,3.0,France,Europe
+2017-04,GB,영국,3007.0,383.4,United Kingdom,Europe
+2017-04,IE,아일랜드,3.0,0.1,Ireland,Europe
+2017-04,IT,이탈리아,276.0,3.5,Italy,Europe
+2017-04,JP,일본,5302.0,266.3,Japan,Others
+2017-04,NL,네덜란드,1098.0,33.0,Netherlands,Europe
+2017-04,NO,노르웨이,26.0,1.3,Norway,Europe
+2017-04,NZ,뉴질랜드,32.0,1.5,New Zealand,Oceania
+2017-04,PL,폴란드,7982.0,242.4,Poland,Europe
+2017-04,SE,스웨덴,1.0,0.0,Sweden,Europe
+2017-04,US,미국,10855.0,249.0,United States,North America
+2017-05,AT,오스트리아,90.0,0.9,Austria,Europe
+2017-05,AU,호주,1331.0,45.8,Australia,Oceania
+2017-05,BE,벨기에,97.0,3.9,Belgium,Europe
+2017-05,CA,캐나다,78.0,2.4,Canada,North America
+2017-05,CH,스위스,844.0,13.6,Switzerland,Europe
+2017-05,CN,중국,97033.0,2881.1,China,Others
+2017-05,CZ,체코공화국,2789.0,82.5,Czechia,Europe
+2017-05,DE,독일,1299.0,59.6,Germany,Europe
+2017-05,DK,덴마크,0.0,0.0,Denmark,Europe
+2017-05,ES,스페인,334.0,11.8,Spain,Europe
+2017-05,FI,핀란드,0.0,0.0,Finland,Europe
+2017-05,FR,프랑스,498.0,5.3,France,Europe
+2017-05,GB,영국,1611.0,81.6,United Kingdom,Europe
+2017-05,IE,아일랜드,0.0,0.0,Ireland,Europe
+2017-05,IT,이탈리아,358.0,10.2,Italy,Europe
+2017-05,JP,일본,6698.0,306.1,Japan,Others
+2017-05,NL,네덜란드,643.0,27.9,Netherlands,Europe
+2017-05,NO,노르웨이,88.0,9.2,Norway,Europe
+2017-05,NZ,뉴질랜드,63.0,2.3,New Zealand,Oceania
+2017-05,PL,폴란드,3694.0,53.2,Poland,Europe
+2017-05,SE,스웨덴,85.0,1.0,Sweden,Europe
+2017-05,US,미국,11238.0,239.7,United States,North America
+2017-06,AT,오스트리아,592.0,3.0,Austria,Europe
+2017-06,AU,호주,3551.0,117.2,Australia,Oceania
+2017-06,BE,벨기에,20.0,0.1,Belgium,Europe
+2017-06,CA,캐나다,144.0,3.4,Canada,North America
+2017-06,CH,스위스,10.0,0.7,Switzerland,Europe
+2017-06,CN,중국,170911.0,3520.4,China,Others
+2017-06,CZ,체코공화국,1904.0,60.2,Czechia,Europe
+2017-06,DE,독일,764.0,36.7,Germany,Europe
+2017-06,DK,덴마크,0.0,0.0,Denmark,Europe
+2017-06,ES,스페인,533.0,6.5,Spain,Europe
+2017-06,FI,핀란드,33.0,0.1,Finland,Europe
+2017-06,FR,프랑스,977.0,116.8,France,Europe
+2017-06,GB,영국,221.0,3.9,United Kingdom,Europe
+2017-06,IE,아일랜드,0.0,0.0,Ireland,Europe
+2017-06,IT,이탈리아,238.0,6.3,Italy,Europe
+2017-06,JP,일본,7847.0,371.0,Japan,Others
+2017-06,NL,네덜란드,1183.0,45.5,Netherlands,Europe
+2017-06,NO,노르웨이,31.0,0.1,Norway,Europe
+2017-06,NZ,뉴질랜드,172.0,3.4,New Zealand,Oceania
+2017-06,PL,폴란드,880.0,18.6,Poland,Europe
+2017-06,SE,스웨덴,5.0,0.0,Sweden,Europe
+2017-06,US,미국,14854.0,696.8,United States,North America
+2017-07,AT,오스트리아,80.0,0.5,Austria,Europe
+2017-07,AU,호주,1959.0,62.1,Australia,Oceania
+2017-07,BE,벨기에,167.0,14.0,Belgium,Europe
+2017-07,CA,캐나다,495.0,10.7,Canada,North America
+2017-07,CH,스위스,21.0,0.3,Switzerland,Europe
+2017-07,CN,중국,130885.0,3123.9,China,Others
+2017-07,CZ,체코공화국,897.0,18.3,Czechia,Europe
+2017-07,DE,독일,2193.0,51.0,Germany,Europe
+2017-07,DK,덴마크,0.0,0.0,Denmark,Europe
+2017-07,ES,스페인,402.0,5.3,Spain,Europe
+2017-07,FI,핀란드,0.0,0.0,Finland,Europe
+2017-07,FR,프랑스,2441.0,357.7,France,Europe
+2017-07,GB,영국,200.0,6.2,United Kingdom,Europe
+2017-07,IE,아일랜드,30.0,1.2,Ireland,Europe
+2017-07,IT,이탈리아,385.0,8.8,Italy,Europe
+2017-07,JP,일본,9340.0,656.0,Japan,Others
+2017-07,NL,네덜란드,546.0,26.4,Netherlands,Europe
+2017-07,NO,노르웨이,5.0,0.4,Norway,Europe
+2017-07,NZ,뉴질랜드,46.0,1.6,New Zealand,Oceania
+2017-07,PL,폴란드,798.0,17.8,Poland,Europe
+2017-07,SE,스웨덴,6.0,0.3,Sweden,Europe
+2017-07,US,미국,8029.0,215.2,United States,North America
+2017-08,AT,오스트리아,22.0,0.4,Austria,Europe
+2017-08,AU,호주,1448.0,94.4,Australia,Oceania
+2017-08,BE,벨기에,28.0,0.5,Belgium,Europe
+2017-08,CA,캐나다,185.0,6.1,Canada,North America
+2017-08,CH,스위스,26.0,0.5,Switzerland,Europe
+2017-08,CN,중국,116543.0,2964.0,China,Others
+2017-08,CZ,체코공화국,953.0,19.1,Czechia,Europe
+2017-08,DE,독일,1640.0,26.2,Germany,Europe
+2017-08,DK,덴마크,0.0,0.0,Denmark,Europe
+2017-08,ES,스페인,315.0,6.1,Spain,Europe
+2017-08,FI,핀란드,0.0,0.0,Finland,Europe
+2017-08,FR,프랑스,3328.0,333.7,France,Europe
+2017-08,GB,영국,123.0,6.1,United Kingdom,Europe
+2017-08,IE,아일랜드,0.0,0.0,Ireland,Europe
+2017-08,IT,이탈리아,198.0,7.0,Italy,Europe
+2017-08,JP,일본,5799.0,236.9,Japan,Others
+2017-08,NL,네덜란드,578.0,17.9,Netherlands,Europe
+2017-08,NO,노르웨이,0.0,0.0,Norway,Europe
+2017-08,NZ,뉴질랜드,119.0,4.5,New Zealand,Oceania
+2017-08,PL,폴란드,4647.0,79.9,Poland,Europe
+2017-08,SE,스웨덴,24.0,0.6,Sweden,Europe
+2017-08,US,미국,9390.0,219.8,United States,North America
+2017-09,AT,오스트리아,32.0,0.5,Austria,Europe
+2017-09,AU,호주,1320.0,45.6,Australia,Oceania
+2017-09,BE,벨기에,229.0,7.5,Belgium,Europe
+2017-09,CA,캐나다,618.0,9.6,Canada,North America
+2017-09,CH,스위스,109.0,0.6,Switzerland,Europe
+2017-09,CN,중국,109431.0,2794.7,China,Others
+2017-09,CZ,체코공화국,23520.0,565.5,Czechia,Europe
+2017-09,DE,독일,1925.0,45.2,Germany,Europe
+2017-09,DK,덴마크,5.0,0.1,Denmark,Europe
+2017-09,ES,스페인,754.0,19.6,Spain,Europe
+2017-09,FI,핀란드,0.0,0.0,Finland,Europe
+2017-09,FR,프랑스,155.0,2.8,France,Europe
+2017-09,GB,영국,109.0,10.3,United Kingdom,Europe
+2017-09,IE,아일랜드,0.0,0.0,Ireland,Europe
+2017-09,IT,이탈리아,279.0,6.6,Italy,Europe
+2017-09,JP,일본,7404.0,378.5,Japan,Others
+2017-09,NL,네덜란드,1266.0,36.6,Netherlands,Europe
+2017-09,NO,노르웨이,8.0,0.3,Norway,Europe
+2017-09,NZ,뉴질랜드,12.0,0.5,New Zealand,Oceania
+2017-09,PL,폴란드,1296.0,21.9,Poland,Europe
+2017-09,SE,스웨덴,2.0,0.1,Sweden,Europe
+2017-09,US,미국,16798.0,356.4,United States,North America
+2017-10,AT,오스트리아,6.0,0.0,Austria,Europe
+2017-10,AU,호주,278.0,19.7,Australia,Oceania
+2017-10,BE,벨기에,84.0,2.2,Belgium,Europe
+2017-10,CA,캐나다,69.0,3.4,Canada,North America
+2017-10,CH,스위스,56.0,0.3,Switzerland,Europe
+2017-10,CN,중국,57012.0,1377.0,China,Others
+2017-10,CZ,체코공화국,1150.0,9.7,Czechia,Europe
+2017-10,DE,독일,674.0,18.2,Germany,Europe
+2017-10,DK,덴마크,2.0,0.1,Denmark,Europe
+2017-10,ES,스페인,257.0,7.5,Spain,Europe
+2017-10,FI,핀란드,0.0,0.0,Finland,Europe
+2017-10,FR,프랑스,237.0,4.4,France,Europe
+2017-10,GB,영국,2210.0,22.9,United Kingdom,Europe
+2017-10,IE,아일랜드,0.0,0.0,Ireland,Europe
+2017-10,IT,이탈리아,44.0,1.3,Italy,Europe
+2017-10,JP,일본,6118.0,251.8,Japan,Others
+2017-10,NL,네덜란드,637.0,19.8,Netherlands,Europe
+2017-10,NO,노르웨이,9.0,0.1,Norway,Europe
+2017-10,NZ,뉴질랜드,161.0,4.2,New Zealand,Oceania
+2017-10,PL,폴란드,3383.0,45.0,Poland,Europe
+2017-10,SE,스웨덴,0.0,0.0,Sweden,Europe
+2017-10,US,미국,15165.0,522.3,United States,North America
+2017-11,AT,오스트리아,9.0,0.1,Austria,Europe
+2017-11,AU,호주,317.0,14.3,Australia,Oceania
+2017-11,BE,벨기에,232.0,23.6,Belgium,Europe
+2017-11,CA,캐나다,222.0,7.9,Canada,North America
+2017-11,CH,스위스,243.0,2.3,Switzerland,Europe
+2017-11,CN,중국,180816.0,3418.7,China,Others
+2017-11,CZ,체코공화국,6392.0,138.7,Czechia,Europe
+2017-11,DE,독일,1659.0,20.4,Germany,Europe
+2017-11,DK,덴마크,8.0,0.3,Denmark,Europe
+2017-11,ES,스페인,526.0,6.9,Spain,Europe
+2017-11,FI,핀란드,3.0,0.0,Finland,Europe
+2017-11,FR,프랑스,204.0,2.0,France,Europe
+2017-11,GB,영국,249.0,32.5,United Kingdom,Europe
+2017-11,IT,이탈리아,334.0,5.6,Italy,Europe
+2017-11,JP,일본,5567.0,249.9,Japan,Others
+2017-11,NL,네덜란드,1085.0,46.4,Netherlands,Europe
+2017-11,NO,노르웨이,2.0,0.1,Norway,Europe
+2017-11,NZ,뉴질랜드,100.0,3.6,New Zealand,Oceania
+2017-11,PL,폴란드,1469.0,23.7,Poland,Europe
+2017-11,SE,스웨덴,132.0,3.2,Sweden,Europe
+2017-11,US,미국,36511.0,1032.1,United States,North America
+2017-12,AT,오스트리아,3.0,0.1,Austria,Europe
+2017-12,AU,호주,1048.0,51.1,Australia,Oceania
+2017-12,BE,벨기에,338.0,8.6,Belgium,Europe
+2017-12,CA,캐나다,2638.0,35.8,Canada,North America
+2017-12,CH,스위스,17.0,0.1,Switzerland,Europe
+2017-12,CN,중국,174504.0,3067.7,China,Others
+2017-12,CZ,체코공화국,641.0,6.6,Czechia,Europe
+2017-12,DE,독일,1664.0,25.0,Germany,Europe
+2017-12,DK,덴마크,2.0,0.1,Denmark,Europe
+2017-12,ES,스페인,652.0,8.9,Spain,Europe
+2017-12,FI,핀란드,23.0,0.1,Finland,Europe
+2017-12,FR,프랑스,49.0,0.6,France,Europe
+2017-12,GB,영국,133.0,11.1,United Kingdom,Europe
+2017-12,IE,아일랜드,9.0,0.6,Ireland,Europe
+2017-12,IT,이탈리아,362.0,9.9,Italy,Europe
+2017-12,JP,일본,9107.0,455.1,Japan,Others
+2017-12,NL,네덜란드,163.0,5.7,Netherlands,Europe
+2017-12,NO,노르웨이,0.0,0.0,Norway,Europe
+2017-12,NZ,뉴질랜드,239.0,5.6,New Zealand,Oceania
+2017-12,PL,폴란드,5713.0,58.7,Poland,Europe
+2017-12,SE,스웨덴,139.0,2.8,Sweden,Europe
+2017-12,US,미국,18751.0,546.5,United States,North America
+2018-01,AT,오스트리아,27.0,0.2,Austria,Europe
+2018-01,AU,호주,118.0,10.4,Australia,Oceania
+2018-01,BE,벨기에,8.0,0.0,Belgium,Europe
+2018-01,CA,캐나다,19.0,0.3,Canada,North America
+2018-01,CH,스위스,16.0,0.8,Switzerland,Europe
+2018-01,CN,중국,220622.0,5486.8,China,Others
+2018-01,CZ,체코공화국,4795.0,88.4,Czechia,Europe
+2018-01,DE,독일,2755.0,61.5,Germany,Europe
+2018-01,DK,덴마크,110.0,4.2,Denmark,Europe
+2018-01,ES,스페인,29.0,0.3,Spain,Europe
+2018-01,FI,핀란드,0.0,0.0,Finland,Europe
+2018-01,FR,프랑스,162.0,3.4,France,Europe
+2018-01,GB,영국,465.0,50.7,United Kingdom,Europe
+2018-01,IE,아일랜드,0.0,0.0,Ireland,Europe
+2018-01,IT,이탈리아,295.0,4.8,Italy,Europe
+2018-01,JP,일본,9064.0,519.4,Japan,Others
+2018-01,NL,네덜란드,3227.0,397.7,Netherlands,Europe
+2018-01,NO,노르웨이,1.0,0.0,Norway,Europe
+2018-01,NZ,뉴질랜드,47.0,1.1,New Zealand,Oceania
+2018-01,PL,폴란드,6591.0,112.5,Poland,Europe
+2018-01,SE,스웨덴,2.0,0.6,Sweden,Europe
+2018-01,US,미국,8607.0,269.5,United States,North America
+2018-02,AT,오스트리아,86.0,0.7,Austria,Europe
+2018-02,AU,호주,276.0,18.1,Australia,Oceania
+2018-02,BE,벨기에,20.0,0.3,Belgium,Europe
+2018-02,CA,캐나다,320.0,7.8,Canada,North America
+2018-02,CH,스위스,17.0,0.2,Switzerland,Europe
+2018-02,CN,중국,80923.0,1664.3,China,Others
+2018-02,CZ,체코공화국,1987.0,47.0,Czechia,Europe
+2018-02,DE,독일,1244.0,63.8,Germany,Europe
+2018-02,DK,덴마크,0.0,0.0,Denmark,Europe
+2018-02,ES,스페인,928.0,17.0,Spain,Europe
+2018-02,FI,핀란드,0.0,0.0,Finland,Europe
+2018-02,FR,프랑스,362.0,4.4,France,Europe
+2018-02,GB,영국,426.0,20.9,United Kingdom,Europe
+2018-02,IE,아일랜드,23.0,0.5,Ireland,Europe
+2018-02,IT,이탈리아,207.0,3.7,Italy,Europe
+2018-02,JP,일본,8301.0,259.2,Japan,Others
+2018-02,NL,네덜란드,538.0,30.3,Netherlands,Europe
+2018-02,NO,노르웨이,2.0,0.1,Norway,Europe
+2018-02,NZ,뉴질랜드,82.0,3.8,New Zealand,Oceania
+2018-02,PL,폴란드,1624.0,33.7,Poland,Europe
+2018-02,SE,스웨덴,0.0,0.0,Sweden,Europe
+2018-02,US,미국,20482.0,473.3,United States,North America
+2018-03,AT,오스트리아,104.0,1.2,Austria,Europe
+2018-03,AU,호주,829.0,22.8,Australia,Oceania
+2018-03,BE,벨기에,413.0,5.3,Belgium,Europe
+2018-03,CA,캐나다,268.0,8.1,Canada,North America
+2018-03,CH,스위스,60.0,0.9,Switzerland,Europe
+2018-03,CN,중국,289097.0,6782.7,China,Others
+2018-03,CZ,체코공화국,240.0,2.0,Czechia,Europe
+2018-03,DE,독일,20544.0,365.8,Germany,Europe
+2018-03,DK,덴마크,24.0,0.7,Denmark,Europe
+2018-03,ES,스페인,1538.0,13.9,Spain,Europe
+2018-03,FI,핀란드,0.0,0.0,Finland,Europe
+2018-03,FR,프랑스,592.0,8.6,France,Europe
+2018-03,GB,영국,1770.0,22.3,United Kingdom,Europe
+2018-03,IE,아일랜드,0.0,0.0,Ireland,Europe
+2018-03,IT,이탈리아,88.0,0.6,Italy,Europe
+2018-03,JP,일본,14834.0,616.7,Japan,Others
+2018-03,NL,네덜란드,542.0,13.2,Netherlands,Europe
+2018-03,NO,노르웨이,15.0,2.0,Norway,Europe
+2018-03,NZ,뉴질랜드,66.0,1.0,New Zealand,Oceania
+2018-03,PL,폴란드,1058.0,22.1,Poland,Europe
+2018-03,SE,스웨덴,198.0,4.2,Sweden,Europe
+2018-03,US,미국,16105.0,397.4,United States,North America
+2018-04,AT,오스트리아,8.0,0.1,Austria,Europe
+2018-04,AU,호주,995.0,114.3,Australia,Oceania
+2018-04,BE,벨기에,115.0,2.4,Belgium,Europe
+2018-04,CA,캐나다,505.0,11.1,Canada,North America
+2018-04,CH,스위스,21.0,0.3,Switzerland,Europe
+2018-04,CN,중국,258489.0,4887.1,China,Others
+2018-04,CZ,체코공화국,4903.0,83.9,Czechia,Europe
+2018-04,DE,독일,1992.0,32.2,Germany,Europe
+2018-04,DK,덴마크,3.0,0.2,Denmark,Europe
+2018-04,ES,스페인,352.0,4.7,Spain,Europe
+2018-04,FI,핀란드,0.0,0.0,Finland,Europe
+2018-04,FR,프랑스,60.0,2.4,France,Europe
+2018-04,GB,영국,270.0,10.5,United Kingdom,Europe
+2018-04,IE,아일랜드,0.0,0.0,Ireland,Europe
+2018-04,IT,이탈리아,195.0,3.6,Italy,Europe
+2018-04,JP,일본,10042.0,490.9,Japan,Others
+2018-04,NL,네덜란드,675.0,27.5,Netherlands,Europe
+2018-04,NO,노르웨이,0.0,0.0,Norway,Europe
+2018-04,NZ,뉴질랜드,227.0,3.9,New Zealand,Oceania
+2018-04,PL,폴란드,5716.0,103.5,Poland,Europe
+2018-04,SE,스웨덴,13.0,0.3,Sweden,Europe
+2018-04,US,미국,9547.0,296.4,United States,North America
+2018-05,AT,오스트리아,485.0,7.7,Austria,Europe
+2018-05,AU,호주,362.0,55.8,Australia,Oceania
+2018-05,BE,벨기에,36.0,0.8,Belgium,Europe
+2018-05,CA,캐나다,324.0,6.8,Canada,North America
+2018-05,CH,스위스,27.0,0.6,Switzerland,Europe
+2018-05,CN,중국,135702.0,3514.2,China,Others
+2018-05,CZ,체코공화국,710.0,11.9,Czechia,Europe
+2018-05,DE,독일,1635.0,32.5,Germany,Europe
+2018-05,DK,덴마크,0.0,0.0,Denmark,Europe
+2018-05,ES,스페인,405.0,7.5,Spain,Europe
+2018-05,FI,핀란드,3.0,0.1,Finland,Europe
+2018-05,FR,프랑스,469.0,11.7,France,Europe
+2018-05,GB,영국,413.0,5.7,United Kingdom,Europe
+2018-05,IE,아일랜드,0.0,0.0,Ireland,Europe
+2018-05,IT,이탈리아,1385.0,27.0,Italy,Europe
+2018-05,JP,일본,7244.0,468.8,Japan,Others
+2018-05,NL,네덜란드,726.0,37.7,Netherlands,Europe
+2018-05,NO,노르웨이,3.0,0.0,Norway,Europe
+2018-05,NZ,뉴질랜드,140.0,3.7,New Zealand,Oceania
+2018-05,PL,폴란드,20582.0,353.9,Poland,Europe
+2018-05,SE,스웨덴,0.0,0.0,Sweden,Europe
+2018-05,US,미국,15852.0,591.5,United States,North America
+2018-06,AT,오스트리아,105.0,1.0,Austria,Europe
+2018-06,AU,호주,1365.0,100.1,Australia,Oceania
+2018-06,BE,벨기에,50.0,1.4,Belgium,Europe
+2018-06,CA,캐나다,418.0,7.8,Canada,North America
+2018-06,CH,스위스,56.0,0.9,Switzerland,Europe
+2018-06,CN,중국,130459.0,3507.5,China,Others
+2018-06,CZ,체코공화국,4589.0,86.0,Czechia,Europe
+2018-06,DE,독일,21663.0,332.7,Germany,Europe
+2018-06,DK,덴마크,0.0,0.0,Denmark,Europe
+2018-06,ES,스페인,1258.0,18.2,Spain,Europe
+2018-06,FI,핀란드,78.0,0.3,Finland,Europe
+2018-06,FR,프랑스,211.0,3.2,France,Europe
+2018-06,GB,영국,375.0,14.1,United Kingdom,Europe
+2018-06,IE,아일랜드,20.0,0.7,Ireland,Europe
+2018-06,IT,이탈리아,961.0,19.6,Italy,Europe
+2018-06,JP,일본,4628.0,280.2,Japan,Others
+2018-06,NL,네덜란드,1088.0,30.0,Netherlands,Europe
+2018-06,NO,노르웨이,0.0,0.0,Norway,Europe
+2018-06,NZ,뉴질랜드,96.0,3.7,New Zealand,Oceania
+2018-06,PL,폴란드,2659.0,46.5,Poland,Europe
+2018-06,SE,스웨덴,6.0,0.0,Sweden,Europe
+2018-06,US,미국,22036.0,754.1,United States,North America
+2018-07,AT,오스트리아,28.0,0.2,Austria,Europe
+2018-07,AU,호주,506.0,21.6,Australia,Oceania
+2018-07,BE,벨기에,77.0,2.3,Belgium,Europe
+2018-07,CA,캐나다,18.0,0.3,Canada,North America
+2018-07,CH,스위스,28.0,0.5,Switzerland,Europe
+2018-07,CN,중국,121068.0,2625.6,China,Others
+2018-07,CZ,체코공화국,2123.0,39.8,Czechia,Europe
+2018-07,DE,독일,2199.0,98.7,Germany,Europe
+2018-07,DK,덴마크,0.0,0.0,Denmark,Europe
+2018-07,ES,스페인,70.0,2.2,Spain,Europe
+2018-07,FI,핀란드,1.0,0.0,Finland,Europe
+2018-07,FR,프랑스,530.0,8.5,France,Europe
+2018-07,GB,영국,553.0,12.8,United Kingdom,Europe
+2018-07,IE,아일랜드,6.0,0.0,Ireland,Europe
+2018-07,IT,이탈리아,479.0,14.5,Italy,Europe
+2018-07,JP,일본,7412.0,554.4,Japan,Others
+2018-07,NL,네덜란드,1604.0,44.3,Netherlands,Europe
+2018-07,NO,노르웨이,24.0,0.6,Norway,Europe
+2018-07,NZ,뉴질랜드,151.0,6.1,New Zealand,Oceania
+2018-07,PL,폴란드,47593.0,1243.6,Poland,Europe
+2018-07,SE,스웨덴,19.0,0.8,Sweden,Europe
+2018-07,US,미국,17909.0,493.1,United States,North America
+2018-08,AT,오스트리아,35.0,0.2,Austria,Europe
+2018-08,AU,호주,493.0,24.8,Australia,Oceania
+2018-08,BE,벨기에,7.0,0.2,Belgium,Europe
+2018-08,CA,캐나다,771.0,11.8,Canada,North America
+2018-08,CH,스위스,17.0,0.4,Switzerland,Europe
+2018-08,CN,중국,121860.0,2890.0,China,Others
+2018-08,CZ,체코공화국,115.0,9.4,Czechia,Europe
+2018-08,DE,독일,1774.0,157.6,Germany,Europe
+2018-08,DK,덴마크,0.0,0.0,Denmark,Europe
+2018-08,ES,스페인,1510.0,93.8,Spain,Europe
+2018-08,FI,핀란드,0.0,0.0,Finland,Europe
+2018-08,FR,프랑스,1071.0,12.6,France,Europe
+2018-08,GB,영국,170.0,5.5,United Kingdom,Europe
+2018-08,IE,아일랜드,0.0,0.0,Ireland,Europe
+2018-08,IT,이탈리아,569.0,8.9,Italy,Europe
+2018-08,JP,일본,7090.0,484.9,Japan,Others
+2018-08,NL,네덜란드,278.0,36.0,Netherlands,Europe
+2018-08,NO,노르웨이,8.0,0.5,Norway,Europe
+2018-08,NZ,뉴질랜드,26.0,0.8,New Zealand,Oceania
+2018-08,PL,폴란드,11604.0,688.6,Poland,Europe
+2018-08,SE,스웨덴,0.0,0.0,Sweden,Europe
+2018-08,US,미국,31176.0,947.0,United States,North America
+2018-09,AT,오스트리아,14.0,0.8,Austria,Europe
+2018-09,AU,호주,500.0,23.5,Australia,Oceania
+2018-09,BE,벨기에,22.0,0.3,Belgium,Europe
+2018-09,CA,캐나다,89.0,2.7,Canada,North America
+2018-09,CH,스위스,48.0,0.1,Switzerland,Europe
+2018-09,CN,중국,145562.0,3471.0,China,Others
+2018-09,CZ,체코공화국,1139.0,18.4,Czechia,Europe
+2018-09,DE,독일,1479.0,104.5,Germany,Europe
+2018-09,DK,덴마크,2.0,0.1,Denmark,Europe
+2018-09,ES,스페인,75.0,2.8,Spain,Europe
+2018-09,FI,핀란드,0.0,0.0,Finland,Europe
+2018-09,FR,프랑스,3700.0,56.6,France,Europe
+2018-09,GB,영국,67.0,15.9,United Kingdom,Europe
+2018-09,IE,아일랜드,11.0,0.4,Ireland,Europe
+2018-09,IT,이탈리아,442.0,7.6,Italy,Europe
+2018-09,JP,일본,5364.0,335.8,Japan,Others
+2018-09,NL,네덜란드,5621.0,225.7,Netherlands,Europe
+2018-09,NO,노르웨이,0.0,0.0,Norway,Europe
+2018-09,NZ,뉴질랜드,224.0,4.4,New Zealand,Oceania
+2018-09,PL,폴란드,70605.0,1474.5,Poland,Europe
+2018-09,SE,스웨덴,31.0,1.2,Sweden,Europe
+2018-09,US,미국,17918.0,505.1,United States,North America
+2018-10,AT,오스트리아,24.0,0.2,Austria,Europe
+2018-10,AU,호주,409.0,26.6,Australia,Oceania
+2018-10,BE,벨기에,444.0,10.2,Belgium,Europe
+2018-10,CA,캐나다,158.0,4.2,Canada,North America
+2018-10,CH,스위스,11.0,0.5,Switzerland,Europe
+2018-10,CN,중국,210152.0,4656.0,China,Others
+2018-10,CZ,체코공화국,2236.0,47.2,Czechia,Europe
+2018-10,DE,독일,4782.0,93.0,Germany,Europe
+2018-10,DK,덴마크,6.0,0.1,Denmark,Europe
+2018-10,ES,스페인,228.0,7.0,Spain,Europe
+2018-10,FI,핀란드,0.0,0.0,Finland,Europe
+2018-10,FR,프랑스,86.0,1.7,France,Europe
+2018-10,GB,영국,306.0,15.4,United Kingdom,Europe
+2018-10,IE,아일랜드,27.0,0.1,Ireland,Europe
+2018-10,IT,이탈리아,422.0,7.6,Italy,Europe
+2018-10,JP,일본,7997.0,459.6,Japan,Others
+2018-10,NL,네덜란드,1184.0,37.3,Netherlands,Europe
+2018-10,NO,노르웨이,0.0,0.0,Norway,Europe
+2018-10,NZ,뉴질랜드,683.0,16.2,New Zealand,Oceania
+2018-10,PL,폴란드,42637.0,1013.6,Poland,Europe
+2018-10,SE,스웨덴,178.0,3.4,Sweden,Europe
+2018-10,US,미국,11968.0,356.9,United States,North America
+2018-11,AT,오스트리아,0.0,0.0,Austria,Europe
+2018-11,AU,호주,1321.0,29.4,Australia,Oceania
+2018-11,BE,벨기에,275.0,5.1,Belgium,Europe
+2018-11,CA,캐나다,943.0,12.4,Canada,North America
+2018-11,CH,스위스,9.0,0.1,Switzerland,Europe
+2018-11,CN,중국,130377.0,3156.6,China,Others
+2018-11,CZ,체코공화국,756.0,7.5,Czechia,Europe
+2018-11,DE,독일,1597.0,34.0,Germany,Europe
+2018-11,DK,덴마크,8.0,0.3,Denmark,Europe
+2018-11,ES,스페인,1796.0,29.7,Spain,Europe
+2018-11,FI,핀란드,2.0,2.5,Finland,Europe
+2018-11,FR,프랑스,92.0,1.7,France,Europe
+2018-11,GB,영국,310.0,10.4,United Kingdom,Europe
+2018-11,IE,아일랜드,0.0,0.0,Ireland,Europe
+2018-11,IT,이탈리아,859.0,7.3,Italy,Europe
+2018-11,JP,일본,9740.0,460.7,Japan,Others
+2018-11,NL,네덜란드,428.0,29.7,Netherlands,Europe
+2018-11,NO,노르웨이,6.0,0.2,Norway,Europe
+2018-11,NZ,뉴질랜드,45.0,1.3,New Zealand,Oceania
+2018-11,PL,폴란드,4213.0,95.2,Poland,Europe
+2018-11,SE,스웨덴,687.0,17.7,Sweden,Europe
+2018-11,US,미국,31337.0,987.7,United States,North America
+2018-12,AT,오스트리아,115.0,1.7,Austria,Europe
+2018-12,AU,호주,817.0,31.6,Australia,Oceania
+2018-12,BE,벨기에,1.0,0.0,Belgium,Europe
+2018-12,CA,캐나다,1630.0,31.6,Canada,North America
+2018-12,CH,스위스,0.0,0.0,Switzerland,Europe
+2018-12,CN,중국,128442.0,2627.8,China,Others
+2018-12,CZ,체코공화국,1336.0,26.1,Czechia,Europe
+2018-12,DE,독일,2589.0,57.4,Germany,Europe
+2018-12,DK,덴마크,0.0,0.0,Denmark,Europe
+2018-12,ES,스페인,108.0,3.3,Spain,Europe
+2018-12,FI,핀란드,0.0,0.0,Finland,Europe
+2018-12,FR,프랑스,763.0,4.9,France,Europe
+2018-12,GB,영국,1660.0,32.4,United Kingdom,Europe
+2018-12,IE,아일랜드,0.0,0.0,Ireland,Europe
+2018-12,IT,이탈리아,530.0,10.2,Italy,Europe
+2018-12,JP,일본,5246.0,296.0,Japan,Others
+2018-12,NL,네덜란드,898.0,40.2,Netherlands,Europe
+2018-12,NO,노르웨이,22.0,0.6,Norway,Europe
+2018-12,NZ,뉴질랜드,627.0,8.4,New Zealand,Oceania
+2018-12,PL,폴란드,10380.0,259.2,Poland,Europe
+2018-12,SE,스웨덴,0.0,0.0,Sweden,Europe
+2018-12,US,미국,28430.0,1221.3,United States,North America
+2019-01,AT,오스트리아,145.0,1.9,Austria,Europe
+2019-01,AU,호주,603.0,70.6,Australia,Oceania
+2019-01,BE,벨기에,186.0,4.2,Belgium,Europe
+2019-01,CA,캐나다,282.0,5.8,Canada,North America
+2019-01,CH,스위스,2.0,0.0,Switzerland,Europe
+2019-01,CN,중국,161666.0,4185.1,China,Others
+2019-01,CZ,체코공화국,952.0,14.2,Czechia,Europe
+2019-01,DE,독일,1174.0,40.3,Germany,Europe
+2019-01,DK,덴마크,0.0,0.0,Denmark,Europe
+2019-01,ES,스페인,577.0,8.7,Spain,Europe
+2019-01,FI,핀란드,18.0,0.0,Finland,Europe
+2019-01,FR,프랑스,180.0,3.2,France,Europe
+2019-01,GB,영국,182.0,4.3,United Kingdom,Europe
+2019-01,IE,아일랜드,0.0,0.0,Ireland,Europe
+2019-01,IT,이탈리아,357.0,4.4,Italy,Europe
+2019-01,JP,일본,9474.0,392.4,Japan,Others
+2019-01,NL,네덜란드,480.0,27.4,Netherlands,Europe
+2019-01,NO,노르웨이,13.0,0.4,Norway,Europe
+2019-01,NZ,뉴질랜드,78.0,3.3,New Zealand,Oceania
+2019-01,PL,폴란드,1236.0,57.6,Poland,Europe
+2019-01,SE,스웨덴,12.0,0.3,Sweden,Europe
+2019-01,US,미국,23212.0,753.5,United States,North America
+2019-02,AT,오스트리아,310.0,2.6,Austria,Europe
+2019-02,AU,호주,641.0,36.0,Australia,Oceania
+2019-02,BE,벨기에,109.0,1.9,Belgium,Europe
+2019-02,CA,캐나다,1234.0,19.8,Canada,North America
+2019-02,CH,스위스,5.0,0.2,Switzerland,Europe
+2019-02,CN,중국,95937.0,1946.6,China,Others
+2019-02,CZ,체코공화국,186.0,1.1,Czechia,Europe
+2019-02,DE,독일,1143.0,21.4,Germany,Europe
+2019-02,DK,덴마크,3.0,0.1,Denmark,Europe
+2019-02,ES,스페인,554.0,8.1,Spain,Europe
+2019-02,FI,핀란드,1708.0,77.0,Finland,Europe
+2019-02,FR,프랑스,79.0,2.4,France,Europe
+2019-02,GB,영국,132.0,2.7,United Kingdom,Europe
+2019-02,IE,아일랜드,8.0,0.4,Ireland,Europe
+2019-02,IT,이탈리아,297.0,8.4,Italy,Europe
+2019-02,JP,일본,9390.0,451.3,Japan,Others
+2019-02,NL,네덜란드,550.0,42.9,Netherlands,Europe
+2019-02,NO,노르웨이,0.0,0.0,Norway,Europe
+2019-02,NZ,뉴질랜드,10.0,0.5,New Zealand,Oceania
+2019-02,PL,폴란드,10811.0,232.5,Poland,Europe
+2019-02,SE,스웨덴,19.0,0.7,Sweden,Europe
+2019-02,US,미국,17275.0,560.2,United States,North America
+2019-03,AT,오스트리아,175.0,1.6,Austria,Europe
+2019-03,AU,호주,514.0,24.8,Australia,Oceania
+2019-03,BE,벨기에,495.0,99.5,Belgium,Europe
+2019-03,CA,캐나다,67.0,2.7,Canada,North America
+2019-03,CH,스위스,3.0,0.0,Switzerland,Europe
+2019-03,CN,중국,170790.0,3749.9,China,Others
+2019-03,CZ,체코공화국,2921.0,70.8,Czechia,Europe
+2019-03,DE,독일,2498.0,46.7,Germany,Europe
+2019-03,DK,덴마크,0.0,0.0,Denmark,Europe
+2019-03,ES,스페인,671.0,7.4,Spain,Europe
+2019-03,FI,핀란드,4.0,0.1,Finland,Europe
+2019-03,FR,프랑스,969.0,14.7,France,Europe
+2019-03,GB,영국,378.0,15.5,United Kingdom,Europe
+2019-03,IE,아일랜드,3.0,0.1,Ireland,Europe
+2019-03,IT,이탈리아,532.0,14.6,Italy,Europe
+2019-03,JP,일본,7704.0,272.6,Japan,Others
+2019-03,NL,네덜란드,1067.0,44.2,Netherlands,Europe
+2019-03,NO,노르웨이,61.0,1.4,Norway,Europe
+2019-03,NZ,뉴질랜드,216.0,8.9,New Zealand,Oceania
+2019-03,PL,폴란드,18967.0,614.5,Poland,Europe
+2019-03,SE,스웨덴,156.0,3.6,Sweden,Europe
+2019-03,US,미국,14036.0,233.7,United States,North America
+2019-04,AT,오스트리아,19.0,1.9,Austria,Europe
+2019-04,AU,호주,468.0,25.2,Australia,Oceania
+2019-04,BE,벨기에,117.0,3.6,Belgium,Europe
+2019-04,CA,캐나다,112.0,3.1,Canada,North America
+2019-04,CH,스위스,18.0,0.7,Switzerland,Europe
+2019-04,CN,중국,164397.0,4290.7,China,Others
+2019-04,CZ,체코공화국,167.0,3.3,Czechia,Europe
+2019-04,DE,독일,1517.0,15.9,Germany,Europe
+2019-04,DK,덴마크,4.0,0.6,Denmark,Europe
+2019-04,ES,스페인,231.0,10.9,Spain,Europe
+2019-04,FI,핀란드,0.0,0.0,Finland,Europe
+2019-04,FR,프랑스,802.0,18.3,France,Europe
+2019-04,GB,영국,306.0,10.5,United Kingdom,Europe
+2019-04,IE,아일랜드,0.0,0.0,Ireland,Europe
+2019-04,IT,이탈리아,440.0,62.4,Italy,Europe
+2019-04,JP,일본,3679.0,120.8,Japan,Others
+2019-04,NL,네덜란드,1285.0,51.6,Netherlands,Europe
+2019-04,NO,노르웨이,15.0,0.4,Norway,Europe
+2019-04,NZ,뉴질랜드,52.0,1.1,New Zealand,Oceania
+2019-04,PL,폴란드,36368.0,759.7,Poland,Europe
+2019-04,SE,스웨덴,1261.0,30.7,Sweden,Europe
+2019-04,US,미국,56976.0,1038.8,United States,North America
+2019-05,AT,오스트리아,89.0,5.9,Austria,Europe
+2019-05,AU,호주,320.0,11.5,Australia,Oceania
+2019-05,BE,벨기에,709.0,14.7,Belgium,Europe
+2019-05,CA,캐나다,753.0,92.0,Canada,North America
+2019-05,CH,스위스,674.0,6.7,Switzerland,Europe
+2019-05,CN,중국,179433.0,4303.1,China,Others
+2019-05,CZ,체코공화국,3223.0,138.2,Czechia,Europe
+2019-05,DE,독일,2758.0,34.1,Germany,Europe
+2019-05,DK,덴마크,6.0,0.0,Denmark,Europe
+2019-05,ES,스페인,218.0,6.7,Spain,Europe
+2019-05,FI,핀란드,0.0,0.0,Finland,Europe
+2019-05,FR,프랑스,144.0,2.8,France,Europe
+2019-05,GB,영국,179.0,10.3,United Kingdom,Europe
+2019-05,IE,아일랜드,0.0,0.0,Ireland,Europe
+2019-05,IT,이탈리아,38.0,0.9,Italy,Europe
+2019-05,JP,일본,7464.0,412.5,Japan,Others
+2019-05,NL,네덜란드,854.0,43.5,Netherlands,Europe
+2019-05,NO,노르웨이,19.0,0.5,Norway,Europe
+2019-05,NZ,뉴질랜드,340.0,14.7,New Zealand,Oceania
+2019-05,PL,폴란드,88367.0,3154.2,Poland,Europe
+2019-05,SE,스웨덴,5623.0,142.0,Sweden,Europe
+2019-05,US,미국,17791.0,441.3,United States,North America
+2019-06,AT,오스트리아,9.0,0.2,Austria,Europe
+2019-06,AU,호주,392.0,30.5,Australia,Oceania
+2019-06,BE,벨기에,39.0,1.1,Belgium,Europe
+2019-06,CA,캐나다,1220.0,149.1,Canada,North America
+2019-06,CH,스위스,34.0,0.5,Switzerland,Europe
+2019-06,CN,중국,109685.0,2914.5,China,Others
+2019-06,CZ,체코공화국,1952.0,52.5,Czechia,Europe
+2019-06,DE,독일,1398.0,20.8,Germany,Europe
+2019-06,DK,덴마크,0.0,0.0,Denmark,Europe
+2019-06,ES,스페인,719.0,9.0,Spain,Europe
+2019-06,FI,핀란드,0.0,0.0,Finland,Europe
+2019-06,FR,프랑스,474.0,7.5,France,Europe
+2019-06,GB,영국,566.0,21.2,United Kingdom,Europe
+2019-06,IE,아일랜드,27.0,0.1,Ireland,Europe
+2019-06,IT,이탈리아,507.0,8.0,Italy,Europe
+2019-06,JP,일본,7878.0,560.1,Japan,Others
+2019-06,NL,네덜란드,1241.0,42.7,Netherlands,Europe
+2019-06,NO,노르웨이,0.0,0.0,Norway,Europe
+2019-06,NZ,뉴질랜드,180.0,3.0,New Zealand,Oceania
+2019-06,PL,폴란드,38212.0,1746.3,Poland,Europe
+2019-06,SE,스웨덴,0.0,0.0,Sweden,Europe
+2019-06,US,미국,12462.0,314.6,United States,North America
+2019-07,AT,오스트리아,6.0,0.2,Austria,Europe
+2019-07,AU,호주,368.0,17.2,Australia,Oceania
+2019-07,BE,벨기에,3022.0,93.3,Belgium,Europe
+2019-07,CA,캐나다,323.0,11.4,Canada,North America
+2019-07,CH,스위스,1.0,0.0,Switzerland,Europe
+2019-07,CN,중국,138450.0,4055.3,China,Others
+2019-07,CZ,체코공화국,9929.0,228.0,Czechia,Europe
+2019-07,DE,독일,909.0,29.1,Germany,Europe
+2019-07,DK,덴마크,0.0,0.0,Denmark,Europe
+2019-07,ES,스페인,1053.0,16.4,Spain,Europe
+2019-07,FI,핀란드,2.0,0.0,Finland,Europe
+2019-07,FR,프랑스,424.0,5.1,France,Europe
+2019-07,GB,영국,200.0,9.1,United Kingdom,Europe
+2019-07,IE,아일랜드,0.0,0.0,Ireland,Europe
+2019-07,IT,이탈리아,477.0,7.4,Italy,Europe
+2019-07,JP,일본,11114.0,995.6,Japan,Others
+2019-07,NL,네덜란드,363.0,30.1,Netherlands,Europe
+2019-07,NO,노르웨이,3.0,0.2,Norway,Europe
+2019-07,NZ,뉴질랜드,121.0,3.2,New Zealand,Oceania
+2019-07,PL,폴란드,49086.0,1407.0,Poland,Europe
+2019-07,SE,스웨덴,1844.0,12.5,Sweden,Europe
+2019-07,US,미국,11722.0,315.6,United States,North America
+2019-08,AT,오스트리아,348.0,5.7,Austria,Europe
+2019-08,AU,호주,425.0,31.5,Australia,Oceania
+2019-08,BE,벨기에,605.0,2.8,Belgium,Europe
+2019-08,CA,캐나다,194.0,3.6,Canada,North America
+2019-08,CH,스위스,0.0,0.0,Switzerland,Europe
+2019-08,CN,중국,139638.0,3636.4,China,Others
+2019-08,CZ,체코공화국,8667.0,255.4,Czechia,Europe
+2019-08,DE,독일,881.0,15.9,Germany,Europe
+2019-08,DK,덴마크,7.0,0.3,Denmark,Europe
+2019-08,ES,스페인,3637.0,198.5,Spain,Europe
+2019-08,FI,핀란드,8.0,0.8,Finland,Europe
+2019-08,FR,프랑스,646.0,8.7,France,Europe
+2019-08,GB,영국,102.0,2.6,United Kingdom,Europe
+2019-08,IE,아일랜드,27.0,0.1,Ireland,Europe
+2019-08,IT,이탈리아,282.0,6.6,Italy,Europe
+2019-08,JP,일본,8559.0,444.5,Japan,Others
+2019-08,NL,네덜란드,8362.0,362.2,Netherlands,Europe
+2019-08,NO,노르웨이,19.0,0.4,Norway,Europe
+2019-08,NZ,뉴질랜드,40.0,0.7,New Zealand,Oceania
+2019-08,PL,폴란드,26856.0,1053.9,Poland,Europe
+2019-08,SE,스웨덴,1981.0,44.6,Sweden,Europe
+2019-08,US,미국,26727.0,566.5,United States,North America
+2019-09,AT,오스트리아,24.0,0.2,Austria,Europe
+2019-09,AU,호주,376.0,26.0,Australia,Oceania
+2019-09,BE,벨기에,18.0,0.4,Belgium,Europe
+2019-09,CA,캐나다,2470.0,91.1,Canada,North America
+2019-09,CH,스위스,17.0,0.8,Switzerland,Europe
+2019-09,CN,중국,80161.0,1676.4,China,Others
+2019-09,CZ,체코공화국,3664.0,129.6,Czechia,Europe
+2019-09,DE,독일,723.0,34.3,Germany,Europe
+2019-09,DK,덴마크,13.0,0.3,Denmark,Europe
+2019-09,ES,스페인,388.0,12.3,Spain,Europe
+2019-09,FI,핀란드,6.0,0.1,Finland,Europe
+2019-09,FR,프랑스,64.0,3.1,France,Europe
+2019-09,GB,영국,817.0,43.3,United Kingdom,Europe
+2019-09,IE,아일랜드,0.0,0.0,Ireland,Europe
+2019-09,IT,이탈리아,289.0,3.1,Italy,Europe
+2019-09,JP,일본,8578.0,485.8,Japan,Others
+2019-09,NL,네덜란드,991.0,28.9,Netherlands,Europe
+2019-09,NO,노르웨이,0.0,0.0,Norway,Europe
+2019-09,NZ,뉴질랜드,363.0,17.9,New Zealand,Oceania
+2019-09,PL,폴란드,45823.0,1018.3,Poland,Europe
+2019-09,SE,스웨덴,13.0,0.3,Sweden,Europe
+2019-09,US,미국,31320.0,1311.8,United States,North America
+2019-10,AT,오스트리아,362.0,6.7,Austria,Europe
+2019-10,AU,호주,716.0,51.2,Australia,Oceania
+2019-10,BE,벨기에,98.0,2.7,Belgium,Europe
+2019-10,CA,캐나다,1475.0,27.1,Canada,North America
+2019-10,CH,스위스,10.0,0.1,Switzerland,Europe
+2019-10,CN,중국,123326.0,3092.2,China,Others
+2019-10,CZ,체코공화국,2640.0,55.1,Czechia,Europe
+2019-10,DE,독일,721.0,17.7,Germany,Europe
+2019-10,DK,덴마크,2.0,0.2,Denmark,Europe
+2019-10,ES,스페인,682.0,14.1,Spain,Europe
+2019-10,FI,핀란드,0.0,0.0,Finland,Europe
+2019-10,FR,프랑스,536.0,7.3,France,Europe
+2019-10,GB,영국,225.0,9.3,United Kingdom,Europe
+2019-10,IE,아일랜드,0.0,0.0,Ireland,Europe
+2019-10,IT,이탈리아,195.0,2.4,Italy,Europe
+2019-10,JP,일본,8390.0,320.6,Japan,Others
+2019-10,NL,네덜란드,716.0,23.6,Netherlands,Europe
+2019-10,NO,노르웨이,30.0,0.9,Norway,Europe
+2019-10,NZ,뉴질랜드,92.0,1.5,New Zealand,Oceania
+2019-10,PL,폴란드,84535.0,1700.3,Poland,Europe
+2019-10,SE,스웨덴,94.0,2.0,Sweden,Europe
+2019-10,US,미국,11401.0,342.9,United States,North America
+2019-11,AT,오스트리아,136.0,3.6,Austria,Europe
+2019-11,AU,호주,397.0,25.9,Australia,Oceania
+2019-11,BE,벨기에,339.0,7.0,Belgium,Europe
+2019-11,CA,캐나다,1758.0,24.9,Canada,North America
+2019-11,CH,스위스,11.0,0.1,Switzerland,Europe
+2019-11,CN,중국,131127.0,3101.4,China,Others
+2019-11,CZ,체코공화국,1357.0,14.4,Czechia,Europe
+2019-11,DE,독일,1232.0,28.6,Germany,Europe
+2019-11,DK,덴마크,57.0,1.2,Denmark,Europe
+2019-11,ES,스페인,473.0,7.3,Spain,Europe
+2019-11,FI,핀란드,0.0,0.0,Finland,Europe
+2019-11,FR,프랑스,460.0,4.8,France,Europe
+2019-11,GB,영국,223.0,6.5,United Kingdom,Europe
+2019-11,IE,아일랜드,3.0,0.0,Ireland,Europe
+2019-11,IT,이탈리아,881.0,17.0,Italy,Europe
+2019-11,JP,일본,6322.0,398.2,Japan,Others
+2019-11,NL,네덜란드,491.0,24.0,Netherlands,Europe
+2019-11,NO,노르웨이,0.0,0.0,Norway,Europe
+2019-11,NZ,뉴질랜드,369.0,7.4,New Zealand,Oceania
+2019-11,PL,폴란드,77781.0,1475.0,Poland,Europe
+2019-11,SE,스웨덴,599.0,11.5,Sweden,Europe
+2019-11,US,미국,60085.0,2081.4,United States,North America
+2019-12,AT,오스트리아,1202.0,9.8,Austria,Europe
+2019-12,AU,호주,881.0,40.9,Australia,Oceania
+2019-12,BE,벨기에,368.0,28.9,Belgium,Europe
+2019-12,CA,캐나다,373.0,10.3,Canada,North America
+2019-12,CH,스위스,0.0,0.0,Switzerland,Europe
+2019-12,CN,중국,115961.0,4751.5,China,Others
+2019-12,CZ,체코공화국,325.0,8.1,Czechia,Europe
+2019-12,DE,독일,853.0,23.1,Germany,Europe
+2019-12,DK,덴마크,7.0,0.1,Denmark,Europe
+2019-12,ES,스페인,459.0,8.0,Spain,Europe
+2019-12,FI,핀란드,0.0,0.0,Finland,Europe
+2019-12,FR,프랑스,322.0,3.8,France,Europe
+2019-12,GB,영국,361.0,11.8,United Kingdom,Europe
+2019-12,IE,아일랜드,53.0,0.3,Ireland,Europe
+2019-12,IT,이탈리아,899.0,102.1,Italy,Europe
+2019-12,JP,일본,9223.0,444.3,Japan,Others
+2019-12,NL,네덜란드,765.0,29.6,Netherlands,Europe
+2019-12,NO,노르웨이,0.0,0.0,Norway,Europe
+2019-12,NZ,뉴질랜드,151.0,2.7,New Zealand,Oceania
+2019-12,PL,폴란드,125996.0,2610.5,Poland,Europe
+2019-12,SE,스웨덴,6.0,0.4,Sweden,Europe
+2019-12,US,미국,18862.0,605.0,United States,North America
+2020-01,AT,오스트리아,494.0,23.7,Austria,Europe
+2020-01,AU,호주,340.0,21.0,Australia,Oceania
+2020-01,BE,벨기에,19.0,0.6,Belgium,Europe
+2020-01,CA,캐나다,215.0,5.4,Canada,North America
+2020-01,CH,스위스,41.0,0.4,Switzerland,Europe
+2020-01,CN,중국,89299.0,3146.0,China,Others
+2020-01,CZ,체코공화국,53.0,1.8,Czechia,Europe
+2020-01,DE,독일,1766.0,30.5,Germany,Europe
+2020-01,DK,덴마크,0.0,0.0,Denmark,Europe
+2020-01,ES,스페인,274.0,9.6,Spain,Europe
+2020-01,FI,핀란드,0.0,0.0,Finland,Europe
+2020-01,FR,프랑스,938.0,15.7,France,Europe
+2020-01,GB,영국,566.0,7.7,United Kingdom,Europe
+2020-01,IE,아일랜드,0.0,0.0,Ireland,Europe
+2020-01,IT,이탈리아,566.0,3.9,Italy,Europe
+2020-01,JP,일본,8224.0,444.3,Japan,Others
+2020-01,NL,네덜란드,775.0,18.5,Netherlands,Europe
+2020-01,NO,노르웨이,57.0,1.1,Norway,Europe
+2020-01,NZ,뉴질랜드,62.0,2.1,New Zealand,Oceania
+2020-01,PL,폴란드,17611.0,495.8,Poland,Europe
+2020-01,SE,스웨덴,9.0,0.2,Sweden,Europe
+2020-01,US,미국,37744.0,1145.8,United States,North America
+2020-02,AT,오스트리아,578.0,4.9,Austria,Europe
+2020-02,AU,호주,419.0,11.5,Australia,Oceania
+2020-02,BE,벨기에,25.0,0.1,Belgium,Europe
+2020-02,CA,캐나다,353.0,7.2,Canada,North America
+2020-02,CH,스위스,1.0,0.0,Switzerland,Europe
+2020-02,CN,중국,79449.0,2512.0,China,Others
+2020-02,CZ,체코공화국,221.0,6.2,Czechia,Europe
+2020-02,DE,독일,2195.0,27.6,Germany,Europe
+2020-02,DK,덴마크,8.0,0.3,Denmark,Europe
+2020-02,ES,스페인,871.0,9.0,Spain,Europe
+2020-02,FI,핀란드,0.0,0.0,Finland,Europe
+2020-02,FR,프랑스,655.0,5.0,France,Europe
+2020-02,GB,영국,4273.0,50.3,United Kingdom,Europe
+2020-02,IE,아일랜드,32.0,0.3,Ireland,Europe
+2020-02,IT,이탈리아,158.0,2.6,Italy,Europe
+2020-02,JP,일본,7918.0,396.9,Japan,Others
+2020-02,NL,네덜란드,864.0,31.3,Netherlands,Europe
+2020-02,NO,노르웨이,49.0,1.3,Norway,Europe
+2020-02,NZ,뉴질랜드,86.0,3.4,New Zealand,Oceania
+2020-02,PL,폴란드,14924.0,287.1,Poland,Europe
+2020-02,SE,스웨덴,1682.0,22.5,Sweden,Europe
+2020-02,US,미국,25562.0,1231.3,United States,North America
+2020-03,AT,오스트리아,392.0,5.7,Austria,Europe
+2020-03,AU,호주,538.0,26.4,Australia,Oceania
+2020-03,BE,벨기에,163.0,2.5,Belgium,Europe
+2020-03,CA,캐나다,499.0,13.2,Canada,North America
+2020-03,CH,스위스,29.0,0.1,Switzerland,Europe
+2020-03,CN,중국,68529.0,1843.6,China,Others
+2020-03,CZ,체코공화국,411.0,7.9,Czechia,Europe
+2020-03,DE,독일,13140.0,290.2,Germany,Europe
+2020-03,DK,덴마크,9.0,0.3,Denmark,Europe
+2020-03,ES,스페인,4865.0,236.4,Spain,Europe
+2020-03,FI,핀란드,0.0,0.0,Finland,Europe
+2020-03,FR,프랑스,482.0,3.8,France,Europe
+2020-03,GB,영국,69.0,2.8,United Kingdom,Europe
+2020-03,IE,아일랜드,0.0,0.0,Ireland,Europe
+2020-03,IT,이탈리아,636.0,24.1,Italy,Europe
+2020-03,JP,일본,8305.0,419.9,Japan,Others
+2020-03,NL,네덜란드,770.0,43.5,Netherlands,Europe
+2020-03,NO,노르웨이,0.0,0.0,Norway,Europe
+2020-03,NZ,뉴질랜드,31.0,1.4,New Zealand,Oceania
+2020-03,PL,폴란드,25375.0,411.2,Poland,Europe
+2020-03,SE,스웨덴,247.0,3.0,Sweden,Europe
+2020-03,US,미국,27543.0,1346.0,United States,North America
+2020-04,AT,오스트리아,20.0,2.0,Austria,Europe
+2020-04,AU,호주,1056.0,92.1,Australia,Oceania
+2020-04,BE,벨기에,86.0,3.3,Belgium,Europe
+2020-04,CA,캐나다,198.0,4.3,Canada,North America
+2020-04,CH,스위스,0.0,0.0,Switzerland,Europe
+2020-04,CN,중국,72820.0,1772.4,China,Others
+2020-04,CZ,체코공화국,32705.0,718.4,Czechia,Europe
+2020-04,DE,독일,1280.0,27.4,Germany,Europe
+2020-04,DK,덴마크,5.0,0.3,Denmark,Europe
+2020-04,ES,스페인,1141.0,6.3,Spain,Europe
+2020-04,FI,핀란드,1291.0,34.3,Finland,Europe
+2020-04,FR,프랑스,553.0,1.7,France,Europe
+2020-04,GB,영국,1052.0,27.5,United Kingdom,Europe
+2020-04,IE,아일랜드,29.0,0.2,Ireland,Europe
+2020-04,IT,이탈리아,718.0,6.5,Italy,Europe
+2020-04,JP,일본,11870.0,288.9,Japan,Others
+2020-04,NL,네덜란드,1047.0,29.8,Netherlands,Europe
+2020-04,NO,노르웨이,0.0,0.0,Norway,Europe
+2020-04,NZ,뉴질랜드,8.0,0.2,New Zealand,Oceania
+2020-04,PL,폴란드,4837.0,97.9,Poland,Europe
+2020-04,SE,스웨덴,28.0,0.4,Sweden,Europe
+2020-04,US,미국,58085.0,2743.2,United States,North America
+2020-05,AT,오스트리아,42.0,0.6,Austria,Europe
+2020-05,AU,호주,3201.0,259.6,Australia,Oceania
+2020-05,BE,벨기에,1682.0,4.3,Belgium,Europe
+2020-05,CA,캐나다,317.0,7.8,Canada,North America
+2020-05,CH,스위스,5.0,0.2,Switzerland,Europe
+2020-05,CN,중국,52841.0,1429.4,China,Others
+2020-05,CZ,체코공화국,3148.0,36.1,Czechia,Europe
+2020-05,DE,독일,1898.0,8.8,Germany,Europe
+2020-05,DK,덴마크,4.0,0.1,Denmark,Europe
+2020-05,ES,스페인,501.0,4.8,Spain,Europe
+2020-05,FI,핀란드,0.0,0.0,Finland,Europe
+2020-05,FR,프랑스,1926.0,13.3,France,Europe
+2020-05,GB,영국,1002.0,5.2,United Kingdom,Europe
+2020-05,IE,아일랜드,29.0,0.1,Ireland,Europe
+2020-05,IT,이탈리아,680.0,5.3,Italy,Europe
+2020-05,JP,일본,9951.0,405.9,Japan,Others
+2020-05,NL,네덜란드,778.0,14.6,Netherlands,Europe
+2020-05,NO,노르웨이,108.0,3.5,Norway,Europe
+2020-05,NZ,뉴질랜드,12.0,0.3,New Zealand,Oceania
+2020-05,PL,폴란드,57619.0,1313.9,Poland,Europe
+2020-05,SE,스웨덴,0.0,0.0,Sweden,Europe
+2020-05,US,미국,55655.0,1799.4,United States,North America
+2020-06,AT,오스트리아,155.0,1.5,Austria,Europe
+2020-06,AU,호주,598.0,15.9,Australia,Oceania
+2020-06,BE,벨기에,195.0,0.4,Belgium,Europe
+2020-06,CA,캐나다,1451.0,26.4,Canada,North America
+2020-06,CH,스위스,59.0,0.2,Switzerland,Europe
+2020-06,CN,중국,59531.0,1623.1,China,Others
+2020-06,CZ,체코공화국,317.0,8.5,Czechia,Europe
+2020-06,DE,독일,1705.0,21.5,Germany,Europe
+2020-06,DK,덴마크,6.0,0.4,Denmark,Europe
+2020-06,ES,스페인,434.0,4.7,Spain,Europe
+2020-06,FI,핀란드,0.0,0.0,Finland,Europe
+2020-06,FR,프랑스,729.0,5.4,France,Europe
+2020-06,GB,영국,592.0,6.8,United Kingdom,Europe
+2020-06,IE,아일랜드,94.0,0.7,Ireland,Europe
+2020-06,IT,이탈리아,659.0,3.7,Italy,Europe
+2020-06,JP,일본,5378.0,221.6,Japan,Others
+2020-06,NL,네덜란드,859.0,23.0,Netherlands,Europe
+2020-06,NO,노르웨이,141.0,2.4,Norway,Europe
+2020-06,NZ,뉴질랜드,4.0,0.1,New Zealand,Oceania
+2020-06,PL,폴란드,23936.0,452.7,Poland,Europe
+2020-06,SE,스웨덴,9.0,0.3,Sweden,Europe
+2020-06,US,미국,21208.0,517.2,United States,North America
+2020-07,AT,오스트리아,681.0,4.2,Austria,Europe
+2020-07,AU,호주,1009.0,54.9,Australia,Oceania
+2020-07,BE,벨기에,308.0,22.5,Belgium,Europe
+2020-07,CA,캐나다,47.0,1.6,Canada,North America
+2020-07,CH,스위스,0.0,0.0,Switzerland,Europe
+2020-07,CN,중국,118717.0,2743.2,China,Others
+2020-07,CZ,체코공화국,1560.0,46.9,Czechia,Europe
+2020-07,DE,독일,3151.0,7.1,Germany,Europe
+2020-07,DK,덴마크,107.0,0.6,Denmark,Europe
+2020-07,ES,스페인,1174.0,3.1,Spain,Europe
+2020-07,FI,핀란드,3.0,0.1,Finland,Europe
+2020-07,FR,프랑스,784.0,7.3,France,Europe
+2020-07,GB,영국,674.0,9.9,United Kingdom,Europe
+2020-07,IE,아일랜드,62.0,0.3,Ireland,Europe
+2020-07,IT,이탈리아,471.0,4.0,Italy,Europe
+2020-07,JP,일본,8872.0,291.5,Japan,Others
+2020-07,NL,네덜란드,965.0,25.9,Netherlands,Europe
+2020-07,NO,노르웨이,16.0,0.4,Norway,Europe
+2020-07,NZ,뉴질랜드,41.0,0.7,New Zealand,Oceania
+2020-07,PL,폴란드,5723.0,68.9,Poland,Europe
+2020-07,SE,스웨덴,0.0,0.0,Sweden,Europe
+2020-07,US,미국,19592.0,479.5,United States,North America
+2020-08,AT,오스트리아,115.0,0.3,Austria,Europe
+2020-08,AU,호주,425.0,18.0,Australia,Oceania
+2020-08,BE,벨기에,303.0,1.3,Belgium,Europe
+2020-08,CA,캐나다,352.0,6.8,Canada,North America
+2020-08,CH,스위스,111.0,1.4,Switzerland,Europe
+2020-08,CN,중국,74912.0,1873.2,China,Others
+2020-08,CZ,체코공화국,1106.0,28.0,Czechia,Europe
+2020-08,DE,독일,1433.0,11.7,Germany,Europe
+2020-08,DK,덴마크,22.0,0.8,Denmark,Europe
+2020-08,ES,스페인,1270.0,2.2,Spain,Europe
+2020-08,FI,핀란드,0.0,0.0,Finland,Europe
+2020-08,FR,프랑스,230.0,2.9,France,Europe
+2020-08,GB,영국,163.0,5.0,United Kingdom,Europe
+2020-08,IE,아일랜드,43.0,0.3,Ireland,Europe
+2020-08,IT,이탈리아,497.0,1.2,Italy,Europe
+2020-08,JP,일본,3560.0,121.0,Japan,Others
+2020-08,NL,네덜란드,656.0,28.5,Netherlands,Europe
+2020-08,NO,노르웨이,170.0,5.0,Norway,Europe
+2020-08,NZ,뉴질랜드,63.0,0.9,New Zealand,Oceania
+2020-08,PL,폴란드,7280.0,127.3,Poland,Europe
+2020-08,SE,스웨덴,389.0,17.2,Sweden,Europe
+2020-08,US,미국,29535.0,876.3,United States,North America
+2020-09,AT,오스트리아,872.0,12.8,Austria,Europe
+2020-09,AU,호주,457.0,25.6,Australia,Oceania
+2020-09,BE,벨기에,630.0,1.6,Belgium,Europe
+2020-09,CA,캐나다,758.0,9.9,Canada,North America
+2020-09,CH,스위스,124.0,0.2,Switzerland,Europe
+2020-09,CN,중국,52979.0,1289.1,China,Others
+2020-09,CZ,체코공화국,1545.0,80.6,Czechia,Europe
+2020-09,DE,독일,1084.0,9.6,Germany,Europe
+2020-09,DK,덴마크,244.0,0.7,Denmark,Europe
+2020-09,ES,스페인,510.0,6.2,Spain,Europe
+2020-09,FI,핀란드,100.0,0.2,Finland,Europe
+2020-09,FR,프랑스,930.0,8.6,France,Europe
+2020-09,GB,영국,1191.0,4.9,United Kingdom,Europe
+2020-09,IE,아일랜드,80.0,0.3,Ireland,Europe
+2020-09,IT,이탈리아,2468.0,13.2,Italy,Europe
+2020-09,JP,일본,4663.0,199.3,Japan,Others
+2020-09,NL,네덜란드,612.0,24.2,Netherlands,Europe
+2020-09,NO,노르웨이,0.0,0.0,Norway,Europe
+2020-09,NZ,뉴질랜드,102.0,3.1,New Zealand,Oceania
+2020-09,PL,폴란드,11267.0,129.7,Poland,Europe
+2020-09,SE,스웨덴,116.0,2.4,Sweden,Europe
+2020-09,US,미국,16232.0,302.3,United States,North America
+2020-10,AT,오스트리아,419.0,1.7,Austria,Europe
+2020-10,AU,호주,1367.0,57.8,Australia,Oceania
+2020-10,BE,벨기에,488.0,3.4,Belgium,Europe
+2020-10,CA,캐나다,768.0,7.0,Canada,North America
+2020-10,CH,스위스,57.0,0.5,Switzerland,Europe
+2020-10,CN,중국,52232.0,1536.5,China,Others
+2020-10,CZ,체코공화국,931.0,36.4,Czechia,Europe
+2020-10,DE,독일,2539.0,37.7,Germany,Europe
+2020-10,DK,덴마크,0.0,0.0,Denmark,Europe
+2020-10,ES,스페인,480.0,2.1,Spain,Europe
+2020-10,FI,핀란드,123.0,0.2,Finland,Europe
+2020-10,FR,프랑스,3640.0,61.3,France,Europe
+2020-10,GB,영국,1062.0,24.5,United Kingdom,Europe
+2020-10,IE,아일랜드,344.0,10.7,Ireland,Europe
+2020-10,IT,이탈리아,1943.0,5.4,Italy,Europe
+2020-10,JP,일본,3395.0,169.1,Japan,Others
+2020-10,NL,네덜란드,654.0,29.1,Netherlands,Europe
+2020-10,NO,노르웨이,2.0,0.1,Norway,Europe
+2020-10,NZ,뉴질랜드,174.0,2.5,New Zealand,Oceania
+2020-10,PL,폴란드,1486.0,10.5,Poland,Europe
+2020-10,SE,스웨덴,4.0,0.2,Sweden,Europe
+2020-10,US,미국,27354.0,521.6,United States,North America
+2020-11,AT,오스트리아,139.0,0.5,Austria,Europe
+2020-11,AU,호주,686.0,35.7,Australia,Oceania
+2020-11,BE,벨기에,403.0,1.2,Belgium,Europe
+2020-11,CA,캐나다,1196.0,14.3,Canada,North America
+2020-11,CH,스위스,131.0,0.5,Switzerland,Europe
+2020-11,CN,중국,75160.0,1891.6,China,Others
+2020-11,CZ,체코공화국,214.0,21.9,Czechia,Europe
+2020-11,DE,독일,1391.0,6.0,Germany,Europe
+2020-11,DK,덴마크,26.0,1.2,Denmark,Europe
+2020-11,ES,스페인,611.0,5.7,Spain,Europe
+2020-11,FI,핀란드,0.0,0.0,Finland,Europe
+2020-11,FR,프랑스,208.0,1.8,France,Europe
+2020-11,GB,영국,2112.0,43.7,United Kingdom,Europe
+2020-11,IE,아일랜드,0.0,0.0,Ireland,Europe
+2020-11,IT,이탈리아,1658.0,9.1,Italy,Europe
+2020-11,JP,일본,4569.0,125.5,Japan,Others
+2020-11,NL,네덜란드,1210.0,36.8,Netherlands,Europe
+2020-11,NO,노르웨이,0.0,0.0,Norway,Europe
+2020-11,NZ,뉴질랜드,40.0,2.8,New Zealand,Oceania
+2020-11,PL,폴란드,4086.0,101.4,Poland,Europe
+2020-11,SE,스웨덴,1797.0,29.1,Sweden,Europe
+2020-11,US,미국,18237.0,464.3,United States,North America
+2020-12,AT,오스트리아,1754.0,260.7,Austria,Europe
+2020-12,AU,호주,809.0,42.8,Australia,Oceania
+2020-12,BE,벨기에,260.0,2.2,Belgium,Europe
+2020-12,CA,캐나다,1723.0,16.2,Canada,North America
+2020-12,CH,스위스,207.0,0.7,Switzerland,Europe
+2020-12,CN,중국,79833.0,2032.7,China,Others
+2020-12,CZ,체코공화국,781.0,39.8,Czechia,Europe
+2020-12,DE,독일,2186.0,22.8,Germany,Europe
+2020-12,DK,덴마크,148.0,3.9,Denmark,Europe
+2020-12,ES,스페인,2288.0,42.6,Spain,Europe
+2020-12,FI,핀란드,0.0,0.0,Finland,Europe
+2020-12,FR,프랑스,990.0,8.5,France,Europe
+2020-12,GB,영국,2063.0,38.7,United Kingdom,Europe
+2020-12,IE,아일랜드,4.0,0.2,Ireland,Europe
+2020-12,IT,이탈리아,853.0,4.2,Italy,Europe
+2020-12,JP,일본,6213.0,274.4,Japan,Others
+2020-12,NL,네덜란드,1164.0,42.8,Netherlands,Europe
+2020-12,NO,노르웨이,17.0,0.4,Norway,Europe
+2020-12,NZ,뉴질랜드,185.0,3.8,New Zealand,Oceania
+2020-12,PL,폴란드,4254.0,58.7,Poland,Europe
+2020-12,SE,스웨덴,692.0,8.6,Sweden,Europe
+2020-12,US,미국,21487.0,677.9,United States,North America
+2021-01,AT,오스트리아,383.0,4.5,Austria,Europe
+2021-01,AU,호주,299.0,23.9,Australia,Oceania
+2021-01,BE,벨기에,295.0,0.7,Belgium,Europe
+2021-01,CA,캐나다,845.0,3.8,Canada,North America
+2021-01,CH,스위스,111.0,0.6,Switzerland,Europe
+2021-01,CN,중국,64650.0,1646.0,China,Others
+2021-01,CZ,체코공화국,348.0,8.9,Czechia,Europe
+2021-01,DE,독일,838.0,13.7,Germany,Europe
+2021-01,DK,덴마크,102.0,0.2,Denmark,Europe
+2021-01,ES,스페인,721.0,11.2,Spain,Europe
+2021-01,FI,핀란드,28.0,0.1,Finland,Europe
+2021-01,FR,프랑스,140.0,0.5,France,Europe
+2021-01,GB,영국,382.0,4.4,United Kingdom,Europe
+2021-01,IE,아일랜드,0.0,0.0,Ireland,Europe
+2021-01,IT,이탈리아,1605.0,8.2,Italy,Europe
+2021-01,JP,일본,5330.0,248.8,Japan,Others
+2021-01,NL,네덜란드,552.0,19.3,Netherlands,Europe
+2021-01,NO,노르웨이,258.0,33.2,Norway,Europe
+2021-01,NZ,뉴질랜드,91.0,1.8,New Zealand,Oceania
+2021-01,PL,폴란드,2908.0,32.6,Poland,Europe
+2021-01,SE,스웨덴,16.0,0.1,Sweden,Europe
+2021-01,US,미국,20427.0,517.9,United States,North America
+2021-02,AT,오스트리아,251.0,3.7,Austria,Europe
+2021-02,AU,호주,424.0,17.0,Australia,Oceania
+2021-02,BE,벨기에,99.0,0.3,Belgium,Europe
+2021-02,CA,캐나다,504.0,3.5,Canada,North America
+2021-02,CH,스위스,305.0,0.5,Switzerland,Europe
+2021-02,CN,중국,102695.0,2450.6,China,Others
+2021-02,CZ,체코공화국,2563.0,52.5,Czechia,Europe
+2021-02,DE,독일,1393.0,14.5,Germany,Europe
+2021-02,DK,덴마크,0.0,0.0,Denmark,Europe
+2021-02,ES,스페인,700.0,7.1,Spain,Europe
+2021-02,FI,핀란드,11.0,0.2,Finland,Europe
+2021-02,FR,프랑스,482.0,2.9,France,Europe
+2021-02,GB,영국,683.0,24.8,United Kingdom,Europe
+2021-02,IE,아일랜드,55.0,0.8,Ireland,Europe
+2021-02,IT,이탈리아,828.0,3.7,Italy,Europe
+2021-02,JP,일본,4478.0,127.6,Japan,Others
+2021-02,NL,네덜란드,858.0,25.9,Netherlands,Europe
+2021-02,NO,노르웨이,2.0,0.1,Norway,Europe
+2021-02,NZ,뉴질랜드,72.0,3.7,New Zealand,Oceania
+2021-02,PL,폴란드,1505.0,17.4,Poland,Europe
+2021-02,SE,스웨덴,204.0,1.4,Sweden,Europe
+2021-02,US,미국,12273.0,509.1,United States,North America
+2021-03,AT,오스트리아,213.0,1.3,Austria,Europe
+2021-03,AU,호주,492.0,45.1,Australia,Oceania
+2021-03,BE,벨기에,315.0,2.7,Belgium,Europe
+2021-03,CA,캐나다,332.0,3.6,Canada,North America
+2021-03,CH,스위스,156.0,0.6,Switzerland,Europe
+2021-03,CN,중국,178014.0,4022.5,China,Others
+2021-03,CZ,체코공화국,20428.0,408.6,Czechia,Europe
+2021-03,DE,독일,4000.0,82.4,Germany,Europe
+2021-03,DK,덴마크,208.0,0.4,Denmark,Europe
+2021-03,ES,스페인,1383.0,14.7,Spain,Europe
+2021-03,FI,핀란드,127.0,0.2,Finland,Europe
+2021-03,FR,프랑스,648.0,2.8,France,Europe
+2021-03,GB,영국,1058.0,13.2,United Kingdom,Europe
+2021-03,IE,아일랜드,278.0,1.0,Ireland,Europe
+2021-03,IT,이탈리아,709.0,5.4,Italy,Europe
+2021-03,JP,일본,8047.0,209.3,Japan,Others
+2021-03,NL,네덜란드,841.0,38.8,Netherlands,Europe
+2021-03,NO,노르웨이,43.0,0.1,Norway,Europe
+2021-03,NZ,뉴질랜드,53.0,0.4,New Zealand,Oceania
+2021-03,PL,폴란드,5244.0,45.4,Poland,Europe
+2021-03,SE,스웨덴,356.0,3.1,Sweden,Europe
+2021-03,US,미국,8105.0,356.2,United States,North America
+2021-04,AT,오스트리아,75.0,0.3,Austria,Europe
+2021-04,AU,호주,794.0,24.0,Australia,Oceania
+2021-04,BE,벨기에,9.0,0.2,Belgium,Europe
+2021-04,CA,캐나다,263.0,5.9,Canada,North America
+2021-04,CH,스위스,0.0,0.0,Switzerland,Europe
+2021-04,CN,중국,103891.0,2369.2,China,Others
+2021-04,CZ,체코공화국,8429.0,168.4,Czechia,Europe
+2021-04,DE,독일,3090.0,54.3,Germany,Europe
+2021-04,DK,덴마크,183.0,0.7,Denmark,Europe
+2021-04,ES,스페인,294.0,4.0,Spain,Europe
+2021-04,FI,핀란드,126.0,0.3,Finland,Europe
+2021-04,FR,프랑스,5313.0,354.5,France,Europe
+2021-04,GB,영국,259.0,6.3,United Kingdom,Europe
+2021-04,IE,아일랜드,0.0,0.0,Ireland,Europe
+2021-04,IT,이탈리아,1401.0,18.3,Italy,Europe
+2021-04,JP,일본,7679.0,187.1,Japan,Others
+2021-04,NL,네덜란드,1369.0,44.2,Netherlands,Europe
+2021-04,NO,노르웨이,42.0,0.1,Norway,Europe
+2021-04,NZ,뉴질랜드,201.0,2.9,New Zealand,Oceania
+2021-04,PL,폴란드,1764.0,41.4,Poland,Europe
+2021-04,SE,스웨덴,297.0,2.8,Sweden,Europe
+2021-04,US,미국,16981.0,426.4,United States,North America
+2021-05,AT,오스트리아,60.0,0.3,Austria,Europe
+2021-05,AU,호주,860.0,38.6,Australia,Oceania
+2021-05,BE,벨기에,716.0,7.5,Belgium,Europe
+2021-05,CA,캐나다,909.0,16.7,Canada,North America
+2021-05,CH,스위스,13.0,0.0,Switzerland,Europe
+2021-05,CN,중국,62766.0,1498.9,China,Others
+2021-05,CZ,체코공화국,1433.0,34.0,Czechia,Europe
+2021-05,DE,독일,1009.0,15.7,Germany,Europe
+2021-05,DK,덴마크,4.0,0.4,Denmark,Europe
+2021-05,ES,스페인,725.0,9.5,Spain,Europe
+2021-05,FI,핀란드,0.0,0.0,Finland,Europe
+2021-05,FR,프랑스,9897.0,962.1,France,Europe
+2021-05,GB,영국,274.0,8.2,United Kingdom,Europe
+2021-05,IE,아일랜드,0.0,0.0,Ireland,Europe
+2021-05,IT,이탈리아,1164.0,8.4,Italy,Europe
+2021-05,JP,일본,5815.0,224.3,Japan,Others
+2021-05,NL,네덜란드,1388.0,34.9,Netherlands,Europe
+2021-05,NO,노르웨이,54.0,1.7,Norway,Europe
+2021-05,NZ,뉴질랜드,43.0,2.7,New Zealand,Oceania
+2021-05,PL,폴란드,2958.0,42.9,Poland,Europe
+2021-05,SE,스웨덴,143.0,1.2,Sweden,Europe
+2021-05,US,미국,27853.0,677.7,United States,North America
+2021-06,AT,오스트리아,65.0,0.4,Austria,Europe
+2021-06,AU,호주,964.0,36.4,Australia,Oceania
+2021-06,BE,벨기에,739.0,8.5,Belgium,Europe
+2021-06,CA,캐나다,539.0,7.8,Canada,North America
+2021-06,CH,스위스,28.0,0.3,Switzerland,Europe
+2021-06,CN,중국,46412.0,1517.2,China,Others
+2021-06,CZ,체코공화국,1005.0,23.9,Czechia,Europe
+2021-06,DE,독일,7576.0,220.7,Germany,Europe
+2021-06,DK,덴마크,0.0,0.0,Denmark,Europe
+2021-06,ES,스페인,576.0,8.0,Spain,Europe
+2021-06,FI,핀란드,24.0,0.1,Finland,Europe
+2021-06,FR,프랑스,2852.0,79.2,France,Europe
+2021-06,GB,영국,889.0,25.9,United Kingdom,Europe
+2021-06,IE,아일랜드,6.0,0.2,Ireland,Europe
+2021-06,IT,이탈리아,102.0,2.3,Italy,Europe
+2021-06,JP,일본,11310.0,572.5,Japan,Others
+2021-06,NL,네덜란드,892.0,51.1,Netherlands,Europe
+2021-06,NO,노르웨이,79.0,2.5,Norway,Europe
+2021-06,NZ,뉴질랜드,109.0,4.3,New Zealand,Oceania
+2021-06,PL,폴란드,9474.0,187.7,Poland,Europe
+2021-06,SE,스웨덴,38.0,1.0,Sweden,Europe
+2021-06,US,미국,25642.0,641.0,United States,North America
+2021-07,AT,오스트리아,503.0,4.2,Austria,Europe
+2021-07,AU,호주,769.0,30.7,Australia,Oceania
+2021-07,BE,벨기에,209.0,5.2,Belgium,Europe
+2021-07,CA,캐나다,611.0,7.2,Canada,North America
+2021-07,CH,스위스,6.0,0.1,Switzerland,Europe
+2021-07,CN,중국,77928.0,2108.8,China,Others
+2021-07,CZ,체코공화국,497.0,6.4,Czechia,Europe
+2021-07,DE,독일,2917.0,141.2,Germany,Europe
+2021-07,DK,덴마크,15.0,1.0,Denmark,Europe
+2021-07,ES,스페인,795.0,11.4,Spain,Europe
+2021-07,FI,핀란드,0.0,0.0,Finland,Europe
+2021-07,FR,프랑스,173.0,2.6,France,Europe
+2021-07,GB,영국,237.0,6.3,United Kingdom,Europe
+2021-07,IT,이탈리아,617.0,10.8,Italy,Europe
+2021-07,JP,일본,6471.0,254.5,Japan,Others
+2021-07,NL,네덜란드,864.0,45.8,Netherlands,Europe
+2021-07,NO,노르웨이,0.0,0.0,Norway,Europe
+2021-07,NZ,뉴질랜드,222.0,1.1,New Zealand,Oceania
+2021-07,PL,폴란드,1549.0,12.6,Poland,Europe
+2021-07,SE,스웨덴,234.0,1.7,Sweden,Europe
+2021-07,US,미국,20494.0,553.4,United States,North America
+2021-08,AT,오스트리아,58.0,0.4,Austria,Europe
+2021-08,AU,호주,944.0,38.2,Australia,Oceania
+2021-08,BE,벨기에,26.0,0.3,Belgium,Europe
+2021-08,CA,캐나다,969.0,12.0,Canada,North America
+2021-08,CH,스위스,16.0,0.4,Switzerland,Europe
+2021-08,CN,중국,110017.0,4044.9,China,Others
+2021-08,CZ,체코공화국,166.0,2.7,Czechia,Europe
+2021-08,DE,독일,1396.0,24.5,Germany,Europe
+2021-08,DK,덴마크,11.0,0.2,Denmark,Europe
+2021-08,ES,스페인,1332.0,32.6,Spain,Europe
+2021-08,FI,핀란드,21.0,1.8,Finland,Europe
+2021-08,FR,프랑스,395.0,2.3,France,Europe
+2021-08,GB,영국,227.0,8.4,United Kingdom,Europe
+2021-08,IE,아일랜드,0.0,0.0,Ireland,Europe
+2021-08,IT,이탈리아,505.0,2.9,Italy,Europe
+2021-08,JP,일본,5582.0,203.9,Japan,Others
+2021-08,NL,네덜란드,642.0,12.6,Netherlands,Europe
+2021-08,NO,노르웨이,4.0,1.1,Norway,Europe
+2021-08,NZ,뉴질랜드,187.0,2.7,New Zealand,Oceania
+2021-08,PL,폴란드,4388.0,40.1,Poland,Europe
+2021-08,SE,스웨덴,13.0,0.5,Sweden,Europe
+2021-08,US,미국,34922.0,746.9,United States,North America
+2021-09,AT,오스트리아,55.0,0.1,Austria,Europe
+2021-09,AU,호주,742.0,46.7,Australia,Oceania
+2021-09,BE,벨기에,15.0,0.0,Belgium,Europe
+2021-09,CA,캐나다,777.0,8.1,Canada,North America
+2021-09,CH,스위스,5.0,0.1,Switzerland,Europe
+2021-09,CN,중국,83376.0,2258.6,China,Others
+2021-09,CZ,체코공화국,727.0,10.1,Czechia,Europe
+2021-09,DE,독일,1495.0,18.5,Germany,Europe
+2021-09,DK,덴마크,9.0,0.0,Denmark,Europe
+2021-09,ES,스페인,239.0,6.0,Spain,Europe
+2021-09,FI,핀란드,1.0,0.2,Finland,Europe
+2021-09,FR,프랑스,513.0,4.6,France,Europe
+2021-09,GB,영국,165.0,4.6,United Kingdom,Europe
+2021-09,IE,아일랜드,0.0,0.0,Ireland,Europe
+2021-09,IT,이탈리아,1864.0,22.9,Italy,Europe
+2021-09,JP,일본,6481.0,300.4,Japan,Others
+2021-09,NL,네덜란드,577.0,17.2,Netherlands,Europe
+2021-09,NO,노르웨이,19.0,0.7,Norway,Europe
+2021-09,NZ,뉴질랜드,78.0,1.7,New Zealand,Oceania
+2021-09,PL,폴란드,9892.0,225.0,Poland,Europe
+2021-09,SE,스웨덴,1.0,0.0,Sweden,Europe
+2021-09,US,미국,28338.0,568.9,United States,North America
+2021-10,AT,오스트리아,268.0,2.2,Austria,Europe
+2021-10,AU,호주,424.0,9.3,Australia,Oceania
+2021-10,BE,벨기에,84.0,1.9,Belgium,Europe
+2021-10,CA,캐나다,272.0,6.1,Canada,North America
+2021-10,CH,스위스,183.0,2.0,Switzerland,Europe
+2021-10,CN,중국,78745.0,2571.6,China,Others
+2021-10,CZ,체코공화국,5809.0,23.4,Czechia,Europe
+2021-10,DE,독일,1313.0,76.7,Germany,Europe
+2021-10,DK,덴마크,28.0,1.1,Denmark,Europe
+2021-10,ES,스페인,1245.0,21.1,Spain,Europe
+2021-10,FI,핀란드,0.0,0.0,Finland,Europe
+2021-10,FR,프랑스,558.0,39.8,France,Europe
+2021-10,GB,영국,548.0,18.8,United Kingdom,Europe
+2021-10,IT,이탈리아,107.0,2.0,Italy,Europe
+2021-10,JP,일본,5287.0,261.4,Japan,Others
+2021-10,NL,네덜란드,529.0,28.7,Netherlands,Europe
+2021-10,NO,노르웨이,28.0,0.9,Norway,Europe
+2021-10,NZ,뉴질랜드,134.0,4.1,New Zealand,Oceania
+2021-10,PL,폴란드,1588.0,22.4,Poland,Europe
+2021-10,SE,스웨덴,1170.0,8.2,Sweden,Europe
+2021-10,US,미국,24286.0,946.7,United States,North America
+2021-11,AT,오스트리아,78.0,0.4,Austria,Europe
+2021-11,AU,호주,557.0,28.6,Australia,Oceania
+2021-11,BE,벨기에,7.0,0.4,Belgium,Europe
+2021-11,CA,캐나다,795.0,12.4,Canada,North America
+2021-11,CH,스위스,1.0,0.0,Switzerland,Europe
+2021-11,CN,중국,80778.0,3670.8,China,Others
+2021-11,CZ,체코공화국,711.0,12.9,Czechia,Europe
+2021-11,DE,독일,3096.0,235.4,Germany,Europe
+2021-11,DK,덴마크,0.0,0.0,Denmark,Europe
+2021-11,ES,스페인,135.0,4.0,Spain,Europe
+2021-11,FI,핀란드,2.0,0.0,Finland,Europe
+2021-11,FR,프랑스,871.0,8.7,France,Europe
+2021-11,GB,영국,39.0,0.5,United Kingdom,Europe
+2021-11,IE,아일랜드,5.0,0.0,Ireland,Europe
+2021-11,IT,이탈리아,434.0,6.8,Italy,Europe
+2021-11,JP,일본,9934.0,369.1,Japan,Others
+2021-11,NL,네덜란드,1068.0,44.7,Netherlands,Europe
+2021-11,NO,노르웨이,0.0,0.0,Norway,Europe
+2021-11,NZ,뉴질랜드,230.0,3.2,New Zealand,Oceania
+2021-11,PL,폴란드,14661.0,207.6,Poland,Europe
+2021-11,SE,스웨덴,637.0,9.3,Sweden,Europe
+2021-11,US,미국,49730.0,1200.2,United States,North America
+2021-12,AT,오스트리아,22.0,0.1,Austria,Europe
+2021-12,AU,호주,2004.0,50.2,Australia,Oceania
+2021-12,BE,벨기에,3.0,0.2,Belgium,Europe
+2021-12,CA,캐나다,2582.0,31.7,Canada,North America
+2021-12,CH,스위스,53.0,0.1,Switzerland,Europe
+2021-12,CN,중국,61226.0,4189.3,China,Others
+2021-12,CZ,체코공화국,1456.0,27.6,Czechia,Europe
+2021-12,DE,독일,990.0,19.3,Germany,Europe
+2021-12,DK,덴마크,0.0,0.0,Denmark,Europe
+2021-12,ES,스페인,382.0,5.3,Spain,Europe
+2021-12,FI,핀란드,0.0,0.0,Finland,Europe
+2021-12,FR,프랑스,214.0,2.7,France,Europe
+2021-12,GB,영국,161.0,4.5,United Kingdom,Europe
+2021-12,IE,아일랜드,0.0,0.0,Ireland,Europe
+2021-12,IT,이탈리아,937.0,3.7,Italy,Europe
+2021-12,JP,일본,5112.0,272.6,Japan,Others
+2021-12,NL,네덜란드,1368.0,46.4,Netherlands,Europe
+2021-12,NO,노르웨이,31.0,0.9,Norway,Europe
+2021-12,NZ,뉴질랜드,883.0,11.8,New Zealand,Oceania
+2021-12,PL,폴란드,10367.0,418.0,Poland,Europe
+2021-12,SE,스웨덴,4124.0,32.2,Sweden,Europe
+2021-12,US,미국,38933.0,1086.1,United States,North America
+2022-01,AT,오스트리아,153.0,0.7,Austria,Europe
+2022-01,AU,호주,233.0,5.6,Australia,Oceania
+2022-01,BE,벨기에,283.0,4.3,Belgium,Europe
+2022-01,CA,캐나다,56.0,2.0,Canada,North America
+2022-01,CH,스위스,101.0,0.7,Switzerland,Europe
+2022-01,CN,중국,74042.0,1907.6,China,Others
+2022-01,CZ,체코공화국,294.0,5.7,Czechia,Europe
+2022-01,DE,독일,2981.0,121.6,Germany,Europe
+2022-01,DK,덴마크,0.0,0.0,Denmark,Europe
+2022-01,ES,스페인,363.0,3.6,Spain,Europe
+2022-01,FI,핀란드,0.0,0.0,Finland,Europe
+2022-01,FR,프랑스,432.0,6.0,France,Europe
+2022-01,GB,영국,101.0,12.7,United Kingdom,Europe
+2022-01,IE,아일랜드,3.0,0.1,Ireland,Europe
+2022-01,IT,이탈리아,2783.0,12.5,Italy,Europe
+2022-01,JP,일본,4335.0,186.0,Japan,Others
+2022-01,NL,네덜란드,1447.0,41.6,Netherlands,Europe
+2022-01,NO,노르웨이,8.0,0.5,Norway,Europe
+2022-01,NZ,뉴질랜드,27.0,0.8,New Zealand,Oceania
+2022-01,PL,폴란드,20539.0,757.1,Poland,Europe
+2022-01,SE,스웨덴,0.0,0.0,Sweden,Europe
+2022-01,US,미국,98497.0,3251.0,United States,North America
+2022-02,AT,오스트리아,121.0,1.4,Austria,Europe
+2022-02,AU,호주,239.0,17.4,Australia,Oceania
+2022-02,BE,벨기에,42.0,1.2,Belgium,Europe
+2022-02,CA,캐나다,266.0,6.2,Canada,North America
+2022-02,CH,스위스,53.0,0.8,Switzerland,Europe
+2022-02,CN,중국,68458.0,2623.8,China,Others
+2022-02,CZ,체코공화국,528.0,9.0,Czechia,Europe
+2022-02,DE,독일,2320.0,95.3,Germany,Europe
+2022-02,DK,덴마크,30.0,2.2,Denmark,Europe
+2022-02,ES,스페인,687.0,4.9,Spain,Europe
+2022-02,FI,핀란드,0.0,0.0,Finland,Europe
+2022-02,FR,프랑스,45.0,1.5,France,Europe
+2022-02,GB,영국,223.0,9.1,United Kingdom,Europe
+2022-02,IE,아일랜드,37.0,0.1,Ireland,Europe
+2022-02,IT,이탈리아,1229.0,24.8,Italy,Europe
+2022-02,JP,일본,5510.0,226.5,Japan,Others
+2022-02,NL,네덜란드,1595.0,76.0,Netherlands,Europe
+2022-02,NO,노르웨이,8.0,0.3,Norway,Europe
+2022-02,NZ,뉴질랜드,130.0,5.7,New Zealand,Oceania
+2022-02,PL,폴란드,25261.0,822.1,Poland,Europe
+2022-02,SE,스웨덴,330.0,4.3,Sweden,Europe
+2022-02,US,미국,34091.0,798.5,United States,North America
+2022-03,AT,오스트리아,180.0,3.9,Austria,Europe
+2022-03,AU,호주,4042.0,110.4,Australia,Oceania
+2022-03,BE,벨기에,37.0,0.2,Belgium,Europe
+2022-03,CA,캐나다,430.0,7.3,Canada,North America
+2022-03,CH,스위스,137.0,0.2,Switzerland,Europe
+2022-03,CN,중국,172461.0,4472.9,China,Others
+2022-03,CZ,체코공화국,949.0,18.2,Czechia,Europe
+2022-03,DE,독일,4628.0,128.5,Germany,Europe
+2022-03,DK,덴마크,12.0,0.1,Denmark,Europe
+2022-03,ES,스페인,121.0,4.4,Spain,Europe
+2022-03,FI,핀란드,0.0,0.0,Finland,Europe
+2022-03,FR,프랑스,114.0,3.3,France,Europe
+2022-03,GB,영국,678.0,17.4,United Kingdom,Europe
+2022-03,IE,아일랜드,6.0,0.2,Ireland,Europe
+2022-03,IT,이탈리아,125.0,3.0,Italy,Europe
+2022-03,JP,일본,7606.0,306.6,Japan,Others
+2022-03,NL,네덜란드,822.0,32.0,Netherlands,Europe
+2022-03,NO,노르웨이,13.0,0.3,Norway,Europe
+2022-03,NZ,뉴질랜드,6.0,0.2,New Zealand,Oceania
+2022-03,PL,폴란드,17298.0,412.2,Poland,Europe
+2022-03,SE,스웨덴,2433.0,24.3,Sweden,Europe
+2022-03,US,미국,89918.0,1820.1,United States,North America
+2022-04,AT,오스트리아,18.0,0.2,Austria,Europe
+2022-04,AU,호주,166.0,12.0,Australia,Oceania
+2022-04,BE,벨기에,16.0,0.1,Belgium,Europe
+2022-04,CA,캐나다,734.0,23.2,Canada,North America
+2022-04,CH,스위스,28.0,0.2,Switzerland,Europe
+2022-04,CN,중국,73423.0,1819.8,China,Others
+2022-04,CZ,체코공화국,439.0,8.2,Czechia,Europe
+2022-04,DE,독일,4687.0,181.8,Germany,Europe
+2022-04,DK,덴마크,2.0,0.0,Denmark,Europe
+2022-04,ES,스페인,359.0,4.7,Spain,Europe
+2022-04,FI,핀란드,114.0,0.2,Finland,Europe
+2022-04,FR,프랑스,465.0,7.2,France,Europe
+2022-04,GB,영국,167.0,5.7,United Kingdom,Europe
+2022-04,IE,아일랜드,49.0,0.5,Ireland,Europe
+2022-04,IT,이탈리아,608.0,11.6,Italy,Europe
+2022-04,JP,일본,6047.0,337.2,Japan,Others
+2022-04,NL,네덜란드,515.0,13.5,Netherlands,Europe
+2022-04,NO,노르웨이,65.0,2.3,Norway,Europe
+2022-04,NZ,뉴질랜드,187.0,2.5,New Zealand,Oceania
+2022-04,PL,폴란드,3317.0,55.6,Poland,Europe
+2022-04,SE,스웨덴,4677.0,44.8,Sweden,Europe
+2022-04,US,미국,61985.0,1303.4,United States,North America
+2022-05,AT,오스트리아,9.0,0.1,Austria,Europe
+2022-05,AU,호주,667.0,27.4,Australia,Oceania
+2022-05,BE,벨기에,382.0,29.5,Belgium,Europe
+2022-05,CA,캐나다,460.0,8.0,Canada,North America
+2022-05,CH,스위스,39.0,0.2,Switzerland,Europe
+2022-05,CN,중국,80615.0,2598.4,China,Others
+2022-05,CZ,체코공화국,1092.0,19.8,Czechia,Europe
+2022-05,DE,독일,1908.0,45.1,Germany,Europe
+2022-05,DK,덴마크,0.0,0.0,Denmark,Europe
+2022-05,ES,스페인,1112.0,24.5,Spain,Europe
+2022-05,FI,핀란드,0.0,0.0,Finland,Europe
+2022-05,FR,프랑스,112.0,0.7,France,Europe
+2022-05,GB,영국,196.0,6.9,United Kingdom,Europe
+2022-05,IT,이탈리아,333.0,9.2,Italy,Europe
+2022-05,JP,일본,8674.0,546.4,Japan,Others
+2022-05,NL,네덜란드,1337.0,34.8,Netherlands,Europe
+2022-05,NO,노르웨이,40.0,1.6,Norway,Europe
+2022-05,NZ,뉴질랜드,59.0,4.7,New Zealand,Oceania
+2022-05,PL,폴란드,8996.0,247.7,Poland,Europe
+2022-05,SE,스웨덴,63.0,1.4,Sweden,Europe
+2022-05,US,미국,39018.0,1256.8,United States,North America
+2022-06,AT,오스트리아,3.0,0.0,Austria,Europe
+2022-06,AU,호주,697.0,27.3,Australia,Oceania
+2022-06,BE,벨기에,7.0,0.3,Belgium,Europe
+2022-06,CA,캐나다,414.0,9.8,Canada,North America
+2022-06,CH,스위스,155.0,5.3,Switzerland,Europe
+2022-06,CN,중국,96519.0,2223.3,China,Others
+2022-06,CZ,체코공화국,7058.0,170.5,Czechia,Europe
+2022-06,DE,독일,776.0,29.7,Germany,Europe
+2022-06,DK,덴마크,18.0,0.1,Denmark,Europe
+2022-06,ES,스페인,747.0,10.2,Spain,Europe
+2022-06,FI,핀란드,2.0,0.0,Finland,Europe
+2022-06,FR,프랑스,386.0,3.6,France,Europe
+2022-06,GB,영국,282.0,4.7,United Kingdom,Europe
+2022-06,IE,아일랜드,2.0,0.0,Ireland,Europe
+2022-06,IT,이탈리아,658.0,17.4,Italy,Europe
+2022-06,JP,일본,6994.0,236.1,Japan,Others
+2022-06,NL,네덜란드,1066.0,28.3,Netherlands,Europe
+2022-06,NO,노르웨이,6.0,0.3,Norway,Europe
+2022-06,NZ,뉴질랜드,186.0,4.0,New Zealand,Oceania
+2022-06,PL,폴란드,5452.0,249.8,Poland,Europe
+2022-06,SE,스웨덴,154.0,1.1,Sweden,Europe
+2022-06,US,미국,18163.0,628.5,United States,North America
+2022-07,AT,오스트리아,79.0,0.6,Austria,Europe
+2022-07,AU,호주,2964.0,168.9,Australia,Oceania
+2022-07,BE,벨기에,96.0,1.4,Belgium,Europe
+2022-07,CA,캐나다,2113.0,28.1,Canada,North America
+2022-07,CH,스위스,20.0,0.1,Switzerland,Europe
+2022-07,CN,중국,70568.0,2478.1,China,Others
+2022-07,CZ,체코공화국,4752.0,122.3,Czechia,Europe
+2022-07,DE,독일,627.0,13.5,Germany,Europe
+2022-07,DK,덴마크,4.0,0.0,Denmark,Europe
+2022-07,ES,스페인,206.0,3.0,Spain,Europe
+2022-07,FI,핀란드,0.0,0.0,Finland,Europe
+2022-07,FR,프랑스,5396.0,212.4,France,Europe
+2022-07,GB,영국,649.0,9.3,United Kingdom,Europe
+2022-07,IE,아일랜드,99.0,0.9,Ireland,Europe
+2022-07,IT,이탈리아,293.0,9.2,Italy,Europe
+2022-07,JP,일본,4971.0,329.7,Japan,Others
+2022-07,NL,네덜란드,633.0,35.1,Netherlands,Europe
+2022-07,NO,노르웨이,3215.0,34.7,Norway,Europe
+2022-07,NZ,뉴질랜드,109.0,1.7,New Zealand,Oceania
+2022-07,PL,폴란드,3725.0,73.3,Poland,Europe
+2022-07,SE,스웨덴,5272.0,66.7,Sweden,Europe
+2022-07,US,미국,52594.0,1096.8,United States,North America
+2022-08,AT,오스트리아,88.0,0.3,Austria,Europe
+2022-08,AU,호주,338.0,5.4,Australia,Oceania
+2022-08,BE,벨기에,20.0,0.1,Belgium,Europe
+2022-08,CA,캐나다,98.0,5.4,Canada,North America
+2022-08,CH,스위스,116.0,0.5,Switzerland,Europe
+2022-08,CN,중국,87665.0,2988.1,China,Others
+2022-08,CZ,체코공화국,371.0,8.0,Czechia,Europe
+2022-08,DE,독일,927.0,22.0,Germany,Europe
+2022-08,DK,덴마크,5.0,0.0,Denmark,Europe
+2022-08,ES,스페인,251.0,3.8,Spain,Europe
+2022-08,FI,핀란드,0.0,0.0,Finland,Europe
+2022-08,FR,프랑스,485.0,2.3,France,Europe
+2022-08,GB,영국,2097.0,39.3,United Kingdom,Europe
+2022-08,IE,아일랜드,0.0,0.0,Ireland,Europe
+2022-08,IT,이탈리아,334.0,14.8,Italy,Europe
+2022-08,JP,일본,6477.0,417.0,Japan,Others
+2022-08,NL,네덜란드,1518.0,50.7,Netherlands,Europe
+2022-08,NO,노르웨이,1.0,0.0,Norway,Europe
+2022-08,NZ,뉴질랜드,399.0,5.5,New Zealand,Oceania
+2022-08,PL,폴란드,5380.0,177.4,Poland,Europe
+2022-08,SE,스웨덴,74.0,1.1,Sweden,Europe
+2022-08,US,미국,17698.0,557.3,United States,North America
+2022-09,AT,오스트리아,65.0,0.3,Austria,Europe
+2022-09,AU,호주,762.0,16.4,Australia,Oceania
+2022-09,BE,벨기에,61.0,0.9,Belgium,Europe
+2022-09,CA,캐나다,1513.0,47.3,Canada,North America
+2022-09,CH,스위스,20.0,0.4,Switzerland,Europe
+2022-09,CN,중국,43560.0,1221.1,China,Others
+2022-09,CZ,체코공화국,436.0,9.2,Czechia,Europe
+2022-09,DE,독일,1757.0,108.5,Germany,Europe
+2022-09,DK,덴마크,26.0,0.3,Denmark,Europe
+2022-09,ES,스페인,25.0,0.6,Spain,Europe
+2022-09,FI,핀란드,0.0,0.0,Finland,Europe
+2022-09,FR,프랑스,707.0,10.8,France,Europe
+2022-09,GB,영국,98.0,7.0,United Kingdom,Europe
+2022-09,IE,아일랜드,0.0,0.0,Ireland,Europe
+2022-09,IT,이탈리아,238.0,6.4,Italy,Europe
+2022-09,JP,일본,3642.0,242.3,Japan,Others
+2022-09,NL,네덜란드,704.0,50.1,Netherlands,Europe
+2022-09,NO,노르웨이,0.0,0.0,Norway,Europe
+2022-09,NZ,뉴질랜드,145.0,3.6,New Zealand,Oceania
+2022-09,PL,폴란드,5219.0,222.7,Poland,Europe
+2022-09,SE,스웨덴,178.0,1.9,Sweden,Europe
+2022-09,US,미국,40211.0,969.4,United States,North America
+2022-10,AT,오스트리아,139.0,1.1,Austria,Europe
+2022-10,AU,호주,1452.0,51.0,Australia,Oceania
+2022-10,BE,벨기에,307.0,7.7,Belgium,Europe
+2022-10,CA,캐나다,380.0,6.7,Canada,North America
+2022-10,CH,스위스,111.0,0.3,Switzerland,Europe
+2022-10,CN,중국,56443.0,1626.4,China,Others
+2022-10,CZ,체코공화국,2957.0,72.1,Czechia,Europe
+2022-10,DE,독일,3790.0,99.3,Germany,Europe
+2022-10,DK,덴마크,15.0,0.1,Denmark,Europe
+2022-10,ES,스페인,852.0,22.3,Spain,Europe
+2022-10,FI,핀란드,1.0,0.0,Finland,Europe
+2022-10,FR,프랑스,5543.0,116.0,France,Europe
+2022-10,GB,영국,468.0,14.2,United Kingdom,Europe
+2022-10,IE,아일랜드,0.0,0.0,Ireland,Europe
+2022-10,IT,이탈리아,25.0,0.5,Italy,Europe
+2022-10,JP,일본,3163.0,184.9,Japan,Others
+2022-10,NL,네덜란드,946.0,37.2,Netherlands,Europe
+2022-10,NO,노르웨이,1.0,0.0,Norway,Europe
+2022-10,NZ,뉴질랜드,898.0,13.2,New Zealand,Oceania
+2022-10,PL,폴란드,7714.0,262.1,Poland,Europe
+2022-10,SE,스웨덴,40.0,0.9,Sweden,Europe
+2022-10,US,미국,53980.0,1530.8,United States,North America
+2022-11,AT,오스트리아,17.0,0.2,Austria,Europe
+2022-11,AU,호주,624.0,14.4,Australia,Oceania
+2022-11,BE,벨기에,116.0,0.4,Belgium,Europe
+2022-11,CA,캐나다,661.0,10.0,Canada,North America
+2022-11,CH,스위스,0.0,0.0,Switzerland,Europe
+2022-11,CN,중국,75037.0,2457.7,China,Others
+2022-11,CZ,체코공화국,3486.0,103.1,Czechia,Europe
+2022-11,DE,독일,392.0,11.0,Germany,Europe
+2022-11,DK,덴마크,7.0,0.0,Denmark,Europe
+2022-11,ES,스페인,518.0,8.3,Spain,Europe
+2022-11,FI,핀란드,0.0,0.0,Finland,Europe
+2022-11,FR,프랑스,14835.0,1273.3,France,Europe
+2022-11,GB,영국,228.0,3.9,United Kingdom,Europe
+2022-11,IE,아일랜드,25.0,0.5,Ireland,Europe
+2022-11,IT,이탈리아,382.0,19.5,Italy,Europe
+2022-11,JP,일본,6004.0,336.3,Japan,Others
+2022-11,NL,네덜란드,550.0,20.3,Netherlands,Europe
+2022-11,NO,노르웨이,0.0,0.0,Norway,Europe
+2022-11,NZ,뉴질랜드,114.0,2.2,New Zealand,Oceania
+2022-11,PL,폴란드,4343.0,54.3,Poland,Europe
+2022-11,SE,스웨덴,158.0,2.0,Sweden,Europe
+2022-11,US,미국,23883.0,891.2,United States,North America
+2022-12,AT,오스트리아,166.0,1.1,Austria,Europe
+2022-12,AU,호주,976.0,34.4,Australia,Oceania
+2022-12,BE,벨기에,6.0,0.0,Belgium,Europe
+2022-12,CA,캐나다,482.0,11.7,Canada,North America
+2022-12,CH,스위스,90.0,0.2,Switzerland,Europe
+2022-12,CN,중국,52888.0,1482.4,China,Others
+2022-12,CZ,체코공화국,22312.0,640.9,Czechia,Europe
+2022-12,DE,독일,428.0,1.2,Germany,Europe
+2022-12,DK,덴마크,3.0,0.0,Denmark,Europe
+2022-12,ES,스페인,660.0,9.8,Spain,Europe
+2022-12,FI,핀란드,0.0,0.0,Finland,Europe
+2022-12,FR,프랑스,3224.0,175.6,France,Europe
+2022-12,GB,영국,713.0,24.9,United Kingdom,Europe
+2022-12,IE,아일랜드,0.0,0.0,Ireland,Europe
+2022-12,IT,이탈리아,234.0,6.1,Italy,Europe
+2022-12,JP,일본,3495.0,212.2,Japan,Others
+2022-12,NL,네덜란드,898.0,25.5,Netherlands,Europe
+2022-12,NO,노르웨이,95.0,2.8,Norway,Europe
+2022-12,NZ,뉴질랜드,96.0,5.4,New Zealand,Oceania
+2022-12,PL,폴란드,3687.0,60.7,Poland,Europe
+2022-12,SE,스웨덴,791.0,6.0,Sweden,Europe
+2022-12,US,미국,22899.0,948.3,United States,North America
+2023-01,AT,오스트리아,102.0,0.6,Austria,Europe
+2023-01,AU,호주,661.0,34.9,Australia,Oceania
+2023-01,BE,벨기에,55.0,2.0,Belgium,Europe
+2023-01,CA,캐나다,201.0,3.0,Canada,North America
+2023-01,CH,스위스,0.0,0.0,Switzerland,Europe
+2023-01,CN,중국,29065.0,953.7,China,Others
+2023-01,CZ,체코공화국,1602.0,62.6,Czechia,Europe
+2023-01,DE,독일,804.0,10.2,Germany,Europe
+2023-01,DK,덴마크,0.0,0.0,Denmark,Europe
+2023-01,ES,스페인,597.0,7.0,Spain,Europe
+2023-01,FI,핀란드,13.0,1.2,Finland,Europe
+2023-01,FR,프랑스,957.0,6.2,France,Europe
+2023-01,GB,영국,301.0,9.1,United Kingdom,Europe
+2023-01,IE,아일랜드,57.0,0.0,Ireland,Europe
+2023-01,IT,이탈리아,3046.0,91.4,Italy,Europe
+2023-01,JP,일본,4973.0,239.6,Japan,Others
+2023-01,NL,네덜란드,366.0,13.5,Netherlands,Europe
+2023-01,NO,노르웨이,1.0,0.0,Norway,Europe
+2023-01,NZ,뉴질랜드,133.0,1.4,New Zealand,Oceania
+2023-01,PL,폴란드,13304.0,283.4,Poland,Europe
+2023-01,SE,스웨덴,0.0,0.0,Sweden,Europe
+2023-01,US,미국,12716.0,412.1,United States,North America
+2023-02,AT,오스트리아,256.0,4.0,Austria,Europe
+2023-02,AU,호주,781.0,13.6,Australia,Oceania
+2023-02,BE,벨기에,7.0,0.1,Belgium,Europe
+2023-02,CA,캐나다,808.0,10.8,Canada,North America
+2023-02,CH,스위스,117.0,0.3,Switzerland,Europe
+2023-02,CN,중국,63554.0,1993.3,China,Others
+2023-02,CZ,체코공화국,2628.0,27.4,Czechia,Europe
+2023-02,DE,독일,5432.0,195.6,Germany,Europe
+2023-02,DK,덴마크,1.0,0.0,Denmark,Europe
+2023-02,ES,스페인,287.0,3.1,Spain,Europe
+2023-02,FI,핀란드,0.0,0.0,Finland,Europe
+2023-02,FR,프랑스,163.0,0.9,France,Europe
+2023-02,GB,영국,22.0,1.1,United Kingdom,Europe
+2023-02,IE,아일랜드,0.0,0.0,Ireland,Europe
+2023-02,IT,이탈리아,2628.0,76.3,Italy,Europe
+2023-02,JP,일본,6366.0,255.8,Japan,Others
+2023-02,NL,네덜란드,1113.0,34.0,Netherlands,Europe
+2023-02,NO,노르웨이,1463.0,15.2,Norway,Europe
+2023-02,NZ,뉴질랜드,10.0,0.1,New Zealand,Oceania
+2023-02,PL,폴란드,13234.0,287.5,Poland,Europe
+2023-02,SE,스웨덴,608.0,2.7,Sweden,Europe
+2023-02,US,미국,31599.0,966.9,United States,North America
+2023-03,AT,오스트리아,465.0,3.5,Austria,Europe
+2023-03,AU,호주,1195.0,41.1,Australia,Oceania
+2023-03,BE,벨기에,9.0,0.3,Belgium,Europe
+2023-03,CA,캐나다,1330.0,21.3,Canada,North America
+2023-03,CH,스위스,87.0,0.4,Switzerland,Europe
+2023-03,CN,중국,109295.0,3349.9,China,Others
+2023-03,CZ,체코공화국,807.0,15.2,Czechia,Europe
+2023-03,DE,독일,1260.0,14.2,Germany,Europe
+2023-03,DK,덴마크,1.0,0.0,Denmark,Europe
+2023-03,ES,스페인,269.0,2.8,Spain,Europe
+2023-03,FI,핀란드,1.0,0.0,Finland,Europe
+2023-03,FR,프랑스,426.0,0.7,France,Europe
+2023-03,GB,영국,253.0,8.4,United Kingdom,Europe
+2023-03,IE,아일랜드,22.0,0.1,Ireland,Europe
+2023-03,IT,이탈리아,3529.0,85.9,Italy,Europe
+2023-03,JP,일본,5052.0,323.0,Japan,Others
+2023-03,NL,네덜란드,1151.0,26.7,Netherlands,Europe
+2023-03,NO,노르웨이,96.0,1.6,Norway,Europe
+2023-03,NZ,뉴질랜드,329.0,4.6,New Zealand,Oceania
+2023-03,PL,폴란드,16574.0,446.1,Poland,Europe
+2023-03,SE,스웨덴,221.0,5.8,Sweden,Europe
+2023-03,US,미국,51279.0,1190.0,United States,North America
+2023-04,AT,오스트리아,115.0,0.7,Austria,Europe
+2023-04,AU,호주,584.0,15.6,Australia,Oceania
+2023-04,BE,벨기에,242.0,6.7,Belgium,Europe
+2023-04,CA,캐나다,264.0,25.4,Canada,North America
+2023-04,CH,스위스,14.0,0.0,Switzerland,Europe
+2023-04,CN,중국,78674.0,3304.8,China,Others
+2023-04,CZ,체코공화국,1582.0,29.4,Czechia,Europe
+2023-04,DE,독일,296.0,4.9,Germany,Europe
+2023-04,DK,덴마크,0.0,0.0,Denmark,Europe
+2023-04,ES,스페인,1235.0,28.1,Spain,Europe
+2023-04,FI,핀란드,2.0,0.0,Finland,Europe
+2023-04,FR,프랑스,616.0,8.8,France,Europe
+2023-04,GB,영국,95.0,7.4,United Kingdom,Europe
+2023-04,IE,아일랜드,11.0,0.1,Ireland,Europe
+2023-04,IT,이탈리아,66.0,1.1,Italy,Europe
+2023-04,JP,일본,6671.0,754.3,Japan,Others
+2023-04,NL,네덜란드,574.0,23.4,Netherlands,Europe
+2023-04,NO,노르웨이,0.0,0.0,Norway,Europe
+2023-04,NZ,뉴질랜드,33.0,2.0,New Zealand,Oceania
+2023-04,PL,폴란드,3533.0,30.8,Poland,Europe
+2023-04,SE,스웨덴,0.0,0.0,Sweden,Europe
+2023-04,US,미국,46414.0,1346.3,United States,North America
+2023-05,AT,오스트리아,41.0,0.8,Austria,Europe
+2023-05,AU,호주,578.0,24.7,Australia,Oceania
+2023-05,BE,벨기에,19.0,0.2,Belgium,Europe
+2023-05,CA,캐나다,885.0,13.8,Canada,North America
+2023-05,CH,스위스,0.0,0.0,Switzerland,Europe
+2023-05,CN,중국,111525.0,3494.1,China,Others
+2023-05,CZ,체코공화국,836.0,19.0,Czechia,Europe
+2023-05,DE,독일,4018.0,57.6,Germany,Europe
+2023-05,DK,덴마크,13.0,0.7,Denmark,Europe
+2023-05,ES,스페인,203.0,11.1,Spain,Europe
+2023-05,FI,핀란드,2.0,0.0,Finland,Europe
+2023-05,FR,프랑스,8570.0,1098.8,France,Europe
+2023-05,GB,영국,129.0,1.8,United Kingdom,Europe
+2023-05,IE,아일랜드,141.0,1.7,Ireland,Europe
+2023-05,IT,이탈리아,506.0,9.3,Italy,Europe
+2023-05,JP,일본,4414.0,379.3,Japan,Others
+2023-05,NL,네덜란드,861.0,20.2,Netherlands,Europe
+2023-05,NO,노르웨이,0.0,0.0,Norway,Europe
+2023-05,NZ,뉴질랜드,49.0,1.1,New Zealand,Oceania
+2023-05,PL,폴란드,13014.0,274.4,Poland,Europe
+2023-05,SE,스웨덴,7639.0,195.7,Sweden,Europe
+2023-05,US,미국,52025.0,1252.1,United States,North America
+2023-06,AT,오스트리아,96.0,1.7,Austria,Europe
+2023-06,AU,호주,1897.0,62.1,Australia,Oceania
+2023-06,BE,벨기에,82.0,1.7,Belgium,Europe
+2023-06,CA,캐나다,295.0,5.0,Canada,North America
+2023-06,CH,스위스,4.0,0.1,Switzerland,Europe
+2023-06,CN,중국,41349.0,1797.6,China,Others
+2023-06,CZ,체코공화국,818.0,25.8,Czechia,Europe
+2023-06,DE,독일,982.0,45.3,Germany,Europe
+2023-06,DK,덴마크,0.0,0.0,Denmark,Europe
+2023-06,ES,스페인,796.0,6.2,Spain,Europe
+2023-06,FI,핀란드,0.0,0.0,Finland,Europe
+2023-06,FR,프랑스,7474.0,909.0,France,Europe
+2023-06,GB,영국,271.0,6.8,United Kingdom,Europe
+2023-06,IE,아일랜드,270.0,3.5,Ireland,Europe
+2023-06,IT,이탈리아,75.0,2.4,Italy,Europe
+2023-06,JP,일본,4744.0,491.2,Japan,Others
+2023-06,NL,네덜란드,923.0,18.8,Netherlands,Europe
+2023-06,NO,노르웨이,0.0,0.0,Norway,Europe
+2023-06,NZ,뉴질랜드,187.0,1.5,New Zealand,Oceania
+2023-06,PL,폴란드,36576.0,1045.5,Poland,Europe
+2023-06,SE,스웨덴,23.0,0.1,Sweden,Europe
+2023-06,US,미국,89058.0,1927.2,United States,North America
+2023-07,AT,오스트리아,163.0,2.8,Austria,Europe
+2023-07,AU,호주,270.0,19.5,Australia,Oceania
+2023-07,BE,벨기에,66.0,10.3,Belgium,Europe
+2023-07,CA,캐나다,1377.0,37.6,Canada,North America
+2023-07,CH,스위스,15.0,0.1,Switzerland,Europe
+2023-07,CN,중국,74215.0,2420.5,China,Others
+2023-07,CZ,체코공화국,2307.0,36.8,Czechia,Europe
+2023-07,DE,독일,1359.0,21.3,Germany,Europe
+2023-07,DK,덴마크,392.0,6.6,Denmark,Europe
+2023-07,ES,스페인,393.0,4.9,Spain,Europe
+2023-07,FI,핀란드,1.0,0.0,Finland,Europe
+2023-07,FR,프랑스,1431.0,13.0,France,Europe
+2023-07,GB,영국,365.0,10.8,United Kingdom,Europe
+2023-07,IE,아일랜드,46.0,0.0,Ireland,Europe
+2023-07,IT,이탈리아,91.0,2.5,Italy,Europe
+2023-07,JP,일본,6638.0,491.5,Japan,Others
+2023-07,NL,네덜란드,587.0,16.9,Netherlands,Europe
+2023-07,NO,노르웨이,0.0,0.0,Norway,Europe
+2023-07,NZ,뉴질랜드,128.0,3.2,New Zealand,Oceania
+2023-07,PL,폴란드,30390.0,635.5,Poland,Europe
+2023-07,SE,스웨덴,113.0,2.8,Sweden,Europe
+2023-07,US,미국,21530.0,483.9,United States,North America
+2023-08,AT,오스트리아,340.0,2.5,Austria,Europe
+2023-08,AU,호주,775.0,33.7,Australia,Oceania
+2023-08,BE,벨기에,56.0,0.1,Belgium,Europe
+2023-08,CA,캐나다,127.0,8.4,Canada,North America
+2023-08,CH,스위스,9.0,0.4,Switzerland,Europe
+2023-08,CN,중국,30037.0,1020.9,China,Others
+2023-08,CZ,체코공화국,891.0,18.7,Czechia,Europe
+2023-08,DE,독일,820.0,21.5,Germany,Europe
+2023-08,DK,덴마크,0.0,0.0,Denmark,Europe
+2023-08,ES,스페인,1273.0,21.0,Spain,Europe
+2023-08,FI,핀란드,0.0,0.0,Finland,Europe
+2023-08,FR,프랑스,5234.0,55.7,France,Europe
+2023-08,GB,영국,178.0,13.0,United Kingdom,Europe
+2023-08,IE,아일랜드,10.0,0.8,Ireland,Europe
+2023-08,IT,이탈리아,1443.0,10.1,Italy,Europe
+2023-08,JP,일본,10228.0,305.2,Japan,Others
+2023-08,NL,네덜란드,652.0,13.9,Netherlands,Europe
+2023-08,NO,노르웨이,7534.0,696.1,Norway,Europe
+2023-08,NZ,뉴질랜드,137.0,2.8,New Zealand,Oceania
+2023-08,PL,폴란드,11561.0,322.4,Poland,Europe
+2023-08,SE,스웨덴,18.0,0.3,Sweden,Europe
+2023-08,US,미국,70165.0,1446.8,United States,North America
+2023-09,AT,오스트리아,38.0,5.3,Austria,Europe
+2023-09,AU,호주,1030.0,35.9,Australia,Oceania
+2023-09,BE,벨기에,58.0,1.8,Belgium,Europe
+2023-09,CA,캐나다,1572.0,22.7,Canada,North America
+2023-09,CH,스위스,0.0,0.0,Switzerland,Europe
+2023-09,CN,중국,67071.0,2483.5,China,Others
+2023-09,CZ,체코공화국,1693.0,46.5,Czechia,Europe
+2023-09,DE,독일,1276.0,14.0,Germany,Europe
+2023-09,DK,덴마크,0.0,0.0,Denmark,Europe
+2023-09,ES,스페인,418.0,3.8,Spain,Europe
+2023-09,FI,핀란드,4.0,0.0,Finland,Europe
+2023-09,FR,프랑스,72.0,1.6,France,Europe
+2023-09,GB,영국,165.0,1.8,United Kingdom,Europe
+2023-09,IE,아일랜드,17.0,1.0,Ireland,Europe
+2023-09,IT,이탈리아,150.0,4.2,Italy,Europe
+2023-09,JP,일본,4468.0,246.9,Japan,Others
+2023-09,NL,네덜란드,1319.0,38.0,Netherlands,Europe
+2023-09,NO,노르웨이,881.0,42.7,Norway,Europe
+2023-09,NZ,뉴질랜드,99.0,0.9,New Zealand,Oceania
+2023-09,PL,폴란드,2098.0,38.3,Poland,Europe
+2023-09,SE,스웨덴,10.0,0.1,Sweden,Europe
+2023-09,US,미국,129248.0,3772.6,United States,North America
+2023-10,AT,오스트리아,81.0,0.3,Austria,Europe
+2023-10,AU,호주,928.0,31.8,Australia,Oceania
+2023-10,BE,벨기에,49.0,1.0,Belgium,Europe
+2023-10,CA,캐나다,2163.0,76.3,Canada,North America
+2023-10,CH,스위스,53.0,0.3,Switzerland,Europe
+2023-10,CN,중국,43545.0,1734.7,China,Others
+2023-10,CZ,체코공화국,1162.0,32.9,Czechia,Europe
+2023-10,DE,독일,181.0,2.5,Germany,Europe
+2023-10,DK,덴마크,133.0,2.0,Denmark,Europe
+2023-10,ES,스페인,259.0,6.7,Spain,Europe
+2023-10,FI,핀란드,5.0,0.1,Finland,Europe
+2023-10,FR,프랑스,1217.0,13.0,France,Europe
+2023-10,GB,영국,482.0,14.2,United Kingdom,Europe
+2023-10,IT,이탈리아,263.0,6.6,Italy,Europe
+2023-10,JP,일본,1976.0,109.5,Japan,Others
+2023-10,NL,네덜란드,314.0,17.5,Netherlands,Europe
+2023-10,NO,노르웨이,0.0,0.0,Norway,Europe
+2023-10,NZ,뉴질랜드,178.0,2.3,New Zealand,Oceania
+2023-10,PL,폴란드,26275.0,647.2,Poland,Europe
+2023-10,SE,스웨덴,57.0,1.3,Sweden,Europe
+2023-10,US,미국,254606.0,6642.2,United States,North America
+2023-11,AT,오스트리아,12.0,0.2,Austria,Europe
+2023-11,AU,호주,194.0,11.0,Australia,Oceania
+2023-11,BE,벨기에,63.0,0.1,Belgium,Europe
+2023-11,CA,캐나다,8299.0,132.0,Canada,North America
+2023-11,CH,스위스,4.0,0.2,Switzerland,Europe
+2023-11,CN,중국,43486.0,2007.3,China,Others
+2023-11,CZ,체코공화국,842.0,27.7,Czechia,Europe
+2023-11,DE,독일,1885.0,39.6,Germany,Europe
+2023-11,DK,덴마크,6.0,0.1,Denmark,Europe
+2023-11,ES,스페인,18.0,0.3,Spain,Europe
+2023-11,FI,핀란드,42.0,0.1,Finland,Europe
+2023-11,FR,프랑스,1103.0,11.0,France,Europe
+2023-11,GB,영국,486.0,22.5,United Kingdom,Europe
+2023-11,IE,아일랜드,20.0,0.7,Ireland,Europe
+2023-11,IT,이탈리아,243.0,8.5,Italy,Europe
+2023-11,JP,일본,5302.0,309.0,Japan,Others
+2023-11,NL,네덜란드,847.0,36.3,Netherlands,Europe
+2023-11,NO,노르웨이,8179.0,335.3,Norway,Europe
+2023-11,NZ,뉴질랜드,70.0,2.0,New Zealand,Oceania
+2023-11,PL,폴란드,33400.0,751.6,Poland,Europe
+2023-11,SE,스웨덴,212.0,1.7,Sweden,Europe
+2023-11,US,미국,276590.0,6665.7,United States,North America
+2023-12,AT,오스트리아,94.0,7.2,Austria,Europe
+2023-12,AU,호주,895.0,27.1,Australia,Oceania
+2023-12,BE,벨기에,237.0,0.6,Belgium,Europe
+2023-12,CA,캐나다,3087.0,62.6,Canada,North America
+2023-12,CH,스위스,4.0,0.0,Switzerland,Europe
+2023-12,CN,중국,49261.0,2030.4,China,Others
+2023-12,CZ,체코공화국,2140.0,29.0,Czechia,Europe
+2023-12,DE,독일,2015.0,26.3,Germany,Europe
+2023-12,DK,덴마크,0.0,0.0,Denmark,Europe
+2023-12,ES,스페인,1554.0,27.1,Spain,Europe
+2023-12,FI,핀란드,0.0,0.0,Finland,Europe
+2023-12,FR,프랑스,509.0,2.8,France,Europe
+2023-12,GB,영국,282.0,11.8,United Kingdom,Europe
+2023-12,IE,아일랜드,204.0,4.4,Ireland,Europe
+2023-12,IT,이탈리아,482.0,6.2,Italy,Europe
+2023-12,JP,일본,3792.0,170.0,Japan,Others
+2023-12,NL,네덜란드,1104.0,44.1,Netherlands,Europe
+2023-12,NO,노르웨이,6999.0,219.8,Norway,Europe
+2023-12,NZ,뉴질랜드,105.0,1.0,New Zealand,Oceania
+2023-12,PL,폴란드,10334.0,283.2,Poland,Europe
+2023-12,SE,스웨덴,15267.0,275.3,Sweden,Europe
+2023-12,US,미국,309761.0,8610.8,United States,North America
+2024-01,AT,오스트리아,0.0,0.0,Austria,Europe
+2024-01,AU,호주,480.0,22.2,Australia,Oceania
+2024-01,BE,벨기에,170.0,3.6,Belgium,Europe
+2024-01,CA,캐나다,2445.0,50.5,Canada,North America
+2024-01,CH,스위스,5.0,0.1,Switzerland,Europe
+2024-01,CN,중국,40187.0,1527.2,China,Others
+2024-01,CZ,체코공화국,853.0,18.4,Czechia,Europe
+2024-01,DE,독일,256.0,6.6,Germany,Europe
+2024-01,DK,덴마크,11.0,0.7,Denmark,Europe
+2024-01,ES,스페인,230.0,7.8,Spain,Europe
+2024-01,FI,핀란드,0.0,0.0,Finland,Europe
+2024-01,FR,프랑스,149.0,1.7,France,Europe
+2024-01,GB,영국,100.0,2.3,United Kingdom,Europe
+2024-01,IE,아일랜드,7.0,0.0,Ireland,Europe
+2024-01,IT,이탈리아,307.0,7.2,Italy,Europe
+2024-01,JP,일본,4260.0,168.0,Japan,Others
+2024-01,NL,네덜란드,471.0,18.6,Netherlands,Europe
+2024-01,NO,노르웨이,34.0,7.6,Norway,Europe
+2024-01,NZ,뉴질랜드,35.0,1.8,New Zealand,Oceania
+2024-01,PL,폴란드,8583.0,31.3,Poland,Europe
+2024-01,SE,스웨덴,45.0,0.5,Sweden,Europe
+2024-01,US,미국,269917.0,7815.7,United States,North America
+2024-02,AT,오스트리아,3.0,0.1,Austria,Europe
+2024-02,AU,호주,3203.0,97.8,Australia,Oceania
+2024-02,BE,벨기에,26.0,0.6,Belgium,Europe
+2024-02,CA,캐나다,488.0,6.4,Canada,North America
+2024-02,CH,스위스,5.0,0.1,Switzerland,Europe
+2024-02,CN,중국,52690.0,1506.4,China,Others
+2024-02,CZ,체코공화국,594.0,11.6,Czechia,Europe
+2024-02,DE,독일,396.0,6.0,Germany,Europe
+2024-02,DK,덴마크,37.0,2.1,Denmark,Europe
+2024-02,ES,스페인,73.0,1.3,Spain,Europe
+2024-02,FI,핀란드,6.0,0.0,Finland,Europe
+2024-02,FR,프랑스,806.0,7.8,France,Europe
+2024-02,GB,영국,400.0,85.8,United Kingdom,Europe
+2024-02,IE,아일랜드,1.0,0.0,Ireland,Europe
+2024-02,IT,이탈리아,244.0,5.5,Italy,Europe
+2024-02,JP,일본,2342.0,92.5,Japan,Others
+2024-02,NL,네덜란드,499.0,33.9,Netherlands,Europe
+2024-02,NO,노르웨이,22.0,0.1,Norway,Europe
+2024-02,NZ,뉴질랜드,135.0,5.5,New Zealand,Oceania
+2024-02,PL,폴란드,26832.0,744.3,Poland,Europe
+2024-02,SE,스웨덴,54.0,0.9,Sweden,Europe
+2024-02,US,미국,207109.0,4563.8,United States,North America
+2024-03,AT,오스트리아,1.0,0.0,Austria,Europe
+2024-03,AU,호주,791.0,20.1,Australia,Oceania
+2024-03,BE,벨기에,45.0,0.4,Belgium,Europe
+2024-03,CA,캐나다,2197.0,37.5,Canada,North America
+2024-03,CH,스위스,37.0,0.0,Switzerland,Europe
+2024-03,CN,중국,34307.0,1381.6,China,Others
+2024-03,CZ,체코공화국,24.0,0.1,Czechia,Europe
+2024-03,DE,독일,723.0,11.5,Germany,Europe
+2024-03,DK,덴마크,66.0,0.6,Denmark,Europe
+2024-03,ES,스페인,1145.0,16.0,Spain,Europe
+2024-03,FI,핀란드,0.0,0.0,Finland,Europe
+2024-03,FR,프랑스,48.0,0.6,France,Europe
+2024-03,GB,영국,153.0,6.9,United Kingdom,Europe
+2024-03,IE,아일랜드,3.0,0.0,Ireland,Europe
+2024-03,IT,이탈리아,702.0,6.2,Italy,Europe
+2024-03,JP,일본,6538.0,222.9,Japan,Others
+2024-03,NL,네덜란드,1049.0,25.0,Netherlands,Europe
+2024-03,NO,노르웨이,3.0,0.0,Norway,Europe
+2024-03,NZ,뉴질랜드,196.0,2.9,New Zealand,Oceania
+2024-03,PL,폴란드,6442.0,125.0,Poland,Europe
+2024-03,SE,스웨덴,567.0,8.2,Sweden,Europe
+2024-03,US,미국,225366.0,6115.6,United States,North America
+2024-04,AT,오스트리아,68.0,2.1,Austria,Europe
+2024-04,AU,호주,580.0,26.0,Australia,Oceania
+2024-04,BE,벨기에,29.0,1.3,Belgium,Europe
+2024-04,CA,캐나다,1016.0,11.4,Canada,North America
+2024-04,CH,스위스,765.0,44.7,Switzerland,Europe
+2024-04,CN,중국,48608.0,1571.6,China,Others
+2024-04,CZ,체코공화국,69.0,2.2,Czechia,Europe
+2024-04,DE,독일,827.0,9.9,Germany,Europe
+2024-04,DK,덴마크,75.0,1.9,Denmark,Europe
+2024-04,ES,스페인,315.0,3.6,Spain,Europe
+2024-04,FI,핀란드,0.0,0.0,Finland,Europe
+2024-04,FR,프랑스,5243.0,97.6,France,Europe
+2024-04,GB,영국,2021.0,426.0,United Kingdom,Europe
+2024-04,IT,이탈리아,583.0,9.9,Italy,Europe
+2024-04,JP,일본,5239.0,216.4,Japan,Others
+2024-04,NL,네덜란드,4705.0,77.4,Netherlands,Europe
+2024-04,NO,노르웨이,49.0,0.2,Norway,Europe
+2024-04,NZ,뉴질랜드,219.0,3.4,New Zealand,Oceania
+2024-04,PL,폴란드,15991.0,147.5,Poland,Europe
+2024-04,SE,스웨덴,15433.0,424.6,Sweden,Europe
+2024-04,US,미국,193507.0,4173.4,United States,North America
+2024-05,AT,오스트리아,45.0,0.2,Austria,Europe
+2024-05,AU,호주,547.0,15.7,Australia,Oceania
+2024-05,BE,벨기에,169.0,5.5,Belgium,Europe
+2024-05,CA,캐나다,4058.0,125.4,Canada,North America
+2024-05,CH,스위스,35.0,0.2,Switzerland,Europe
+2024-05,CN,중국,49193.0,1902.5,China,Others
+2024-05,CZ,체코공화국,114.0,2.4,Czechia,Europe
+2024-05,DE,독일,14210.0,811.4,Germany,Europe
+2024-05,DK,덴마크,29.0,2.1,Denmark,Europe
+2024-05,ES,스페인,480.0,6.4,Spain,Europe
+2024-05,FI,핀란드,6.0,0.0,Finland,Europe
+2024-05,FR,프랑스,5154.0,96.7,France,Europe
+2024-05,GB,영국,10485.0,1697.1,United Kingdom,Europe
+2024-05,IE,아일랜드,128.0,1.6,Ireland,Europe
+2024-05,IT,이탈리아,577.0,11.5,Italy,Europe
+2024-05,JP,일본,2711.0,143.6,Japan,Others
+2024-05,NL,네덜란드,503.0,22.0,Netherlands,Europe
+2024-05,NO,노르웨이,19247.0,311.0,Norway,Europe
+2024-05,NZ,뉴질랜드,206.0,6.1,New Zealand,Oceania
+2024-05,PL,폴란드,4765.0,199.0,Poland,Europe
+2024-05,SE,스웨덴,31933.0,414.3,Sweden,Europe
+2024-05,US,미국,140592.0,3531.0,United States,North America
+2024-06,AT,오스트리아,8.0,0.1,Austria,Europe
+2024-06,AU,호주,915.0,23.0,Australia,Oceania
+2024-06,BE,벨기에,15.0,0.3,Belgium,Europe
+2024-06,CA,캐나다,8702.0,204.0,Canada,North America
+2024-06,CH,스위스,7.0,0.0,Switzerland,Europe
+2024-06,CN,중국,36209.0,1206.2,China,Others
+2024-06,CZ,체코공화국,163.0,2.7,Czechia,Europe
+2024-06,DE,독일,612.0,18.4,Germany,Europe
+2024-06,DK,덴마크,359.0,12.2,Denmark,Europe
+2024-06,ES,스페인,856.0,9.0,Spain,Europe
+2024-06,FI,핀란드,0.0,0.0,Finland,Europe
+2024-06,FR,프랑스,12935.0,936.2,France,Europe
+2024-06,GB,영국,234.0,10.0,United Kingdom,Europe
+2024-06,IE,아일랜드,7.0,0.3,Ireland,Europe
+2024-06,IT,이탈리아,235.0,5.8,Italy,Europe
+2024-06,JP,일본,9241.0,194.3,Japan,Others
+2024-06,NL,네덜란드,1414.0,47.4,Netherlands,Europe
+2024-06,NO,노르웨이,50.0,1.7,Norway,Europe
+2024-06,NZ,뉴질랜드,18.0,1.1,New Zealand,Oceania
+2024-06,PL,폴란드,14165.0,124.1,Poland,Europe
+2024-06,SE,스웨덴,44264.0,1176.3,Sweden,Europe
+2024-06,US,미국,83261.0,1739.4,United States,North America
+2024-07,AT,오스트리아,765.0,6.4,Austria,Europe
+2024-07,AU,호주,475.0,21.6,Australia,Oceania
+2024-07,BE,벨기에,193.0,4.3,Belgium,Europe
+2024-07,CA,캐나다,770.0,13.8,Canada,North America
+2024-07,CH,스위스,2.0,0.1,Switzerland,Europe
+2024-07,CN,중국,59865.0,2229.3,China,Others
+2024-07,CZ,체코공화국,523.0,12.7,Czechia,Europe
+2024-07,DE,독일,3644.0,96.8,Germany,Europe
+2024-07,DK,덴마크,6.0,0.8,Denmark,Europe
+2024-07,ES,스페인,43.0,1.4,Spain,Europe
+2024-07,FI,핀란드,7.0,0.3,Finland,Europe
+2024-07,FR,프랑스,13264.0,1137.1,France,Europe
+2024-07,GB,영국,4321.0,944.8,United Kingdom,Europe
+2024-07,IE,아일랜드,0.0,0.0,Ireland,Europe
+2024-07,IT,이탈리아,95.0,2.3,Italy,Europe
+2024-07,JP,일본,3073.0,188.1,Japan,Others
+2024-07,NL,네덜란드,811.0,38.9,Netherlands,Europe
+2024-07,NO,노르웨이,6.0,0.1,Norway,Europe
+2024-07,NZ,뉴질랜드,167.0,2.1,New Zealand,Oceania
+2024-07,PL,폴란드,12127.0,316.1,Poland,Europe
+2024-07,SE,스웨덴,17117.0,324.1,Sweden,Europe
+2024-07,US,미국,71262.0,1925.2,United States,North America
+2024-08,AT,오스트리아,47.0,2.5,Austria,Europe
+2024-08,AU,호주,490.0,29.0,Australia,Oceania
+2024-08,BE,벨기에,90.0,2.4,Belgium,Europe
+2024-08,CA,캐나다,32179.0,509.6,Canada,North America
+2024-08,CH,스위스,1.0,0.0,Switzerland,Europe
+2024-08,CN,중국,42293.0,1604.8,China,Others
+2024-08,CZ,체코공화국,3755.0,58.8,Czechia,Europe
+2024-08,DE,독일,3708.0,98.7,Germany,Europe
+2024-08,DK,덴마크,20.0,2.9,Denmark,Europe
+2024-08,ES,스페인,156.0,1.8,Spain,Europe
+2024-08,FI,핀란드,0.0,0.0,Finland,Europe
+2024-08,FR,프랑스,5224.0,98.1,France,Europe
+2024-08,GB,영국,199.0,3.8,United Kingdom,Europe
+2024-08,IT,이탈리아,491.0,8.3,Italy,Europe
+2024-08,JP,일본,4573.0,108.4,Japan,Others
+2024-08,NL,네덜란드,592.0,19.1,Netherlands,Europe
+2024-08,NO,노르웨이,49.0,0.4,Norway,Europe
+2024-08,NZ,뉴질랜드,178.0,7.1,New Zealand,Oceania
+2024-08,PL,폴란드,4854.0,97.0,Poland,Europe
+2024-08,SE,스웨덴,32311.0,648.1,Sweden,Europe
+2024-08,US,미국,128871.0,3115.9,United States,North America
+2024-09,AT,오스트리아,2.0,0.0,Austria,Europe
+2024-09,AU,호주,708.0,31.6,Australia,Oceania
+2024-09,BE,벨기에,227.0,1.8,Belgium,Europe
+2024-09,CA,캐나다,10017.0,288.6,Canada,North America
+2024-09,CH,스위스,28.0,0.6,Switzerland,Europe
+2024-09,CN,중국,28695.0,1043.3,China,Others
+2024-09,CZ,체코공화국,395.0,24.4,Czechia,Europe
+2024-09,DE,독일,591.0,7.8,Germany,Europe
+2024-09,DK,덴마크,13.0,1.7,Denmark,Europe
+2024-09,ES,스페인,117.0,1.7,Spain,Europe
+2024-09,FI,핀란드,2.0,0.0,Finland,Europe
+2024-09,FR,프랑스,30978.0,1238.1,France,Europe
+2024-09,GB,영국,5185.0,98.9,United Kingdom,Europe
+2024-09,IE,아일랜드,39.0,0.6,Ireland,Europe
+2024-09,IT,이탈리아,224.0,3.6,Italy,Europe
+2024-09,JP,일본,3853.0,144.3,Japan,Others
+2024-09,NL,네덜란드,1080.0,33.2,Netherlands,Europe
+2024-09,NO,노르웨이,0.0,0.0,Norway,Europe
+2024-09,NZ,뉴질랜드,11.0,0.3,New Zealand,Oceania
+2024-09,PL,폴란드,10738.0,85.4,Poland,Europe
+2024-09,SE,스웨덴,1987.0,62.1,Sweden,Europe
+2024-09,US,미국,170443.0,3524.9,United States,North America
+2024-10,AT,오스트리아,8.0,0.1,Austria,Europe
+2024-10,AU,호주,352.0,6.8,Australia,Oceania
+2024-10,BE,벨기에,22.0,0.6,Belgium,Europe
+2024-10,CA,캐나다,3233.0,70.5,Canada,North America
+2024-10,CH,스위스,371.0,6.8,Switzerland,Europe
+2024-10,CN,중국,33469.0,1834.7,China,Others
+2024-10,CZ,체코공화국,387.0,8.0,Czechia,Europe
+2024-10,DE,독일,1800.0,21.3,Germany,Europe
+2024-10,DK,덴마크,50.0,1.4,Denmark,Europe
+2024-10,ES,스페인,365.0,5.2,Spain,Europe
+2024-10,FI,핀란드,8.0,0.1,Finland,Europe
+2024-10,FR,프랑스,6162.0,482.2,France,Europe
+2024-10,GB,영국,70.0,2.7,United Kingdom,Europe
+2024-10,IE,아일랜드,8.0,0.2,Ireland,Europe
+2024-10,IT,이탈리아,85.0,8.1,Italy,Europe
+2024-10,JP,일본,5964.0,194.8,Japan,Others
+2024-10,NL,네덜란드,762.0,19.7,Netherlands,Europe
+2024-10,NO,노르웨이,0.0,0.0,Norway,Europe
+2024-10,NZ,뉴질랜드,40.0,1.7,New Zealand,Oceania
+2024-10,PL,폴란드,6921.0,157.0,Poland,Europe
+2024-10,SE,스웨덴,21.0,0.3,Sweden,Europe
+2024-10,US,미국,154097.0,3973.1,United States,North America
+2024-11,AT,오스트리아,8.0,0.2,Austria,Europe
+2024-11,AU,호주,647.0,15.0,Australia,Oceania
+2024-11,BE,벨기에,28.0,0.9,Belgium,Europe
+2024-11,CA,캐나다,5407.0,139.2,Canada,North America
+2024-11,CH,스위스,127.0,0.2,Switzerland,Europe
+2024-11,CN,중국,30215.0,1084.2,China,Others
+2024-11,CZ,체코공화국,12658.0,439.5,Czechia,Europe
+2024-11,DE,독일,812.0,20.9,Germany,Europe
+2024-11,DK,덴마크,56.0,2.2,Denmark,Europe
+2024-11,ES,스페인,97.0,4.4,Spain,Europe
+2024-11,FI,핀란드,0.0,0.0,Finland,Europe
+2024-11,FR,프랑스,16509.0,648.3,France,Europe
+2024-11,GB,영국,362.0,15.1,United Kingdom,Europe
+2024-11,IE,아일랜드,108.0,1.2,Ireland,Europe
+2024-11,IT,이탈리아,158.0,3.4,Italy,Europe
+2024-11,JP,일본,3565.0,147.3,Japan,Others
+2024-11,NL,네덜란드,1872.0,52.3,Netherlands,Europe
+2024-11,NO,노르웨이,32.0,0.9,Norway,Europe
+2024-11,NZ,뉴질랜드,327.0,4.9,New Zealand,Oceania
+2024-11,PL,폴란드,2490.0,85.6,Poland,Europe
+2024-11,SE,스웨덴,32.0,0.6,Sweden,Europe
+2024-11,US,미국,207240.0,5384.3,United States,North America
+2024-12,AT,오스트리아,496.0,12.0,Austria,Europe
+2024-12,AU,호주,1161.0,48.4,Australia,Oceania
+2024-12,BE,벨기에,25.0,0.6,Belgium,Europe
+2024-12,CA,캐나다,5354.0,116.0,Canada,North America
+2024-12,CH,스위스,3.0,0.0,Switzerland,Europe
+2024-12,CN,중국,59844.0,2269.5,China,Others
+2024-12,CZ,체코공화국,11266.0,292.9,Czechia,Europe
+2024-12,DE,독일,305.0,8.5,Germany,Europe
+2024-12,DK,덴마크,35.0,2.8,Denmark,Europe
+2024-12,ES,스페인,8322.0,316.4,Spain,Europe
+2024-12,FI,핀란드,0.0,0.0,Finland,Europe
+2024-12,FR,프랑스,15053.0,1217.1,France,Europe
+2024-12,GB,영국,489.0,14.6,United Kingdom,Europe
+2024-12,IE,아일랜드,33.0,1.4,Ireland,Europe
+2024-12,IT,이탈리아,675.0,9.6,Italy,Europe
+2024-12,JP,일본,2783.0,82.8,Japan,Others
+2024-12,NL,네덜란드,1920.0,37.5,Netherlands,Europe
+2024-12,NO,노르웨이,0.0,0.0,Norway,Europe
+2024-12,NZ,뉴질랜드,32.0,0.9,New Zealand,Oceania
+2024-12,PL,폴란드,11924.0,123.4,Poland,Europe
+2024-12,SE,스웨덴,18.0,0.2,Sweden,Europe
+2024-12,US,미국,155558.0,5447.3,United States,North America
+2025-01,AT,오스트리아,1.0,0.0,Austria,Europe
+2025-01,AU,호주,459.0,21.1,Australia,Oceania
+2025-01,BE,벨기에,469.0,22.6,Belgium,Europe
+2025-01,CA,캐나다,494.0,14.3,Canada,North America
+2025-01,CH,스위스,9.0,0.1,Switzerland,Europe
+2025-01,CN,중국,27930.0,1102.1,China,Others
+2025-01,CZ,체코공화국,28771.0,844.6,Czechia,Europe
+2025-01,DE,독일,2845.0,57.2,Germany,Europe
+2025-01,DK,덴마크,774.0,37.0,Denmark,Europe
+2025-01,ES,스페인,719.0,10.3,Spain,Europe
+2025-01,FI,핀란드,0.0,0.0,Finland,Europe
+2025-01,FR,프랑스,6875.0,105.8,France,Europe
+2025-01,GB,영국,5186.0,96.9,United Kingdom,Europe
+2025-01,IT,이탈리아,844.0,8.0,Italy,Europe
+2025-01,JP,일본,2090.0,69.4,Japan,Others
+2025-01,NL,네덜란드,863.0,24.8,Netherlands,Europe
+2025-01,NO,노르웨이,0.0,0.0,Norway,Europe
+2025-01,NZ,뉴질랜드,85.0,0.9,New Zealand,Oceania
+2025-01,PL,폴란드,14486.0,234.9,Poland,Europe
+2025-01,SE,스웨덴,54.0,1.2,Sweden,Europe
+2025-01,US,미국,134765.0,3599.5,United States,North America
+2025-02,AT,오스트리아,5.0,0.5,Austria,Europe
+2025-02,AU,호주,346.0,13.7,Australia,Oceania
+2025-02,BE,벨기에,36.0,0.6,Belgium,Europe
+2025-02,CA,캐나다,5754.0,156.4,Canada,North America
+2025-02,CH,스위스,25.0,0.3,Switzerland,Europe
+2025-02,CN,중국,51763.0,1636.6,China,Others
+2025-02,CZ,체코공화국,3690.0,222.5,Czechia,Europe
+2025-02,DE,독일,388.0,7.9,Germany,Europe
+2025-02,DK,덴마크,35.0,2.7,Denmark,Europe
+2025-02,ES,스페인,202.0,3.2,Spain,Europe
+2025-02,FI,핀란드,0.0,0.0,Finland,Europe
+2025-02,FR,프랑스,25.0,0.2,France,Europe
+2025-02,GB,영국,586.0,20.5,United Kingdom,Europe
+2025-02,IT,이탈리아,493.0,13.1,Italy,Europe
+2025-02,JP,일본,8903.0,170.9,Japan,Others
+2025-02,NL,네덜란드,768.0,41.3,Netherlands,Europe
+2025-02,NO,노르웨이,5.0,0.0,Norway,Europe
+2025-02,NZ,뉴질랜드,81.0,1.7,New Zealand,Oceania
+2025-02,PL,폴란드,4619.0,118.2,Poland,Europe
+2025-02,SE,스웨덴,57.0,1.2,Sweden,Europe
+2025-02,US,미국,90747.0,1940.0,United States,North America
+2025-03,AT,오스트리아,5.0,0.1,Austria,Europe
+2025-03,AU,호주,1029.0,26.2,Australia,Oceania
+2025-03,BE,벨기에,38.0,0.6,Belgium,Europe
+2025-03,CA,캐나다,1790.0,30.3,Canada,North America
+2025-03,CH,스위스,14.0,0.1,Switzerland,Europe
+2025-03,CN,중국,46269.0,1782.0,China,Others
+2025-03,CZ,체코공화국,807.0,16.1,Czechia,Europe
+2025-03,DE,독일,846.0,16.2,Germany,Europe
+2025-03,DK,덴마크,27.0,2.5,Denmark,Europe
+2025-03,ES,스페인,1536.0,22.2,Spain,Europe
+2025-03,FI,핀란드,5.0,0.1,Finland,Europe
+2025-03,FR,프랑스,2851.0,232.8,France,Europe
+2025-03,GB,영국,614.0,27.0,United Kingdom,Europe
+2025-03,IE,아일랜드,11.0,0.6,Ireland,Europe
+2025-03,IT,이탈리아,117.0,3.1,Italy,Europe
+2025-03,JP,일본,3425.0,259.6,Japan,Others
+2025-03,NL,네덜란드,2012.0,66.1,Netherlands,Europe
+2025-03,NO,노르웨이,0.0,0.0,Norway,Europe
+2025-03,NZ,뉴질랜드,43.0,0.6,New Zealand,Oceania
+2025-03,PL,폴란드,22965.0,247.5,Poland,Europe
+2025-03,SE,스웨덴,42.0,0.7,Sweden,Europe
+2025-03,US,미국,125211.0,2999.1,United States,North America
+2025-04,AT,오스트리아,114.0,0.3,Austria,Europe
+2025-04,AU,호주,310.0,20.3,Australia,Oceania
+2025-04,BE,벨기에,187.0,10.3,Belgium,Europe
+2025-04,CA,캐나다,1076.0,32.0,Canada,North America
+2025-04,CH,스위스,8.0,0.3,Switzerland,Europe
+2025-04,CN,중국,73475.0,2170.3,China,Others
+2025-04,CZ,체코공화국,564.0,12.3,Czechia,Europe
+2025-04,DE,독일,5200.0,116.4,Germany,Europe
+2025-04,DK,덴마크,13.0,1.3,Denmark,Europe
+2025-04,ES,스페인,441.0,6.1,Spain,Europe
+2025-04,FI,핀란드,130.0,4.5,Finland,Europe
+2025-04,FR,프랑스,12382.0,1034.8,France,Europe
+2025-04,GB,영국,5232.0,104.8,United Kingdom,Europe
+2025-04,IE,아일랜드,0.0,0.3,Ireland,Europe
+2025-04,IT,이탈리아,276.0,6.0,Italy,Europe
+2025-04,JP,일본,4406.0,162.3,Japan,Others
+2025-04,NL,네덜란드,1226.0,75.8,Netherlands,Europe
+2025-04,NO,노르웨이,0.0,0.0,Norway,Europe
+2025-04,NZ,뉴질랜드,34.0,2.4,New Zealand,Oceania
+2025-04,PL,폴란드,15959.0,349.3,Poland,Europe
+2025-04,SE,스웨덴,30.0,0.6,Sweden,Europe
+2025-04,US,미국,46739.0,1084.6,United States,North America
+2025-05,AT,오스트리아,22.0,0.1,Austria,Europe
+2025-05,AU,호주,1351.0,32.6,Australia,Oceania
+2025-05,BE,벨기에,12.0,0.5,Belgium,Europe
+2025-05,CA,캐나다,2355.0,35.2,Canada,North America
+2025-05,CH,스위스,7.0,0.1,Switzerland,Europe
+2025-05,CN,중국,77735.0,2314.7,China,Others
+2025-05,CZ,체코공화국,4438.0,86.0,Czechia,Europe
+2025-05,DE,독일,729.0,13.8,Germany,Europe
+2025-05,DK,덴마크,25.0,3.4,Denmark,Europe
+2025-05,ES,스페인,355.0,3.9,Spain,Europe
+2025-05,FI,핀란드,0.0,0.0,Finland,Europe
+2025-05,FR,프랑스,246.0,4.3,France,Europe
+2025-05,GB,영국,256.0,12.5,United Kingdom,Europe
+2025-05,IT,이탈리아,391.0,8.1,Italy,Europe
+2025-05,JP,일본,4940.0,236.4,Japan,Others
+2025-05,NL,네덜란드,526.0,32.0,Netherlands,Europe
+2025-05,NO,노르웨이,23.0,0.3,Norway,Europe
+2025-05,NZ,뉴질랜드,76.0,1.0,New Zealand,Oceania
+2025-05,PL,폴란드,5104.0,122.1,Poland,Europe
+2025-05,SE,스웨덴,2.0,0.1,Sweden,Europe
+2025-05,US,미국,63795.0,1624.9,United States,North America
+2025-06,AT,오스트리아,0.0,0.0,Austria,Europe
+2025-06,AU,호주,2546.0,62.7,Australia,Oceania
+2025-06,BE,벨기에,138.0,3.8,Belgium,Europe
+2025-06,CA,캐나다,6806.0,93.2,Canada,North America
+2025-06,CH,스위스,144.0,0.4,Switzerland,Europe
+2025-06,CN,중국,80919.0,2336.7,China,Others
+2025-06,CZ,체코공화국,859.0,11.9,Czechia,Europe
+2025-06,DE,독일,499.0,12.6,Germany,Europe
+2025-06,DK,덴마크,3.0,0.0,Denmark,Europe
+2025-06,ES,스페인,589.0,7.5,Spain,Europe
+2025-06,FI,핀란드,9.0,0.6,Finland,Europe
+2025-06,FR,프랑스,7120.0,466.0,France,Europe
+2025-06,GB,영국,786.0,28.8,United Kingdom,Europe
+2025-06,IE,아일랜드,0.0,0.0,Ireland,Europe
+2025-06,IT,이탈리아,887.0,20.3,Italy,Europe
+2025-06,JP,일본,4331.0,187.4,Japan,Others
+2025-06,NL,네덜란드,2252.0,59.1,Netherlands,Europe
+2025-06,NO,노르웨이,1.0,0.0,Norway,Europe
+2025-06,NZ,뉴질랜드,17.0,0.5,New Zealand,Oceania
+2025-06,PL,폴란드,3398.0,39.1,Poland,Europe
+2025-06,SE,스웨덴,26.0,0.2,Sweden,Europe
+2025-06,US,미국,84301.0,3081.5,United States,North America
+2025-07,AT,오스트리아,571.0,3.7,Austria,Europe
+2025-07,AU,호주,378.0,24.1,Australia,Oceania
+2025-07,BE,벨기에,17.0,0.8,Belgium,Europe
+2025-07,CA,캐나다,4485.0,89.1,Canada,North America
+2025-07,CH,스위스,0.0,0.0,Switzerland,Europe
+2025-07,CN,중국,57948.0,2287.9,China,Others
+2025-07,CZ,체코공화국,18627.0,253.6,Czechia,Europe
+2025-07,DE,독일,416.0,15.8,Germany,Europe
+2025-07,DK,덴마크,66.0,4.6,Denmark,Europe
+2025-07,ES,스페인,1297.0,26.2,Spain,Europe
+2025-07,FI,핀란드,0.0,0.0,Finland,Europe
+2025-07,FR,프랑스,22818.0,664.8,France,Europe
+2025-07,GB,영국,3256.0,218.2,United Kingdom,Europe
+2025-07,IE,아일랜드,17.0,1.0,Ireland,Europe
+2025-07,IT,이탈리아,177.0,4.9,Italy,Europe
+2025-07,JP,일본,3993.0,189.0,Japan,Others
+2025-07,NL,네덜란드,1334.0,56.9,Netherlands,Europe
+2025-07,NO,노르웨이,4.0,0.2,Norway,Europe
+2025-07,NZ,뉴질랜드,16.0,1.1,New Zealand,Oceania
+2025-07,PL,폴란드,10761.0,116.7,Poland,Europe
+2025-07,SE,스웨덴,3.0,0.1,Sweden,Europe
+2025-07,US,미국,103689.0,5023.1,United States,North America
+2025-08,AT,오스트리아,169.0,2.4,Austria,Europe
+2025-08,AU,호주,332.0,16.2,Australia,Oceania
+2025-08,BE,벨기에,37.0,1.1,Belgium,Europe
+2025-08,CA,캐나다,1408.0,12.3,Canada,North America
+2025-08,CH,스위스,4.0,0.1,Switzerland,Europe
+2025-08,CN,중국,37273.0,1518.2,China,Others
+2025-08,CZ,체코공화국,109.0,2.5,Czechia,Europe
+2025-08,DE,독일,360.0,6.0,Germany,Europe
+2025-08,DK,덴마크,34.0,1.2,Denmark,Europe
+2025-08,ES,스페인,430.0,4.4,Spain,Europe
+2025-08,FI,핀란드,9.0,0.1,Finland,Europe
+2025-08,FR,프랑스,17464.0,946.5,France,Europe
+2025-08,GB,영국,697.0,27.8,United Kingdom,Europe
+2025-08,IE,아일랜드,0.0,0.0,Ireland,Europe
+2025-08,IT,이탈리아,217.0,2.9,Italy,Europe
+2025-08,JP,일본,4319.0,229.9,Japan,Others
+2025-08,NL,네덜란드,1470.0,59.9,Netherlands,Europe
+2025-08,NO,노르웨이,0.0,0.0,Norway,Europe
+2025-08,NZ,뉴질랜드,212.0,5.4,New Zealand,Oceania
+2025-08,PL,폴란드,17886.0,166.3,Poland,Europe
+2025-08,SE,스웨덴,0.0,0.0,Sweden,Europe
+2025-08,US,미국,36981.0,1621.6,United States,North America
+2025-09,AT,오스트리아,20.0,0.2,Austria,Europe
+2025-09,AU,호주,493.0,20.9,Australia,Oceania
+2025-09,BE,벨기에,14.0,0.5,Belgium,Europe
+2025-09,CA,캐나다,1657.0,11.6,Canada,North America
+2025-09,CH,스위스,1.0,0.0,Switzerland,Europe
+2025-09,CN,중국,48839.0,1598.4,China,Others
+2025-09,CZ,체코공화국,4726.0,49.7,Czechia,Europe
+2025-09,DE,독일,358.0,3.6,Germany,Europe
+2025-09,DK,덴마크,79.0,8.6,Denmark,Europe
+2025-09,ES,스페인,925.0,9.3,Spain,Europe
+2025-09,FI,핀란드,2.0,0.0,Finland,Europe
+2025-09,FR,프랑스,1150.0,20.9,France,Europe
+2025-09,GB,영국,3678.0,292.6,United Kingdom,Europe
+2025-09,IE,아일랜드,0.0,0.0,Ireland,Europe
+2025-09,IT,이탈리아,1003.0,14.9,Italy,Europe
+2025-09,JP,일본,4819.0,266.1,Japan,Others
+2025-09,NL,네덜란드,792.0,35.9,Netherlands,Europe
+2025-09,NO,노르웨이,34.0,0.4,Norway,Europe
+2025-09,NZ,뉴질랜드,133.0,3.1,New Zealand,Oceania
+2025-09,PL,폴란드,106821.0,997.7,Poland,Europe
+2025-09,SE,스웨덴,62.0,1.5,Sweden,Europe
+2025-09,US,미국,56405.0,2126.1,United States,North America
+2025-10,AT,오스트리아,1.0,0.0,Austria,Europe
+2025-10,AU,호주,485.0,12.7,Australia,Oceania
+2025-10,BE,벨기에,245.0,1.0,Belgium,Europe
+2025-10,CA,캐나다,531.0,13.1,Canada,North America
+2025-10,CH,스위스,4.0,0.0,Switzerland,Europe
+2025-10,CN,중국,31715.0,1114.5,China,Others
+2025-10,CZ,체코공화국,12071.0,355.4,Czechia,Europe
+2025-10,DE,독일,23952.0,334.5,Germany,Europe
+2025-10,DK,덴마크,65.0,4.8,Denmark,Europe
+2025-10,ES,스페인,9518.0,314.0,Spain,Europe
+2025-10,FI,핀란드,0.0,0.0,Finland,Europe
+2025-10,FR,프랑스,218.0,3.9,France,Europe
+2025-10,GB,영국,416.0,46.2,United Kingdom,Europe
+2025-10,IT,이탈리아,94.0,5.8,Italy,Europe
+2025-10,JP,일본,3238.0,158.0,Japan,Others
+2025-10,NL,네덜란드,979.0,30.8,Netherlands,Europe
+2025-10,NO,노르웨이,0.0,0.0,Norway,Europe
+2025-10,NZ,뉴질랜드,28.0,0.6,New Zealand,Oceania
+2025-10,PL,폴란드,25011.0,204.8,Poland,Europe
+2025-10,SE,스웨덴,15.0,0.3,Sweden,Europe
+2025-10,US,미국,38346.0,1404.7,United States,North America
+2025-11,AT,오스트리아,72.0,0.6,Austria,Europe
+2025-11,AU,호주,705.0,18.9,Australia,Oceania
+2025-11,BE,벨기에,8.0,0.3,Belgium,Europe
+2025-11,CA,캐나다,2913.0,29.3,Canada,North America
+2025-11,CH,스위스,8.0,0.0,Switzerland,Europe
+2025-11,CN,중국,61484.0,1851.3,China,Others
+2025-11,CZ,체코공화국,2571.0,7.0,Czechia,Europe
+2025-11,DE,독일,329.0,4.1,Germany,Europe
+2025-11,DK,덴마크,52.0,1.8,Denmark,Europe
+2025-11,ES,스페인,295.0,3.3,Spain,Europe
+2025-11,FI,핀란드,84.0,1.7,Finland,Europe
+2025-11,FR,프랑스,341.0,8.2,France,Europe
+2025-11,GB,영국,587.0,17.7,United Kingdom,Europe
+2025-11,IE,아일랜드,76.0,0.2,Ireland,Europe
+2025-11,IT,이탈리아,589.0,12.4,Italy,Europe
+2025-11,JP,일본,2811.0,130.1,Japan,Others
+2025-11,NL,네덜란드,1027.0,40.6,Netherlands,Europe
+2025-11,NO,노르웨이,1.0,0.0,Norway,Europe
+2025-11,NZ,뉴질랜드,28.0,0.9,New Zealand,Oceania
+2025-11,PL,폴란드,4674.0,43.8,Poland,Europe
+2025-11,SE,스웨덴,38.0,0.8,Sweden,Europe
+2025-11,US,미국,62448.0,1776.3,United States,North America
+2025-12,AT,오스트리아,165.0,0.2,Austria,Europe
+2025-12,AU,호주,830.0,26.4,Australia,Oceania
+2025-12,BE,벨기에,76.0,2.2,Belgium,Europe
+2025-12,CA,캐나다,1768.0,28.6,Canada,North America
+2025-12,CH,스위스,39.0,0.1,Switzerland,Europe
+2025-12,CN,중국,85555.0,3245.6,China,Others
+2025-12,CZ,체코공화국,4067.0,58.1,Czechia,Europe
+2025-12,DE,독일,1099.0,13.8,Germany,Europe
+2025-12,DK,덴마크,113.0,10.2,Denmark,Europe
+2025-12,ES,스페인,194.0,5.3,Spain,Europe
+2025-12,FI,핀란드,26.0,0.2,Finland,Europe
+2025-12,FR,프랑스,69.0,2.2,France,Europe
+2025-12,GB,영국,270.0,8.0,United Kingdom,Europe
+2025-12,IE,아일랜드,0.0,0.0,Ireland,Europe
+2025-12,IT,이탈리아,1438.0,22.6,Italy,Europe
+2025-12,JP,일본,3700.0,247.0,Japan,Others
+2025-12,NL,네덜란드,1614.0,47.0,Netherlands,Europe
+2025-12,NO,노르웨이,5.0,0.0,Norway,Europe
+2025-12,NZ,뉴질랜드,205.0,2.5,New Zealand,Oceania
+2025-12,PL,폴란드,19811.0,30.6,Poland,Europe
+2025-12,SE,스웨덴,34.0,0.3,Sweden,Europe
+2025-12,US,미국,48878.0,993.0,United States,North America
+2026-01,AT,오스트리아,37.0,3.8,Austria,Europe
+2026-01,AU,호주,274.0,23.6,Australia,Oceania
+2026-01,BE,벨기에,16.0,0.5,Belgium,Europe
+2026-01,CA,캐나다,7640.0,203.4,Canada,North America
+2026-01,CH,스위스,5.0,0.0,Switzerland,Europe
+2026-01,CN,중국,43890.0,1940.4,China,Others
+2026-01,CZ,체코공화국,420.0,6.2,Czechia,Europe
+2026-01,DE,독일,412.0,6.7,Germany,Europe
+2026-01,DK,덴마크,14.0,1.4,Denmark,Europe
+2026-01,ES,스페인,801.0,18.8,Spain,Europe
+2026-01,FI,핀란드,7.0,0.0,Finland,Europe
+2026-01,FR,프랑스,63.0,1.3,France,Europe
+2026-01,GB,영국,161.0,6.5,United Kingdom,Europe
+2026-01,IE,아일랜드,4.0,0.2,Ireland,Europe
+2026-01,IT,이탈리아,266.0,10.5,Italy,Europe
+2026-01,JP,일본,6904.0,163.3,Japan,Others
+2026-01,NL,네덜란드,523.0,27.6,Netherlands,Europe
+2026-01,NO,노르웨이,19.0,0.0,Norway,Europe
+2026-01,NZ,뉴질랜드,14.0,0.8,New Zealand,Oceania
+2026-01,PL,폴란드,5350.0,92.4,Poland,Europe
+2026-01,SE,스웨덴,60.0,1.3,Sweden,Europe
+2026-01,US,미국,33103.0,859.0,United States,North America
+2026-02,AT,오스트리아,16.0,0.3,Austria,Europe
+2026-02,AU,호주,242.0,10.2,Australia,Oceania
+2026-02,BE,벨기에,39.0,0.4,Belgium,Europe
+2026-02,CA,캐나다,10909.0,118.1,Canada,North America
+2026-02,CH,스위스,0.0,0.0,Switzerland,Europe
+2026-02,CN,중국,28786.0,1194.3,China,Others
+2026-02,CZ,체코공화국,725.0,11.8,Czechia,Europe
+2026-02,DE,독일,2258.0,21.1,Germany,Europe
+2026-02,DK,덴마크,23.0,1.4,Denmark,Europe
+2026-02,ES,스페인,6400.0,142.2,Spain,Europe
+2026-02,FI,핀란드,0.0,0.0,Finland,Europe
+2026-02,FR,프랑스,636.0,5.6,France,Europe
+2026-02,GB,영국,459.0,16.6,United Kingdom,Europe
+2026-02,IE,아일랜드,0.0,0.0,Ireland,Europe
+2026-02,IT,이탈리아,513.0,13.0,Italy,Europe
+2026-02,JP,일본,2664.0,99.2,Japan,Others
+2026-02,NL,네덜란드,734.0,43.3,Netherlands,Europe
+2026-02,NO,노르웨이,15.0,0.3,Norway,Europe
+2026-02,NZ,뉴질랜드,34.0,0.6,New Zealand,Oceania
+2026-02,PL,폴란드,393.0,65.5,Poland,Europe
+2026-02,SE,스웨덴,2.0,0.0,Sweden,Europe
+2026-02,US,미국,32561.0,902.7,United States,North America
+2026-03,AT,오스트리아,20.0,0.2,Austria,Europe
+2026-03,AU,호주,1489.0,25.5,Australia,Oceania
+2026-03,BE,벨기에,127.0,3.7,Belgium,Europe
+2026-03,CA,캐나다,5055.0,308.6,Canada,North America
+2026-03,CH,스위스,2.0,0.0,Switzerland,Europe
+2026-03,CN,중국,47255.0,1887.9,China,Others
+2026-03,CZ,체코공화국,10905.0,216.8,Czechia,Europe
+2026-03,DE,독일,537.0,15.2,Germany,Europe
+2026-03,DK,덴마크,43.0,4.1,Denmark,Europe
+2026-03,ES,스페인,8261.0,230.8,Spain,Europe
+2026-03,FI,핀란드,0.0,0.0,Finland,Europe
+2026-03,FR,프랑스,31.0,0.6,France,Europe
+2026-03,GB,영국,280.0,9.5,United Kingdom,Europe
+2026-03,IE,아일랜드,0.0,0.0,Ireland,Europe
+2026-03,IT,이탈리아,539.0,24.5,Italy,Europe
+2026-03,JP,일본,3440.0,102.0,Japan,Others
+2026-03,NL,네덜란드,1094.0,46.8,Netherlands,Europe
+2026-03,NO,노르웨이,43.0,1.0,Norway,Europe
+2026-03,NZ,뉴질랜드,65.0,1.5,New Zealand,Oceania
+2026-03,PL,폴란드,1194.0,25.3,Poland,Europe
+2026-03,SE,스웨덴,134.0,2.3,Sweden,Europe
+2026-03,US,미국,37589.0,817.0,United States,North America
+2026-04,AT,오스트리아,23.0,0.6,Austria,Europe
+2026-04,AU,호주,485.0,21.9,Australia,Oceania
+2026-04,BE,벨기에,121.0,1.1,Belgium,Europe
+2026-04,CA,캐나다,8121.0,178.8,Canada,North America
+2026-04,CH,스위스,31.0,0.1,Switzerland,Europe
+2026-04,CN,중국,64081.0,2504.1,China,Others
+2026-04,CZ,체코공화국,16105.0,567.0,Czechia,Europe
+2026-04,DE,독일,2486.0,33.4,Germany,Europe
+2026-04,DK,덴마크,3.0,0.5,Denmark,Europe
+2026-04,ES,스페인,1124.0,8.0,Spain,Europe
+2026-04,FI,핀란드,133.0,5.2,Finland,Europe
+2026-04,FR,프랑스,3398.0,32.7,France,Europe
+2026-04,GB,영국,295.0,10.2,United Kingdom,Europe
+2026-04,IT,이탈리아,810.0,17.7,Italy,Europe
+2026-04,JP,일본,5240.0,232.7,Japan,Others
+2026-04,NL,네덜란드,932.0,55.7,Netherlands,Europe
+2026-04,NO,노르웨이,0.0,0.0,Norway,Europe
+2026-04,NZ,뉴질랜드,230.0,12.4,New Zealand,Oceania
+2026-04,PL,폴란드,3022.0,129.0,Poland,Europe
+2026-04,SE,스웨덴,31.0,0.6,Sweden,Europe
+2026-04,US,미국,77256.0,1771.4,United States,North America
+2026-05,AT,오스트리아,0.0,0.0,Austria,Europe
+2026-05,AU,호주,157.0,10.2,Australia,Oceania
+2026-05,BE,벨기에,73.0,0.7,Belgium,Europe
+2026-05,CA,캐나다,2769.0,299.3,Canada,North America
+2026-05,CH,스위스,0.0,0.0,Switzerland,Europe
+2026-05,CN,중국,50360.0,1776.3,China,Others
+2026-05,CZ,체코공화국,4860.0,90.6,Czechia,Europe
+2026-05,DE,독일,1076.0,11.6,Germany,Europe
+2026-05,DK,덴마크,20.0,1.3,Denmark,Europe
+2026-05,ES,스페인,998.0,9.8,Spain,Europe
+2026-05,FI,핀란드,0.0,0.0,Finland,Europe
+2026-05,FR,프랑스,93.0,2.6,France,Europe
+2026-05,GB,영국,166.0,9.4,United Kingdom,Europe
+2026-05,IE,아일랜드,0.0,0.0,Ireland,Europe
+2026-05,IT,이탈리아,723.0,18.2,Italy,Europe
+2026-05,JP,일본,3128.0,128.7,Japan,Others
+2026-05,NL,네덜란드,966.0,41.9,Netherlands,Europe
+2026-05,NO,노르웨이,14.0,0.1,Norway,Europe
+2026-05,NZ,뉴질랜드,173.0,2.0,New Zealand,Oceania
+2026-05,PL,폴란드,2838.0,51.6,Poland,Europe
+2026-05,SE,스웨덴,39.0,0.9,Sweden,Europe
+2026-05,US,미국,121333.0,4357.6,United States,North America
+2026-06,AT,오스트리아,57.0,1.2,Austria,Europe
+2026-06,AU,호주,1013.0,44.7,Australia,Oceania
+2026-06,BE,벨기에,179.0,4.0,Belgium,Europe
+2026-06,CA,캐나다,769.0,6.5,Canada,North America
+2026-06,CH,스위스,4.0,0.0,Switzerland,Europe
+2026-06,CN,중국,75955.0,2500.1,China,Others
+2026-06,CZ,체코공화국,135.0,3.6,Czechia,Europe
+2026-06,DE,독일,1095.0,86.5,Germany,Europe
+2026-06,DK,덴마크,49.0,1.3,Denmark,Europe
+2026-06,ES,스페인,962.0,10.5,Spain,Europe
+2026-06,FI,핀란드,0.0,0.0,Finland,Europe
+2026-06,FR,프랑스,90.0,2.4,France,Europe
+2026-06,GB,영국,155.0,5.2,United Kingdom,Europe
+2026-06,IE,아일랜드,0.0,0.0,Ireland,Europe
+2026-06,IT,이탈리아,1025.0,30.3,Italy,Europe
+2026-06,JP,일본,1876.0,241.4,Japan,Others
+2026-06,NL,네덜란드,2409.0,46.2,Netherlands,Europe
+2026-06,NO,노르웨이,32.0,0.9,Norway,Europe
+2026-06,NZ,뉴질랜드,382.0,3.3,New Zealand,Oceania
+2026-06,PL,폴란드,5350.0,87.3,Poland,Europe
+2026-06,SE,스웨덴,24.0,0.4,Sweden,Europe
+2026-06,US,미국,72901.0,1631.4,United States,North America
+2026-07,AT,오스트리아,59.0,1.0,Austria,Europe
+2026-07,AU,호주,579.0,16.0,Australia,Oceania
+2026-07,BE,벨기에,71.0,0.7,Belgium,Europe
+2026-07,CA,캐나다,6076.0,385.5,Canada,North America
+2026-07,CH,스위스,5.0,0.0,Switzerland,Europe
+2026-07,CN,중국,48694.0,1929.5,China,Others
+2026-07,CZ,체코공화국,1581.0,8.3,Czechia,Europe
+2026-07,DE,독일,1370.0,23.8,Germany,Europe
+2026-07,DK,덴마크,10.0,1.0,Denmark,Europe
+2026-07,ES,스페인,1223.0,12.1,Spain,Europe
+2026-07,FI,핀란드,1.0,0.0,Finland,Europe
+2026-07,FR,프랑스,101.0,3.2,France,Europe
+2026-07,GB,영국,598.0,15.3,United Kingdom,Europe
+2026-07,IE,아일랜드,9.0,0.4,Ireland,Europe
+2026-07,IT,이탈리아,491.0,25.6,Italy,Europe
+2026-07,JP,일본,3923.0,110.2,Japan,Others
+2026-07,NL,네덜란드,1194.0,58.3,Netherlands,Europe
+2026-07,NO,노르웨이,3.0,0.0,Norway,Europe
+2026-07,NZ,뉴질랜드,145.0,2.8,New Zealand,Oceania
+2026-07,PL,폴란드,7934.0,71.7,Poland,Europe
+2026-07,SE,스웨덴,11.0,0.2,Sweden,Europe
+2026-07,US,미국,99856.0,2936.2,United States,North America
+2026-08,AT,오스트리아,18.0,0.2,Austria,Europe
+2026-08,AU,호주,595.0,23.9,Australia,Oceania
+2026-08,BE,벨기에,167.0,3.1,Belgium,Europe
+2026-08,CA,캐나다,1097.0,91.9,Canada,North America
+2026-08,CH,스위스,707.0,2.5,Switzerland,Europe
+2026-08,CN,중국,45126.0,1637.0,China,Others
+2026-08,CZ,체코공화국,212.0,5.6,Czechia,Europe
+2026-08,DE,독일,8843.0,277.9,Germany,Europe
+2026-08,DK,덴마크,452.0,8.8,Denmark,Europe
+2026-08,ES,스페인,997.0,4.3,Spain,Europe
+2026-08,FI,핀란드,0.0,0.0,Finland,Europe
+2026-08,FR,프랑스,285.0,5.2,France,Europe
+2026-08,GB,영국,576.0,18.5,United Kingdom,Europe
+2026-08,IE,아일랜드,0.0,0.0,Ireland,Europe
+2026-08,IT,이탈리아,8043.0,250.3,Italy,Europe
+2026-08,JP,일본,5994.0,196.0,Japan,Others
+2026-08,NL,네덜란드,512.0,18.9,Netherlands,Europe
+2026-08,NO,노르웨이,13.0,0.1,Norway,Europe
+2026-08,NZ,뉴질랜드,170.0,1.5,New Zealand,Oceania
+2026-08,PL,폴란드,6143.0,82.2,Poland,Europe
+2026-08,SE,스웨덴,6.0,0.2,Sweden,Europe
+2026-08,US,미국,108177.0,3806.0,United States,North America
+2026-09,AT,오스트리아,213.0,0.5,Austria,Europe
+2026-09,AU,호주,924.0,25.5,Australia,Oceania
+2026-09,BE,벨기에,190.0,2.2,Belgium,Europe
+2026-09,CA,캐나다,1985.0,47.4,Canada,North America
+2026-09,CH,스위스,3.0,0.0,Switzerland,Europe
+2026-09,CN,중국,46508.0,1790.0,China,Others
+2026-09,CZ,체코공화국,901.0,18.3,Czechia,Europe
+2026-09,DE,독일,13090.0,194.8,Germany,Europe
+2026-09,DK,덴마크,58.0,6.6,Denmark,Europe
+2026-09,ES,스페인,806.0,9.6,Spain,Europe
+2026-09,FI,핀란드,2.0,0.0,Finland,Europe
+2026-09,FR,프랑스,335.0,5.1,France,Europe
+2026-09,GB,영국,335.0,12.8,United Kingdom,Europe
+2026-09,IE,아일랜드,0.0,0.0,Ireland,Europe
+2026-09,IT,이탈리아,548.0,27.9,Italy,Europe
+2026-09,JP,일본,4256.0,221.3,Japan,Others
+2026-09,NL,네덜란드,1131.0,32.2,Netherlands,Europe
+2026-09,NO,노르웨이,10.0,0.4,Norway,Europe
+2026-09,NZ,뉴질랜드,118.0,1.2,New Zealand,Oceania
+2026-09,PL,폴란드,4341.0,36.9,Poland,Europe
+2026-09,SE,스웨덴,83.0,1.7,Sweden,Europe
+2026-09,US,미국,81163.0,2281.2,United States,North America

@@ -1,0 +1,1927 @@
+month,cnty_cd,country_kr,exp_usd_k,exp_ton,country_en,region
+2016-01,AU,호주,16.0,2.0,Australia,Oceania
+2016-01,CA,캐나다,72.0,12.2,Canada,North America
+2016-01,CN,중국,12.0,1.0,China,Others
+2016-01,GB,영국,0.0,0.0,United Kingdom,Europe
+2016-01,HK,홍콩,3.0,0.3,Hong Kong,Others
+2016-01,IT,이탈리아,0.0,0.0,Italy,Europe
+2016-01,JP,일본,0.0,0.0,Japan,Others
+2016-01,NL,네덜란드,205.0,26.4,Netherlands,Europe
+2016-01,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2016-01,SA,사우디아라비아,22.0,2.6,Saudi Arabia,Others
+2016-01,SG,싱가포르,7.0,0.9,Singapore,Others
+2016-01,TH,태국,3.0,0.3,Thailand,Others
+2016-01,US,미국,33.0,2.8,United States,North America
+2016-02,AU,호주,55.0,6.9,Australia,Oceania
+2016-02,CA,캐나다,98.0,15.3,Canada,North America
+2016-02,CN,중국,29.0,2.5,China,Others
+2016-02,FR,프랑스,123.0,12.4,France,Europe
+2016-02,GB,영국,0.0,0.0,United Kingdom,Europe
+2016-02,JP,일본,0.0,0.0,Japan,Others
+2016-02,NL,네덜란드,208.0,26.1,Netherlands,Europe
+2016-02,TH,태국,2.0,0.3,Thailand,Others
+2016-02,TW,대만,0.0,0.0,Taiwan,Others
+2016-02,US,미국,176.0,19.7,United States,North America
+2016-03,AU,호주,26.0,2.6,Australia,Oceania
+2016-03,CA,캐나다,118.0,15.5,Canada,North America
+2016-03,CN,중국,64.0,6.0,China,Others
+2016-03,DE,독일,0.0,0.0,Germany,Europe
+2016-03,FR,프랑스,112.0,11.6,France,Europe
+2016-03,GB,영국,0.0,0.0,United Kingdom,Europe
+2016-03,HK,홍콩,3.0,0.4,Hong Kong,Others
+2016-03,JP,일본,0.0,0.0,Japan,Others
+2016-03,NL,네덜란드,350.0,44.2,Netherlands,Europe
+2016-03,NZ,뉴질랜드,39.0,5.0,New Zealand,Oceania
+2016-03,SA,사우디아라비아,22.0,2.6,Saudi Arabia,Others
+2016-03,SG,싱가포르,8.0,1.0,Singapore,Others
+2016-03,TR,튀르키예,1.0,0.1,Turkey,Others
+2016-03,US,미국,206.0,23.4,United States,North America
+2016-04,AU,호주,67.0,8.0,Australia,Oceania
+2016-04,CA,캐나다,240.0,35.0,Canada,North America
+2016-04,CN,중국,58.0,6.1,China,Others
+2016-04,DE,독일,1.0,0.1,Germany,Europe
+2016-04,ES,스페인,1.0,0.3,Spain,Europe
+2016-04,HK,홍콩,0.0,0.0,Hong Kong,Others
+2016-04,JP,일본,0.0,0.0,Japan,Others
+2016-04,MX,멕시코,41.0,4.4,Mexico,Latin America
+2016-04,NL,네덜란드,276.0,34.3,Netherlands,Europe
+2016-04,PL,폴란드,3.0,0.3,Poland,Europe
+2016-04,SG,싱가포르,2.0,0.2,Singapore,Others
+2016-04,TH,태국,6.0,0.6,Thailand,Others
+2016-04,US,미국,362.0,39.9,United States,North America
+2016-05,AU,호주,51.0,6.3,Australia,Oceania
+2016-05,CA,캐나다,78.0,11.3,Canada,North America
+2016-05,CN,중국,176.0,17.9,China,Others
+2016-05,FR,프랑스,171.0,17.2,France,Europe
+2016-05,GB,영국,0.0,0.0,United Kingdom,Europe
+2016-05,JP,일본,0.0,0.0,Japan,Others
+2016-05,NL,네덜란드,303.0,37.7,Netherlands,Europe
+2016-05,NZ,뉴질랜드,28.0,3.6,New Zealand,Oceania
+2016-05,PL,폴란드,10.0,1.0,Poland,Europe
+2016-05,SA,사우디아라비아,0.0,0.0,Saudi Arabia,Others
+2016-05,SG,싱가포르,15.0,1.9,Singapore,Others
+2016-05,TH,태국,2.0,0.3,Thailand,Others
+2016-05,US,미국,149.0,16.9,United States,North America
+2016-06,AU,호주,0.0,0.0,Australia,Oceania
+2016-06,CA,캐나다,295.0,42.7,Canada,North America
+2016-06,CN,중국,96.0,16.5,China,Others
+2016-06,FR,프랑스,113.0,11.6,France,Europe
+2016-06,GB,영국,0.0,0.0,United Kingdom,Europe
+2016-06,JP,일본,0.0,0.0,Japan,Others
+2016-06,NL,네덜란드,296.0,36.8,Netherlands,Europe
+2016-06,NZ,뉴질랜드,30.0,3.6,New Zealand,Oceania
+2016-06,SG,싱가포르,15.0,1.9,Singapore,Others
+2016-06,TH,태국,1.0,0.1,Thailand,Others
+2016-06,US,미국,263.0,29.5,United States,North America
+2016-06,VN,베트남,0.0,0.0,Vietnam,Others
+2016-07,AU,호주,51.0,7.0,Australia,Oceania
+2016-07,CA,캐나다,304.0,49.1,Canada,North America
+2016-07,CN,중국,140.0,13.6,China,Others
+2016-07,ES,스페인,70.0,10.2,Spain,Europe
+2016-07,FR,프랑스,0.0,0.0,France,Europe
+2016-07,GB,영국,0.0,0.0,United Kingdom,Europe
+2016-07,HK,홍콩,4.0,0.4,Hong Kong,Others
+2016-07,JP,일본,0.0,0.0,Japan,Others
+2016-07,NL,네덜란드,395.0,50.2,Netherlands,Europe
+2016-07,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2016-07,SA,사우디아라비아,22.0,2.6,Saudi Arabia,Others
+2016-07,TH,태국,4.0,0.5,Thailand,Others
+2016-07,US,미국,194.0,22.6,United States,North America
+2016-08,AR,아르헨티나,2.0,0.3,아르헨티나,Others
+2016-08,AU,호주,48.0,6.4,Australia,Oceania
+2016-08,BE,벨기에,15.0,2.2,Belgium,Europe
+2016-08,CA,캐나다,0.0,0.0,Canada,North America
+2016-08,CN,중국,78.0,7.1,China,Others
+2016-08,ES,스페인,0.0,0.0,Spain,Europe
+2016-08,HK,홍콩,5.0,0.6,Hong Kong,Others
+2016-08,JP,일본,0.0,0.0,Japan,Others
+2016-08,NL,네덜란드,295.0,36.8,Netherlands,Europe
+2016-08,NZ,뉴질랜드,55.0,7.7,New Zealand,Oceania
+2016-08,SG,싱가포르,8.0,0.7,Singapore,Others
+2016-08,TH,태국,2.0,0.2,Thailand,Others
+2016-08,TW,대만,0.0,0.0,Taiwan,Others
+2016-08,US,미국,175.0,19.2,United States,North America
+2016-09,AU,호주,58.0,7.0,Australia,Oceania
+2016-09,CA,캐나다,662.0,66.2,Canada,North America
+2016-09,CN,중국,47.0,4.8,China,Others
+2016-09,DE,독일,0.0,0.0,Germany,Europe
+2016-09,ES,스페인,78.0,11.2,Spain,Europe
+2016-09,FR,프랑스,0.0,0.0,France,Europe
+2016-09,HK,홍콩,0.0,0.0,Hong Kong,Others
+2016-09,IL,이스라엘,0.0,0.0,Israel,Others
+2016-09,JP,일본,0.0,0.0,Japan,Others
+2016-09,NL,네덜란드,294.0,36.8,Netherlands,Europe
+2016-09,NZ,뉴질랜드,8.0,0.9,New Zealand,Oceania
+2016-09,SG,싱가포르,15.0,2.1,Singapore,Others
+2016-09,TH,태국,3.0,0.4,Thailand,Others
+2016-09,TW,대만,0.0,0.0,Taiwan,Others
+2016-09,US,미국,14.0,1.5,United States,North America
+2016-10,AU,호주,0.0,0.0,Australia,Oceania
+2016-10,CA,캐나다,344.0,55.7,Canada,North America
+2016-10,CN,중국,60.0,6.2,China,Others
+2016-10,DE,독일,26.0,4.1,Germany,Europe
+2016-10,ES,스페인,0.0,0.0,Spain,Europe
+2016-10,FR,프랑스,94.0,9.6,France,Europe
+2016-10,JP,일본,0.0,0.0,Japan,Others
+2016-10,NL,네덜란드,267.0,33.7,Netherlands,Europe
+2016-10,NZ,뉴질랜드,3.0,0.3,New Zealand,Oceania
+2016-10,TH,태국,4.0,0.5,Thailand,Others
+2016-10,US,미국,37.0,2.6,United States,North America
+2016-11,AR,아르헨티나,5.0,0.5,아르헨티나,Others
+2016-11,AU,호주,51.0,7.0,Australia,Oceania
+2016-11,CN,중국,138.0,13.7,China,Others
+2016-11,DE,독일,65.0,10.3,Germany,Europe
+2016-11,ES,스페인,128.0,19.5,Spain,Europe
+2016-11,FR,프랑스,206.0,21.5,France,Europe
+2016-11,GB,영국,0.0,0.0,United Kingdom,Europe
+2016-11,HK,홍콩,4.0,0.5,Hong Kong,Others
+2016-11,JP,일본,0.0,0.0,Japan,Others
+2016-11,NL,네덜란드,281.0,35.9,Netherlands,Europe
+2016-11,NZ,뉴질랜드,8.0,0.5,New Zealand,Oceania
+2016-11,SG,싱가포르,15.0,2.2,Singapore,Others
+2016-11,TH,태국,2.0,0.2,Thailand,Others
+2016-11,TW,대만,0.0,0.0,Taiwan,Others
+2016-11,US,미국,226.0,27.4,United States,North America
+2016-12,AU,호주,7.0,0.5,Australia,Oceania
+2016-12,CA,캐나다,258.0,41.5,Canada,North America
+2016-12,CN,중국,101.0,12.0,China,Others
+2016-12,HK,홍콩,4.0,0.5,Hong Kong,Others
+2016-12,JP,일본,0.0,0.0,Japan,Others
+2016-12,NL,네덜란드,216.0,28.7,Netherlands,Europe
+2016-12,NZ,뉴질랜드,57.0,7.6,New Zealand,Oceania
+2016-12,TH,태국,6.0,0.6,Thailand,Others
+2016-12,US,미국,435.0,50.4,United States,North America
+2017-01,AU,호주,51.0,6.9,Australia,Oceania
+2017-01,BE,벨기에,28.0,4.5,Belgium,Europe
+2017-01,CA,캐나다,141.0,22.6,Canada,North America
+2017-01,CN,중국,61.0,7.2,China,Others
+2017-01,DE,독일,24.0,3.1,Germany,Europe
+2017-01,FR,프랑스,0.0,0.0,France,Europe
+2017-01,JP,일본,2.0,0.1,Japan,Others
+2017-01,NL,네덜란드,218.0,28.7,Netherlands,Europe
+2017-01,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2017-01,SA,사우디아라비아,22.0,2.6,Saudi Arabia,Others
+2017-01,SG,싱가포르,14.0,2.1,Singapore,Others
+2017-01,TH,태국,6.0,0.6,Thailand,Others
+2017-01,US,미국,171.0,18.9,United States,North America
+2017-02,AR,아르헨티나,7.0,0.4,아르헨티나,Others
+2017-02,CA,캐나다,239.0,38.1,Canada,North America
+2017-02,CN,중국,52.0,5.8,China,Others
+2017-02,DE,독일,64.0,10.3,Germany,Europe
+2017-02,FR,프랑스,0.0,0.0,France,Europe
+2017-02,GB,영국,0.0,0.0,United Kingdom,Europe
+2017-02,HK,홍콩,4.0,0.5,Hong Kong,Others
+2017-02,JP,일본,0.0,0.0,Japan,Others
+2017-02,NL,네덜란드,322.0,42.7,Netherlands,Europe
+2017-02,TH,태국,10.0,0.9,Thailand,Others
+2017-02,TR,튀르키예,3.0,0.4,Turkey,Others
+2017-02,US,미국,155.0,16.9,United States,North America
+2017-03,AR,아르헨티나,4.0,0.5,아르헨티나,Others
+2017-03,AU,호주,47.0,6.4,Australia,Oceania
+2017-03,CA,캐나다,45.0,7.3,Canada,North America
+2017-03,CN,중국,68.0,9.0,China,Others
+2017-03,DE,독일,18.0,2.1,Germany,Europe
+2017-03,ES,스페인,172.0,25.7,Spain,Europe
+2017-03,FR,프랑스,155.0,16.6,France,Europe
+2017-03,HK,홍콩,4.0,0.3,Hong Kong,Others
+2017-03,JP,일본,0.0,0.0,Japan,Others
+2017-03,MX,멕시코,29.0,3.3,Mexico,Latin America
+2017-03,NL,네덜란드,280.0,36.2,Netherlands,Europe
+2017-03,NZ,뉴질랜드,32.0,4.3,New Zealand,Oceania
+2017-03,PL,폴란드,10.0,1.0,Poland,Europe
+2017-03,SA,사우디아라비아,0.0,0.0,Saudi Arabia,Others
+2017-03,SG,싱가포르,7.0,1.0,Singapore,Others
+2017-03,TW,대만,0.0,0.0,Taiwan,Others
+2017-03,US,미국,286.0,36.7,United States,North America
+2017-04,AR,아르헨티나,1.0,0.1,아르헨티나,Others
+2017-04,AU,호주,12.0,1.6,Australia,Oceania
+2017-04,BE,벨기에,27.0,4.1,Belgium,Europe
+2017-04,CA,캐나다,127.0,20.6,Canada,North America
+2017-04,CN,중국,63.0,7.7,China,Others
+2017-04,DE,독일,145.0,20.6,Germany,Europe
+2017-04,ES,스페인,145.0,22.0,Spain,Europe
+2017-04,FR,프랑스,114.0,12.2,France,Europe
+2017-04,JP,일본,0.0,0.0,Japan,Others
+2017-04,NL,네덜란드,255.0,33.4,Netherlands,Europe
+2017-04,SG,싱가포르,14.0,2.0,Singapore,Others
+2017-04,TH,태국,2.0,0.2,Thailand,Others
+2017-04,US,미국,60.0,4.2,United States,North America
+2017-05,AU,호주,113.0,15.4,Australia,Oceania
+2017-05,CA,캐나다,125.0,20.6,Canada,North America
+2017-05,CN,중국,15.0,1.9,China,Others
+2017-05,DE,독일,66.0,10.3,Germany,Europe
+2017-05,HK,홍콩,0.0,0.0,Hong Kong,Others
+2017-05,JP,일본,0.0,0.0,Japan,Others
+2017-05,MX,멕시코,0.0,0.0,Mexico,Latin America
+2017-05,NL,네덜란드,262.0,33.4,Netherlands,Europe
+2017-05,NZ,뉴질랜드,4.0,0.4,New Zealand,Oceania
+2017-05,SA,사우디아라비아,22.0,2.7,Saudi Arabia,Others
+2017-05,US,미국,60.0,7.4,United States,North America
+2017-06,AU,호주,98.0,13.2,Australia,Oceania
+2017-06,CA,캐나다,371.0,60.9,Canada,North America
+2017-06,CN,중국,132.0,16.3,China,Others
+2017-06,ES,스페인,1.0,0.1,Spain,Europe
+2017-06,GB,영국,0.0,0.0,United Kingdom,Europe
+2017-06,HK,홍콩,4.0,0.5,Hong Kong,Others
+2017-06,JP,일본,0.0,0.0,Japan,Others
+2017-06,MX,멕시코,24.0,2.7,Mexico,Latin America
+2017-06,NL,네덜란드,271.0,33.4,Netherlands,Europe
+2017-06,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2017-06,SA,사우디아라비아,0.0,0.0,Saudi Arabia,Others
+2017-06,TH,태국,5.0,0.6,Thailand,Others
+2017-06,TW,대만,0.0,0.0,Taiwan,Others
+2017-06,US,미국,232.0,28.3,United States,North America
+2017-07,AU,호주,0.0,0.0,Australia,Oceania
+2017-07,BE,벨기에,86.0,11.9,Belgium,Europe
+2017-07,CA,캐나다,148.0,23.2,Canada,North America
+2017-07,CN,중국,12.0,1.6,China,Others
+2017-07,DE,독일,68.0,10.3,Germany,Europe
+2017-07,ES,스페인,200.0,28.2,Spain,Europe
+2017-07,FR,프랑스,18.0,2.5,France,Europe
+2017-07,JP,일본,0.0,0.0,Japan,Others
+2017-07,NL,네덜란드,270.0,32.9,Netherlands,Europe
+2017-07,NZ,뉴질랜드,6.0,0.5,New Zealand,Oceania
+2017-07,SA,사우디아라비아,0.0,0.0,Saudi Arabia,Others
+2017-07,SG,싱가포르,15.0,2.1,Singapore,Others
+2017-07,TH,태국,2.0,0.2,Thailand,Others
+2017-07,TW,대만,0.0,0.0,Taiwan,Others
+2017-07,US,미국,0.0,0.0,United States,North America
+2017-08,AR,아르헨티나,4.0,0.5,아르헨티나,Others
+2017-08,AU,호주,55.0,7.5,Australia,Oceania
+2017-08,BE,벨기에,33.0,5.2,Belgium,Europe
+2017-08,CA,캐나다,257.0,39.7,Canada,North America
+2017-08,CN,중국,30.0,3.6,China,Others
+2017-08,DE,독일,0.0,0.0,Germany,Europe
+2017-08,FR,프랑스,179.0,19.2,France,Europe
+2017-08,GB,영국,0.0,0.0,United Kingdom,Europe
+2017-08,JP,일본,0.0,0.0,Japan,Others
+2017-08,NL,네덜란드,283.0,33.4,Netherlands,Europe
+2017-08,NZ,뉴질랜드,51.0,7.0,New Zealand,Oceania
+2017-08,SG,싱가포르,16.0,2.2,Singapore,Others
+2017-08,TH,태국,2.0,0.3,Thailand,Others
+2017-08,US,미국,290.0,37.2,United States,North America
+2017-09,AU,호주,98.0,13.4,Australia,Oceania
+2017-09,BE,벨기에,33.0,5.2,Belgium,Europe
+2017-09,CA,캐나다,140.0,21.0,Canada,North America
+2017-09,CN,중국,0.0,0.0,China,Others
+2017-09,FR,프랑스,78.0,8.2,France,Europe
+2017-09,HK,홍콩,17.0,2.0,Hong Kong,Others
+2017-09,JP,일본,0.0,0.0,Japan,Others
+2017-09,MX,멕시코,43.0,4.3,Mexico,Latin America
+2017-09,NL,네덜란드,244.0,28.7,Netherlands,Europe
+2017-09,NZ,뉴질랜드,0.0,0.1,New Zealand,Oceania
+2017-09,SA,사우디아라비아,0.0,0.0,Saudi Arabia,Others
+2017-09,TH,태국,5.0,0.5,Thailand,Others
+2017-09,TW,대만,0.0,0.0,Taiwan,Others
+2017-09,US,미국,219.0,25.7,United States,North America
+2017-09,VN,베트남,5.0,0.4,Vietnam,Others
+2017-10,BE,벨기에,153.0,21.4,Belgium,Europe
+2017-10,CA,캐나다,136.0,20.6,Canada,North America
+2017-10,CN,중국,62.0,11.0,China,Others
+2017-10,DE,독일,145.0,20.6,Germany,Europe
+2017-10,ES,스페인,155.0,21.5,Spain,Europe
+2017-10,FR,프랑스,89.0,9.6,France,Europe
+2017-10,JP,일본,0.0,0.0,Japan,Others
+2017-10,NL,네덜란드,284.0,33.7,Netherlands,Europe
+2017-10,SG,싱가포르,16.0,2.1,Singapore,Others
+2017-10,TH,태국,6.0,0.6,Thailand,Others
+2017-10,US,미국,123.0,15.0,United States,North America
+2017-11,AR,아르헨티나,8.0,1.0,아르헨티나,Others
+2017-11,AU,호주,0.0,0.0,Australia,Oceania
+2017-11,BE,벨기에,64.0,10.3,Belgium,Europe
+2017-11,CA,캐나다,260.0,40.3,Canada,North America
+2017-11,CN,중국,55.0,6.7,China,Others
+2017-11,ES,스페인,107.0,13.5,Spain,Europe
+2017-11,FR,프랑스,177.0,19.2,France,Europe
+2017-11,GB,영국,0.0,0.0,United Kingdom,Europe
+2017-11,JP,일본,0.0,0.0,Japan,Others
+2017-11,NL,네덜란드,529.0,65.3,Netherlands,Europe
+2017-11,NZ,뉴질랜드,55.0,6.4,New Zealand,Oceania
+2017-11,PL,폴란드,11.0,1.0,Poland,Europe
+2017-11,SA,사우디아라비아,16.0,1.8,Saudi Arabia,Others
+2017-11,SE,스웨덴,0.0,0.0,Sweden,Europe
+2017-11,SG,싱가포르,16.0,2.1,Singapore,Others
+2017-11,TH,태국,0.0,0.0,Thailand,Others
+2017-11,US,미국,124.0,15.0,United States,North America
+2017-12,AU,호주,102.0,13.6,Australia,Oceania
+2017-12,CA,캐나다,263.0,41.0,Canada,North America
+2017-12,CN,중국,78.0,10.1,China,Others
+2017-12,ES,스페인,1.0,0.1,Spain,Europe
+2017-12,GB,영국,0.0,0.0,United Kingdom,Europe
+2017-12,HK,홍콩,4.0,0.5,Hong Kong,Others
+2017-12,JP,일본,0.0,0.0,Japan,Others
+2017-12,NL,네덜란드,247.0,31.9,Netherlands,Europe
+2017-12,NZ,뉴질랜드,1.0,0.0,New Zealand,Oceania
+2017-12,TH,태국,7.0,0.8,Thailand,Others
+2017-12,TR,튀르키예,3.0,0.3,Turkey,Others
+2017-12,US,미국,232.0,28.2,United States,North America
+2017-12,VN,베트남,4.0,0.0,Vietnam,Others
+2018-01,BE,벨기에,228.0,30.4,Belgium,Europe
+2018-01,CA,캐나다,143.0,21.6,Canada,North America
+2018-01,CN,중국,53.0,5.5,China,Others
+2018-01,ES,스페인,71.0,6.9,Spain,Europe
+2018-01,FR,프랑스,93.0,9.6,France,Europe
+2018-01,GB,영국,0.0,0.0,United Kingdom,Europe
+2018-01,HK,홍콩,9.0,0.9,Hong Kong,Others
+2018-01,IR,이란,0.0,0.0,이란,Others
+2018-01,JP,일본,0.0,0.0,Japan,Others
+2018-01,MO,마카오,0.0,0.1,마카오,Others
+2018-01,NL,네덜란드,252.0,31.9,Netherlands,Europe
+2018-01,SG,싱가포르,17.0,2.1,Singapore,Others
+2018-01,US,미국,250.0,29.5,United States,North America
+2018-02,AU,호주,51.0,6.7,Australia,Oceania
+2018-02,CA,캐나다,128.0,19.6,Canada,North America
+2018-02,CN,중국,73.0,8.8,China,Others
+2018-02,ES,스페인,0.0,0.0,Spain,Europe
+2018-02,FR,프랑스,188.0,19.2,France,Europe
+2018-02,JP,일본,0.0,0.0,Japan,Others
+2018-02,MX,멕시코,43.0,4.5,Mexico,Latin America
+2018-02,NL,네덜란드,493.0,60.7,Netherlands,Europe
+2018-02,NZ,뉴질랜드,6.0,0.4,New Zealand,Oceania
+2018-02,SG,싱가포르,0.0,0.0,Singapore,Others
+2018-02,US,미국,21.0,2.8,United States,North America
+2018-03,AT,오스트리아,4.0,0.2,Austria,Europe
+2018-03,BE,벨기에,55.0,10.3,Belgium,Europe
+2018-03,CN,중국,135.0,14.6,China,Others
+2018-03,DE,독일,64.0,10.3,Germany,Europe
+2018-03,ES,스페인,18.0,1.7,Spain,Europe
+2018-03,GB,영국,0.0,0.0,United Kingdom,Europe
+2018-03,JP,일본,0.0,0.0,Japan,Others
+2018-03,NL,네덜란드,276.0,34.2,Netherlands,Europe
+2018-03,NZ,뉴질랜드,45.0,6.2,New Zealand,Oceania
+2018-03,TH,태국,8.0,0.9,Thailand,Others
+2018-03,TR,튀르키예,8.0,0.9,Turkey,Others
+2018-03,TW,대만,0.0,0.0,Taiwan,Others
+2018-03,US,미국,178.0,21.6,United States,North America
+2018-04,AR,아르헨티나,8.0,1.1,아르헨티나,Others
+2018-04,AU,호주,61.0,7.4,Australia,Oceania
+2018-04,CA,캐나다,399.0,61.5,Canada,North America
+2018-04,CN,중국,51.0,5.1,China,Others
+2018-04,ES,스페인,170.0,25.4,Spain,Europe
+2018-04,GB,영국,0.0,0.0,United Kingdom,Europe
+2018-04,JP,일본,0.0,0.0,Japan,Others
+2018-04,NL,네덜란드,312.0,38.8,Netherlands,Europe
+2018-04,SG,싱가포르,17.0,0.8,Singapore,Others
+2018-04,TW,대만,7.0,1.0,Taiwan,Others
+2018-04,US,미국,188.0,18.4,United States,North America
+2018-05,AU,호주,55.0,7.3,Australia,Oceania
+2018-05,BE,벨기에,65.0,10.3,Belgium,Europe
+2018-05,CA,캐나다,0.0,0.1,Canada,North America
+2018-05,CN,중국,43.0,5.0,China,Others
+2018-05,IR,이란,1.0,0.2,이란,Others
+2018-05,JP,일본,0.0,0.0,Japan,Others
+2018-05,NL,네덜란드,247.0,28.1,Netherlands,Europe
+2018-05,NZ,뉴질랜드,55.0,6.6,New Zealand,Oceania
+2018-05,SA,사우디아라비아,0.0,0.0,Saudi Arabia,Others
+2018-05,TH,태국,8.0,0.9,Thailand,Others
+2018-05,TW,대만,7.0,1.0,Taiwan,Others
+2018-05,US,미국,263.0,31.5,United States,North America
+2018-06,AR,아르헨티나,4.0,0.5,아르헨티나,Others
+2018-06,CA,캐나다,386.0,61.6,Canada,North America
+2018-06,CN,중국,117.0,12.8,China,Others
+2018-06,ES,스페인,58.0,6.7,Spain,Europe
+2018-06,IT,이탈리아,0.0,0.0,Italy,Europe
+2018-06,JP,일본,0.0,0.0,Japan,Others
+2018-06,MX,멕시코,0.0,0.0,Mexico,Latin America
+2018-06,NL,네덜란드,50.0,6.6,Netherlands,Europe
+2018-06,PA,파나마,6.0,0.7,파나마,Others
+2018-06,SG,싱가포르,16.0,0.8,Singapore,Others
+2018-06,US,미국,161.0,20.3,United States,North America
+2018-07,AU,호주,66.0,7.9,Australia,Oceania
+2018-07,BE,벨기에,179.0,25.5,Belgium,Europe
+2018-07,CA,캐나다,130.0,20.8,Canada,North America
+2018-07,CN,중국,58.0,5.8,China,Others
+2018-07,ES,스페인,157.0,21.8,Spain,Europe
+2018-07,GB,영국,0.0,0.0,United Kingdom,Europe
+2018-07,HK,홍콩,17.0,1.8,Hong Kong,Others
+2018-07,JP,일본,0.0,0.0,Japan,Others
+2018-07,NL,네덜란드,306.0,40.0,Netherlands,Europe
+2018-07,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2018-07,SG,싱가포르,16.0,2.1,Singapore,Others
+2018-07,TH,태국,4.0,0.4,Thailand,Others
+2018-07,US,미국,227.0,27.5,United States,North America
+2018-08,CA,캐나다,386.0,61.1,Canada,North America
+2018-08,CN,중국,0.0,0.0,China,Others
+2018-08,DE,독일,0.0,0.0,Germany,Europe
+2018-08,ES,스페인,5.0,0.5,Spain,Europe
+2018-08,GB,영국,0.0,0.0,United Kingdom,Europe
+2018-08,JP,일본,0.0,0.0,Japan,Others
+2018-08,NL,네덜란드,51.0,8.2,Netherlands,Europe
+2018-08,SA,사우디아라비아,22.0,2.6,Saudi Arabia,Others
+2018-08,SG,싱가포르,8.0,1.0,Singapore,Others
+2018-08,TH,태국,8.0,0.9,Thailand,Others
+2018-08,TW,대만,10.0,1.5,Taiwan,Others
+2018-08,US,미국,321.0,41.4,United States,North America
+2018-09,AU,호주,102.0,14.2,Australia,Oceania
+2018-09,CN,중국,60.0,7.6,China,Others
+2018-09,FR,프랑스,88.0,9.6,France,Europe
+2018-09,GB,영국,0.0,0.0,United Kingdom,Europe
+2018-09,HK,홍콩,0.0,0.0,Hong Kong,Others
+2018-09,JP,일본,0.0,0.0,Japan,Others
+2018-09,MX,멕시코,60.0,7.0,Mexico,Latin America
+2018-09,MY,말레이시아,0.0,0.0,Malaysia,Others
+2018-09,NL,네덜란드,428.0,57.1,Netherlands,Europe
+2018-09,NZ,뉴질랜드,55.0,7.5,New Zealand,Oceania
+2018-09,SA,사우디아라비아,0.0,0.0,Saudi Arabia,Others
+2018-09,SG,싱가포르,0.0,0.0,Singapore,Others
+2018-09,TW,대만,0.0,0.0,Taiwan,Others
+2018-09,US,미국,115.0,14.3,United States,North America
+2018-10,AU,호주,51.0,7.0,Australia,Oceania
+2018-10,BE,벨기에,114.0,15.2,Belgium,Europe
+2018-10,CA,캐나다,111.0,17.6,Canada,North America
+2018-10,CN,중국,55.0,6.5,China,Others
+2018-10,FR,프랑스,176.0,19.2,France,Europe
+2018-10,GB,영국,0.0,0.0,United Kingdom,Europe
+2018-10,HK,홍콩,0.0,0.0,Hong Kong,Others
+2018-10,JP,일본,0.0,0.0,Japan,Others
+2018-10,NL,네덜란드,637.0,84.3,Netherlands,Europe
+2018-10,NZ,뉴질랜드,2.0,0.1,New Zealand,Oceania
+2018-10,PL,폴란드,9.0,0.6,Poland,Europe
+2018-10,SG,싱가포르,16.0,2.2,Singapore,Others
+2018-10,TH,태국,17.0,2.1,Thailand,Others
+2018-10,TW,대만,10.0,1.5,Taiwan,Others
+2018-10,US,미국,191.0,22.3,United States,North America
+2018-10,VN,베트남,2.0,0.2,Vietnam,Others
+2018-11,AU,호주,0.0,0.0,Australia,Oceania
+2018-11,BR,브라질,1.0,0.1,Brazil,Latin America
+2018-11,CA,캐나다,368.0,58.7,Canada,North America
+2018-11,CN,중국,63.0,7.5,China,Others
+2018-11,ES,스페인,351.0,45.3,Spain,Europe
+2018-11,FI,핀란드,20.0,2.1,Finland,Europe
+2018-11,ID,인도네시아,0.0,0.0,Indonesia,Others
+2018-11,IT,이탈리아,0.0,0.0,Italy,Europe
+2018-11,JP,일본,0.0,0.0,Japan,Others
+2018-11,MY,말레이시아,4.0,0.4,Malaysia,Others
+2018-11,NL,네덜란드,314.0,44.3,Netherlands,Europe
+2018-11,SA,사우디아라비아,0.0,0.0,Saudi Arabia,Others
+2018-11,SG,싱가포르,15.0,2.1,Singapore,Others
+2018-11,TR,튀르키예,0.0,0.0,Turkey,Others
+2018-11,TW,대만,0.0,0.0,Taiwan,Others
+2018-11,US,미국,183.0,23.9,United States,North America
+2018-12,AU,호주,110.0,14.7,Australia,Oceania
+2018-12,CA,캐나다,374.0,60.3,Canada,North America
+2018-12,CN,중국,0.0,0.0,China,Others
+2018-12,DE,독일,0.0,0.0,Germany,Europe
+2018-12,GB,영국,0.0,0.0,United Kingdom,Europe
+2018-12,HK,홍콩,8.0,0.9,Hong Kong,Others
+2018-12,IN,인도,0.0,0.0,India,Others
+2018-12,JP,일본,0.0,0.0,Japan,Others
+2018-12,NL,네덜란드,312.0,41.9,Netherlands,Europe
+2018-12,NZ,뉴질랜드,59.0,7.7,New Zealand,Oceania
+2018-12,TH,태국,13.0,1.6,Thailand,Others
+2018-12,TW,대만,0.0,0.0,Taiwan,Others
+2018-12,US,미국,116.0,14.1,United States,North America
+2019-01,AR,아르헨티나,8.0,1.0,아르헨티나,Others
+2019-01,AU,호주,47.0,6.3,Australia,Oceania
+2019-01,BE,벨기에,280.0,38.6,Belgium,Europe
+2019-01,CN,중국,117.0,13.7,China,Others
+2019-01,DE,독일,3.0,0.5,Germany,Europe
+2019-01,GB,영국,0.0,0.0,United Kingdom,Europe
+2019-01,HK,홍콩,0.0,0.0,Hong Kong,Others
+2019-01,JP,일본,0.0,0.0,Japan,Others
+2019-01,MX,멕시코,43.0,4.9,Mexico,Latin America
+2019-01,NL,네덜란드,362.0,49.1,Netherlands,Europe
+2019-01,NZ,뉴질랜드,6.0,0.5,New Zealand,Oceania
+2019-01,SA,사우디아라비아,22.0,2.7,Saudi Arabia,Others
+2019-01,SG,싱가포르,15.0,2.1,Singapore,Others
+2019-01,TW,대만,0.0,0.0,Taiwan,Others
+2019-01,US,미국,176.0,19.6,United States,North America
+2019-01,VN,베트남,1.0,0.0,Vietnam,Others
+2019-02,AU,호주,0.0,0.0,Australia,Oceania
+2019-02,CA,캐나다,127.0,20.1,Canada,North America
+2019-02,CN,중국,61.0,7.3,China,Others
+2019-02,ES,스페인,2.0,0.3,Spain,Europe
+2019-02,FI,핀란드,39.0,4.1,Finland,Europe
+2019-02,HK,홍콩,8.0,0.9,Hong Kong,Others
+2019-02,JP,일본,0.0,0.0,Japan,Others
+2019-02,NL,네덜란드,311.0,41.9,Netherlands,Europe
+2019-02,SA,사우디아라비아,0.0,0.0,Saudi Arabia,Others
+2019-02,SG,싱가포르,15.0,2.1,Singapore,Others
+2019-02,TW,대만,0.0,0.0,Taiwan,Others
+2019-02,US,미국,299.0,34.0,United States,North America
+2019-02,VN,베트남,0.0,0.0,Vietnam,Others
+2019-03,AU,호주,47.0,6.5,Australia,Oceania
+2019-03,CA,캐나다,637.0,103.0,Canada,North America
+2019-03,CN,중국,18.0,2.5,China,Others
+2019-03,DE,독일,66.0,9.5,Germany,Europe
+2019-03,ES,스페인,187.0,26.7,Spain,Europe
+2019-03,FR,프랑스,29.0,3.5,France,Europe
+2019-03,GB,영국,0.0,0.0,United Kingdom,Europe
+2019-03,JP,일본,0.0,0.0,Japan,Others
+2019-03,NL,네덜란드,311.0,42.2,Netherlands,Europe
+2019-03,NZ,뉴질랜드,63.0,8.5,New Zealand,Oceania
+2019-03,TH,태국,13.0,1.5,Thailand,Others
+2019-03,TW,대만,4.0,0.6,Taiwan,Others
+2019-03,US,미국,234.0,28.4,United States,North America
+2019-04,AU,호주,103.0,14.5,Australia,Oceania
+2019-04,BE,벨기에,51.0,8.2,Belgium,Europe
+2019-04,CA,캐나다,121.0,19.7,Canada,North America
+2019-04,CN,중국,234.0,23.4,China,Others
+2019-04,DE,독일,20.0,3.1,Germany,Europe
+2019-04,ES,스페인,4.0,0.6,Spain,Europe
+2019-04,FR,프랑스,82.0,9.7,France,Europe
+2019-04,GB,영국,0.0,0.0,United Kingdom,Europe
+2019-04,HK,홍콩,8.0,0.1,Hong Kong,Others
+2019-04,JP,일본,0.0,0.0,Japan,Others
+2019-04,NL,네덜란드,366.0,49.8,Netherlands,Europe
+2019-04,SG,싱가포르,15.0,2.1,Singapore,Others
+2019-04,US,미국,44.0,2.8,United States,North America
+2019-05,AU,호주,0.0,0.0,Australia,Oceania
+2019-05,BE,벨기에,13.0,2.1,Belgium,Europe
+2019-05,CA,캐나다,126.0,20.6,Canada,North America
+2019-05,CN,중국,13.0,2.0,China,Others
+2019-05,DE,독일,21.0,3.1,Germany,Europe
+2019-05,FR,프랑스,132.0,15.9,France,Europe
+2019-05,JP,일본,0.0,0.0,Japan,Others
+2019-05,NZ,뉴질랜드,7.0,0.8,New Zealand,Oceania
+2019-05,PL,폴란드,4.0,0.2,Poland,Europe
+2019-05,SA,사우디아라비아,0.0,0.0,Saudi Arabia,Others
+2019-05,SG,싱가포르,0.0,0.0,Singapore,Others
+2019-05,TH,태국,6.0,0.7,Thailand,Others
+2019-05,TW,대만,7.0,1.0,Taiwan,Others
+2019-05,US,미국,124.0,15.3,United States,North America
+2019-06,BE,벨기에,230.0,32.2,Belgium,Europe
+2019-06,BR,브라질,1.0,0.1,Brazil,Latin America
+2019-06,CA,캐나다,124.0,20.2,Canada,North America
+2019-06,CN,중국,94.0,12.0,China,Others
+2019-06,DE,독일,46.0,7.2,Germany,Europe
+2019-06,ES,스페인,335.0,43.1,Spain,Europe
+2019-06,GB,영국,0.0,0.0,United Kingdom,Europe
+2019-06,JP,일본,0.0,0.0,Japan,Others
+2019-06,NL,네덜란드,618.0,83.9,Netherlands,Europe
+2019-06,NZ,뉴질랜드,43.0,4.8,New Zealand,Oceania
+2019-06,QA,카타르,2.0,0.3,카타르,Others
+2019-06,SA,사우디아라비아,29.0,3.5,Saudi Arabia,Others
+2019-06,SG,싱가포르,15.0,2.1,Singapore,Others
+2019-06,TH,태국,9.0,1.0,Thailand,Others
+2019-06,TR,튀르키예,18.0,2.2,Turkey,Others
+2019-06,TW,대만,10.0,1.6,Taiwan,Others
+2019-06,US,미국,118.0,14.6,United States,North America
+2019-06,VN,베트남,1.0,0.0,Vietnam,Others
+2019-07,AR,아르헨티나,8.0,1.0,아르헨티나,Others
+2019-07,AU,호주,79.0,8.4,Australia,Oceania
+2019-07,BE,벨기에,53.0,8.2,Belgium,Europe
+2019-07,CA,캐나다,242.0,38.5,Canada,North America
+2019-07,CN,중국,54.0,7.0,China,Others
+2019-07,DE,독일,43.0,7.6,Germany,Europe
+2019-07,ES,스페인,4.0,0.5,Spain,Europe
+2019-07,FR,프랑스,161.0,19.3,France,Europe
+2019-07,GB,영국,0.0,0.0,United Kingdom,Europe
+2019-07,JP,일본,0.0,0.0,Japan,Others
+2019-07,NL,네덜란드,309.0,41.9,Netherlands,Europe
+2019-07,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2019-07,SA,사우디아라비아,5.0,0.6,Saudi Arabia,Others
+2019-07,SG,싱가포르,1.0,0.1,Singapore,Others
+2019-07,TH,태국,4.0,0.3,Thailand,Others
+2019-07,TW,대만,4.0,0.5,Taiwan,Others
+2019-07,US,미국,153.0,17.4,United States,North America
+2019-08,AU,호주,52.0,7.5,Australia,Oceania
+2019-08,CA,캐나다,240.0,38.5,Canada,North America
+2019-08,CN,중국,25.0,2.8,China,Others
+2019-08,ES,스페인,117.0,15.5,Spain,Europe
+2019-08,FR,프랑스,81.0,9.7,France,Europe
+2019-08,GB,영국,0.0,0.0,United Kingdom,Europe
+2019-08,HK,홍콩,0.0,0.0,Hong Kong,Others
+2019-08,JP,일본,0.0,0.0,Japan,Others
+2019-08,NL,네덜란드,288.0,39.9,Netherlands,Europe
+2019-08,SG,싱가포르,15.0,2.1,Singapore,Others
+2019-08,TH,태국,11.0,1.3,Thailand,Others
+2019-08,US,미국,138.0,16.2,United States,North America
+2019-09,AR,아르헨티나,4.0,0.5,아르헨티나,Others
+2019-09,AU,호주,47.0,6.2,Australia,Oceania
+2019-09,BE,벨기에,55.0,8.2,Belgium,Europe
+2019-09,CA,캐나다,118.0,19.1,Canada,North America
+2019-09,CN,중국,109.0,14.6,China,Others
+2019-09,DE,독일,27.0,4.1,Germany,Europe
+2019-09,ES,스페인,156.0,18.8,Spain,Europe
+2019-09,FR,프랑스,158.0,19.2,France,Europe
+2019-09,GB,영국,0.0,0.0,United Kingdom,Europe
+2019-09,JP,일본,0.0,0.0,Japan,Others
+2019-09,NL,네덜란드,241.0,33.3,Netherlands,Europe
+2019-09,NZ,뉴질랜드,59.0,7.6,New Zealand,Oceania
+2019-09,PL,폴란드,8.0,0.5,Poland,Europe
+2019-09,SG,싱가포르,15.0,2.1,Singapore,Others
+2019-09,TH,태국,11.0,1.3,Thailand,Others
+2019-09,TW,대만,0.0,0.0,Taiwan,Others
+2019-09,US,미국,301.0,33.3,United States,North America
+2019-10,AU,호주,0.0,0.0,Australia,Oceania
+2019-10,CA,캐나다,248.0,40.4,Canada,North America
+2019-10,CN,중국,107.0,14.7,China,Others
+2019-10,ES,스페인,136.0,21.1,Spain,Europe
+2019-10,GB,영국,0.0,0.0,United Kingdom,Europe
+2019-10,HK,홍콩,8.0,1.0,Hong Kong,Others
+2019-10,IN,인도,0.0,4.6,India,Others
+2019-10,IT,이탈리아,0.0,0.0,Italy,Europe
+2019-10,JP,일본,0.0,0.0,Japan,Others
+2019-10,MX,멕시코,59.0,6.8,Mexico,Latin America
+2019-10,MY,말레이시아,0.0,0.0,Malaysia,Others
+2019-10,NL,네덜란드,241.0,33.3,Netherlands,Europe
+2019-10,NZ,뉴질랜드,5.0,0.5,New Zealand,Oceania
+2019-10,SA,사우디아라비아,22.0,2.8,Saudi Arabia,Others
+2019-10,TH,태국,11.0,1.3,Thailand,Others
+2019-10,TW,대만,0.0,0.0,Taiwan,Others
+2019-10,US,미국,269.0,31.7,United States,North America
+2019-10,VN,베트남,3.0,0.4,Vietnam,Others
+2019-11,AR,아르헨티나,9.0,1.0,아르헨티나,Others
+2019-11,BE,벨기에,68.0,10.3,Belgium,Europe
+2019-11,CA,캐나다,123.0,19.9,Canada,North America
+2019-11,CN,중국,71.0,9.6,China,Others
+2019-11,DE,독일,0.0,0.0,Germany,Europe
+2019-11,ES,스페인,69.0,10.3,Spain,Europe
+2019-11,GB,영국,0.0,0.0,United Kingdom,Europe
+2019-11,JP,일본,0.0,0.0,Japan,Others
+2019-11,MX,멕시코,32.0,3.8,Mexico,Latin America
+2019-11,NL,네덜란드,272.0,37.6,Netherlands,Europe
+2019-11,SA,사우디아라비아,1.0,0.1,Saudi Arabia,Others
+2019-11,SG,싱가포르,18.0,2.5,Singapore,Others
+2019-11,US,미국,164.0,16.6,United States,North America
+2019-12,AU,호주,120.0,16.7,Australia,Oceania
+2019-12,BE,벨기에,223.0,30.4,Belgium,Europe
+2019-12,CA,캐나다,242.0,39.5,Canada,North America
+2019-12,CN,중국,35.0,4.1,China,Others
+2019-12,DE,독일,21.0,3.2,Germany,Europe
+2019-12,ES,스페인,32.0,4.3,Spain,Europe
+2019-12,GB,영국,0.0,0.0,United Kingdom,Europe
+2019-12,HK,홍콩,8.0,1.0,Hong Kong,Others
+2019-12,JP,일본,0.0,0.0,Japan,Others
+2019-12,NL,네덜란드,348.0,48.5,Netherlands,Europe
+2019-12,NZ,뉴질랜드,59.0,8.0,New Zealand,Oceania
+2019-12,SA,사우디아라비아,25.0,3.2,Saudi Arabia,Others
+2019-12,SG,싱가포르,15.0,1.0,Singapore,Others
+2019-12,TH,태국,11.0,1.0,Thailand,Others
+2019-12,TW,대만,7.0,1.0,Taiwan,Others
+2019-12,US,미국,114.0,13.9,United States,North America
+2020-01,AU,호주,47.0,6.3,Australia,Oceania
+2020-01,BE,벨기에,74.0,11.3,Belgium,Europe
+2020-01,CA,캐나다,250.0,40.4,Canada,North America
+2020-01,CN,중국,83.0,10.6,China,Others
+2020-01,DE,독일,37.0,6.2,Germany,Europe
+2020-01,ES,스페인,137.0,20.6,Spain,Europe
+2020-01,GB,영국,0.0,0.0,United Kingdom,Europe
+2020-01,JP,일본,0.0,0.0,Japan,Others
+2020-01,NL,네덜란드,292.0,41.5,Netherlands,Europe
+2020-01,SA,사우디아라비아,1.0,0.1,Saudi Arabia,Others
+2020-01,SG,싱가포르,15.0,1.0,Singapore,Others
+2020-01,US,미국,187.0,19.5,United States,North America
+2020-02,AU,호주,47.0,6.6,Australia,Oceania
+2020-02,BR,브라질,2.0,0.3,Brazil,Latin America
+2020-02,CA,캐나다,255.0,41.7,Canada,North America
+2020-02,CN,중국,76.0,10.0,China,Others
+2020-02,DE,독일,29.0,4.3,Germany,Europe
+2020-02,ES,스페인,1.0,0.1,Spain,Europe
+2020-02,FR,프랑스,315.0,38.7,France,Europe
+2020-02,GB,영국,0.0,0.0,United Kingdom,Europe
+2020-02,JP,일본,0.0,0.0,Japan,Others
+2020-02,MY,말레이시아,3.0,0.5,Malaysia,Others
+2020-02,NL,네덜란드,51.0,7.4,Netherlands,Europe
+2020-02,NZ,뉴질랜드,14.0,1.3,New Zealand,Oceania
+2020-02,SA,사우디아라비아,1.0,0.2,Saudi Arabia,Others
+2020-02,TH,태국,4.0,0.3,Thailand,Others
+2020-02,TR,튀르키예,4.0,0.5,Turkey,Others
+2020-02,TW,대만,4.0,0.6,Taiwan,Others
+2020-02,US,미국,346.0,42.6,United States,North America
+2020-03,AU,호주,102.0,14.1,Australia,Oceania
+2020-03,CA,캐나다,242.0,41.2,Canada,North America
+2020-03,CN,중국,41.0,5.4,China,Others
+2020-03,DE,독일,20.0,3.1,Germany,Europe
+2020-03,ES,스페인,32.0,4.1,Spain,Europe
+2020-03,GB,영국,0.0,0.0,United Kingdom,Europe
+2020-03,HK,홍콩,8.0,0.5,Hong Kong,Others
+2020-03,JP,일본,0.0,0.0,Japan,Others
+2020-03,NL,네덜란드,242.0,33.0,Netherlands,Europe
+2020-03,NZ,뉴질랜드,51.0,7.1,New Zealand,Oceania
+2020-03,SG,싱가포르,15.0,2.1,Singapore,Others
+2020-03,TH,태국,18.0,2.6,Thailand,Others
+2020-03,TW,대만,15.0,2.1,Taiwan,Others
+2020-03,US,미국,376.0,45.3,United States,North America
+2020-04,AR,아르헨티나,4.0,0.4,아르헨티나,Others
+2020-04,AU,호주,58.0,9.7,Australia,Oceania
+2020-04,BE,벨기에,103.0,16.5,Belgium,Europe
+2020-04,CA,캐나다,236.0,41.3,Canada,North America
+2020-04,CN,중국,10.0,1.0,China,Others
+2020-04,ES,스페인,152.0,21.1,Spain,Europe
+2020-04,GB,영국,0.0,0.0,United Kingdom,Europe
+2020-04,HK,홍콩,8.0,0.6,Hong Kong,Others
+2020-04,JP,일본,0.0,0.0,Japan,Others
+2020-04,NL,네덜란드,567.0,81.0,Netherlands,Europe
+2020-04,NZ,뉴질랜드,2.0,0.1,New Zealand,Oceania
+2020-04,SA,사우디아라비아,3.0,0.4,Saudi Arabia,Others
+2020-04,SG,싱가포르,29.0,4.2,Singapore,Others
+2020-04,US,미국,616.0,73.1,United States,North America
+2020-05,AR,아르헨티나,4.0,0.5,아르헨티나,Others
+2020-05,AT,오스트리아,0.0,0.0,Austria,Europe
+2020-05,AU,호주,0.0,0.0,Australia,Oceania
+2020-05,CA,캐나다,117.0,20.5,Canada,North America
+2020-05,CN,중국,88.0,11.1,China,Others
+2020-05,ES,스페인,72.0,10.2,Spain,Europe
+2020-05,GB,영국,0.0,0.0,United Kingdom,Europe
+2020-05,IT,이탈리아,0.0,0.0,Italy,Europe
+2020-05,JP,일본,0.0,0.0,Japan,Others
+2020-05,NL,네덜란드,302.0,43.7,Netherlands,Europe
+2020-05,TH,태국,16.0,1.6,Thailand,Others
+2020-05,TW,대만,0.0,0.0,Taiwan,Others
+2020-05,US,미국,296.0,36.8,United States,North America
+2020-06,AU,호주,62.0,10.5,Australia,Oceania
+2020-06,BE,벨기에,223.0,30.4,Belgium,Europe
+2020-06,CA,캐나다,363.0,61.8,Canada,North America
+2020-06,CN,중국,21.0,2.9,China,Others
+2020-06,GB,영국,0.0,0.0,United Kingdom,Europe
+2020-06,JP,일본,0.0,0.0,Japan,Others
+2020-06,MX,멕시코,46.0,5.5,Mexico,Latin America
+2020-06,NL,네덜란드,473.0,68.0,Netherlands,Europe
+2020-06,NZ,뉴질랜드,63.0,10.6,New Zealand,Oceania
+2020-06,SA,사우디아라비아,27.0,3.3,Saudi Arabia,Others
+2020-06,SG,싱가포르,15.0,2.1,Singapore,Others
+2020-06,TH,태국,20.0,1.8,Thailand,Others
+2020-06,US,미국,130.0,17.6,United States,North America
+2020-07,AU,호주,78.0,11.2,Australia,Oceania
+2020-07,CA,캐나다,126.0,21.0,Canada,North America
+2020-07,CN,중국,59.0,8.3,China,Others
+2020-07,DE,독일,7.0,1.0,Germany,Europe
+2020-07,FR,프랑스,82.0,9.7,France,Europe
+2020-07,GB,영국,0.0,0.0,United Kingdom,Europe
+2020-07,IN,인도,33.0,72.7,India,Others
+2020-07,JP,일본,0.0,0.0,Japan,Others
+2020-07,MX,멕시코,60.0,7.2,Mexico,Latin America
+2020-07,NL,네덜란드,305.0,43.5,Netherlands,Europe
+2020-07,NZ,뉴질랜드,19.0,2.0,New Zealand,Oceania
+2020-07,US,미국,541.0,65.2,United States,North America
+2020-08,AR,아르헨티나,4.0,0.5,아르헨티나,Others
+2020-08,BE,벨기에,223.0,30.4,Belgium,Europe
+2020-08,CA,캐나다,378.0,62.2,Canada,North America
+2020-08,CN,중국,40.0,4.5,China,Others
+2020-08,DE,독일,0.0,0.0,Germany,Europe
+2020-08,ES,스페인,100.0,10.5,Spain,Europe
+2020-08,IN,인도,11.0,22.3,India,Others
+2020-08,JP,일본,0.0,0.0,Japan,Others
+2020-08,NL,네덜란드,316.0,43.5,Netherlands,Europe
+2020-08,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2020-08,SG,싱가포르,16.0,2.1,Singapore,Others
+2020-08,TW,대만,12.0,1.6,Taiwan,Others
+2020-08,US,미국,1.0,0.2,United States,North America
+2020-09,AU,호주,0.0,0.0,Australia,Oceania
+2020-09,BE,벨기에,12.0,2.1,Belgium,Europe
+2020-09,CA,캐나다,245.0,40.6,Canada,North America
+2020-09,CN,중국,32.0,4.4,China,Others
+2020-09,FR,프랑스,85.0,9.7,France,Europe
+2020-09,GB,영국,0.0,0.0,United Kingdom,Europe
+2020-09,HK,홍콩,0.0,0.0,Hong Kong,Others
+2020-09,IN,인도,19.0,26.0,India,Others
+2020-09,JP,일본,0.0,0.0,Japan,Others
+2020-09,NL,네덜란드,333.0,46.4,Netherlands,Europe
+2020-09,NZ,뉴질랜드,63.0,8.4,New Zealand,Oceania
+2020-09,RU,러시아 연방,1.0,0.2,Russia,Others
+2020-09,TH,태국,15.0,1.5,Thailand,Others
+2020-09,US,미국,123.0,13.6,United States,North America
+2020-10,AU,호주,66.0,9.5,Australia,Oceania
+2020-10,CA,캐나다,120.0,19.5,Canada,North America
+2020-10,CN,중국,97.0,12.8,China,Others
+2020-10,DE,독일,14.0,2.1,Germany,Europe
+2020-10,HK,홍콩,8.0,1.0,Hong Kong,Others
+2020-10,IN,인도,22.0,81.0,India,Others
+2020-10,JP,일본,0.0,0.0,Japan,Others
+2020-10,NL,네덜란드,227.0,30.0,Netherlands,Europe
+2020-10,NZ,뉴질랜드,14.0,1.4,New Zealand,Oceania
+2020-10,SG,싱가포르,16.0,2.2,Singapore,Others
+2020-10,TW,대만,4.0,0.5,Taiwan,Others
+2020-10,US,미국,105.0,13.0,United States,North America
+2020-11,AR,아르헨티나,4.0,0.5,아르헨티나,Others
+2020-11,AU,호주,0.0,0.0,Australia,Oceania
+2020-11,CA,캐나다,124.0,20.2,Canada,North America
+2020-11,CN,중국,57.0,7.5,China,Others
+2020-11,ES,스페인,17.0,2.0,Spain,Europe
+2020-11,GB,영국,0.0,0.0,United Kingdom,Europe
+2020-11,JP,일본,0.0,0.0,Japan,Others
+2020-11,NL,네덜란드,338.0,46.1,Netherlands,Europe
+2020-11,NZ,뉴질랜드,24.0,2.7,New Zealand,Oceania
+2020-11,QA,카타르,0.0,0.0,카타르,Others
+2020-11,SA,사우디아라비아,23.0,2.8,Saudi Arabia,Others
+2020-11,TW,대만,9.0,1.1,Taiwan,Others
+2020-11,US,미국,102.0,11.3,United States,North America
+2020-12,AU,호주,13.0,0.6,Australia,Oceania
+2020-12,BE,벨기에,112.0,17.5,Belgium,Europe
+2020-12,CA,캐나다,130.0,20.6,Canada,North America
+2020-12,CN,중국,111.0,14.2,China,Others
+2020-12,HK,홍콩,1.0,0.1,Hong Kong,Others
+2020-12,IN,인도,23.0,42.0,India,Others
+2020-12,JP,일본,0.0,0.0,Japan,Others
+2020-12,MY,말레이시아,4.0,0.5,Malaysia,Others
+2020-12,NL,네덜란드,392.0,52.6,Netherlands,Europe
+2020-12,NZ,뉴질랜드,102.0,13.0,New Zealand,Oceania
+2020-12,SG,싱가포르,16.0,2.1,Singapore,Others
+2020-12,TW,대만,3.0,0.4,Taiwan,Others
+2020-12,US,미국,69.0,7.1,United States,North America
+2021-01,AU,호주,47.0,6.4,Australia,Oceania
+2021-01,CA,캐나다,390.0,61.3,Canada,North America
+2021-01,CN,중국,81.0,9.9,China,Others
+2021-01,DE,독일,0.0,0.0,Germany,Europe
+2021-01,ES,스페인,111.0,14.1,Spain,Europe
+2021-01,GB,영국,0.0,0.0,United Kingdom,Europe
+2021-01,HK,홍콩,9.0,1.0,Hong Kong,Others
+2021-01,JP,일본,0.0,0.0,Japan,Others
+2021-01,NL,네덜란드,437.0,59.6,Netherlands,Europe
+2021-01,QA,카타르,3.0,0.3,카타르,Others
+2021-01,TH,태국,14.0,1.5,Thailand,Others
+2021-01,US,미국,167.0,20.7,United States,North America
+2021-02,BE,벨기에,223.0,30.4,Belgium,Europe
+2021-02,CA,캐나다,132.0,21.0,Canada,North America
+2021-02,CN,중국,121.0,15.1,China,Others
+2021-02,DE,독일,15.0,2.1,Germany,Europe
+2021-02,FR,프랑스,87.0,9.7,France,Europe
+2021-02,GB,영국,0.0,0.0,United Kingdom,Europe
+2021-02,JP,일본,0.0,0.0,Japan,Others
+2021-02,NL,네덜란드,303.0,39.1,Netherlands,Europe
+2021-02,NZ,뉴질랜드,47.0,6.6,New Zealand,Oceania
+2021-02,SG,싱가포르,18.0,2.3,Singapore,Others
+2021-02,TH,태국,0.0,0.0,Thailand,Others
+2021-02,TW,대만,12.0,1.6,Taiwan,Others
+2021-02,US,미국,32.0,1.5,United States,North America
+2021-02,VN,베트남,2.0,0.1,Vietnam,Others
+2021-03,AU,호주,20.0,1.4,Australia,Oceania
+2021-03,BR,브라질,2.0,0.3,Brazil,Latin America
+2021-03,CA,캐나다,394.0,61.5,Canada,North America
+2021-03,CN,중국,151.0,31.5,China,Others
+2021-03,ES,스페인,144.0,21.1,Spain,Europe
+2021-03,FR,프랑스,99.0,11.0,France,Europe
+2021-03,GB,영국,0.0,0.0,United Kingdom,Europe
+2021-03,HK,홍콩,9.0,1.0,Hong Kong,Others
+2021-03,IN,인도,51.0,8.6,India,Others
+2021-03,JP,일본,0.0,0.0,Japan,Others
+2021-03,MY,말레이시아,4.0,0.4,Malaysia,Others
+2021-03,NL,네덜란드,373.0,50.4,Netherlands,Europe
+2021-03,NZ,뉴질랜드,39.0,4.4,New Zealand,Oceania
+2021-03,SG,싱가포르,19.0,2.3,Singapore,Others
+2021-03,TH,태국,17.0,1.9,Thailand,Others
+2021-03,TW,대만,1.0,0.2,Taiwan,Others
+2021-03,US,미국,321.0,38.3,United States,North America
+2021-03,VN,베트남,13.0,0.1,Vietnam,Others
+2021-04,AR,아르헨티나,4.0,0.5,아르헨티나,Others
+2021-04,AT,오스트리아,0.0,0.0,Austria,Europe
+2021-04,AU,호주,0.0,0.0,Australia,Oceania
+2021-04,BE,벨기에,130.0,20.6,Belgium,Europe
+2021-04,CA,캐나다,128.0,18.8,Canada,North America
+2021-04,CN,중국,22.0,2.4,China,Others
+2021-04,DE,독일,0.0,0.0,Germany,Europe
+2021-04,FR,프랑스,160.0,17.8,France,Europe
+2021-04,GB,영국,0.0,0.0,United Kingdom,Europe
+2021-04,IN,인도,22.0,90.7,India,Others
+2021-04,JP,일본,0.0,0.0,Japan,Others
+2021-04,NL,네덜란드,309.0,38.2,Netherlands,Europe
+2021-04,NZ,뉴질랜드,2.0,0.2,New Zealand,Oceania
+2021-04,SG,싱가포르,16.0,1.9,Singapore,Others
+2021-04,TW,대만,7.0,1.0,Taiwan,Others
+2021-04,US,미국,74.0,7.3,United States,North America
+2021-04,VN,베트남,45.0,3.8,Vietnam,Others
+2021-05,AT,오스트리아,0.0,0.0,Austria,Europe
+2021-05,AU,호주,64.0,8.4,Australia,Oceania
+2021-05,BE,벨기에,69.0,10.3,Belgium,Europe
+2021-05,CA,캐나다,0.0,0.0,Canada,North America
+2021-05,CN,중국,53.0,7.5,China,Others
+2021-05,DE,독일,0.0,0.0,Germany,Europe
+2021-05,ES,스페인,119.0,14.0,Spain,Europe
+2021-05,IN,인도,16.0,85.1,India,Others
+2021-05,JP,일본,0.0,0.0,Japan,Others
+2021-05,NL,네덜란드,447.0,58.4,Netherlands,Europe
+2021-05,NZ,뉴질랜드,8.0,0.9,New Zealand,Oceania
+2021-05,SA,사우디아라비아,22.0,2.7,Saudi Arabia,Others
+2021-05,SG,싱가포르,18.0,2.2,Singapore,Others
+2021-05,TH,태국,11.0,1.2,Thailand,Others
+2021-05,TW,대만,2.0,0.2,Taiwan,Others
+2021-05,US,미국,345.0,33.9,United States,North America
+2021-05,VN,베트남,26.0,3.6,Vietnam,Others
+2021-06,AU,호주,66.0,7.5,Australia,Oceania
+2021-06,BE,벨기에,223.0,30.4,Belgium,Europe
+2021-06,CA,캐나다,286.0,40.4,Canada,North America
+2021-06,CN,중국,68.0,7.7,China,Others
+2021-06,DE,독일,0.0,0.0,Germany,Europe
+2021-06,ES,스페인,136.0,20.6,Spain,Europe
+2021-06,GB,영국,0.0,0.0,United Kingdom,Europe
+2021-06,HK,홍콩,9.0,1.0,Hong Kong,Others
+2021-06,IN,인도,62.0,72.2,India,Others
+2021-06,JP,일본,0.0,0.0,Japan,Others
+2021-06,MY,말레이시아,1.0,0.1,Malaysia,Others
+2021-06,NL,네덜란드,445.0,55.6,Netherlands,Europe
+2021-06,SA,사우디아라비아,0.0,0.0,Saudi Arabia,Others
+2021-06,SG,싱가포르,17.0,2.0,Singapore,Others
+2021-06,TH,태국,9.0,1.0,Thailand,Others
+2021-06,TW,대만,0.0,0.0,Taiwan,Others
+2021-06,US,미국,310.0,29.7,United States,North America
+2021-06,VN,베트남,1.0,0.1,Vietnam,Others
+2021-07,AR,아르헨티나,5.0,0.5,아르헨티나,Others
+2021-07,CA,캐나다,261.0,38.1,Canada,North America
+2021-07,CN,중국,109.0,12.4,China,Others
+2021-07,ES,스페인,156.0,14.0,Spain,Europe
+2021-07,FR,프랑스,85.0,9.6,France,Europe
+2021-07,GB,영국,0.0,0.0,United Kingdom,Europe
+2021-07,IN,인도,12.0,48.5,India,Others
+2021-07,JP,일본,0.0,0.0,Japan,Others
+2021-07,NL,네덜란드,389.0,50.2,Netherlands,Europe
+2021-07,NZ,뉴질랜드,51.0,7.0,New Zealand,Oceania
+2021-07,QA,카타르,1.0,0.1,카타르,Others
+2021-07,TW,대만,12.0,1.7,Taiwan,Others
+2021-07,US,미국,252.0,30.4,United States,North America
+2021-07,VN,베트남,4.0,0.0,Vietnam,Others
+2021-08,AT,오스트리아,0.0,0.0,Austria,Europe
+2021-08,AU,호주,61.0,6.0,Australia,Oceania
+2021-08,BE,벨기에,283.0,39.7,Belgium,Europe
+2021-08,CA,캐나다,117.0,18.1,Canada,North America
+2021-08,CN,중국,6.0,1.0,China,Others
+2021-08,DE,독일,0.0,0.0,Germany,Europe
+2021-08,ES,스페인,50.0,6.0,Spain,Europe
+2021-08,FR,프랑스,197.0,22.1,France,Europe
+2021-08,GB,영국,0.0,0.0,United Kingdom,Europe
+2021-08,IN,인도,3.0,14.5,India,Others
+2021-08,JP,일본,0.0,0.0,Japan,Others
+2021-08,NL,네덜란드,496.0,65.6,Netherlands,Europe
+2021-08,NZ,뉴질랜드,6.0,0.7,New Zealand,Oceania
+2021-08,SG,싱가포르,16.0,1.9,Singapore,Others
+2021-08,TH,태국,8.0,1.0,Thailand,Others
+2021-08,US,미국,133.0,15.6,United States,North America
+2021-08,VN,베트남,0.0,0.0,Vietnam,Others
+2021-09,CA,캐나다,256.0,37.7,Canada,North America
+2021-09,CN,중국,24.0,7.0,China,Others
+2021-09,DE,독일,21.0,3.1,Germany,Europe
+2021-09,ES,스페인,123.0,18.5,Spain,Europe
+2021-09,GB,영국,0.0,0.0,United Kingdom,Europe
+2021-09,HK,홍콩,8.0,1.0,Hong Kong,Others
+2021-09,IN,인도,64.0,75.8,India,Others
+2021-09,JP,일본,0.0,0.0,Japan,Others
+2021-09,NL,네덜란드,122.0,15.2,Netherlands,Europe
+2021-09,NZ,뉴질랜드,82.0,10.2,New Zealand,Oceania
+2021-09,TH,태국,18.0,1.9,Thailand,Others
+2021-09,TW,대만,0.0,0.0,Taiwan,Others
+2021-09,US,미국,367.0,36.6,United States,North America
+2021-09,VN,베트남,10.0,0.1,Vietnam,Others
+2021-10,AR,아르헨티나,4.0,0.5,아르헨티나,Others
+2021-10,AU,호주,61.0,7.6,Australia,Oceania
+2021-10,BE,벨기에,131.0,20.6,Belgium,Europe
+2021-10,CA,캐나다,252.0,36.8,Canada,North America
+2021-10,CN,중국,39.0,4.2,China,Others
+2021-10,DE,독일,0.0,0.0,Germany,Europe
+2021-10,ES,스페인,121.0,14.9,Spain,Europe
+2021-10,GB,영국,0.0,0.0,United Kingdom,Europe
+2021-10,IN,인도,3.0,22.3,India,Others
+2021-10,JP,일본,0.0,0.0,Japan,Others
+2021-10,MX,멕시코,28.0,2.9,Mexico,Latin America
+2021-10,NL,네덜란드,631.0,83.4,Netherlands,Europe
+2021-10,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2021-10,SA,사우디아라비아,23.0,2.8,Saudi Arabia,Others
+2021-10,SG,싱가포르,2.0,0.3,Singapore,Others
+2021-10,TH,태국,0.0,0.0,Thailand,Others
+2021-10,TW,대만,7.0,1.0,Taiwan,Others
+2021-10,US,미국,147.0,13.4,United States,North America
+2021-10,VN,베트남,1.0,0.0,Vietnam,Others
+2021-11,AU,호주,154.0,16.6,Australia,Oceania
+2021-11,CA,캐나다,345.0,49.9,Canada,North America
+2021-11,CN,중국,121.0,13.5,China,Others
+2021-11,DE,독일,31.0,4.1,Germany,Europe
+2021-11,GB,영국,0.0,0.0,United Kingdom,Europe
+2021-11,HK,홍콩,8.0,0.3,Hong Kong,Others
+2021-11,IN,인도,23.0,71.0,India,Others
+2021-11,JP,일본,0.0,0.0,Japan,Others
+2021-11,MX,멕시코,14.0,1.5,Mexico,Latin America
+2021-11,NL,네덜란드,454.0,61.5,Netherlands,Europe
+2021-11,SA,사우디아라비아,1.0,0.1,Saudi Arabia,Others
+2021-11,SG,싱가포르,36.0,4.5,Singapore,Others
+2021-11,TH,태국,5.0,0.3,Thailand,Others
+2021-11,TR,튀르키예,0.0,0.0,Turkey,Others
+2021-11,TW,대만,9.0,1.3,Taiwan,Others
+2021-11,US,미국,258.0,29.3,United States,North America
+2021-11,VN,베트남,0.0,0.0,Vietnam,Others
+2021-12,AU,호주,0.0,0.0,Australia,Oceania
+2021-12,CA,캐나다,135.0,20.0,Canada,North America
+2021-12,CN,중국,38.0,9.1,China,Others
+2021-12,DE,독일,22.0,3.1,Germany,Europe
+2021-12,ES,스페인,142.0,17.9,Spain,Europe
+2021-12,FR,프랑스,129.0,15.2,France,Europe
+2021-12,GB,영국,0.0,0.0,United Kingdom,Europe
+2021-12,IN,인도,12.0,79.2,India,Others
+2021-12,JP,일본,0.0,0.0,Japan,Others
+2021-12,MX,멕시코,18.0,2.0,Mexico,Latin America
+2021-12,MY,말레이시아,4.0,0.5,Malaysia,Others
+2021-12,NL,네덜란드,315.0,40.9,Netherlands,Europe
+2021-12,NZ,뉴질랜드,84.0,10.2,New Zealand,Oceania
+2021-12,SG,싱가포르,38.0,4.9,Singapore,Others
+2021-12,TH,태국,21.0,2.5,Thailand,Others
+2021-12,TW,대만,0.0,0.0,Taiwan,Others
+2021-12,US,미국,259.0,24.7,United States,North America
+2021-12,VN,베트남,4.0,0.1,Vietnam,Others
+2022-01,AR,아르헨티나,4.0,0.5,아르헨티나,Others
+2022-01,AU,호주,61.0,7.8,Australia,Oceania
+2022-01,BE,벨기에,133.0,19.6,Belgium,Europe
+2022-01,CA,캐나다,389.0,57.7,Canada,North America
+2022-01,CN,중국,72.0,8.5,China,Others
+2022-01,DE,독일,22.0,3.1,Germany,Europe
+2022-01,ES,스페인,94.0,13.5,Spain,Europe
+2022-01,FR,프랑스,130.0,15.2,France,Europe
+2022-01,GB,영국,0.0,0.0,United Kingdom,Europe
+2022-01,HK,홍콩,9.0,1.1,Hong Kong,Others
+2022-01,IN,인도,101.0,73.9,India,Others
+2022-01,JP,일본,0.0,0.0,Japan,Others
+2022-01,NL,네덜란드,390.0,51.2,Netherlands,Europe
+2022-01,TH,태국,15.0,1.5,Thailand,Others
+2022-01,US,미국,308.0,34.8,United States,North America
+2022-01,VN,베트남,0.0,0.0,Vietnam,Others
+2022-02,BE,벨기에,501.0,67.3,Belgium,Europe
+2022-02,BR,브라질,1.0,0.1,Brazil,Latin America
+2022-02,CA,캐나다,132.0,20.6,Canada,North America
+2022-02,CN,중국,126.0,14.8,China,Others
+2022-02,DE,독일,0.0,0.0,Germany,Europe
+2022-02,ES,스페인,69.0,10.3,Spain,Europe
+2022-02,IN,인도,19.0,75.3,India,Others
+2022-02,JP,일본,0.0,0.0,Japan,Others
+2022-02,NL,네덜란드,317.0,40.9,Netherlands,Europe
+2022-02,RU,러시아 연방,0.0,0.0,Russia,Others
+2022-02,SA,사우디아라비아,22.0,2.7,Saudi Arabia,Others
+2022-02,SG,싱가포르,19.0,2.4,Singapore,Others
+2022-02,TH,태국,9.0,1.0,Thailand,Others
+2022-02,TW,대만,12.0,1.7,Taiwan,Others
+2022-02,US,미국,289.0,34.0,United States,North America
+2022-02,VN,베트남,0.0,0.0,Vietnam,Others
+2022-03,AU,호주,61.0,10.0,Australia,Oceania
+2022-03,BE,벨기에,143.0,19.9,Belgium,Europe
+2022-03,CA,캐나다,273.0,40.1,Canada,North America
+2022-03,CN,중국,8.0,0.9,China,Others
+2022-03,GB,영국,0.0,0.0,United Kingdom,Europe
+2022-03,HK,홍콩,8.0,1.0,Hong Kong,Others
+2022-03,IN,인도,81.0,50.2,India,Others
+2022-03,JP,일본,0.0,0.0,Japan,Others
+2022-03,KH,캄보디아,2.0,0.3,캄보디아,Others
+2022-03,MX,멕시코,9.0,1.0,Mexico,Latin America
+2022-03,NL,네덜란드,408.0,55.2,Netherlands,Europe
+2022-03,NZ,뉴질랜드,78.0,8.4,New Zealand,Oceania
+2022-03,SG,싱가포르,0.0,0.0,Singapore,Others
+2022-03,TW,대만,12.0,1.8,Taiwan,Others
+2022-03,US,미국,180.0,21.4,United States,North America
+2022-03,VN,베트남,11.0,0.2,Vietnam,Others
+2022-04,AR,아르헨티나,4.0,0.5,아르헨티나,Others
+2022-04,BE,벨기에,138.0,20.6,Belgium,Europe
+2022-04,BR,브라질,5.0,0.1,Brazil,Latin America
+2022-04,CA,캐나다,319.0,41.2,Canada,North America
+2022-04,CN,중국,50.0,5.6,China,Others
+2022-04,DE,독일,21.0,3.1,Germany,Europe
+2022-04,ES,스페인,0.0,0.0,Spain,Europe
+2022-04,GB,영국,0.0,0.0,United Kingdom,Europe
+2022-04,IN,인도,7.0,13.6,India,Others
+2022-04,JP,일본,0.0,0.0,Japan,Others
+2022-04,NL,네덜란드,326.0,45.1,Netherlands,Europe
+2022-04,QA,카타르,3.0,0.3,카타르,Others
+2022-04,TH,태국,17.0,2.0,Thailand,Others
+2022-04,TW,대만,0.0,0.0,Taiwan,Others
+2022-04,US,미국,357.0,41.4,United States,North America
+2022-04,VN,베트남,0.0,0.0,Vietnam,Others
+2022-05,AR,아르헨티나,4.0,0.5,아르헨티나,Others
+2022-05,AU,호주,49.0,6.4,Australia,Oceania
+2022-05,CA,캐나다,327.0,50.2,Canada,North America
+2022-05,CN,중국,55.0,7.3,China,Others
+2022-05,DE,독일,21.0,3.1,Germany,Europe
+2022-05,ES,스페인,133.0,18.0,Spain,Europe
+2022-05,GB,영국,0.0,0.0,United Kingdom,Europe
+2022-05,HK,홍콩,8.0,0.9,Hong Kong,Others
+2022-05,IN,인도,20.0,70.7,India,Others
+2022-05,JP,일본,0.0,0.0,Japan,Others
+2022-05,NL,네덜란드,520.0,72.4,Netherlands,Europe
+2022-05,NZ,뉴질랜드,3.0,0.1,New Zealand,Oceania
+2022-05,SA,사우디아라비아,2.0,0.2,Saudi Arabia,Others
+2022-05,SG,싱가포르,18.0,2.4,Singapore,Others
+2022-05,TW,대만,7.0,1.0,Taiwan,Others
+2022-05,US,미국,710.0,81.3,United States,North America
+2022-05,VN,베트남,0.0,0.0,Vietnam,Others
+2022-06,AU,호주,0.0,0.0,Australia,Oceania
+2022-06,BR,브라질,1.0,0.1,Brazil,Latin America
+2022-06,CA,캐나다,251.0,37.1,Canada,North America
+2022-06,CN,중국,121.0,15.0,China,Others
+2022-06,ES,스페인,159.0,22.3,Spain,Europe
+2022-06,FR,프랑스,136.0,15.2,France,Europe
+2022-06,GB,영국,0.0,0.0,United Kingdom,Europe
+2022-06,JP,일본,0.0,0.0,Japan,Others
+2022-06,NL,네덜란드,613.0,82.1,Netherlands,Europe
+2022-06,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2022-06,TH,태국,22.0,2.2,Thailand,Others
+2022-06,US,미국,419.0,49.0,United States,North America
+2022-06,VN,베트남,1.0,0.1,Vietnam,Others
+2022-07,AR,아르헨티나,10.0,0.9,아르헨티나,Others
+2022-07,AU,호주,69.0,8.7,Australia,Oceania
+2022-07,CA,캐나다,3.0,0.5,Canada,North America
+2022-07,CN,중국,309.0,58.9,China,Others
+2022-07,ES,스페인,0.0,0.0,Spain,Europe
+2022-07,FR,프랑스,130.0,15.2,France,Europe
+2022-07,GB,영국,1.0,0.1,United Kingdom,Europe
+2022-07,HK,홍콩,0.0,0.0,Hong Kong,Others
+2022-07,ID,인도네시아,0.0,0.0,Indonesia,Others
+2022-07,IN,인도,26.0,77.7,India,Others
+2022-07,JP,일본,0.0,0.0,Japan,Others
+2022-07,NL,네덜란드,127.0,18.5,Netherlands,Europe
+2022-07,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2022-07,SG,싱가포르,17.0,2.4,Singapore,Others
+2022-07,TH,태국,13.0,1.5,Thailand,Others
+2022-07,TW,대만,5.0,0.5,Taiwan,Others
+2022-07,US,미국,207.0,23.7,United States,North America
+2022-07,VN,베트남,0.0,0.0,Vietnam,Others
+2022-08,AU,호주,0.0,0.0,Australia,Oceania
+2022-08,CA,캐나다,408.0,59.3,Canada,North America
+2022-08,CN,중국,50.0,5.9,China,Others
+2022-08,DE,독일,0.0,0.0,Germany,Europe
+2022-08,ES,스페인,166.0,23.2,Spain,Europe
+2022-08,FR,프랑스,131.0,15.2,France,Europe
+2022-08,GB,영국,0.0,0.0,United Kingdom,Europe
+2022-08,HK,홍콩,8.0,0.9,Hong Kong,Others
+2022-08,IN,인도,15.0,1.9,India,Others
+2022-08,JP,일본,0.0,0.0,Japan,Others
+2022-08,KH,캄보디아,0.0,0.0,캄보디아,Others
+2022-08,KZ,카자흐스탄,1.0,0.1,카자흐스탄,Others
+2022-08,NL,네덜란드,604.0,87.7,Netherlands,Europe
+2022-08,NZ,뉴질랜드,97.0,10.7,New Zealand,Oceania
+2022-08,SA,사우디아라비아,22.0,2.6,Saudi Arabia,Others
+2022-08,TH,태국,0.0,0.0,Thailand,Others
+2022-08,TW,대만,8.0,1.2,Taiwan,Others
+2022-08,US,미국,371.0,42.4,United States,North America
+2022-08,VN,베트남,0.0,0.0,Vietnam,Others
+2022-09,AU,호주,64.0,8.3,Australia,Oceania
+2022-09,BE,벨기에,148.0,20.8,Belgium,Europe
+2022-09,CA,캐나다,125.0,19.4,Canada,North America
+2022-09,CN,중국,0.0,0.0,China,Others
+2022-09,FR,프랑스,0.0,0.0,France,Europe
+2022-09,IN,인도,28.0,47.0,India,Others
+2022-09,JP,일본,0.0,0.0,Japan,Others
+2022-09,NL,네덜란드,467.0,67.3,Netherlands,Europe
+2022-09,SG,싱가포르,9.0,1.1,Singapore,Others
+2022-09,TH,태국,15.0,1.5,Thailand,Others
+2022-09,TW,대만,0.0,0.0,Taiwan,Others
+2022-09,US,미국,0.0,0.0,United States,North America
+2022-09,VN,베트남,0.0,0.0,Vietnam,Others
+2022-10,AU,호주,0.0,0.0,Australia,Oceania
+2022-10,BE,벨기에,266.0,30.4,Belgium,Europe
+2022-10,CA,캐나다,124.0,19.8,Canada,North America
+2022-10,CN,중국,68.0,9.0,China,Others
+2022-10,DE,독일,17.0,2.1,Germany,Europe
+2022-10,GB,영국,0.0,0.0,United Kingdom,Europe
+2022-10,HK,홍콩,8.0,0.9,Hong Kong,Others
+2022-10,IN,인도,38.0,115.6,India,Others
+2022-10,JP,일본,0.0,0.0,Japan,Others
+2022-10,NL,네덜란드,258.0,37.9,Netherlands,Europe
+2022-10,NZ,뉴질랜드,151.0,2.2,New Zealand,Oceania
+2022-10,PH,필리핀,0.0,0.0,Philippines,Others
+2022-10,QA,카타르,3.0,0.3,카타르,Others
+2022-10,SG,싱가포르,18.0,1.0,Singapore,Others
+2022-10,TH,태국,14.0,1.2,Thailand,Others
+2022-10,TW,대만,19.0,2.5,Taiwan,Others
+2022-10,US,미국,162.0,18.0,United States,North America
+2022-10,VN,베트남,0.0,0.0,Vietnam,Others
+2022-11,AU,호주,0.0,0.0,Australia,Oceania
+2022-11,CA,캐나다,132.0,19.3,Canada,North America
+2022-11,CN,중국,26.0,1.8,China,Others
+2022-11,DE,독일,0.0,0.0,Germany,Europe
+2022-11,ES,스페인,157.0,19.8,Spain,Europe
+2022-11,GB,영국,0.0,0.0,United Kingdom,Europe
+2022-11,HK,홍콩,18.0,2.0,Hong Kong,Others
+2022-11,IN,인도,42.0,50.7,India,Others
+2022-11,JP,일본,0.0,0.0,Japan,Others
+2022-11,MY,말레이시아,2.0,0.3,Malaysia,Others
+2022-11,NL,네덜란드,420.0,52.8,Netherlands,Europe
+2022-11,NZ,뉴질랜드,30.0,3.1,New Zealand,Oceania
+2022-11,SA,사우디아라비아,1.0,0.1,Saudi Arabia,Others
+2022-11,SG,싱가포르,37.0,2.0,Singapore,Others
+2022-11,TH,태국,14.0,1.5,Thailand,Others
+2022-11,US,미국,34.0,3.6,United States,North America
+2022-11,VN,베트남,0.0,0.0,Vietnam,Others
+2022-12,AU,호주,92.0,10.1,Australia,Oceania
+2022-12,CA,캐나다,385.0,56.4,Canada,North America
+2022-12,CN,중국,91.0,11.1,China,Others
+2022-12,ES,스페인,39.0,5.3,Spain,Europe
+2022-12,FR,프랑스,0.0,0.0,France,Europe
+2022-12,GB,영국,0.0,0.0,United Kingdom,Europe
+2022-12,HK,홍콩,0.0,0.1,Hong Kong,Others
+2022-12,IN,인도,93.0,62.9,India,Others
+2022-12,JP,일본,0.0,0.0,Japan,Others
+2022-12,NL,네덜란드,576.0,73.2,Netherlands,Europe
+2022-12,NZ,뉴질랜드,56.0,6.7,New Zealand,Oceania
+2022-12,SG,싱가포르,19.0,2.5,Singapore,Others
+2022-12,TH,태국,15.0,1.5,Thailand,Others
+2022-12,TW,대만,0.0,0.0,Taiwan,Others
+2022-12,US,미국,58.0,4.9,United States,North America
+2022-12,VN,베트남,0.0,0.0,Vietnam,Others
+2023-01,AR,아르헨티나,5.0,0.5,아르헨티나,Others
+2023-01,BE,벨기에,141.0,20.6,Belgium,Europe
+2023-01,BR,브라질,5.0,0.5,Brazil,Latin America
+2023-01,CA,캐나다,136.0,19.8,Canada,North America
+2023-01,CN,중국,13.0,1.5,China,Others
+2023-01,ES,스페인,105.0,13.1,Spain,Europe
+2023-01,GB,영국,0.0,0.0,United Kingdom,Europe
+2023-01,JP,일본,0.0,0.0,Japan,Others
+2023-01,MX,멕시코,0.0,0.0,Mexico,Latin America
+2023-01,NL,네덜란드,324.0,44.5,Netherlands,Europe
+2023-01,NZ,뉴질랜드,73.0,8.3,New Zealand,Oceania
+2023-01,SA,사우디아라비아,25.0,2.6,Saudi Arabia,Others
+2023-01,SG,싱가포르,19.0,2.4,Singapore,Others
+2023-01,TH,태국,23.0,2.1,Thailand,Others
+2023-01,US,미국,131.0,14.9,United States,North America
+2023-01,VN,베트남,0.0,0.0,Vietnam,Others
+2023-02,AR,아르헨티나,10.0,0.9,아르헨티나,Others
+2023-02,AU,호주,76.0,7.5,Australia,Oceania
+2023-02,BE,벨기에,141.0,20.6,Belgium,Europe
+2023-02,CA,캐나다,402.0,57.7,Canada,North America
+2023-02,CN,중국,74.0,9.0,China,Others
+2023-02,HK,홍콩,0.0,0.0,Hong Kong,Others
+2023-02,JP,일본,0.0,0.0,Japan,Others
+2023-02,MY,말레이시아,10.0,1.0,Malaysia,Others
+2023-02,NL,네덜란드,322.0,45.1,Netherlands,Europe
+2023-02,NZ,뉴질랜드,48.0,5.7,New Zealand,Oceania
+2023-02,SG,싱가포르,20.0,2.5,Singapore,Others
+2023-02,TH,태국,8.0,0.3,Thailand,Others
+2023-02,TW,대만,17.0,0.7,Taiwan,Others
+2023-02,US,미국,144.0,16.1,United States,North America
+2023-03,AE,아랍에미리트 연합,20.0,2.2,UAE,Others
+2023-03,AT,오스트리아,0.0,0.0,Austria,Europe
+2023-03,AU,호주,62.0,7.4,Australia,Oceania
+2023-03,BE,벨기에,15.0,2.1,Belgium,Europe
+2023-03,CA,캐나다,264.0,38.8,Canada,North America
+2023-03,CN,중국,115.0,14.3,China,Others
+2023-03,DE,독일,21.0,3.1,Germany,Europe
+2023-03,ES,스페인,0.0,0.0,Spain,Europe
+2023-03,FR,프랑스,307.0,30.4,France,Europe
+2023-03,GB,영국,0.0,0.0,United Kingdom,Europe
+2023-03,IN,인도,35.0,146.7,India,Others
+2023-03,JP,일본,0.0,0.0,Japan,Others
+2023-03,NL,네덜란드,233.0,32.1,Netherlands,Europe
+2023-03,NZ,뉴질랜드,41.0,4.0,New Zealand,Oceania
+2023-03,SG,싱가포르,19.0,2.5,Singapore,Others
+2023-03,TH,태국,30.0,2.7,Thailand,Others
+2023-03,TW,대만,2.0,0.2,Taiwan,Others
+2023-03,US,미국,141.0,15.8,United States,North America
+2023-03,VN,베트남,0.0,0.0,Vietnam,Others
+2023-04,AU,호주,0.0,0.0,Australia,Oceania
+2023-04,CA,캐나다,126.0,18.3,Canada,North America
+2023-04,CN,중국,23.0,2.7,China,Others
+2023-04,ES,스페인,261.0,26.1,Spain,Europe
+2023-04,FR,프랑스,157.0,15.2,France,Europe
+2023-04,GB,영국,0.0,0.0,United Kingdom,Europe
+2023-04,HK,홍콩,9.0,1.0,Hong Kong,Others
+2023-04,IN,인도,23.0,93.7,India,Others
+2023-04,JP,일본,0.0,0.0,Japan,Others
+2023-04,MY,말레이시아,0.0,0.0,Malaysia,Others
+2023-04,NL,네덜란드,573.0,79.6,Netherlands,Europe
+2023-04,TH,태국,0.0,0.0,Thailand,Others
+2023-04,TW,대만,0.0,0.0,Taiwan,Others
+2023-04,US,미국,109.0,9.7,United States,North America
+2023-04,VN,베트남,2.0,0.1,Vietnam,Others
+2023-05,AT,오스트리아,0.0,0.0,Austria,Europe
+2023-05,AU,호주,0.0,0.0,Australia,Oceania
+2023-05,CA,캐나다,268.0,39.0,Canada,North America
+2023-05,CN,중국,82.0,10.2,China,Others
+2023-05,DE,독일,0.0,0.0,Germany,Europe
+2023-05,ES,스페인,116.0,13.9,Spain,Europe
+2023-05,IN,인도,94.0,83.6,India,Others
+2023-05,JP,일본,0.0,0.0,Japan,Others
+2023-05,NL,네덜란드,512.0,71.3,Netherlands,Europe
+2023-05,NZ,뉴질랜드,69.0,7.9,New Zealand,Oceania
+2023-05,RU,러시아 연방,2.0,0.2,Russia,Others
+2023-05,SA,사우디아라비아,6.0,0.6,Saudi Arabia,Others
+2023-05,SG,싱가포르,20.0,2.5,Singapore,Others
+2023-05,TW,대만,13.0,1.9,Taiwan,Others
+2023-05,US,미국,1.0,0.1,United States,North America
+2023-05,VN,베트남,0.0,0.0,Vietnam,Others
+2023-06,AE,아랍에미리트 연합,0.0,0.0,UAE,Others
+2023-06,AU,호주,62.0,7.4,Australia,Oceania
+2023-06,BE,벨기에,291.0,41.4,Belgium,Europe
+2023-06,CA,캐나다,276.0,39.6,Canada,North America
+2023-06,CN,중국,57.0,7.1,China,Others
+2023-06,DE,독일,21.0,3.1,Germany,Europe
+2023-06,ES,스페인,86.0,11.1,Spain,Europe
+2023-06,HK,홍콩,9.0,1.0,Hong Kong,Others
+2023-06,IN,인도,177.0,86.4,India,Others
+2023-06,JP,일본,0.0,0.0,Japan,Others
+2023-06,MX,멕시코,61.0,6.2,Mexico,Latin America
+2023-06,NL,네덜란드,298.0,40.3,Netherlands,Europe
+2023-06,NZ,뉴질랜드,30.0,3.2,New Zealand,Oceania
+2023-06,SA,사우디아라비아,25.0,2.6,Saudi Arabia,Others
+2023-06,TH,태국,15.0,1.5,Thailand,Others
+2023-06,TW,대만,0.0,0.0,Taiwan,Others
+2023-06,US,미국,0.0,0.0,United States,North America
+2023-06,VN,베트남,0.0,0.0,Vietnam,Others
+2023-07,AU,호주,76.0,8.8,Australia,Oceania
+2023-07,BE,벨기에,139.0,20.6,Belgium,Europe
+2023-07,CA,캐나다,271.0,38.3,Canada,North America
+2023-07,CN,중국,55.0,7.0,China,Others
+2023-07,DE,독일,38.0,5.2,Germany,Europe
+2023-07,ES,스페인,21.0,3.2,Spain,Europe
+2023-07,GB,영국,0.0,0.0,United Kingdom,Europe
+2023-07,IN,인도,68.0,82.9,India,Others
+2023-07,JP,일본,0.0,0.0,Japan,Others
+2023-07,MX,멕시코,0.0,0.0,Mexico,Latin America
+2023-07,NL,네덜란드,57.0,8.2,Netherlands,Europe
+2023-07,NZ,뉴질랜드,11.0,0.9,New Zealand,Oceania
+2023-07,SA,사우디아라비아,2.0,0.2,Saudi Arabia,Others
+2023-07,SG,싱가포르,20.0,2.5,Singapore,Others
+2023-07,TW,대만,15.0,2.0,Taiwan,Others
+2023-07,US,미국,487.0,47.6,United States,North America
+2023-07,VN,베트남,0.0,0.0,Vietnam,Others
+2023-08,AE,아랍에미리트 연합,0.0,0.0,UAE,Others
+2023-08,CA,캐나다,325.0,44.3,Canada,North America
+2023-08,CN,중국,34.0,4.2,China,Others
+2023-08,ES,스페인,173.0,20.9,Spain,Europe
+2023-08,GB,영국,0.0,0.0,United Kingdom,Europe
+2023-08,HK,홍콩,9.0,1.0,Hong Kong,Others
+2023-08,IN,인도,2.0,25.0,India,Others
+2023-08,JP,일본,0.0,0.0,Japan,Others
+2023-08,NL,네덜란드,524.0,70.7,Netherlands,Europe
+2023-08,TH,태국,14.0,1.5,Thailand,Others
+2023-08,TW,대만,0.0,0.0,Taiwan,Others
+2023-08,US,미국,277.0,30.9,United States,North America
+2023-08,VN,베트남,0.0,0.0,Vietnam,Others
+2023-09,AR,아르헨티나,7.0,0.7,아르헨티나,Others
+2023-09,AU,호주,71.0,8.3,Australia,Oceania
+2023-09,CA,캐나다,261.0,38.0,Canada,North America
+2023-09,CN,중국,56.0,7.2,China,Others
+2023-09,IN,인도,93.0,106.8,India,Others
+2023-09,JP,일본,0.0,0.0,Japan,Others
+2023-09,NL,네덜란드,736.0,101.3,Netherlands,Europe
+2023-09,NZ,뉴질랜드,65.0,8.1,New Zealand,Oceania
+2023-09,SG,싱가포르,20.0,2.5,Singapore,Others
+2023-09,TH,태국,34.0,3.0,Thailand,Others
+2023-09,TW,대만,8.0,1.0,Taiwan,Others
+2023-09,US,미국,470.0,51.5,United States,North America
+2023-09,VN,베트남,0.0,0.0,Vietnam,Others
+2023-10,AT,오스트리아,0.0,0.0,Austria,Europe
+2023-10,AU,호주,0.0,0.0,Australia,Oceania
+2023-10,BE,벨기에,143.0,20.6,Belgium,Europe
+2023-10,CA,캐나다,132.0,19.3,Canada,North America
+2023-10,CN,중국,78.0,9.4,China,Others
+2023-10,DE,독일,35.0,5.2,Germany,Europe
+2023-10,ES,스페인,0.0,0.0,Spain,Europe
+2023-10,GB,영국,0.0,0.0,United Kingdom,Europe
+2023-10,HK,홍콩,9.0,1.0,Hong Kong,Others
+2023-10,JP,일본,0.0,0.0,Japan,Others
+2023-10,MX,멕시코,42.0,4.4,Mexico,Latin America
+2023-10,NL,네덜란드,286.0,39.9,Netherlands,Europe
+2023-10,NZ,뉴질랜드,37.0,3.9,New Zealand,Oceania
+2023-10,TR,튀르키예,18.0,2.1,Turkey,Others
+2023-10,TW,대만,13.0,1.8,Taiwan,Others
+2023-10,US,미국,156.0,10.0,United States,North America
+2023-10,VN,베트남,0.0,0.0,Vietnam,Others
+2023-11,AT,오스트리아,0.0,0.0,Austria,Europe
+2023-11,AU,호주,7.0,0.2,Australia,Oceania
+2023-11,BE,벨기에,143.0,20.6,Belgium,Europe
+2023-11,CA,캐나다,391.0,55.2,Canada,North America
+2023-11,CN,중국,7.0,1.1,China,Others
+2023-11,DE,독일,0.0,0.0,Germany,Europe
+2023-11,HK,홍콩,14.0,1.6,Hong Kong,Others
+2023-11,JP,일본,0.0,0.0,Japan,Others
+2023-11,MX,멕시코,20.0,2.1,Mexico,Latin America
+2023-11,MY,말레이시아,2.0,0.3,Malaysia,Others
+2023-11,NL,네덜란드,328.0,45.2,Netherlands,Europe
+2023-11,NZ,뉴질랜드,72.0,8.0,New Zealand,Oceania
+2023-11,TH,태국,29.0,3.0,Thailand,Others
+2023-11,US,미국,157.0,17.6,United States,North America
+2023-11,VN,베트남,0.0,0.0,Vietnam,Others
+2023-12,AU,호주,90.0,9.7,Australia,Oceania
+2023-12,BR,브라질,6.0,0.6,Brazil,Latin America
+2023-12,CA,캐나다,131.0,18.9,Canada,North America
+2023-12,CN,중국,183.0,22.3,China,Others
+2023-12,DE,독일,0.0,0.0,Germany,Europe
+2023-12,ES,스페인,290.0,36.9,Spain,Europe
+2023-12,JP,일본,0.0,0.0,Japan,Others
+2023-12,MX,멕시코,10.0,1.0,Mexico,Latin America
+2023-12,NL,네덜란드,325.0,43.6,Netherlands,Europe
+2023-12,NZ,뉴질랜드,7.0,1.1,New Zealand,Oceania
+2023-12,SA,사우디아라비아,27.0,2.9,Saudi Arabia,Others
+2023-12,SG,싱가포르,20.0,2.5,Singapore,Others
+2023-12,TW,대만,16.0,2.1,Taiwan,Others
+2023-12,US,미국,237.0,26.3,United States,North America
+2023-12,VN,베트남,0.0,0.0,Vietnam,Others
+2024-01,AR,아르헨티나,10.0,0.9,아르헨티나,Others
+2024-01,AT,오스트리아,0.0,0.0,Austria,Europe
+2024-01,AU,호주,143.0,16.1,Australia,Oceania
+2024-01,BE,벨기에,245.0,39.1,Belgium,Europe
+2024-01,CA,캐나다,135.0,19.3,Canada,North America
+2024-01,CN,중국,52.0,5.9,China,Others
+2024-01,DE,독일,66.0,10.3,Germany,Europe
+2024-01,ES,스페인,290.0,36.8,Spain,Europe
+2024-01,FR,프랑스,158.0,15.2,France,Europe
+2024-01,GB,영국,0.0,0.0,United Kingdom,Europe
+2024-01,HK,홍콩,14.0,0.5,Hong Kong,Others
+2024-01,IN,인도,5.0,24.1,India,Others
+2024-01,JP,일본,0.0,0.0,Japan,Others
+2024-01,NL,네덜란드,355.0,44.8,Netherlands,Europe
+2024-01,NZ,뉴질랜드,44.0,5.2,New Zealand,Oceania
+2024-01,SG,싱가포르,39.0,4.9,Singapore,Others
+2024-01,TH,태국,22.0,2.1,Thailand,Others
+2024-01,TW,대만,10.0,1.4,Taiwan,Others
+2024-01,US,미국,62.0,4.7,United States,North America
+2024-01,VN,베트남,0.0,0.0,Vietnam,Others
+2024-02,AU,호주,0.0,0.0,Australia,Oceania
+2024-02,CA,캐나다,397.0,57.4,Canada,North America
+2024-02,CN,중국,19.0,3.1,China,Others
+2024-02,DE,독일,69.0,10.3,Germany,Europe
+2024-02,HK,홍콩,5.0,0.5,Hong Kong,Others
+2024-02,IN,인도,76.0,38.0,India,Others
+2024-02,JP,일본,0.0,0.0,Japan,Others
+2024-02,MX,멕시코,31.0,3.1,Mexico,Latin America
+2024-02,NL,네덜란드,307.0,28.7,Netherlands,Europe
+2024-02,PH,필리핀,33.0,9.4,Philippines,Others
+2024-02,QA,카타르,3.0,0.3,카타르,Others
+2024-02,SA,사우디아라비아,1.0,0.1,Saudi Arabia,Others
+2024-02,TH,태국,14.0,1.5,Thailand,Others
+2024-02,TW,대만,14.0,1.8,Taiwan,Others
+2024-02,US,미국,191.0,21.1,United States,North America
+2024-02,VN,베트남,0.0,0.0,Vietnam,Others
+2024-03,AU,호주,154.0,17.8,Australia,Oceania
+2024-03,BE,벨기에,136.0,20.6,Belgium,Europe
+2024-03,CA,캐나다,273.0,40.5,Canada,North America
+2024-03,CN,중국,140.0,16.9,China,Others
+2024-03,DE,독일,0.0,0.0,Germany,Europe
+2024-03,ES,스페인,459.0,57.8,Spain,Europe
+2024-03,FR,프랑스,157.0,15.2,France,Europe
+2024-03,HK,홍콩,0.0,0.0,Hong Kong,Others
+2024-03,IN,인도,8.0,23.5,India,Others
+2024-03,JP,일본,0.0,0.0,Japan,Others
+2024-03,NL,네덜란드,548.0,69.9,Netherlands,Europe
+2024-03,NZ,뉴질랜드,35.0,4.2,New Zealand,Oceania
+2024-03,SA,사우디아라비아,8.0,0.9,Saudi Arabia,Others
+2024-03,SG,싱가포르,20.0,2.4,Singapore,Others
+2024-03,TH,태국,12.0,0.7,Thailand,Others
+2024-03,US,미국,184.0,20.2,United States,North America
+2024-03,VN,베트남,0.0,0.0,Vietnam,Others
+2024-04,AU,호주,0.0,0.0,Australia,Oceania
+2024-04,CA,캐나다,133.0,19.6,Canada,North America
+2024-04,CN,중국,0.0,0.0,China,Others
+2024-04,ES,스페인,270.0,38.5,Spain,Europe
+2024-04,FR,프랑스,156.0,15.2,France,Europe
+2024-04,GB,영국,0.0,0.0,United Kingdom,Europe
+2024-04,ID,인도네시아,0.0,0.0,Indonesia,Others
+2024-04,IN,인도,25.0,132.3,India,Others
+2024-04,JP,일본,0.0,0.0,Japan,Others
+2024-04,NL,네덜란드,748.0,96.5,Netherlands,Europe
+2024-04,NZ,뉴질랜드,38.0,3.9,New Zealand,Oceania
+2024-04,SA,사우디아라비아,25.0,2.6,Saudi Arabia,Others
+2024-04,SG,싱가포르,9.0,1.1,Singapore,Others
+2024-04,TH,태국,10.0,1.0,Thailand,Others
+2024-04,TW,대만,6.0,0.7,Taiwan,Others
+2024-04,US,미국,455.0,50.0,United States,North America
+2024-04,VN,베트남,0.0,0.0,Vietnam,Others
+2024-05,BE,벨기에,136.0,20.7,Belgium,Europe
+2024-05,CA,캐나다,258.0,37.8,Canada,North America
+2024-05,CN,중국,55.0,7.2,China,Others
+2024-05,ES,스페인,147.0,18.0,Spain,Europe
+2024-05,HK,홍콩,9.0,1.0,Hong Kong,Others
+2024-05,IN,인도,19.0,93.3,India,Others
+2024-05,JP,일본,0.0,0.0,Japan,Others
+2024-05,MY,말레이시아,5.0,0.6,Malaysia,Others
+2024-05,NL,네덜란드,652.0,87.9,Netherlands,Europe
+2024-05,NZ,뉴질랜드,35.0,4.1,New Zealand,Oceania
+2024-05,SG,싱가포르,20.0,2.5,Singapore,Others
+2024-05,TH,태국,28.0,2.4,Thailand,Others
+2024-05,TW,대만,14.0,1.8,Taiwan,Others
+2024-05,US,미국,104.0,8.9,United States,North America
+2024-05,VN,베트남,0.0,0.0,Vietnam,Others
+2024-06,AR,아르헨티나,10.0,1.0,아르헨티나,Others
+2024-06,AU,호주,67.0,7.8,Australia,Oceania
+2024-06,BE,벨기에,145.0,20.8,Belgium,Europe
+2024-06,BR,브라질,2.0,0.2,Brazil,Latin America
+2024-06,CA,캐나다,393.0,57.7,Canada,North America
+2024-06,CN,중국,76.0,10.5,China,Others
+2024-06,ES,스페인,280.0,35.9,Spain,Europe
+2024-06,GB,영국,0.0,0.0,United Kingdom,Europe
+2024-06,IN,인도,88.0,76.4,India,Others
+2024-06,JP,일본,0.0,0.0,Japan,Others
+2024-06,NL,네덜란드,0.0,0.0,Netherlands,Europe
+2024-06,SA,사우디아라비아,29.0,3.1,Saudi Arabia,Others
+2024-06,TH,태국,14.0,1.5,Thailand,Others
+2024-06,TW,대만,7.0,0.6,Taiwan,Others
+2024-06,US,미국,5.0,0.5,United States,North America
+2024-06,VN,베트남,1.0,0.1,Vietnam,Others
+2024-07,AR,아르헨티나,5.0,0.5,아르헨티나,Others
+2024-07,AU,호주,0.0,0.0,Australia,Oceania
+2024-07,BR,브라질,5.0,0.5,Brazil,Latin America
+2024-07,CA,캐나다,129.0,18.8,Canada,North America
+2024-07,CN,중국,5.0,0.7,China,Others
+2024-07,DE,독일,0.0,0.0,Germany,Europe
+2024-07,ES,스페인,303.0,40.5,Spain,Europe
+2024-07,FR,프랑스,29.0,5.8,France,Europe
+2024-07,IN,인도,3.0,18.5,India,Others
+2024-07,JP,일본,1.0,0.2,Japan,Others
+2024-07,NL,네덜란드,478.0,65.2,Netherlands,Europe
+2024-07,NZ,뉴질랜드,39.0,4.6,New Zealand,Oceania
+2024-07,SA,사우디아라비아,6.0,0.3,Saudi Arabia,Others
+2024-07,SG,싱가포르,20.0,2.5,Singapore,Others
+2024-07,TH,태국,14.0,1.5,Thailand,Others
+2024-07,TW,대만,14.0,1.9,Taiwan,Others
+2024-07,US,미국,425.0,45.8,United States,North America
+2024-07,VN,베트남,0.0,0.0,Vietnam,Others
+2024-08,AU,호주,66.0,7.8,Australia,Oceania
+2024-08,BE,벨기에,143.0,20.6,Belgium,Europe
+2024-08,CA,캐나다,262.0,38.7,Canada,North America
+2024-08,CN,중국,62.0,8.2,China,Others
+2024-08,DE,독일,36.0,5.2,Germany,Europe
+2024-08,ES,스페인,0.0,0.0,Spain,Europe
+2024-08,GB,영국,4.0,0.5,United Kingdom,Europe
+2024-08,HK,홍콩,11.0,1.3,Hong Kong,Others
+2024-08,IN,인도,10.0,39.4,India,Others
+2024-08,JP,일본,0.0,0.0,Japan,Others
+2024-08,NL,네덜란드,333.0,43.6,Netherlands,Europe
+2024-08,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2024-08,TH,태국,19.0,1.4,Thailand,Others
+2024-08,TW,대만,17.0,2.4,Taiwan,Others
+2024-08,US,미국,211.0,19.1,United States,North America
+2024-08,VN,베트남,0.0,0.0,Vietnam,Others
+2024-09,AU,호주,0.0,0.0,Australia,Oceania
+2024-09,BE,벨기에,136.0,20.6,Belgium,Europe
+2024-09,CA,캐나다,398.0,57.6,Canada,North America
+2024-09,CN,중국,135.0,17.6,China,Others
+2024-09,ES,스페인,0.0,0.0,Spain,Europe
+2024-09,FR,프랑스,139.0,15.2,France,Europe
+2024-09,GB,영국,0.0,0.0,United Kingdom,Europe
+2024-09,JP,일본,0.0,0.0,Japan,Others
+2024-09,NL,네덜란드,662.0,87.0,Netherlands,Europe
+2024-09,NZ,뉴질랜드,81.0,9.1,New Zealand,Oceania
+2024-09,SA,사우디아라비아,38.0,4.1,Saudi Arabia,Others
+2024-09,SG,싱가포르,20.0,2.5,Singapore,Others
+2024-09,TH,태국,18.0,1.8,Thailand,Others
+2024-09,TW,대만,0.0,0.0,Taiwan,Others
+2024-09,US,미국,193.0,21.7,United States,North America
+2024-09,VN,베트남,2.0,0.3,Vietnam,Others
+2024-10,AU,호주,128.0,14.4,Australia,Oceania
+2024-10,BE,벨기에,143.0,20.6,Belgium,Europe
+2024-10,CA,캐나다,132.0,19.1,Canada,North America
+2024-10,CN,중국,44.0,5.5,China,Others
+2024-10,ES,스페인,133.0,18.0,Spain,Europe
+2024-10,FR,프랑스,278.0,30.4,France,Europe
+2024-10,GB,영국,0.0,0.0,United Kingdom,Europe
+2024-10,HK,홍콩,9.0,1.0,Hong Kong,Others
+2024-10,IN,인도,8.0,37.6,India,Others
+2024-10,JP,일본,0.0,0.0,Japan,Others
+2024-10,NL,네덜란드,97.0,12.5,Netherlands,Europe
+2024-10,NZ,뉴질랜드,37.0,4.3,New Zealand,Oceania
+2024-10,SG,싱가포르,0.0,0.1,Singapore,Others
+2024-10,TW,대만,0.0,0.0,Taiwan,Others
+2024-10,US,미국,199.0,21.8,United States,North America
+2024-10,VN,베트남,0.0,0.0,Vietnam,Others
+2024-11,AR,아르헨티나,10.0,1.0,아르헨티나,Others
+2024-11,AU,호주,20.0,2.0,Australia,Oceania
+2024-11,CA,캐나다,377.0,55.9,Canada,North America
+2024-11,CN,중국,137.0,18.6,China,Others
+2024-11,ES,스페인,166.0,21.1,Spain,Europe
+2024-11,FR,프랑스,137.0,15.2,France,Europe
+2024-11,GB,영국,0.0,0.0,United Kingdom,Europe
+2024-11,JP,일본,0.0,0.0,Japan,Others
+2024-11,MY,말레이시아,2.0,0.3,Malaysia,Others
+2024-11,NL,네덜란드,257.0,34.5,Netherlands,Europe
+2024-11,NZ,뉴질랜드,43.0,5.2,New Zealand,Oceania
+2024-11,SA,사우디아라비아,2.0,0.2,Saudi Arabia,Others
+2024-11,SG,싱가포르,38.0,4.9,Singapore,Others
+2024-11,TH,태국,33.0,3.1,Thailand,Others
+2024-11,TW,대만,25.0,3.2,Taiwan,Others
+2024-11,US,미국,45.0,5.2,United States,North America
+2024-11,VN,베트남,0.0,0.0,Vietnam,Others
+2024-12,AU,호주,78.0,8.6,Australia,Oceania
+2024-12,CA,캐나다,391.0,58.2,Canada,North America
+2024-12,CN,중국,37.0,4.2,China,Others
+2024-12,DE,독일,0.0,0.0,Germany,Europe
+2024-12,ES,스페인,164.0,23.1,Spain,Europe
+2024-12,FR,프랑스,133.0,15.2,France,Europe
+2024-12,IN,인도,72.0,12.0,India,Others
+2024-12,JP,일본,0.0,0.0,Japan,Others
+2024-12,KZ,카자흐스탄,0.0,0.0,카자흐스탄,Others
+2024-12,NL,네덜란드,247.0,33.7,Netherlands,Europe
+2024-12,TH,태국,47.0,4.9,Thailand,Others
+2024-12,TW,대만,12.0,1.5,Taiwan,Others
+2024-12,US,미국,350.0,38.6,United States,North America
+2024-12,VN,베트남,21.0,3.6,Vietnam,Others
+2025-01,AU,호주,0.0,0.0,Australia,Oceania
+2025-01,BE,벨기에,138.0,20.6,Belgium,Europe
+2025-01,CA,캐나다,247.0,38.1,Canada,North America
+2025-01,CN,중국,19.0,2.3,China,Others
+2025-01,DE,독일,26.0,4.1,Germany,Europe
+2025-01,ES,스페인,21.0,2.7,Spain,Europe
+2025-01,FR,프랑스,64.0,8.9,France,Europe
+2025-01,HK,홍콩,9.0,1.0,Hong Kong,Others
+2025-01,JP,일본,0.0,0.0,Japan,Others
+2025-01,NL,네덜란드,541.0,75.4,Netherlands,Europe
+2025-01,NZ,뉴질랜드,43.0,5.2,New Zealand,Oceania
+2025-01,TH,태국,10.0,0.9,Thailand,Others
+2025-01,US,미국,163.0,12.3,United States,North America
+2025-02,AU,호주,67.0,7.8,Australia,Oceania
+2025-02,BE,벨기에,135.0,20.6,Belgium,Europe
+2025-02,CA,캐나다,383.0,57.7,Canada,North America
+2025-02,CN,중국,67.0,9.5,China,Others
+2025-02,DE,독일,14.0,2.1,Germany,Europe
+2025-02,ES,스페인,142.0,17.9,Spain,Europe
+2025-02,HK,홍콩,4.0,0.5,Hong Kong,Others
+2025-02,JP,일본,0.0,0.0,Japan,Others
+2025-02,MX,멕시코,5.0,0.5,Mexico,Latin America
+2025-02,NL,네덜란드,79.0,11.0,Netherlands,Europe
+2025-02,NZ,뉴질랜드,37.0,3.9,New Zealand,Oceania
+2025-02,SA,사우디아라비아,0.0,0.0,Saudi Arabia,Others
+2025-02,SG,싱가포르,38.0,5.1,Singapore,Others
+2025-02,TH,태국,20.0,1.6,Thailand,Others
+2025-02,TR,튀르키예,13.0,1.5,Turkey,Others
+2025-02,TW,대만,18.0,2.4,Taiwan,Others
+2025-02,US,미국,45.0,5.2,United States,North America
+2025-02,VN,베트남,0.0,0.0,Vietnam,Others
+2025-03,AR,아르헨티나,10.0,1.0,아르헨티나,Others
+2025-03,AU,호주,71.0,7.2,Australia,Oceania
+2025-03,BE,벨기에,135.0,19.8,Belgium,Europe
+2025-03,CA,캐나다,754.0,115.8,Canada,North America
+2025-03,CN,중국,64.0,14.4,China,Others
+2025-03,DE,독일,27.0,4.1,Germany,Europe
+2025-03,ES,스페인,148.0,19.8,Spain,Europe
+2025-03,HK,홍콩,9.0,1.0,Hong Kong,Others
+2025-03,JP,일본,0.0,0.0,Japan,Others
+2025-03,MX,멕시코,0.0,0.0,Mexico,Latin America
+2025-03,NL,네덜란드,261.0,36.0,Netherlands,Europe
+2025-03,NZ,뉴질랜드,56.0,6.7,New Zealand,Oceania
+2025-03,US,미국,0.0,0.0,United States,North America
+2025-03,VN,베트남,21.0,3.6,Vietnam,Others
+2025-04,AU,호주,67.0,7.8,Australia,Oceania
+2025-04,BE,벨기에,254.0,38.1,Belgium,Europe
+2025-04,CA,캐나다,143.0,21.5,Canada,North America
+2025-04,CN,중국,119.0,15.6,China,Others
+2025-04,DE,독일,29.0,4.1,Germany,Europe
+2025-04,ES,스페인,134.0,16.0,Spain,Europe
+2025-04,GB,영국,0.0,0.0,United Kingdom,Europe
+2025-04,HK,홍콩,23.0,2.6,Hong Kong,Others
+2025-04,IN,인도,3.0,18.2,India,Others
+2025-04,JP,일본,0.0,0.0,Japan,Others
+2025-04,MY,말레이시아,4.0,0.5,Malaysia,Others
+2025-04,NL,네덜란드,221.0,28.7,Netherlands,Europe
+2025-04,SA,사우디아라비아,65.0,7.2,Saudi Arabia,Others
+2025-04,TH,태국,1.0,0.1,Thailand,Others
+2025-04,TW,대만,19.0,2.5,Taiwan,Others
+2025-04,US,미국,102.0,11.4,United States,North America
+2025-04,VN,베트남,0.0,0.0,Vietnam,Others
+2025-05,AU,호주,71.0,8.5,Australia,Oceania
+2025-05,BR,브라질,6.0,0.6,Brazil,Latin America
+2025-05,CA,캐나다,148.0,21.5,Canada,North America
+2025-05,CN,중국,79.0,10.5,China,Others
+2025-05,DE,독일,29.0,4.1,Germany,Europe
+2025-05,ES,스페인,374.0,51.0,Spain,Europe
+2025-05,IN,인도,75.0,36.2,India,Others
+2025-05,JP,일본,0.0,0.0,Japan,Others
+2025-05,KZ,카자흐스탄,0.0,0.0,카자흐스탄,Others
+2025-05,MN,몽골,1.0,0.1,몽골,Others
+2025-05,NL,네덜란드,455.0,59.7,Netherlands,Europe
+2025-05,NZ,뉴질랜드,80.0,8.8,New Zealand,Oceania
+2025-05,PK,파키스탄,0.0,0.0,파키스탄,Others
+2025-05,SG,싱가포르,20.0,2.5,Singapore,Others
+2025-05,TH,태국,14.0,1.1,Thailand,Others
+2025-05,TW,대만,12.0,1.5,Taiwan,Others
+2025-05,US,미국,194.0,21.6,United States,North America
+2025-05,VN,베트남,1.0,0.0,Vietnam,Others
+2025-06,AR,아르헨티나,10.0,1.0,아르헨티나,Others
+2025-06,AU,호주,7.0,0.2,Australia,Oceania
+2025-06,BE,벨기에,269.0,41.2,Belgium,Europe
+2025-06,CA,캐나다,246.0,35.7,Canada,North America
+2025-06,CN,중국,139.0,19.7,China,Others
+2025-06,DE,독일,59.0,8.2,Germany,Europe
+2025-06,ES,스페인,192.0,22.3,Spain,Europe
+2025-06,GB,영국,0.0,0.0,United Kingdom,Europe
+2025-06,HK,홍콩,10.0,1.0,Hong Kong,Others
+2025-06,JP,일본,0.0,0.0,Japan,Others
+2025-06,NL,네덜란드,389.0,49.1,Netherlands,Europe
+2025-06,PA,파나마,0.0,0.0,파나마,Others
+2025-06,QA,카타르,1.0,0.2,카타르,Others
+2025-06,SG,싱가포르,0.0,0.0,Singapore,Others
+2025-06,TH,태국,39.0,3.4,Thailand,Others
+2025-06,TW,대만,10.0,1.2,Taiwan,Others
+2025-06,US,미국,473.0,51.1,United States,North America
+2025-06,VN,베트남,0.0,0.0,Vietnam,Others
+2025-07,AU,호주,0.0,0.0,Australia,Oceania
+2025-07,BE,벨기에,148.0,22.2,Belgium,Europe
+2025-07,CA,캐나다,512.0,74.9,Canada,North America
+2025-07,CN,중국,6.0,1.0,China,Others
+2025-07,DE,독일,67.0,9.3,Germany,Europe
+2025-07,ES,스페인,1.0,0.1,Spain,Europe
+2025-07,FR,프랑스,146.0,21.4,France,Europe
+2025-07,GB,영국,0.0,0.0,United Kingdom,Europe
+2025-07,HK,홍콩,20.0,2.1,Hong Kong,Others
+2025-07,JP,일본,0.0,0.0,Japan,Others
+2025-07,MX,멕시코,146.0,14.8,Mexico,Latin America
+2025-07,MY,말레이시아,2.0,0.2,Malaysia,Others
+2025-07,NL,네덜란드,543.0,69.6,Netherlands,Europe
+2025-07,NZ,뉴질랜드,75.0,8.3,New Zealand,Oceania
+2025-07,SA,사우디아라비아,2.0,0.2,Saudi Arabia,Others
+2025-07,SG,싱가포르,21.0,2.5,Singapore,Others
+2025-07,TH,태국,10.0,0.9,Thailand,Others
+2025-07,TW,대만,11.0,1.5,Taiwan,Others
+2025-07,US,미국,442.0,49.5,United States,North America
+2025-07,VN,베트남,0.0,0.0,Vietnam,Others
+2025-08,AU,호주,65.0,7.7,Australia,Oceania
+2025-08,CA,캐나다,114.0,16.8,Canada,North America
+2025-08,CN,중국,14.0,1.4,China,Others
+2025-08,ES,스페인,165.0,20.9,Spain,Europe
+2025-08,FR,프랑스,147.0,15.2,France,Europe
+2025-08,HK,홍콩,0.0,0.0,Hong Kong,Others
+2025-08,JP,일본,1.0,0.0,Japan,Others
+2025-08,NL,네덜란드,379.0,46.8,Netherlands,Europe
+2025-08,SA,사우디아라비아,37.0,4.0,Saudi Arabia,Others
+2025-08,SG,싱가포르,0.0,0.0,Singapore,Others
+2025-08,TW,대만,14.0,1.9,Taiwan,Others
+2025-08,US,미국,68.0,7.7,United States,North America
+2025-08,VN,베트남,0.0,0.0,Vietnam,Others
+2025-09,AU,호주,79.0,8.0,Australia,Oceania
+2025-09,BE,벨기에,205.0,29.9,Belgium,Europe
+2025-09,BR,브라질,10.0,1.0,Brazil,Latin America
+2025-09,CA,캐나다,537.0,79.1,Canada,North America
+2025-09,CN,중국,14.0,1.6,China,Others
+2025-09,DE,독일,0.0,0.0,Germany,Europe
+2025-09,ES,스페인,186.0,20.9,Spain,Europe
+2025-09,FI,핀란드,0.0,0.0,Finland,Europe
+2025-09,GB,영국,0.0,0.0,United Kingdom,Europe
+2025-09,HK,홍콩,10.0,1.0,Hong Kong,Others
+2025-09,JP,일본,0.0,0.0,Japan,Others
+2025-09,MX,멕시코,31.0,3.1,Mexico,Latin America
+2025-09,NL,네덜란드,855.0,105.7,Netherlands,Europe
+2025-09,NZ,뉴질랜드,50.0,5.4,New Zealand,Oceania
+2025-09,SA,사우디아라비아,3.0,0.3,Saudi Arabia,Others
+2025-09,SG,싱가포르,25.0,3.0,Singapore,Others
+2025-09,TH,태국,18.0,1.5,Thailand,Others
+2025-09,TW,대만,15.0,2.0,Taiwan,Others
+2025-09,US,미국,729.0,80.9,United States,North America
+2025-09,VN,베트남,1.0,0.1,Vietnam,Others
+2025-10,AU,호주,67.0,7.9,Australia,Oceania
+2025-10,CA,캐나다,127.0,19.0,Canada,North America
+2025-10,CN,중국,66.0,8.7,China,Others
+2025-10,DE,독일,8.0,1.0,Germany,Europe
+2025-10,ES,스페인,169.0,21.4,Spain,Europe
+2025-10,GB,영국,0.0,0.0,United Kingdom,Europe
+2025-10,HK,홍콩,0.0,0.0,Hong Kong,Others
+2025-10,JP,일본,0.0,0.0,Japan,Others
+2025-10,MX,멕시코,0.0,0.0,Mexico,Latin America
+2025-10,NZ,뉴질랜드,80.0,9.0,New Zealand,Oceania
+2025-10,SG,싱가포르,21.0,2.5,Singapore,Others
+2025-10,TH,태국,5.0,0.5,Thailand,Others
+2025-10,US,미국,1.0,0.2,United States,North America
+2025-10,VN,베트남,4.0,0.0,Vietnam,Others
+2025-11,BE,벨기에,213.0,32.9,Belgium,Europe
+2025-11,CA,캐나다,269.0,39.3,Canada,North America
+2025-11,CN,중국,901.0,171.9,China,Others
+2025-11,ES,스페인,274.0,35.0,Spain,Europe
+2025-11,FR,프랑스,279.0,35.5,France,Europe
+2025-11,GB,영국,0.0,0.0,United Kingdom,Europe
+2025-11,JP,일본,0.0,0.0,Japan,Others
+2025-11,MY,말레이시아,1.0,0.2,Malaysia,Others
+2025-11,NL,네덜란드,635.0,79.1,Netherlands,Europe
+2025-11,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2025-11,SA,사우디아라비아,1.0,0.1,Saudi Arabia,Others
+2025-11,SG,싱가포르,21.0,2.5,Singapore,Others
+2025-11,TH,태국,30.0,2.9,Thailand,Others
+2025-11,TW,대만,25.0,3.2,Taiwan,Others
+2025-11,US,미국,146.0,15.9,United States,North America
+2025-11,VN,베트남,0.0,0.0,Vietnam,Others
+2025-12,AR,아르헨티나,5.0,0.5,아르헨티나,Others
+2025-12,AU,호주,148.0,16.1,Australia,Oceania
+2025-12,BE,벨기에,141.0,23.0,Belgium,Europe
+2025-12,CA,캐나다,140.0,20.3,Canada,North America
+2025-12,CN,중국,574.0,107.7,China,Others
+2025-12,ES,스페인,190.0,23.9,Spain,Europe
+2025-12,FR,프랑스,280.0,36.6,France,Europe
+2025-12,GB,영국,0.0,0.0,United Kingdom,Europe
+2025-12,HK,홍콩,5.0,0.5,Hong Kong,Others
+2025-12,JP,일본,0.0,0.0,Japan,Others
+2025-12,KZ,카자흐스탄,0.0,0.0,카자흐스탄,Others
+2025-12,NL,네덜란드,330.0,42.9,Netherlands,Europe
+2025-12,NZ,뉴질랜드,15.0,0.2,New Zealand,Oceania
+2025-12,SG,싱가포르,42.0,5.0,Singapore,Others
+2025-12,TH,태국,16.0,1.6,Thailand,Others
+2025-12,TW,대만,11.0,1.5,Taiwan,Others
+2025-12,US,미국,281.0,29.3,United States,North America
+2025-12,VN,베트남,1.0,0.0,Vietnam,Others
+2026-01,AU,호주,58.0,6.8,Australia,Oceania
+2026-01,BE,벨기에,117.0,19.6,Belgium,Europe
+2026-01,CA,캐나다,375.0,55.3,Canada,North America
+2026-01,CN,중국,7.0,0.8,China,Others
+2026-01,ES,스페인,254.0,30.0,Spain,Europe
+2026-01,FR,프랑스,281.0,36.6,France,Europe
+2026-01,GB,영국,0.0,0.0,United Kingdom,Europe
+2026-01,HK,홍콩,15.0,1.5,Hong Kong,Others
+2026-01,JP,일본,0.0,0.0,Japan,Others
+2026-01,NL,네덜란드,258.0,31.4,Netherlands,Europe
+2026-01,NZ,뉴질랜드,48.0,5.7,New Zealand,Oceania
+2026-01,TH,태국,6.0,0.4,Thailand,Others
+2026-01,TW,대만,15.0,2.0,Taiwan,Others
+2026-01,US,미국,34.0,3.6,United States,North America
+2026-01,VN,베트남,0.0,0.0,Vietnam,Others
+2026-02,BE,벨기에,124.0,20.7,Belgium,Europe
+2026-02,CA,캐나다,257.0,37.3,Canada,North America
+2026-02,CN,중국,29.0,4.2,China,Others
+2026-02,DE,독일,7.0,1.2,Germany,Europe
+2026-02,ES,스페인,253.0,27.9,Spain,Europe
+2026-02,FR,프랑스,134.0,15.2,France,Europe
+2026-02,HK,홍콩,15.0,1.5,Hong Kong,Others
+2026-02,JP,일본,0.0,0.0,Japan,Others
+2026-02,NL,네덜란드,261.0,32.4,Netherlands,Europe
+2026-02,TH,태국,25.0,2.1,Thailand,Others
+2026-02,TW,대만,12.0,1.5,Taiwan,Others
+2026-02,US,미국,62.0,6.7,United States,North America
+2026-02,VN,베트남,0.0,0.0,Vietnam,Others
+2026-03,AR,아르헨티나,10.0,1.0,아르헨티나,Others
+2026-03,AU,호주,99.0,9.5,Australia,Oceania
+2026-03,BE,벨기에,133.0,20.7,Belgium,Europe
+2026-03,CA,캐나다,236.0,33.8,Canada,North America
+2026-03,CN,중국,257.0,31.8,China,Others
+2026-03,DE,독일,27.0,3.5,Germany,Europe
+2026-03,ES,스페인,332.0,36.9,Spain,Europe
+2026-03,HK,홍콩,20.0,2.1,Hong Kong,Others
+2026-03,JP,일본,0.0,0.0,Japan,Others
+2026-03,MX,멕시코,0.0,0.0,Mexico,Latin America
+2026-03,MY,말레이시아,6.0,0.7,Malaysia,Others
+2026-03,NL,네덜란드,285.0,35.8,Netherlands,Europe
+2026-03,NZ,뉴질랜드,81.0,9.2,New Zealand,Oceania
+2026-03,SA,사우디아라비아,93.0,10.2,Saudi Arabia,Others
+2026-03,SG,싱가포르,21.0,2.5,Singapore,Others
+2026-03,TH,태국,41.0,2.9,Thailand,Others
+2026-03,TW,대만,8.0,1.0,Taiwan,Others
+2026-03,US,미국,85.0,9.6,United States,North America
+2026-03,VN,베트남,34.0,6.0,Vietnam,Others
+2026-04,AU,호주,65.0,7.6,Australia,Oceania
+2026-04,CA,캐나다,255.0,37.6,Canada,North America
+2026-04,CN,중국,12.0,2.0,China,Others
+2026-04,ES,스페인,582.0,66.2,Spain,Europe
+2026-04,GB,영국,0.0,0.0,United Kingdom,Europe
+2026-04,JP,일본,0.0,0.0,Japan,Others
+2026-04,MX,멕시코,1.0,0.1,Mexico,Latin America
+2026-04,NL,네덜란드,50.0,8.1,Netherlands,Europe
+2026-04,TH,태국,13.0,1.0,Thailand,Others
+2026-04,TW,대만,31.0,4.0,Taiwan,Others
+2026-04,US,미국,203.0,22.7,United States,North America
+2026-04,VN,베트남,0.0,0.0,Vietnam,Others
+2026-05,AR,아르헨티나,10.0,1.0,아르헨티나,Others
+2026-05,AU,호주,80.0,8.1,Australia,Oceania
+2026-05,BE,벨기에,111.0,19.6,Belgium,Europe
+2026-05,CA,캐나다,135.0,19.9,Canada,North America
+2026-05,CN,중국,0.0,0.0,China,Others
+2026-05,DE,독일,84.0,11.5,Germany,Europe
+2026-05,ES,스페인,532.0,66.4,Spain,Europe
+2026-05,FR,프랑스,154.0,23.2,France,Europe
+2026-05,GB,영국,0.0,0.0,United Kingdom,Europe
+2026-05,JP,일본,0.0,0.0,Japan,Others
+2026-05,KZ,카자흐스탄,4.0,0.4,카자흐스탄,Others
+2026-05,NL,네덜란드,368.0,49.8,Netherlands,Europe
+2026-05,NZ,뉴질랜드,91.0,9.2,New Zealand,Oceania
+2026-05,SG,싱가포르,21.0,2.5,Singapore,Others
+2026-05,TH,태국,20.0,2.0,Thailand,Others
+2026-05,TR,튀르키예,0.0,0.0,Turkey,Others
+2026-05,TW,대만,15.0,2.0,Taiwan,Others
+2026-05,US,미국,0.0,0.0,United States,North America
+2026-05,VN,베트남,0.0,0.0,Vietnam,Others
+2026-06,AU,호주,75.0,8.2,Australia,Oceania
+2026-06,BE,벨기에,104.0,16.1,Belgium,Europe
+2026-06,CA,캐나다,268.0,39.6,Canada,North America
+2026-06,CN,중국,17.0,2.1,China,Others
+2026-06,ES,스페인,179.0,20.4,Spain,Europe
+2026-06,GB,영국,0.0,0.0,United Kingdom,Europe
+2026-06,IT,이탈리아,0.0,0.0,Italy,Europe
+2026-06,JP,일본,0.0,0.0,Japan,Others
+2026-06,NL,네덜란드,726.0,91.8,Netherlands,Europe
+2026-06,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2026-06,QA,카타르,3.0,0.3,카타르,Others
+2026-06,SG,싱가포르,21.0,2.6,Singapore,Others
+2026-06,TH,태국,46.0,4.1,Thailand,Others
+2026-06,TW,대만,17.0,2.2,Taiwan,Others
+2026-06,US,미국,415.0,45.4,United States,North America
+2026-06,VN,베트남,34.0,5.9,Vietnam,Others
+2026-07,AU,호주,71.0,8.6,Australia,Oceania
+2026-07,BE,벨기에,145.0,23.0,Belgium,Europe
+2026-07,CA,캐나다,217.0,33.0,Canada,North America
+2026-07,CN,중국,33.0,5.2,China,Others
+2026-07,ES,스페인,252.0,34.7,Spain,Europe
+2026-07,FR,프랑스,154.0,20.3,France,Europe
+2026-07,GB,영국,0.0,0.0,United Kingdom,Europe
+2026-07,JP,일본,0.0,0.0,Japan,Others
+2026-07,NL,네덜란드,628.0,79.9,Netherlands,Europe
+2026-07,NZ,뉴질랜드,97.0,9.8,New Zealand,Oceania
+2026-07,SA,사우디아라비아,1.0,0.1,Saudi Arabia,Others
+2026-07,SG,싱가포르,21.0,2.5,Singapore,Others
+2026-07,TW,대만,15.0,2.0,Taiwan,Others
+2026-07,US,미국,385.0,42.9,United States,North America
+2026-07,VN,베트남,0.0,0.0,Vietnam,Others
+2026-08,AU,호주,0.0,0.0,Australia,Oceania
+2026-08,BE,벨기에,146.0,23.0,Belgium,Europe
+2026-08,CA,캐나다,239.0,35.2,Canada,North America
+2026-08,CN,중국,0.0,0.0,China,Others
+2026-08,DE,독일,0.0,0.0,Germany,Europe
+2026-08,ES,스페인,0.0,0.0,Spain,Europe
+2026-08,GB,영국,0.0,0.0,United Kingdom,Europe
+2026-08,HK,홍콩,19.0,2.1,Hong Kong,Others
+2026-08,JP,일본,0.0,0.0,Japan,Others
+2026-08,NL,네덜란드,360.0,43.4,Netherlands,Europe
+2026-08,NZ,뉴질랜드,52.0,6.2,New Zealand,Oceania
+2026-08,SG,싱가포르,21.0,2.5,Singapore,Others
+2026-08,TH,태국,8.0,0.5,Thailand,Others
+2026-08,TW,대만,2.0,0.3,Taiwan,Others
+2026-08,US,미국,242.0,24.2,United States,North America
+2026-08,VN,베트남,0.0,0.0,Vietnam,Others
+2026-09,AU,호주,67.0,8.1,Australia,Oceania
+2026-09,CA,캐나다,277.0,39.9,Canada,North America
+2026-09,CN,중국,22.0,2.0,China,Others
+2026-09,DE,독일,74.0,9.2,Germany,Europe
+2026-09,FR,프랑스,55.0,6.4,France,Europe
+2026-09,JP,일본,0.0,0.0,Japan,Others
+2026-09,MY,말레이시아,4.0,0.5,Malaysia,Others
+2026-09,NL,네덜란드,714.0,87.7,Netherlands,Europe
+2026-09,NZ,뉴질랜드,0.0,0.0,New Zealand,Oceania
+2026-09,SG,싱가포르,21.0,2.5,Singapore,Others
+2026-09,TR,튀르키예,1.0,0.1,Turkey,Others
+2026-09,TW,대만,5.0,0.7,Taiwan,Others
+2026-09,US,미국,217.0,24.2,United States,North America
+2026-09,VN,베트남,36.0,6.0,Vietnam,Others

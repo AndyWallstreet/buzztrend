@@ -1,0 +1,9 @@
+{
+ "fetched": "2026-11-11T18:50:22",
+ "latest_month": "2026-09",
+ "source": "관세청 수출입무역통계 tradedata.go.kr — 품목별·국가별(retrieveTrade.do) + 지역별 실적(retrieveTradeRegion.do, 대구 달서구), 수리일 기준, US$000",
+ "hs": {
+  "392071": "재생 셀룰로오스 필름 = ATDPS 파우치 원단 (소모품)",
+  "847989": "기타 기계 = ATDPS 본체 (타 품목 혼입, 참고용)"
+ }
+}
