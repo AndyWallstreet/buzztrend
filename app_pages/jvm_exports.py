@@ -69,7 +69,7 @@ cons["year"] = cons["month"].str[:4].astype(int)
 cons["region"] = cons["region"].replace({"Latin America": "Others"})
 _regc = {"Europe": "#4fb862", "North America": "#eb6834", "Oceania": "#4fb8c9", "Others": "#b5b5b5"}
 ms = cons.groupby("month", as_index=False)["usd_mn"].sum().sort_values("month")
-ms["yoy"] = (ms["usd_mn"] / ms["usd_mn"].shift(12) - 1) * 100
+ms["yoy"] = ((ms["usd_mn"] / ms["usd_mn"].shift(12) - 1) * 100).replace([float("inf"), -float("inf")], float("nan"))
 ms["r12"] = ms["usd_mn"].rolling(12).sum()
 _y_cur = int(cons["year"].max()); _y_full = _y_cur - 1
 _mmax = int(_lm[5:7]) if _lm else 12
@@ -187,7 +187,7 @@ if dq is not None and len(dq):
 sub(f"국가별 수출 — {_y_full}년", "US$mn · YoY · 점유율")
 ct = cons[cons["year"].isin([_y_full - 1, _y_full])].groupby(["country_en", "region", "year"])["usd_mn"].sum().unstack("year").fillna(0)
 ct = ct.reset_index()
-ct["YoY"] = (ct[_y_full] / ct[_y_full - 1] - 1) * 100
+ct["YoY"] = ((ct[_y_full] / ct[_y_full - 1] - 1) * 100).replace([float("inf"), -float("inf")], float("nan"))
 ct["점유율"] = ct[_y_full] / ct[_y_full].sum() * 100
 ct = ct.sort_values(_y_full, ascending=False).head(12)
 ct = ct.rename(columns={"country_en": "국가", "region": "권역", _y_full: f"{_y_full} 수출(US$mn)", _y_full - 1: f"{_y_full - 1} (US$mn)"})
