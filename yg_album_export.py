@@ -58,7 +58,8 @@ def open_workbook(path: Path):
 
 def export_album(wb):
     """Album_Quarterly -> 분기 CSV(2024~) + 연간 롤업(전 기간)."""
-    ws = wb["Album_Quarterly"]
+    # v06 (2026-10) 워크북에서 시트 이름이 Album_Quarterly -> Album_Q 로 바뀜 (구조는 같음)
+    ws = wb[next(n for n in ("Album_Q", "Album_Quarterly") if n in wb.sheetnames)]
     hdr = [str(c or "").replace(" 장", "").strip()
            for c in next(ws.iter_rows(min_row=3, max_row=3, values_only=True))]
     artists = hdr[1:-2]                      # B..J (마지막 두 열 = Total, YG rev)
