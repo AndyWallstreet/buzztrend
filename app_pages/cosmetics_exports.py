@@ -121,10 +121,19 @@ if mo is not None and len(mo):
                        for i, m in zip(_imd.index, _imd["month"])]
         ms36 = pd.concat([ms36, _imd], ignore_index=True)
     ms36["date"] = pd.to_datetime(ms36["month"] + "-01")
+    # 2026-11-12 PM "날짜가 안 나와 있음": 라이브(Streamlit Cloud 의 Vega-Lite)에서 겹친 레이어
+    # (alt.layer(레이어, 레이어).resolve_scale(y="independent")) 의 축·범례가 통째로 빠졌음 (로컬은 정상).
+    # 그래서 평평한 레이어 6개 + y 스케일을 전부 '독립'으로 두고, 같은 값 범위(domain)를 손으로 고정해
+    # 막대 묶음과 YoY 묶음이 각각 같은 자로 그려지게 함. 축은 막대(왼쪽)·YoY 선(오른쪽)에만 두고 나머지는 axis=None.
+    _usd_dom = [0, float(ms36["usd_mn"].max()) * 1.12]
+    _yv = ms36["yoy"].dropna()
+    _yoy_dom = [float(_yv.min()) - 8, float(_yv.max()) + 10] if len(_yv) else [-20, 60]
+    _x = alt.X("date:T", title=None, axis=alt.Axis(format="%y %b", labelAngle=0))
+    _xn = alt.X("date:T", title=None)      # x 는 공유 스케일 — 여기에 axis=None 을 주면 날짜축이 통째로 사라짐
     bar_m = alt.Chart(ms36).mark_bar().encode(
-        x=alt.X("date:T", title=None,
-                axis=alt.Axis(format="%y %b", labelAngle=0)),
-        y=alt.Y("usd_mn:Q", title="월 수출 (US$mn)"),
+        x=_x,
+        y=alt.Y("usd_mn:Q", title="월 수출 (US$mn)", scale=alt.Scale(domain=_usd_dom, nice=False),
+                axis=alt.Axis(orient="left")),
         color=alt.Color("kind:N", title=None,
                         scale=alt.Scale(domain=["확정", "잠정*"],
                                         range=["#2a78d6", "#e8c15a"]),
@@ -134,26 +143,27 @@ if mo is not None and len(mo):
                  alt.Tooltip("yoy:Q", format="+.1f")])
     txt_i = alt.Chart(ms36[ms36["kind"] == "잠정*"]).mark_text(
         dy=-10, fontSize=11, color="#e8c15a").encode(
-        x=alt.X("date:T"), y=alt.Y("usd_mn:Q"),
+        x=_xn, y=alt.Y("usd_mn:Q", scale=alt.Scale(domain=_usd_dom, nice=False), axis=None),
         text=alt.Text("usd_mn:Q", format=",.0f"))
+    _ysc = alt.Scale(domain=_yoy_dom, nice=False)
     line_y = alt.Chart(ms36[ms36["kind"] == "확정"]).mark_line(
         color="#eb6834", size=2.5, point=True).encode(
-        x=alt.X("date:T"), y=alt.Y("yoy:Q", title="YoY (%)"))
+        x=_xn, y=alt.Y("yoy:Q", title="YoY (%)", scale=_ysc, axis=alt.Axis(orient="right")))
     # 잠정월까지 점선으로 잇고, 잠정 점은 금색 테두리 + 숫자 라벨
     _tail = ms36[ms36["yoy"].notna()].sort_values("date")
     _tail = pd.concat([_tail[_tail["kind"] == "확정"].tail(1), _tail[_tail["kind"] == "잠정*"]])
     line_i = alt.Chart(_tail).mark_line(color="#eb6834", size=2.5, strokeDash=[5, 4]).encode(
-        x=alt.X("date:T"), y=alt.Y("yoy:Q"))
+        x=_xn, y=alt.Y("yoy:Q", scale=_ysc, axis=None))
     pt_i = alt.Chart(_tail[_tail["kind"] == "잠정*"]).mark_point(
         color="#e8c15a", fill="#eb6834", size=90, strokeWidth=2).encode(
-        x=alt.X("date:T"), y=alt.Y("yoy:Q"),
+        x=_xn, y=alt.Y("yoy:Q", scale=_ysc, axis=None),
         tooltip=[alt.Tooltip("date:T", format="%Y-%m"),
                  alt.Tooltip("yoy:Q", title="YoY 계산 (잠정÷관세청 작년)", format="+.1f"),
                  alt.Tooltip("yoy_pct:Q", title="YoY 산업부 발표", format="+.1f")])
     lab_i = alt.Chart(_tail[_tail["kind"] == "잠정*"]).mark_text(
         dx=-6, dy=16, align="right", fontSize=11, fontWeight="bold", color="#eb6834").encode(
-        x=alt.X("date:T"), y=alt.Y("yoy:Q"), text=alt.Text("yoy:Q", format="+.0f%"))
-    st.altair_chart(alt.layer(bar_m + txt_i, line_y + line_i + pt_i + lab_i)
+        x=_xn, y=alt.Y("yoy:Q", scale=_ysc, axis=None), text=alt.Text("yoy:Q", format="+.0f%"))
+    st.altair_chart(alt.layer(bar_m, txt_i, line_y, line_i, pt_i, lab_i)
                     .resolve_scale(y="independent")
                     .properties(height=340), use_container_width=True)
     st.caption("**읽는법**: 파란 막대 = 확정 월 수출, 금색 막대 = 산업부 발표 "
