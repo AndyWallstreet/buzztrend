@@ -1,5 +1,4 @@
 geo,brand,keyword,month,searches
-AU,abib,abib,2025-10,1600
 AU,abib,abib,2025-11,1000
 AU,abib,abib,2025-12,1000
 AU,abib,abib,2026-01,1000
@@ -11,7 +10,7 @@ AU,abib,abib,2026-06,1600
 AU,abib,abib,2026-07,1300
 AU,abib,abib,2026-08,1300
 AU,abib,abib,2026-09,1300
-AU,anua,anua,2025-10,8100
+AU,abib,abib,2026-10,1900
 AU,anua,anua,2025-11,9900
 AU,anua,anua,2025-12,9900
 AU,anua,anua,2026-01,9900
@@ -23,7 +22,7 @@ AU,anua,anua,2026-06,12100
 AU,anua,anua,2026-07,12100
 AU,anua,anua,2026-08,12100
 AU,anua,anua,2026-09,14800
-AU,atopalm,atopalm,2025-10,590
+AU,anua,anua,2026-10,22200
 AU,atopalm,atopalm,2025-11,590
 AU,atopalm,atopalm,2025-12,480
 AU,atopalm,atopalm,2026-01,480
@@ -35,7 +34,7 @@ AU,atopalm,atopalm,2026-06,480
 AU,atopalm,atopalm,2026-07,390
 AU,atopalm,atopalm,2026-08,480
 AU,atopalm,atopalm,2026-09,480
-AU,atopalm,atopalm cream,2025-10,170
+AU,atopalm,atopalm,2026-10,720
 AU,atopalm,atopalm cream,2025-11,210
 AU,atopalm,atopalm cream,2025-12,140
 AU,atopalm,atopalm cream,2026-01,70
@@ -47,7 +46,7 @@ AU,atopalm,atopalm cream,2026-06,90
 AU,atopalm,atopalm cream,2026-07,90
 AU,atopalm,atopalm cream,2026-08,90
 AU,atopalm,atopalm cream,2026-09,70
-AU,atopalm,atopalm mle cream,2025-10,720
+AU,atopalm,atopalm cream,2026-10,140
 AU,atopalm,atopalm mle cream,2025-11,720
 AU,atopalm,atopalm mle cream,2025-12,480
 AU,atopalm,atopalm mle cream,2026-01,320
@@ -59,7 +58,7 @@ AU,atopalm,atopalm mle cream,2026-06,480
 AU,atopalm,atopalm mle cream,2026-07,390
 AU,atopalm,atopalm mle cream,2026-08,480
 AU,atopalm,atopalm mle cream,2026-09,320
-AU,beauty of joseon,beauty of joseon,2025-10,22200
+AU,atopalm,atopalm mle cream,2026-10,590
 AU,beauty of joseon,beauty of joseon,2025-11,27100
 AU,beauty of joseon,beauty of joseon,2025-12,22200
 AU,beauty of joseon,beauty of joseon,2026-01,27100
@@ -71,7 +70,7 @@ AU,beauty of joseon,beauty of joseon,2026-06,18100
 AU,beauty of joseon,beauty of joseon,2026-07,22200
 AU,beauty of joseon,beauty of joseon,2026-08,22200
 AU,beauty of joseon,beauty of joseon,2026-09,22200
-AU,biodance,biodance,2025-10,2900
+AU,beauty of joseon,beauty of joseon,2026-10,33100
 AU,biodance,biodance,2025-11,3600
 AU,biodance,biodance,2025-12,3600
 AU,biodance,biodance,2026-01,3600
@@ -83,7 +82,7 @@ AU,biodance,biodance,2026-06,5400
 AU,biodance,biodance,2026-07,5400
 AU,biodance,biodance,2026-08,5400
 AU,biodance,biodance,2026-09,5400
-AU,cosrx,cosrx,2025-10,6600
+AU,biodance,biodance,2026-10,8100
 AU,cosrx,cosrx,2025-11,6600
 AU,cosrx,cosrx,2025-12,6600
 AU,cosrx,cosrx,2026-01,6600
@@ -95,7 +94,7 @@ AU,cosrx,cosrx,2026-06,6600
 AU,cosrx,cosrx,2026-07,6600
 AU,cosrx,cosrx,2026-08,8100
 AU,cosrx,cosrx,2026-09,6600
-AU,d'alba,d'alba,2025-10,5400
+AU,cosrx,cosrx,2026-10,9900
 AU,d'alba,d'alba,2025-11,5400
 AU,d'alba,d'alba,2025-12,4400
 AU,d'alba,d'alba,2026-01,4400
@@ -107,7 +106,7 @@ AU,d'alba,d'alba,2026-06,6600
 AU,d'alba,d'alba,2026-07,6600
 AU,d'alba,d'alba,2026-08,6600
 AU,d'alba,d'alba,2026-09,6600
-AU,isntree,isntree,2025-10,720
+AU,d'alba,d'alba,2026-10,8100
 AU,isntree,isntree,2025-11,720
 AU,isntree,isntree,2025-12,590
 AU,isntree,isntree,2026-01,590
@@ -119,7 +118,7 @@ AU,isntree,isntree,2026-06,480
 AU,isntree,isntree,2026-07,480
 AU,isntree,isntree,2026-08,480
 AU,isntree,isntree,2026-09,590
-AU,laneige,laneige,2025-10,22200
+AU,isntree,isntree,2026-10,590
 AU,laneige,laneige,2025-11,33100
 AU,laneige,laneige,2025-12,27100
 AU,laneige,laneige,2026-01,22200
@@ -131,7 +130,7 @@ AU,laneige,laneige,2026-06,14800
 AU,laneige,laneige,2026-07,14800
 AU,laneige,laneige,2026-08,14800
 AU,laneige,laneige,2026-09,14800
-AU,madeca cream,centellian 24,2025-10,880
+AU,laneige,laneige,2026-10,14800
 AU,madeca cream,centellian 24,2025-11,720
 AU,madeca cream,centellian 24,2025-12,880
 AU,madeca cream,centellian 24,2026-01,880
@@ -143,7 +142,7 @@ AU,madeca cream,centellian 24,2026-06,1000
 AU,madeca cream,centellian 24,2026-07,1000
 AU,madeca cream,centellian 24,2026-08,1300
 AU,madeca cream,centellian 24,2026-09,1300
-AU,madeca cream,madeca cream,2025-10,2400
+AU,madeca cream,centellian 24,2026-10,1600
 AU,madeca cream,madeca cream,2025-11,2900
 AU,madeca cream,madeca cream,2025-12,3600
 AU,madeca cream,madeca cream,2026-01,3600
@@ -155,7 +154,7 @@ AU,madeca cream,madeca cream,2026-06,4400
 AU,madeca cream,madeca cream,2026-07,4400
 AU,madeca cream,madeca cream,2026-08,5400
 AU,madeca cream,madeca cream,2026-09,6600
-AU,manyo,manyo,2025-10,480
+AU,madeca cream,madeca cream,2026-10,9900
 AU,manyo,manyo,2025-11,590
 AU,manyo,manyo,2025-12,480
 AU,manyo,manyo,2026-01,390
@@ -167,7 +166,7 @@ AU,manyo,manyo,2026-06,390
 AU,manyo,manyo,2026-07,480
 AU,manyo,manyo,2026-08,480
 AU,manyo,manyo,2026-09,390
-AU,medicube,medicube,2025-10,27100
+AU,manyo,manyo,2026-10,390
 AU,medicube,medicube,2025-11,40500
 AU,medicube,medicube,2025-12,33100
 AU,medicube,medicube,2026-01,40500
@@ -179,7 +178,7 @@ AU,medicube,medicube,2026-06,60500
 AU,medicube,medicube,2026-07,74000
 AU,medicube,medicube,2026-08,74000
 AU,medicube,medicube,2026-09,60500
-AU,mixsoon,mixsoon,2025-10,1600
+AU,medicube,medicube,2026-10,90500
 AU,mixsoon,mixsoon,2025-11,1900
 AU,mixsoon,mixsoon,2025-12,1900
 AU,mixsoon,mixsoon,2026-01,1900
@@ -191,7 +190,7 @@ AU,mixsoon,mixsoon,2026-06,1000
 AU,mixsoon,mixsoon,2026-07,1000
 AU,mixsoon,mixsoon,2026-08,1000
 AU,mixsoon,mixsoon,2026-09,1000
-AU,numbuzin,numbuzin,2025-10,1900
+AU,mixsoon,mixsoon,2026-10,1000
 AU,numbuzin,numbuzin,2025-11,2900
 AU,numbuzin,numbuzin,2025-12,2400
 AU,numbuzin,numbuzin,2026-01,2400
@@ -203,19 +202,19 @@ AU,numbuzin,numbuzin,2026-06,2900
 AU,numbuzin,numbuzin,2026-07,2900
 AU,numbuzin,numbuzin,2026-08,2900
 AU,numbuzin,numbuzin,2026-09,2900
-AU,reedle shot,reedle shot,2025-10,2400
-AU,reedle shot,reedle shot,2025-11,2400
+AU,numbuzin,numbuzin,2026-10,3600
+AU,reedle shot,reedle shot,2025-11,2900
 AU,reedle shot,reedle shot,2025-12,2400
-AU,reedle shot,reedle shot,2026-01,2400
-AU,reedle shot,reedle shot,2026-02,1600
+AU,reedle shot,reedle shot,2026-01,2900
+AU,reedle shot,reedle shot,2026-02,1900
 AU,reedle shot,reedle shot,2026-03,1900
-AU,reedle shot,reedle shot,2026-04,1900
+AU,reedle shot,reedle shot,2026-04,2400
 AU,reedle shot,reedle shot,2026-05,2900
 AU,reedle shot,reedle shot,2026-06,2400
 AU,reedle shot,reedle shot,2026-07,1900
 AU,reedle shot,reedle shot,2026-08,1900
-AU,reedle shot,reedle shot,2026-09,1300
-AU,round lab,round lab,2025-10,1600
+AU,reedle shot,reedle shot,2026-09,1600
+AU,reedle shot,reedle shot,2026-10,1900
 AU,round lab,round lab,2025-11,1900
 AU,round lab,round lab,2025-12,1600
 AU,round lab,round lab,2026-01,1900
@@ -227,19 +226,19 @@ AU,round lab,round lab,2026-06,1600
 AU,round lab,round lab,2026-07,1600
 AU,round lab,round lab,2026-08,1900
 AU,round lab,round lab,2026-09,1600
-AU,skin1004,skin1004,2025-10,6600
-AU,skin1004,skin1004,2025-11,9900
-AU,skin1004,skin1004,2025-12,6600
-AU,skin1004,skin1004,2026-01,5400
-AU,skin1004,skin1004,2026-02,4400
-AU,skin1004,skin1004,2026-03,4400
-AU,skin1004,skin1004,2026-04,5400
-AU,skin1004,skin1004,2026-05,4400
-AU,skin1004,skin1004,2026-06,4400
-AU,skin1004,skin1004,2026-07,5400
-AU,skin1004,skin1004,2026-08,5400
-AU,skin1004,skin1004,2026-09,5400
-AU,tirtir,tirtir,2025-10,6600
+AU,round lab,round lab,2026-10,1900
+AU,skin1004,skin1004,2025-11,12100
+AU,skin1004,skin1004,2025-12,8100
+AU,skin1004,skin1004,2026-01,6600
+AU,skin1004,skin1004,2026-02,5400
+AU,skin1004,skin1004,2026-03,5400
+AU,skin1004,skin1004,2026-04,6600
+AU,skin1004,skin1004,2026-05,6600
+AU,skin1004,skin1004,2026-06,6600
+AU,skin1004,skin1004,2026-07,8100
+AU,skin1004,skin1004,2026-08,8100
+AU,skin1004,skin1004,2026-09,6600
+AU,skin1004,skin1004,2026-10,6600
 AU,tirtir,tirtir,2025-11,8100
 AU,tirtir,tirtir,2025-12,6600
 AU,tirtir,tirtir,2026-01,5400
@@ -251,7 +250,7 @@ AU,tirtir,tirtir,2026-06,4400
 AU,tirtir,tirtir,2026-07,4400
 AU,tirtir,tirtir,2026-08,4400
 AU,tirtir,tirtir,2026-09,5400
-AU,torriden,torriden,2025-10,3600
+AU,tirtir,tirtir,2026-10,6600
 AU,torriden,torriden,2025-11,3600
 AU,torriden,torriden,2025-12,3600
 AU,torriden,torriden,2026-01,4400
@@ -263,7 +262,7 @@ AU,torriden,torriden,2026-06,5400
 AU,torriden,torriden,2026-07,5400
 AU,torriden,torriden,2026-08,6600
 AU,torriden,torriden,2026-09,6600
-BR,abib,abib,2025-10,1600
+AU,torriden,torriden,2026-10,8100
 BR,abib,abib,2025-11,1300
 BR,abib,abib,2025-12,1600
 BR,abib,abib,2026-01,1900
@@ -275,7 +274,7 @@ BR,abib,abib,2026-06,2400
 BR,abib,abib,2026-07,2400
 BR,abib,abib,2026-08,2400
 BR,abib,abib,2026-09,2400
-BR,anua,anua,2025-10,5400
+BR,abib,abib,2026-10,1900
 BR,anua,anua,2025-11,4400
 BR,anua,anua,2025-12,4400
 BR,anua,anua,2026-01,5400
@@ -287,7 +286,7 @@ BR,anua,anua,2026-06,6600
 BR,anua,anua,2026-07,8100
 BR,anua,anua,2026-08,9900
 BR,anua,anua,2026-09,8100
-BR,atopalm,atopalm,2025-10,50
+BR,anua,anua,2026-10,6600
 BR,atopalm,atopalm,2025-11,20
 BR,atopalm,atopalm,2025-12,30
 BR,atopalm,atopalm,2026-01,20
@@ -299,7 +298,7 @@ BR,atopalm,atopalm,2026-06,30
 BR,atopalm,atopalm,2026-07,30
 BR,atopalm,atopalm,2026-08,40
 BR,atopalm,atopalm,2026-09,30
-BR,atopalm,atopalm cream,2025-10,10
+BR,atopalm,atopalm,2026-10,10
 BR,atopalm,atopalm cream,2025-11,10
 BR,atopalm,atopalm cream,2025-12,0
 BR,atopalm,atopalm cream,2026-01,10
@@ -311,7 +310,7 @@ BR,atopalm,atopalm cream,2026-06,10
 BR,atopalm,atopalm cream,2026-07,10
 BR,atopalm,atopalm cream,2026-08,10
 BR,atopalm,atopalm cream,2026-09,0
-BR,atopalm,atopalm mle cream,2025-10,10
+BR,atopalm,atopalm cream,2026-10,10
 BR,atopalm,atopalm mle cream,2025-11,10
 BR,atopalm,atopalm mle cream,2025-12,10
 BR,atopalm,atopalm mle cream,2026-01,10
@@ -323,7 +322,7 @@ BR,atopalm,atopalm mle cream,2026-06,10
 BR,atopalm,atopalm mle cream,2026-07,10
 BR,atopalm,atopalm mle cream,2026-08,20
 BR,atopalm,atopalm mle cream,2026-09,10
-BR,beauty of joseon,beauty of joseon,2025-10,3600
+BR,atopalm,atopalm mle cream,2026-10,10
 BR,beauty of joseon,beauty of joseon,2025-11,4400
 BR,beauty of joseon,beauty of joseon,2025-12,3600
 BR,beauty of joseon,beauty of joseon,2026-01,6600
@@ -335,19 +334,19 @@ BR,beauty of joseon,beauty of joseon,2026-06,8100
 BR,beauty of joseon,beauty of joseon,2026-07,9900
 BR,beauty of joseon,beauty of joseon,2026-08,9900
 BR,beauty of joseon,beauty of joseon,2026-09,8100
-BR,biodance,biodance,2025-10,1300
-BR,biodance,biodance,2025-11,1600
-BR,biodance,biodance,2025-12,1000
-BR,biodance,biodance,2026-01,1000
-BR,biodance,biodance,2026-02,880
-BR,biodance,biodance,2026-03,1000
-BR,biodance,biodance,2026-04,1300
-BR,biodance,biodance,2026-05,1300
-BR,biodance,biodance,2026-06,1900
-BR,biodance,biodance,2026-07,1900
-BR,biodance,biodance,2026-08,2400
-BR,biodance,biodance,2026-09,1900
-BR,cosrx,cosrx,2025-10,2400
+BR,beauty of joseon,beauty of joseon,2026-10,6600
+BR,biodance,biodance,2025-11,2900
+BR,biodance,biodance,2025-12,1900
+BR,biodance,biodance,2026-01,2400
+BR,biodance,biodance,2026-02,2400
+BR,biodance,biodance,2026-03,2900
+BR,biodance,biodance,2026-04,2400
+BR,biodance,biodance,2026-05,2400
+BR,biodance,biodance,2026-06,2900
+BR,biodance,biodance,2026-07,2900
+BR,biodance,biodance,2026-08,4400
+BR,biodance,biodance,2026-09,3600
+BR,biodance,biodance,2026-10,2900
 BR,cosrx,cosrx,2025-11,2400
 BR,cosrx,cosrx,2025-12,2400
 BR,cosrx,cosrx,2026-01,2400
@@ -359,7 +358,7 @@ BR,cosrx,cosrx,2026-06,3600
 BR,cosrx,cosrx,2026-07,3600
 BR,cosrx,cosrx,2026-08,4400
 BR,cosrx,cosrx,2026-09,3600
-BR,d'alba,d'alba,2025-10,720
+BR,cosrx,cosrx,2026-10,3600
 BR,d'alba,d'alba,2025-11,590
 BR,d'alba,d'alba,2025-12,720
 BR,d'alba,d'alba,2026-01,720
@@ -371,7 +370,7 @@ BR,d'alba,d'alba,2026-06,720
 BR,d'alba,d'alba,2026-07,720
 BR,d'alba,d'alba,2026-08,720
 BR,d'alba,d'alba,2026-09,720
-BR,isntree,isntree,2025-10,140
+BR,d'alba,d'alba,2026-10,720
 BR,isntree,isntree,2025-11,90
 BR,isntree,isntree,2025-12,90
 BR,isntree,isntree,2026-01,140
@@ -383,9 +382,9 @@ BR,isntree,isntree,2026-06,170
 BR,isntree,isntree,2026-07,210
 BR,isntree,isntree,2026-08,260
 BR,isntree,isntree,2026-09,170
-BR,laneige,laneige,2025-10,14800
+BR,isntree,isntree,2026-10,140
 BR,laneige,laneige,2025-11,14800
-BR,laneige,laneige,2025-12,12100
+BR,laneige,laneige,2025-12,14800
 BR,laneige,laneige,2026-01,14800
 BR,laneige,laneige,2026-02,12100
 BR,laneige,laneige,2026-03,14800
@@ -395,7 +394,7 @@ BR,laneige,laneige,2026-06,14800
 BR,laneige,laneige,2026-07,14800
 BR,laneige,laneige,2026-08,14800
 BR,laneige,laneige,2026-09,14800
-BR,madeca cream,centellian 24,2025-10,50
+BR,laneige,laneige,2026-10,12100
 BR,madeca cream,centellian 24,2025-11,110
 BR,madeca cream,centellian 24,2025-12,110
 BR,madeca cream,centellian 24,2026-01,140
@@ -407,7 +406,7 @@ BR,madeca cream,centellian 24,2026-06,260
 BR,madeca cream,centellian 24,2026-07,390
 BR,madeca cream,centellian 24,2026-08,480
 BR,madeca cream,centellian 24,2026-09,390
-BR,madeca cream,madeca cream,2025-10,210
+BR,madeca cream,centellian 24,2026-10,320
 BR,madeca cream,madeca cream,2025-11,210
 BR,madeca cream,madeca cream,2025-12,320
 BR,madeca cream,madeca cream,2026-01,320
@@ -419,7 +418,7 @@ BR,madeca cream,madeca cream,2026-06,1000
 BR,madeca cream,madeca cream,2026-07,880
 BR,madeca cream,madeca cream,2026-08,1900
 BR,madeca cream,madeca cream,2026-09,1600
-BR,manyo,manyo,2025-10,210
+BR,madeca cream,madeca cream,2026-10,1300
 BR,manyo,manyo,2025-11,170
 BR,manyo,manyo,2025-12,170
 BR,manyo,manyo,2026-01,260
@@ -431,7 +430,7 @@ BR,manyo,manyo,2026-06,170
 BR,manyo,manyo,2026-07,210
 BR,manyo,manyo,2026-08,260
 BR,manyo,manyo,2026-09,170
-BR,medicube,medicube,2025-10,60500
+BR,manyo,manyo,2026-10,210
 BR,medicube,medicube,2025-11,74000
 BR,medicube,medicube,2025-12,60500
 BR,medicube,medicube,2026-01,90500
@@ -443,7 +442,7 @@ BR,medicube,medicube,2026-06,165000
 BR,medicube,medicube,2026-07,201000
 BR,medicube,medicube,2026-08,246000
 BR,medicube,medicube,2026-09,201000
-BR,mixsoon,mixsoon,2025-10,2900
+BR,medicube,medicube,2026-10,165000
 BR,mixsoon,mixsoon,2025-11,1900
 BR,mixsoon,mixsoon,2025-12,2400
 BR,mixsoon,mixsoon,2026-01,2900
@@ -455,7 +454,7 @@ BR,mixsoon,mixsoon,2026-06,1900
 BR,mixsoon,mixsoon,2026-07,1900
 BR,mixsoon,mixsoon,2026-08,1600
 BR,mixsoon,mixsoon,2026-09,1600
-BR,numbuzin,numbuzin,2025-10,1000
+BR,mixsoon,mixsoon,2026-10,1000
 BR,numbuzin,numbuzin,2025-11,1300
 BR,numbuzin,numbuzin,2025-12,2400
 BR,numbuzin,numbuzin,2026-01,3600
@@ -467,19 +466,19 @@ BR,numbuzin,numbuzin,2026-06,14800
 BR,numbuzin,numbuzin,2026-07,22200
 BR,numbuzin,numbuzin,2026-08,27100
 BR,numbuzin,numbuzin,2026-09,22200
-BR,reedle shot,reedle shot,2025-10,1000
-BR,reedle shot,reedle shot,2025-11,1900
+BR,numbuzin,numbuzin,2026-10,22200
+BR,reedle shot,reedle shot,2025-11,2400
 BR,reedle shot,reedle shot,2025-12,2400
-BR,reedle shot,reedle shot,2026-01,1900
+BR,reedle shot,reedle shot,2026-01,2400
 BR,reedle shot,reedle shot,2026-02,1900
 BR,reedle shot,reedle shot,2026-03,2400
 BR,reedle shot,reedle shot,2026-04,1900
 BR,reedle shot,reedle shot,2026-05,1900
-BR,reedle shot,reedle shot,2026-06,1900
+BR,reedle shot,reedle shot,2026-06,2400
 BR,reedle shot,reedle shot,2026-07,2400
-BR,reedle shot,reedle shot,2026-08,1900
+BR,reedle shot,reedle shot,2026-08,2400
 BR,reedle shot,reedle shot,2026-09,1600
-BR,round lab,round lab,2025-10,390
+BR,reedle shot,reedle shot,2026-10,1000
 BR,round lab,round lab,2025-11,390
 BR,round lab,round lab,2025-12,390
 BR,round lab,round lab,2026-01,480
@@ -491,19 +490,19 @@ BR,round lab,round lab,2026-06,590
 BR,round lab,round lab,2026-07,880
 BR,round lab,round lab,2026-08,880
 BR,round lab,round lab,2026-09,880
-BR,skin1004,skin1004,2025-10,2900
-BR,skin1004,skin1004,2025-11,2900
-BR,skin1004,skin1004,2025-12,2900
-BR,skin1004,skin1004,2026-01,9900
-BR,skin1004,skin1004,2026-02,6600
-BR,skin1004,skin1004,2026-03,5400
-BR,skin1004,skin1004,2026-04,4400
-BR,skin1004,skin1004,2026-05,5400
-BR,skin1004,skin1004,2026-06,4400
-BR,skin1004,skin1004,2026-07,5400
-BR,skin1004,skin1004,2026-08,5400
-BR,skin1004,skin1004,2026-09,4400
-BR,tirtir,tirtir,2025-10,8100
+BR,round lab,round lab,2026-10,720
+BR,skin1004,skin1004,2025-11,3600
+BR,skin1004,skin1004,2025-12,4400
+BR,skin1004,skin1004,2026-01,14800
+BR,skin1004,skin1004,2026-02,8100
+BR,skin1004,skin1004,2026-03,6600
+BR,skin1004,skin1004,2026-04,6600
+BR,skin1004,skin1004,2026-05,6600
+BR,skin1004,skin1004,2026-06,6600
+BR,skin1004,skin1004,2026-07,8100
+BR,skin1004,skin1004,2026-08,6600
+BR,skin1004,skin1004,2026-09,6600
+BR,skin1004,skin1004,2026-10,5400
 BR,tirtir,tirtir,2025-11,14800
 BR,tirtir,tirtir,2025-12,8100
 BR,tirtir,tirtir,2026-01,8100
@@ -515,7 +514,7 @@ BR,tirtir,tirtir,2026-06,6600
 BR,tirtir,tirtir,2026-07,6600
 BR,tirtir,tirtir,2026-08,8100
 BR,tirtir,tirtir,2026-09,6600
-BR,torriden,torriden,2025-10,590
+BR,tirtir,tirtir,2026-10,5400
 BR,torriden,torriden,2025-11,390
 BR,torriden,torriden,2025-12,390
 BR,torriden,torriden,2026-01,720
@@ -527,7 +526,7 @@ BR,torriden,torriden,2026-06,880
 BR,torriden,torriden,2026-07,1300
 BR,torriden,torriden,2026-08,1000
 BR,torriden,torriden,2026-09,1000
-CA,abib,abib,2025-10,1600
+BR,torriden,torriden,2026-10,880
 CA,abib,abib,2025-11,1300
 CA,abib,abib,2025-12,1000
 CA,abib,abib,2026-01,1600
@@ -539,7 +538,7 @@ CA,abib,abib,2026-06,1600
 CA,abib,abib,2026-07,1600
 CA,abib,abib,2026-08,1300
 CA,abib,abib,2026-09,1300
-CA,anua,anua,2025-10,9900
+CA,abib,abib,2026-10,1900
 CA,anua,anua,2025-11,12100
 CA,anua,anua,2025-12,12100
 CA,anua,anua,2026-01,12100
@@ -551,7 +550,7 @@ CA,anua,anua,2026-06,12100
 CA,anua,anua,2026-07,12100
 CA,anua,anua,2026-08,12100
 CA,anua,anua,2026-09,14800
-CA,atopalm,atopalm,2025-10,590
+CA,anua,anua,2026-10,18100
 CA,atopalm,atopalm,2025-11,880
 CA,atopalm,atopalm,2025-12,590
 CA,atopalm,atopalm,2026-01,480
@@ -563,7 +562,7 @@ CA,atopalm,atopalm,2026-06,590
 CA,atopalm,atopalm,2026-07,480
 CA,atopalm,atopalm,2026-08,480
 CA,atopalm,atopalm,2026-09,390
-CA,atopalm,atopalm cream,2025-10,90
+CA,atopalm,atopalm,2026-10,720
 CA,atopalm,atopalm cream,2025-11,90
 CA,atopalm,atopalm cream,2025-12,70
 CA,atopalm,atopalm cream,2026-01,50
@@ -575,7 +574,7 @@ CA,atopalm,atopalm cream,2026-06,70
 CA,atopalm,atopalm cream,2026-07,70
 CA,atopalm,atopalm cream,2026-08,50
 CA,atopalm,atopalm cream,2026-09,50
-CA,atopalm,atopalm mle cream,2025-10,880
+CA,atopalm,atopalm cream,2026-10,110
 CA,atopalm,atopalm mle cream,2025-11,1300
 CA,atopalm,atopalm mle cream,2025-12,880
 CA,atopalm,atopalm mle cream,2026-01,590
@@ -587,7 +586,7 @@ CA,atopalm,atopalm mle cream,2026-06,720
 CA,atopalm,atopalm mle cream,2026-07,590
 CA,atopalm,atopalm mle cream,2026-08,590
 CA,atopalm,atopalm mle cream,2026-09,480
-CA,beauty of joseon,beauty of joseon,2025-10,18100
+CA,atopalm,atopalm mle cream,2026-10,880
 CA,beauty of joseon,beauty of joseon,2025-11,27100
 CA,beauty of joseon,beauty of joseon,2025-12,22200
 CA,beauty of joseon,beauty of joseon,2026-01,27100
@@ -599,7 +598,7 @@ CA,beauty of joseon,beauty of joseon,2026-06,22200
 CA,beauty of joseon,beauty of joseon,2026-07,27100
 CA,beauty of joseon,beauty of joseon,2026-08,22200
 CA,beauty of joseon,beauty of joseon,2026-09,18100
-CA,biodance,biodance,2025-10,3600
+CA,beauty of joseon,beauty of joseon,2026-10,18100
 CA,biodance,biodance,2025-11,5400
 CA,biodance,biodance,2025-12,6600
 CA,biodance,biodance,2026-01,5400
@@ -611,7 +610,7 @@ CA,biodance,biodance,2026-06,5400
 CA,biodance,biodance,2026-07,5400
 CA,biodance,biodance,2026-08,5400
 CA,biodance,biodance,2026-09,5400
-CA,cosrx,cosrx,2025-10,9900
+CA,biodance,biodance,2026-10,8100
 CA,cosrx,cosrx,2025-11,9900
 CA,cosrx,cosrx,2025-12,9900
 CA,cosrx,cosrx,2026-01,9900
@@ -623,7 +622,7 @@ CA,cosrx,cosrx,2026-06,8100
 CA,cosrx,cosrx,2026-07,6600
 CA,cosrx,cosrx,2026-08,8100
 CA,cosrx,cosrx,2026-09,8100
-CA,d'alba,d'alba,2025-10,4400
+CA,cosrx,cosrx,2026-10,8100
 CA,d'alba,d'alba,2025-11,5400
 CA,d'alba,d'alba,2025-12,5400
 CA,d'alba,d'alba,2026-01,5400
@@ -635,7 +634,7 @@ CA,d'alba,d'alba,2026-06,6600
 CA,d'alba,d'alba,2026-07,5400
 CA,d'alba,d'alba,2026-08,5400
 CA,d'alba,d'alba,2026-09,5400
-CA,isntree,isntree,2025-10,720
+CA,d'alba,d'alba,2026-10,8100
 CA,isntree,isntree,2025-11,720
 CA,isntree,isntree,2025-12,720
 CA,isntree,isntree,2026-01,720
@@ -647,7 +646,7 @@ CA,isntree,isntree,2026-06,1000
 CA,isntree,isntree,2026-07,880
 CA,isntree,isntree,2026-08,880
 CA,isntree,isntree,2026-09,720
-CA,laneige,laneige,2025-10,22200
+CA,isntree,isntree,2026-10,1000
 CA,laneige,laneige,2025-11,40500
 CA,laneige,laneige,2025-12,33100
 CA,laneige,laneige,2026-01,27100
@@ -659,7 +658,7 @@ CA,laneige,laneige,2026-06,12100
 CA,laneige,laneige,2026-07,12100
 CA,laneige,laneige,2026-08,12100
 CA,laneige,laneige,2026-09,12100
-CA,madeca cream,centellian 24,2025-10,880
+CA,laneige,laneige,2026-10,18100
 CA,madeca cream,centellian 24,2025-11,880
 CA,madeca cream,centellian 24,2025-12,880
 CA,madeca cream,centellian 24,2026-01,1300
@@ -671,7 +670,7 @@ CA,madeca cream,centellian 24,2026-06,1000
 CA,madeca cream,centellian 24,2026-07,1000
 CA,madeca cream,centellian 24,2026-08,1300
 CA,madeca cream,centellian 24,2026-09,1600
-CA,madeca cream,madeca cream,2025-10,2400
+CA,madeca cream,centellian 24,2026-10,2400
 CA,madeca cream,madeca cream,2025-11,3600
 CA,madeca cream,madeca cream,2025-12,2900
 CA,madeca cream,madeca cream,2026-01,3600
@@ -683,7 +682,7 @@ CA,madeca cream,madeca cream,2026-06,3600
 CA,madeca cream,madeca cream,2026-07,4400
 CA,madeca cream,madeca cream,2026-08,5400
 CA,madeca cream,madeca cream,2026-09,6600
-CA,manyo,manyo,2025-10,720
+CA,madeca cream,madeca cream,2026-10,12100
 CA,manyo,manyo,2025-11,880
 CA,manyo,manyo,2025-12,880
 CA,manyo,manyo,2026-01,880
@@ -695,7 +694,7 @@ CA,manyo,manyo,2026-06,720
 CA,manyo,manyo,2026-07,720
 CA,manyo,manyo,2026-08,720
 CA,manyo,manyo,2026-09,590
-CA,medicube,medicube,2025-10,33100
+CA,manyo,manyo,2026-10,880
 CA,medicube,medicube,2025-11,40500
 CA,medicube,medicube,2025-12,49500
 CA,medicube,medicube,2026-01,40500
@@ -707,7 +706,7 @@ CA,medicube,medicube,2026-06,40500
 CA,medicube,medicube,2026-07,40500
 CA,medicube,medicube,2026-08,49500
 CA,medicube,medicube,2026-09,49500
-CA,mixsoon,mixsoon,2025-10,1900
+CA,medicube,medicube,2026-10,60500
 CA,mixsoon,mixsoon,2025-11,2400
 CA,mixsoon,mixsoon,2025-12,1900
 CA,mixsoon,mixsoon,2026-01,1900
@@ -719,7 +718,7 @@ CA,mixsoon,mixsoon,2026-06,1000
 CA,mixsoon,mixsoon,2026-07,1300
 CA,mixsoon,mixsoon,2026-08,1000
 CA,mixsoon,mixsoon,2026-09,880
-CA,numbuzin,numbuzin,2025-10,1900
+CA,mixsoon,mixsoon,2026-10,1300
 CA,numbuzin,numbuzin,2025-11,3600
 CA,numbuzin,numbuzin,2025-12,3600
 CA,numbuzin,numbuzin,2026-01,3600
@@ -731,19 +730,19 @@ CA,numbuzin,numbuzin,2026-06,3600
 CA,numbuzin,numbuzin,2026-07,3600
 CA,numbuzin,numbuzin,2026-08,3600
 CA,numbuzin,numbuzin,2026-09,3600
-CA,reedle shot,reedle shot,2025-10,2400
-CA,reedle shot,reedle shot,2025-11,2400
-CA,reedle shot,reedle shot,2025-12,2400
+CA,numbuzin,numbuzin,2026-10,5400
+CA,reedle shot,reedle shot,2025-11,2900
+CA,reedle shot,reedle shot,2025-12,2900
 CA,reedle shot,reedle shot,2026-01,2400
-CA,reedle shot,reedle shot,2026-02,1900
+CA,reedle shot,reedle shot,2026-02,2400
 CA,reedle shot,reedle shot,2026-03,2900
 CA,reedle shot,reedle shot,2026-04,2400
 CA,reedle shot,reedle shot,2026-05,2900
 CA,reedle shot,reedle shot,2026-06,1900
 CA,reedle shot,reedle shot,2026-07,1900
-CA,reedle shot,reedle shot,2026-08,1600
-CA,reedle shot,reedle shot,2026-09,1600
-CA,round lab,round lab,2025-10,1900
+CA,reedle shot,reedle shot,2026-08,1900
+CA,reedle shot,reedle shot,2026-09,1900
+CA,reedle shot,reedle shot,2026-10,2400
 CA,round lab,round lab,2025-11,2400
 CA,round lab,round lab,2025-12,2400
 CA,round lab,round lab,2026-01,2400
@@ -755,19 +754,19 @@ CA,round lab,round lab,2026-06,2400
 CA,round lab,round lab,2026-07,2400
 CA,round lab,round lab,2026-08,2400
 CA,round lab,round lab,2026-09,2400
-CA,skin1004,skin1004,2025-10,5400
-CA,skin1004,skin1004,2025-11,9900
-CA,skin1004,skin1004,2025-12,6600
-CA,skin1004,skin1004,2026-01,6600
-CA,skin1004,skin1004,2026-02,5400
-CA,skin1004,skin1004,2026-03,5400
-CA,skin1004,skin1004,2026-04,5400
-CA,skin1004,skin1004,2026-05,5400
-CA,skin1004,skin1004,2026-06,4400
-CA,skin1004,skin1004,2026-07,5400
-CA,skin1004,skin1004,2026-08,5400
-CA,skin1004,skin1004,2026-09,4400
-CA,tirtir,tirtir,2025-10,5400
+CA,round lab,round lab,2026-10,2900
+CA,skin1004,skin1004,2025-11,12100
+CA,skin1004,skin1004,2025-12,8100
+CA,skin1004,skin1004,2026-01,8100
+CA,skin1004,skin1004,2026-02,8100
+CA,skin1004,skin1004,2026-03,8100
+CA,skin1004,skin1004,2026-04,8100
+CA,skin1004,skin1004,2026-05,8100
+CA,skin1004,skin1004,2026-06,6600
+CA,skin1004,skin1004,2026-07,8100
+CA,skin1004,skin1004,2026-08,8100
+CA,skin1004,skin1004,2026-09,6600
+CA,skin1004,skin1004,2026-10,8100
 CA,tirtir,tirtir,2025-11,9900
 CA,tirtir,tirtir,2025-12,6600
 CA,tirtir,tirtir,2026-01,6600
@@ -779,7 +778,7 @@ CA,tirtir,tirtir,2026-06,4400
 CA,tirtir,tirtir,2026-07,3600
 CA,tirtir,tirtir,2026-08,4400
 CA,tirtir,tirtir,2026-09,5400
-CA,torriden,torriden,2025-10,3600
+CA,tirtir,tirtir,2026-10,8100
 CA,torriden,torriden,2025-11,3600
 CA,torriden,torriden,2025-12,3600
 CA,torriden,torriden,2026-01,4400
@@ -791,7 +790,7 @@ CA,torriden,torriden,2026-06,4400
 CA,torriden,torriden,2026-07,4400
 CA,torriden,torriden,2026-08,5400
 CA,torriden,torriden,2026-09,5400
-DE,abib,abib,2025-10,1600
+CA,torriden,torriden,2026-10,6600
 DE,abib,abib,2025-11,1600
 DE,abib,abib,2025-12,1300
 DE,abib,abib,2026-01,2400
@@ -803,7 +802,7 @@ DE,abib,abib,2026-06,2400
 DE,abib,abib,2026-07,1900
 DE,abib,abib,2026-08,1600
 DE,abib,abib,2026-09,1600
-DE,anua,anua,2025-10,9900
+DE,abib,abib,2026-10,1600
 DE,anua,anua,2025-11,12100
 DE,anua,anua,2025-12,12100
 DE,anua,anua,2026-01,14800
@@ -815,7 +814,7 @@ DE,anua,anua,2026-06,12100
 DE,anua,anua,2026-07,14800
 DE,anua,anua,2026-08,18100
 DE,anua,anua,2026-09,18100
-DE,atopalm,atopalm,2025-10,210
+DE,anua,anua,2026-10,22200
 DE,atopalm,atopalm,2025-11,210
 DE,atopalm,atopalm,2025-12,170
 DE,atopalm,atopalm,2026-01,170
@@ -827,7 +826,7 @@ DE,atopalm,atopalm,2026-06,140
 DE,atopalm,atopalm,2026-07,140
 DE,atopalm,atopalm,2026-08,110
 DE,atopalm,atopalm,2026-09,170
-DE,atopalm,atopalm cream,2025-10,40
+DE,atopalm,atopalm,2026-10,170
 DE,atopalm,atopalm cream,2025-11,30
 DE,atopalm,atopalm cream,2025-12,20
 DE,atopalm,atopalm cream,2026-01,30
@@ -839,7 +838,7 @@ DE,atopalm,atopalm cream,2026-06,20
 DE,atopalm,atopalm cream,2026-07,10
 DE,atopalm,atopalm cream,2026-08,10
 DE,atopalm,atopalm cream,2026-09,40
-DE,atopalm,atopalm mle cream,2025-10,320
+DE,atopalm,atopalm cream,2026-10,30
 DE,atopalm,atopalm mle cream,2025-11,260
 DE,atopalm,atopalm mle cream,2025-12,210
 DE,atopalm,atopalm mle cream,2026-01,320
@@ -851,7 +850,7 @@ DE,atopalm,atopalm mle cream,2026-06,110
 DE,atopalm,atopalm mle cream,2026-07,140
 DE,atopalm,atopalm mle cream,2026-08,140
 DE,atopalm,atopalm mle cream,2026-09,170
-DE,beauty of joseon,beauty of joseon,2025-10,27100
+DE,atopalm,atopalm mle cream,2026-10,170
 DE,beauty of joseon,beauty of joseon,2025-11,33100
 DE,beauty of joseon,beauty of joseon,2025-12,33100
 DE,beauty of joseon,beauty of joseon,2026-01,40500
@@ -863,19 +862,19 @@ DE,beauty of joseon,beauty of joseon,2026-06,40500
 DE,beauty of joseon,beauty of joseon,2026-07,40500
 DE,beauty of joseon,beauty of joseon,2026-08,40500
 DE,beauty of joseon,beauty of joseon,2026-09,33100
-DE,biodance,biodance,2025-10,2900
+DE,beauty of joseon,beauty of joseon,2026-10,40500
 DE,biodance,biodance,2025-11,3600
 DE,biodance,biodance,2025-12,4400
-DE,biodance,biodance,2026-01,4400
+DE,biodance,biodance,2026-01,5400
 DE,biodance,biodance,2026-02,4400
 DE,biodance,biodance,2026-03,4400
 DE,biodance,biodance,2026-04,5400
 DE,biodance,biodance,2026-05,5400
-DE,biodance,biodance,2026-06,5400
+DE,biodance,biodance,2026-06,6600
 DE,biodance,biodance,2026-07,6600
 DE,biodance,biodance,2026-08,6600
 DE,biodance,biodance,2026-09,5400
-DE,cosrx,cosrx,2025-10,9900
+DE,biodance,biodance,2026-10,8100
 DE,cosrx,cosrx,2025-11,9900
 DE,cosrx,cosrx,2025-12,9900
 DE,cosrx,cosrx,2026-01,9900
@@ -887,7 +886,7 @@ DE,cosrx,cosrx,2026-06,8100
 DE,cosrx,cosrx,2026-07,8100
 DE,cosrx,cosrx,2026-08,8100
 DE,cosrx,cosrx,2026-09,8100
-DE,d'alba,d'alba,2025-10,4400
+DE,cosrx,cosrx,2026-10,8100
 DE,d'alba,d'alba,2025-11,4400
 DE,d'alba,d'alba,2025-12,5400
 DE,d'alba,d'alba,2026-01,6600
@@ -899,7 +898,7 @@ DE,d'alba,d'alba,2026-06,8100
 DE,d'alba,d'alba,2026-07,6600
 DE,d'alba,d'alba,2026-08,6600
 DE,d'alba,d'alba,2026-09,6600
-DE,isntree,isntree,2025-10,720
+DE,d'alba,d'alba,2026-10,6600
 DE,isntree,isntree,2025-11,590
 DE,isntree,isntree,2025-12,590
 DE,isntree,isntree,2026-01,720
@@ -911,7 +910,7 @@ DE,isntree,isntree,2026-06,720
 DE,isntree,isntree,2026-07,720
 DE,isntree,isntree,2026-08,590
 DE,isntree,isntree,2026-09,590
-DE,laneige,laneige,2025-10,14800
+DE,isntree,isntree,2026-10,590
 DE,laneige,laneige,2025-11,22200
 DE,laneige,laneige,2025-12,18100
 DE,laneige,laneige,2026-01,18100
@@ -923,7 +922,7 @@ DE,laneige,laneige,2026-06,8100
 DE,laneige,laneige,2026-07,9900
 DE,laneige,laneige,2026-08,9900
 DE,laneige,laneige,2026-09,9900
-DE,madeca cream,centellian 24,2025-10,720
+DE,laneige,laneige,2026-10,18100
 DE,madeca cream,centellian 24,2025-11,880
 DE,madeca cream,centellian 24,2025-12,1300
 DE,madeca cream,centellian 24,2026-01,1900
@@ -935,7 +934,7 @@ DE,madeca cream,centellian 24,2026-06,1300
 DE,madeca cream,centellian 24,2026-07,1300
 DE,madeca cream,centellian 24,2026-08,1600
 DE,madeca cream,centellian 24,2026-09,2400
-DE,madeca cream,madeca cream,2025-10,1600
+DE,madeca cream,centellian 24,2026-10,3600
 DE,madeca cream,madeca cream,2025-11,2400
 DE,madeca cream,madeca cream,2025-12,2900
 DE,madeca cream,madeca cream,2026-01,3600
@@ -947,7 +946,7 @@ DE,madeca cream,madeca cream,2026-06,3600
 DE,madeca cream,madeca cream,2026-07,5400
 DE,madeca cream,madeca cream,2026-08,6600
 DE,madeca cream,madeca cream,2026-09,6600
-DE,manyo,manyo,2025-10,1300
+DE,madeca cream,madeca cream,2026-10,12100
 DE,manyo,manyo,2025-11,1300
 DE,manyo,manyo,2025-12,1000
 DE,manyo,manyo,2026-01,1300
@@ -959,7 +958,7 @@ DE,manyo,manyo,2026-06,720
 DE,manyo,manyo,2026-07,880
 DE,manyo,manyo,2026-08,1000
 DE,manyo,manyo,2026-09,880
-DE,medicube,medicube,2025-10,22200
+DE,manyo,manyo,2026-10,1000
 DE,medicube,medicube,2025-11,27100
 DE,medicube,medicube,2025-12,33100
 DE,medicube,medicube,2026-01,40500
@@ -971,7 +970,7 @@ DE,medicube,medicube,2026-06,40500
 DE,medicube,medicube,2026-07,49500
 DE,medicube,medicube,2026-08,60500
 DE,medicube,medicube,2026-09,74000
-DE,mixsoon,mixsoon,2025-10,1900
+DE,medicube,medicube,2026-10,90500
 DE,mixsoon,mixsoon,2025-11,2400
 DE,mixsoon,mixsoon,2025-12,3600
 DE,mixsoon,mixsoon,2026-01,5400
@@ -983,7 +982,7 @@ DE,mixsoon,mixsoon,2026-06,1900
 DE,mixsoon,mixsoon,2026-07,1900
 DE,mixsoon,mixsoon,2026-08,1900
 DE,mixsoon,mixsoon,2026-09,1600
-DE,numbuzin,numbuzin,2025-10,1900
+DE,mixsoon,mixsoon,2026-10,1600
 DE,numbuzin,numbuzin,2025-11,2900
 DE,numbuzin,numbuzin,2025-12,2900
 DE,numbuzin,numbuzin,2026-01,3600
@@ -995,19 +994,19 @@ DE,numbuzin,numbuzin,2026-06,3600
 DE,numbuzin,numbuzin,2026-07,2900
 DE,numbuzin,numbuzin,2026-08,2900
 DE,numbuzin,numbuzin,2026-09,2900
-DE,reedle shot,reedle shot,2025-10,1600
+DE,numbuzin,numbuzin,2026-10,3600
 DE,reedle shot,reedle shot,2025-11,1600
-DE,reedle shot,reedle shot,2025-12,1900
+DE,reedle shot,reedle shot,2025-12,2400
 DE,reedle shot,reedle shot,2026-01,2400
 DE,reedle shot,reedle shot,2026-02,1600
 DE,reedle shot,reedle shot,2026-03,1600
-DE,reedle shot,reedle shot,2026-04,1300
+DE,reedle shot,reedle shot,2026-04,1600
 DE,reedle shot,reedle shot,2026-05,1900
 DE,reedle shot,reedle shot,2026-06,1300
 DE,reedle shot,reedle shot,2026-07,1000
 DE,reedle shot,reedle shot,2026-08,1000
 DE,reedle shot,reedle shot,2026-09,880
-DE,round lab,round lab,2025-10,2400
+DE,reedle shot,reedle shot,2026-10,1000
 DE,round lab,round lab,2025-11,2400
 DE,round lab,round lab,2025-12,2400
 DE,round lab,round lab,2026-01,2900
@@ -1019,19 +1018,19 @@ DE,round lab,round lab,2026-06,2900
 DE,round lab,round lab,2026-07,2900
 DE,round lab,round lab,2026-08,2900
 DE,round lab,round lab,2026-09,2400
-DE,skin1004,skin1004,2025-10,4400
-DE,skin1004,skin1004,2025-11,4400
-DE,skin1004,skin1004,2025-12,4400
-DE,skin1004,skin1004,2026-01,4400
-DE,skin1004,skin1004,2026-02,4400
-DE,skin1004,skin1004,2026-03,4400
-DE,skin1004,skin1004,2026-04,5400
-DE,skin1004,skin1004,2026-05,5400
-DE,skin1004,skin1004,2026-06,4400
-DE,skin1004,skin1004,2026-07,3600
-DE,skin1004,skin1004,2026-08,4400
-DE,skin1004,skin1004,2026-09,4400
-DE,tirtir,tirtir,2025-10,8100
+DE,round lab,round lab,2026-10,2400
+DE,skin1004,skin1004,2025-11,6600
+DE,skin1004,skin1004,2025-12,6600
+DE,skin1004,skin1004,2026-01,6600
+DE,skin1004,skin1004,2026-02,6600
+DE,skin1004,skin1004,2026-03,8100
+DE,skin1004,skin1004,2026-04,8100
+DE,skin1004,skin1004,2026-05,8100
+DE,skin1004,skin1004,2026-06,6600
+DE,skin1004,skin1004,2026-07,5400
+DE,skin1004,skin1004,2026-08,6600
+DE,skin1004,skin1004,2026-09,6600
+DE,skin1004,skin1004,2026-10,6600
 DE,tirtir,tirtir,2025-11,9900
 DE,tirtir,tirtir,2025-12,6600
 DE,tirtir,tirtir,2026-01,8100
@@ -1043,7 +1042,7 @@ DE,tirtir,tirtir,2026-06,4400
 DE,tirtir,tirtir,2026-07,3600
 DE,tirtir,tirtir,2026-08,3600
 DE,tirtir,tirtir,2026-09,4400
-DE,torriden,torriden,2025-10,2400
+DE,tirtir,tirtir,2026-10,4400
 DE,torriden,torriden,2025-11,2400
 DE,torriden,torriden,2025-12,2400
 DE,torriden,torriden,2026-01,3600
@@ -1055,7 +1054,7 @@ DE,torriden,torriden,2026-06,4400
 DE,torriden,torriden,2026-07,4400
 DE,torriden,torriden,2026-08,6600
 DE,torriden,torriden,2026-09,5400
-FR,abib,abib,2025-10,1600
+DE,torriden,torriden,2026-10,8100
 FR,abib,abib,2025-11,1300
 FR,abib,abib,2025-12,1000
 FR,abib,abib,2026-01,1600
@@ -1067,7 +1066,7 @@ FR,abib,abib,2026-06,1000
 FR,abib,abib,2026-07,1000
 FR,abib,abib,2026-08,1000
 FR,abib,abib,2026-09,1000
-FR,anua,anua,2025-10,12100
+FR,abib,abib,2026-10,1000
 FR,anua,anua,2025-11,12100
 FR,anua,anua,2025-12,12100
 FR,anua,anua,2026-01,12100
@@ -1079,7 +1078,7 @@ FR,anua,anua,2026-06,9900
 FR,anua,anua,2026-07,9900
 FR,anua,anua,2026-08,9900
 FR,anua,anua,2026-09,9900
-FR,atopalm,atopalm,2025-10,90
+FR,anua,anua,2026-10,12100
 FR,atopalm,atopalm,2025-11,90
 FR,atopalm,atopalm,2025-12,90
 FR,atopalm,atopalm,2026-01,90
@@ -1091,7 +1090,7 @@ FR,atopalm,atopalm,2026-06,70
 FR,atopalm,atopalm,2026-07,70
 FR,atopalm,atopalm,2026-08,90
 FR,atopalm,atopalm,2026-09,70
-FR,atopalm,atopalm cream,2025-10,10
+FR,atopalm,atopalm,2026-10,90
 FR,atopalm,atopalm cream,2025-11,10
 FR,atopalm,atopalm cream,2025-12,10
 FR,atopalm,atopalm cream,2026-01,10
@@ -1103,7 +1102,7 @@ FR,atopalm,atopalm cream,2026-06,20
 FR,atopalm,atopalm cream,2026-07,10
 FR,atopalm,atopalm cream,2026-08,10
 FR,atopalm,atopalm cream,2026-09,10
-FR,atopalm,atopalm mle cream,2025-10,70
+FR,atopalm,atopalm cream,2026-10,10
 FR,atopalm,atopalm mle cream,2025-11,50
 FR,atopalm,atopalm mle cream,2025-12,50
 FR,atopalm,atopalm mle cream,2026-01,70
@@ -1115,7 +1114,7 @@ FR,atopalm,atopalm mle cream,2026-06,40
 FR,atopalm,atopalm mle cream,2026-07,50
 FR,atopalm,atopalm mle cream,2026-08,40
 FR,atopalm,atopalm mle cream,2026-09,30
-FR,beauty of joseon,beauty of joseon,2025-10,22200
+FR,atopalm,atopalm mle cream,2026-10,50
 FR,beauty of joseon,beauty of joseon,2025-11,33100
 FR,beauty of joseon,beauty of joseon,2025-12,33100
 FR,beauty of joseon,beauty of joseon,2026-01,33100
@@ -1127,8 +1126,8 @@ FR,beauty of joseon,beauty of joseon,2026-06,27100
 FR,beauty of joseon,beauty of joseon,2026-07,27100
 FR,beauty of joseon,beauty of joseon,2026-08,27100
 FR,beauty of joseon,beauty of joseon,2026-09,27100
-FR,biodance,biodance,2025-10,12100
-FR,biodance,biodance,2025-11,12100
+FR,beauty of joseon,beauty of joseon,2026-10,33100
+FR,biodance,biodance,2025-11,14800
 FR,biodance,biodance,2025-12,14800
 FR,biodance,biodance,2026-01,18100
 FR,biodance,biodance,2026-02,14800
@@ -1139,7 +1138,7 @@ FR,biodance,biodance,2026-06,14800
 FR,biodance,biodance,2026-07,14800
 FR,biodance,biodance,2026-08,18100
 FR,biodance,biodance,2026-09,18100
-FR,cosrx,cosrx,2025-10,9900
+FR,biodance,biodance,2026-10,22200
 FR,cosrx,cosrx,2025-11,9900
 FR,cosrx,cosrx,2025-12,9900
 FR,cosrx,cosrx,2026-01,9900
@@ -1151,7 +1150,7 @@ FR,cosrx,cosrx,2026-06,6600
 FR,cosrx,cosrx,2026-07,5400
 FR,cosrx,cosrx,2026-08,6600
 FR,cosrx,cosrx,2026-09,9900
-FR,d'alba,d'alba,2025-10,1300
+FR,cosrx,cosrx,2026-10,8100
 FR,d'alba,d'alba,2025-11,1300
 FR,d'alba,d'alba,2025-12,1000
 FR,d'alba,d'alba,2026-01,1000
@@ -1163,7 +1162,7 @@ FR,d'alba,d'alba,2026-06,1000
 FR,d'alba,d'alba,2026-07,1000
 FR,d'alba,d'alba,2026-08,1000
 FR,d'alba,d'alba,2026-09,880
-FR,isntree,isntree,2025-10,1600
+FR,d'alba,d'alba,2026-10,1300
 FR,isntree,isntree,2025-11,1900
 FR,isntree,isntree,2025-12,1900
 FR,isntree,isntree,2026-01,1300
@@ -1175,7 +1174,7 @@ FR,isntree,isntree,2026-06,880
 FR,isntree,isntree,2026-07,720
 FR,isntree,isntree,2026-08,720
 FR,isntree,isntree,2026-09,720
-FR,laneige,laneige,2025-10,27100
+FR,isntree,isntree,2026-10,720
 FR,laneige,laneige,2025-11,49500
 FR,laneige,laneige,2025-12,40500
 FR,laneige,laneige,2026-01,40500
@@ -1187,7 +1186,7 @@ FR,laneige,laneige,2026-06,12100
 FR,laneige,laneige,2026-07,14800
 FR,laneige,laneige,2026-08,14800
 FR,laneige,laneige,2026-09,14800
-FR,madeca cream,centellian 24,2025-10,260
+FR,laneige,laneige,2026-10,22200
 FR,madeca cream,centellian 24,2025-11,480
 FR,madeca cream,centellian 24,2025-12,390
 FR,madeca cream,centellian 24,2026-01,590
@@ -1199,7 +1198,7 @@ FR,madeca cream,centellian 24,2026-06,880
 FR,madeca cream,centellian 24,2026-07,1000
 FR,madeca cream,centellian 24,2026-08,1000
 FR,madeca cream,centellian 24,2026-09,1900
-FR,madeca cream,madeca cream,2025-10,720
+FR,madeca cream,centellian 24,2026-10,1900
 FR,madeca cream,madeca cream,2025-11,880
 FR,madeca cream,madeca cream,2025-12,1000
 FR,madeca cream,madeca cream,2026-01,1600
@@ -1211,7 +1210,7 @@ FR,madeca cream,madeca cream,2026-06,2900
 FR,madeca cream,madeca cream,2026-07,2900
 FR,madeca cream,madeca cream,2026-08,4400
 FR,madeca cream,madeca cream,2026-09,3600
-FR,manyo,manyo,2025-10,590
+FR,madeca cream,madeca cream,2026-10,4400
 FR,manyo,manyo,2025-11,480
 FR,manyo,manyo,2025-12,480
 FR,manyo,manyo,2026-01,480
@@ -1223,7 +1222,7 @@ FR,manyo,manyo,2026-06,320
 FR,manyo,manyo,2026-07,390
 FR,manyo,manyo,2026-08,390
 FR,manyo,manyo,2026-09,320
-FR,medicube,medicube,2025-10,27100
+FR,manyo,manyo,2026-10,390
 FR,medicube,medicube,2025-11,33100
 FR,medicube,medicube,2025-12,33100
 FR,medicube,medicube,2026-01,33100
@@ -1235,7 +1234,7 @@ FR,medicube,medicube,2026-06,60500
 FR,medicube,medicube,2026-07,74000
 FR,medicube,medicube,2026-08,110000
 FR,medicube,medicube,2026-09,135000
-FR,mixsoon,mixsoon,2025-10,2400
+FR,medicube,medicube,2026-10,165000
 FR,mixsoon,mixsoon,2025-11,2900
 FR,mixsoon,mixsoon,2025-12,4400
 FR,mixsoon,mixsoon,2026-01,4400
@@ -1247,7 +1246,7 @@ FR,mixsoon,mixsoon,2026-06,1600
 FR,mixsoon,mixsoon,2026-07,1900
 FR,mixsoon,mixsoon,2026-08,1900
 FR,mixsoon,mixsoon,2026-09,1600
-FR,numbuzin,numbuzin,2025-10,1300
+FR,mixsoon,mixsoon,2026-10,1600
 FR,numbuzin,numbuzin,2025-11,2400
 FR,numbuzin,numbuzin,2025-12,2900
 FR,numbuzin,numbuzin,2026-01,2900
@@ -1259,19 +1258,19 @@ FR,numbuzin,numbuzin,2026-06,2400
 FR,numbuzin,numbuzin,2026-07,1900
 FR,numbuzin,numbuzin,2026-08,2400
 FR,numbuzin,numbuzin,2026-09,2400
-FR,reedle shot,reedle shot,2025-10,1300
+FR,numbuzin,numbuzin,2026-10,2400
 FR,reedle shot,reedle shot,2025-11,2400
 FR,reedle shot,reedle shot,2025-12,1900
 FR,reedle shot,reedle shot,2026-01,1900
 FR,reedle shot,reedle shot,2026-02,1600
 FR,reedle shot,reedle shot,2026-03,1600
 FR,reedle shot,reedle shot,2026-04,1600
-FR,reedle shot,reedle shot,2026-05,1000
+FR,reedle shot,reedle shot,2026-05,1300
 FR,reedle shot,reedle shot,2026-06,880
-FR,reedle shot,reedle shot,2026-07,720
-FR,reedle shot,reedle shot,2026-08,880
+FR,reedle shot,reedle shot,2026-07,880
+FR,reedle shot,reedle shot,2026-08,1000
 FR,reedle shot,reedle shot,2026-09,720
-FR,round lab,round lab,2025-10,1900
+FR,reedle shot,reedle shot,2026-10,720
 FR,round lab,round lab,2025-11,2900
 FR,round lab,round lab,2025-12,2900
 FR,round lab,round lab,2026-01,2400
@@ -1283,19 +1282,19 @@ FR,round lab,round lab,2026-06,1600
 FR,round lab,round lab,2026-07,1600
 FR,round lab,round lab,2026-08,1900
 FR,round lab,round lab,2026-09,1600
-FR,skin1004,skin1004,2025-10,6600
-FR,skin1004,skin1004,2025-11,6600
-FR,skin1004,skin1004,2025-12,6600
-FR,skin1004,skin1004,2026-01,6600
-FR,skin1004,skin1004,2026-02,6600
-FR,skin1004,skin1004,2026-03,5400
-FR,skin1004,skin1004,2026-04,5400
-FR,skin1004,skin1004,2026-05,5400
-FR,skin1004,skin1004,2026-06,4400
-FR,skin1004,skin1004,2026-07,4400
-FR,skin1004,skin1004,2026-08,5400
-FR,skin1004,skin1004,2026-09,4400
-FR,tirtir,tirtir,2025-10,5400
+FR,round lab,round lab,2026-10,1600
+FR,skin1004,skin1004,2025-11,12100
+FR,skin1004,skin1004,2025-12,9900
+FR,skin1004,skin1004,2026-01,12100
+FR,skin1004,skin1004,2026-02,9900
+FR,skin1004,skin1004,2026-03,9900
+FR,skin1004,skin1004,2026-04,9900
+FR,skin1004,skin1004,2026-05,8100
+FR,skin1004,skin1004,2026-06,8100
+FR,skin1004,skin1004,2026-07,8100
+FR,skin1004,skin1004,2026-08,9900
+FR,skin1004,skin1004,2026-09,8100
+FR,skin1004,skin1004,2026-10,9900
 FR,tirtir,tirtir,2025-11,6600
 FR,tirtir,tirtir,2025-12,5400
 FR,tirtir,tirtir,2026-01,4400
@@ -1307,7 +1306,7 @@ FR,tirtir,tirtir,2026-06,3600
 FR,tirtir,tirtir,2026-07,2400
 FR,tirtir,tirtir,2026-08,2900
 FR,tirtir,tirtir,2026-09,2900
-FR,torriden,torriden,2025-10,5400
+FR,tirtir,tirtir,2026-10,2900
 FR,torriden,torriden,2025-11,5400
 FR,torriden,torriden,2025-12,5400
 FR,torriden,torriden,2026-01,6600
@@ -1319,7 +1318,7 @@ FR,torriden,torriden,2026-06,6600
 FR,torriden,torriden,2026-07,6600
 FR,torriden,torriden,2026-08,6600
 FR,torriden,torriden,2026-09,6600
-GB,abib,abib,2025-10,2400
+FR,torriden,torriden,2026-10,6600
 GB,abib,abib,2025-11,1600
 GB,abib,abib,2025-12,1600
 GB,abib,abib,2026-01,1900
@@ -1331,7 +1330,7 @@ GB,abib,abib,2026-06,1600
 GB,abib,abib,2026-07,1600
 GB,abib,abib,2026-08,1600
 GB,abib,abib,2026-09,1600
-GB,anua,anua,2025-10,18100
+GB,abib,abib,2026-10,1600
 GB,anua,anua,2025-11,22200
 GB,anua,anua,2025-12,22200
 GB,anua,anua,2026-01,22200
@@ -1343,7 +1342,7 @@ GB,anua,anua,2026-06,22200
 GB,anua,anua,2026-07,18100
 GB,anua,anua,2026-08,18100
 GB,anua,anua,2026-09,18100
-GB,atopalm,atopalm,2025-10,590
+GB,anua,anua,2026-10,22200
 GB,atopalm,atopalm,2025-11,480
 GB,atopalm,atopalm,2025-12,480
 GB,atopalm,atopalm,2026-01,480
@@ -1355,7 +1354,7 @@ GB,atopalm,atopalm,2026-06,320
 GB,atopalm,atopalm,2026-07,260
 GB,atopalm,atopalm,2026-08,260
 GB,atopalm,atopalm,2026-09,260
-GB,atopalm,atopalm cream,2025-10,170
+GB,atopalm,atopalm,2026-10,260
 GB,atopalm,atopalm cream,2025-11,170
 GB,atopalm,atopalm cream,2025-12,140
 GB,atopalm,atopalm cream,2026-01,110
@@ -1367,7 +1366,7 @@ GB,atopalm,atopalm cream,2026-06,90
 GB,atopalm,atopalm cream,2026-07,70
 GB,atopalm,atopalm cream,2026-08,90
 GB,atopalm,atopalm cream,2026-09,70
-GB,atopalm,atopalm mle cream,2025-10,720
+GB,atopalm,atopalm cream,2026-10,50
 GB,atopalm,atopalm mle cream,2025-11,590
 GB,atopalm,atopalm mle cream,2025-12,480
 GB,atopalm,atopalm mle cream,2026-01,480
@@ -1379,7 +1378,7 @@ GB,atopalm,atopalm mle cream,2026-06,390
 GB,atopalm,atopalm mle cream,2026-07,320
 GB,atopalm,atopalm mle cream,2026-08,320
 GB,atopalm,atopalm mle cream,2026-09,260
-GB,beauty of joseon,beauty of joseon,2025-10,49500
+GB,atopalm,atopalm mle cream,2026-10,320
 GB,beauty of joseon,beauty of joseon,2025-11,90500
 GB,beauty of joseon,beauty of joseon,2025-12,74000
 GB,beauty of joseon,beauty of joseon,2026-01,90500
@@ -1391,7 +1390,7 @@ GB,beauty of joseon,beauty of joseon,2026-06,74000
 GB,beauty of joseon,beauty of joseon,2026-07,74000
 GB,beauty of joseon,beauty of joseon,2026-08,74000
 GB,beauty of joseon,beauty of joseon,2026-09,74000
-GB,biodance,biodance,2025-10,8100
+GB,beauty of joseon,beauty of joseon,2026-10,74000
 GB,biodance,biodance,2025-11,12100
 GB,biodance,biodance,2025-12,14800
 GB,biodance,biodance,2026-01,12100
@@ -1403,7 +1402,7 @@ GB,biodance,biodance,2026-06,12100
 GB,biodance,biodance,2026-07,9900
 GB,biodance,biodance,2026-08,12100
 GB,biodance,biodance,2026-09,9900
-GB,cosrx,cosrx,2025-10,12100
+GB,biodance,biodance,2026-10,12100
 GB,cosrx,cosrx,2025-11,12100
 GB,cosrx,cosrx,2025-12,12100
 GB,cosrx,cosrx,2026-01,12100
@@ -1415,7 +1414,7 @@ GB,cosrx,cosrx,2026-06,12100
 GB,cosrx,cosrx,2026-07,9900
 GB,cosrx,cosrx,2026-08,12100
 GB,cosrx,cosrx,2026-09,12100
-GB,d'alba,d'alba,2025-10,2900
+GB,cosrx,cosrx,2026-10,12100
 GB,d'alba,d'alba,2025-11,3600
 GB,d'alba,d'alba,2025-12,2900
 GB,d'alba,d'alba,2026-01,2900
@@ -1427,7 +1426,7 @@ GB,d'alba,d'alba,2026-06,4400
 GB,d'alba,d'alba,2026-07,3600
 GB,d'alba,d'alba,2026-08,3600
 GB,d'alba,d'alba,2026-09,3600
-GB,isntree,isntree,2025-10,880
+GB,d'alba,d'alba,2026-10,3600
 GB,isntree,isntree,2025-11,880
 GB,isntree,isntree,2025-12,720
 GB,isntree,isntree,2026-01,880
@@ -1439,7 +1438,7 @@ GB,isntree,isntree,2026-06,880
 GB,isntree,isntree,2026-07,880
 GB,isntree,isntree,2026-08,880
 GB,isntree,isntree,2026-09,720
-GB,laneige,laneige,2025-10,49500
+GB,isntree,isntree,2026-10,720
 GB,laneige,laneige,2025-11,90500
 GB,laneige,laneige,2025-12,74000
 GB,laneige,laneige,2026-01,60500
@@ -1451,7 +1450,7 @@ GB,laneige,laneige,2026-06,22200
 GB,laneige,laneige,2026-07,22200
 GB,laneige,laneige,2026-08,22200
 GB,laneige,laneige,2026-09,27100
-GB,madeca cream,centellian 24,2025-10,880
+GB,laneige,laneige,2026-10,40500
 GB,madeca cream,centellian 24,2025-11,880
 GB,madeca cream,centellian 24,2025-12,1300
 GB,madeca cream,centellian 24,2026-01,1600
@@ -1463,7 +1462,7 @@ GB,madeca cream,centellian 24,2026-06,1600
 GB,madeca cream,centellian 24,2026-07,1900
 GB,madeca cream,centellian 24,2026-08,2400
 GB,madeca cream,centellian 24,2026-09,2400
-GB,madeca cream,madeca cream,2025-10,2900
+GB,madeca cream,centellian 24,2026-10,4400
 GB,madeca cream,madeca cream,2025-11,3600
 GB,madeca cream,madeca cream,2025-12,4400
 GB,madeca cream,madeca cream,2026-01,5400
@@ -1475,7 +1474,7 @@ GB,madeca cream,madeca cream,2026-06,8100
 GB,madeca cream,madeca cream,2026-07,9900
 GB,madeca cream,madeca cream,2026-08,9900
 GB,madeca cream,madeca cream,2026-09,9900
-GB,manyo,manyo,2025-10,1000
+GB,madeca cream,madeca cream,2026-10,12100
 GB,manyo,manyo,2025-11,1300
 GB,manyo,manyo,2025-12,1000
 GB,manyo,manyo,2026-01,1000
@@ -1487,7 +1486,7 @@ GB,manyo,manyo,2026-06,1000
 GB,manyo,manyo,2026-07,880
 GB,manyo,manyo,2026-08,1000
 GB,manyo,manyo,2026-09,880
-GB,medicube,medicube,2025-10,60500
+GB,manyo,manyo,2026-10,1000
 GB,medicube,medicube,2025-11,90500
 GB,medicube,medicube,2025-12,110000
 GB,medicube,medicube,2026-01,135000
@@ -1499,7 +1498,7 @@ GB,medicube,medicube,2026-06,165000
 GB,medicube,medicube,2026-07,165000
 GB,medicube,medicube,2026-08,201000
 GB,medicube,medicube,2026-09,201000
-GB,mixsoon,mixsoon,2025-10,2900
+GB,medicube,medicube,2026-10,201000
 GB,mixsoon,mixsoon,2025-11,3600
 GB,mixsoon,mixsoon,2025-12,2900
 GB,mixsoon,mixsoon,2026-01,2900
@@ -1511,7 +1510,7 @@ GB,mixsoon,mixsoon,2026-06,2400
 GB,mixsoon,mixsoon,2026-07,1900
 GB,mixsoon,mixsoon,2026-08,1900
 GB,mixsoon,mixsoon,2026-09,1900
-GB,numbuzin,numbuzin,2025-10,3600
+GB,mixsoon,mixsoon,2026-10,1600
 GB,numbuzin,numbuzin,2025-11,5400
 GB,numbuzin,numbuzin,2025-12,4400
 GB,numbuzin,numbuzin,2026-01,5400
@@ -1523,19 +1522,19 @@ GB,numbuzin,numbuzin,2026-06,4400
 GB,numbuzin,numbuzin,2026-07,4400
 GB,numbuzin,numbuzin,2026-08,4400
 GB,numbuzin,numbuzin,2026-09,3600
-GB,reedle shot,reedle shot,2025-10,3600
+GB,numbuzin,numbuzin,2026-10,4400
 GB,reedle shot,reedle shot,2025-11,8100
 GB,reedle shot,reedle shot,2025-12,6600
-GB,reedle shot,reedle shot,2026-01,8100
+GB,reedle shot,reedle shot,2026-01,9900
 GB,reedle shot,reedle shot,2026-02,4400
-GB,reedle shot,reedle shot,2026-03,3600
+GB,reedle shot,reedle shot,2026-03,4400
 GB,reedle shot,reedle shot,2026-04,8100
 GB,reedle shot,reedle shot,2026-05,9900
 GB,reedle shot,reedle shot,2026-06,4400
 GB,reedle shot,reedle shot,2026-07,3600
 GB,reedle shot,reedle shot,2026-08,4400
 GB,reedle shot,reedle shot,2026-09,2900
-GB,round lab,round lab,2025-10,1900
+GB,reedle shot,reedle shot,2026-10,2900
 GB,round lab,round lab,2025-11,2400
 GB,round lab,round lab,2025-12,1900
 GB,round lab,round lab,2026-01,2400
@@ -1546,20 +1545,20 @@ GB,round lab,round lab,2026-05,2400
 GB,round lab,round lab,2026-06,1900
 GB,round lab,round lab,2026-07,1900
 GB,round lab,round lab,2026-08,2400
-GB,round lab,round lab,2026-09,1900
-GB,skin1004,skin1004,2025-10,6600
-GB,skin1004,skin1004,2025-11,6600
-GB,skin1004,skin1004,2025-12,5400
-GB,skin1004,skin1004,2026-01,6600
-GB,skin1004,skin1004,2026-02,5400
-GB,skin1004,skin1004,2026-03,5400
-GB,skin1004,skin1004,2026-04,5400
-GB,skin1004,skin1004,2026-05,5400
-GB,skin1004,skin1004,2026-06,4400
-GB,skin1004,skin1004,2026-07,4400
-GB,skin1004,skin1004,2026-08,5400
-GB,skin1004,skin1004,2026-09,4400
-GB,tirtir,tirtir,2025-10,12100
+GB,round lab,round lab,2026-09,2400
+GB,round lab,round lab,2026-10,2400
+GB,skin1004,skin1004,2025-11,8100
+GB,skin1004,skin1004,2025-12,8100
+GB,skin1004,skin1004,2026-01,8100
+GB,skin1004,skin1004,2026-02,6600
+GB,skin1004,skin1004,2026-03,8100
+GB,skin1004,skin1004,2026-04,8100
+GB,skin1004,skin1004,2026-05,8100
+GB,skin1004,skin1004,2026-06,5400
+GB,skin1004,skin1004,2026-07,6600
+GB,skin1004,skin1004,2026-08,8100
+GB,skin1004,skin1004,2026-09,6600
+GB,skin1004,skin1004,2026-10,8100
 GB,tirtir,tirtir,2025-11,18100
 GB,tirtir,tirtir,2025-12,12100
 GB,tirtir,tirtir,2026-01,9900
@@ -1571,7 +1570,7 @@ GB,tirtir,tirtir,2026-06,6600
 GB,tirtir,tirtir,2026-07,5400
 GB,tirtir,tirtir,2026-08,6600
 GB,tirtir,tirtir,2026-09,5400
-GB,torriden,torriden,2025-10,14800
+GB,tirtir,tirtir,2026-10,6600
 GB,torriden,torriden,2025-11,12100
 GB,torriden,torriden,2025-12,9900
 GB,torriden,torriden,2026-01,14800
@@ -1583,6 +1582,7 @@ GB,torriden,torriden,2026-06,27100
 GB,torriden,torriden,2026-07,27100
 GB,torriden,torriden,2026-08,33100
 GB,torriden,torriden,2026-09,27100
+GB,torriden,torriden,2026-10,18100
 ID,abib,abib,2025-10,1300
 ID,abib,abib,2025-11,880
 ID,abib,abib,2025-12,880
@@ -2111,7 +2111,6 @@ IN,torriden,torriden,2026-06,4400
 IN,torriden,torriden,2026-07,5400
 IN,torriden,torriden,2026-08,8100
 IN,torriden,torriden,2026-09,4400
-JP,abib,abib,2025-10,5400
 JP,abib,abib,2025-11,5400
 JP,abib,abib,2025-12,4400
 JP,abib,abib,2026-01,8100
@@ -2119,11 +2118,11 @@ JP,abib,abib,2026-02,5400
 JP,abib,abib,2026-03,5400
 JP,abib,abib,2026-04,4400
 JP,abib,abib,2026-05,6600
-JP,abib,abib,2026-06,6600
+JP,abib,abib,2026-06,8100
 JP,abib,abib,2026-07,5400
 JP,abib,abib,2026-08,6600
 JP,abib,abib,2026-09,6600
-JP,abib,アビブ,2025-10,4400
+JP,abib,abib,2026-10,5400
 JP,abib,アビブ,2025-11,4400
 JP,abib,アビブ,2025-12,3600
 JP,abib,アビブ,2026-01,5400
@@ -2135,7 +2134,7 @@ JP,abib,アビブ,2026-06,3600
 JP,abib,アビブ,2026-07,2400
 JP,abib,アビブ,2026-08,3600
 JP,abib,アビブ,2026-09,3600
-JP,anua,anua,2025-10,27100
+JP,abib,アビブ,2026-10,2900
 JP,anua,anua,2025-11,33100
 JP,anua,anua,2025-12,33100
 JP,anua,anua,2026-01,33100
@@ -2147,7 +2146,7 @@ JP,anua,anua,2026-06,27100
 JP,anua,anua,2026-07,27100
 JP,anua,anua,2026-08,33100
 JP,anua,anua,2026-09,33100
-JP,anua,アヌア,2025-10,74000
+JP,anua,anua,2026-10,27100
 JP,anua,アヌア,2025-11,90500
 JP,anua,アヌア,2025-12,90500
 JP,anua,アヌア,2026-01,90500
@@ -2159,7 +2158,7 @@ JP,anua,アヌア,2026-06,90500
 JP,anua,アヌア,2026-07,74000
 JP,anua,アヌア,2026-08,90500
 JP,anua,アヌア,2026-09,90500
-JP,atopalm,atopalm,2025-10,110
+JP,anua,アヌア,2026-10,74000
 JP,atopalm,atopalm,2025-11,390
 JP,atopalm,atopalm,2025-12,140
 JP,atopalm,atopalm,2026-01,260
@@ -2171,7 +2170,7 @@ JP,atopalm,atopalm,2026-06,140
 JP,atopalm,atopalm,2026-07,140
 JP,atopalm,atopalm,2026-08,140
 JP,atopalm,atopalm,2026-09,140
-JP,atopalm,アトパーム,2025-10,170
+JP,atopalm,atopalm,2026-10,140
 JP,atopalm,アトパーム,2025-11,260
 JP,atopalm,アトパーム,2025-12,210
 JP,atopalm,アトパーム,2026-01,260
@@ -2183,7 +2182,7 @@ JP,atopalm,アトパーム,2026-06,320
 JP,atopalm,アトパーム,2026-07,260
 JP,atopalm,アトパーム,2026-08,260
 JP,atopalm,アトパーム,2026-09,480
-JP,beauty of joseon,beauty of joseon,2025-10,4400
+JP,atopalm,アトパーム,2026-10,320
 JP,beauty of joseon,beauty of joseon,2025-11,4400
 JP,beauty of joseon,beauty of joseon,2025-12,3600
 JP,beauty of joseon,beauty of joseon,2026-01,3600
@@ -2195,7 +2194,7 @@ JP,beauty of joseon,beauty of joseon,2026-06,4400
 JP,beauty of joseon,beauty of joseon,2026-07,3600
 JP,beauty of joseon,beauty of joseon,2026-08,4400
 JP,beauty of joseon,beauty of joseon,2026-09,4400
-JP,biodance,biodance,2025-10,3600
+JP,beauty of joseon,beauty of joseon,2026-10,3600
 JP,biodance,biodance,2025-11,3600
 JP,biodance,biodance,2025-12,2900
 JP,biodance,biodance,2026-01,2900
@@ -2207,7 +2206,7 @@ JP,biodance,biodance,2026-06,3600
 JP,biodance,biodance,2026-07,3600
 JP,biodance,biodance,2026-08,3600
 JP,biodance,biodance,2026-09,3600
-JP,biodance,バイオダンス,2025-10,6600
+JP,biodance,biodance,2026-10,4400
 JP,biodance,バイオダンス,2025-11,8100
 JP,biodance,バイオダンス,2025-12,5400
 JP,biodance,バイオダンス,2026-01,6600
@@ -2219,7 +2218,7 @@ JP,biodance,バイオダンス,2026-06,8100
 JP,biodance,バイオダンス,2026-07,8100
 JP,biodance,バイオダンス,2026-08,9900
 JP,biodance,バイオダンス,2026-09,9900
-JP,cosrx,cosrx,2025-10,9900
+JP,biodance,バイオダンス,2026-10,8100
 JP,cosrx,cosrx,2025-11,14800
 JP,cosrx,cosrx,2025-12,12100
 JP,cosrx,cosrx,2026-01,12100
@@ -2231,7 +2230,7 @@ JP,cosrx,cosrx,2026-06,18100
 JP,cosrx,cosrx,2026-07,12100
 JP,cosrx,cosrx,2026-08,18100
 JP,cosrx,cosrx,2026-09,18100
-JP,cosrx,コスアールエックス,2025-10,1600
+JP,cosrx,cosrx,2026-10,9900
 JP,cosrx,コスアールエックス,2025-11,1900
 JP,cosrx,コスアールエックス,2025-12,1900
 JP,cosrx,コスアールエックス,2026-01,2400
@@ -2243,7 +2242,7 @@ JP,cosrx,コスアールエックス,2026-06,2400
 JP,cosrx,コスアールエックス,2026-07,1900
 JP,cosrx,コスアールエックス,2026-08,2900
 JP,cosrx,コスアールエックス,2026-09,2400
-JP,d'alba,d'alba,2025-10,9900
+JP,cosrx,コスアールエックス,2026-10,1600
 JP,d'alba,d'alba,2025-11,14800
 JP,d'alba,d'alba,2025-12,18100
 JP,d'alba,d'alba,2026-01,14800
@@ -2255,7 +2254,7 @@ JP,d'alba,d'alba,2026-06,9900
 JP,d'alba,d'alba,2026-07,8100
 JP,d'alba,d'alba,2026-08,8100
 JP,d'alba,d'alba,2026-09,8100
-JP,d'alba,ダルバ,2025-10,33100
+JP,d'alba,d'alba,2026-10,8100
 JP,d'alba,ダルバ,2025-11,60500
 JP,d'alba,ダルバ,2025-12,60500
 JP,d'alba,ダルバ,2026-01,49500
@@ -2267,7 +2266,7 @@ JP,d'alba,ダルバ,2026-06,40500
 JP,d'alba,ダルバ,2026-07,33100
 JP,d'alba,ダルバ,2026-08,33100
 JP,d'alba,ダルバ,2026-09,33100
-JP,isntree,isntree,2025-10,720
+JP,d'alba,ダルバ,2026-10,33100
 JP,isntree,isntree,2025-11,880
 JP,isntree,isntree,2025-12,720
 JP,isntree,isntree,2026-01,720
@@ -2279,11 +2278,11 @@ JP,isntree,isntree,2026-06,880
 JP,isntree,isntree,2026-07,880
 JP,isntree,isntree,2026-08,1000
 JP,isntree,isntree,2026-09,880
-JP,laneige,laneige,2025-10,9900
+JP,isntree,isntree,2026-10,720
 JP,laneige,laneige,2025-11,12100
 JP,laneige,laneige,2025-12,12100
 JP,laneige,laneige,2026-01,12100
-JP,laneige,laneige,2026-02,8100
+JP,laneige,laneige,2026-02,9900
 JP,laneige,laneige,2026-03,12100
 JP,laneige,laneige,2026-04,9900
 JP,laneige,laneige,2026-05,9900
@@ -2291,7 +2290,7 @@ JP,laneige,laneige,2026-06,9900
 JP,laneige,laneige,2026-07,12100
 JP,laneige,laneige,2026-08,12100
 JP,laneige,laneige,2026-09,9900
-JP,laneige,ラネージュ,2025-10,40500
+JP,laneige,laneige,2026-10,9900
 JP,laneige,ラネージュ,2025-11,60500
 JP,laneige,ラネージュ,2025-12,49500
 JP,laneige,ラネージュ,2026-01,49500
@@ -2303,7 +2302,7 @@ JP,laneige,ラネージュ,2026-06,40500
 JP,laneige,ラネージュ,2026-07,40500
 JP,laneige,ラネージュ,2026-08,49500
 JP,laneige,ラネージュ,2026-09,40500
-JP,madeca cream,madeca cream,2025-10,720
+JP,laneige,ラネージュ,2026-10,40500
 JP,madeca cream,madeca cream,2025-11,880
 JP,madeca cream,madeca cream,2025-12,1000
 JP,madeca cream,madeca cream,2026-01,1000
@@ -2315,7 +2314,7 @@ JP,madeca cream,madeca cream,2026-06,1000
 JP,madeca cream,madeca cream,2026-07,880
 JP,madeca cream,madeca cream,2026-08,1000
 JP,madeca cream,madeca cream,2026-09,1000
-JP,madeca cream,センテリアン24,2025-10,2900
+JP,madeca cream,madeca cream,2026-10,1600
 JP,madeca cream,センテリアン24,2025-11,4400
 JP,madeca cream,センテリアン24,2025-12,4400
 JP,madeca cream,センテリアン24,2026-01,4400
@@ -2327,7 +2326,7 @@ JP,madeca cream,センテリアン24,2026-06,5400
 JP,madeca cream,センテリアン24,2026-07,4400
 JP,madeca cream,センテリアン24,2026-08,5400
 JP,madeca cream,センテリアン24,2026-09,4400
-JP,madeca cream,マデカクリーム,2025-10,2400
+JP,madeca cream,センテリアン24,2026-10,3600
 JP,madeca cream,マデカクリーム,2025-11,6600
 JP,madeca cream,マデカクリーム,2025-12,4400
 JP,madeca cream,マデカクリーム,2026-01,5400
@@ -2339,7 +2338,7 @@ JP,madeca cream,マデカクリーム,2026-06,3600
 JP,madeca cream,マデカクリーム,2026-07,2400
 JP,madeca cream,マデカクリーム,2026-08,2900
 JP,madeca cream,マデカクリーム,2026-09,3600
-JP,manyo,manyo,2025-10,3600
+JP,madeca cream,マデカクリーム,2026-10,2900
 JP,manyo,manyo,2025-11,4400
 JP,manyo,manyo,2025-12,4400
 JP,manyo,manyo,2026-01,3600
@@ -2351,7 +2350,7 @@ JP,manyo,manyo,2026-06,6600
 JP,manyo,manyo,2026-07,4400
 JP,manyo,manyo,2026-08,5400
 JP,manyo,manyo,2026-09,6600
-JP,manyo,魔女工場,2025-10,3600
+JP,manyo,manyo,2026-10,5400
 JP,manyo,魔女工場,2025-11,4400
 JP,manyo,魔女工場,2025-12,4400
 JP,manyo,魔女工場,2026-01,3600
@@ -2363,7 +2362,7 @@ JP,manyo,魔女工場,2026-06,2900
 JP,manyo,魔女工場,2026-07,2900
 JP,manyo,魔女工場,2026-08,2900
 JP,manyo,魔女工場,2026-09,2900
-JP,medicube,medicube,2025-10,22200
+JP,manyo,魔女工場,2026-10,2400
 JP,medicube,medicube,2025-11,22200
 JP,medicube,medicube,2025-12,22200
 JP,medicube,medicube,2026-01,22200
@@ -2375,7 +2374,7 @@ JP,medicube,medicube,2026-06,22200
 JP,medicube,medicube,2026-07,22200
 JP,medicube,medicube,2026-08,27100
 JP,medicube,medicube,2026-09,22200
-JP,medicube,メディキューブ,2025-10,110000
+JP,medicube,medicube,2026-10,18100
 JP,medicube,メディキューブ,2025-11,135000
 JP,medicube,メディキューブ,2025-12,135000
 JP,medicube,メディキューブ,2026-01,110000
@@ -2387,7 +2386,7 @@ JP,medicube,メディキューブ,2026-06,135000
 JP,medicube,メディキューブ,2026-07,135000
 JP,medicube,メディキューブ,2026-08,246000
 JP,medicube,メディキューブ,2026-09,165000
-JP,mixsoon,mixsoon,2025-10,1000
+JP,medicube,メディキューブ,2026-10,110000
 JP,mixsoon,mixsoon,2025-11,2900
 JP,mixsoon,mixsoon,2025-12,2400
 JP,mixsoon,mixsoon,2026-01,2400
@@ -2399,7 +2398,7 @@ JP,mixsoon,mixsoon,2026-06,1900
 JP,mixsoon,mixsoon,2026-07,2900
 JP,mixsoon,mixsoon,2026-08,2900
 JP,mixsoon,mixsoon,2026-09,1300
-JP,mixsoon,ミクスーン,2025-10,390
+JP,mixsoon,mixsoon,2026-10,1000
 JP,mixsoon,ミクスーン,2025-11,880
 JP,mixsoon,ミクスーン,2025-12,880
 JP,mixsoon,ミクスーン,2026-01,480
@@ -2411,11 +2410,11 @@ JP,mixsoon,ミクスーン,2026-06,1000
 JP,mixsoon,ミクスーン,2026-07,1000
 JP,mixsoon,ミクスーン,2026-08,1300
 JP,mixsoon,ミクスーン,2026-09,720
-JP,numbuzin,numbuzin,2025-10,3600
-JP,numbuzin,numbuzin,2025-11,4400
+JP,mixsoon,ミクスーン,2026-10,480
+JP,numbuzin,numbuzin,2025-11,5400
 JP,numbuzin,numbuzin,2025-12,5400
 JP,numbuzin,numbuzin,2026-01,4400
-JP,numbuzin,numbuzin,2026-02,3600
+JP,numbuzin,numbuzin,2026-02,4400
 JP,numbuzin,numbuzin,2026-03,4400
 JP,numbuzin,numbuzin,2026-04,5400
 JP,numbuzin,numbuzin,2026-05,12100
@@ -2423,7 +2422,7 @@ JP,numbuzin,numbuzin,2026-06,5400
 JP,numbuzin,numbuzin,2026-07,8100
 JP,numbuzin,numbuzin,2026-08,8100
 JP,numbuzin,numbuzin,2026-09,5400
-JP,numbuzin,ナンバーズイン,2025-10,49500
+JP,numbuzin,numbuzin,2026-10,4400
 JP,numbuzin,ナンバーズイン,2025-11,40500
 JP,numbuzin,ナンバーズイン,2025-12,33100
 JP,numbuzin,ナンバーズイン,2026-01,33100
@@ -2435,19 +2434,19 @@ JP,numbuzin,ナンバーズイン,2026-06,40500
 JP,numbuzin,ナンバーズイン,2026-07,33100
 JP,numbuzin,ナンバーズイン,2026-08,49500
 JP,numbuzin,ナンバーズイン,2026-09,40500
-JP,reedle shot,reedle shot,2025-10,880
+JP,numbuzin,ナンバーズイン,2026-10,33100
 JP,reedle shot,reedle shot,2025-11,1000
-JP,reedle shot,reedle shot,2025-12,1000
+JP,reedle shot,reedle shot,2025-12,1300
 JP,reedle shot,reedle shot,2026-01,1000
-JP,reedle shot,reedle shot,2026-02,720
+JP,reedle shot,reedle shot,2026-02,880
 JP,reedle shot,reedle shot,2026-03,880
-JP,reedle shot,reedle shot,2026-04,720
+JP,reedle shot,reedle shot,2026-04,880
 JP,reedle shot,reedle shot,2026-05,720
-JP,reedle shot,reedle shot,2026-06,720
-JP,reedle shot,reedle shot,2026-07,390
-JP,reedle shot,reedle shot,2026-08,590
-JP,reedle shot,reedle shot,2026-09,390
-JP,reedle shot,リードル ショット,2025-10,60500
+JP,reedle shot,reedle shot,2026-06,880
+JP,reedle shot,reedle shot,2026-07,480
+JP,reedle shot,reedle shot,2026-08,720
+JP,reedle shot,reedle shot,2026-09,480
+JP,reedle shot,reedle shot,2026-10,390
 JP,reedle shot,リードル ショット,2025-11,49500
 JP,reedle shot,リードル ショット,2025-12,74000
 JP,reedle shot,リードル ショット,2026-01,60500
@@ -2459,7 +2458,7 @@ JP,reedle shot,リードル ショット,2026-06,60500
 JP,reedle shot,リードル ショット,2026-07,33100
 JP,reedle shot,リードル ショット,2026-08,90500
 JP,reedle shot,リードル ショット,2026-09,49500
-JP,round lab,round lab,2025-10,720
+JP,reedle shot,リードル ショット,2026-10,33100
 JP,round lab,round lab,2025-11,880
 JP,round lab,round lab,2025-12,880
 JP,round lab,round lab,2026-01,880
@@ -2471,7 +2470,7 @@ JP,round lab,round lab,2026-06,1000
 JP,round lab,round lab,2026-07,1300
 JP,round lab,round lab,2026-08,1300
 JP,round lab,round lab,2026-09,1000
-JP,round lab,ラウンドラボ,2025-10,720
+JP,round lab,round lab,2026-10,880
 JP,round lab,ラウンドラボ,2025-11,880
 JP,round lab,ラウンドラボ,2025-12,720
 JP,round lab,ラウンドラボ,2026-01,720
@@ -2483,9 +2482,9 @@ JP,round lab,ラウンドラボ,2026-06,1000
 JP,round lab,ラウンドラボ,2026-07,880
 JP,round lab,ラウンドラボ,2026-08,1300
 JP,round lab,ラウンドラボ,2026-09,880
-JP,skin1004,skin1004,2025-10,9900
+JP,round lab,ラウンドラボ,2026-10,720
 JP,skin1004,skin1004,2025-11,14800
-JP,skin1004,skin1004,2025-12,9900
+JP,skin1004,skin1004,2025-12,12100
 JP,skin1004,skin1004,2026-01,12100
 JP,skin1004,skin1004,2026-02,14800
 JP,skin1004,skin1004,2026-03,14800
@@ -2495,7 +2494,7 @@ JP,skin1004,skin1004,2026-06,12100
 JP,skin1004,skin1004,2026-07,9900
 JP,skin1004,skin1004,2026-08,12100
 JP,skin1004,skin1004,2026-09,12100
-JP,skin1004,スキン1004,2025-10,2400
+JP,skin1004,skin1004,2026-10,9900
 JP,skin1004,スキン1004,2025-11,2400
 JP,skin1004,スキン1004,2025-12,1000
 JP,skin1004,スキン1004,2026-01,1000
@@ -2507,7 +2506,7 @@ JP,skin1004,スキン1004,2026-06,3600
 JP,skin1004,スキン1004,2026-07,2400
 JP,skin1004,スキン1004,2026-08,3600
 JP,skin1004,スキン1004,2026-09,3600
-JP,tirtir,tirtir,2025-10,22200
+JP,skin1004,スキン1004,2026-10,2900
 JP,tirtir,tirtir,2025-11,40500
 JP,tirtir,tirtir,2025-12,22200
 JP,tirtir,tirtir,2026-01,18100
@@ -2519,7 +2518,7 @@ JP,tirtir,tirtir,2026-06,18100
 JP,tirtir,tirtir,2026-07,14800
 JP,tirtir,tirtir,2026-08,22200
 JP,tirtir,tirtir,2026-09,14800
-JP,tirtir,ティルティル,2025-10,33100
+JP,tirtir,tirtir,2026-10,12100
 JP,tirtir,ティルティル,2025-11,60500
 JP,tirtir,ティルティル,2025-12,40500
 JP,tirtir,ティルティル,2026-01,33100
@@ -2531,7 +2530,7 @@ JP,tirtir,ティルティル,2026-06,33100
 JP,tirtir,ティルティル,2026-07,27100
 JP,tirtir,ティルティル,2026-08,27100
 JP,tirtir,ティルティル,2026-09,27100
-JP,torriden,torriden,2025-10,12100
+JP,tirtir,ティルティル,2026-10,22200
 JP,torriden,torriden,2025-11,12100
 JP,torriden,torriden,2025-12,12100
 JP,torriden,torriden,2026-01,12100
@@ -2543,7 +2542,7 @@ JP,torriden,torriden,2026-06,9900
 JP,torriden,torriden,2026-07,8100
 JP,torriden,torriden,2026-08,9900
 JP,torriden,torriden,2026-09,12100
-JP,torriden,トリデン,2025-10,49500
+JP,torriden,torriden,2026-10,9900
 JP,torriden,トリデン,2025-11,40500
 JP,torriden,トリデン,2025-12,40500
 JP,torriden,トリデン,2026-01,40500
@@ -2555,7 +2554,7 @@ JP,torriden,トリデン,2026-06,27100
 JP,torriden,トリデン,2026-07,22200
 JP,torriden,トリデン,2026-08,33100
 JP,torriden,トリデン,2026-09,33100
-MX,abib,abib,2025-10,3600
+JP,torriden,トリデン,2026-10,33100
 MX,abib,abib,2025-11,3600
 MX,abib,abib,2025-12,2900
 MX,abib,abib,2026-01,3600
@@ -2567,7 +2566,7 @@ MX,abib,abib,2026-06,3600
 MX,abib,abib,2026-07,2900
 MX,abib,abib,2026-08,4400
 MX,abib,abib,2026-09,3600
-MX,anua,anua,2025-10,5400
+MX,abib,abib,2026-10,2900
 MX,anua,anua,2025-11,5400
 MX,anua,anua,2025-12,5400
 MX,anua,anua,2026-01,8100
@@ -2579,7 +2578,7 @@ MX,anua,anua,2026-06,12100
 MX,anua,anua,2026-07,12100
 MX,anua,anua,2026-08,12100
 MX,anua,anua,2026-09,12100
-MX,atopalm,atopalm,2025-10,40
+MX,anua,anua,2026-10,12100
 MX,atopalm,atopalm,2025-11,30
 MX,atopalm,atopalm,2025-12,70
 MX,atopalm,atopalm,2026-01,70
@@ -2591,7 +2590,7 @@ MX,atopalm,atopalm,2026-06,90
 MX,atopalm,atopalm,2026-07,110
 MX,atopalm,atopalm,2026-08,140
 MX,atopalm,atopalm,2026-09,170
-MX,atopalm,atopalm cream,2025-10,10
+MX,atopalm,atopalm,2026-10,260
 MX,atopalm,atopalm cream,2025-11,10
 MX,atopalm,atopalm cream,2025-12,10
 MX,atopalm,atopalm cream,2026-01,10
@@ -2603,7 +2602,7 @@ MX,atopalm,atopalm cream,2026-06,10
 MX,atopalm,atopalm cream,2026-07,10
 MX,atopalm,atopalm cream,2026-08,10
 MX,atopalm,atopalm cream,2026-09,10
-MX,atopalm,atopalm mle cream,2025-10,10
+MX,atopalm,atopalm cream,2026-10,10
 MX,atopalm,atopalm mle cream,2025-11,20
 MX,atopalm,atopalm mle cream,2025-12,30
 MX,atopalm,atopalm mle cream,2026-01,20
@@ -2615,7 +2614,7 @@ MX,atopalm,atopalm mle cream,2026-06,20
 MX,atopalm,atopalm mle cream,2026-07,30
 MX,atopalm,atopalm mle cream,2026-08,40
 MX,atopalm,atopalm mle cream,2026-09,40
-MX,beauty of joseon,beauty of joseon,2025-10,5400
+MX,atopalm,atopalm mle cream,2026-10,50
 MX,beauty of joseon,beauty of joseon,2025-11,6600
 MX,beauty of joseon,beauty of joseon,2025-12,8100
 MX,beauty of joseon,beauty of joseon,2026-01,8100
@@ -2627,19 +2626,19 @@ MX,beauty of joseon,beauty of joseon,2026-06,8100
 MX,beauty of joseon,beauty of joseon,2026-07,9900
 MX,beauty of joseon,beauty of joseon,2026-08,8100
 MX,beauty of joseon,beauty of joseon,2026-09,6600
-MX,biodance,biodance,2025-10,880
-MX,biodance,biodance,2025-11,1300
-MX,biodance,biodance,2025-12,1600
-MX,biodance,biodance,2026-01,1300
-MX,biodance,biodance,2026-02,1000
-MX,biodance,biodance,2026-03,1600
-MX,biodance,biodance,2026-04,1600
-MX,biodance,biodance,2026-05,2400
-MX,biodance,biodance,2026-06,4400
-MX,biodance,biodance,2026-07,4400
-MX,biodance,biodance,2026-08,5400
-MX,biodance,biodance,2026-09,3600
-MX,cosrx,cosrx,2025-10,4400
+MX,beauty of joseon,beauty of joseon,2026-10,6600
+MX,biodance,biodance,2025-11,4400
+MX,biodance,biodance,2025-12,4400
+MX,biodance,biodance,2026-01,5400
+MX,biodance,biodance,2026-02,4400
+MX,biodance,biodance,2026-03,5400
+MX,biodance,biodance,2026-04,5400
+MX,biodance,biodance,2026-05,5400
+MX,biodance,biodance,2026-06,8100
+MX,biodance,biodance,2026-07,8100
+MX,biodance,biodance,2026-08,9900
+MX,biodance,biodance,2026-09,6600
+MX,biodance,biodance,2026-10,6600
 MX,cosrx,cosrx,2025-11,4400
 MX,cosrx,cosrx,2025-12,4400
 MX,cosrx,cosrx,2026-01,5400
@@ -2651,7 +2650,7 @@ MX,cosrx,cosrx,2026-06,4400
 MX,cosrx,cosrx,2026-07,4400
 MX,cosrx,cosrx,2026-08,4400
 MX,cosrx,cosrx,2026-09,4400
-MX,d'alba,d'alba,2025-10,1900
+MX,cosrx,cosrx,2026-10,4400
 MX,d'alba,d'alba,2025-11,1600
 MX,d'alba,d'alba,2025-12,1600
 MX,d'alba,d'alba,2026-01,1300
@@ -2663,7 +2662,7 @@ MX,d'alba,d'alba,2026-06,1000
 MX,d'alba,d'alba,2026-07,880
 MX,d'alba,d'alba,2026-08,1000
 MX,d'alba,d'alba,2026-09,880
-MX,isntree,isntree,2025-10,260
+MX,d'alba,d'alba,2026-10,720
 MX,isntree,isntree,2025-11,260
 MX,isntree,isntree,2025-12,390
 MX,isntree,isntree,2026-01,260
@@ -2675,7 +2674,7 @@ MX,isntree,isntree,2026-06,320
 MX,isntree,isntree,2026-07,480
 MX,isntree,isntree,2026-08,480
 MX,isntree,isntree,2026-09,480
-MX,laneige,laneige,2025-10,8100
+MX,isntree,isntree,2026-10,390
 MX,laneige,laneige,2025-11,12100
 MX,laneige,laneige,2025-12,12100
 MX,laneige,laneige,2026-01,9900
@@ -2687,7 +2686,7 @@ MX,laneige,laneige,2026-06,5400
 MX,laneige,laneige,2026-07,5400
 MX,laneige,laneige,2026-08,5400
 MX,laneige,laneige,2026-09,5400
-MX,madeca cream,centellian 24,2025-10,1600
+MX,laneige,laneige,2026-10,5400
 MX,madeca cream,centellian 24,2025-11,1900
 MX,madeca cream,centellian 24,2025-12,1300
 MX,madeca cream,centellian 24,2026-01,1900
@@ -2699,7 +2698,7 @@ MX,madeca cream,centellian 24,2026-06,3600
 MX,madeca cream,centellian 24,2026-07,2400
 MX,madeca cream,centellian 24,2026-08,2900
 MX,madeca cream,centellian 24,2026-09,2900
-MX,madeca cream,madeca cream,2025-10,8100
+MX,madeca cream,centellian 24,2026-10,4400
 MX,madeca cream,madeca cream,2025-11,5400
 MX,madeca cream,madeca cream,2025-12,9900
 MX,madeca cream,madeca cream,2026-01,12100
@@ -2711,7 +2710,7 @@ MX,madeca cream,madeca cream,2026-06,9900
 MX,madeca cream,madeca cream,2026-07,6600
 MX,madeca cream,madeca cream,2026-08,12100
 MX,madeca cream,madeca cream,2026-09,9900
-MX,manyo,manyo,2025-10,260
+MX,madeca cream,madeca cream,2026-10,40500
 MX,manyo,manyo,2025-11,320
 MX,manyo,manyo,2025-12,480
 MX,manyo,manyo,2026-01,260
@@ -2723,7 +2722,7 @@ MX,manyo,manyo,2026-06,260
 MX,manyo,manyo,2026-07,320
 MX,manyo,manyo,2026-08,590
 MX,manyo,manyo,2026-09,260
-MX,medicube,medicube,2025-10,14800
+MX,manyo,manyo,2026-10,210
 MX,medicube,medicube,2025-11,18100
 MX,medicube,medicube,2025-12,22200
 MX,medicube,medicube,2026-01,27100
@@ -2735,7 +2734,7 @@ MX,medicube,medicube,2026-06,33100
 MX,medicube,medicube,2026-07,40500
 MX,medicube,medicube,2026-08,60500
 MX,medicube,medicube,2026-09,60500
-MX,mixsoon,mixsoon,2025-10,12100
+MX,medicube,medicube,2026-10,60500
 MX,mixsoon,mixsoon,2025-11,14800
 MX,mixsoon,mixsoon,2025-12,18100
 MX,mixsoon,mixsoon,2026-01,18100
@@ -2747,7 +2746,7 @@ MX,mixsoon,mixsoon,2026-06,9900
 MX,mixsoon,mixsoon,2026-07,9900
 MX,mixsoon,mixsoon,2026-08,9900
 MX,mixsoon,mixsoon,2026-09,8100
-MX,numbuzin,numbuzin,2025-10,1300
+MX,mixsoon,mixsoon,2026-10,6600
 MX,numbuzin,numbuzin,2025-11,2400
 MX,numbuzin,numbuzin,2025-12,1900
 MX,numbuzin,numbuzin,2026-01,2400
@@ -2759,19 +2758,19 @@ MX,numbuzin,numbuzin,2026-06,3600
 MX,numbuzin,numbuzin,2026-07,4400
 MX,numbuzin,numbuzin,2026-08,5400
 MX,numbuzin,numbuzin,2026-09,5400
-MX,reedle shot,reedle shot,2025-10,590
+MX,numbuzin,numbuzin,2026-10,4400
 MX,reedle shot,reedle shot,2025-11,590
 MX,reedle shot,reedle shot,2025-12,1300
-MX,reedle shot,reedle shot,2026-01,1000
+MX,reedle shot,reedle shot,2026-01,1300
 MX,reedle shot,reedle shot,2026-02,880
-MX,reedle shot,reedle shot,2026-03,720
-MX,reedle shot,reedle shot,2026-04,720
-MX,reedle shot,reedle shot,2026-05,590
-MX,reedle shot,reedle shot,2026-06,590
-MX,reedle shot,reedle shot,2026-07,590
+MX,reedle shot,reedle shot,2026-03,880
+MX,reedle shot,reedle shot,2026-04,880
+MX,reedle shot,reedle shot,2026-05,720
+MX,reedle shot,reedle shot,2026-06,720
+MX,reedle shot,reedle shot,2026-07,720
 MX,reedle shot,reedle shot,2026-08,880
 MX,reedle shot,reedle shot,2026-09,880
-MX,round lab,round lab,2025-10,1600
+MX,reedle shot,reedle shot,2026-10,720
 MX,round lab,round lab,2025-11,1300
 MX,round lab,round lab,2025-12,1600
 MX,round lab,round lab,2026-01,1600
@@ -2783,22 +2782,22 @@ MX,round lab,round lab,2026-06,1900
 MX,round lab,round lab,2026-07,1600
 MX,round lab,round lab,2026-08,1900
 MX,round lab,round lab,2026-09,1600
-MX,skin1004,skin1004,2025-10,8100
-MX,skin1004,skin1004,2025-11,18100
-MX,skin1004,skin1004,2025-12,14800
-MX,skin1004,skin1004,2026-01,12100
-MX,skin1004,skin1004,2026-02,8100
-MX,skin1004,skin1004,2026-03,8100
-MX,skin1004,skin1004,2026-04,8100
-MX,skin1004,skin1004,2026-05,9900
-MX,skin1004,skin1004,2026-06,8100
-MX,skin1004,skin1004,2026-07,9900
-MX,skin1004,skin1004,2026-08,9900
-MX,skin1004,skin1004,2026-09,8100
-MX,tirtir,tirtir,2025-10,4400
+MX,round lab,round lab,2026-10,1600
+MX,skin1004,skin1004,2025-11,22200
+MX,skin1004,skin1004,2025-12,18100
+MX,skin1004,skin1004,2026-01,14800
+MX,skin1004,skin1004,2026-02,12100
+MX,skin1004,skin1004,2026-03,12100
+MX,skin1004,skin1004,2026-04,12100
+MX,skin1004,skin1004,2026-05,12100
+MX,skin1004,skin1004,2026-06,12100
+MX,skin1004,skin1004,2026-07,12100
+MX,skin1004,skin1004,2026-08,12100
+MX,skin1004,skin1004,2026-09,9900
+MX,skin1004,skin1004,2026-10,9900
 MX,tirtir,tirtir,2025-11,8100
 MX,tirtir,tirtir,2025-12,5400
-MX,tirtir,tirtir,2026-01,5400
+MX,tirtir,tirtir,2026-01,4400
 MX,tirtir,tirtir,2026-02,3600
 MX,tirtir,tirtir,2026-03,3600
 MX,tirtir,tirtir,2026-04,3600
@@ -2807,7 +2806,7 @@ MX,tirtir,tirtir,2026-06,5400
 MX,tirtir,tirtir,2026-07,4400
 MX,tirtir,tirtir,2026-08,4400
 MX,tirtir,tirtir,2026-09,3600
-MX,torriden,torriden,2025-10,880
+MX,tirtir,tirtir,2026-10,3600
 MX,torriden,torriden,2025-11,880
 MX,torriden,torriden,2025-12,880
 MX,torriden,torriden,2026-01,1300
@@ -2819,6 +2818,7 @@ MX,torriden,torriden,2026-06,1600
 MX,torriden,torriden,2026-07,1900
 MX,torriden,torriden,2026-08,1900
 MX,torriden,torriden,2026-09,1600
+MX,torriden,torriden,2026-10,1600
 MY,abib,abib,2025-10,1000
 MY,abib,abib,2025-11,880
 MY,abib,abib,2025-12,880
@@ -3083,19 +3083,18 @@ MY,torriden,torriden,2026-06,6600
 MY,torriden,torriden,2026-07,6600
 MY,torriden,torriden,2026-08,6600
 MY,torriden,torriden,2026-09,6600
-NL,abib,abib,2025-10,720
 NL,abib,abib,2025-11,480
 NL,abib,abib,2025-12,390
 NL,abib,abib,2026-01,590
 NL,abib,abib,2026-02,390
-NL,abib,abib,2026-03,480
+NL,abib,abib,2026-03,590
 NL,abib,abib,2026-04,480
 NL,abib,abib,2026-05,590
 NL,abib,abib,2026-06,590
 NL,abib,abib,2026-07,390
 NL,abib,abib,2026-08,390
 NL,abib,abib,2026-09,390
-NL,anua,anua,2025-10,4400
+NL,abib,abib,2026-10,390
 NL,anua,anua,2025-11,4400
 NL,anua,anua,2025-12,4400
 NL,anua,anua,2026-01,4400
@@ -3107,7 +3106,7 @@ NL,anua,anua,2026-06,5400
 NL,anua,anua,2026-07,4400
 NL,anua,anua,2026-08,5400
 NL,anua,anua,2026-09,5400
-NL,atopalm,atopalm,2025-10,110
+NL,anua,anua,2026-10,6600
 NL,atopalm,atopalm,2025-11,110
 NL,atopalm,atopalm,2025-12,90
 NL,atopalm,atopalm,2026-01,110
@@ -3119,7 +3118,7 @@ NL,atopalm,atopalm,2026-06,110
 NL,atopalm,atopalm,2026-07,90
 NL,atopalm,atopalm,2026-08,110
 NL,atopalm,atopalm,2026-09,50
-NL,atopalm,atopalm cream,2025-10,10
+NL,atopalm,atopalm,2026-10,50
 NL,atopalm,atopalm cream,2025-11,20
 NL,atopalm,atopalm cream,2025-12,20
 NL,atopalm,atopalm cream,2026-01,10
@@ -3131,7 +3130,7 @@ NL,atopalm,atopalm cream,2026-06,10
 NL,atopalm,atopalm cream,2026-07,20
 NL,atopalm,atopalm cream,2026-08,10
 NL,atopalm,atopalm cream,2026-09,10
-NL,atopalm,atopalm mle cream,2025-10,140
+NL,atopalm,atopalm cream,2026-10,10
 NL,atopalm,atopalm mle cream,2025-11,170
 NL,atopalm,atopalm mle cream,2025-12,110
 NL,atopalm,atopalm mle cream,2026-01,140
@@ -3143,7 +3142,7 @@ NL,atopalm,atopalm mle cream,2026-06,90
 NL,atopalm,atopalm mle cream,2026-07,90
 NL,atopalm,atopalm mle cream,2026-08,110
 NL,atopalm,atopalm mle cream,2026-09,70
-NL,beauty of joseon,beauty of joseon,2025-10,9900
+NL,atopalm,atopalm mle cream,2026-10,70
 NL,beauty of joseon,beauty of joseon,2025-11,14800
 NL,beauty of joseon,beauty of joseon,2025-12,12100
 NL,beauty of joseon,beauty of joseon,2026-01,14800
@@ -3155,9 +3154,9 @@ NL,beauty of joseon,beauty of joseon,2026-06,18100
 NL,beauty of joseon,beauty of joseon,2026-07,14800
 NL,beauty of joseon,beauty of joseon,2026-08,14800
 NL,beauty of joseon,beauty of joseon,2026-09,12100
-NL,biodance,biodance,2025-10,1900
+NL,beauty of joseon,beauty of joseon,2026-10,14800
 NL,biodance,biodance,2025-11,2400
-NL,biodance,biodance,2025-12,2900
+NL,biodance,biodance,2025-12,3600
 NL,biodance,biodance,2026-01,4400
 NL,biodance,biodance,2026-02,2900
 NL,biodance,biodance,2026-03,3600
@@ -3167,7 +3166,7 @@ NL,biodance,biodance,2026-06,2900
 NL,biodance,biodance,2026-07,3600
 NL,biodance,biodance,2026-08,4400
 NL,biodance,biodance,2026-09,4400
-NL,cosrx,cosrx,2025-10,2900
+NL,biodance,biodance,2026-10,5400
 NL,cosrx,cosrx,2025-11,2900
 NL,cosrx,cosrx,2025-12,2400
 NL,cosrx,cosrx,2026-01,2900
@@ -3179,7 +3178,7 @@ NL,cosrx,cosrx,2026-06,1900
 NL,cosrx,cosrx,2026-07,1900
 NL,cosrx,cosrx,2026-08,2400
 NL,cosrx,cosrx,2026-09,2400
-NL,d'alba,d'alba,2025-10,720
+NL,cosrx,cosrx,2026-10,2400
 NL,d'alba,d'alba,2025-11,880
 NL,d'alba,d'alba,2025-12,720
 NL,d'alba,d'alba,2026-01,880
@@ -3191,7 +3190,7 @@ NL,d'alba,d'alba,2026-06,720
 NL,d'alba,d'alba,2026-07,590
 NL,d'alba,d'alba,2026-08,590
 NL,d'alba,d'alba,2026-09,720
-NL,isntree,isntree,2025-10,260
+NL,d'alba,d'alba,2026-10,590
 NL,isntree,isntree,2025-11,320
 NL,isntree,isntree,2025-12,260
 NL,isntree,isntree,2026-01,320
@@ -3203,7 +3202,7 @@ NL,isntree,isntree,2026-06,390
 NL,isntree,isntree,2026-07,320
 NL,isntree,isntree,2026-08,260
 NL,isntree,isntree,2026-09,320
-NL,laneige,laneige,2025-10,12100
+NL,isntree,isntree,2026-10,320
 NL,laneige,laneige,2025-11,18100
 NL,laneige,laneige,2025-12,14800
 NL,laneige,laneige,2026-01,12100
@@ -3215,7 +3214,7 @@ NL,laneige,laneige,2026-06,5400
 NL,laneige,laneige,2026-07,5400
 NL,laneige,laneige,2026-08,6600
 NL,laneige,laneige,2026-09,6600
-NL,madeca cream,centellian 24,2025-10,260
+NL,laneige,laneige,2026-10,9900
 NL,madeca cream,centellian 24,2025-11,320
 NL,madeca cream,centellian 24,2025-12,390
 NL,madeca cream,centellian 24,2026-01,590
@@ -3227,7 +3226,7 @@ NL,madeca cream,centellian 24,2026-06,480
 NL,madeca cream,centellian 24,2026-07,480
 NL,madeca cream,centellian 24,2026-08,590
 NL,madeca cream,centellian 24,2026-09,590
-NL,madeca cream,madeca cream,2025-10,720
+NL,madeca cream,centellian 24,2026-10,880
 NL,madeca cream,madeca cream,2025-11,880
 NL,madeca cream,madeca cream,2025-12,1000
 NL,madeca cream,madeca cream,2026-01,1300
@@ -3239,7 +3238,7 @@ NL,madeca cream,madeca cream,2026-06,1900
 NL,madeca cream,madeca cream,2026-07,1900
 NL,madeca cream,madeca cream,2026-08,2900
 NL,madeca cream,madeca cream,2026-09,2400
-NL,manyo,manyo,2025-10,390
+NL,madeca cream,madeca cream,2026-10,2900
 NL,manyo,manyo,2025-11,390
 NL,manyo,manyo,2025-12,260
 NL,manyo,manyo,2026-01,260
@@ -3251,7 +3250,7 @@ NL,manyo,manyo,2026-06,210
 NL,manyo,manyo,2026-07,210
 NL,manyo,manyo,2026-08,170
 NL,manyo,manyo,2026-09,210
-NL,medicube,medicube,2025-10,12100
+NL,manyo,manyo,2026-10,170
 NL,medicube,medicube,2025-11,14800
 NL,medicube,medicube,2025-12,14800
 NL,medicube,medicube,2026-01,18100
@@ -3263,7 +3262,7 @@ NL,medicube,medicube,2026-06,18100
 NL,medicube,medicube,2026-07,18100
 NL,medicube,medicube,2026-08,18100
 NL,medicube,medicube,2026-09,22200
-NL,mixsoon,mixsoon,2025-10,1300
+NL,medicube,medicube,2026-10,27100
 NL,mixsoon,mixsoon,2025-11,1300
 NL,mixsoon,mixsoon,2025-12,1300
 NL,mixsoon,mixsoon,2026-01,1600
@@ -3275,7 +3274,7 @@ NL,mixsoon,mixsoon,2026-06,480
 NL,mixsoon,mixsoon,2026-07,590
 NL,mixsoon,mixsoon,2026-08,590
 NL,mixsoon,mixsoon,2026-09,480
-NL,numbuzin,numbuzin,2025-10,720
+NL,mixsoon,mixsoon,2026-10,480
 NL,numbuzin,numbuzin,2025-11,1300
 NL,numbuzin,numbuzin,2025-12,1300
 NL,numbuzin,numbuzin,2026-01,1300
@@ -3287,19 +3286,19 @@ NL,numbuzin,numbuzin,2026-06,1300
 NL,numbuzin,numbuzin,2026-07,1300
 NL,numbuzin,numbuzin,2026-08,1300
 NL,numbuzin,numbuzin,2026-09,1000
-NL,reedle shot,reedle shot,2025-10,590
-NL,reedle shot,reedle shot,2025-11,880
+NL,numbuzin,numbuzin,2026-10,1300
+NL,reedle shot,reedle shot,2025-11,1000
 NL,reedle shot,reedle shot,2025-12,1000
-NL,reedle shot,reedle shot,2026-01,880
+NL,reedle shot,reedle shot,2026-01,1000
 NL,reedle shot,reedle shot,2026-02,720
 NL,reedle shot,reedle shot,2026-03,1000
 NL,reedle shot,reedle shot,2026-04,880
 NL,reedle shot,reedle shot,2026-05,1000
 NL,reedle shot,reedle shot,2026-06,720
 NL,reedle shot,reedle shot,2026-07,480
-NL,reedle shot,reedle shot,2026-08,390
-NL,reedle shot,reedle shot,2026-09,480
-NL,round lab,round lab,2025-10,720
+NL,reedle shot,reedle shot,2026-08,480
+NL,reedle shot,reedle shot,2026-09,590
+NL,reedle shot,reedle shot,2026-10,590
 NL,round lab,round lab,2025-11,720
 NL,round lab,round lab,2025-12,590
 NL,round lab,round lab,2026-01,720
@@ -3311,19 +3310,19 @@ NL,round lab,round lab,2026-06,880
 NL,round lab,round lab,2026-07,720
 NL,round lab,round lab,2026-08,720
 NL,round lab,round lab,2026-09,720
-NL,skin1004,skin1004,2025-10,1900
-NL,skin1004,skin1004,2025-11,2400
-NL,skin1004,skin1004,2025-12,1600
-NL,skin1004,skin1004,2026-01,1900
-NL,skin1004,skin1004,2026-02,1600
-NL,skin1004,skin1004,2026-03,1900
-NL,skin1004,skin1004,2026-04,1900
-NL,skin1004,skin1004,2026-05,1900
-NL,skin1004,skin1004,2026-06,1300
-NL,skin1004,skin1004,2026-07,1300
-NL,skin1004,skin1004,2026-08,1600
-NL,skin1004,skin1004,2026-09,1300
-NL,tirtir,tirtir,2025-10,2900
+NL,round lab,round lab,2026-10,720
+NL,skin1004,skin1004,2025-11,2900
+NL,skin1004,skin1004,2025-12,2400
+NL,skin1004,skin1004,2026-01,2400
+NL,skin1004,skin1004,2026-02,2400
+NL,skin1004,skin1004,2026-03,2400
+NL,skin1004,skin1004,2026-04,2400
+NL,skin1004,skin1004,2026-05,2400
+NL,skin1004,skin1004,2026-06,1900
+NL,skin1004,skin1004,2026-07,1900
+NL,skin1004,skin1004,2026-08,1900
+NL,skin1004,skin1004,2026-09,1900
+NL,skin1004,skin1004,2026-10,1900
 NL,tirtir,tirtir,2025-11,4400
 NL,tirtir,tirtir,2025-12,2900
 NL,tirtir,tirtir,2026-01,2900
@@ -3335,7 +3334,7 @@ NL,tirtir,tirtir,2026-06,1600
 NL,tirtir,tirtir,2026-07,1300
 NL,tirtir,tirtir,2026-08,1300
 NL,tirtir,tirtir,2026-09,1300
-NL,torriden,torriden,2025-10,1300
+NL,tirtir,tirtir,2026-10,1600
 NL,torriden,torriden,2025-11,1300
 NL,torriden,torriden,2025-12,1300
 NL,torriden,torriden,2026-01,1600
@@ -3347,7 +3346,7 @@ NL,torriden,torriden,2026-06,1900
 NL,torriden,torriden,2026-07,1600
 NL,torriden,torriden,2026-08,1900
 NL,torriden,torriden,2026-09,1600
-PH,abib,abib,2025-10,480
+NL,torriden,torriden,2026-10,1900
 PH,abib,abib,2025-11,390
 PH,abib,abib,2025-12,390
 PH,abib,abib,2026-01,590
@@ -3359,7 +3358,7 @@ PH,abib,abib,2026-06,390
 PH,abib,abib,2026-07,390
 PH,abib,abib,2026-08,390
 PH,abib,abib,2026-09,320
-PH,anua,anua,2025-10,2900
+PH,abib,abib,2026-10,390
 PH,anua,anua,2025-11,2900
 PH,anua,anua,2025-12,2900
 PH,anua,anua,2026-01,2900
@@ -3371,7 +3370,7 @@ PH,anua,anua,2026-06,2900
 PH,anua,anua,2026-07,2900
 PH,anua,anua,2026-08,2900
 PH,anua,anua,2026-09,2900
-PH,atopalm,atopalm,2025-10,70
+PH,anua,anua,2026-10,3600
 PH,atopalm,atopalm,2025-11,110
 PH,atopalm,atopalm,2025-12,110
 PH,atopalm,atopalm,2026-01,110
@@ -3383,7 +3382,7 @@ PH,atopalm,atopalm,2026-06,70
 PH,atopalm,atopalm,2026-07,70
 PH,atopalm,atopalm,2026-08,90
 PH,atopalm,atopalm,2026-09,70
-PH,atopalm,atopalm cream,2025-10,10
+PH,atopalm,atopalm,2026-10,90
 PH,atopalm,atopalm cream,2025-11,10
 PH,atopalm,atopalm cream,2025-12,10
 PH,atopalm,atopalm cream,2026-01,10
@@ -3395,7 +3394,7 @@ PH,atopalm,atopalm cream,2026-06,10
 PH,atopalm,atopalm cream,2026-07,10
 PH,atopalm,atopalm cream,2026-08,10
 PH,atopalm,atopalm cream,2026-09,10
-PH,atopalm,atopalm mle cream,2025-10,70
+PH,atopalm,atopalm cream,2026-10,0
 PH,atopalm,atopalm mle cream,2025-11,140
 PH,atopalm,atopalm mle cream,2025-12,110
 PH,atopalm,atopalm mle cream,2026-01,90
@@ -3407,7 +3406,7 @@ PH,atopalm,atopalm mle cream,2026-06,90
 PH,atopalm,atopalm mle cream,2026-07,90
 PH,atopalm,atopalm mle cream,2026-08,90
 PH,atopalm,atopalm mle cream,2026-09,50
-PH,beauty of joseon,beauty of joseon,2025-10,4400
+PH,atopalm,atopalm mle cream,2026-10,70
 PH,beauty of joseon,beauty of joseon,2025-11,5400
 PH,beauty of joseon,beauty of joseon,2025-12,4400
 PH,beauty of joseon,beauty of joseon,2026-01,4400
@@ -3419,7 +3418,7 @@ PH,beauty of joseon,beauty of joseon,2026-06,3600
 PH,beauty of joseon,beauty of joseon,2026-07,2900
 PH,beauty of joseon,beauty of joseon,2026-08,2900
 PH,beauty of joseon,beauty of joseon,2026-09,2900
-PH,biodance,biodance,2025-10,720
+PH,beauty of joseon,beauty of joseon,2026-10,2900
 PH,biodance,biodance,2025-11,720
 PH,biodance,biodance,2025-12,720
 PH,biodance,biodance,2026-01,720
@@ -3430,8 +3429,8 @@ PH,biodance,biodance,2026-05,880
 PH,biodance,biodance,2026-06,880
 PH,biodance,biodance,2026-07,880
 PH,biodance,biodance,2026-08,1000
-PH,biodance,biodance,2026-09,880
-PH,cosrx,cosrx,2025-10,6600
+PH,biodance,biodance,2026-09,1000
+PH,biodance,biodance,2026-10,1300
 PH,cosrx,cosrx,2025-11,6600
 PH,cosrx,cosrx,2025-12,6600
 PH,cosrx,cosrx,2026-01,6600
@@ -3443,7 +3442,7 @@ PH,cosrx,cosrx,2026-06,5400
 PH,cosrx,cosrx,2026-07,6600
 PH,cosrx,cosrx,2026-08,6600
 PH,cosrx,cosrx,2026-09,5400
-PH,d'alba,d'alba,2025-10,3600
+PH,cosrx,cosrx,2026-10,6600
 PH,d'alba,d'alba,2025-11,3600
 PH,d'alba,d'alba,2025-12,4400
 PH,d'alba,d'alba,2026-01,3600
@@ -3454,8 +3453,8 @@ PH,d'alba,d'alba,2026-05,3600
 PH,d'alba,d'alba,2026-06,3600
 PH,d'alba,d'alba,2026-07,3600
 PH,d'alba,d'alba,2026-08,3600
-PH,d'alba,d'alba,2026-09,2900
-PH,isntree,isntree,2025-10,880
+PH,d'alba,d'alba,2026-09,3600
+PH,d'alba,d'alba,2026-10,4400
 PH,isntree,isntree,2025-11,880
 PH,isntree,isntree,2025-12,880
 PH,isntree,isntree,2026-01,880
@@ -3467,19 +3466,19 @@ PH,isntree,isntree,2026-06,880
 PH,isntree,isntree,2026-07,720
 PH,isntree,isntree,2026-08,720
 PH,isntree,isntree,2026-09,590
-PH,laneige,laneige,2025-10,3600
+PH,isntree,isntree,2026-10,880
 PH,laneige,laneige,2025-11,4400
 PH,laneige,laneige,2025-12,5400
 PH,laneige,laneige,2026-01,5400
 PH,laneige,laneige,2026-02,4400
 PH,laneige,laneige,2026-03,4400
-PH,laneige,laneige,2026-04,3600
+PH,laneige,laneige,2026-04,4400
 PH,laneige,laneige,2026-05,3600
 PH,laneige,laneige,2026-06,3600
 PH,laneige,laneige,2026-07,3600
 PH,laneige,laneige,2026-08,2900
 PH,laneige,laneige,2026-09,4400
-PH,madeca cream,centellian 24,2025-10,320
+PH,laneige,laneige,2026-10,3600
 PH,madeca cream,centellian 24,2025-11,260
 PH,madeca cream,centellian 24,2025-12,260
 PH,madeca cream,centellian 24,2026-01,260
@@ -3491,7 +3490,7 @@ PH,madeca cream,centellian 24,2026-06,260
 PH,madeca cream,centellian 24,2026-07,260
 PH,madeca cream,centellian 24,2026-08,210
 PH,madeca cream,centellian 24,2026-09,260
-PH,madeca cream,madeca cream,2025-10,480
+PH,madeca cream,centellian 24,2026-10,390
 PH,madeca cream,madeca cream,2025-11,880
 PH,madeca cream,madeca cream,2025-12,880
 PH,madeca cream,madeca cream,2026-01,1300
@@ -3503,7 +3502,7 @@ PH,madeca cream,madeca cream,2026-06,1600
 PH,madeca cream,madeca cream,2026-07,1000
 PH,madeca cream,madeca cream,2026-08,1300
 PH,madeca cream,madeca cream,2026-09,1300
-PH,manyo,manyo,2025-10,260
+PH,madeca cream,madeca cream,2026-10,1900
 PH,manyo,manyo,2025-11,210
 PH,manyo,manyo,2025-12,260
 PH,manyo,manyo,2026-01,260
@@ -3515,7 +3514,7 @@ PH,manyo,manyo,2026-06,170
 PH,manyo,manyo,2026-07,210
 PH,manyo,manyo,2026-08,260
 PH,manyo,manyo,2026-09,170
-PH,medicube,medicube,2025-10,2900
+PH,manyo,manyo,2026-10,260
 PH,medicube,medicube,2025-11,4400
 PH,medicube,medicube,2025-12,3600
 PH,medicube,medicube,2026-01,3600
@@ -3527,7 +3526,7 @@ PH,medicube,medicube,2026-06,4400
 PH,medicube,medicube,2026-07,4400
 PH,medicube,medicube,2026-08,5400
 PH,medicube,medicube,2026-09,5400
-PH,mixsoon,mixsoon,2025-10,390
+PH,medicube,medicube,2026-10,5400
 PH,mixsoon,mixsoon,2025-11,480
 PH,mixsoon,mixsoon,2025-12,480
 PH,mixsoon,mixsoon,2026-01,480
@@ -3539,8 +3538,8 @@ PH,mixsoon,mixsoon,2026-06,320
 PH,mixsoon,mixsoon,2026-07,390
 PH,mixsoon,mixsoon,2026-08,320
 PH,mixsoon,mixsoon,2026-09,260
-PH,numbuzin,numbuzin,2025-10,590
-PH,numbuzin,numbuzin,2025-11,880
+PH,mixsoon,mixsoon,2026-10,260
+PH,numbuzin,numbuzin,2025-11,1000
 PH,numbuzin,numbuzin,2025-12,1300
 PH,numbuzin,numbuzin,2026-01,1300
 PH,numbuzin,numbuzin,2026-02,720
@@ -3551,19 +3550,19 @@ PH,numbuzin,numbuzin,2026-06,1300
 PH,numbuzin,numbuzin,2026-07,1000
 PH,numbuzin,numbuzin,2026-08,1000
 PH,numbuzin,numbuzin,2026-09,880
-PH,reedle shot,reedle shot,2025-10,720
+PH,numbuzin,numbuzin,2026-10,1000
 PH,reedle shot,reedle shot,2025-11,880
 PH,reedle shot,reedle shot,2025-12,880
 PH,reedle shot,reedle shot,2026-01,880
-PH,reedle shot,reedle shot,2026-02,590
-PH,reedle shot,reedle shot,2026-03,720
-PH,reedle shot,reedle shot,2026-04,720
-PH,reedle shot,reedle shot,2026-05,720
+PH,reedle shot,reedle shot,2026-02,720
+PH,reedle shot,reedle shot,2026-03,880
+PH,reedle shot,reedle shot,2026-04,880
+PH,reedle shot,reedle shot,2026-05,880
 PH,reedle shot,reedle shot,2026-06,720
 PH,reedle shot,reedle shot,2026-07,720
 PH,reedle shot,reedle shot,2026-08,720
-PH,reedle shot,reedle shot,2026-09,480
-PH,round lab,round lab,2025-10,880
+PH,reedle shot,reedle shot,2026-09,590
+PH,reedle shot,reedle shot,2026-10,720
 PH,round lab,round lab,2025-11,880
 PH,round lab,round lab,2025-12,880
 PH,round lab,round lab,2026-01,1000
@@ -3575,19 +3574,19 @@ PH,round lab,round lab,2026-06,1300
 PH,round lab,round lab,2026-07,1600
 PH,round lab,round lab,2026-08,1300
 PH,round lab,round lab,2026-09,1600
-PH,skin1004,skin1004,2025-10,3600
-PH,skin1004,skin1004,2025-11,3600
-PH,skin1004,skin1004,2025-12,3600
-PH,skin1004,skin1004,2026-01,4400
-PH,skin1004,skin1004,2026-02,3600
-PH,skin1004,skin1004,2026-03,3600
-PH,skin1004,skin1004,2026-04,3600
-PH,skin1004,skin1004,2026-05,2900
-PH,skin1004,skin1004,2026-06,2900
-PH,skin1004,skin1004,2026-07,3600
-PH,skin1004,skin1004,2026-08,3600
-PH,skin1004,skin1004,2026-09,2900
-PH,tirtir,tirtir,2025-10,2900
+PH,round lab,round lab,2026-10,1900
+PH,skin1004,skin1004,2025-11,5400
+PH,skin1004,skin1004,2025-12,5400
+PH,skin1004,skin1004,2026-01,5400
+PH,skin1004,skin1004,2026-02,4400
+PH,skin1004,skin1004,2026-03,5400
+PH,skin1004,skin1004,2026-04,5400
+PH,skin1004,skin1004,2026-05,4400
+PH,skin1004,skin1004,2026-06,4400
+PH,skin1004,skin1004,2026-07,5400
+PH,skin1004,skin1004,2026-08,5400
+PH,skin1004,skin1004,2026-09,4400
+PH,skin1004,skin1004,2026-10,4400
 PH,tirtir,tirtir,2025-11,4400
 PH,tirtir,tirtir,2025-12,2400
 PH,tirtir,tirtir,2026-01,2400
@@ -3599,7 +3598,7 @@ PH,tirtir,tirtir,2026-06,1900
 PH,tirtir,tirtir,2026-07,1600
 PH,tirtir,tirtir,2026-08,1600
 PH,tirtir,tirtir,2026-09,1600
-PH,torriden,torriden,2025-10,1300
+PH,tirtir,tirtir,2026-10,4400
 PH,torriden,torriden,2025-11,1300
 PH,torriden,torriden,2025-12,1600
 PH,torriden,torriden,2026-01,1900
@@ -3611,7 +3610,7 @@ PH,torriden,torriden,2026-06,3600
 PH,torriden,torriden,2026-07,2900
 PH,torriden,torriden,2026-08,2900
 PH,torriden,torriden,2026-09,2900
-SG,abib,abib,2025-10,1300
+PH,torriden,torriden,2026-10,4400
 SG,abib,abib,2025-11,720
 SG,abib,abib,2025-12,590
 SG,abib,abib,2026-01,590
@@ -3623,7 +3622,7 @@ SG,abib,abib,2026-06,590
 SG,abib,abib,2026-07,480
 SG,abib,abib,2026-08,720
 SG,abib,abib,2026-09,590
-SG,anua,anua,2025-10,1600
+SG,abib,abib,2026-10,720
 SG,anua,anua,2025-11,1600
 SG,anua,anua,2025-12,1900
 SG,anua,anua,2026-01,1600
@@ -3635,7 +3634,7 @@ SG,anua,anua,2026-06,2400
 SG,anua,anua,2026-07,2400
 SG,anua,anua,2026-08,1900
 SG,anua,anua,2026-09,1900
-SG,atopalm,atopalm,2025-10,590
+SG,anua,anua,2026-10,2400
 SG,atopalm,atopalm,2025-11,590
 SG,atopalm,atopalm,2025-12,590
 SG,atopalm,atopalm,2026-01,480
@@ -3647,7 +3646,7 @@ SG,atopalm,atopalm,2026-06,590
 SG,atopalm,atopalm,2026-07,480
 SG,atopalm,atopalm,2026-08,720
 SG,atopalm,atopalm,2026-09,590
-SG,atopalm,atopalm cream,2025-10,20
+SG,atopalm,atopalm,2026-10,880
 SG,atopalm,atopalm cream,2025-11,40
 SG,atopalm,atopalm cream,2025-12,40
 SG,atopalm,atopalm cream,2026-01,20
@@ -3659,7 +3658,7 @@ SG,atopalm,atopalm cream,2026-06,20
 SG,atopalm,atopalm cream,2026-07,20
 SG,atopalm,atopalm cream,2026-08,40
 SG,atopalm,atopalm cream,2026-09,40
-SG,atopalm,atopalm mle cream,2025-10,210
+SG,atopalm,atopalm cream,2026-10,50
 SG,atopalm,atopalm mle cream,2025-11,260
 SG,atopalm,atopalm mle cream,2025-12,260
 SG,atopalm,atopalm mle cream,2026-01,170
@@ -3671,7 +3670,7 @@ SG,atopalm,atopalm mle cream,2026-06,210
 SG,atopalm,atopalm mle cream,2026-07,210
 SG,atopalm,atopalm mle cream,2026-08,320
 SG,atopalm,atopalm mle cream,2026-09,210
-SG,beauty of joseon,beauty of joseon,2025-10,3600
+SG,atopalm,atopalm mle cream,2026-10,390
 SG,beauty of joseon,beauty of joseon,2025-11,3600
 SG,beauty of joseon,beauty of joseon,2025-12,2900
 SG,beauty of joseon,beauty of joseon,2026-01,2900
@@ -3683,7 +3682,7 @@ SG,beauty of joseon,beauty of joseon,2026-06,2900
 SG,beauty of joseon,beauty of joseon,2026-07,2900
 SG,beauty of joseon,beauty of joseon,2026-08,2900
 SG,beauty of joseon,beauty of joseon,2026-09,2900
-SG,biodance,biodance,2025-10,1300
+SG,beauty of joseon,beauty of joseon,2026-10,2900
 SG,biodance,biodance,2025-11,1300
 SG,biodance,biodance,2025-12,1600
 SG,biodance,biodance,2026-01,1000
@@ -3695,7 +3694,7 @@ SG,biodance,biodance,2026-06,1300
 SG,biodance,biodance,2026-07,1300
 SG,biodance,biodance,2026-08,1300
 SG,biodance,biodance,2026-09,1300
-SG,cosrx,cosrx,2025-10,2900
+SG,biodance,biodance,2026-10,1600
 SG,cosrx,cosrx,2025-11,2900
 SG,cosrx,cosrx,2025-12,2900
 SG,cosrx,cosrx,2026-01,2400
@@ -3707,7 +3706,7 @@ SG,cosrx,cosrx,2026-06,2400
 SG,cosrx,cosrx,2026-07,2400
 SG,cosrx,cosrx,2026-08,2400
 SG,cosrx,cosrx,2026-09,2400
-SG,d'alba,d'alba,2025-10,1600
+SG,cosrx,cosrx,2026-10,2400
 SG,d'alba,d'alba,2025-11,1900
 SG,d'alba,d'alba,2025-12,1600
 SG,d'alba,d'alba,2026-01,1300
@@ -3719,7 +3718,7 @@ SG,d'alba,d'alba,2026-06,1600
 SG,d'alba,d'alba,2026-07,1600
 SG,d'alba,d'alba,2026-08,1600
 SG,d'alba,d'alba,2026-09,1300
-SG,isntree,isntree,2025-10,590
+SG,d'alba,d'alba,2026-10,1900
 SG,isntree,isntree,2025-11,480
 SG,isntree,isntree,2025-12,480
 SG,isntree,isntree,2026-01,390
@@ -3731,7 +3730,7 @@ SG,isntree,isntree,2026-06,320
 SG,isntree,isntree,2026-07,320
 SG,isntree,isntree,2026-08,390
 SG,isntree,isntree,2026-09,390
-SG,laneige,laneige,2025-10,6600
+SG,isntree,isntree,2026-10,480
 SG,laneige,laneige,2025-11,8100
 SG,laneige,laneige,2025-12,8100
 SG,laneige,laneige,2026-01,6600
@@ -3743,7 +3742,7 @@ SG,laneige,laneige,2026-06,4400
 SG,laneige,laneige,2026-07,5400
 SG,laneige,laneige,2026-08,5400
 SG,laneige,laneige,2026-09,5400
-SG,madeca cream,centellian 24,2025-10,480
+SG,laneige,laneige,2026-10,5400
 SG,madeca cream,centellian 24,2025-11,390
 SG,madeca cream,centellian 24,2025-12,390
 SG,madeca cream,centellian 24,2026-01,320
@@ -3755,7 +3754,7 @@ SG,madeca cream,centellian 24,2026-06,720
 SG,madeca cream,centellian 24,2026-07,720
 SG,madeca cream,centellian 24,2026-08,590
 SG,madeca cream,centellian 24,2026-09,720
-SG,madeca cream,madeca cream,2025-10,720
+SG,madeca cream,centellian 24,2026-10,1300
 SG,madeca cream,madeca cream,2025-11,1300
 SG,madeca cream,madeca cream,2025-12,1300
 SG,madeca cream,madeca cream,2026-01,1000
@@ -3767,7 +3766,7 @@ SG,madeca cream,madeca cream,2026-06,1900
 SG,madeca cream,madeca cream,2026-07,1600
 SG,madeca cream,madeca cream,2026-08,1600
 SG,madeca cream,madeca cream,2026-09,2400
-SG,manyo,manyo,2025-10,210
+SG,madeca cream,madeca cream,2026-10,3600
 SG,manyo,manyo,2025-11,260
 SG,manyo,manyo,2025-12,210
 SG,manyo,manyo,2026-01,210
@@ -3779,7 +3778,7 @@ SG,manyo,manyo,2026-06,210
 SG,manyo,manyo,2026-07,170
 SG,manyo,manyo,2026-08,210
 SG,manyo,manyo,2026-09,210
-SG,medicube,medicube,2025-10,6600
+SG,manyo,manyo,2026-10,320
 SG,medicube,medicube,2025-11,8100
 SG,medicube,medicube,2025-12,6600
 SG,medicube,medicube,2026-01,6600
@@ -3791,7 +3790,7 @@ SG,medicube,medicube,2026-06,5400
 SG,medicube,medicube,2026-07,6600
 SG,medicube,medicube,2026-08,9900
 SG,medicube,medicube,2026-09,5400
-SG,mixsoon,mixsoon,2025-10,390
+SG,medicube,medicube,2026-10,6600
 SG,mixsoon,mixsoon,2025-11,480
 SG,mixsoon,mixsoon,2025-12,390
 SG,mixsoon,mixsoon,2026-01,320
@@ -3803,7 +3802,7 @@ SG,mixsoon,mixsoon,2026-06,320
 SG,mixsoon,mixsoon,2026-07,320
 SG,mixsoon,mixsoon,2026-08,260
 SG,mixsoon,mixsoon,2026-09,260
-SG,numbuzin,numbuzin,2025-10,880
+SG,mixsoon,mixsoon,2026-10,320
 SG,numbuzin,numbuzin,2025-11,1000
 SG,numbuzin,numbuzin,2025-12,880
 SG,numbuzin,numbuzin,2026-01,880
@@ -3815,19 +3814,19 @@ SG,numbuzin,numbuzin,2026-06,1300
 SG,numbuzin,numbuzin,2026-07,1000
 SG,numbuzin,numbuzin,2026-08,1000
 SG,numbuzin,numbuzin,2026-09,880
-SG,reedle shot,reedle shot,2025-10,1300
+SG,numbuzin,numbuzin,2026-10,1300
 SG,reedle shot,reedle shot,2025-11,1300
 SG,reedle shot,reedle shot,2025-12,1300
 SG,reedle shot,reedle shot,2026-01,1000
 SG,reedle shot,reedle shot,2026-02,720
-SG,reedle shot,reedle shot,2026-03,880
-SG,reedle shot,reedle shot,2026-04,880
+SG,reedle shot,reedle shot,2026-03,1000
+SG,reedle shot,reedle shot,2026-04,1000
 SG,reedle shot,reedle shot,2026-05,880
 SG,reedle shot,reedle shot,2026-06,880
 SG,reedle shot,reedle shot,2026-07,720
-SG,reedle shot,reedle shot,2026-08,590
-SG,reedle shot,reedle shot,2026-09,590
-SG,round lab,round lab,2025-10,1000
+SG,reedle shot,reedle shot,2026-08,720
+SG,reedle shot,reedle shot,2026-09,720
+SG,reedle shot,reedle shot,2026-10,880
 SG,round lab,round lab,2025-11,880
 SG,round lab,round lab,2025-12,880
 SG,round lab,round lab,2026-01,880
@@ -3839,19 +3838,19 @@ SG,round lab,round lab,2026-06,880
 SG,round lab,round lab,2026-07,880
 SG,round lab,round lab,2026-08,1000
 SG,round lab,round lab,2026-09,1000
-SG,skin1004,skin1004,2025-10,2400
-SG,skin1004,skin1004,2025-11,1900
-SG,skin1004,skin1004,2025-12,1900
-SG,skin1004,skin1004,2026-01,1600
-SG,skin1004,skin1004,2026-02,1300
-SG,skin1004,skin1004,2026-03,1600
-SG,skin1004,skin1004,2026-04,1600
-SG,skin1004,skin1004,2026-05,1600
-SG,skin1004,skin1004,2026-06,1600
-SG,skin1004,skin1004,2026-07,1600
-SG,skin1004,skin1004,2026-08,1900
-SG,skin1004,skin1004,2026-09,1600
-SG,tirtir,tirtir,2025-10,1600
+SG,round lab,round lab,2026-10,1300
+SG,skin1004,skin1004,2025-11,2400
+SG,skin1004,skin1004,2025-12,2400
+SG,skin1004,skin1004,2026-01,1900
+SG,skin1004,skin1004,2026-02,1600
+SG,skin1004,skin1004,2026-03,1900
+SG,skin1004,skin1004,2026-04,2400
+SG,skin1004,skin1004,2026-05,2400
+SG,skin1004,skin1004,2026-06,1900
+SG,skin1004,skin1004,2026-07,1900
+SG,skin1004,skin1004,2026-08,2400
+SG,skin1004,skin1004,2026-09,1900
+SG,skin1004,skin1004,2026-10,1900
 SG,tirtir,tirtir,2025-11,2400
 SG,tirtir,tirtir,2025-12,1600
 SG,tirtir,tirtir,2026-01,1300
@@ -3863,7 +3862,7 @@ SG,tirtir,tirtir,2026-06,1000
 SG,tirtir,tirtir,2026-07,880
 SG,tirtir,tirtir,2026-08,880
 SG,tirtir,tirtir,2026-09,1000
-SG,torriden,torriden,2025-10,3600
+SG,tirtir,tirtir,2026-10,1000
 SG,torriden,torriden,2025-11,3600
 SG,torriden,torriden,2025-12,3600
 SG,torriden,torriden,2026-01,3600
@@ -3875,7 +3874,7 @@ SG,torriden,torriden,2026-06,3600
 SG,torriden,torriden,2026-07,3600
 SG,torriden,torriden,2026-08,3600
 SG,torriden,torriden,2026-09,4400
-US,abib,abib,2025-10,9900
+SG,torriden,torriden,2026-10,5400
 US,abib,abib,2025-11,9900
 US,abib,abib,2025-12,9900
 US,abib,abib,2026-01,9900
@@ -3887,7 +3886,7 @@ US,abib,abib,2026-06,8100
 US,abib,abib,2026-07,8100
 US,abib,abib,2026-08,8100
 US,abib,abib,2026-09,8100
-US,anua,anua,2025-10,49500
+US,abib,abib,2026-10,8100
 US,anua,anua,2025-11,60500
 US,anua,anua,2025-12,60500
 US,anua,anua,2026-01,60500
@@ -3899,7 +3898,7 @@ US,anua,anua,2026-06,74000
 US,anua,anua,2026-07,60500
 US,anua,anua,2026-08,74000
 US,anua,anua,2026-09,74000
-US,atopalm,atopalm,2025-10,2400
+US,anua,anua,2026-10,74000
 US,atopalm,atopalm,2025-11,2400
 US,atopalm,atopalm,2025-12,2400
 US,atopalm,atopalm,2026-01,1900
@@ -3911,7 +3910,7 @@ US,atopalm,atopalm,2026-06,2900
 US,atopalm,atopalm,2026-07,1600
 US,atopalm,atopalm,2026-08,1900
 US,atopalm,atopalm,2026-09,1600
-US,atopalm,atopalm cream,2025-10,480
+US,atopalm,atopalm,2026-10,2400
 US,atopalm,atopalm cream,2025-11,590
 US,atopalm,atopalm cream,2025-12,480
 US,atopalm,atopalm cream,2026-01,480
@@ -3923,7 +3922,7 @@ US,atopalm,atopalm cream,2026-06,720
 US,atopalm,atopalm cream,2026-07,320
 US,atopalm,atopalm cream,2026-08,320
 US,atopalm,atopalm cream,2026-09,260
-US,atopalm,atopalm mle cream,2025-10,2400
+US,atopalm,atopalm cream,2026-10,590
 US,atopalm,atopalm mle cream,2025-11,2400
 US,atopalm,atopalm mle cream,2025-12,1900
 US,atopalm,atopalm mle cream,2026-01,1900
@@ -3935,7 +3934,7 @@ US,atopalm,atopalm mle cream,2026-06,2900
 US,atopalm,atopalm mle cream,2026-07,1600
 US,atopalm,atopalm mle cream,2026-08,1900
 US,atopalm,atopalm mle cream,2026-09,1300
-US,beauty of joseon,beauty of joseon,2025-10,90500
+US,atopalm,atopalm mle cream,2026-10,2900
 US,beauty of joseon,beauty of joseon,2025-11,110000
 US,beauty of joseon,beauty of joseon,2025-12,110000
 US,beauty of joseon,beauty of joseon,2026-01,110000
@@ -3947,8 +3946,8 @@ US,beauty of joseon,beauty of joseon,2026-06,110000
 US,beauty of joseon,beauty of joseon,2026-07,110000
 US,beauty of joseon,beauty of joseon,2026-08,90500
 US,beauty of joseon,beauty of joseon,2026-09,90500
-US,biodance,biodance,2025-10,14800
-US,biodance,biodance,2025-11,18100
+US,beauty of joseon,beauty of joseon,2026-10,90500
+US,biodance,biodance,2025-11,22200
 US,biodance,biodance,2025-12,27100
 US,biodance,biodance,2026-01,22200
 US,biodance,biodance,2026-02,18100
@@ -3958,8 +3957,8 @@ US,biodance,biodance,2026-05,27100
 US,biodance,biodance,2026-06,40500
 US,biodance,biodance,2026-07,33100
 US,biodance,biodance,2026-08,33100
-US,biodance,biodance,2026-09,27100
-US,cosrx,cosrx,2025-10,49500
+US,biodance,biodance,2026-09,33100
+US,biodance,biodance,2026-10,33100
 US,cosrx,cosrx,2025-11,60500
 US,cosrx,cosrx,2025-12,60500
 US,cosrx,cosrx,2026-01,60500
@@ -3971,7 +3970,7 @@ US,cosrx,cosrx,2026-06,49500
 US,cosrx,cosrx,2026-07,40500
 US,cosrx,cosrx,2026-08,49500
 US,cosrx,cosrx,2026-09,49500
-US,d'alba,d'alba,2025-10,27100
+US,cosrx,cosrx,2026-10,60500
 US,d'alba,d'alba,2025-11,27100
 US,d'alba,d'alba,2025-12,27100
 US,d'alba,d'alba,2026-01,27100
@@ -3983,7 +3982,7 @@ US,d'alba,d'alba,2026-06,27100
 US,d'alba,d'alba,2026-07,27100
 US,d'alba,d'alba,2026-08,27100
 US,d'alba,d'alba,2026-09,22200
-US,isntree,isntree,2025-10,2900
+US,d'alba,d'alba,2026-10,27100
 US,isntree,isntree,2025-11,2900
 US,isntree,isntree,2025-12,2900
 US,isntree,isntree,2026-01,2900
@@ -3995,7 +3994,7 @@ US,isntree,isntree,2026-06,3600
 US,isntree,isntree,2026-07,3600
 US,isntree,isntree,2026-08,3600
 US,isntree,isntree,2026-09,2900
-US,laneige,laneige,2025-10,135000
+US,isntree,isntree,2026-10,2900
 US,laneige,laneige,2025-11,246000
 US,laneige,laneige,2025-12,246000
 US,laneige,laneige,2026-01,201000
@@ -4007,7 +4006,7 @@ US,laneige,laneige,2026-06,74000
 US,laneige,laneige,2026-07,90500
 US,laneige,laneige,2026-08,74000
 US,laneige,laneige,2026-09,90500
-US,madeca cream,centellian 24,2025-10,2900
+US,laneige,laneige,2026-10,90500
 US,madeca cream,centellian 24,2025-11,4400
 US,madeca cream,centellian 24,2025-12,6600
 US,madeca cream,centellian 24,2026-01,8100
@@ -4019,7 +4018,7 @@ US,madeca cream,centellian 24,2026-06,5400
 US,madeca cream,centellian 24,2026-07,5400
 US,madeca cream,centellian 24,2026-08,8100
 US,madeca cream,centellian 24,2026-09,9900
-US,madeca cream,madeca cream,2025-10,12100
+US,madeca cream,centellian 24,2026-10,12100
 US,madeca cream,madeca cream,2025-11,22200
 US,madeca cream,madeca cream,2025-12,33100
 US,madeca cream,madeca cream,2026-01,33100
@@ -4031,7 +4030,7 @@ US,madeca cream,madeca cream,2026-06,22200
 US,madeca cream,madeca cream,2026-07,27100
 US,madeca cream,madeca cream,2026-08,33100
 US,madeca cream,madeca cream,2026-09,33100
-US,manyo,manyo,2025-10,4400
+US,madeca cream,madeca cream,2026-10,60500
 US,manyo,manyo,2025-11,5400
 US,manyo,manyo,2025-12,4400
 US,manyo,manyo,2026-01,4400
@@ -4043,7 +4042,7 @@ US,manyo,manyo,2026-06,4400
 US,manyo,manyo,2026-07,5400
 US,manyo,manyo,2026-08,4400
 US,manyo,manyo,2026-09,4400
-US,medicube,medicube,2025-10,246000
+US,manyo,manyo,2026-10,4400
 US,medicube,medicube,2025-11,368000
 US,medicube,medicube,2025-12,368000
 US,medicube,medicube,2026-01,368000
@@ -4055,7 +4054,7 @@ US,medicube,medicube,2026-06,368000
 US,medicube,medicube,2026-07,368000
 US,medicube,medicube,2026-08,368000
 US,medicube,medicube,2026-09,368000
-US,mixsoon,mixsoon,2025-10,22200
+US,medicube,medicube,2026-10,450000
 US,mixsoon,mixsoon,2025-11,27100
 US,mixsoon,mixsoon,2025-12,27100
 US,mixsoon,mixsoon,2026-01,22200
@@ -4067,10 +4066,10 @@ US,mixsoon,mixsoon,2026-06,14800
 US,mixsoon,mixsoon,2026-07,14800
 US,mixsoon,mixsoon,2026-08,14800
 US,mixsoon,mixsoon,2026-09,12100
-US,numbuzin,numbuzin,2025-10,9900
+US,mixsoon,mixsoon,2026-10,12100
 US,numbuzin,numbuzin,2025-11,12100
 US,numbuzin,numbuzin,2025-12,12100
-US,numbuzin,numbuzin,2026-01,14800
+US,numbuzin,numbuzin,2026-01,18100
 US,numbuzin,numbuzin,2026-02,14800
 US,numbuzin,numbuzin,2026-03,14800
 US,numbuzin,numbuzin,2026-04,14800
@@ -4079,19 +4078,19 @@ US,numbuzin,numbuzin,2026-06,14800
 US,numbuzin,numbuzin,2026-07,18100
 US,numbuzin,numbuzin,2026-08,14800
 US,numbuzin,numbuzin,2026-09,14800
-US,reedle shot,reedle shot,2025-10,9900
+US,numbuzin,numbuzin,2026-10,18100
 US,reedle shot,reedle shot,2025-11,12100
 US,reedle shot,reedle shot,2025-12,14800
 US,reedle shot,reedle shot,2026-01,14800
-US,reedle shot,reedle shot,2026-02,12100
+US,reedle shot,reedle shot,2026-02,14800
 US,reedle shot,reedle shot,2026-03,12100
 US,reedle shot,reedle shot,2026-04,9900
-US,reedle shot,reedle shot,2026-05,9900
+US,reedle shot,reedle shot,2026-05,12100
 US,reedle shot,reedle shot,2026-06,9900
 US,reedle shot,reedle shot,2026-07,9900
 US,reedle shot,reedle shot,2026-08,9900
-US,reedle shot,reedle shot,2026-09,8100
-US,round lab,round lab,2025-10,12100
+US,reedle shot,reedle shot,2026-09,9900
+US,reedle shot,reedle shot,2026-10,9900
 US,round lab,round lab,2025-11,18100
 US,round lab,round lab,2025-12,18100
 US,round lab,round lab,2026-01,18100
@@ -4103,19 +4102,19 @@ US,round lab,round lab,2026-06,14800
 US,round lab,round lab,2026-07,14800
 US,round lab,round lab,2026-08,14800
 US,round lab,round lab,2026-09,14800
-US,skin1004,skin1004,2025-10,22200
-US,skin1004,skin1004,2025-11,40500
-US,skin1004,skin1004,2025-12,27100
-US,skin1004,skin1004,2026-01,27100
-US,skin1004,skin1004,2026-02,22200
-US,skin1004,skin1004,2026-03,22200
-US,skin1004,skin1004,2026-04,22200
-US,skin1004,skin1004,2026-05,22200
-US,skin1004,skin1004,2026-06,33100
-US,skin1004,skin1004,2026-07,33100
-US,skin1004,skin1004,2026-08,33100
-US,skin1004,skin1004,2026-09,27100
-US,tirtir,tirtir,2025-10,40500
+US,round lab,round lab,2026-10,12100
+US,skin1004,skin1004,2025-11,49500
+US,skin1004,skin1004,2025-12,40500
+US,skin1004,skin1004,2026-01,40500
+US,skin1004,skin1004,2026-02,33100
+US,skin1004,skin1004,2026-03,33100
+US,skin1004,skin1004,2026-04,33100
+US,skin1004,skin1004,2026-05,33100
+US,skin1004,skin1004,2026-06,40500
+US,skin1004,skin1004,2026-07,40500
+US,skin1004,skin1004,2026-08,40500
+US,skin1004,skin1004,2026-09,40500
+US,skin1004,skin1004,2026-10,49500
 US,tirtir,tirtir,2025-11,60500
 US,tirtir,tirtir,2025-12,40500
 US,tirtir,tirtir,2026-01,40500
@@ -4127,7 +4126,7 @@ US,tirtir,tirtir,2026-06,33100
 US,tirtir,tirtir,2026-07,27100
 US,tirtir,tirtir,2026-08,27100
 US,tirtir,tirtir,2026-09,27100
-US,torriden,torriden,2025-10,14800
+US,tirtir,tirtir,2026-10,27100
 US,torriden,torriden,2025-11,14800
 US,torriden,torriden,2025-12,14800
 US,torriden,torriden,2026-01,18100
@@ -4139,6 +4138,7 @@ US,torriden,torriden,2026-06,22200
 US,torriden,torriden,2026-07,22200
 US,torriden,torriden,2026-08,22200
 US,torriden,torriden,2026-09,22200
+US,torriden,torriden,2026-10,22200
 VN,abib,abib,2025-10,1000
 VN,abib,abib,2025-11,1000
 VN,abib,abib,2025-12,880
