@@ -99,25 +99,79 @@ st.info("**왜 이 숫자를 보나**: JVM 이 미국 세관에 신고한 선하
         "즉 **JVM 소모품 수출의 월별 선행지표**. 기계(ATDPS·MENITH·COUNTMATE 본체)는 HS 8479.89 '기타 기계' 에 "
         "반도체·로봇 장비와 섞여 들어가 **대수나 금액을 따로 셀 수 없음** — 아래 '참고' 로만 둠.")
 
+with st.expander("🔎 '3920.71 = JVM 파우치 원단' 근거 — 직접 확인할 수 있는 링크", expanded=False):
+    st.markdown(f"""
+1. **미국 세관 선하증권 (1차 근거)** — [importyeti.com/supplier/jvm](https://www.importyeti.com/supplier/jvm)
+   (무료, 로그인 없이 열람 가능. 송하인 주소 *#121 Hosandong-Ro Dalseo-Gu Daegu* = JVM 본사).
+   페이지 중간 **"HTS Codes Pulled from Product Descriptions"** 표의 첫 줄:
+   `3920.71.00.00 … B/L CHNJ2PSMTR00884 — "30 Ctns Of ATDPS Packaging Paper (Automatic Tablet Dispensing & Packaging System)
+   Invoice No. JV20160217-MP1 HS Code 3920.71-0000"` — JVM 이 직접 쓴 송장 품목코드.
+   고객사 행(McKesson Automation Canada · Parata · Aesynt · Omnicell)에도 품목 *"Atdps Paper / Cellophane Paper"* 와 코드 **3920.71** 이 같이 나옴.
+2. **품목 정의** — HS 3920.71 = 재생 셀룰로오스(셀로판) 필름. JVM 파우치는 종이가 아니라 셀로판 계열 원단이라 이 코드로 분류됨
+   (관세청 품목분류: [unipass.customs.go.kr](https://unipass.customs.go.kr/clip/index.do) 에서 3920.71 검색).
+3. **한국 관세청 교차검증 (2차 근거)** — [tradedata.go.kr](https://tradedata.go.kr) 지역별(시도·시군구) 실적에서
+   3920.71 의 **대구 달서구 비중 {_dal_share:.0f}% ({_y_full}년)**. 달서구에 다른 셀로판 수출업체는 확인되지 않음.
+   행선지 상위 = 네덜란드(JVM Europe 법인)·캐나다(McKesson)·미국·스페인(Ti-Medi) — JVM 해외 거래처와 일치.
+4. **DART 교차검증** — 아래 분기 블록: 이 코드 수출액 × 환율 이 DART 소모품 수출액의 70~95% 를 설명, 분기 상관 0.77.
+
+**한계**: 3920.71 은 '셀로판 필름 전체' 코드라 나머지 ~{100 - _dal_share:.0f}% 는 다른 한국 업체 물량일 수 있음.
+위 ImportYeti 자료는 미국 해상 수입분만 다루고 2017년 이후 기록이 거의 없음 (캐나다 경유·항공 운송은 안 잡힘).
+""")
+
 # ---- 월별 추이
-sub("월별 수출 추이 — 최근 3년", "US$mn · 막대 = 권역별 · 주황 선 = 전년 같은 달 대비 % (YoY)")
-mr = cons.groupby(["month", "region"], as_index=False)["usd_mn"].sum()
-mr36 = mr[mr["month"] >= ms["month"].iloc[-36]].copy()
-mr36["date"] = pd.to_datetime(mr36["month"] + "-01")
-ms36 = ms.tail(36).copy(); ms36["date"] = pd.to_datetime(ms36["month"] + "-01")
-bar_m = alt.Chart(mr36).mark_bar().encode(
-    x=alt.X("date:T", title=None, axis=alt.Axis(format="%y %b", labelAngle=0)),
-    y=alt.Y("usd_mn:Q", title="월 수출 (US$mn)"),
-    color=alt.Color("region:N", title=None, scale=alt.Scale(domain=list(_regc), range=list(_regc.values())),
-                    legend=alt.Legend(orient="top")),
-    tooltip=[alt.Tooltip("date:T", format="%Y-%m"), "region", alt.Tooltip("usd_mn:Q", format=",.2f")])
-line_y = alt.Chart(ms36).mark_line(color="#eb6834", size=2.5, point=True).encode(
-    x=alt.X("date:T"), y=alt.Y("yoy:Q", title="YoY (%)"),
-    tooltip=[alt.Tooltip("date:T", format="%Y-%m"), alt.Tooltip("yoy:Q", format="+.1f")])
-st.altair_chart(alt.layer(bar_m, line_y).resolve_scale(y="independent").properties(height=340),
+sub("월별 수출 추이 — 최근 3년", "US$mn · 막대 = 권역별(전체) 또는 선택한 국가 · 주황 선 = 전년 같은 달 대비 % (YoY)")
+_ctot = (cons[cons["year"] == _y_full].groupby(["country_en", "country_kr", "region"], as_index=False)["usd_mn"]
+         .sum().sort_values("usd_mn", ascending=False))
+_ctot = _ctot[_ctot["usd_mn"] > 0.05]
+_copts = ["전체 (권역별 막대)"] + [f"{r.country_kr} ({r.country_en}) — {_y_full}년 ${r.usd_mn:,.2f}mn"
+                                  for r in _ctot.itertuples()]
+_csel = st.selectbox("국가 선택 — 처음엔 전체, 고르면 그 나라만", _copts, index=0, key="jvm_ctry")
+_ci = _copts.index(_csel) - 1
+_lab_month = ("slice(datum.value, 5) == '01' || slice(datum.value, 5) == '04' || "
+              "slice(datum.value, 5) == '07' || slice(datum.value, 5) == '10' ? "
+              "slice(datum.value, 2, 4) + '.' + slice(datum.value, 5) : ''")
+_xm = alt.X("month:O", title=None, axis=alt.Axis(labelExpr=_lab_month, labelAngle=0, tickSize=0),
+            scale=alt.Scale(paddingInner=0.18, paddingOuter=0.1))
+_m36 = ms["month"].iloc[-36]
+if _ci < 0:
+    mr = cons.groupby(["month", "region"], as_index=False)["usd_mn"].sum()
+    mr36 = mr[mr["month"] >= _m36].copy()
+    mr36 = mr36.merge(ms[["month", "usd_mn"]].rename(columns={"usd_mn": "tot"}), on="month", how="left")
+    ms36 = ms.tail(36).copy()
+    bar_m = alt.Chart(mr36).mark_bar().encode(
+        x=_xm, y=alt.Y("usd_mn:Q", title="월 수출 (US$mn)"),
+        color=alt.Color("region:N", title=None, scale=alt.Scale(domain=list(_regc), range=list(_regc.values())),
+                        legend=alt.Legend(orient="top")),
+        order=alt.Order("region:N"),
+        tooltip=[alt.Tooltip("month:O", title="월"), alt.Tooltip("region:N", title="권역"),
+                 alt.Tooltip("usd_mn:Q", format=",.2f", title="권역 수출 US$mn"),
+                 alt.Tooltip("tot:Q", format=",.2f", title="월 합계 US$mn")])
+    _ttl_line = "YoY (%) — 전국 합계"
+else:
+    _row = _ctot.iloc[_ci]
+    _c1 = cons[cons["country_en"] == _row.country_en].groupby("month", as_index=False)["usd_mn"].sum()
+    _c1 = ms[["month"]].merge(_c1, on="month", how="left").fillna({"usd_mn": 0.0}).sort_values("month")
+    _c1["yoy"] = ((_c1["usd_mn"] / _c1["usd_mn"].shift(12) - 1) * 100).replace(
+        [float("inf"), -float("inf")], float("nan"))
+    _c1["country"] = f"{_row.country_kr} ({_row.country_en})"
+    ms36 = _c1[_c1["month"] >= _m36].copy()
+    bar_m = alt.Chart(ms36).mark_bar(color=_regc.get(_row.region, "#2a78d6")).encode(
+        x=_xm, y=alt.Y("usd_mn:Q", title=f"월 수출 (US$mn) — {_row.country_kr}"),
+        tooltip=[alt.Tooltip("month:O", title="월"), alt.Tooltip("country:N", title="국가"),
+                 alt.Tooltip("usd_mn:Q", format=",.2f", title="수출 US$mn"),
+                 alt.Tooltip("yoy:Q", format="+.1f", title="YoY %")])
+    _ttl_line = f"YoY (%) — {_row.country_kr}"
+ms36 = ms36.assign(yoy_c=ms36["yoy"].clip(upper=200))   # 선은 +200% 에서 자름 (0 에 가까운 달 때문에 축이 터지는 것 방지)
+line_y = alt.Chart(ms36).mark_line(color="#eb6834", size=2.5, point=alt.OverlayMarkDef(size=45)).encode(
+    x=_xm, y=alt.Y("yoy_c:Q", title=_ttl_line + " · +200% 상한"),
+    tooltip=[alt.Tooltip("month:O", title="월"), alt.Tooltip("usd_mn:Q", format=",.2f", title="수출 US$mn"),
+             alt.Tooltip("yoy:Q", format="+.1f", title="YoY %")])
+st.altair_chart(alt.layer(bar_m, line_y).resolve_scale(y="independent").properties(height=360)
+                .configure_axis(labelFontSize=12, titleFontSize=12).configure_legend(labelFontSize=12),
                 use_container_width=True)
 st.caption("**읽는법**: 월별은 선적 타이밍 때문에 들쭉날쭉(한 달 0 도 나옴) — 한 달 숫자보다 3개월·12개월 합으로 볼 것. "
-           "초록 = 유럽(네덜란드·스페인·벨기에·프랑스 등), 주황 = 북미(캐나다·미국). 확정통계는 약 5주 시차.")
+           "초록 = 유럽(네덜란드·스페인·벨기에·프랑스 등), 주황 = 북미(캐나다·미국). 확정통계는 약 5주 시차. "
+           "국가를 고르면 막대·YoY 선 모두 그 나라 숫자로 바뀜.")
 
 # ---- 12개월 누적 + 연도별
 x1, x2 = st.columns(2, gap="large")
