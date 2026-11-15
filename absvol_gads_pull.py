@@ -66,21 +66,28 @@ def main():
             print(f"  {geo}: 코드 없음 (absvol_meta.json 확인)")
             continue
         loc, lang = codes[geo]
+        time.sleep(6)                       # 분당 12회 제한 밑으로 (16개국 x 6초 = 1.6분)
         k2b = {kw: b for b in BRANDS for kw in keywords_for(b, geo)}
-        js = None
-        for attempt in range(3):
+        js, task = None, {}
+        for attempt in range(4):
             try:
                 r = requests.post(API, json=[{"keywords": list(k2b), "location_code": loc, "language_code": lang}],
                                   headers={"Authorization": "Basic " + auth}, timeout=90)
                 r.raise_for_status()
                 js = r.json()
-                break
             except Exception as e:
-                print(f"  {geo}: {type(e).__name__} 재시도 {attempt + 1}/3")
+                print(f"  {geo}: {type(e).__name__} 재시도 {attempt + 1}/4")
                 time.sleep(15)
+                continue
+            task = (js.get("tasks") or [{}])[0]
+            # DataForSEO 분당 12회 제한 — 2026-11-14 ALL 실행에서 MY·ID·VN·IN 4개국이 이 오류로 빠졌음. 1분 쉬고 재시도.
+            if task.get("status_code") == 40202 or "rates limit" in str(task.get("status_message", "")).lower():
+                print(f"  {geo}: 분당 호출 제한 — 65초 쉬고 재시도 {attempt + 1}/4")
+                time.sleep(65)
+                continue
+            break
         if js is None:
             continue
-        task = (js.get("tasks") or [{}])[0]
         if task.get("status_code") != 20000:
             print(f"  {geo}: API 오류 {task.get('status_message')}")
             continue

@@ -1,5 +1,5 @@
 {
- "fetched": "2026-11-14T07:35:55",
+ "fetched": "2026-11-16T08:22:45",
  "geos": [
   "AU",
   "BR",
@@ -19,9 +19,9 @@
   "VN"
  ],
  "months": [
-  "2025-10",
+  "2025-11",
   "2026-10"
  ],
- "cost_usd_this_run": 1.08,
+ "cost_usd_this_run": 0.36,
  "source": "DataForSEO keywords_data/google_ads/search_volume (12개월, 나라별)"
 }
