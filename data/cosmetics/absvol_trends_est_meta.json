@@ -1,7 +1,9 @@
 {
- "fetched": "2026-11-11T11:34:57",
- "target": "2026-10",
- "base_month": "2026-09",
+ "fetched": "2026-11-20T20:05:03",
+ "target": "2026-11",
+ "base_month": "2026-10",
+ "partial": true,
+ "through": "2026-11-15",
  "geos": [
   "AU",
   "BR",
@@ -12,14 +14,27 @@
   "ID",
   "IN",
   "JP",
-  "MX",
   "MY",
-  "NL",
   "PH",
   "SG",
   "US",
   "VN"
  ],
- "failed": [],
+ "failed": [
+  "FR:mixsoon",
+  "NL:medicube",
+  "NL:madeca cream",
+  "NL:numbuzin",
+  "NL:isntree",
+  "JP:tirtir",
+  "JP:abib",
+  "VN:tirtir",
+  "VN:round lab",
+  "VN:mixsoon",
+  "VN:isntree",
+  "MX:medicube",
+  "MX:beauty of joseon",
+  "MX:tirtir"
+ ],
  "source": "Google Trends weekly (category 0) x DataForSEO base month"
 }

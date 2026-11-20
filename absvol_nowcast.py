@@ -127,11 +127,17 @@ def nowcast(a, g=None, t=None):
                 pv = base[(base["month"] == b_last) & (base["brand"] == b)
                           & (base["geo"].isin(set(tt[tt["brand"] == b]["geo"])))]["searches"].sum()
                 trust = "추정·보통" if n >= ngeo - 2 else "추정·낮음"
+                # 월중 추정 (PM 2026-11-20): 이번 달 주간 값이 일부만 나온 상태. through = 마지막 주 시작일
+                tb = tt[tt["brand"] == b]
+                part = bool(tb["partial"].eq(True).any()) if "partial" in tb else False
+                thru = str(tb["through"].dropna().max()) if part and "through" in tb else ""
+                wk = int(tb["weeks"].dropna().max()) if part and "weeks" in tb and tb["weeks"].notna().any() else 0
+                note = (f" · 월중 추정 ({int(t_last[5:])}/1~{thru[5:].replace('-', '/')} 주, 주간 {wk}개)" if part else "")
                 rows.append({"brand": b, "month": t_last, "ww_prev": np.nan, "ww_now": np.nan, "ww_mom": np.nan,
                              "ratio": np.nan, "ratio_cv": np.nan, "c16_prev": pv, "c16_est": cur[b],
                              "c16_mom_est": (cur[b] / pv - 1) if pv > 0 else np.nan, "n_kw": 0, "trust": trust,
                              "why": f"구글 트렌드 {int(t_last[5:])}월/{int(b_last[5:])}월 비율 x {int(b_last[5:])}월 실측 · 나라 {n}/{ngeo}개"
-                                    + ("" if n >= ngeo - 2 else " (트렌드 값이 너무 작은 나라는 뺌)")})
+                                    + ("" if n >= ngeo - 2 else " (구글 트렌드를 못 받은 나라는 뺌)") + note})
             if rows:
                 return pd.DataFrame(rows, columns=cols)
 

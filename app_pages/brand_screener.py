@@ -84,6 +84,9 @@ _gads_month = (sorted(mv.loc[mv["source"] == "gads", "month"].unique())
                if mv is not None and "source" in mv else [])
 _est_month = (sorted(mv.loc[mv["source"] == "trends_est", "month"].unique())
               if mv is not None and "source" in mv else [])
+_tmeta = json.loads((DATA / "absvol_trends_est_meta.json").read_text(encoding="utf-8"))     if (DATA / "absvol_trends_est_meta.json").exists() else {}
+_tpart = bool(_tmeta.get("partial")) and _tmeta.get("target") in _est_month    # 월중 추정 (이번 달 일부 주만)
+_thru = str(_tmeta.get("through", ""))[5:].replace("-", "/")
 meta = json.loads((DATA / "brand_screener_meta.json").read_text(encoding="utf-8")) \
     if (DATA / "brand_screener_meta.json").exists() else {}
 if t is None:
@@ -181,8 +184,10 @@ with tab1:
         _real = (_nc["trust"] == "실측").all()
         _trend = _nc["trust"].str.startswith("추정").all()
         _partial = _real and str(_nc["why"].iloc[0]).startswith("본 데이터")
+        _midm = _trend and _tpart and _tmeta.get("target") == _m
         sub(f"📌 {_m[:4]}년 {int(_m[5:])}월 "
             + ("(본 데이터 수신 · 일부 구글애즈 보완)" if _partial else "(구글애즈 실측)" if _real
+               else f"속보 (구글 트렌드 월중 추정 · {_thru} 주까지)" if _midm
                else "속보 (구글 트렌드 추정)" if _trend else "속보 (추정)"),
             (str(_nc["why"].iloc[0]) + " · 순위표·점수에는 본 데이터 행만 들어감") if _partial else
             ("본 데이터(8년치)에는 아직 없는 달을 구글애즈 엔드포인트로 먼저 받음 · 같은 출처라 값이 같음 · "
@@ -202,13 +207,19 @@ with tab1:
             "16개국 전월 (실제)": _nc["c16_prev"].map(_f("{:,.0f}")),
             "16개국 이번 달 (추정)": _nc["c16_est"].map(_f("{:,.0f}")),
             "전월 대비 (추정)": _nc["c16_mom_est"].map(_f("{:+.0%}")),
+            "추정 범위 (±25%)": [("—" if pd.isna(v) else f"{v*0.75:,.0f} ~ {v*1.25:,.0f}") for v in _nc["c16_est"]],
             "이유": _nc["why"]})
         if _trend:
             _show = _show.drop(columns=["전세계 전월", "전세계 이번 달", "전세계 전월 대비"])
+        else:
+            _show = _show.drop(columns=["추정 범위 (±25%)"])
         st.dataframe(_show, hide_index=True, use_container_width=True, height=min(38 * (len(_show) + 1), 420))
         st.caption("구글 트렌드 추정 = 전달 실측 × (트렌드 이번 달 평균 ÷ 전달 평균), 나라·브랜드별로 따로 계산해 합산. "
-                   "트렌드는 상대지수라 같은 시리즈 안의 비율만 씀. 작은 브랜드는 트렌드 값이 0~1 로 뭉개져 그 나라는 추정에서 뺌 "
-                   "(전월도 같은 나라만 더해 비교). 1개월 추정이라 ±10% 정도는 노이즈로 보세요."
+                   "트렌드는 상대지수라 같은 시리즈 안의 비율만 씀. 큰 브랜드에 눌려 지수가 5 미만인 브랜드는 따로 다시 요청하고, 구글이 막아 못 받은 나라는 뺌 "
+                   "(전월도 같은 나라만 더해 비교). **추정 범위 ±25% = 미국 8브랜드 5년 백테스트에서 80% 의 달이 든 구간** "
+                   "(방향 적중 89%). 행사·바이럴로 크게 뛰는 달은 못 잡음 — 2026-10 실전에서는 오차 24% (madeca cream 미국 +69% 를 +15% 로 봄). "
+                   "방향 참고용으로 보세요."
+                   + (" **월중 추정**: 이번 달 주간 값이 일부만 나온 상태라 다음 주에 바뀔 수 있음." if _midm else "")
                    if _trend else
                    "16개국 추정 = 전세계 이번 달 × (겹치는 최근 3개월의 '16개국 합 ÷ 전세계' 평균). "
                    "두 숫자는 출처가 달라 크기가 다르기 때문에 비율로 맞춤. 믿음 '보통' 인 검색어 1개 브랜드는 "
@@ -420,7 +431,8 @@ with tab3:
                    + (f"  **{', '.join(_gads_month)} 은 본 데이터에 아직 빈 나라·브랜드만 구글애즈로 보완한 값**"
                       "(같은 출처 · 본 데이터에 있는 검색어만 이어 붙임)." if _gads_month else "")
                    + (f"  **◇ 마름모 = {', '.join(_est_month)} 구글 트렌드 추정값** (구글애즈 월 검색수가 아직 안 나와서 "
-                      "전달 실측 × 트렌드 비율로 계산 · 실측이 오면 자동 교체 · 트렌드 값이 너무 작은 나라·브랜드는 선이 전달에서 끝남)."
+                      "전달 실측 × 트렌드 비율로 계산 · 실측이 오면 자동 교체 · 트렌드 지수 5 미만 나라·브랜드는 선이 전달에서 끝남"
+                      + (f" · 월중 추정, {_thru} 주까지" if _tpart else "") + " · 범위 ±25%)."
                       if _est_month else ""))
 
         tb = t[t["brand"].isin(pick) & t["geo"].isin(gcodes)].copy()

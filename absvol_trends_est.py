@@ -15,7 +15,10 @@
 
 산출: data/cosmetics/absvol_trends_est.csv (geo, brand, keyword, month, searches, ratio, t_prev, t_now,
       base_month, base_searches, fetched) · absvol_trends_est_meta.json
-Usage: python absvol_trends_est.py [--geos US JP] [--force]
+Usage: python absvol_trends_est.py [--geos US JP] [--force] [--target 2026-11] [--fill]
+  --fill: 이미 추정된 브랜드는 두고 빠진 브랜드만 요청 (429 로 끊긴 뒤 이어받기). 나라마다 끝나면 바로 저장.
+  --target 가 이번 달이면 "월중 추정": 지금까지 나온 주간 값만 평균 (PM 2026-11-20, 11월 중순에 11월 방향 보기).
+  2026-11-16 실전 채점: 10월 추정은 오차 중앙값 24%, 큰 점프(행사) 달은 못 잡음. 트렌드 지수 5 미만은 제외 (백테스트 결과).
 """
 import datetime as dt
 import json
@@ -33,6 +36,7 @@ from gtrends import fetch_trends
 OUT = DATA / "absvol_trends_est.csv"
 META = DATA / "absvol_trends_est_meta.json"
 DELAY = float(os.environ.get("TRENDS_DELAY", "4"))   # 429 가 나면 TRENDS_DELAY=12 로 다시
+GEO_PAUSE = float(os.environ.get("TRENDS_GEO_PAUSE", "0"))   # 나라 사이 쉬는 시간(초) — 2026-11-20 전체 실행은 60 권장
 
 
 def _load(name):
@@ -43,15 +47,30 @@ def _load(name):
 def main():
     argv = sys.argv[1:]
     force = "--force" in argv
-    geos_arg = argv[argv.index("--geos") + 1:] if "--geos" in argv else None
+    fill = "--fill" in argv          # 이미 추정된 브랜드는 건너뛰고 빠진 브랜드만 채움 (429 로 끊긴 뒤 이어받기)
+    geos_arg = None
+    if "--geos" in argv:
+        geos_arg = []
+        for a in argv[argv.index("--geos") + 1:]:
+            if a.startswith("--"):
+                break
+            geos_arg.append(a)
     today = dt.date.today()
     target = (today.replace(day=1) - dt.timedelta(days=1)).strftime("%Y-%m")     # 지난달
+    if "--target" in argv:
+        target = argv[argv.index("--target") + 1]
+    partial = target == today.strftime("%Y-%m")                                  # 이번 달 = 월중 추정
     base = combined(_load("absvol_monthly.csv"), _load("absvol_gads.csv"))
     base = base[(base["geo"] != "WW") & (base["searches"] < 1_000_000)]
     last_by_key = base.groupby(["geo", "brand", "keyword"])["month"].max()
     if last_by_key.min() >= target and not force:
-        print(f"실측이 이미 {target} 까지 있음 — 추정 불필요")
-        return 0
+        if "--target" in argv or today.day < 10:
+            print(f"실측이 이미 {target} 까지 있음 — 추정 불필요")
+            return 0
+        # 지난달 실측이 들어온 뒤(매달 10일~) 에는 이번 달 '월중 추정' 으로 넘어감 — 7일마다 갱신 (PM 2026-11-20)
+        target = today.strftime("%Y-%m")
+        partial = True
+        print(f"지난달 실측 있음 → 이번 달 {target} 월중 추정으로 전환")
     if META.exists() and not force and not geos_arg:
         meta = json.loads(META.read_text(encoding="utf-8"))
         age = (today - dt.date.fromisoformat(meta["fetched"][:10])).days
@@ -62,59 +81,94 @@ def main():
     geos = geos_arg or sorted(base["geo"].unique())
     old = pd.read_csv(OUT, encoding="utf-8-sig") if OUT.exists() else pd.DataFrame()
     rows, failed = [], []
+
+    def save_geo(geo, grows):
+        """나라 하나 끝날 때마다 바로 저장 — 구글 429 로 중간에 죽어도 받은 건 남김 (2026-11-20 두 번 날린 뒤)."""
+        nonlocal old
+        new = pd.DataFrame(grows)
+        if len(old) and len(new):
+            drop = (old["geo"] == geo) & (old["month"] == target)
+            if fill:
+                drop &= old["brand"].isin(set(new["brand"]))
+            old = old[~drop]
+        if len(new):
+            old = pd.concat([old, new], ignore_index=True).sort_values(["geo", "brand", "keyword", "month"])
+            old.to_csv(OUT, index=False, encoding="utf-8")
+        tgt = old[old["month"] == target] if len(old) else pd.DataFrame()
+        META.write_text(json.dumps({"fetched": dt.datetime.now().isoformat(timespec="seconds"),
+                                    "target": target, "base_month": base_month, "partial": partial,
+                                    "through": (str(tgt["through"].dropna().max()) if partial and len(tgt) and "through" in tgt else ""),
+                                    "geos": sorted(set(tgt["geo"])) if len(tgt) else [],
+                                    "failed": [f"{g}:{c[0]}" for g, c in failed],
+                                    "source": "Google Trends weekly (category 0) x DataForSEO base month"},
+                                   ensure_ascii=False, indent=1), encoding="utf-8")
+
     for geo in geos:
         bgeo = base[(base["geo"] == geo) & (base["month"] == base_month)]
         size = bgeo.groupby("brand")["searches"].sum().sort_values(ascending=False)
         if not len(size):
             continue
-        brands = list(size.index)
-        chunks = [brands[i:i + 5] for i in range(0, len(brands), 5)]
-        for ch in chunks:
-            kw = {keywords_for(b, geo)[0]: b for b in ch}
-            df = None
-            for attempt in range(3):
-                try:
-                    df = fetch_trends(list(kw), geo=geo, timeframe="today 12-m", category=0)
-                    break
-                except Exception as e:  # noqa: BLE001
-                    print(f"  {geo} {ch[0]}..: {type(e).__name__} 시도 {attempt + 1}/3")
-                    time.sleep(90 * (attempt + 1))        # 429 뒤 90s, 180s, 270s
-            if df is None:
-                failed.append((geo, ch))
-                continue
-            df["m"] = df["date"].str[:7]
-            mo = df.groupby(["keyword", "m"])["value"].mean().unstack()
-            for k, b in kw.items():
-                if k not in mo.index or target not in mo.columns or base_month not in mo.columns:
+        have = set(old.loc[(old["geo"] == geo) & (old["month"] == target), "brand"]) if fill and len(old) else set()
+        pending = [b for b in size.index if b not in have]
+        if fill and have:
+            print(f"  {geo}: 이미 {len(have)}개 있음 → 빠진 {len(pending)}개만 요청", flush=True)
+        grows = []
+        # 트렌드 지수는 '같은 요청 안에서 제일 큰 브랜드' 기준 0~100 이라, 큰 브랜드와 묶이면 작은 브랜드는 지수 2~4 로 눌려
+        # 비율을 못 읽음 (2026-11 미국: medicube 가 89 까지 뛰자 madeca cream 이 지수 2 로 빠짐).
+        # 1라운드: 큰 순서로 5개 묶음 → 지수 <5 인 브랜드는 2라운드에서 작은 것들끼리 다시 묶음 → 그래도 <5 면 3라운드 단독 요청.
+        for rnd in range(3):
+            if not pending:
+                break
+            chunks = [pending[i:i + 5] for i in range(0, len(pending), 5)] if rnd < 2 else [[b] for b in pending]
+            pending = []
+            for ch in chunks:
+                kw = {keywords_for(b, geo)[0]: b for b in ch}
+                df = None
+                for attempt in range(3):
+                    try:
+                        df = fetch_trends(list(kw), geo=geo, timeframe="today 12-m", category=0)
+                        break
+                    except Exception as e:  # noqa: BLE001
+                        print(f"  {geo} {ch[0]}..: {type(e).__name__} 시도 {attempt + 1}/3", flush=True)
+                        time.sleep((120, 300, 600)[attempt])  # 429 뒤 2분, 5분, 10분 — 구글 차단은 몇 분 이어짐 (90/180/270 은 부족했음)
+                if df is None or len(df) == 0 or "date" not in df.columns:
+                    if df is not None:
+                        print(f"  {geo} {ch[0]}: 트렌드 데이터 없음(검색량 너무 적음) → 건너뜀", flush=True)
+                    else:
+                        failed.append((geo, ch))
                     continue
-                t_prev, t_now = float(mo.loc[k, base_month]), float(mo.loc[k, target])
-                if t_prev < 2:          # 트렌드 해상도 없음(0~1) → 추정 안 함
-                    continue
-                ratio = t_now / t_prev
-                for _, r in bgeo[bgeo["brand"] == b].iterrows():
-                    rows.append({"geo": geo, "brand": b, "keyword": r["keyword"], "month": target,
-                                 "searches": int(round(r["searches"] * ratio)), "ratio": round(ratio, 4),
-                                 "t_prev": round(t_prev, 2), "t_now": round(t_now, 2),
-                                 "base_month": base_month, "base_searches": int(r["searches"]),
-                                 "fetched": today.isoformat()})
-            time.sleep(DELAY)
-        n = sum(1 for r in rows if r["geo"] == geo)
-        print(f"  {geo}: {n}행 추정 ({base_month} 실측 x 트렌드 {target}/{base_month})")
+                df["m"] = df["date"].str[:7]
+                df = df[df["date"] <= today.isoformat()]                 # 월중: 아직 안 온 주(값 0) 는 뺌
+                through = df.loc[df["m"] == target, "date"].max() if partial else None
+                n_weeks = int((df["m"] == target).sum() // max(len(kw), 1))
+                mo = df.groupby(["keyword", "m"])["value"].mean().unstack()
+                for k, b in kw.items():
+                    if k not in mo.index or target not in mo.columns or base_month not in mo.columns:
+                        continue
+                    t_prev, t_now = float(mo.loc[k, base_month]), float(mo.loc[k, target])
+                    if t_prev < 5:          # 해상도 없음 (백테스트: 지수<5 는 오차 21~38%, 방향 30%) → 다음 라운드로
+                        if rnd < 2:
+                            pending.append(b)
+                        continue
+                    ratio = t_now / t_prev
+                    for _, r in bgeo[bgeo["brand"] == b].iterrows():
+                        grows.append({"geo": geo, "brand": b, "keyword": r["keyword"], "month": target,
+                                     "searches": int(round(r["searches"] * ratio)), "ratio": round(ratio, 4),
+                                     "t_prev": round(t_prev, 2), "t_now": round(t_now, 2),
+                                     "base_month": base_month, "base_searches": int(r["searches"]),
+                                     "fetched": today.isoformat(), "partial": partial,
+                                     "through": through or "", "weeks": n_weeks, "round": rnd + 1})
+                time.sleep(DELAY)
+            if pending:
+                print(f"  {geo}: 지수<5 로 눌린 {len(pending)}개 → {rnd + 2}라운드 재요청", flush=True)
+        rows.extend(grows)
+        save_geo(geo, grows)
+        print(f"  {geo}: {len(grows)}행 추정 ({base_month} 실측 x 트렌드 {target}/{base_month}) · 저장", flush=True)
+        time.sleep(GEO_PAUSE)
     if not rows:
         print("추정 결과 없음")
         return 1
-    new = pd.DataFrame(rows)
-    if len(old):
-        keep = old[~(old["geo"].isin(set(new["geo"])) & (old["month"] == target))]
-        new = pd.concat([keep, new], ignore_index=True)
-    new = new.sort_values(["geo", "brand", "keyword", "month"])
-    new.to_csv(OUT, index=False, encoding="utf-8")
-    META.write_text(json.dumps({"fetched": dt.datetime.now().isoformat(timespec="seconds"),
-                                "target": target, "base_month": base_month,
-                                "geos": sorted(set(new["geo"])), "failed": [f"{g}:{c[0]}" for g, c in failed],
-                                "source": "Google Trends weekly (category 0) x DataForSEO base month"},
-                               ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"{OUT.name}: {len(new)}행 · 실패 {len(failed)}묶음")
+    print(f"{OUT.name}: {len(old)}행 (이번 실행 {len(rows)}행) · 실패 {len(failed)}묶음")
     return 0
 
 
