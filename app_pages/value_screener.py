@@ -22,6 +22,25 @@ import streamlit as st
 
 from streamlit_searchbox import st_searchbox
 
+
+def searchbox(search_fn, key, **kw):
+    """st_searchbox 를 fragment 안에서 돌린다 (PM 2026-11-20: 타이핑하다 '뻑' — 글자가 사라지고 No options).
+    원인: 기본 설정은 키 하나 칠 때마다 페이지 전체를 다시 돌리고(150ms), 그 사이에 친 글자는 버려짐.
+    한글은 자모 하나하나가 입력 이벤트라 더 심함. 여기서는 키 입력 → 이 조각(fragment)만 다시 돌고,
+    종목을 '고른' 순간에만 페이지 전체를 다시 돌린다. 값은 session_state[key + '_val'] 로 넘긴다."""
+    kw.setdefault("debounce", 400)          # 한글 조합이 끝날 시간
+    kw.setdefault("rerun_scope", "fragment")
+    sk = key + "_val"
+
+    @st.fragment
+    def _box():
+        val = st_searchbox(search_fn, key=key, **kw)
+        if val != st.session_state.get(sk):
+            st.session_state[sk] = val
+            st.rerun(scope="app")           # 고른 결과를 페이지 전체에 반영
+    _box()
+    return st.session_state.get(sk)
+
 sys.path.append(str(Path(__file__).resolve().parent))
 from history_fetch import dart_key, load_history  # noqa: E402  (과거 멀티플)
 
@@ -620,10 +639,10 @@ with tab1:
                 return []
             return [s for s in _stock_labels if ql in s.lower()][:60]
 
-        pick_label = st_searchbox(_search_stocks, key="ti_pick_sb",
-                                  label="종목 (이름이나 티커로 검색)",
-                                  placeholder="예: SILICON2 또는 A257720",
-                                  clear_on_submit=False)
+        pick_label = searchbox(_search_stocks, key="ti_pick_sb",
+                               label="종목 (이름이나 티커로 검색)",
+                               placeholder="예: SILICON2 또는 A257720",
+                               clear_on_submit=False)
         ALL_LVL = "(전체)"
         subt("피어그룹 기준 (분류 단계)",
              "선택한 회사와 같은 분류에 속한 회사들을 비교 대상으로 잡습니다. 아래로 갈수록 "
@@ -655,7 +674,7 @@ with tab1:
                         if any(k in o.lower() for k in keys)][:60]
 
             subt("피어그룹 수동 설정", "타이핑 후 Enter — 5개 분류 단계 전체에서 검색합니다.")
-            manual_peer = st_searchbox(
+            manual_peer = searchbox(
                 _search_groups, key="ti_manual_sb",
                 placeholder="타이핑해서 검색 — 예: cosmetics, 화장품, health …",
                 clear_on_submit=False, default_use_searchterm=True) or AUTO_PEER
@@ -1015,12 +1034,12 @@ with tab2:
                 return []
             return [o for o in all_opts if ql in o.lower()][:60]
 
-        sel_search = st_searchbox(_search_inds, key="sp_isearch_sb",
-                                  label="🔎 산업 검색 (모든 분류 단계에서 찾기)",
-                                  placeholder="예: health, semiconductor, personal …",
-                                  clear_on_submit=False,
-                                  help="입력한 단어가 이름에 포함된 그룹만 5개 분류 전체에서 "
-                                       "찾아줍니다. 하나 고르면 그 분류로 바로 필터링돼요.")
+        sel_search = searchbox(_search_inds, key="sp_isearch_sb",
+                               label="🔎 산업 검색 (모든 분류 단계에서 찾기)",
+                               placeholder="예: health, semiconductor, personal …",
+                               clear_on_submit=False,
+                               help="입력한 단어가 이름에 포함된 그룹만 5개 분류 전체에서 "
+                                    "찾아줍니다. 하나 고르면 그 분류로 바로 필터링돼요.")
         filt = df
         _lpm = meta.get("lowpbr")
         if _lpm and st.toggle(f"📉 KRX 저PBR 명단만 ({_lpm['n']}개사)", value=False, key="sp_lowpbr",
