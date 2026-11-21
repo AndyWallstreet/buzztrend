@@ -1,5 +1,5 @@
 {
- "fetched": "2026-11-20T23:28:04",
+ "fetched": "2026-11-21T12:31:24",
  "target": "2026-11",
  "base_month": "2026-10",
  "partial": true,
@@ -23,13 +23,22 @@
   "VN"
  ],
  "failed": [
-  "JP:round lab",
-  "JP:mixsoon",
-  "JP:isntree",
-  "JP:atopalm",
-  "SG:d'alba",
-  "MY:reedle shot",
-  "PH:manyo"
+  "FR:medicube",
+  "FR:skin1004",
+  "FR:numbuzin",
+  "FR:reedle shot",
+  "GB:medicube",
+  "GB:cosrx",
+  "GB:d'alba",
+  "GB:isntree",
+  "NL:medicube",
+  "NL:madeca cream",
+  "NL:numbuzin",
+  "NL:isntree",
+  "PH:cosrx",
+  "PH:anua",
+  "SG:medicube",
+  "SG:skin1004"
  ],
  "source": "Google Trends weekly (category 0) x DataForSEO base month"
 }
